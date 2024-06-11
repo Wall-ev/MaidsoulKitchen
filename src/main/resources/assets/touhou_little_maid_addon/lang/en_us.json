@@ -1,0 +1,12 @@
+{
+  "config.touhou_little_maid_addon.task.name": "Task",
+  "config.touhou_little_maid_addon.task.berry_farm_task.name": "Berry Farm Task",
+  "config.touhou_little_maid_addon.chair.berry_farm_task.desc": "This can make the berry farm task enabled or not.",
+  "config.touhou_little_maid_addon.chair.fruit_farm_task.desc": "This can make the fruit farm task enabled or not.",
+  "config.touhou_little_maid_addon.task.serene_seasons_farm_task.desc": "This can make the sereneseasons farm task enabled or not.",
+  "config.touhou_little_maid_addon.task.fruit_farm_task.name": "Fruit Farm Task",
+  "config.touhou_little_maid_addon.task.serene_seasons_farm_task.name": "SereneSeasons Farm Task",
+  "config.touhou_little_maid_addon.render.name": "Render",
+  "config.touhou_little_maid_addon.render.ld_banner_render.desc": "Maid can render LDBanner.",
+  "config.touhou_little_maid_addon.render.ld_banner_render.name": "The let's do banner render"
+}
