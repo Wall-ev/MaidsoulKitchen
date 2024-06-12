@@ -12,6 +12,7 @@
     "fd.CookingPotBlockEntityAccessor",
     "md.CopperPotBlockEntityAccessor",
     "tlm.MixinGeckoLayerMaidBanner",
-    "tlm.MixinLayerMaidBanner"
+    "tlm.MixinLayerMaidBanner",
+    "yhc.BasePotBlockEntityAccessor"
   ]
 }

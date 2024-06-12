@@ -7,17 +7,19 @@ import com.catbert.tlma.task.cook.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 import java.util.Optional;
 
 @LittleMaidExtension
-public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity> {
+public class TaskFDCookPot extends TaskFdPot<CookingPotRecipe, CookingPotBlockEntity> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fd_cooking_pot");
 
     @Override
@@ -28,6 +30,11 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity> {
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CookingPotBlockEntity;
+    }
+
+    @Override
+    public RecipeType<CookingPotRecipe> getRecipeType() {
+        return ModRecipeTypes.COOKING.get();
     }
 
     @Override

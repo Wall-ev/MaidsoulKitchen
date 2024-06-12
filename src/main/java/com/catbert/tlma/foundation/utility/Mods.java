@@ -12,6 +12,7 @@ public enum Mods {
     MD("miners_delight"),
     CD("cuisinedelight"),
     YHC("youkaishomecoming"),
+    BNC("brewinandchewin"),
 
     /*
         Let's DO

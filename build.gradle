@@ -202,6 +202,13 @@ dependencies {
 
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
+    implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
+    compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
+        transitive = false
+        jarJar.ranged(it, "[MC1.20-1.3.11,)")
+    }
+    implementation fg.deobf("curse.maven:bnc-1-20-port-898078:${bnc_file_id}")
+
 
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:convivium-905776:${convivium_file_id}")

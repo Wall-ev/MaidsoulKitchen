@@ -13,7 +13,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
-import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +74,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         return false;
     }
 
-    default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
+    default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
         LOGGER.info("MaidCookMakeTask.processCookMake：");
         LOGGER.info("maidRecipesManager: {} ", maidRecipesManager);
         LOGGER.info("getRecipesIngredients: {} ", maidRecipesManager.getRecipesIngredients());
@@ -85,7 +84,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
     }
 
-    default void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
+    default void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack mealStack = inventory.getStackInSlot(getMealStackSlot());
@@ -98,7 +97,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
 
     }
 
-    default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
+    default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 

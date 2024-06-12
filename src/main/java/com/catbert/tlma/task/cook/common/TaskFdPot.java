@@ -9,7 +9,9 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
@@ -20,20 +22,14 @@ import java.util.List;
 
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
-public abstract class TaskFdPot<C extends BlockEntity> implements ITaskCook<CookingPotRecipe, C>, IFDPotCook<CookingPotRecipe, C> {
-
+public abstract class TaskFdPot<T extends Recipe<? extends Container>, C extends BlockEntity> implements ITaskCook<T, C>, IFDPotCook<T, C> {
     @Override
-    public RecipeType<CookingPotRecipe> getRecipeType() {
-        return ModRecipeTypes.COOKING.get();
-    }
-
-    @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
         return maidShouldMoveTo(serverLevel, entityMaid, blockEntity, maidRecipesManager);
     }
 
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
+    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
         maidCookMake(serverLevel, entityMaid, blockEntity, maidRecipesManager);
     }
 
@@ -42,13 +38,13 @@ public abstract class TaskFdPot<C extends BlockEntity> implements ITaskCook<Cook
         if (maid.level().isClientSide) return new ArrayList<>();
         LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level().isClientSide);
 
-        MaidRecipesManager<CookingPotRecipe> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
-        MaidCookMoveTask<CookingPotRecipe, C> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
-        MaidCookMakeTask<CookingPotRecipe, C> maidCookMakeTask = new MaidCookMakeTask<>(this, cookingPotRecipeMaidRecipesManager);
+        MaidRecipesManager<T> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
+        MaidCookMoveTask<T, C> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
+        MaidCookMakeTask<T, C> maidCookMakeTask = new MaidCookMakeTask<>(this, cookingPotRecipeMaidRecipesManager);
         return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
     }
 
-    public MaidRecipesManager<CookingPotRecipe> getRecipesManager(EntityMaid maid) {
+    public MaidRecipesManager<T> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, getRecipeType(), false);
     }
 
