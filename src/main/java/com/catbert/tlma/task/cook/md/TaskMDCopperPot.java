@@ -1,34 +1,26 @@
 package com.catbert.tlma.task.cook.md;
 
 import com.catbert.tlma.TLMAddon;
-import com.catbert.tlma.api.task.cook.IMDCook;
-import com.catbert.tlma.api.task.cook.ITaskCook;
 import com.catbert.tlma.foundation.utility.Mods;
-import com.catbert.tlma.task.ai.brain.MaidCookMakeTask;
-import com.catbert.tlma.task.ai.brain.MaidCookMoveTask;
+import com.catbert.tlma.mixin.md.CopperPotBlockEntityAccessor;
+import com.catbert.tlma.task.cook.common.TaskFdPot;
 import com.catbert.tlma.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
 import com.sammy.minersdelight.setup.MDBlocks;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
-import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.catbert.tlma.TLMAddon.LOGGER;
+import java.util.Optional;
 
 @LittleMaidExtension
-public class TaskMDCopperPot implements ITaskCook<CookingPotRecipe, CopperPotBlockEntity>, IMDCook<CookingPotRecipe> {
+public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "md_copper_pot");
 
     @Override
@@ -42,21 +34,6 @@ public class TaskMDCopperPot implements ITaskCook<CookingPotRecipe, CopperPotBlo
     }
 
     @Override
-    public RecipeType<CookingPotRecipe> getRecipeType() {
-        return ModRecipeTypes.COOKING.get();
-    }
-
-    @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, CopperPotBlockEntity blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
-        return maidShouldMoveTo(serverLevel, entityMaid, blockEntity, maidRecipesManager);
-    }
-
-    @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, CopperPotBlockEntity blockEntity, MaidRecipesManager<CookingPotRecipe> maidRecipesManager) {
-        maidCookMake(serverLevel, entityMaid, blockEntity, maidRecipesManager);
-    }
-
-    @Override
     public ResourceLocation getUid() {
         return NAME;
     }
@@ -67,11 +44,8 @@ public class TaskMDCopperPot implements ITaskCook<CookingPotRecipe, CopperPotBlo
     }
 
     @Override
-    public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level().isClientSide) return new ArrayList<>();
-        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level().isClientSide);
-
-        MaidRecipesManager<CookingPotRecipe> cookingPotRecipeMaidRecipesManager = new MaidRecipesManager<>(maid, getRecipeType(), false) {
+    public MaidRecipesManager<CookingPotRecipe> getRecipesManager(EntityMaid maid) {
+        return new MaidRecipesManager<>(maid, getRecipeType(), false) {
             @Override
             protected List<CookingPotRecipe> filterRecipes(List<CookingPotRecipe> recipes) {
                 return recipes.stream().filter(cookingPotRecipe -> {
@@ -79,9 +53,6 @@ public class TaskMDCopperPot implements ITaskCook<CookingPotRecipe, CopperPotBlo
                 }).toList();
             }
         };
-        MaidCookMoveTask<CookingPotRecipe, CopperPotBlockEntity> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
-        MaidCookMakeTask<CookingPotRecipe, CopperPotBlockEntity> maidCookMakeTask = new MaidCookMakeTask<>(this, cookingPotRecipeMaidRecipesManager);
-        return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
     }
 
     @Override
@@ -102,5 +73,30 @@ public class TaskMDCopperPot implements ITaskCook<CookingPotRecipe, CopperPotBlo
     @Override
     public int getContainerStackSlot() {
         return CopperPotBlockEntity.CONTAINER_SLOT;
+    }
+
+    @Override
+    public ItemStack getFoodContainer(CopperPotBlockEntity blockEntity) {
+        return blockEntity.getContainer();
+    }
+
+    @Override
+    public ItemStackHandler getItemStackHandler(CopperPotBlockEntity be) {
+        return be.getInventory();
+    }
+
+    @Override
+    public Optional<CookingPotRecipe> getMatchingRecipe(CopperPotBlockEntity be, RecipeWrapper recipeWrapper) {
+        return ((CopperPotBlockEntityAccessor) be).getMatchingRecipe$tlma(recipeWrapper);
+    }
+
+    @Override
+    public boolean canCook(CopperPotBlockEntity be, CookingPotRecipe recipe) {
+        return ((CopperPotBlockEntityAccessor) be).canCook$tlma(recipe);
+    }
+
+    @Override
+    public boolean isHeated(CopperPotBlockEntity be) {
+        return be.isHeated();
     }
 }

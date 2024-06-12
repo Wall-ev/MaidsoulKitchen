@@ -19,6 +19,10 @@ public enum Mods {
     DAPI("doapi"),
     DHB("herbalbrews"),
     DV("vinery"),
+    DBP("beachparty"),
+    DCL("candlelight"),
+    DBK("bakery"),
+
 
     SF("simplefarming"),
     FS("fruitstack"),
