@@ -1,7 +1,7 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.ICompatFarm;
-import com.catbert.tlma.api.ICompatFarmHandler;
+import com.catbert.tlma.api.task.farm.ICompatFarm;
+import com.catbert.tlma.api.task.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.google.common.collect.ImmutableMap;

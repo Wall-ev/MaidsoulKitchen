@@ -1,7 +1,7 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.ICompatFarm;
-import com.catbert.tlma.api.ICompatFarmHandler;
+import com.catbert.tlma.api.task.farm.ICompatFarm;
+import com.catbert.tlma.api.task.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -14,9 +14,6 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler> extends MaidCheckRateTask {
     private static final int MAX_DELAY_TIME = 120;

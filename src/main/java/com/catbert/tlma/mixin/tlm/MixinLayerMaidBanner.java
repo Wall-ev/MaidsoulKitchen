@@ -51,7 +51,7 @@ public abstract class MixinLayerMaidBanner extends RenderLayer<Mob, BedrockModel
         IMaid maid = IMaid.convert(mob);
         if (maid != null) {
             Item item = maid.getBackpackShowItem().getItem();
-            if (RenderConfig.LD_BANNER_RENDER_ENABLED.get() && Mods.DAPI.isLoaded && item instanceof StandardItem) {
+            if (Mods.DAPI.isLoaded && RenderConfig.LD_BANNER_RENDER_ENABLED.get() && item instanceof StandardItem) {
                 if (!renderer.getMainInfo().isShowBackpack() || !InGameMaidConfig.INSTANCE.isShowBackItem() || mob.isSleeping() || mob.isInvisible()) {
                     return;
                 }

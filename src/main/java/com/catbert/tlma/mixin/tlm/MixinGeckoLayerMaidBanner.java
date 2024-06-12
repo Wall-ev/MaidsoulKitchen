@@ -55,7 +55,7 @@ public abstract class MixinGeckoLayerMaidBanner<T extends Mob & IAnimatable> ext
         if (maid != null) {
             Item item = maid.getBackpackShowItem().getItem();
 
-            if (RenderConfig.LD_BANNER_RENDER_ENABLED.get() && Mods.DAPI.isLoaded && item instanceof StandardItem) {
+            if (Mods.DAPI.isLoaded && RenderConfig.LD_BANNER_RENDER_ENABLED.get() && item instanceof StandardItem) {
                 if (!this.renderer.getMainInfo().isShowBackpack() || !InGameMaidConfig.INSTANCE.isShowBackItem() || entity.isSleeping() || entity.isInvisible()) {
                     return;
                 }

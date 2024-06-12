@@ -40,11 +40,7 @@ public enum Mods {
     public final boolean isLoaded;
     Mods(String modId) {
         this.modId = modId;
-        this.isLoaded = isLoaded();
-    }
-
-    public boolean isLoaded() {
-        return ModList.get().isLoaded(modId);
+        this.isLoaded = ModList.get().isLoaded(modId);
     }
 
     public ResourceLocation create(String path) {
