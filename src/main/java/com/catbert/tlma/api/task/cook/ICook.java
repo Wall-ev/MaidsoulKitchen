@@ -42,13 +42,13 @@ public interface ICook extends IMaidAction {
         blockEntity.setChanged();
     }
 
-    default void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<Integer, List<List<ItemStack>>> ingredientPair) {
-        Integer amount = ingredientPair.getFirst();
+    default void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+        List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
-        if (hasEnoughIngredient(amount, ingredients)) {
+        if (hasEnoughIngredient(amounts, ingredients)) {
             for (int i = getInputStartSlot(), j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
-                insertAndShrink(inventory, amount, ingredients, j, i);
+                insertAndShrink(inventory, amounts, ingredients, j, i);
             }
             blockEntity.setChanged();
         }
@@ -56,19 +56,20 @@ public interface ICook extends IMaidAction {
         updateIngredient(ingredientPair);
     }
 
-    default void updateIngredients(List<Pair<Integer, List<List<ItemStack>>>> recipesIngredients) {
+    default void updateIngredients(List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients) {
 
     }
 
-    default void updateIngredient(Pair<Integer, List<List<ItemStack>>> ingredientPair) {
+    default void updateIngredient(Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
 
     }
 
-    default boolean hasEnoughIngredient(Integer amount, List<List<ItemStack>> ingredients) {
+    default boolean hasEnoughIngredient(List<Integer> amounts, List<List<ItemStack>> ingredients) {
         boolean canInsert = true;
 
+        int i = 0;
         for (List<ItemStack> ingredient : ingredients) {
-            int actualCount = amount;
+            int actualCount = amounts.get(i++);
             for (ItemStack itemStack : ingredient) {
                 actualCount -= itemStack.getCount();
                 if (actualCount <= 0) {
@@ -85,9 +86,10 @@ public interface ICook extends IMaidAction {
         return canInsert;
     }
 
-    default void insertAndShrink(ItemStackHandler inventory, Integer amount, List<List<ItemStack>> ingredient, int ingredientIndex, int slotIndex) {
-        int shinkNum = amount;
+    default void insertAndShrink(ItemStackHandler inventory, List<Integer> amounts, List<List<ItemStack>> ingredient, int ingredientIndex, int slotIndex) {
+        int i = 0;
         for (ItemStack itemStack : ingredient.get(ingredientIndex)) {
+            int shinkNum = amounts.get(i++);
             int count = itemStack.getCount();
 
             if (count >= shinkNum) {

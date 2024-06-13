@@ -52,7 +52,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         Optional<T> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
-        List<Pair<Integer, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
+        List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
         LOGGER.info("recipe: {} {} {} ", recipe, b, recipesIngredients);
         if (!b && !recipesIngredients.isEmpty() && heated && mealStack.isEmpty()) {
             return true;
@@ -88,7 +88,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack mealStack = inventory.getStackInSlot(getMealStackSlot());
-        Pair<Integer, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
+        Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
         if (!mealStack.isEmpty() || recipeIngredient == null) return;
 
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);

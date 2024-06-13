@@ -35,14 +35,14 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
     }
 
     @Override
-    public void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<Integer, List<List<ItemStack>>> ingredientPair) {
-        Integer amount = ingredientPair.getFirst();
+    public void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+        List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
-        if (hasEnoughIngredient(amount, ingredients)) {
+        if (hasEnoughIngredient(amounts, ingredients)) {
             for (int i = getInputStartSlot(), j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
                 if (ingredients.isEmpty()) continue;
-                insertAndShrink(inventory, amount, ingredients, j, i);
+                insertAndShrink(inventory, amounts, ingredients, j, i);
             }
             blockEntity.setChanged();
         }
@@ -51,12 +51,14 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
     }
 
     @Override
-    public boolean hasEnoughIngredient(Integer amount, List<List<ItemStack>> ingredients) {
+    public boolean hasEnoughIngredient(List<Integer> amounts, List<List<ItemStack>> ingredients) {
         boolean canInsert = true;
 
+        int i = 0;
         for (List<ItemStack> ingredient : ingredients) {
             if (ingredient.isEmpty()) continue;
-            int actualCount = amount;
+
+            int actualCount = amounts.get(i++);
             for (ItemStack itemStack : ingredient) {
                 actualCount -= itemStack.getCount();
                 if (actualCount <= 0) {
@@ -77,7 +79,7 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
     public MaidRecipesManager<KegRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, getRecipeType(), false) {
             @Override
-            protected List<Pair<Integer, List<List<ItemStack>>>> transform(List<Pair<Integer, List<Item>>> oriList) {
+            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList) {
                 Map<Item, List<ItemStack>> inventoryStack = this.getMaidInventory().getInventoryStack();
                 return oriList.stream().map(p -> {
                     List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
@@ -89,7 +91,7 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
             }
 
             @Override
-            protected Pair<Integer, List<Item>> getAmountIngredient(KegRecipe recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(KegRecipe recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();
                 boolean[] canMake = {true};
                 boolean[] single = {false};
@@ -136,7 +138,7 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
                     if (item == null) return false;
                     return available.get(item) <= 0;
                 })) {
-                    return Pair.of(0, new ArrayList<>());
+                    return Pair.of(new ArrayList<>(), new ArrayList<>());
                 }
 
                 int maxCount = 64;
@@ -149,12 +151,17 @@ public class TaskBncKey extends TaskFdPot<KegRecipe, KegBlockEntity> {
                     }
                 }
 
+                List<Integer> countList = new ArrayList<>();
                 for (Item item : invIngredient) {
-                    if (item == null) continue;
-                    available.put(item, available.get(item) - maxCount);
+                    if (item == null) {
+                        countList.add(0);
+                    }else {
+                        countList.add(maxCount);
+                        available.put(item, available.get(item) - maxCount);
+                    }
                 }
 
-                return Pair.of(maxCount, invIngredient);
+                return Pair.of(countList, invIngredient);
             }
         };
     }
