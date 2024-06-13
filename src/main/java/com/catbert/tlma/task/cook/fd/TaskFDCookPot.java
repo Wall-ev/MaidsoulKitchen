@@ -2,7 +2,6 @@ package com.catbert.tlma.task.cook.fd;
 
 import com.catbert.tlma.TLMAddon;
 import com.catbert.tlma.foundation.utility.Mods;
-import com.catbert.tlma.mixin.fd.CookingPotBlockEntityAccessor;
 import com.catbert.tlma.task.cook.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import net.minecraft.resources.ResourceLocation;
@@ -10,13 +9,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
-
-import java.util.Optional;
 
 @LittleMaidExtension
 public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
@@ -75,16 +71,6 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     @Override
     public ItemStackHandler getItemStackHandler(CookingPotBlockEntity be) {
         return be.getInventory();
-    }
-
-    @Override
-    public Optional<CookingPotRecipe> getMatchingRecipe(CookingPotBlockEntity be, RecipeWrapper recipeWrapper) {
-        return ((CookingPotBlockEntityAccessor) be).getMatchingRecipe$tlma(recipeWrapper);
-    }
-
-    @Override
-    public boolean canCook(CookingPotBlockEntity be, CookingPotRecipe recipe) {
-        return ((CookingPotBlockEntityAccessor) be).canCook$tlma(recipe);
     }
 
     @Override

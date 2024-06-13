@@ -1,5 +1,6 @@
 package com.catbert.tlma.api.task.cook;
 
+import com.catbert.tlma.api.CbeAccessor;
 import com.catbert.tlma.api.task.bestate.IBaseCookBe;
 import com.catbert.tlma.api.task.bestate.IHeatBe;
 import com.catbert.tlma.task.cook.handler.MaidRecipesManager;
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
-public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookBe<B, R>, IHeatBe<B>, ICook {
+public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookBe<B, R>, IHeatBe<B>, IHandlerCookBe<B>, ICook {
 
     int getMealStackSlot();
 
@@ -154,5 +155,15 @@ public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         pickupAction(entityMaid);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    default Optional<R> getMatchingRecipe(B be, RecipeWrapper recipeWrapper) {
+        return ((CbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
+    }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    default boolean canCook(B be, R recipe) {
+        return ((CbeAccessor<R>) be).canCook$tlma(recipe);
+    }
 }

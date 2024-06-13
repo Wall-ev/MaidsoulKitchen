@@ -10,10 +10,10 @@
   ],
   "mixins": [
     "bnc.KegBlockEntityAccessor",
-    "fd.CookingPotBlockEntityAccessor",
-    "md.CopperPotBlockEntityAccessor",
+    "fd.MixinCookingPotBlockEntity",
+    "md.MixinCopperPotBlockEntity",
     "tlm.MixinGeckoLayerMaidBanner",
     "tlm.MixinLayerMaidBanner",
-    "yhc.BasePotBlockEntityAccessor"
+    "yhc.MixinBasePotBlockEntity"
   ]
 }
