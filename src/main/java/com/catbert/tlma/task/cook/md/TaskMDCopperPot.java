@@ -68,8 +68,8 @@ public class TaskMDCopperPot extends TaskFdPot<CookingPotRecipe, CopperPotBlockE
     }
 
     @Override
-    public int getInputEndSlot() {
-        return 3;
+    public int getInputSize() {
+        return 4;
     }
 
     @Override

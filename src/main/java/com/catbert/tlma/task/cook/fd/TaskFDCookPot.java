@@ -43,8 +43,8 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotRecipe, CookingPotBlockEn
     }
 
     @Override
-    public int getInputEndSlot() {
-        return 5;
+    public int getInputSize() {
+        return 6;
     }
 
     @Override

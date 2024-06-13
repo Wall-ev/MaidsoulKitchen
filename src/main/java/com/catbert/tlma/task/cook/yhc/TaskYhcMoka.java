@@ -48,8 +48,8 @@ public class TaskYhcMoka extends TaskFdPot<MokaRecipe, MokaMakerBlockEntity> {
     }
 
     @Override
-    public int getInputEndSlot() {
-        return 3;
+    public int getInputSize() {
+        return 4;
     }
 
     @Override

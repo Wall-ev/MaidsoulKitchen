@@ -9,6 +9,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public interface ICook extends IMaidAction {
 
@@ -18,7 +19,7 @@ public interface ICook extends IMaidAction {
         return 0;
     }
 
-    int getInputEndSlot();
+    int getInputSize();
 
     default void extractOutputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
         ItemStack stackInSlot = inventory.getStackInSlot(this.getOutputSlot());
@@ -31,7 +32,7 @@ public interface ICook extends IMaidAction {
 
 
     default void extractInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
-        for (int i = this.getInputStartSlot(); i <= this.getInputEndSlot(); ++i) {
+        for (int i = this.getInputStartSlot(); i < this.getInputSize() + this.getInputStartSlot(); ++i) {
             ItemStack stackInSlot = inventory.getStackInSlot(i);
             if (!stackInSlot.isEmpty()) {
                 inventory.extractItem(i, stackInSlot.getCount(), false);
@@ -105,7 +106,7 @@ public interface ICook extends IMaidAction {
     }
 
     default boolean hasInput(ItemStackHandler inventory) {
-        for (int i = getInputStartSlot(); i <= getInputEndSlot(); i++) {
+        for (int i = getInputStartSlot(); i < getInputSize() + getInputStartSlot(); i++) {
             if (!inventory.getStackInSlot(i).isEmpty()) {
                 return true;
             }

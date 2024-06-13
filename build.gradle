@@ -216,7 +216,7 @@ dependencies {
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
 //    implementation files("lib/crockpot-1.0.0.jar")
 
-    compileOnly files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
+    implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
 
     implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
@@ -224,7 +224,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
-    compileOnly fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
+    implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
