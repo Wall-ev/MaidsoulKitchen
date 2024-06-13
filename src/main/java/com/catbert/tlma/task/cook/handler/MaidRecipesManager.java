@@ -114,7 +114,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         LOGGER.info(this.recipesIngredients);
     }
 
-    private Pair<Integer, List<Item>> getMaxCount(Recipe<? extends Container> recipe, Map<Item, Integer> available) {
+    private Pair<Integer, List<Item>> getMaxCount(T recipe, Map<Item, Integer> available) {
         List<Ingredient> ingredients = recipe.getIngredients();
         boolean canMake = true;
         boolean single = false;
@@ -148,6 +148,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
 
+        extraRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
+
         if (!canMake || invIngredient.stream().anyMatch(item -> available.get(item) <= 0)) {
             return Pair.of(0, new ArrayList<>());
         }
@@ -166,6 +168,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         }
 
         return Pair.of(maxCount, invIngredient);
+    }
+
+    protected void extraRecipe(T recipe, Map<Item, Integer> available, boolean single, boolean canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+
     }
 
     private void shuffle(List<T> recipes) {

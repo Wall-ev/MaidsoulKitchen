@@ -9,6 +9,7 @@
   "server": [
   ],
   "mixins": [
+    "bnc.KegBlockEntityAccessor",
     "fd.CookingPotBlockEntityAccessor",
     "md.CopperPotBlockEntityAccessor",
     "tlm.MixinGeckoLayerMaidBanner",
