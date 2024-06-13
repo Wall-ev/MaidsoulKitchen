@@ -18,11 +18,11 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 import java.util.Optional;
 
 @LittleMaidExtension
-public class TaskYhcMoka extends TaskFdPot<MokaRecipe, MokaMakerBlockEntity> {
+public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "yhc_moka_pot");
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
         return Mods.YHC.isLoaded;
     }
 

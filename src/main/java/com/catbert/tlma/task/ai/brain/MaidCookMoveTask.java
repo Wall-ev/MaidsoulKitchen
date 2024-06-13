@@ -18,29 +18,29 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public class MaidCookMoveTask<T extends Recipe<? extends Container>, C extends BlockEntity> extends MaidCheckRateTask {
+public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends MaidCheckRateTask {
     private static final int MAX_DELAY_TIME = 120;
     private final float movementSpeed;
     private final int verticalSearchRange;
-    private final ITaskCook<T, C> task;
-    private MaidRecipesManager<T> maidRecipesManager;
+    private final ITaskCook<B, R> task;
+    private MaidRecipesManager<R> maidRecipesManager;
     protected int verticalSearchStart;
     private final boolean single;
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<T, C> task) {
+    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task) {
         this(maid, task, 0.5f, 2, false);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<T, C> task, @Nullable MaidRecipesManager<T> maidRecipesManager) {
+    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
         this(maid, task, 0.5f, 2, false);
         this.maidRecipesManager = maidRecipesManager;
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<T, C> task, float movementSpeed, boolean single) {
+    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, float movementSpeed, boolean single) {
         this(maid, task, movementSpeed, 2, single);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<T, C> task, float movementSpeed, int verticalSearchRange, boolean single) {
+    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, float movementSpeed, int verticalSearchRange, boolean single) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
@@ -51,7 +51,7 @@ public class MaidCookMoveTask<T extends Recipe<? extends Container>, C extends B
         this.setMaxCheckRate(MAX_DELAY_TIME);
     }
 
-    public MaidRecipesManager<T> getMaidRecipesManager() {
+    public MaidRecipesManager<R> getMaidRecipesManager() {
         return maidRecipesManager;
     }
 
@@ -82,7 +82,7 @@ public class MaidCookMoveTask<T extends Recipe<? extends Container>, C extends B
         if (blockEntity == null) {
             return false;
         }
-        return task.isCookBE(blockEntity) && task.shouldMoveTo(worldIn, maid, (C)blockEntity, maidRecipesManager);
+        return task.isCookBE(blockEntity) && task.shouldMoveTo(worldIn, maid, (B)blockEntity, maidRecipesManager);
     }
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {

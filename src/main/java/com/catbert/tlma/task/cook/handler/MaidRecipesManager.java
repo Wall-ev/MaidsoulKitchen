@@ -17,7 +17,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
     private final RecipeType<T> recipeType;
-    protected final boolean single;
+    private final boolean single;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
     public MaidRecipesManager(EntityMaid maid, RecipeType<T> recipeType, boolean single) {
@@ -32,6 +32,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         if (createRecIng) {
             this.createRecipesIngredients();
         }
+    }
+
+    public boolean isSingle() {
+        return single;
     }
 
     public MaidInventory getMaidInventory() {

@@ -1,5 +1,7 @@
 package com.catbert.tlma.api.task.cook;
 
+import com.catbert.tlma.api.task.bestate.IBaseCookBe;
+import com.catbert.tlma.api.task.bestate.IHeatBe;
 import com.catbert.tlma.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
@@ -19,15 +21,15 @@ import java.util.Optional;
 
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
-public interface IFDPotCook<T extends Recipe<? extends Container>, C extends BlockEntity> extends IBaseCookBe<T, C>, IHeatCookBe<C>, ICook {
+public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookBe<B, R>, IHeatBe<B>, ICook {
 
     int getMealStackSlot();
 
     int getContainerStackSlot();
 
-    ItemStack getFoodContainer(C blockEntity);
+    ItemStack getFoodContainer(B blockEntity);
 
-    default boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
+    default boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
@@ -49,7 +51,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         }
 
         boolean heated = isHeated(blockEntity);
-        Optional<T> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
+        Optional<R> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
@@ -74,7 +76,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         return false;
     }
 
-    default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
+    default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         LOGGER.info("MaidCookMakeTask.processCookMake：");
         LOGGER.info("maidRecipesManager: {} ", maidRecipesManager);
         LOGGER.info("getRecipesIngredients: {} ", maidRecipesManager.getRecipesIngredients());
@@ -84,7 +86,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
     }
 
-    default void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
+    default void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack mealStack = inventory.getStackInSlot(getMealStackSlot());
@@ -97,7 +99,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
 
     }
 
-    default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager) {
+    default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
@@ -133,7 +135,7 @@ public interface IFDPotCook<T extends Recipe<? extends Container>, C extends Blo
 
 
         boolean heated = isHeated(blockEntity);
-        Optional<T> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
+        Optional<R> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
         if (!b && hasInput(inventory)) {

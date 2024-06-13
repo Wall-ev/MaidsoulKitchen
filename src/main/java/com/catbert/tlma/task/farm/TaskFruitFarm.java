@@ -76,15 +76,10 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayer {
     }
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
 //        return Mods.hasLoaded(Mods.FS, Mods.CAUPONA, Mods.SF, Mods.DV);
         return true;
     }
-
-//    @Override
-//    public boolean configLoaded() {
-//        return TaskConfig.FRUIT_FARM_TASK_ENABLED.get();
-//    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {

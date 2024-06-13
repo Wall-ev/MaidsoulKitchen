@@ -19,11 +19,11 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 import java.util.Optional;
 
 @LittleMaidExtension
-public class TaskFDCookPot extends TaskFdPot<CookingPotRecipe, CookingPotBlockEntity> {
+public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fd_cooking_pot");
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
         return Mods.FD.isLoaded;
     }
 

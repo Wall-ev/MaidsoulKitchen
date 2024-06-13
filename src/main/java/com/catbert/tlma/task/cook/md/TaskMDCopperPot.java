@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @LittleMaidExtension
-public class TaskMDCopperPot extends TaskFdPot<CookingPotRecipe, CopperPotBlockEntity> {
+public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "md_copper_pot");
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
         return Mods.MD.isLoaded;
     }
 

@@ -7,15 +7,13 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public interface ITaskCook<T extends Recipe<? extends Container>, C extends BlockEntity> extends ILittleMaidTask {
+public interface ITaskCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
 
     @Nullable
     @Override
@@ -29,10 +27,10 @@ public interface ITaskCook<T extends Recipe<? extends Container>, C extends Bloc
 
     boolean isCookBE(BlockEntity blockEntity);
 
-    RecipeType<T> getRecipeType();
+    RecipeType<R> getRecipeType();
 
-    boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager);
+    boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager);
 
-    void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, C blockEntity, MaidRecipesManager<T> maidRecipesManager);
+    void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager);
 
 }

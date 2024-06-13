@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class MaidCookMakeTask<T extends Recipe<? extends Container>, C extends BlockEntity> extends Behavior<EntityMaid> {
-    private final ITaskCook<T, C> task;
-    private final MaidRecipesManager<T> maidRecipesManager;
+public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> {
+    private final ITaskCook<B, R> task;
+    private final MaidRecipesManager<R> maidRecipesManager;
 
-    public MaidCookMakeTask(ITaskCook<T, C> task, @Nullable MaidRecipesManager<T> maidRecipesManager) {
+    public MaidCookMakeTask(ITaskCook<B, R> task, @Nullable MaidRecipesManager<R> maidRecipesManager) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.maidRecipesManager = maidRecipesManager;
@@ -66,7 +66,7 @@ public class MaidCookMakeTask<T extends Recipe<? extends Container>, C extends B
             BlockPos basePos = posWrapper.currentBlockPosition();
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
             if (blockEntity != null) {
-                task.processCookMake(worldIn, maid, (C) blockEntity, this.maidRecipesManager);
+                task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
             }
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
             maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);

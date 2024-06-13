@@ -20,6 +20,7 @@ import java.util.List;
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
 // from:https://github.com/Lothrazar/Cyclic/blob/179e693db439a48822e2f47dfd0f86466f02063c/src/main/java/com/lothrazar/cyclic/block/user/TileUser.java#L84
+// 暂时先这样...再改...
 public interface IFakePlayer {
     List<Block> blackList = new ArrayList<>();
 

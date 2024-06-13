@@ -89,14 +89,9 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayer {
     }
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
         return true;
     }
-
-//    @Override
-//    public boolean configLoaded() {
-//        return TaskConfig.BERRY_FARM_TASK_ENABLED.get();
-//    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {

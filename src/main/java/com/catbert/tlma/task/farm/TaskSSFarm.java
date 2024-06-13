@@ -30,29 +30,17 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask {
         if (plantB) {
             String lowerCase = SeasonHelper.getSeasonState(maid.level()).getSeason().name().toLowerCase();
             TagKey<Item> itemTagKey = ItemTags.create(new ResourceLocation("sereneseasons:" + lowerCase + "_crops"));
-            boolean b = seed.getTags().anyMatch(itemTagKey::equals);
-            return b || seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));
-//            if (!b) {
-//                TLMCompat.LOGGER.info("TaskSSFarm canPlant false " + lowerCase + " " + b);
-//                boolean b1 = seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));
-//                TLMCompat.LOGGER.info(seed.getTags().map(tagKey -> tagKey.location().toString()) + " " + b1);
-//            }else {
-//                return true;
-//            }
+            return seed.getTags().anyMatch(itemTagKey::equals) ||
+                    seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));
         }
 
         return false;
     }
 
     @Override
-    public boolean modLoaded() {
+    public boolean canLoaded() {
         return Mods.SS.isLoaded;
     }
-
-//    @Override
-//    public boolean configLoaded() {
-//        return TaskConfig.SERENESEASONS_FARM_TASK_ENABLED.get();
-//    }
 
     @Override
     public ResourceLocation getUid() {

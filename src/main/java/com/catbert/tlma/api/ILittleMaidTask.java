@@ -9,16 +9,12 @@ public interface ILittleMaidTask extends ILittleMaid, IMaidTask {
 
     @Override
     default void addMaidTask(TaskManager manager) {
-        if (modLoaded() && configLoaded()) {
+        if (canLoaded()) {
             manager.add(this);
         }
     }
 
-    boolean modLoaded();
-
-    default boolean configLoaded(){
-        return true;
-    }
+    boolean canLoaded();
 
     /**
      * 默认好感度二级才可以启用任务
