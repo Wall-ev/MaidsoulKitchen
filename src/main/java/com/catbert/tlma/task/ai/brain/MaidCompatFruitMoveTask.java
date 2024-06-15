@@ -1,7 +1,7 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.task.farm.ICompatFarm;
-import com.catbert.tlma.api.task.farm.ICompatFarmHandler;
+import com.catbert.tlma.api.task.v1.farm.ICompatFarm;
+import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;

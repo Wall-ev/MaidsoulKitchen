@@ -1,7 +1,7 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.task.cook.ITaskCook;
-import com.catbert.tlma.task.cook.handler.MaidRecipesManager;
+import com.catbert.tlma.api.task.v1.cook.ITaskCook;
+import com.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
 
 public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends MaidCheckRateTask {
     private static final int MAX_DELAY_TIME = 120;
@@ -47,7 +46,6 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         this.movementSpeed = movementSpeed;
         this.verticalSearchRange = verticalSearchRange;
         this.single = single;
-//        this.maidRecipesManager = new MaidRecipesManager<>(maid, task.getRecipeType(), single);
         this.setMaxCheckRate(MAX_DELAY_TIME);
     }
 

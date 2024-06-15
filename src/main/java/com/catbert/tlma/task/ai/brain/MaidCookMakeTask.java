@@ -1,7 +1,7 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.task.cook.ITaskCook;
-import com.catbert.tlma.task.cook.handler.MaidRecipesManager;
+import com.catbert.tlma.api.task.v1.cook.ITaskCook;
+import com.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.google.common.collect.ImmutableMap;
@@ -44,19 +44,6 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
             }
             return true;
         }).orElse(false);
-//        return (Boolean)brain.getMemory((MemoryModuleType)InitEntities.TARGET_POS.get()).map((targetPos) -> {
-//            Vec3 targetV3d = ((BlockPosTracker) targetPos).currentPosition();
-//            if (!(maid.distanceToSqr(targetV3d) > Math.pow(1.0, 2.0))) {
-//                return true;
-//            } else {
-//                Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
-//                if (walkTarget.isEmpty() || !((WalkTarget)walkTarget.get()).getTarget().currentPosition().equals(targetV3d)) {
-//                    brain.eraseMemory((MemoryModuleType)InitEntities.TARGET_POS.get());
-//                }
-//
-//                return false;
-//            }
-//        }).orElse(false);
     }
 
     @Override

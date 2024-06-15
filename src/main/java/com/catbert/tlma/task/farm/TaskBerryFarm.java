@@ -1,8 +1,8 @@
 package com.catbert.tlma.task.farm;
 
 import com.catbert.tlma.TLMAddon;
-import com.catbert.tlma.api.task.farm.ICompatFarm;
-import com.catbert.tlma.api.task.farm.ICompatFarmHandler;
+import com.catbert.tlma.api.task.v1.farm.ICompatFarm;
+import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.catbert.tlma.api.task.IFakePlayer;
 import com.catbert.tlma.task.ai.brain.MaidCompatFarmMoveTask;
 import com.catbert.tlma.task.ai.brain.MaidCompatFarmPlantTask;

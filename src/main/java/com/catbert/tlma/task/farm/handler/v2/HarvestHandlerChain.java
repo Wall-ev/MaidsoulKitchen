@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HarvestHandlerChain {
-    private final List<HarvestHandler> handlers;
+    private final List<HarvestHandler> handlers = new ArrayList<>();
 
     public HarvestHandlerChain() {
-        this.handlers = new ArrayList<>();
     }
 
     public HarvestHandlerChain addHandler(HarvestHandler handler) {

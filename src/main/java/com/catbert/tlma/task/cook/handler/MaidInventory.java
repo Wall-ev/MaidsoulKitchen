@@ -16,7 +16,7 @@ public class MaidInventory {
     private final Map<Item, List<ItemStack>> inventoryStack = new HashMap<>();
     private CombinedInvWrapper lastInv;
 
-    protected MaidInventory(EntityMaid maid) {
+    public MaidInventory(EntityMaid maid) {
         this.maid = maid;
         this.refreshInv();
     }

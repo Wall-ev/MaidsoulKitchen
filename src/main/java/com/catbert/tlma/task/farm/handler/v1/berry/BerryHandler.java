@@ -1,6 +1,6 @@
 package com.catbert.tlma.task.farm.handler.v1.berry;
 
-import com.catbert.tlma.api.task.farm.ICompatFarmHandler;
+import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
