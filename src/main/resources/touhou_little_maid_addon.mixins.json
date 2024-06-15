@@ -9,11 +9,19 @@
   "server": [
   ],
   "mixins": [
+    "bakery.MixinCookingPotBlockEntity",
+    "beachparty.MixinMiniFridgeBlockEntity",
+    "beachparty.MixinTikiBarBlockEntity",
     "bnc.KegBlockEntityAccessor",
+    "candlelight.MixinCookingPanBlockEntity",
+    "candlelight.MixinCookingPotBlockEntity",
     "fd.MixinCookingPotBlockEntity",
+    "herbal.MixinCauldronBlockEntity",
+    "herbal.MixinTeaKettleBlockEntity",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinGeckoLayerMaidBanner",
     "tlm.MixinLayerMaidBanner",
+    "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"
   ]
 }

@@ -1,7 +1,7 @@
 package com.catbert.tlma.api.task.v1.cook;
 
-import com.catbert.tlma.api.ICbeAccessor;
-import com.catbert.tlma.api.task.v1.bestate.IBaseCookBe;
+import com.catbert.tlma.api.IFhCbeAccessor;
+import com.catbert.tlma.api.task.v1.bestate.IBaseCookItemHandlerBe;
 import com.catbert.tlma.api.task.v1.bestate.IHeatBe;
 import com.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
-public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookBe<B, R>, IHeatBe<B>, IHandlerCookBe<B>, ICook {
+public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookItemHandlerBe<B, R>, IHeatBe<B>, IHandlerCookBe<B>, IItemHandlerCook {
 
     int getMealStackSlot();
 
@@ -158,12 +158,12 @@ public interface IFDPotCook<B extends BlockEntity, R extends Recipe<? extends Co
     @Override
     @SuppressWarnings("unchecked")
     default Optional<R> getMatchingRecipe(B be, RecipeWrapper recipeWrapper) {
-        return ((ICbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
+        return ((IFhCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     default boolean canCook(B be, R recipe) {
-        return ((ICbeAccessor<R>) be).canCook$tlma(recipe);
+        return ((IFhCbeAccessor<R>) be).canCook$tlma(recipe);
     }
 }

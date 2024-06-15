@@ -9,15 +9,14 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import satisfy.beachparty.block.entity.TikiBarBlockEntity;
-import satisfy.beachparty.recipe.TikiBarRecipe;
+import satisfy.beachparty.block.entity.MiniFridgeBlockEntity;
+import satisfy.beachparty.recipe.MiniFridgeRecipe;
 import satisfy.beachparty.registry.ObjectRegistry;
 import satisfy.beachparty.registry.RecipeRegistry;
 
-
 @LittleMaidExtension
-public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, TikiBarRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dbp_tiki_bar");
+public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEntity, MiniFridgeRecipe> {
+    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dbp_mini_fridge");
 
     @Override
     public boolean canLoaded() {
@@ -41,12 +40,12 @@ public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, 
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
-        return blockEntity instanceof TikiBarBlockEntity;
+        return blockEntity instanceof MiniFridgeBlockEntity;
     }
 
     @Override
-    public RecipeType<TikiBarRecipe> getRecipeType() {
-        return RecipeRegistry.TIKI_BAR_RECIPE_TYPE.get();
+    public RecipeType<MiniFridgeRecipe> getRecipeType() {
+        return RecipeRegistry.MINI_FRIDGE_RECIPE_TYPE.get();
     }
 
     @Override
@@ -56,16 +55,16 @@ public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, 
 
     @Override
     public ItemStack getIcon() {
-        return ObjectRegistry.TIKI_BAR.get().asItem().getDefaultInstance();
+        return ObjectRegistry.MINI_FRIDGE.get().asItem().getDefaultInstance();
     }
 
     @Override
-    public boolean isHeated(TikiBarBlockEntity be) {
+    public boolean isHeated(MiniFridgeBlockEntity be) {
         return true;
     }
 
     @Override
-    public Container getContainer(TikiBarBlockEntity be) {
+    public Container getContainer(MiniFridgeBlockEntity be) {
         return be;
     }
 }

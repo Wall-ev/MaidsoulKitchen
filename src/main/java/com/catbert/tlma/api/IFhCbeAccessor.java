@@ -6,7 +6,7 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import java.util.Optional;
 
-public interface ICbeAccessor<R extends Recipe<? extends Container>> {
+public interface IFhCbeAccessor<R extends Recipe<? extends Container>> {
 
     Optional<R> getMatchingRecipe$tlma(RecipeWrapper inventoryWrapper);
 

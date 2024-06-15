@@ -12,10 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends TaskFdPot<B, R> {
 
@@ -26,7 +23,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
 
         if (hasEnoughIngredient(amounts, ingredients)) {
             for (int i = getInputStartSlot(), j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
-                if (ingredients.isEmpty()) continue;
+                if (ingredients.get(j).isEmpty()) continue;
                 insertAndShrink(inventory, amounts.get(i), ingredients, j, i);
             }
             blockEntity.setChanged();
@@ -70,6 +67,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
         }).toList();
     }
 
+    @SuppressWarnings("unchecked")
     public Pair<List<Integer>, List<Item>> rmGetAmountIngredient(R recipe, Map<Item, Integer> available, boolean isSingle) {
         List<Ingredient> ingredients = recipe.getIngredients();
         boolean[] canMake = {true};
@@ -105,6 +103,8 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
         }
 
         // 饮酒作乐里的ingredient里包含了fluidItem...
+        // 实在不明白为啥要把fluidItem加入ingredient里，
+        // 然后又在需要配方判断的时候把fluidItem去掉....
         int size = ingredients.size();
         int il = getInputSize() - size;
         if (canMake[0] && il > 0) {
@@ -117,7 +117,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
             if (item == null) return false;
             return available.get(item) <= 0;
         })) {
-            return Pair.of(new ArrayList<>(), new ArrayList<>());
+            return Pair.of(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
         }
 
         int maxCount = 64;
