@@ -99,11 +99,13 @@ public interface IContainerCook extends IMaidAction {
             int count = itemStack.getCount();
 
             if (count >= amount) {
-                inventory.setItem(slotIndex, itemStack.copyWithCount(amount));
+                int slotStackCount = inventory.getItem(slotIndex).getCount();
+                inventory.setItem(slotIndex, itemStack.copyWithCount(amount + slotStackCount));
                 itemStack.shrink(amount);
                 break;
             } else {
-                inventory.setItem(slotIndex, itemStack.copyWithCount(count));
+                int slotStackCount = inventory.getItem(slotIndex).getCount();
+                inventory.setItem(slotIndex, itemStack.copyWithCount(count + slotStackCount));
                 itemStack.shrink(count);
                 amount -= count;
                 if (amount <= 0) {
