@@ -46,7 +46,7 @@ public interface ITaskCook<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default double getCloseEnoughDist() {
-        return 2.1;
+        return 3.2;
     }
 
     boolean isCookBE(BlockEntity blockEntity);

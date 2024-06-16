@@ -35,7 +35,7 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
 
     @Override
     public int getOutputSlot() {
-        return 0;
+        return 5;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
     }
 
     @Override
-    protected void tExtraStartRecipe(CauldronRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-        extraRecipe(Items.GLASS_BOTTLE.asItem(), recipe, available, single, canMake, itemTimes, invIngredient);
+    protected boolean tExtraStartRecipe(CauldronRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+       return extraRecipe(Items.GLASS_BOTTLE.asItem(), recipe, available, single, canMake, itemTimes, invIngredient);
     }
 }

@@ -9,10 +9,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
@@ -69,13 +69,28 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public void checkAndCreateRecipesIngredients(EntityMaid maid) {
-        if (recipesIngredients.isEmpty()){
-            createRecipesIngredients();
+        // 缓存的配方原料没了
+        if (!recipesIngredients.isEmpty()) return;
+        // 是否为上一次的背包以及手上的物品
+        if (isLastInv(maid)) return;
+        createRecipesIngredients();
+    }
+
+    private boolean isLastInv(EntityMaid maid) {
+
+        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        List<ItemStack> lastInvStack = maidInventory.getLastInvStack();
+        if (availableInv.getSlots() != lastInvStack.size()) return false;
+
+        for (int i = 0; i < availableInv.getSlots(); i++) {
+            ItemStack stackInSlot = availableInv.getStackInSlot(i);
+            ItemStack cacheStack = lastInvStack.get(i);
+            if (!(stackInSlot.is(cacheStack.getItem()) && stackInSlot.getCount() == cacheStack.getCount())) {
+                return false;
+            }
         }
-//        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
-//        if (!this.maidInventory.getLastInv().equals(availableInv) || recipesIngredients.isEmpty()){
-//            createRecipesIngredients();
-//        }
+
+        return true;
     }
 
     @Nullable
@@ -174,6 +189,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             maxCount = 1;
         } else {
             for (Item item : itemTimes.keySet()) {
+                maxCount = Math.min(maxCount, item.getDefaultInstance().getMaxStackSize());
                 maxCount = Math.min(maxCount, available.get(item) / itemTimes.get(item));
             }
         }
@@ -187,21 +203,15 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return Pair.of(countList, invIngredient);
     }
 
-    protected void extraStartRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-
+    protected boolean extraStartRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+        return true;
     }
 
-    protected void extraEndRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-
+    protected boolean extraEndRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+        return true;
     }
 
     private void shuffle(List<T> recipes) {
         Collections.shuffle(recipes);
-    }
-
-    public static List<Integer> getRandomList(int size) {
-        List<Integer> list = new ArrayList<>(IntStream.rangeClosed(0, size-1).boxed().toList());
-        Collections.shuffle(list);
-        return list;
     }
 }

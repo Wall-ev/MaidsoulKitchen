@@ -68,8 +68,8 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
     }
 
     @Override
-    protected void tExtraStartRecipe(FermentationBarrelRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+    protected boolean tExtraStartRecipe(FermentationBarrelRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
         // 别问我为什么这里是硬编码,葡园酒香这里就是硬编码...
-        extraRecipe(ObjectRegistry.WINE_BOTTLE.get(), recipe, available, single, canMake, itemTimes, invIngredient);
+       return extraRecipe(ObjectRegistry.WINE_BOTTLE.get(), recipe, available, single, canMake, itemTimes, invIngredient);
     }
 }

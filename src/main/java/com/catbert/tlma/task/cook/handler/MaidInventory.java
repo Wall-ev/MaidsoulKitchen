@@ -3,7 +3,9 @@ package com.catbert.tlma.task.cook.handler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class MaidInventory {
     private final EntityMaid maid;
     private final Map<Item, Integer> inventoryItem = new HashMap<>();
     private final Map<Item, List<ItemStack>> inventoryStack = new HashMap<>();
-    private CombinedInvWrapper lastInv;
+    private final List<ItemStack> lastInvStack = new ArrayList<>();
 
     public MaidInventory(EntityMaid maid) {
         this.maid = maid;
@@ -22,21 +24,22 @@ public class MaidInventory {
     }
 
     public void refreshInv() {
-        clearCache();
+        clearCacheStackInfo();
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);
         List<Integer> blackSlots = getBlackSlots();
         for (int i = 0; i < availableInv.getSlots(); i++) {
-            if (blackSlots.contains(i)) continue;
             ItemStack stack = availableInv.getStackInSlot(i);
+            lastInvStack.add(stack);
+            if (blackSlots.contains(i)) continue;
             if (stack.isEmpty()) continue;
             add(stack);
         }
-//        this.lastInv = availableInv;
     }
 
-    private void clearCache() {
+    private void clearCacheStackInfo() {
         inventoryItem.clear();
         inventoryStack.clear();
+        lastInvStack.clear();
     }
 
     private List<Integer> getBlackSlots() {
@@ -77,8 +80,7 @@ public class MaidInventory {
         return maid;
     }
 
-    public CombinedInvWrapper getLastInv() {
-        return lastInv;
+    public List<ItemStack> getLastInvStack() {
+        return lastInvStack;
     }
-
 }

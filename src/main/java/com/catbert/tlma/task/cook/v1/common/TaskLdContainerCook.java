@@ -68,9 +68,8 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
                 List<Item> invIngredient = new ArrayList<>();
                 Map<Item, Integer> itemTimes = new HashMap<>();
 
-                extraStartRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
-
-                if (!canMake[0]) return Pair.of(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+                boolean hasStartContainer = extraStartRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
+                if (!hasStartContainer) return Pair.of(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
 
                 for (Ingredient ingredient : ingredients) {
                     boolean hasIngredient = false;
@@ -112,9 +111,9 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
                     }
                 }
 
-                extraEndRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
+                boolean hasEndContainer = extraEndRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
 
-                if (!canMake[0] || invIngredient.stream().anyMatch(item -> {
+                if (!canMake[0] || !hasEndContainer || invIngredient.stream().anyMatch(item -> {
                     if (item == null) return false;
                     return available.get(item) <= 0;
                 })) {
@@ -145,26 +144,26 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
             }
 
             @Override
-            protected void extraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-                tExtraStartRecipe(recipe, available, single, canMake, itemTimes, invIngredient);
+            protected boolean extraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+               return tExtraStartRecipe(recipe, available, single, canMake, itemTimes, invIngredient);
             }
 
             @Override
-            protected void extraEndRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-                tExtraEndRecipe(recipe, available, single, canMake, itemTimes, invIngredient);
+            protected boolean extraEndRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+               return tExtraEndRecipe(recipe, available, single, canMake, itemTimes, invIngredient);
             }
         };
     }
 
-    protected void tExtraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-
+    protected boolean tExtraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+        return true;
     }
 
-    protected void tExtraEndRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
-
+    protected boolean tExtraEndRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+        return true;
     }
 
-    protected void extraRecipe(Item extraItem, R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+    protected boolean extraRecipe(Item extraItem, R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
         // 别问我为什么这里是硬编码,葡园酒香这里就是硬编码...
         boolean hasIngredient = false;
         for (Item item : available.keySet()) {
@@ -188,6 +187,10 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
             canMake[0] = false;
             itemTimes.clear();
             invIngredient.clear();
+
+            return false;
         }
+
+        return true;
     }
 }

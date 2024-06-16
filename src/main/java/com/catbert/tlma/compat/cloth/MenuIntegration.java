@@ -15,7 +15,7 @@ public class MenuIntegration {
         root.setGlobalized(true);
         root.setGlobalizedExpanded(false);
         ConfigEntryBuilder entryBuilder = root.entryBuilder();
-        taskConfig(root, entryBuilder);
+//        taskConfig(root, entryBuilder);
         renderConfig(root, entryBuilder);
         return root;
     }

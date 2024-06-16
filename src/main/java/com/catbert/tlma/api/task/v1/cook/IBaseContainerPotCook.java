@@ -33,7 +33,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
-        LOGGER.info("recipe: {} {} {} ",  b, recipesIngredients);
+        LOGGER.info("recipe: {} {}",  b, recipesIngredients);
         if (!b && !recipesIngredients.isEmpty() && heated) {
             return true;
         }

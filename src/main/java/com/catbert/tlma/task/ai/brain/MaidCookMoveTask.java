@@ -62,7 +62,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 
     @Override
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-        this.processRecipeManager(maid);
+//        this.processRecipeManager(maid);
         this.searchForDestination(worldIn, maid);
     }
 
@@ -80,7 +80,11 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         if (blockEntity == null) {
             return false;
         }
-        return task.isCookBE(blockEntity) && task.shouldMoveTo(worldIn, maid, (B)blockEntity, maidRecipesManager);
+        if (task.isCookBE(blockEntity)){
+            this.processRecipeManager(maid);
+            return task.shouldMoveTo(worldIn, maid, (B)blockEntity, maidRecipesManager);
+        }
+        return false;
     }
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {
