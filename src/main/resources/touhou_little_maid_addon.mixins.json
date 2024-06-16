@@ -19,6 +19,7 @@
     "herbal.MixinCauldronBlockEntity",
     "herbal.MixinTeaKettleBlockEntity",
     "md.MixinCopperPotBlockEntity",
+    "tlm.MixinEntityMaid",
     "tlm.MixinGeckoLayerMaidBanner",
     "tlm.MixinLayerMaidBanner",
     "vinery.MixinFermentationBarrelBlockEntity",

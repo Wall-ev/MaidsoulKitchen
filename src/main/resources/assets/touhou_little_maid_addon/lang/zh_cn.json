@@ -39,5 +39,8 @@
   "task.touhou_little_maid_addon.fruit_farm": "水果",
   "task.touhou_little_maid_addon.fruit_farm.desc": "女仆可以收获水果",
   "task.touhou_little_maid_addon.sereneseasons_farm": "四季农场",
-  "task.touhou_little_maid_addon.sereneseasons_farm.desc": "女仆可以正确收获四季作物"
+  "task.touhou_little_maid_addon.sereneseasons_farm.desc": "女仆可以正确收获四季作物",
+
+  "overlay.touhou_little_maid_addon.book.tips": "这个物品可以改变工作模式为水果的女仆的采摘起始Y值,右击+1,潜行-1",
+  "overlay.touhou_little_maid_addon.book.tips.start_y_offset": "StartYOffest: "
 }

@@ -3,7 +3,7 @@ package com.catbert.tlma.task.farm;
 import com.catbert.tlma.TLMAddon;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
-import com.catbert.tlma.api.task.IFakePlayer;
+import com.catbert.tlma.api.task.IFakePlayerTask;
 import com.catbert.tlma.task.ai.brain.MaidCompatFarmMoveTask;
 import com.catbert.tlma.task.ai.brain.MaidCompatFarmPlantTask;
 import com.catbert.tlma.task.farm.handler.v1.berry.*;
@@ -23,7 +23,7 @@ import java.util.List;
 import static com.catbert.tlma.TLMAddon.LOGGER;
 
 @LittleMaidExtension
-public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayer {
+public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
 
     @Override

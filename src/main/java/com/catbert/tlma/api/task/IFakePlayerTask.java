@@ -1,9 +1,9 @@
 package com.catbert.tlma.api.task;
 
+import com.catbert.tlma.api.IMaidAddon;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -21,11 +20,11 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 
 // from:https://github.com/Lothrazar/Cyclic/blob/179e693db439a48822e2f47dfd0f86466f02063c/src/main/java/com/lothrazar/cyclic/block/user/TileUser.java#L84
 // 暂时先这样...再改...
-public interface IFakePlayer {
+public interface IFakePlayerTask {
     List<Block> blackList = new ArrayList<>();
 
     default InteractionResult interactUseOnBlock(EntityMaid maid, BlockPos targetPos, InteractionHand hand, @Nullable Direction facing) {
-        FakePlayer fakePlayer = FakePlayerFactory.getMinecraft((ServerLevel) maid.level());
+        FakePlayer fakePlayer = ((IMaidAddon) maid).getFakePlayer$tlma().get();
         Direction placementOn = (facing == null) ? fakePlayer.getMotionDirection() : facing;
         BlockHitResult blockraytraceresult = new BlockHitResult(
                 fakePlayer.getLookAngle(), placementOn,

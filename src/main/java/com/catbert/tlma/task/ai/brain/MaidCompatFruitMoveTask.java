@@ -1,5 +1,6 @@
 package com.catbert.tlma.task.ai.brain;
 
+import com.catbert.tlma.api.IMaidAddon;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
@@ -23,6 +24,7 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler> extends MaidC
     private final T compatFarmHandler;
     protected int verticalSearchStart;
     private int searchStartY = 3;
+    private boolean initSearchStartY = false;
     public MaidCompatFruitMoveTask(EntityMaid maid, ICompatFarm<T> task, float movementSpeed) {
         this(maid, task, movementSpeed, 2);
     }
@@ -67,6 +69,11 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler> extends MaidC
      * @return 是否符合判定条件
      */
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
+        if (!initSearchStartY) {
+            initSearchStartY = true;
+            searchStartY = ((IMaidAddon)entityMaid).getStartYOffset$tlma();
+        }
+        ((IMaidAddon)entityMaid).initFakePlayer$tlma();
         BlockState cropState = serverLevel.getBlockState(blockPos);
         return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
     }
@@ -79,7 +86,7 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler> extends MaidC
         BlockPos centrePos = maid.getBrainSearchPos();
         int searchRange = (int) maid.getRestrictRadius();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        for (int y = this.verticalSearchStart; y <= this.verticalSearchRange; y = y > 0 ? -y : 1 - y) {
+        for (int y = this.verticalSearchStart; y <= this.verticalSearchRange; y++) {
             for (int i = 0; i < searchRange; ++i) {
                 for (int x = 0; x <= i; x = x > 0 ? -x : 1 - x) {
                     for (int z = x < i && x > -i ? i : 0; z <= i; z = z > 0 ? -z : 1 - z) {
