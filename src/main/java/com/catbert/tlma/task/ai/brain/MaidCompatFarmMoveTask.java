@@ -1,6 +1,6 @@
 package com.catbert.tlma.task.ai.brain;
 
-import com.catbert.tlma.api.IMaidAddon;
+import com.catbert.tlma.api.IAddonMaid;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidMoveToBlockTask;
@@ -30,7 +30,7 @@ public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler> extends MaidMo
 
     @Override
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
-        ((IMaidAddon)entityMaid).initFakePlayer$tlma();
+        ((IAddonMaid)entityMaid).initFakePlayer$tlma();
         BlockState cropState = serverLevel.getBlockState(blockPos);
         return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
     }

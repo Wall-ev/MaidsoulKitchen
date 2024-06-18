@@ -10,7 +10,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class CompatFruitHandler extends FruitHandler implements ICompatHandler {
     @Override
     public boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("CompatFruitHandler handleCanHarvest ");
+//        LOGGER.info("CompatFruitHandler handleCanHarvest ");
         return ICompatHandler.super.process(maid, cropPos, cropState);
     }
 

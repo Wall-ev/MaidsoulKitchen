@@ -10,7 +10,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class CompatBerryHandler extends BerryHandler implements ICompatHandler {
     @Override
     public boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("CompatBerryHandler handleCanHarvest ");
+//        LOGGER.info("CompatBerryHandler handleCanHarvest ");
         return ICompatHandler.super.process(maid, cropPos, cropState);
     }
 

@@ -1,6 +1,6 @@
 package com.catbert.tlma.api.task;
 
-import com.catbert.tlma.api.IMaidAddon;
+import com.catbert.tlma.api.IAddonMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,7 +24,7 @@ public interface IFakePlayerTask {
     List<Block> blackList = new ArrayList<>();
 
     default InteractionResult interactUseOnBlock(EntityMaid maid, BlockPos targetPos, InteractionHand hand, @Nullable Direction facing) {
-        FakePlayer fakePlayer = ((IMaidAddon) maid).getFakePlayer$tlma().get();
+        FakePlayer fakePlayer = ((IAddonMaid) maid).getFakePlayer$tlma().get();
         Direction placementOn = (facing == null) ? fakePlayer.getMotionDirection() : facing;
         BlockHitResult blockraytraceresult = new BlockHitResult(
                 fakePlayer.getLookAngle(), placementOn,
@@ -36,7 +36,7 @@ public interface IFakePlayerTask {
 
     default void maidRightClick(EntityMaid maid, BlockPos targetPos, InteractionHand hand) {
         try {
-            LOGGER.info("FakePlayerUtil.interactUseOnBlock ");
+//            LOGGER.info("FakePlayerUtil.interactUseOnBlock ");
             InteractionResult interactionResult = interactUseOnBlock(maid, targetPos, hand, null);
             if (interactionResult == InteractionResult.PASS) {
                 BlockState blockState = maid.level().getBlockState(targetPos);
@@ -45,7 +45,7 @@ public interface IFakePlayerTask {
                 blackList.add(block);
                 LOGGER.warn(blackList.toString());
             }
-            LOGGER.info("FakePlayerUtil.interactUseOnBlock result: " + interactionResult);
+//            LOGGER.info("FakePlayerUtil.interactUseOnBlock result: " + interactionResult);
         }catch (Exception e) {
             LOGGER.error("FakePlayerUtil.interactUseOnBlock error: " + e);
         }

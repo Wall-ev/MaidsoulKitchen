@@ -1,11 +1,10 @@
 package com.catbert.tlma.mixin.tlm;
 
-import com.catbert.tlma.api.IMaidAddon;
+import com.catbert.tlma.api.IAddonMaid;
 import com.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,9 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.lang.ref.WeakReference;
 
 @Mixin(value = EntityMaid.class, remap = false)
-public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowAttackMob, IMaid, IMaidAddon {
-    private static final EntityDataAccessor<Integer> START_Y_OFFSET = SynchedEntityData.defineId(MixinEntityMaid.class, EntityDataSerializers.INT);
-
+public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowAttackMob, IMaid, IAddonMaid {
+    private static final EntityDataAccessor<CompoundTag> MaidAddon_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final String MAID_ADDON_TAG = "MaidAddonData";
     private static final String START_Y_OFFSET_TAG = "StartYOffset";
 
     private WeakReference<FakePlayer> fakePlayer;
@@ -35,30 +34,43 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         super(pEntityType, pLevel);
     }
 
-    @Inject(at = @At("RETURN"), method = "defineSynchedData")
-    protected void defineSynchedData(CallbackInfo info){
-        this.entityData.define(START_Y_OFFSET, 4);
-    }
-    @Inject(at = @At("RETURN"), method = "addAdditionalSaveData")
-    protected void addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
-        compound.putInt(START_Y_OFFSET_TAG, this.entityData.get(START_Y_OFFSET));
+    @Inject(at = @At("TAIL"), remap = true, method = "defineSynchedData()V")
+    private void registerData$tlma(CallbackInfo ci) {
+        entityData.define(MaidAddon_DATA, new CompoundTag());
+        setStartYOffset$tlma(4);
     }
 
-    @Inject(at = @At("RETURN"), method = "readAdditionalSaveData")
-    protected void readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
-        if (compound.contains(START_Y_OFFSET_TAG, Tag.TAG_INT)) {
-            this.entityData.set(START_Y_OFFSET, compound.getInt(START_Y_OFFSET_TAG));
+    @Inject(at = @At("TAIL"), remap = true, method = "addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
+    private void writeAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
+        CompoundTag addonMaidDat = getAddonMaidData();
+        if (addonMaidDat != null) {
+            compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
         }
+    }
+
+    @Inject(at = @At("TAIL"), remap = true, method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
+    private void readAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
+        if (compoundNBT.contains(MAID_ADDON_TAG)) {
+            setAddonMaidData(compoundNBT.getCompound(MAID_ADDON_TAG));
+        }
+    }
+
+    public CompoundTag getAddonMaidData() {
+        return entityData.get(MaidAddon_DATA);
+    }
+
+    public void setAddonMaidData(CompoundTag nbt) {
+        entityData.set(MaidAddon_DATA, nbt);
     }
 
     @Override
     public void setStartYOffset$tlma(int offset) {
-        this.getEntityData().set(START_Y_OFFSET, offset);
+        getAddonMaidData().putInt(START_Y_OFFSET_TAG, offset);
     }
 
     @Override
     public Integer getStartYOffset$tlma() {
-        return this.getEntityData().get(START_Y_OFFSET);
+        return getAddonMaidData().getInt(START_Y_OFFSET_TAG);
     }
 
     @Override

@@ -58,8 +58,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
-        LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
-        LOGGER.info(recipesIngredients);
+//        LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
+//        LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
         int size = recipesIngredients.size();
         Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);
@@ -126,8 +126,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         this.recipesIngredients = transform(_make);
 
-        LOGGER.info("MaidRecipesManager.createRecipesIngredients: " + this.maidInventory.getMaid());
-        LOGGER.info(this.recipesIngredients);
+//        LOGGER.info("MaidRecipesManager.createRecipesIngredients: " + this.maidInventory.getMaid());
+//        LOGGER.info(this.recipesIngredients);
     }
 
     protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList) {

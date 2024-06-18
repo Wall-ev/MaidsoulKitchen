@@ -14,7 +14,7 @@ import static satisfyu.vinery.block.CherryLeaves.HAS_CHERRIES;
 public class VineryFruitHandler extends FruitHandler {
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("VineryFruitHandler handleCanHarvest ");
+//        LOGGER.info("VineryFruitHandler handleCanHarvest ");
         return (cropState.getBlock() instanceof AppleLeaves && cropState.getValue(AppleLeaves.VARIANT) && cropState.getValue(HAS_APPLES)) ||
                 (cropState.getBlock() instanceof CherryLeaves && cropState.getValue(CherryLeaves.VARIANT) && cropState.getValue(HAS_CHERRIES));
     }

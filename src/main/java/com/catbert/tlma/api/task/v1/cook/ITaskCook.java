@@ -27,7 +27,7 @@ public interface ITaskCook<B extends BlockEntity, R extends Recipe<? extends Con
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level().isClientSide) return new ArrayList<>();
-        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level().isClientSide);
+//        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level().isClientSide);
 
         MaidRecipesManager<R> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
         MaidCookMoveTask<B, R> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);

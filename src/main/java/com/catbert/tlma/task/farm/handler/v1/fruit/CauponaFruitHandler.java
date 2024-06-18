@@ -14,7 +14,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class CauponaFruitHandler extends FruitHandler {
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("CauponaFruitHandler handleCanHarvest ");
+//        LOGGER.info("CauponaFruitHandler handleCanHarvest ");
         return cropState.getBlock() instanceof FruitBlock fruitBlock && fruitBlock.getAge(cropState) >= fruitBlock.getMaxAge();
     }
 

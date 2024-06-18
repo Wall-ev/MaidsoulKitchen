@@ -24,7 +24,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         Container inventory = getContainer(blockEntity);
         ItemStack outputStack = inventory.getItem(getOutputSlot());
         // 有最终物品
-        LOGGER.info("outputStack: {} ", outputStack);
+//        LOGGER.info("outputStack: {} ", outputStack);
         if (!outputStack.isEmpty()) {
             return true;
         }
@@ -33,13 +33,13 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
-        LOGGER.info("recipe: {} {}",  b, recipesIngredients);
+//        LOGGER.info("recipe: {} {}",  b, recipesIngredients);
         if (!b && !recipesIngredients.isEmpty() && heated) {
             return true;
         }
 
         // 能做饭现在和有输入（也就是厨锅现在有物品再里面但是不符合配方
-        LOGGER.info("hasInput: {} {}", b, hasInput(inventory));
+//        LOGGER.info("hasInput: {} {}", b, hasInput(inventory));
         if (!b && hasInput(inventory)) {
             return true;
         }
@@ -48,9 +48,9 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
     }
 
     default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
-        LOGGER.info("MaidCookMakeTask.processCookMake：");
-        LOGGER.info("maidRecipesManager: {} ", maidRecipesManager);
-        LOGGER.info("getRecipesIngredients: {} ", maidRecipesManager.getRecipesIngredients());
+//        LOGGER.info("MaidCookMakeTask.processCookMake：");
+//        LOGGER.info("maidRecipesManager: {} ", maidRecipesManager);
+//        LOGGER.info("getRecipesIngredients: {} ", maidRecipesManager.getRecipesIngredients());
 
         tryExtractItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 

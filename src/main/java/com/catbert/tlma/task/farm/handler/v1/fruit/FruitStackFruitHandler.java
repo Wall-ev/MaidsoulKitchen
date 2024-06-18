@@ -12,7 +12,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class FruitStackFruitHandler extends FruitHandler{
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("FruitStackFruitHandler handleCanHarvest ");
+//        LOGGER.info("FruitStackFruitHandler handleCanHarvest ");
 
         return (cropState.getBlock() instanceof BlockFruitCrop blockFruitCrop && blockFruitCrop.isMaxAge(cropState)) ||
                 (cropState.getBlock() instanceof GrapeCropBlock grapeCropBlock && cropState.getValue(GrapeCropBlock.AGE) >= 7);

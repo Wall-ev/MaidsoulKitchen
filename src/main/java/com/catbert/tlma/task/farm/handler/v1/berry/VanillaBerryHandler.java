@@ -10,7 +10,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class VanillaBerryHandler extends BerryHandler{
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("VanillaBerryHandler handleCanHarvest");
+//        LOGGER.info("VanillaBerryHandler handleCanHarvest");
         return cropState.getBlock() instanceof SweetBerryBushBlock && cropState.getValue(SweetBerryBushBlock.AGE) >= SweetBerryBushBlock.MAX_AGE;
     }
 

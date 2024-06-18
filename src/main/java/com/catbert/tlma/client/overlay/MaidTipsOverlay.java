@@ -1,8 +1,7 @@
 package com.catbert.tlma.client.overlay;
 
-import com.catbert.tlma.api.IMaidAddon;
+import com.catbert.tlma.api.IAddonMaid;
 import com.catbert.tlma.task.farm.TaskFruitFarm;
-import com.catbert.tlma.util.MaidDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Maps;
@@ -36,7 +35,7 @@ public class MaidTipsOverlay implements IGuiOverlay {
     private static MutableComponent checkSpecialTips(ItemStack mainhandItem, EntityMaid maid, LocalPlayer player) {
         if (maid.isOwnedBy(player) && mainhandItem.is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.NAME) {
             return Component.translatable("overlay.touhou_little_maid_addon.book.tips")
-                    .append(Component.translatable("overlay.touhou_little_maid_addon.book.tips.start_y_offset").append(((IMaidAddon)maid).getStartYOffset$tlma().toString()));
+                    .append(Component.translatable("overlay.touhou_little_maid_addon.book.tips.start_y_offset").append(((IAddonMaid)maid).getStartYOffset$tlma().toString()));
         }
         return null;
     }

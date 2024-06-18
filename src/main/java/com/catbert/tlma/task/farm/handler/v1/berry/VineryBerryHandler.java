@@ -13,7 +13,7 @@ import static com.catbert.tlma.TLMAddon.LOGGER;
 public class VineryBerryHandler extends BerryHandler{
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        LOGGER.info("VineryBerryHandler handleCanHarvest");
+//        LOGGER.info("VineryBerryHandler handleCanHarvest");
         Block block = cropState.getBlock();
         return (block instanceof GrapeBush || block instanceof GrapeVineBlock) && cropState.getValue(GrapeBush.AGE) >= 3;
     }

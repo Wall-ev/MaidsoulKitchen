@@ -1,9 +1,8 @@
 package com.catbert.tlma.event;
 
 
-import com.catbert.tlma.api.IMaidAddon;
+import com.catbert.tlma.api.IAddonMaid;
 import com.catbert.tlma.task.farm.TaskFruitFarm;
-import com.catbert.tlma.util.MaidDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +21,7 @@ public class MaidNbtEvent {
 
         if (player.getMainHandItem().is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.NAME) {
             if (!maid.level().isClientSide) {
-                ((IMaidAddon)maid).setStartYOffset$tlma(((IMaidAddon) maid).getStartYOffset$tlma() + (player.isDiscrete() ? -1 : 1));
+                ((IAddonMaid)maid).setStartYOffset$tlma(((IAddonMaid) maid).getStartYOffset$tlma() + (player.isDiscrete() ? -1 : 1));
                 maid.refreshBrain((ServerLevel) maid.level());
             }
             event.setCanceled(true);
