@@ -80,7 +80,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         Container inventory = getContainer(blockEntity);
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
-        if (recipeIngredient == null) return;
+        if (hasInput(inventory) || recipeIngredient == null) return;
 
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);
 
@@ -89,7 +89,4 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
     }
 
     boolean beInnerCanCook(Container inventory, B be);
-//    Optional<R> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
-//    // 现在是否可以做饭（厨锅有没有正在做饭）
-//    boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
 }

@@ -92,7 +92,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack mealStack = inventory.getStackInSlot(getMealStackSlot());
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
-        if (!mealStack.isEmpty() || recipeIngredient == null) return;
+        if (hasInput(inventory) || !mealStack.isEmpty() || recipeIngredient == null) return;
 
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);
 

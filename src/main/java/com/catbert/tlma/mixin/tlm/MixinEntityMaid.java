@@ -5,6 +5,7 @@ import com.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,8 +26,10 @@ import java.lang.ref.WeakReference;
 @Mixin(value = EntityMaid.class, remap = false)
 public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowAttackMob, IMaid, IAddonMaid {
     private static final EntityDataAccessor<CompoundTag> MaidAddon_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final EntityDataAccessor<Integer> SEARCHY_OFFSET_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.INT);
+
     private static final String MAID_ADDON_TAG = "MaidAddonData";
-    private static final String START_Y_OFFSET_TAG = "StartYOffset";
+    private static final String SEARCHY_OFFSET_TAG = "SearchYOffset";
 
     private WeakReference<FakePlayer> fakePlayer;
 
@@ -36,8 +39,10 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 
     @Inject(at = @At("TAIL"), remap = true, method = "defineSynchedData()V")
     private void registerData$tlma(CallbackInfo ci) {
+//        CompoundTag compoundTag = new CompoundTag();
+//        compoundTag.putInt(SEARCHY_OFFSET_TAG, 4);
         entityData.define(MaidAddon_DATA, new CompoundTag());
-        setStartYOffset$tlma(4);
+        entityData.define(SEARCHY_OFFSET_DATA, 4);
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
@@ -46,6 +51,8 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         if (addonMaidDat != null) {
             compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
         }
+
+        compoundNBT.putInt(SEARCHY_OFFSET_TAG, this.entityData.get(SEARCHY_OFFSET_DATA));
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
@@ -53,24 +60,33 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         if (compoundNBT.contains(MAID_ADDON_TAG)) {
             setAddonMaidData(compoundNBT.getCompound(MAID_ADDON_TAG));
         }
+
+        if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
+            this.entityData.set(SEARCHY_OFFSET_DATA, compoundNBT.getInt(SEARCHY_OFFSET_TAG));
+        }
     }
 
+    @Override
     public CompoundTag getAddonMaidData() {
         return entityData.get(MaidAddon_DATA);
     }
 
+    @Override
     public void setAddonMaidData(CompoundTag nbt) {
         entityData.set(MaidAddon_DATA, nbt);
     }
 
     @Override
     public void setStartYOffset$tlma(int offset) {
-        getAddonMaidData().putInt(START_Y_OFFSET_TAG, offset);
+        this.entityData.set(SEARCHY_OFFSET_DATA, offset);
+//        getAddonMaidData().putInt(SEARCHY_OFFSET_TAG, offset);
     }
 
     @Override
     public Integer getStartYOffset$tlma() {
-        return getAddonMaidData().getInt(START_Y_OFFSET_TAG);
+        return this.entityData.get(SEARCHY_OFFSET_DATA);
+//        ??为啥在MaidOverlay不能实时获取呢？
+//        return getAddonMaidData().getInt(SEARCHY_OFFSET_TAG);
     }
 
     @Override

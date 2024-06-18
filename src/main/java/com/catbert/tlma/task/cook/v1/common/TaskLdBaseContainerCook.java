@@ -26,6 +26,5 @@ public abstract class TaskLdBaseContainerCook<B extends BlockEntity & Implemente
                 .getRecipeFor((RecipeType)getRecipeType(), be, world)
                 .orElse(null);
         return canCook(be, recipe);
-//        TikiBarRecipe recipeType = (TikiBarRecipe) world.getRecipeManager().getRecipeFor((RecipeType) RecipeRegistry.TIKI_BAR_RECIPE_TYPE.get(), be, world).orElse((Object) null);
     }
 }
