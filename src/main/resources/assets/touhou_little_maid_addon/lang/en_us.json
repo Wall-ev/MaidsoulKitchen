@@ -40,6 +40,9 @@
   "task.touhou_little_maid_addon.fruit_farm.desc": "Maid can harvest fruit",
   "task.touhou_little_maid_addon.sereneseasons_farm": "Sreneeasons Farm",
   "task.touhou_little_maid_addon.sereneseasons_farm.desc": "Maid can harvest sreneeasons crops",
-  "overlay.touhou_little_maid_addon.book.tips": "The item can change the fruit task maid starty offest",
-  "overlay.touhou_little_maid_addon.book.tips.start_y_offset": "StartYOffest: "
+
+  "overlay.touhou_little_maid_addon.book.tips": "The item can change the fruit task maid search yoffest",
+  "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
+
+  "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5"
 }

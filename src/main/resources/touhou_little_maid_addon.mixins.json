@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "com.catbert.tlma.mixin",
+  "package": "com.github.catbert.tlma.mixin",
   "refmap": "touhou_little_maid_addon.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
