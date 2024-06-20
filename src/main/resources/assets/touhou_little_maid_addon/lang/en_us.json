@@ -6,6 +6,8 @@
   "config.touhou_little_maid_addon.task.serene_seasons_farm_task.desc": "This can make the sereneseasons farm task enabled or not.",
   "config.touhou_little_maid_addon.task.fruit_farm_task.name": "Fruit Farm Task",
   "config.touhou_little_maid_addon.task.serene_seasons_farm_task.name": "SereneSeasons Farm Task",
+  "config.touhou_little_maid_addon.melon_stem_list.name": "Melon Stem List",
+  "config.touhou_little_maid_addon.melon_stem_list.desc": "These entries configure the melon stem list\nrule: §emelon_block_item_id§c,§eattached_melon_stem_block_id\nEg: §eminecraft:melon_block§c,§eminecraft:attached_melon_stem",
   "config.touhou_little_maid_addon.render.name": "Render",
   "config.touhou_little_maid_addon.render.ld_banner_render.desc": "Maid can render let's do Banner.",
   "config.touhou_little_maid_addon.render.ld_banner_render.name": "let's do banner",
@@ -40,6 +42,9 @@
   "task.touhou_little_maid_addon.fruit_farm.desc": "Maid can harvest fruit",
   "task.touhou_little_maid_addon.sereneseasons_farm": "Sreneeasons Farm",
   "task.touhou_little_maid_addon.sereneseasons_farm.desc": "Maid can harvest sreneeasons crops",
+  "task.touhou_little_maid_addon.compat_melon": "Melon(Compat)",
+  "task.touhou_little_maid_addon.compat_melon.desc": "Maid will harvest vanilla and other mods melon",
+  "task.touhou_little_maid_addon.compat_melon.condition.has_silk_touch": "Mainhand holds a silk touch tool causes the melon itself to drop",
 
   "overlay.touhou_little_maid_addon.book.tips": "The item can change the fruit task maid search yoffest",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
