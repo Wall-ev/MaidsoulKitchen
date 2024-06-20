@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ITaskCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
+public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level().isClientSide) return new ArrayList<>();

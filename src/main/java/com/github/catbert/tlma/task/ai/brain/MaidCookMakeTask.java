@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.task.ai.brain;
 
-import com.github.catbert.tlma.api.task.v1.cook.ITaskCook;
+import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -21,10 +21,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> {
-    private final ITaskCook<B, R> task;
+    private final ICookTask<B, R> task;
     private final MaidRecipesManager<R> maidRecipesManager;
 
-    public MaidCookMakeTask(ITaskCook<B, R> task, @Nullable MaidRecipesManager<R> maidRecipesManager) {
+    public MaidCookMakeTask(ICookTask<B, R> task, @Nullable MaidRecipesManager<R> maidRecipesManager) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.maidRecipesManager = maidRecipesManager;

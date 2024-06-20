@@ -32,9 +32,8 @@ public class TaskMelonEvent {
     public static void handleConfig(List<List<String>> config, Map<Block, Pair<Block, Item>> output) {
         output.clear();
         for (List<String> strings : config) {
-            if (strings.size() < 2) {
-                continue;
-            }
+            if (strings.size() < 2) continue;
+
             String melonId = strings.get(0);
             String stemId = strings.get(1);
 

@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.task.ai.brain;
 
-import com.github.catbert.tlma.api.task.v1.cook.ITaskCook;
+import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -21,25 +21,25 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private static final int MAX_DELAY_TIME = 120;
     private final float movementSpeed;
     private final int verticalSearchRange;
-    private final ITaskCook<B, R> task;
+    private final ICookTask<B, R> task;
     private MaidRecipesManager<R> maidRecipesManager;
     protected int verticalSearchStart;
     private final boolean single;
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task) {
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task) {
         this(maid, task, 0.5f, 2, false);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
         this(maid, task, 0.5f, 2, false);
         this.maidRecipesManager = maidRecipesManager;
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, float movementSpeed, boolean single) {
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, boolean single) {
         this(maid, task, movementSpeed, 2, single);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ITaskCook<B, R> task, float movementSpeed, int verticalSearchRange, boolean single) {
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, int verticalSearchRange, boolean single) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
