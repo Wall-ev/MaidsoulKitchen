@@ -43,8 +43,10 @@
   "task.touhou_little_maid_addon.sereneseasons_farm": "四季农场",
   "task.touhou_little_maid_addon.sereneseasons_farm.desc": "女仆会正确收获和种植四季作物",
   "task.touhou_little_maid_addon.compat_melon": "瓜类(兼容)",
-  "task.touhou_little_maid_addon.compat_melon.desc": "女仆会收获原版以及其他模组的瓜类",
+  "task.touhou_little_maid_addon.compat_melon.desc": "女仆会收获原版以及其他模组的瓜类,需要自行配置",
   "task.touhou_little_maid_addon.compat_melon.condition.has_silk_touch": "主手持有带有精准采集附魔的工具时，能够精准采集瓜",
+  "task.touhou_little_maid_addon.furnace": "熔炉",
+  "task.touhou_little_maid_addon.furnace.desc": "女仆会烹饪食物或者熔炼矿物等",
 
   "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值,\n检索范围为起始高度向上延伸2格,右击+1,潜行右击-1",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",

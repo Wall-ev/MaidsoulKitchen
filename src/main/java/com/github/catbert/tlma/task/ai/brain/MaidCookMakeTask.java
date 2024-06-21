@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> {
@@ -28,6 +29,12 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.maidRecipesManager = maidRecipesManager;
+    }
+
+    public MaidCookMakeTask(ICookTask<B, R> task) {
+        super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
+        this.task = task;
+        this.maidRecipesManager = null;
     }
 
     @Override

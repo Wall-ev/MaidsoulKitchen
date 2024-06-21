@@ -18,6 +18,7 @@
     "fd.MixinCookingPotBlockEntity",
     "herbal.MixinCauldronBlockEntity",
     "herbal.MixinTeaKettleBlockEntity",
+    "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
     "tlm.MixinGeckoLayerMaidBanner",

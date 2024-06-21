@@ -43,8 +43,10 @@
   "task.touhou_little_maid_addon.sereneseasons_farm": "Sreneeasons Farm",
   "task.touhou_little_maid_addon.sereneseasons_farm.desc": "Maid can harvest sreneeasons crops",
   "task.touhou_little_maid_addon.compat_melon": "Melon(Compat)",
-  "task.touhou_little_maid_addon.compat_melon.desc": "Maid will harvest vanilla and other mods melon",
+  "task.touhou_little_maid_addon.compat_melon.desc": "Maid will harvest vanilla and other mods melon, need to configer",
   "task.touhou_little_maid_addon.compat_melon.condition.has_silk_touch": "Mainhand holds a silk touch tool causes the melon itself to drop",
+  "task.touhou_little_maid_addon.furnace": "Furnace",
+  "task.touhou_little_maid_addon.furnace.desc": "Maid will cook food or blast ores ect",
 
   "overlay.touhou_little_maid_addon.book.tips": "The item can change the fruit task maid search yoffest",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
