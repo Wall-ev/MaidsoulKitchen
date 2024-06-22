@@ -193,6 +193,8 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             // to-do
             // 给女仆经验
         }
+
+        pickupAction(maid);
     }
 
     private boolean tryInsertFuel(CombinedInvWrapper availableInv, AbstractFurnaceBlockEntity furnace) {
@@ -236,6 +238,8 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             furnace.setChanged();
             break;
         }
+
+        pickupAction(maid);
     }
 
     private Optional<ItemStack> getCookable(EntityMaid maid, CombinedInvWrapper availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType) {
