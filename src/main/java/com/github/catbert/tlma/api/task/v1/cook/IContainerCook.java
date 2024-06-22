@@ -89,6 +89,7 @@ public interface IContainerCook extends IMaidAction {
 
     default void insertAndShrink(Container inventory, Integer amount, List<List<ItemStack>> ingredient, int ingredientIndex, int slotIndex) {
         for (ItemStack itemStack : ingredient.get(ingredientIndex)) {
+            if (itemStack.isEmpty()) continue;
             int count = itemStack.getCount();
 
             if (count >= amount) {
