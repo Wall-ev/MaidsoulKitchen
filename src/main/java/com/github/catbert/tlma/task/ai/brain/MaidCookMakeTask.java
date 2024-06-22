@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> {
@@ -59,7 +58,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockPos basePos = posWrapper.currentBlockPosition();
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
-            if (blockEntity != null) {
+            if (blockEntity != null && task.isCookBE(blockEntity)) {
                 task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
             }
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
