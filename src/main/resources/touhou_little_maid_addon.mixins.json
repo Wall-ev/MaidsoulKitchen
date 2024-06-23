@@ -10,6 +10,7 @@
   ],
   "mixins": [
     "bakery.MixinCookingPotBlockEntity",
+    "bakery.MixinStoveBlockEntity",
     "beachparty.MixinMiniFridgeBlockEntity",
     "beachparty.MixinTikiBarBlockEntity",
     "bnc.KegBlockEntityAccessor",

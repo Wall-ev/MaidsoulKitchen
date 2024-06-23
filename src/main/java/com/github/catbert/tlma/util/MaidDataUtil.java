@@ -79,6 +79,14 @@ public class MaidDataUtil {
         return -1;
     }
 
+    public static ItemStack findMaidInventoryStack(CombinedInvWrapper availableInv, Predicate<ItemStack> predicate) {
+        for (int i = 0; i < availableInv.getSlots(); ++i) {
+            ItemStack slotStack = availableInv.getStackInSlot(i);
+            if (!slotStack.isEmpty() && predicate.test(slotStack)) return slotStack;
+        }
+        return ItemStack.EMPTY;
+    }
+
     public static void consumerMaidInv(CombinedInvWrapper availableInv, Consumer<ItemStack> printConsumer) {
         for (int i = 0; i < availableInv.getSlots(); ++i) {
             ItemStack slotStack = availableInv.getStackInSlot(i);
