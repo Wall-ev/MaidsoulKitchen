@@ -120,13 +120,64 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
 
-        this.recipesIngredients = transform(_make);
+        this.recipesIngredients = transform(_make, available);
 
 //        LOGGER.info("MaidRecipesManager.createRecipesIngredients: " + this.maidInventory.getMaid());
 //        LOGGER.info(this.recipesIngredients);
     }
 
-    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList) {
+    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
+        for (Pair<List<Integer>, List<Item>> listListPair : new ArrayList<>(oriList)) {
+            List<Integer> first = listListPair.getFirst();
+            List<Item> second = listListPair.getSecond();
+
+            boolean canRepeat = true;
+            for (int i = 0; i < second.size(); i++) {
+                Integer availableCount = available.get(second.get(i));
+                if (availableCount < first.get(i)) {
+                    canRepeat = false;
+                    break;
+                }
+            }
+
+            if (canRepeat) {
+                for (int i = 0; i < second.size(); i++) {
+                    Item item = second.get(i);
+                    available.put(item, available.get(item) - first.get(i));
+                }
+                oriList.add(listListPair);
+            }
+        }
+    }
+
+//    private List<Pair<List<Integer>, List<Item>>> repeat(List<Pair<List<Integer>, List<Item>>> oriList) {
+//        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
+//        List<Pair<List<Integer>, List<Item>>> list = new ArrayList<>(oriList);
+//        for (Pair<List<Integer>, List<Item>> listListPair : oriList) {
+//            List<Integer> first = listListPair.getFirst();
+//            List<Item> second = listListPair.getSecond();
+//
+//            boolean canRepeat = true;
+//            for (int i = 0; i < second.size(); i++) {
+//                Integer availableCount = available.get(second.get(i));
+//                if (availableCount < first.get(i)) {
+//                    canRepeat = false;
+//                    break;
+//                }
+//            }
+//
+//            if (canRepeat) {
+//                for (int i = 0; i < second.size(); i++) {
+//                    Item item = second.get(i);
+//                    available.put(item, available.get(item) - first.get(i));
+//                }
+//                list.add(listListPair);
+//            }
+//        }
+//        return list;
+//    }
+
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
         Map<Item, List<ItemStack>> inventoryStack = this.maidInventory.getInventoryStack();
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
