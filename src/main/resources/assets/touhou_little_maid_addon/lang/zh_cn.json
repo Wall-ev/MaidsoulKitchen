@@ -7,7 +7,7 @@
   "config.touhou_little_maid_addon.task.fruit_farm_task.name": "水果农场任务",
   "config.touhou_little_maid_addon.task.serene_seasons_farm_task.name": "四季农场任务",
   "config.touhou_little_maid_addon.melon_stem_list.name": "瓜类瓜苗配置",
-  "config.touhou_little_maid_addon.melon_stem_list.desc": "这些条目配置了要采集的瓜\n规则: §e瓜的物品id§c,§e瓜苗的方块id\n例如: §eminecraft:melon_block§c,§eminecraft:attached_melon_stem",
+  "config.touhou_little_maid_addon.melon_stem_list.desc": "这些条目配置了要采集的瓜\n规则: §e瓜的物品id§c,§e瓜苗的方块id\n例如: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
   "config.touhou_little_maid_addon.render.name": "渲染",
   "config.touhou_little_maid_addon.render.ld_banner_render.desc": "女仆会渲染Let's do系列的旗帜",
   "config.touhou_little_maid_addon.render.ld_banner_render.name": "let's do旗帜",
@@ -60,7 +60,7 @@
   "task.touhou_little_maid_addon.furnace": "熔炉",
   "task.touhou_little_maid_addon.furnace.desc": "女仆会烹饪食物或者熔炼矿物等",
 
-  "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值,\n检索范围为起始高度向上延伸2格,右击+1,潜行右击-1",
+  "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值\n右击+1,潜行右击-1\n检索范围为起始高度向上延伸2格",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",
 
   "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5"

@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -91,7 +90,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return true;
     }
 
-    @Nullable
     public ItemStack getItemStack(Item item) {
         Map<Item, List<ItemStack>> inventoryStack = maidInventory.getInventoryStack();
         List<ItemStack> itemStacks = inventoryStack.get(item);
@@ -100,7 +98,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                 return itemStack;
             }
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     protected List<T> filterRecipes(List<T> recipes) {
