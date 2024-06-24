@@ -40,6 +40,11 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     }
 
     @Override
+    public boolean isEnable(EntityMaid maid) {
+        return true;
+    }
+
+    @Override
     public boolean isHeated(AbstractFurnaceBlockEntity be) {
         return true;
     }
