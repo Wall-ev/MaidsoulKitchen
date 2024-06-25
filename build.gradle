@@ -218,6 +218,7 @@ dependencies {
 
     implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
+//    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
 
     implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
     implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
