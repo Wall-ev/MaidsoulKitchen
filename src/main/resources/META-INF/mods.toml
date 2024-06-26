@@ -118,16 +118,16 @@ description='''${mod_description}'''
 #    versionRange="[1.1.5,)"
 #    ordering="NONE"
 #    side="BOTH"
-#[[dependencies.${mod_id}]]
-#    modId="bakery"
-#    mandatory=false
-#    versionRange="[1.1.11,)"
-#    ordering="NONE"
-#    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="bakery"
+    mandatory=false
+    versionRange="[1.1.12,)"
+    ordering="NONE"
+    side="BOTH"
 [[dependencies.${mod_id}]]
     modId="candlelight"
     mandatory=false
-    versionRange="[,1.2.12.1]"
+    versionRange="[1.2.13,)"
     ordering="NONE"
     side="BOTH"
 

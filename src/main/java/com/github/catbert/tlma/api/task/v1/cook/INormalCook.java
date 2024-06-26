@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.api.task.v1.bestate.IBaseCookItemHandlerBe;
+import com.github.catbert.tlma.task.cook.v1.common.bestate.IBaseCookItemHandlerBe;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;

@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.api.task.v1.bestate;
+package com.github.catbert.tlma.task.cook.v1.common.bestate;
 
 import com.github.catbert.tlma.api.ILdCbeAccessor;
 import com.github.catbert.tlma.api.task.v1.cook.IContainerCookBe;

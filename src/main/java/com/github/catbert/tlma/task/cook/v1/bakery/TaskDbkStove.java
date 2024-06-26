@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.bakery;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.api.task.v1.bestate.IFuelBe;
+import com.github.catbert.tlma.task.cook.v1.common.bestate.IFuelBe;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
@@ -12,28 +12,23 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import satisfy.bakery.block.entity.StoveBlockEntity;
-import satisfy.bakery.recipe.StoveRecipe;
-import satisfy.bakery.registry.ObjectRegistry;
-import satisfy.bakery.registry.RecipeTypeRegistry;
+import net.satisfy.bakery.block.entity.StoveBlockEntity;
+import net.satisfy.bakery.recipe.StoveRecipe;
+import net.satisfy.bakery.registry.ObjectRegistry;
+import net.satisfy.bakery.registry.RecipeTypeRegistry;
 
 import java.util.List;
 
-// 别问我，let's do自己的bug，明明熔炉是可燃烧的，但还需燃料槽里必须有物品才被判定为可制作。。。绝了
-//@LittleMaidExtension
+@LittleMaidExtension
 public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
 
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dkb_stove");
     protected static final int FUEL_SLOT = 4;
-    // 别问为什么，let's do就喜欢这么做....
-    public final List<Item> FUEL_ITEMS = List.of(Items.COAL, Items.CHARCOAL, Items.LAVA_BUCKET, Items.BLAZE_ROD);
 
     @Override
     public boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, StoveBlockEntity blockEntity, MaidRecipesManager<StoveRecipe> maidRecipesManager) {
@@ -51,7 +46,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
         boolean b = beInnerCanCook(inventory, blockEntity);
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
 //        LOGGER.info("recipe: {} {}",  b, recipesIngredients);
-        if (!b && !recipesIngredients.isEmpty() && beHasFuel(blockEntity) || maidHasFuel(availableInv)) {
+        if (!b && !recipesIngredients.isEmpty() && beHasFuel(blockEntity) || maidHasFuel(availableInv, blockEntity)) {
             return true;
         }
 
@@ -65,11 +60,11 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
     }
 
     protected boolean beHasFuel(StoveBlockEntity blockEntity) {
-        return ((IFuelBe)blockEntity).isBurning$tlma() || FUEL_ITEMS.contains(blockEntity.getItem(FUEL_SLOT).getItem());
+        return ((IFuelBe)blockEntity).isBurning$tlma() || ((IStoveBe)blockEntity).getTotalBurnTime$tlma(blockEntity.getItem(FUEL_SLOT)) > 0;
     }
 
-    protected boolean maidHasFuel(CombinedInvWrapper availableInv) {
-       return MaidDataUtil.findMaidInventoryItemStack(availableInv, itemStack -> FUEL_ITEMS.contains(itemStack.getItem())) > -1;
+    protected boolean maidHasFuel(CombinedInvWrapper availableInv, StoveBlockEntity blockEntity) {
+       return MaidDataUtil.findMaidInventoryItemStack(availableInv, itemStack -> ((IStoveBe)blockEntity).getTotalBurnTime$tlma(itemStack) > 0) > -1;
     }
 
     @Override
@@ -83,7 +78,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
 
     protected boolean fuelItemAction(EntityMaid entityMaid, StoveBlockEntity blockEntity) {
         ItemStack item = blockEntity.getItem(FUEL_SLOT);
-        if (((IFuelBe)blockEntity).isBurning$tlma() || FUEL_ITEMS.contains(item.getItem())) return true;
+        if (((IFuelBe)blockEntity).isBurning$tlma() || ((IStoveBe)blockEntity).getTotalBurnTime$tlma(item) > 0) return true;
 
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         if (!item.isEmpty()){
@@ -92,7 +87,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
             ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
             blockEntity.setChanged();
         }
-        ItemStack fuelStack = MaidDataUtil.findMaidInventoryStack(availableInv, itemStack -> FUEL_ITEMS.contains(itemStack.getItem()));
+        ItemStack fuelStack = MaidDataUtil.findMaidInventoryStack(availableInv, itemStack -> ((IStoveBe)blockEntity).getTotalBurnTime$tlma(itemStack) > 0);
         if (fuelStack.isEmpty()) {
             return false;
         }else {

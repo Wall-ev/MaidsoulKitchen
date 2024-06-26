@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.task.cook.v1.common;
 
-import com.github.catbert.tlma.api.task.v1.bestate.IBaseCookLdBe;
+import com.github.catbert.tlma.task.cook.v1.common.bestate.IBaseCookLdBe;
 import de.cristelknight.doapi.common.world.ImplementedInventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;

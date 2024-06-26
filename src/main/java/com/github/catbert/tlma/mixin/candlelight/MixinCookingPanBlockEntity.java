@@ -5,8 +5,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.crafting.Recipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import satisfy.candlelight.block.entity.CookingPanBlockEntity;
-import satisfy.candlelight.recipe.CookingPanRecipe;
+import net.satisfy.candlelight.block.entity.CookingPanBlockEntity;
+import net.satisfy.candlelight.recipe.CookingPanRecipe;
 
 @Mixin(value = CookingPanBlockEntity.class, remap = false)
 public abstract class MixinCookingPanBlockEntity implements ILdCbeAccessor<CookingPanBlockEntity, CookingPanRecipe> {
