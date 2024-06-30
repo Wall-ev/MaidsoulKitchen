@@ -5,6 +5,8 @@
   "refmap": "touhou_little_maid_addon.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "tlm.MixinEntityMaidRenderer",
+    "tlm.MixinGeckoEntityMaidRenderer"
   ],
   "server": [
   ],
@@ -22,8 +24,6 @@
     "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
-    "tlm.MixinGeckoLayerMaidBanner",
-    "tlm.MixinLayerMaidBanner",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"
   ]
