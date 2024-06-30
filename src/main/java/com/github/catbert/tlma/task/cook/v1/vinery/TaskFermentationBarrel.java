@@ -10,10 +10,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import satisfyu.vinery.block.entity.FermentationBarrelBlockEntity;
-import satisfyu.vinery.recipe.FermentationBarrelRecipe;
-import satisfyu.vinery.registry.ObjectRegistry;
-import satisfyu.vinery.registry.RecipeTypesRegistry;
+import net.satisfy.vinery.block.entity.FermentationBarrelBlockEntity;
+import net.satisfy.vinery.recipe.FermentationBarrelRecipe;
+import net.satisfy.vinery.registry.ObjectRegistry;
+import net.satisfy.vinery.registry.RecipeTypesRegistry;
 
 import java.util.List;
 import java.util.Map;

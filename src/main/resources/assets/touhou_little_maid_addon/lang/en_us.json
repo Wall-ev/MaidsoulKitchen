@@ -66,5 +66,10 @@
   "overlay.touhou_little_maid_addon.book.tips": "The book will change the working mode to the retrieval start height value of the maid of the fruit\nRight-click +1, stealth right-click -1\nThe search range is 2 blocks up from the starting height",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
 
-  "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5"
+  "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
+
+  "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
+  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook.",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.book.name": "Cook",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory."
 }

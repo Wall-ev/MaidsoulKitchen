@@ -66,5 +66,10 @@
   "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值\n右击+1,潜行右击-1\n检索范围为起始高度向上延伸2格",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",
 
-  "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5"
+  "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5",
+
+  "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "拓展",
+  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧.",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.book.name": "烹饪",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "女仆会使用模组厨具方块进行烹饪.\n你只需要把配方原料放入到女仆背包."
 }
