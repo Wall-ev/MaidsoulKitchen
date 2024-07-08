@@ -25,7 +25,7 @@ import static com.github.catbert.tlma.TLMAddon.LOGGER;
 
 // from:https://github.com/Lothrazar/Cyclic/blob/179e693db439a48822e2f47dfd0f86466f02063c/src/main/java/com/lothrazar/cyclic/block/user/TileUser.java#L84
 // 暂时先这样...再改...
-public class FakePlayerUtil {
+public final class FakePlayerUtil {
     private static final UUID ID = UUID.randomUUID();
 
     public static boolean isFakePlayer(Entity attacker) {

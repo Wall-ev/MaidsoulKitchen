@@ -10,7 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class CompatRegistry {
+public final class CompatRegistry {
     public static final String CLOTH_CONFIG = "cloth_config";
 
     @SubscribeEvent

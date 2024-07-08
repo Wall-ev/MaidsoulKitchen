@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class TaskMelonEvent {
+public final class TaskMelonEvent {
     private static final String CONFIG_NAME = TLMAddon.MOD_ID + "-common.toml";
 
     public static final Map<Block, Pair<Block, Item>> MELON_STEM_MAP = new HashMap<>();

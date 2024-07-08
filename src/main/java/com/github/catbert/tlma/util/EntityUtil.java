@@ -3,7 +3,7 @@ package com.github.catbert.tlma.util;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 
-public class EntityUtil {
+public final class EntityUtil {
 
     public static float getYawFromFacing(Direction currentFacing) {
         switch (currentFacing) {

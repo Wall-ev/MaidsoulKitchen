@@ -1,4 +1,6 @@
 {
+  "item.touhou_little_maid_addon.old_maid_backpack_big": "Old Maid Backpack",
+
   "config.touhou_little_maid_addon.task.name": "Task",
   "config.touhou_little_maid_addon.task.berry_farm_task.name": "Berry Farm Task",
   "config.touhou_little_maid_addon.chair.berry_farm_task.desc": "This can make the berry farm task enabled or not.",

@@ -17,7 +17,7 @@
 //import java.util.Map;
 //
 //@Mod.EventBusSubscriber
-//public class SeasonEvent {
+//public final class SeasonEvent {
 //
 //    public static Map<Level, List<TagKey<?>>> LevelSeasonData = new HashMap<>();
 //

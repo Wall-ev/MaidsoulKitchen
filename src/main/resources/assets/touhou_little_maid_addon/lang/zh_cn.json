@@ -1,4 +1,6 @@
 {
+  "item.touhou_little_maid_addon.old_maid_backpack_big": "旧版的大背包",
+
   "config.touhou_little_maid_addon.task.name": "任务",
   "config.touhou_little_maid_addon.task.berry_farm_task.name": "采集浆果任务",
   "config.touhou_little_maid_addon.chair.berry_farm_task.desc": "这会启用或禁用浆果农场任务",

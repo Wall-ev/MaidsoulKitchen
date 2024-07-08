@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class MaidDataUtil {
+public final class MaidDataUtil {
 
     public static final EntityDataAccessor<Integer> START_Y_OFFSET = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.INT);
 
