@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.herbal;
 
-import com.github.catbert.tlma.api.ILdCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.ILdCbeAccessor;
 import net.minecraft.core.RegistryAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

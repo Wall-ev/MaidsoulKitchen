@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.api;
+package com.github.catbert.tlma.task.cook.v1.common.cbaccessor;
 
 import de.cristelknight.doapi.common.world.ImplementedInventory;
 import net.minecraft.core.RegistryAccess;

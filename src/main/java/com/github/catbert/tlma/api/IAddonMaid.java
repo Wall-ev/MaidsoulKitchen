@@ -11,9 +11,9 @@ public interface IAddonMaid {
 
     void initFakePlayer$tlma();
 
-    CompoundTag getAddonMaidData();
+    CompoundTag getAddonMaidData$tlma();
 
-    void setAddonMaidData(CompoundTag nbt);
+    void setAddonMaidData$tlma(CompoundTag nbt);
 
     void setStartYOffset$tlma(int offset);
     Integer getStartYOffset$tlma();

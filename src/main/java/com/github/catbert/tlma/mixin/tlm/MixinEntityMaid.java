@@ -60,7 +60,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 
     @Inject(at = @At("TAIL"), remap = true, method = "addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     private void writeAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
-        CompoundTag addonMaidDat = getAddonMaidData();
+        CompoundTag addonMaidDat = getAddonMaidData$tlma();
         if (addonMaidDat != null) {
             compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
         }
@@ -71,7 +71,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     @Inject(at = @At("TAIL"), remap = true, method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     private void readAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
         if (compoundNBT.contains(MAID_ADDON_TAG)) {
-            setAddonMaidData(compoundNBT.getCompound(MAID_ADDON_TAG));
+            setAddonMaidData$tlma(compoundNBT.getCompound(MAID_ADDON_TAG));
         }
 
         if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
@@ -80,12 +80,12 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     }
 
     @Override
-    public CompoundTag getAddonMaidData() {
+    public CompoundTag getAddonMaidData$tlma() {
         return entityData.get(MaidAddon_DATA);
     }
 
     @Override
-    public void setAddonMaidData(CompoundTag nbt) {
+    public void setAddonMaidData$tlma(CompoundTag nbt) {
         entityData.set(MaidAddon_DATA, nbt);
     }
 

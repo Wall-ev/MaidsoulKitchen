@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.bakery;
 
-import com.github.catbert.tlma.api.ILdCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.ILdCbeAccessor;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IFuelBe;
 import com.github.catbert.tlma.task.cook.v1.bakery.IStoveBe;
 import net.minecraft.core.RegistryAccess;

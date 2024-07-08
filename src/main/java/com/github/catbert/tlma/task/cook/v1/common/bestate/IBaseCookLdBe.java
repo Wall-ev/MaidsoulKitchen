@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.task.cook.v1.common.bestate;
 
-import com.github.catbert.tlma.api.ILdCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.ILdCbeAccessor;
 import com.github.catbert.tlma.api.task.v1.cook.IContainerCookBe;
 import de.cristelknight.doapi.common.world.ImplementedInventory;
 import net.minecraft.world.Container;

@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.yhc;
 
-import com.github.catbert.tlma.api.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotRecipe;
 import net.minecraftforge.items.wrapper.RecipeWrapper;

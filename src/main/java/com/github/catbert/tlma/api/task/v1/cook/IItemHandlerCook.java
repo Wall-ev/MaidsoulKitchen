@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.api.IMaidAction;
+import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;

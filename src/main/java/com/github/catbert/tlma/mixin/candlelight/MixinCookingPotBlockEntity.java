@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.candlelight;
 
-import com.github.catbert.tlma.api.ILdCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.ILdCbeAccessor;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.crafting.Recipe;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.api.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IBaseCookItemHandlerBe;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IHeatBe;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
