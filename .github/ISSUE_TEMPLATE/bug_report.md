@@ -1,47 +1,38 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug] "
-labels: ["bug"]
-assignees:
-- Azumic
-  body:
-- type: markdown
-  attributes:
-  value: |
-  Thanks for taking the time to fill out this bug report!
-- type: checkboxes
-  id: version
-  attributes:
-  label: Minecraft Version
-  description: The version of Minecraft you are use
-  options:
-  - label: "1.20/1.20.1"
-  validations:
-  required: true
-- type: textarea
-  id: what-happened
-  attributes:
-  label: What happened?
-  description: How do you trigger this bug? Please walk us through it step by step.
-  value: |
-  1.
-  2.
-  3.
-  validations:
-  required: true
-- type: textarea
-  id: logs
-  attributes:
-  label: Relevant log output
-  description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-  render: shell
-  validations:
-  required: false
-- type: input
-  id: contact
-  attributes:
-  label: Contact Details
-  description: How can we get in touch with you if we need more info?
-  placeholder: ex. email@example.com
-  validations:
-  required: false
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
+
+---
+
+**Describe the bug**
+A clear and concise description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Desktop (please complete the following information):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
+
+**Smartphone (please complete the following information):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
+
+**Additional context**
+Add any other context about the problem here.
