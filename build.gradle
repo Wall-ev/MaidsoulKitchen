@@ -202,7 +202,11 @@ dependencies {
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
     runtimeOnly fg.deobf("curse.maven:kiwi-303657:${kiwi_file_id}")
 
+    runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770828")
+
     implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
+
+    implementation fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
 
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
