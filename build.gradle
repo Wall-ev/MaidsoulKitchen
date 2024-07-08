@@ -206,6 +206,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
+    implementation fg.deobf("curse.maven:my-nethers-delight-1003673:${my_nethers_delight_file_id}")
     implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
     compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
         transitive = false

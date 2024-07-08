@@ -19,7 +19,7 @@ public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
 
     @Override
     public boolean canLoaded() {
-        return Mods.YHC.isLoaded;
+        return Mods.YHCD.isLoaded;
     }
 
     @Override

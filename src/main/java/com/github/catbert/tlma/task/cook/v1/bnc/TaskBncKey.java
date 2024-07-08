@@ -25,7 +25,7 @@ public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
 
     @Override
     public boolean canLoaded() {
-        return Mods.BNC.isLoaded;
+        return Mods.BNCD.isLoaded;
     }
 
     @Override
