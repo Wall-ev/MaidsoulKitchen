@@ -39,8 +39,9 @@ public enum Mods {
     DB("drinkbeer"),
     KK("kitchenkarrot"),
 
-    SS("sereneseasons");
+    TWT("thirst"),
 
+    SS("sereneseasons");
 
     public final String modId;
     public final boolean isLoaded;
