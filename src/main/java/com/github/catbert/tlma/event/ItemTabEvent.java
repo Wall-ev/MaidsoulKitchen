@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = TLMAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ItemTabEvent {
     @SubscribeEvent
-    public void buildContents(BuildCreativeModeTabContentsEvent event) {
+    public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == InitCreativeTabs.MAIN_TAB.getKey()){
             InitItems.ITEMS.getEntries().stream().filter(RegistryObject::isPresent).forEach(entry -> event.accept(entry.get()));
         }
