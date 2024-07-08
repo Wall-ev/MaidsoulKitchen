@@ -15,4 +15,5 @@ public class TLMAddon {
     public TLMAddon() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, GeneralConfig.init());
     }
+
 }
