@@ -55,7 +55,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
      * @param maid 女仆对象
      * @return 条件名（用于自动生成对应的 key）和对应条件布尔值的组合列表
      */
-    default List<Pair<String, Predicate<EntityMaid>>> getEnableDescription(EntityMaid maid) {
+    default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
         return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
     }
 

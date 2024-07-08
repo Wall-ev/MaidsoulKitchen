@@ -187,6 +187,10 @@ repositories {
     maven {
         url "https://maven.shedaniel.me/"
     }
+
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -214,7 +218,7 @@ dependencies {
     implementation fg.deobf("curse.maven:convivium-905776:${convivium_file_id}")
     implementation fg.deobf("curse.maven:caupona-656147:${caupona_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-//    implementation files("lib/crockpot-1.0.0.jar")
+    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
 
     implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
@@ -228,6 +232,10 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
     implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
+
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    implementation fg.deobf("curse.maven:l2library-620203:5447286")
+    implementation fg.deobf("curse.maven:modulargolems-690937:5476223")
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
