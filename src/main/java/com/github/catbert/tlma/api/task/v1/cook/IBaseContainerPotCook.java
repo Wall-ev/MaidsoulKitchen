@@ -20,10 +20,13 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
         Container inventory = getContainer(blockEntity);
-        ItemStack outputStack = inventory.getItem(getOutputSlot());
-        // 有最终物品
-//        LOGGER.info("outputStack: {} ", outputStack);
-        if (!outputStack.isEmpty()) {
+//        ItemStack outputStack = inventory.getItem(getOutputSlot());
+//        // 有最终物品
+////        LOGGER.info("outputStack: {} ", outputStack);
+//        if (!outputStack.isEmpty()) {
+//            return true;
+//        }
+        if (canTakeOutput(inventory, blockEntity)) {
             return true;
         }
 
@@ -38,11 +41,20 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
 
         // 能做饭现在和有输入（也就是厨锅现在有物品再里面但是不符合配方
 //        LOGGER.info("hasInput: {} {}", b, hasInput(inventory));
-        if (!b && hasInput(inventory)) {
+        if (inputCanTake(b, inventory)) {
             return true;
         }
 
         return false;
+    }
+
+    default boolean inputCanTake(boolean beInnerCanCook, Container inventory){
+        return !beInnerCanCook && hasInput(inventory);
+    }
+
+    default boolean canTakeOutput(Container inventory, B be) {
+        // 有最终物品
+        return !inventory.getItem(getOutputSlot()).isEmpty();
     }
 
     default void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
@@ -66,7 +78,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         boolean heated = isHeated(blockEntity);
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
-        if (!b && hasInput(inventory)) {
+        if (inputCanTake(b, inventory)) {
             extractInputStack(inventory, availableInv, blockEntity);
         }
 

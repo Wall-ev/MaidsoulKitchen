@@ -18,6 +18,7 @@
     "bnc.KegBlockEntityAccessor",
     "candlelight.MixinCookingPanBlockEntity",
     "candlelight.MixinCookingPotBlockEntity",
+    "drinkbeer.BeerBarrelBlockAccessor",
     "fd.MixinCookingPotBlockEntity",
     "herbal.MixinCauldronBlockEntity",
     "herbal.MixinTeaKettleBlockEntity",
