@@ -244,6 +244,11 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     }
 
     @Override
+    public boolean inputCanTake(boolean beInnerCanCook, Container inventory) {
+        return hasInput(inventory);
+    }
+
+    @Override
     public void extractInputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
         for (int i = this.getInputStartSlot(); i < this.getInputSize() + this.getInputStartSlot(); ++i) {
             ItemStack stackInSlot = inventory.getItem(i);

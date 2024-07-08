@@ -41,11 +41,15 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
 
         // 能做饭现在和有输入（也就是厨锅现在有物品再里面但是不符合配方
 //        LOGGER.info("hasInput: {} {}", b, hasInput(inventory));
-        if (hasInput(inventory)) {
+        if (inputCanTake(b, inventory)) {
             return true;
         }
 
         return false;
+    }
+
+    default boolean inputCanTake(boolean beInnerCanCook, Container inventory){
+        return !beInnerCanCook && hasInput(inventory);
     }
 
     default boolean canTakeOutput(Container inventory, B be) {
@@ -74,7 +78,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         boolean heated = isHeated(blockEntity);
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
-        if (hasInput(inventory)) {
+        if (inputCanTake(b, inventory)) {
             extractInputStack(inventory, availableInv, blockEntity);
         }
 
