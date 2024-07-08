@@ -49,6 +49,7 @@ jobs:
       - name: Send file to Release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ secrets.GITHUBTOKEN }}
           tag_name: snapshot-${{ steps.create_timestamp.outputs.timestamp }}
           body: ${{ github.event.head_commit.message }}
           draft: false
