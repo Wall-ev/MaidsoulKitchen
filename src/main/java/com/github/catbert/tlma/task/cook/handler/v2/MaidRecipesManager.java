@@ -17,6 +17,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
     private final RecipeType<T> recipeType;
     private final boolean single;
+    private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
     public MaidRecipesManager(EntityMaid maid, RecipeType<T> recipeType, boolean single) {
@@ -108,7 +109,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private void createRecipesIngredients() {
         this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
-        recipesIngredients = new ArrayList<>();
+//        recipesIngredients = new ArrayList<>();
 
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
@@ -120,32 +121,37 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
 
+        repeat(_make, available, this.repeatTimes);
+
         this.recipesIngredients = transform(_make, available);
 
-//        LOGGER.info("MaidRecipesManager.createRecipesIngredients: " + this.maidInventory.getMaid());
+//        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
 //        LOGGER.info(this.recipesIngredients);
     }
 
-    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
-        for (Pair<List<Integer>, List<Item>> listListPair : new ArrayList<>(oriList)) {
-            List<Integer> first = listListPair.getFirst();
-            List<Item> second = listListPair.getSecond();
+    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
+        ArrayList<Pair<List<Integer>, List<Item>>> oriPairs = new ArrayList<>(oriList);
+        for (int l = 0; l < times; l++) {
+            for (Pair<List<Integer>, List<Item>> listListPair : oriPairs) {
+                List<Integer> first = listListPair.getFirst();
+                List<Item> second = listListPair.getSecond();
 
-            boolean canRepeat = true;
-            for (int i = 0; i < second.size(); i++) {
-                Integer availableCount = available.get(second.get(i));
-                if (availableCount < first.get(i)) {
-                    canRepeat = false;
-                    break;
-                }
-            }
-
-            if (canRepeat) {
+                boolean canRepeat = true;
                 for (int i = 0; i < second.size(); i++) {
-                    Item item = second.get(i);
-                    available.put(item, available.get(item) - first.get(i));
+                    Integer availableCount = available.get(second.get(i));
+                    if (availableCount < first.get(i)) {
+                        canRepeat = false;
+                        break;
+                    }
                 }
-                oriList.add(listListPair);
+
+                if (canRepeat) {
+                    for (int i = 0; i < second.size(); i++) {
+                        Item item = second.get(i);
+                        available.put(item, available.get(item) - first.get(i));
+                    }
+                    oriList.add(listListPair);
+                }
             }
         }
     }
@@ -260,5 +266,13 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     private void shuffle(List<T> recipes) {
         Collections.shuffle(recipes);
+    }
+
+    public void setRepeatTimes(int repeatTimes) {
+        this.repeatTimes = repeatTimes;
+    }
+
+    public int getRepeatTimes() {
+        return repeatTimes;
     }
 }
