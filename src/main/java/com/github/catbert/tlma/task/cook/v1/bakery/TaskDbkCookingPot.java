@@ -10,10 +10,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import satisfy.bakery.block.entity.CookingPotBlockEntity;
-import satisfy.bakery.recipe.CookingPotRecipe;
-import satisfy.bakery.registry.RecipeTypeRegistry;
-import satisfy.bakery.registry.ObjectRegistry;
+import net.satisfy.bakery.block.entity.CookingPotBlockEntity;
+import net.satisfy.bakery.recipe.CookingPotRecipe;
+import net.satisfy.bakery.registry.RecipeTypeRegistry;
+import net.satisfy.bakery.registry.ObjectRegistry;
 
 import java.util.List;
 import java.util.Map;

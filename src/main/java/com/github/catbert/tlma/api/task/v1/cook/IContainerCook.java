@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.api.IMaidAction;
+import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -89,6 +89,7 @@ public interface IContainerCook extends IMaidAction {
 
     default void insertAndShrink(Container inventory, Integer amount, List<List<ItemStack>> ingredient, int ingredientIndex, int slotIndex) {
         for (ItemStack itemStack : ingredient.get(ingredientIndex)) {
+            if (itemStack.isEmpty()) continue;
             int count = itemStack.getCount();
 
             if (count >= amount) {

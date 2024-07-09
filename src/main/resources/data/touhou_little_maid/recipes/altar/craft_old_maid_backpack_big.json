@@ -1,0 +1,33 @@
+{
+  "type": "touhou_little_maid:altar_crafting",
+  "output": {
+    "type": "minecraft:item",
+    "nbt": {
+      "Item": {
+        "id": "touhou_little_maid_addon:old_maid_backpack_big",
+        "Count": 1
+      }
+    }
+  },
+  "power": 0.3,
+  "ingredients": [
+    {
+      "item": "minecraft:black_wool"
+    },
+    {
+      "item": "minecraft:black_wool"
+    },
+    {
+      "item": "minecraft:black_wool"
+    },
+    {
+      "item": "minecraft:black_wool"
+    },
+    {
+      "tag": "forge:gems/diamond"
+    },
+    {
+      "item": "minecraft:black_wool"
+    }
+  ]
+}

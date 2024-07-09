@@ -191,6 +191,10 @@ repositories {
     maven {
         url "https://maven.shedaniel.me/"
     }
+
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -202,10 +206,15 @@ dependencies {
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
     runtimeOnly fg.deobf("curse.maven:kiwi-303657:${kiwi_file_id}")
 
+    runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770828")
+
     implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
+
+    implementation fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
 
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
+    implementation fg.deobf("curse.maven:my-nethers-delight-1003673:${my_nethers_delight_file_id}")
     implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
     compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
         transitive = false
@@ -218,10 +227,11 @@ dependencies {
     implementation fg.deobf("curse.maven:convivium-905776:${convivium_file_id}")
     implementation fg.deobf("curse.maven:caupona-656147:${caupona_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-//    implementation files("lib/crockpot-1.0.0.jar")
+    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
 
     implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
+//    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
 
     implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
     implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
@@ -230,6 +240,10 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
     implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
+
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    implementation fg.deobf("curse.maven:l2library-620203:5447286")
+    implementation fg.deobf("curse.maven:modulargolems-690937:5476223")
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")

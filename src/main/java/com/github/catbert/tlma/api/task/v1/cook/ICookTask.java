@@ -19,7 +19,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
 
@@ -45,6 +47,29 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
     default double getCloseEnoughDist() {
         return 3.2;
+    }
+
+    /**
+     * 获取任务启用的条件提示文本
+     *
+     * @param maid 女仆对象
+     * @return 条件名（用于自动生成对应的 key）和对应条件布尔值的组合列表
+     */
+    default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
+        return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
+    }
+
+    /**
+     * 默认好感度二级才可以启用任务
+     * 当然得等酒石酸把这个用上去才会生效...
+     */
+    @Override
+    default boolean isEnable(EntityMaid maid) {
+        return hasEnoughFavor(maid);
+    }
+
+    default boolean hasEnoughFavor(EntityMaid maid) {
+        return maid.getFavorability() >= 1;
     }
 
     boolean isCookBE(BlockEntity blockEntity);

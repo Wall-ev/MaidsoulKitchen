@@ -10,9 +10,10 @@ public enum Mods {
      */
     FD("farmersdelight"),
     MD("miners_delight"),
+    MND("mynethersdelight"),
     CD("cuisinedelight"),
-    YHC("youkaishomecoming"),
-    BNC("brewinandchewin"),
+    YHCD("youkaishomecoming"),
+    BNCD("brewinandchewin"),
 
     /*
         Let's DO
@@ -38,8 +39,9 @@ public enum Mods {
     DB("drinkbeer"),
     KK("kitchenkarrot"),
 
-    SS("sereneseasons");
+    TWT("thirst"),
 
+    SS("sereneseasons");
 
     public final String modId;
     public final boolean isLoaded;

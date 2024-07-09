@@ -10,7 +10,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -18,6 +17,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
     private final RecipeType<T> recipeType;
     private final boolean single;
+    private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
     public MaidRecipesManager(EntityMaid maid, RecipeType<T> recipeType, boolean single) {
@@ -91,7 +91,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return true;
     }
 
-    @Nullable
     public ItemStack getItemStack(Item item) {
         Map<Item, List<ItemStack>> inventoryStack = maidInventory.getInventoryStack();
         List<ItemStack> itemStacks = inventoryStack.get(item);
@@ -100,7 +99,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                 return itemStack;
             }
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     protected List<T> filterRecipes(List<T> recipes) {
@@ -110,7 +109,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private void createRecipesIngredients() {
         this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
-        recipesIngredients = new ArrayList<>();
+//        recipesIngredients = new ArrayList<>();
 
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
@@ -122,13 +121,69 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
 
-        this.recipesIngredients = transform(_make);
+        repeat(_make, available, this.repeatTimes);
 
-//        LOGGER.info("MaidRecipesManager.createRecipesIngredients: " + this.maidInventory.getMaid());
+        this.recipesIngredients = transform(_make, available);
+
+//        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
 //        LOGGER.info(this.recipesIngredients);
     }
 
-    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList) {
+    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
+        ArrayList<Pair<List<Integer>, List<Item>>> oriPairs = new ArrayList<>(oriList);
+        for (int l = 0; l < times; l++) {
+            for (Pair<List<Integer>, List<Item>> listListPair : oriPairs) {
+                List<Integer> first = listListPair.getFirst();
+                List<Item> second = listListPair.getSecond();
+
+                boolean canRepeat = true;
+                for (int i = 0; i < second.size(); i++) {
+                    Integer availableCount = available.get(second.get(i));
+                    if (availableCount < first.get(i)) {
+                        canRepeat = false;
+                        break;
+                    }
+                }
+
+                if (canRepeat) {
+                    for (int i = 0; i < second.size(); i++) {
+                        Item item = second.get(i);
+                        available.put(item, available.get(item) - first.get(i));
+                    }
+                    oriList.add(listListPair);
+                }
+            }
+        }
+    }
+
+//    private List<Pair<List<Integer>, List<Item>>> repeat(List<Pair<List<Integer>, List<Item>>> oriList) {
+//        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
+//        List<Pair<List<Integer>, List<Item>>> list = new ArrayList<>(oriList);
+//        for (Pair<List<Integer>, List<Item>> listListPair : oriList) {
+//            List<Integer> first = listListPair.getFirst();
+//            List<Item> second = listListPair.getSecond();
+//
+//            boolean canRepeat = true;
+//            for (int i = 0; i < second.size(); i++) {
+//                Integer availableCount = available.get(second.get(i));
+//                if (availableCount < first.get(i)) {
+//                    canRepeat = false;
+//                    break;
+//                }
+//            }
+//
+//            if (canRepeat) {
+//                for (int i = 0; i < second.size(); i++) {
+//                    Item item = second.get(i);
+//                    available.put(item, available.get(item) - first.get(i));
+//                }
+//                list.add(listListPair);
+//            }
+//        }
+//        return list;
+//    }
+
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
         Map<Item, List<ItemStack>> inventoryStack = this.maidInventory.getInventoryStack();
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
@@ -211,5 +266,13 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     private void shuffle(List<T> recipes) {
         Collections.shuffle(recipes);
+    }
+
+    public void setRepeatTimes(int repeatTimes) {
+        this.repeatTimes = repeatTimes;
+    }
+
+    public int getRepeatTimes() {
+        return repeatTimes;
     }
 }

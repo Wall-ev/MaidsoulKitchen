@@ -3,9 +3,7 @@ package com.github.catbert.tlma.task.cook.handler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +27,22 @@ public class MaidInventory {
         List<Integer> blackSlots = getBlackSlots();
         for (int i = 0; i < availableInv.getSlots(); i++) {
             ItemStack stack = availableInv.getStackInSlot(i);
-            lastInvStack.add(stack);
+            proseLastInvStack(i, stack);
             if (blackSlots.contains(i)) continue;
             if (stack.isEmpty()) continue;
             add(stack);
         }
+    }
+
+    private void proseLastInvStack(int index, ItemStack invStack) {
+        if (index < lastInvStack.size()) {
+            ItemStack cacheStack = lastInvStack.get(index);
+            if (cacheStack.is(invStack.getItem()) && cacheStack != invStack) {
+                cacheStack.setCount(invStack.getCount());
+                return;
+            }
+        }
+        lastInvStack.add(invStack.copy());
     }
 
     private void clearCacheStackInfo() {

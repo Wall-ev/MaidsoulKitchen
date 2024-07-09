@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.md;
 
-import com.github.catbert.tlma.api.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Mixin;

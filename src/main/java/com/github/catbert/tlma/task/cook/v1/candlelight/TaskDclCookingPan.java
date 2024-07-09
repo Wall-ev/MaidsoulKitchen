@@ -10,10 +10,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import satisfy.candlelight.block.entity.CookingPanBlockEntity;
-import satisfy.candlelight.recipe.CookingPanRecipe;
-import satisfy.candlelight.registry.ObjectRegistry;
-import satisfy.candlelight.registry.RecipeTypeRegistry;
+import net.satisfy.candlelight.block.entity.CookingPanBlockEntity;
+import net.satisfy.candlelight.recipe.CookingPanRecipe;
+import net.satisfy.candlelight.registry.ObjectRegistry;
+import net.satisfy.candlelight.registry.RecipeTypeRegistry;
 
 import java.util.List;
 import java.util.Map;

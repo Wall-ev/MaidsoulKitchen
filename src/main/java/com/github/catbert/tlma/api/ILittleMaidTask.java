@@ -16,12 +16,4 @@ public interface ILittleMaidTask extends ILittleMaid, IMaidTask {
 
     boolean canLoaded();
 
-    /**
-     * 默认好感度二级才可以启用任务
-     * 当然得等酒石酸把这个用上去才会生效...
-     */
-    @Override
-    default boolean isEnable(EntityMaid maid) {
-        return maid.getFavorability() >= 2;
-    }
 }

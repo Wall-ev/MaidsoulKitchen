@@ -30,6 +30,12 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
         this.maidRecipesManager = maidRecipesManager;
     }
 
+    public MaidCookMakeTask(ICookTask<B, R> task) {
+        super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
+        this.task = task;
+        this.maidRecipesManager = null;
+    }
+
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid maid) {
         Brain<EntityMaid> brain = maid.getBrain();
@@ -52,7 +58,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockPos basePos = posWrapper.currentBlockPosition();
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
-            if (blockEntity != null) {
+            if (blockEntity != null && task.isCookBE(blockEntity)) {
                 task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
             }
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());

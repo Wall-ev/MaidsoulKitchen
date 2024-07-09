@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.api.task.v2;
 
-import com.github.catbert.tlma.api.IFhCbeAccessor;
-import com.github.catbert.tlma.api.IMaidAction;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;

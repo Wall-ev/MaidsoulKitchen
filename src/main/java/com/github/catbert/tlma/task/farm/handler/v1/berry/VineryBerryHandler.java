@@ -5,8 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import satisfyu.vinery.block.grape.GrapeBush;
-import satisfyu.vinery.block.grape.GrapeVineBlock;
+import net.satisfy.vinery.block.grape.GrapeBush;
+import net.satisfy.vinery.block.grape.GrapeVineBlock;
 
 public class VineryBerryHandler extends BerryHandler{
     @Override
