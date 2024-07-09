@@ -5,6 +5,7 @@
   "refmap": "touhou_little_maid_addon.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "tlm.client.MixinAbstractMaidContainerGui"
   ],
   "server": [
   ],
@@ -20,8 +21,8 @@
     "herbal.MixinTeaKettleBlockEntity",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
-    "tlm.MixinGeckoLayerMaidBanner",
-    "tlm.MixinLayerMaidBanner",
+    "tlm.client.MixinGeckoLayerMaidBanner",
+    "tlm.client.MixinLayerMaidBanner",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"
   ]

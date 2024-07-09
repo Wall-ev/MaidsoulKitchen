@@ -49,5 +49,9 @@
   "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值,\n检索范围为起始高度向上延伸2格,右击+1,潜行右击-1",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",
 
-  "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5"
+  "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5",
+
+  "gui.touhou_little_maid_addon.btn.task_setting": "任务设置",
+  "gui.touhou_little_maid_addon.btn.task_book": "任务手册",
+  "gui.touhou_little_maid_addon.btn.task_info": "任务信息"
 }

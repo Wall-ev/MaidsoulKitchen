@@ -49,5 +49,9 @@
   "overlay.touhou_little_maid_addon.book.tips": "The item can change the fruit task maid search yoffest",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
 
-  "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5"
+  "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
+
+  "gui.touhou_little_maid_addon.btn.task_setting": "Task Setting",
+  "gui.touhou_little_maid_addon.btn.task_book": "Task Book",
+  "gui.touhou_little_maid_addon.btn.task_info": "Task Info"
 }

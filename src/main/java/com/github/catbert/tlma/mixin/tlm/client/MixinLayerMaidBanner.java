@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.mixin.tlm;
+package com.github.catbert.tlma.mixin.tlm.client;
 
 import com.github.catbert.tlma.config.subconfig.RenderConfig;
 import com.github.catbert.tlma.foundation.utility.Mods;
