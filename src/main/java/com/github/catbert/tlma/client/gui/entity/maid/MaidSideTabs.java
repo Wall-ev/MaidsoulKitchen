@@ -5,6 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractM
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
+
 //209, 107
 // +26, 21, 74
 public class MaidSideTabs<T extends AbstractMaidContainer> {
@@ -22,7 +24,9 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         int i = 0;
         MaidSideTabButton setting = new MaidSideTabButton(rightPos, topPos, 107, (b) -> {
 //                NetworkHandler.CHANNEL.sendToServer(new ToggleTabMessage(entityId, TabIndex.MAIN))
-        }, Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"));
+        }, List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_setting.desc"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
 //        if (screen instanceof IBackpackContainerScreen) {
 //            setting.active = false;
 //        }
@@ -30,7 +34,9 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
 
         MaidSideTabButton book = new MaidSideTabButton(rightPos, topPos + i * 25, 107 + i * 25, (b) -> {
 //                NetworkHandler.CHANNEL.sendToServer(new ToggleTabMessage(entityId, TabIndex.CONFIG)));
-        }, Component.translatable("gui.touhou_little_maid_addon.btn.task_book"));
+        }, List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_book"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_book.desc"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
 //        if (screen instanceof MaidConfigContainerGui) {
 //            book.active = false;
 //        }
@@ -38,7 +44,9 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
 
         MaidSideTabButton info = new MaidSideTabButton(rightPos, topPos + i * 25, 107 + i * 25, (b) -> {
 //                NetworkHandler.CHANNEL.sendToServer(new ToggleTabMessage(entityId, TabIndex.CONFIG)));
-        }, Component.translatable("gui.touhou_little_maid_addon.btn.task_info"));
+        }, List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_info"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_info.desc"),
+                Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
 //        if (screen instanceof MaidConfigContainerGui) {
 //            info.active = false;
 //        }

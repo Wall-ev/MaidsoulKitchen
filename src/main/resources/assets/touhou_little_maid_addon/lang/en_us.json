@@ -72,8 +72,13 @@
 
 
   "gui.touhou_little_maid_addon.btn.task_setting": "Task Setting",
+  "gui.touhou_little_maid_addon.btn.task_setting.desc": " -§a used to configer task, for example various of cooking task",
   "gui.touhou_little_maid_addon.btn.task_book": "Task Book",
+  "gui.touhou_little_maid_addon.btn.task_book.desc": " -§a used to open the task book entry from memorizable gensokyo",
   "gui.touhou_little_maid_addon.btn.task_info": "Task Info",
+  "gui.touhou_little_maid_addon.btn.task_info.desc": " -§a used to display simple info",
+  "gui.touhou_little_maid_addon.btn.task_warn_text": " -§c is dev, hope, wish",
+
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook.",

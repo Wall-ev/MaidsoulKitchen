@@ -46,7 +46,7 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     @Override
     public ItemStack getIcon() {
-        return PotionUtils.setPotion(Items.GLASS_BOTTLE.getDefaultInstance(), Potions.EMPTY);
+        return PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER);
     }
 
     @Nullable

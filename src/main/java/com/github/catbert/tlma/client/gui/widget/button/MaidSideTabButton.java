@@ -8,15 +8,18 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.List;
+import java.util.Optional;
+
 public class MaidSideTabButton extends Button {
     private static final ResourceLocation RIGHT_SIDE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/maid_gui_right_side.png");
-    private final Component title;
+    private final List<Component> tooltips;
     private final int top;
 
-    public MaidSideTabButton(int x, int y, int top, OnPress onPressIn, Component title) {
+    public MaidSideTabButton(int x, int y, int top, OnPress onPressIn, List<Component> tooltips) {
         super(Button.builder(Component.empty(), onPressIn).pos(x, y).size(26, 24));
         this.top = top;
-        this.title = title;
+        this.tooltips = tooltips;
     }
 
 
@@ -34,8 +37,7 @@ public class MaidSideTabButton extends Button {
 
     public void renderToolTip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
         if (this.isHovered()) {
-            graphics.renderTooltip(mc.font, this.title, mouseX, mouseY);
+            graphics.renderTooltip(mc.font, this.tooltips, Optional.empty(), mouseX, mouseY);
         }
     }
-
 }
