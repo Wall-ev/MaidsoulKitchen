@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.mixin.tlm;
+package com.github.catbert.tlma.mixin.tlm.client;
 
 import com.github.catbert.tlma.api.IAddonMaidRenderer;
 import com.github.catbert.tlma.client.renderer.entity.layer.LayerMaidLDBanner;

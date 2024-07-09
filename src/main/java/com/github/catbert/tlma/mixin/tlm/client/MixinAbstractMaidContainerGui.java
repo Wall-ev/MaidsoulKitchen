@@ -38,6 +38,11 @@ public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContai
         }
     }
 
+    @Inject(at = @At("TAIL"), method = "renderBg")
+    private void renderBg$tlma(GuiGraphics graphics, float partialTicks, int x, int y, CallbackInfo ci) {
+        this.drawSideTabGui(graphics, partialTicks, x, y);
+    }
+
     @SuppressWarnings("unchecked")
     private void addSideTabsButton() {
         MaidSideTabs<T> maidTabs = new MaidSideTabs<>(maid.getId(), leftPos, topPos);
@@ -46,14 +51,7 @@ public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContai
             this.addRenderableWidget(button);
         }
     }
-
-    @Inject(at = @At("TAIL"), method = "renderBg")
-    private void renderBg$tlma(GuiGraphics graphics, float partialTicks, int x, int y, CallbackInfo ci) {
-        this.drawSideTabGui(graphics, partialTicks, x, y);
-    }
-
     private void drawSideTabGui(GuiGraphics graphics, float partialTicks, int x, int y){
-//        graphics.pose().translate(0, 0, 200);
         graphics.blit(RIGHT_SIDE, leftPos + 251 + 5, topPos + 26 + 7, 235, 107, 21, 74);
     }
 

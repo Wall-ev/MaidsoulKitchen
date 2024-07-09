@@ -5,9 +5,9 @@
   "refmap": "touhou_little_maid_addon.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "tlm.client.MixinAbstractMaidContainerGui"
-    "tlm.MixinEntityMaidRenderer",
-    "tlm.MixinGeckoEntityMaidRenderer"
+    "tlm.client.MixinAbstractMaidContainerGui",
+    "tlm.client.MixinEntityMaidRenderer",
+    "tlm.client.MixinGeckoEntityMaidRenderer"
   ],
   "server": [
   ],
