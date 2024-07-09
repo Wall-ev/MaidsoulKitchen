@@ -64,6 +64,11 @@
   "task.touhou_little_maid_addon.compat_melon.condition.has_silk_touch": "Mainhand holds a silk touch tool causes the melon itself to drop",
   "task.touhou_little_maid_addon.furnace": "Furnace",
   "task.touhou_little_maid_addon.furnace.desc": "Maid will cook food or blast ores ect",
+  "task.touhou_little_maid_addon.feedanddrink": "Feed",
+  "task.touhou_little_maid_addon.feedanddrink.desc": "Maid will feed the hunger or thirst owner ",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel": "Beer Barrel",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel.desc": "Maid can cook food by use the drinkbeer beerbarrel",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "Maid favor level >= 1",
 
   "overlay.touhou_little_maid_addon.book.tips": "The book will change the working mode to the retrieval start height value of the maid of the fruit\nRight-click +1, stealth right-click -1\nThe search range is 2 blocks up from the starting height",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",

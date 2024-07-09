@@ -64,6 +64,12 @@
   "task.touhou_little_maid_addon.compat_melon.condition.has_silk_touch": "主手持有带有精准采集附魔的工具时，能够精准采集瓜",
   "task.touhou_little_maid_addon.furnace": "熔炉",
   "task.touhou_little_maid_addon.furnace.desc": "女仆会烹饪食物或者熔炼矿物等",
+  "task.touhou_little_maid_addon.feedanddrink": "喂食",
+  "task.touhou_little_maid_addon.feedanddrink.desc": "女仆会主动投喂周围饥饿和渴的主人",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel": "啤酒桶",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel.desc": "女仆会使用和啤酒啦的啤酒桶酿酒",
+  "task.touhou_little_maid_addon.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
+
 
   "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值\n右击+1,潜行右击-1\n检索范围为起始高度向上延伸2格",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",
