@@ -70,8 +70,14 @@
 
   "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5",
 
+
+  "gui.touhou_little_maid_addon.btn.task_setting": "任务设置",
+  "gui.touhou_little_maid_addon.btn.task_book": "任务手册",
+  "gui.touhou_little_maid_addon.btn.task_info": "任务信息"
+
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "拓展",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧.",
   "patchouli.touhou_little_maid_addon.book.entries.addon.book.name": "烹饪",
   "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "女仆会使用模组厨具方块进行烹饪.\n你只需要把配方原料放入到女仆背包."
+
 }

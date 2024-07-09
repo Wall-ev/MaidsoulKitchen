@@ -70,8 +70,14 @@
 
   "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
 
+
+  "gui.touhou_little_maid_addon.btn.task_setting": "Task Setting",
+  "gui.touhou_little_maid_addon.btn.task_book": "Task Book",
+  "gui.touhou_little_maid_addon.btn.task_info": "Task Info"
+
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook.",
   "patchouli.touhou_little_maid_addon.book.entries.addon.book.name": "Cook",
   "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory."
+
 }
