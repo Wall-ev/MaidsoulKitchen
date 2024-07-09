@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidBackpack;
 import com.github.catbert.tlma.client.model.backpack.OldBigBackpackModel;
 import com.github.catbert.tlma.init.InitItems;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IMaidBackpack;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityTombstone;
@@ -89,7 +90,7 @@ public class OldBigBackpack extends IMaidBackpack implements ILittleMaidBackpack
     @Override
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getBackpackTexture() {
-        return new ResourceLocation(TLMAddon.MOD_ID, "textures/entity/old_maid_backpack_big.png");
+        return new ResourceLocation(TouhouLittleMaid.MOD_ID, "textures/entity/old_maid_backpack_big.png");
     }
 
     @OnlyIn(Dist.CLIENT)

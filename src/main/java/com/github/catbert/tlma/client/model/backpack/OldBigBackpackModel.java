@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.client.model.backpack;
 
-import com.github.catbert.tlma.TLMAddon;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
 public class OldBigBackpackModel  extends EntityModel<EntityMaid> {
-    public static ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation(TLMAddon.MOD_ID, "main"), "old_backpack_big");
+    public static ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation(TouhouLittleMaid.MOD_ID, "main"), "old_backpack_big");
     private final ModelPart bone;
 
     public OldBigBackpackModel(ModelPart root) {
