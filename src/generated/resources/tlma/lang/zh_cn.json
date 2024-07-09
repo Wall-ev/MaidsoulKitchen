@@ -1,0 +1,39 @@
+{
+  "gui.tlmintegration.button.bed.true": "睡觉点已设置.",
+  "gui.tlmintegration.button.bed.false": "睡觉点未设置.",
+  "gui.tlmintegration.button.bed.desc": "§7点击设置女仆睡觉点.",
+  "gui.tlmintegration.button.rest.true": "休息点已设置.",
+  "gui.tlmintegration.button.rest.false": "休息点未设置.",
+  "gui.tlmintegration.button.rest.desc": "§7点击设置女仆休息点.",
+  "gui.tlmintegration.wireless_io.farm_mode": "§7Switch Farm Mode.",
+
+
+
+  "header.tlmintegration.patchouli_books.title.food_all": "所有食物",
+
+  "task.tlmintegration.furnace": "熔炉",
+  "task.tlmintegration.furnace.desc": "女仆会烧制食物或者熔炼矿物等.",
+  "task.tlmintegration.cooking_pot": "厨锅",
+  "task.tlmintegration.cooking_pot.desc": "女仆会通过厨锅烹饪食物.",
+  "task.tlmintegration.berries": "浆果",
+  "task.tlmintegration.berries.desc": "女仆会采摘浆果.",
+  "task.tlmintegration.fruit_tree": "果树",
+  "task.tlmintegration.fruit_tree.desc": "女仆会采摘水果.",
+
+  "item.tlmintegration.crock_pot_cert": "厨锅证书",
+  "item.tlmintegration.crock_pot_guide": "厨锅指南",
+
+  "item.tlmintegration.lumberjack_cert": "伐木证书",
+  "item.tlmintegration.miner_cert": "矿工证书",
+  "item.tlmintegration.furnace_cert": "熔炉证书",
+  "item.tlmintegration.fisher_cert": "钓师证书",
+  "item.tlmintegration.furnace_guide": "熔炉指南",
+  "item.tlmintegration.hammer_guide": "破坏指南",
+  "item.tlmintegration.potion_guide": "药水指南",
+
+  "gui.tlmintegration.crock_pot_guide_mode": "当前模式: %s",
+  "gui.tlm_integration.cook_guide": "烹饪指南",
+  "gui.tlm_integration.cook_guide.mode_now": "随机",
+  "gui.tlm_integration.cook_guide.select": "全部"
+
+}

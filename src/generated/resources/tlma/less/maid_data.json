@@ -1,0 +1,148 @@
+{
+  MaidIsHome: 1b,
+  Brain: {
+    memories: {}
+  },
+  HurtByTimestamp: 0,
+  Owner: [
+    I
+    ;
+    940439953,
+    -167562164,
+    -1601161573,
+    -1389718966
+  ],
+  MaidTrueHomeMode: 1b,
+  Attributes: [
+    {
+      Base: 0.08d,
+      Name: "forge:entity_gravity"
+    },
+    {
+      Base: 2.0d,
+      Name: "minecraft:generic.attack_damage"
+    },
+    {
+      Base: 0.0d,
+      Name: "forge:step_height_addition"
+    },
+    {
+      Base: 0.699999988079071d,
+      Name: "minecraft:generic.movement_speed"
+    }
+  ],
+  Invulnerable: 0b,
+  AbsorptionAmount: 0.0f,
+  FallDistance: 0.0f,
+  InLove: 0,
+  CanUpdate: 1b,
+  StruckByLightning: 0b,
+  HandDropChances: [
+    0.085f,
+    0.085f
+  ],
+  PersistenceRequired: 0b,
+  UUID: [
+    I
+    ;
+    -938906471,
+    -1112913791,
+    -1758488325,
+    -1701405020
+  ],
+  SoundPackId: "touhou_little_maid",
+  MaidIsRestCenter: 0b,
+  MaidBaubleInventory: {
+    Size: 9,
+    Items: []
+  },
+  Air: 300s,
+  MaidBackpackLevel: 3,
+  MaidRestMode: 1b,
+  HandItems: [
+    {
+      id: "minecraft:netherite_hoe",
+      Count: 1b,
+      tag: {
+        Damage: 0
+      }
+    },
+    {}
+  ],
+  ArmorDropChances: [
+    0.085f,
+    0.085f,
+    0.085f,
+    0.085f
+  ],
+  MaidHunger: 0,
+  Pos: [
+    -79.30053418875114d,
+    74.9375d,
+    -102.82997817158288d
+  ],
+  MaidTask: "touhou_little_maid:farm",
+  MaidIsPickup: 1b,
+  CanPickUpLoot: 0b,
+  MaidFavorability: 0,
+  HurtTime: 0s,
+  MaidTrueRestrictCenter: {
+    X: -82,
+    Y: 74,
+    Z: -102
+  },
+  Sitting: 1b,
+  FallFlying: 0b,
+  ForcedAge: 0,
+  PortalCooldown: 0,
+  DeathTime: 0s,
+  MaidRestrictCenter: {
+    X: -82,
+    Y: 74,
+    Z: -102
+  },
+  MaidExperience: 0,
+  MaidRestCenter: {
+    X: -84,
+    Y: 72,
+    Z: -125
+  },
+  Age: 0,
+  ModelId: "touhou_little_maid:hakurei_reimu",
+  Motion: [
+    0.0d,
+    -0.0784000015258789d,
+    0.0d
+  ],
+  Health: 20.0f,
+  MaidIsRideable: 1b,
+  LeftHanded: 0b,
+  OnGround: 1b,
+  Rotation: [
+    222.8926f,
+    39.21499f
+  ],
+  MaidInventory: {
+    Size: 36,
+    Items: [
+      {
+        Slot: 0,
+        id: "farmersdelight:onion",
+        Count: 41b
+      },
+      {
+        Slot: 1,
+        id: "minecraft:potato",
+        Count: 3b
+      }
+    ]
+  },
+  Fire: -1s,
+  ArmorItems: [
+    {},
+    {},
+    {},
+    {}
+  ],
+  MaidScheduleMode: "DAY"
+}
