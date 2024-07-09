@@ -59,7 +59,7 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
     @Override
     @SuppressWarnings("unchecked")
     public MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, getRecipeType(), false) {
+        return new MaidRecipesManager<>(maid, this, false) {
             @Override
             protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();

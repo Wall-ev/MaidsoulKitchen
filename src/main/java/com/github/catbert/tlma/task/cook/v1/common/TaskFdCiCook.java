@@ -145,7 +145,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
 
     @Override
     public MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, getRecipeType(), false) {
+        return new MaidRecipesManager<>(maid, this, false) {
             @Override
             protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
                 return rmTransform(this.getMaidInventory().getInventoryStack(), oriList);

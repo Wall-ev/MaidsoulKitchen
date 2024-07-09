@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 @Mixin(AbstractMaidContainerGui.class)
 public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContainer> extends AbstractContainerScreen<T> {
 
-    @Shadow @Final @Nullable private EntityMaid maid;
+    @Shadow(remap = false) @Final @Nullable private EntityMaid maid;
     private static final ResourceLocation RIGHT_SIDE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/maid_gui_right_side.png");
 
 

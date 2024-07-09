@@ -11,6 +11,7 @@ import com.sammy.minersdelight.setup.MDBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
@@ -49,7 +50,7 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
 
     @Override
     public MaidRecipesManager<CookingPotRecipe> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, getRecipeType(), false) {
+        return new MaidRecipesManager<>(maid, this, false) {
             @Override
             protected List<CookingPotRecipe> filterRecipes(List<CookingPotRecipe> recipes) {
                 return recipes.stream().filter(cookingPotRecipe -> {
@@ -57,6 +58,13 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
                 }).toList();
             }
         };
+    }
+
+    @Override
+    public List<CookingPotRecipe> getRecipes(Level level) {
+        return super.getRecipes(level).stream().filter(cookingPotRecipe -> {
+            return cookingPotRecipe.getIngredients().size() <= 4;
+        }).toList();
     }
 
     @Override

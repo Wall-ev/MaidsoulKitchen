@@ -15,11 +15,11 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -36,7 +36,12 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, getRecipeType(), false);
+        return new MaidRecipesManager<>(maid, this, false);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    default List<R> getRecipes(Level level) {
+        return level.getRecipeManager().getAllRecipesFor((RecipeType)getRecipeType());
     }
 
     @Nullable

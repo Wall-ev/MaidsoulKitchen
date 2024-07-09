@@ -68,7 +68,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 
     private void processRecipeManager(EntityMaid maid) {
         if (maidRecipesManager == null){
-            maidRecipesManager = new MaidRecipesManager<>(maid, task.getRecipeType(), single, true);
+            maidRecipesManager = new MaidRecipesManager<>(maid, task, single, true);
         }else {
             this.maidRecipesManager.checkAndCreateRecipesIngredients(maid);
         }

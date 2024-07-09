@@ -245,6 +245,10 @@ dependencies {
     implementation fg.deobf("curse.maven:l2library-620203:5447286")
     implementation fg.deobf("curse.maven:modulargolems-690937:5476223")
 
+    runtimeOnly "curse.maven:kotlin-for-forge-351264:${kotlin_id}"
+    runtimeOnly fg.deobf("curse.maven:libipn-679177:${libipn_id}")
+    implementation fg.deobf("curse.maven:inventory-profiles-next-495267:${ipn_id}")
+
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")

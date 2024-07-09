@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.farm;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 @LittleMaidExtension
-public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask {
+public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
 
     @Override

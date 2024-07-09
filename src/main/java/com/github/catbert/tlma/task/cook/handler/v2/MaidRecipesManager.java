@@ -1,5 +1,6 @@
 package com.github.catbert.tlma.task.cook.handler.v2;
 
+import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
@@ -9,25 +10,26 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.*;
 
 public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
-    private final RecipeType<T> recipeType;
+    private final ICookTask<?, T> task;
     private final boolean single;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
-    public MaidRecipesManager(EntityMaid maid, RecipeType<T> recipeType, boolean single) {
-        this(maid, recipeType, single, false);
+    public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
+        this(maid, task, single, false);
     }
 
-    public MaidRecipesManager(EntityMaid maid, RecipeType<T> recipeType, boolean single, boolean createRecIng) {
+    public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single, boolean createRecIng) {
         this.maidInventory = new MaidInventory(maid);
-        this.recipeType = recipeType;
         this.single = single;
+        this.task = task;
 
         if (createRecIng) {
             this.createRecipesIngredients();
@@ -42,11 +44,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return maidInventory;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     private List<T> getAllRecipesFor() {
-        List<T> allRecipesFor = this.maidInventory.getMaid().level().getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
+//        List<T> allRecipesFor = this.maidInventory.getMaid().level().getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
+        Level level = this.maidInventory.getMaid().level();
+        List<T> allRecipesFor = task.getRecipes(level);
         allRecipesFor = new ArrayList<>(allRecipesFor);
-        allRecipesFor = filterRecipes(allRecipesFor);
+//        allRecipesFor = filterRecipes(allRecipesFor);
         shuffle(allRecipesFor);
         return allRecipesFor;
     }

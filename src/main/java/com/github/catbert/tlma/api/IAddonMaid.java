@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.api;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
 
 import java.lang.ref.WeakReference;
@@ -15,7 +17,12 @@ public interface IAddonMaid {
 
     void setAddonMaidData$tlma(CompoundTag nbt);
 
-    void setStartYOffset$tlma(int offset);
     Integer getStartYOffset$tlma();
+
+    void setStartYOffset$tlma(int offset);
+
+    boolean openMaidGuiFromSideTab(Player player, int tabIndex);
+
+    MenuProvider getGuiProviderFromSideTab(int tabIndex);
 
 }

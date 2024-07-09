@@ -11,12 +11,12 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 
-public class CookConfigContainer extends AbstractMaidContainer {
-    public static final MenuType<CookConfigContainer> TYPE = IForgeMenuType.create((windowId, inv, data) -> new CookConfigContainer(windowId, inv, data.readInt()));
+public class CookSettingContainer extends AbstractMaidContainer {
+    public static final MenuType<CookSettingContainer> TYPE = IForgeMenuType.create((windowId, inv, data) -> new CookSettingContainer(windowId, inv, data.readInt()));
 
     private static final int PLAYER_INVENTORY_SIZE = 27;
 
-    public CookConfigContainer(int id, Inventory inventory, int entityId) {
+    public CookSettingContainer(int id, Inventory inventory, int entityId) {
         super(TYPE, id, inventory, entityId);
     }
 
@@ -24,12 +24,12 @@ public class CookConfigContainer extends AbstractMaidContainer {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Config Container");
+                return Component.literal("Maid Cook Setting Container");
             }
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer(index, playerInventory, entityId);
+                return new CookSettingContainer(index, playerInventory, entityId);
             }
         };
     }

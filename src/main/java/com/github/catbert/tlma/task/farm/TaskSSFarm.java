@@ -2,6 +2,7 @@ package com.github.catbert.tlma.task.farm;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -20,7 +21,7 @@ import sereneseasons.api.season.SeasonHelper;
 import java.util.List;
 
 @LittleMaidExtension
-public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask {
+public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "sereneseasons_farm");
 
     @Override

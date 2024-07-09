@@ -2,6 +2,7 @@ package com.github.catbert.tlma.task.farm;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
@@ -18,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import static com.github.catbert.tlma.event.TaskMelonEvent.MELON_STEM_MAP;
 
 @LittleMaidExtension
-public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask {
+public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "compat_melon");
 
     @Override

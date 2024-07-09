@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.mixin.tlm;
 
 import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -10,11 +11,15 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -90,16 +95,16 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     }
 
     @Override
-    public void setStartYOffset$tlma(int offset) {
-        this.entityData.set(SEARCHY_OFFSET_DATA, offset);
-//        getAddonMaidData().putInt(SEARCHY_OFFSET_TAG, offset);
-    }
-
-    @Override
     public Integer getStartYOffset$tlma() {
         return this.entityData.get(SEARCHY_OFFSET_DATA);
 //        ??为啥在MaidOverlay不能实时获取呢？
 //        return getAddonMaidData().getInt(SEARCHY_OFFSET_TAG);
+    }
+
+    @Override
+    public void setStartYOffset$tlma(int offset) {
+        this.entityData.set(SEARCHY_OFFSET_DATA, offset);
+//        getAddonMaidData().putInt(SEARCHY_OFFSET_TAG, offset);
     }
 
     @Override
@@ -111,6 +116,23 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     public void initFakePlayer$tlma() {
         if (fakePlayer == null) {
             this.fakePlayer = FakePlayerUtil.setupBeforeTrigger((ServerLevel) level(), this.getName().getString(), this);
+        }
+    }
+
+    public boolean openMaidGuiFromSideTab(Player player, int tabIndex) {
+        if (player instanceof ServerPlayer && !this.isSleeping()) {
+            this.navigation.stop();
+            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeInt(getId()));
+        }
+        return true;
+    }
+
+    public MenuProvider getGuiProviderFromSideTab(int tabIndex) {
+        switch (tabIndex) {
+            case 0:
+                return CookSettingContainer.create(getId());
+            default:
+                return this.getMaidBackpackType().getGuiProvider(getId());
         }
     }
 }

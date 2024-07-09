@@ -1,6 +1,7 @@
 package com.github.catbert.tlma;
 
 import com.github.catbert.tlma.config.GeneralConfig;
+import com.github.catbert.tlma.init.InitContainer;
 import com.github.catbert.tlma.init.InitItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -23,6 +24,7 @@ public final class TLMAddon {
     private static void initRegister() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         InitItems.ITEMS.register(modEventBus);
+        InitContainer.CONTAINER_TYPE.register(modEventBus);
     }
 
     private static void initOtherRegister() {
