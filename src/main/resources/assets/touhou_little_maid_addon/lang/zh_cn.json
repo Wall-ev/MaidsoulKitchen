@@ -84,6 +84,12 @@
   "gui.touhou_little_maid_addon.btn.task_info": "任务信息",
   "gui.touhou_little_maid_addon.btn.task_info.desc": " -§a 用于简单显示该任务的信息",
   "gui.touhou_little_maid_addon.btn.task_warn_text": " -§c 还在开发中,敬请期待",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random": "随机",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected": "定向",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc": "切换女仆烹饪规则: 随机烹饪",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc": "切换女仆烹饪规则: 定向烹饪",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "当前任务: %s",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "当前烹饪配方类型: %s",
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "拓展",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧.",

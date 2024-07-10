@@ -12,10 +12,7 @@ import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
 import com.github.catbert.tlma.task.TaskFeedAndDrinkOwner;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.TabIndex;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
-//import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
-import com.github.tartaricacid.touhoulittlemaid.network.message.ToggleTabMessage;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -30,13 +27,13 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
     public MaidSideTabs(int entityId, int rightPos, int topPos) {
         this.entityId = entityId;
         this.rightPos = rightPos + 251;
-        this.topPos = topPos + 26 + 7;
+        this.topPos = topPos + 28 + 9;
     }
 
-    private void settingBtnPress(AbstractMaidContainerGui<T> screen){
+    private void settingBtnPress(AbstractMaidContainerGui<T> screen) {
         IMaidTask task = screen.getMaid().getTask();
 
-        if (task instanceof ICookTask<?,?>){
+        if (task instanceof ICookTask<?, ?>) {
             NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(entityId, SideTabIndex.SETTING.getIndex()));
         } else if (task instanceof ICompatFarm<?>) {
 
@@ -46,7 +43,7 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
 
         } else if (task instanceof ILittleMaidTask) {
 
-        }else {
+        } else {
 
         }
     }

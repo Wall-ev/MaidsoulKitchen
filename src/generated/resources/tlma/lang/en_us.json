@@ -38,5 +38,11 @@
   "tooltips.tlmintegration.chefwireless.mode.input": "Mode : Storage food",
   "gui.tlm_integration.cook_guide": "Cook Guide",
   "gui.tlm_integration.cook_guide.mode_now": "Random",
-  "gui.tlm_integration.cook_guide.select": "Select"
+  "gui.tlm_integration.cook_guide.select": "Select",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random": "Ran",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected": "Selected",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc": "Change maid cook rule: Radom Cook",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc": "Change maid cook rule: Selected Cook",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "Now Task：%s",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "Now Cook RecipeType: %s"
 }

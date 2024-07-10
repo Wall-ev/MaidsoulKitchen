@@ -83,11 +83,17 @@
   "gui.touhou_little_maid_addon.btn.task_info": "Task Info",
   "gui.touhou_little_maid_addon.btn.task_info.desc": " -§a used to display simple info",
   "gui.touhou_little_maid_addon.btn.task_warn_text": " -§c is dev, hope, wish",
-
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random": "Ran",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected": "Sel",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc": "Change maid cook rule: Random Cook",
+  "gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc": "Change maid cook rule: Selected Cook",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "Now Task: %s",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "Now Cook RecipeType: %s",
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook.",
   "patchouli.touhou_little_maid_addon.book.entries.addon.book.name": "Cook",
   "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory."
+
 
 }

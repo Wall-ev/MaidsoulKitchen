@@ -2,15 +2,19 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
+import com.github.catbert.tlma.client.gui.widget.button.NormalTooltipButton;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.StateSwitchingButton;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
@@ -22,6 +26,7 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,14 +37,13 @@ import java.util.List;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerScreen{
+public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerScreen {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private int left;
     private int top;
     private int solIndex = 0;
     private List<ItemStack> list = Collections.emptyList();
-
     private int rowSpacing;
     private int colSpacing;
     private int numRows;
@@ -78,11 +82,29 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
         addResultStackButtons();
         addScrollButton();
+        addTypeButton();
+    }
+
+    private void addTypeButton() {
+        MutableComponent randomComponent = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.random");
+        List<Component> randomTooltip = List.of(Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc"));
+        int randomButtonWidth = font.width(randomComponent) + 4;
+        MutableComponent selectedComponent = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.selected");
+        List<Component> selectedTooltip = List.of(Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc"));
+        int selectedButtonWidth = font.width(selectedComponent) + 4;
+
+        int startX = width - leftPos - 5 - randomButtonWidth - selectedButtonWidth;
+        int startY = top + 8;
+
+        NormalTooltipButton randomBtn = new NormalTooltipButton(startX, startY, randomButtonWidth, 15, randomComponent, randomTooltip, b -> {});
+        NormalTooltipButton selectedBtn = new NormalTooltipButton(startX + selectedButtonWidth, startY, selectedButtonWidth, 15, selectedComponent, selectedTooltip, b -> {});
+
+        this.addRenderableWidget(randomBtn);
+        this.addRenderableWidget(selectedBtn);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(graphics, mouseX, mouseY, partialTicks);
         if (getMaid() != null) {
             drawTaskTitleBar(graphics, mouseX, mouseY, partialTicks);
 
@@ -95,13 +117,40 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                 drawScrollSide(graphics, startX + 1, startY + 8 + 1);
             }
         }
+        super.render(graphics, mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        super.renderTooltip(graphics, mouseX, mouseY);
+        this.renderItemStackTooltips(getMinecraft(), graphics, mouseX, mouseY);
+        this.renderTaskBarTooltip(graphics, mouseX, mouseY);
+    }
+
+    private void renderTaskBarTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        int startX = left + 6;
+        int startY = top + 4;
+        IMaidTask task = getMaid().getTask();
+        boolean taskWidgetHovered = mouseX >= startX && mouseY >= startY && mouseX < startX + 70 && mouseY < startY + 20;
+        if (taskWidgetHovered) {
+            List<Component> components = new ArrayList<>();
+            components.add(Component.translatable("gui.touhou_little_maid_addon.widget.cook_guide.task.desc", task.getName()));
+            if (task instanceof ICookTask<?, ?> maidTask) {
+                RecipeType<?> recipeType = maidTask.getRecipeType();
+                String typeString = recipeType.toString();
+
+                components.add(CommonComponents.SPACE);
+                components.add(Component.translatable("gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
+            }
+            graphics.renderComponentTooltip(getMinecraft().font, components, mouseX, mouseY);
+        }
     }
 
     private void drawScrollSide(GuiGraphics graphics, int startX, int startY) {
         if ((this.list.size() - 1) / (numCols * numRows) > 1) {
             graphics.blit(TEXTURE, startX, startY + (int) ((92 - 11) * getCurrentScroll()), 189, 64, 7, 9);
         } else {
-            graphics.blit(TEXTURE, startX, startY,196, 64, 7, 9);
+            graphics.blit(TEXTURE, startX, startY, 196, 64, 7, 9);
         }
     }
 
@@ -111,20 +160,22 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-//        if (delta != 0) {
-//            // 向上滚
-//            if (delta > 0 && solIndex > 0) {
-//                solIndex--;
-//                this.init();
-//                return true;
-//            }
-//            // 向下滚
-//            if (delta < 0 && solIndex < (this.list.size() - 1) / (numCols * numRows)){
-//                solIndex++;
-//                this.init();
-//                return true;
-//            }
-//        }
+        // 176, 137
+        boolean isCookSettingMainZone = mouseX >= left && mouseY >= top && mouseX < left + 176 && mouseY < top + 137;
+        if (delta != 0 && isCookSettingMainZone) {
+            // 向上滚
+            if (delta > 0 && solIndex > 0) {
+                solIndex--;
+                this.init();
+                return true;
+            }
+            // 向下滚
+            if (delta < 0 && solIndex < (this.list.size() - 1) / (numCols * numRows)){
+                solIndex++;
+                this.init();
+                return true;
+            }
+        }
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
@@ -149,7 +200,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
     //6, 4
-    private void drawTaskTitleBar(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks){
+    private void drawTaskTitleBar(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         int startX = left + 6;
         int startY = top + 4;
         IMaidTask task = getMaid().getTask();
@@ -185,7 +236,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
     private void renderChildren(ItemStack stack, boolean b, int x, int y) {
 
-        StateSwitchingButton showChatBubble = new StateSwitchingButton(x, y, rowWidth, colHeight, b) {
+        StateSwitchingButton resultStackBtn = new StateSwitchingButton(x, y, rowWidth, colHeight, b) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 this.isStateTriggered = !this.isStateTriggered;
@@ -193,27 +244,48 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
             @Override
             public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-                int i = this.xTexStart;
-                int j = this.yTexStart;
-                if (this.isStateTriggered) {
-                    i += this.xDiffTex;
-                }
-
-                if (this.isHoveredOrFocused()) {
-                    j += this.yDiffTex;
-                }
-
-                if (this.isHovered()){
-                    pGuiGraphics.renderTooltip(font, stack, pMouseX, pMouseY);
-                }
-
-                pGuiGraphics.blit(this.resourceLocation, this.getX(), this.getY(), i, j, this.width, this.height);
+                super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
                 pGuiGraphics.renderItem(stack, x + 2, y + 2);
             }
         };
-        showChatBubble.initTextureValues(179, 25, 22, 0, TEXTURE);
+        resultStackBtn.initTextureValues(179, 25, 22, 0, TEXTURE);
 
-        this.addRenderableWidget(showChatBubble);
+        this.addRenderableWidget(resultStackBtn);
+
+    }
+
+    public void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        int startX = left + 6;
+        int startY = top + 25;
+
+        int index = checkCoordinate2(pMouseX, pMouseY, startX, startY);
+        if (index != -1) {
+            ItemStack itemStack = getItemStack(index);
+            if (!itemStack.isEmpty()) {
+                pGuiGraphics.renderTooltip(mc.font, itemStack, pMouseX, pMouseY);
+            }
+        }
+    }
+
+    public int checkCoordinate2(double pMouseX, double pMouseY, int startX, int startY) {
+        if (pMouseX < startX || pMouseY < startY) return -1;
+
+        int offsetRow = (int) (pMouseX - startX);
+        int offsetCol = (int) (pMouseY - startY);
+
+        if (offsetRow % (rowWidth + rowSpacing) < rowWidth && offsetCol % (colHeight + colSpacing) < colHeight) {
+            int blockCol = offsetRow / (rowWidth + rowSpacing);
+            int blockRow = offsetCol / (colHeight + colSpacing);
+
+            if (blockRow >= 0 && blockRow < numRows && blockCol >= 0 && blockCol < numCols) {
+                int blockIndex = blockRow * numCols + blockCol;
+
+                if (blockIndex >= 0 && blockIndex < numCols * numRows) {
+                    return blockIndex;
+                }
+            }
+        }
+        return -1;
 
     }
 
