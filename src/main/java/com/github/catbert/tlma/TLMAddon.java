@@ -2,7 +2,11 @@ package com.github.catbert.tlma;
 
 import com.github.catbert.tlma.config.GeneralConfig;
 import com.github.catbert.tlma.init.InitContainer;
+import com.github.catbert.tlma.init.InitEffects;
 import com.github.catbert.tlma.init.InitItems;
+import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
+import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +28,7 @@ public final class TLMAddon {
     private static void initRegister() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         InitItems.ITEMS.register(modEventBus);
+        InitEffects.EFFECTS.register(modEventBus);
         InitContainer.CONTAINER_TYPE.register(modEventBus);
     }
 

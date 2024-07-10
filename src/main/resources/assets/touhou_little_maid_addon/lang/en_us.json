@@ -1,5 +1,8 @@
 {
   "item.touhou_little_maid_addon.old_maid_backpack_big": "Old Maid Backpack",
+  "item.touhou_little_maid_addon.burn_protect_bauble": "§6Burn Protect Bauble",
+
+  "effect.touhou_little_maid_addon.burn_protect": "Burn Protect",
 
   "config.touhou_little_maid_addon.task.name": "Task",
   "config.touhou_little_maid_addon.task.berry_farm_task.name": "Berry Farm Task",

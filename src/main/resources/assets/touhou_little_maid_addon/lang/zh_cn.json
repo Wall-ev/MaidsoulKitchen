@@ -1,5 +1,8 @@
 {
   "item.touhou_little_maid_addon.old_maid_backpack_big": "旧版的大背包",
+  "item.touhou_little_maid_addon.burn_protect_bauble": "§6燃着保护饰品",
+
+  "effect.touhou_little_maid_addon.burn_protect": "抗燃",
 
   "config.touhou_little_maid_addon.task.name": "任务",
   "config.touhou_little_maid_addon.task.berry_farm_task.name": "采集浆果任务",

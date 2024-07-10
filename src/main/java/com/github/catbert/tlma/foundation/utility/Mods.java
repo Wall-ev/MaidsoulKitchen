@@ -41,7 +41,9 @@ public enum Mods {
 
     TWT("thirst"),
 
-    SS("sereneseasons");
+    SS("sereneseasons"),
+
+    MC("minecraft");
 
     public final String modId;
     public final boolean isLoaded;

@@ -4,8 +4,11 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.NormalTooltipButton;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
+import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
+import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -83,6 +86,10 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         addResultStackButtons();
         addScrollButton();
         addTypeButton();
+
+        BurnProtectBauble burnProtectBauble = new BurnProtectBauble();
+        TouhouLittleMaid.EXTENSIONS.add(burnProtectBauble);
+        BaubleManager.init();
     }
 
     private void addTypeButton() {
@@ -170,7 +177,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                 return true;
             }
             // 向下滚
-            if (delta < 0 && solIndex < (this.list.size() - 1) / (numCols * numRows)){
+            if (delta < 0 && solIndex < (this.list.size() - 1) / (numCols * numRows)) {
                 solIndex++;
                 this.init();
                 return true;
