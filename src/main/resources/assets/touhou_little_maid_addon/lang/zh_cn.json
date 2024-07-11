@@ -93,6 +93,9 @@
   "gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc": "切换女仆烹饪规则: 定向烹饪",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "当前任务: %s",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "当前烹饪配方类型: %s",
+  "gui.touhou_little_maid_addon.patchouli_warning.download": "下载 Patchouli",
+  "gui.touhou_little_maid_addon.patchouli_warning.tips": "你需要下载Patchouli Mod才可以启用跳转到手册对应章节功能",
+  "tooltips.touhou_little_maid_addon.amount.title": "制作一份的原料:",
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "拓展",
   "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧.",

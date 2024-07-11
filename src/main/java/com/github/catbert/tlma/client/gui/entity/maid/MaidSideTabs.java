@@ -5,6 +5,7 @@ import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskSettingScreen;
+import com.github.catbert.tlma.client.gui.mod.PatchouliScreen;
 import com.github.catbert.tlma.client.gui.widget.button.MaidSideTabButton;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.network.NetworkHandler;
@@ -59,13 +60,10 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         i++;
 
         MaidSideTabButton book = new MaidSideTabButton(rightPos, topPos + i * spacing, startY + i * spacing, (b) -> {
-//                NetworkHandler.CHANNEL.sendToServer(new ToggleTabMessage(entityId, TabIndex.CONFIG)));
+            PatchouliScreen.open();
         }, List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_book"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_book.desc"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
-//        if (screen instanceof MaidConfigContainerGui) {
-//            book.active = false;
-//        }
         i++;
 
         MaidSideTabButton info = new MaidSideTabButton(rightPos, topPos + i * spacing, startY + i * spacing, (b) -> {

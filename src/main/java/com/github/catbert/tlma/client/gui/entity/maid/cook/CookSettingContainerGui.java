@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.NormalTooltipButton;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
+import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import net.minecraft.ChatFormatting;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.StateSwitchingButton;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,9 +21,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.items.ItemStackHandler;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
@@ -29,6 +35,7 @@ import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @IPNPlayerSideOnly
@@ -43,7 +50,10 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private int left;
     private int top;
     private int solIndex = 0;
-    private List<ItemStack> list = Collections.emptyList();
+    private List<ItemStack> resultStackList = Collections.emptyList();
+    private List<Recipe> recipeList = Collections.emptyList();
+    private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
+    private List<ItemStack> lastIngreTooltipList = Collections.emptyList();
     private int rowSpacing;
     private int colSpacing;
     private int numRows;
@@ -75,10 +85,11 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null && this.getMaid().getTask() instanceof ICookTask<?, ?> task) {
             List<Recipe> allRecipesFor = (List<Recipe>) task.getRecipes(mc.level);
-            list = allRecipesFor.stream().map(recipe -> recipe.getResultItem(mc.level.registryAccess())).toList();
+            this.recipeList = allRecipesFor;
+            resultStackList = allRecipesFor.stream().map(recipe -> recipe.getResultItem(mc.level.registryAccess())).toList();
         }
 
-        if (list.isEmpty()) return;
+        if (resultStackList.isEmpty()) return;
 
         addResultStackButtons();
         addScrollButton();
@@ -109,15 +120,9 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (getMaid() != null) {
             drawTaskTitleBar(graphics, mouseX, mouseY, partialTicks);
-
             // 绘制 滚动条 背景
             // 161, 25
-            {
-                int startX = left + 161;
-                int startY = top + 25;
-                graphics.blit(TEXTURE, startX, startY + 8, 179, 64, 9, 92);
-                drawScrollSide(graphics, startX + 1, startY + 8 + 1);
-            }
+            drawScrollBackground(graphics);
         }
         super.render(graphics, mouseX, mouseY, partialTicks);
     }
@@ -148,8 +153,15 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         }
     }
 
+    private void drawScrollBackground(GuiGraphics graphics) {
+        int startX = left + 161;
+        int startY = top + 25;
+        graphics.blit(TEXTURE, startX, startY + 8, 179, 64, 9, 92);
+        drawScrollSide(graphics, startX + 1, startY + 8 + 1);
+    }
+
     private void drawScrollSide(GuiGraphics graphics, int startX, int startY) {
-        if ((this.list.size() - 1) / (numCols * numRows) > 1) {
+        if ((this.resultStackList.size() - 1) / (numCols * numRows) > 1) {
             graphics.blit(TEXTURE, startX, startY + (int) ((92 - 11) * getCurrentScroll()), 189, 64, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 196, 64, 7, 9);
@@ -157,7 +169,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
     public float getCurrentScroll() {
-        return Mth.clamp((float) (solIndex * (1.0 / ((this.list.size() - 1) / (numCols * numRows)))), 0, 1);
+        return Mth.clamp((float) (solIndex * (1.0 / ((this.resultStackList.size() - 1) / (numCols * numRows)))), 0, 1);
     }
 
     @Override
@@ -172,7 +184,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                 return true;
             }
             // 向下滚
-            if (delta < 0 && solIndex < (this.list.size() - 1) / (numCols * numRows)) {
+            if (delta < 0 && solIndex < (this.resultStackList.size() - 1) / (numCols * numRows)) {
                 solIndex++;
                 this.init();
                 return true;
@@ -192,7 +204,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
             }
         });
         Button downButton = new ImageButton(startX, startY + 101, 9, 7, 198, 74, 14, TEXTURE, b -> {
-            if (this.solIndex < (this.list.size() - 1) / (numCols * numRows)) {
+            if (this.solIndex < (this.resultStackList.size() - 1) / (numCols * numRows)) {
                 this.solIndex++;
                 this.init();
             }
@@ -264,9 +276,50 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         if (index != -1) {
             ItemStack itemStack = getItemStack(index);
             if (!itemStack.isEmpty()) {
-                pGuiGraphics.renderTooltip(mc.font, itemStack, pMouseX, pMouseY);
+                renderTooltipWithImage(itemStack, mc, pGuiGraphics, pMouseX, pMouseY);
             }
         }
+    }
+
+    private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
+
+        ItemStackHandler container = getIngreContainer(stack);
+        Optional<TooltipComponent> itemContainerTooltip = Optional.of(new AmountTooltip(container));
+
+        pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);
+    }
+
+    // todo
+    @SuppressWarnings("all")
+    private ItemStackHandler getIngreContainer(ItemStack stack){
+        Item item = stack.getItem();
+
+        if (this.lastResultTooltipStack.is(item)) {
+            return getContainer(this.lastIngreTooltipList);
+        }
+
+        Optional<Recipe> first = this.recipeList.stream()
+                .filter(r -> r.getResultItem(getMinecraft().level.registryAccess()).is(item))
+                .findFirst();
+
+        if (first.isEmpty()) {
+            return getContainer(Collections.emptyList());
+        }
+
+        this.lastResultTooltipStack = stack;
+        this.lastIngreTooltipList = first.get().getIngredients().stream()
+                .map(ingre -> ((Ingredient)ingre).getItems()[0])
+                .toList();
+        return getContainer(this.lastIngreTooltipList);
+    }
+
+    public ItemStackHandler getContainer(List<ItemStack> stacks) {
+        ItemStackHandler handler = new ItemStackHandler(stacks.size());
+        for (int i = 0; i < stacks.size(); i++) {
+            handler.setStackInSlot(i, stacks.get(i));
+        }
+        return handler;
     }
 
     public int checkCoordinate2(double pMouseX, double pMouseY, int startX, int startY) {
@@ -293,8 +346,8 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
     private ItemStack getItemStack(int index) {
         int i = index + (numRows * numCols) * solIndex;
-        if (i < list.size()) {
-            return list.get(i);
+        if (i < resultStackList.size()) {
+            return resultStackList.get(i);
         }
         return ItemStack.EMPTY;
     }
