@@ -11,8 +11,12 @@ public interface ILittleMaidBauble extends ILittleMaid, IMaidBauble {
 
     @Override
     default void bindMaidBauble(BaubleManager manager) {
-        manager.bind(getBindingItem(), this);
+        if (canLoaded()){
+            manager.bind(getBindingItem(), this);
+        }
     }
+
+    boolean canLoaded();
 
     @NotNull
     RegistryObject<Item> getBindingItem();

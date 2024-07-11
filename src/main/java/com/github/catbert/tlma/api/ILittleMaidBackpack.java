@@ -7,6 +7,11 @@ import com.github.tartaricacid.touhoulittlemaid.entity.backpack.BackpackManager;
 public interface ILittleMaidBackpack extends ILittleMaid{
     @Override
     default void addMaidBackpack(BackpackManager manager) {
-        manager.add((IMaidBackpack) this);
+        if (canLoaded()) {
+            manager.add((IMaidBackpack) this);
+        }
     }
+
+    boolean canLoaded();
+
 }

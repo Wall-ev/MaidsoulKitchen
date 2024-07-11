@@ -9,7 +9,8 @@ import vectorwing.farmersdelight.common.registry.ModDamageTypes;
 
 import java.util.List;
 
-import static com.github.catbert.tlma.foundation.utility.Mods.*;
+import static com.github.catbert.tlma.foundation.utility.Mods.FD;
+import static com.github.catbert.tlma.foundation.utility.Mods.MC;
 
 public final class BurnDamageManager {
     private final List<ResourceKey<DamageType>> BURN_DAMAGE_TYPES = Lists.newArrayList();

@@ -33,6 +33,11 @@ public class BurnProtectBauble implements ILittleMaidBauble {
     }
 
     @Override
+    public boolean canLoaded() {
+        return true;
+    }
+
+    @Override
     @NotNull
     public RegistryObject<Item> getBindingItem() {
         return InitItems.BURN_PROTECT_BAUBLE;
