@@ -94,6 +94,7 @@
   "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "Now Cook RecipeType: %s",
   "gui.touhou_little_maid_addon.patchouli_warning.download": "Download Patchouli",
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "You'll need to install the Patchouli mod to open book entry feature",
+  "gui.touhou_little_maid_addon.cook_setting_screen.title": "Cook Guide",
   "tooltips.touhou_little_maid_addon.amount.title": "Craft One Amount Ingredient:",
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
