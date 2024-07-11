@@ -4,6 +4,8 @@ import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IMaidBauble;
 import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public interface ILittleMaidBauble extends ILittleMaid, IMaidBauble {
 
@@ -12,6 +14,7 @@ public interface ILittleMaidBauble extends ILittleMaid, IMaidBauble {
         manager.bind(getBindingItem(), this);
     }
 
-    Item getBindingItem();
+    @NotNull
+    RegistryObject<Item> getBindingItem();
 
 }

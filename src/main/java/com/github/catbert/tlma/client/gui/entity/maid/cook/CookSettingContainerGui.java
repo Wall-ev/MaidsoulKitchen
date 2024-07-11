@@ -4,11 +4,8 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.NormalTooltipButton;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
-import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
-import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -86,10 +83,6 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         addResultStackButtons();
         addScrollButton();
         addTypeButton();
-
-        BurnProtectBauble burnProtectBauble = new BurnProtectBauble();
-        TouhouLittleMaid.EXTENSIONS.add(burnProtectBauble);
-        BaubleManager.init();
     }
 
     private void addTypeButton() {
@@ -103,8 +96,10 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         int startX = width - leftPos - 5 - randomButtonWidth - selectedButtonWidth;
         int startY = top + 8;
 
-        NormalTooltipButton randomBtn = new NormalTooltipButton(startX, startY, randomButtonWidth, 15, randomComponent, randomTooltip, b -> {});
-        NormalTooltipButton selectedBtn = new NormalTooltipButton(startX + selectedButtonWidth, startY, selectedButtonWidth, 15, selectedComponent, selectedTooltip, b -> {});
+        NormalTooltipButton randomBtn = new NormalTooltipButton(startX, startY, randomButtonWidth, 15, randomComponent, randomTooltip, b -> {
+        });
+        NormalTooltipButton selectedBtn = new NormalTooltipButton(startX + selectedButtonWidth, startY, selectedButtonWidth, 15, selectedComponent, selectedTooltip, b -> {
+        });
 
         this.addRenderableWidget(randomBtn);
         this.addRenderableWidget(selectedBtn);

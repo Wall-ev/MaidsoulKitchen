@@ -18,12 +18,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import static com.github.catbert.tlma.item.bauble.BurnDamageManager.getBurnDamageTypes;
 
-//@LittleMaidExtension
+@LittleMaidExtension
 public class BurnProtectBauble implements ILittleMaidBauble {
 
     public BurnProtectBauble() {
@@ -31,8 +33,9 @@ public class BurnProtectBauble implements ILittleMaidBauble {
     }
 
     @Override
-    public Item getBindingItem() {
-        return InitItems.BURN_PROTECT_BAUBLE.get();
+    @NotNull
+    public RegistryObject<Item> getBindingItem() {
+        return InitItems.BURN_PROTECT_BAUBLE;
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
