@@ -34,19 +34,15 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     @Unique
     @SuppressWarnings("all")
     private static final EntityDataAccessor<CompoundTag> MaidAddon_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
-
     @Unique
     @SuppressWarnings("all")
     private static final EntityDataAccessor<Integer> SEARCHY_OFFSET_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.INT);
-
     @Unique
     @SuppressWarnings("all")
     private static final String MAID_ADDON_TAG = "MaidAddonData";
-
     @Unique
     @SuppressWarnings("all")
     private static final String SEARCHY_OFFSET_TAG = "SearchYOffset";
-
     @Unique
     @SuppressWarnings("all")
     private WeakReference<FakePlayer> fakePlayer;

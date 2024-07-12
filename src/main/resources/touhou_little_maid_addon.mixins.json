@@ -7,7 +7,8 @@
   "client": [
     "tlm.client.MixinAbstractMaidContainerGui",
     "tlm.client.MixinEntityMaidRenderer",
-    "tlm.client.MixinGeckoEntityMaidRenderer"
+    "tlm.client.MixinGeckoEntityMaidRenderer",
+    "tlm.client.MixinTaskButton"
   ],
   "server": [
   ],
