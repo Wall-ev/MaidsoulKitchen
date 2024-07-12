@@ -3,6 +3,7 @@ package com.github.catbert.tlma.mixin.tlm.client;
 import com.github.catbert.tlma.api.IAddonMaidRenderer;
 import com.github.catbert.tlma.client.renderer.entity.layer.LayerMaidLDBanner;
 import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.util.ActionUtil;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.BedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -25,7 +26,8 @@ public abstract class MixinEntityMaidRenderer extends MobRenderer<Mob, BedrockMo
     }
 
     public void addDoApiBannerRenderer(EntityRendererProvider.Context manager) {
-        if (!Mods.DAPI.isLoaded) return;
-        this.addLayer(new LayerMaidLDBanner((EntityMaidRenderer) (Object) this, manager.getModelSet()));
+        ActionUtil.modRun(Mods.DAPI, () -> {
+            this.addLayer(new LayerMaidLDBanner((EntityMaidRenderer) (Object) this, manager.getModelSet()));
+        });
     }
 }

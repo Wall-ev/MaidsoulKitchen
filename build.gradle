@@ -255,7 +255,7 @@ dependencies {
 
     // rei
     compileOnly fg.deobf("curse.maven:architectury-api-419699:${architectury_api_id}")
-    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
+    implementation fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
 
     // emi
     // Forge (see below block as well if you use Forge Gradle)
@@ -264,7 +264,7 @@ dependencies {
 
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
     implementation fg.deobf("curse.maven:the-one-probe-245211:${top_file_id}")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_forge}")

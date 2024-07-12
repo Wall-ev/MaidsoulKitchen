@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.data;
 
 import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.util.ActionUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.DamageTypeTagsProvider;
@@ -29,8 +30,6 @@ public class DamageTypeTags extends DamageTypeTagsProvider {
     }
 
     protected void addIsFireTag(Mods mod, ResourceKey<DamageType> damageType){
-        if (mod.isLoaded) {
-            tag(net.minecraft.tags.DamageTypeTags.IS_FIRE).add(damageType);
-        }
+        ActionUtil.modRun(mod, () -> tag(net.minecraft.tags.DamageTypeTags.IS_FIRE).add(damageType));
     }
 }

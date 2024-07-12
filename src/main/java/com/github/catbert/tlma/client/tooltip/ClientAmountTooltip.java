@@ -1,28 +1,28 @@
 package com.github.catbert.tlma.client.tooltip;
 
+import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import java.util.List;
 
 public class ClientAmountTooltip implements ClientTooltipComponent {
-    private final NonNullList<ItemStack> items = NonNullList.create();
+    private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
+
+    private final List<Ingredient> ingres;
     private MutableComponent titleTip = Component.translatable("tooltips.touhou_little_maid_addon.amount.title");
 
     public ClientAmountTooltip(AmountTooltip containerTooltip) {
-        IItemHandler handler = containerTooltip.handler();
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack stack = handler.getStackInSlot(i);
-            if (!stack.isEmpty()) {
-                this.items.add(stack);
-            }
-        }
+        this.ingres = containerTooltip.ingredients();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
 
     @Override
     public int getWidth(Font font) {
-        return Math.max(font.width(titleTip), items.size() * 20);
+        return Math.max(font.width(titleTip), ingres.size() * 20);
     }
 
     @Override
@@ -40,10 +40,16 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
         guiGraphics.drawString(font, titleTip, pX, pY, ChatFormatting.GRAY.getColor());
         int i = 0;
         pY += 10;
-        for (ItemStack stack : this.items) {
+        for (Ingredient stack : this.ingres) {
             int xOffset = pX + i * 20;
-            guiGraphics.renderFakeItem(stack, xOffset, pY);
-            guiGraphics.renderItemDecorations(font, stack, xOffset, pY);
+
+            ItemStack[] stackItems = stack.getItems();
+            guiGraphics.renderItem(stackItems[0], xOffset, pY);
+
+            if (stackItems.length > 1) {
+                guiGraphics.blit(TEXTURE, xOffset, pY + 13, 0, 253, 3, 3);
+            }
+
             i++;
         }
     }

@@ -3,6 +3,7 @@ package com.github.catbert.tlma.mixin.tlm.client;
 import com.github.catbert.tlma.api.IAddonMaidRenderer;
 import com.github.catbert.tlma.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.util.ActionUtil;
 import com.github.tartaricacid.touhoulittlemaid.client.entity.GeckoMaidEntity;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.GeckoEntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.IAnimatable;
@@ -27,7 +28,8 @@ public abstract class MixinGeckoEntityMaidRenderer extends GeoReplacedEntityRend
     }
 
     public void addDoApiBannerRenderer(EntityRendererProvider.Context manager) {
-        if (!Mods.DAPI.isLoaded) return;
-        this.addLayer(new GeckoLayerMaidLDBanner<>((GeckoEntityMaidRenderer) (Object) this, manager.getModelSet()));
+        ActionUtil.modRun(Mods.DAPI, () -> {
+            this.addLayer(new GeckoLayerMaidLDBanner<>((GeckoEntityMaidRenderer) (Object) this, manager.getModelSet()));
+        });
     }
 }

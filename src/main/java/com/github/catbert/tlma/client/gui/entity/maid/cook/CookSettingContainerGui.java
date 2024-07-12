@@ -7,6 +7,7 @@ import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -27,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.items.ItemStackHandler;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
@@ -59,7 +59,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private List<ItemStack> resultStackList = Collections.emptyList();
     private List<Recipe> recipeList = Collections.emptyList();
     private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
-    private List<ItemStack> lastIngreTooltipList = Collections.emptyList();
+    private List<Ingredient> lastIngreTooltipList = Collections.emptyList();
 
     public CookSettingContainerGui(CookSettingContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
@@ -80,9 +80,9 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (getMaid() != null) {
-            drawTitleInfo(graphics, mouseX, mouseY, partialTicks);
+            drawTitleInfoBar(graphics, mouseX, mouseY, partialTicks);
             drawTaskInfoBar(graphics, mouseX, mouseY, partialTicks);
-            drawScrollBackground(graphics);
+            drawScrollInfoBar(graphics);
         }
         super.render(graphics, mouseX, mouseY, partialTicks);
     }
@@ -157,13 +157,13 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private void addScrollButton() {
         int startX = visualZone.startX + scrollDisplay.startX;
         int startY = visualZone.startY + scrollDisplay.startY;
-        ImageButton upButton = new ImageButton(startX, startY, 9, 7, 189, 74, 14, TEXTURE, b -> {
+        ImageButton upButton = new ImageButton(startX, startY, 9, 7, 199, 74, 14, TEXTURE, b -> {
             if (this.solIndex > 0) {
                 this.solIndex--;
                 this.init();
             }
         });
-        Button downButton = new ImageButton(startX, startY + 8 + 1 + 70, 9, 7, 198, 74, 14, TEXTURE, b -> {
+        Button downButton = new ImageButton(startX, startY + 8 + 1 + 70, 9, 7, 208, 74, 14, TEXTURE, b -> {
             if (this.solIndex < (this.resultStackList.size() - 1) / (ref.col * ref.row)) {
                 this.solIndex++;
                 this.init();
@@ -215,7 +215,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
 
-    private void drawTitleInfo(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    private void drawTitleInfoBar(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         MutableComponent titleComponent = Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title");
         int titleStartX = visualZone.startX + (visualZone.width - font.width(titleComponent)) / 2;
         graphics.drawString(font, titleComponent, titleStartX, visualZone.startY + titleStartY, 0xffffff, false);
@@ -235,18 +235,18 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         }
     }
 
-    private void drawScrollBackground(GuiGraphics graphics) {
+    private void drawScrollInfoBar(GuiGraphics graphics) {
         int startX = visualZone.startX + scrollDisplay.startX;
         int startY = visualZone.startY + scrollDisplay.startY;
-        graphics.blit(TEXTURE, startX, startY + 8, 179, 64, 9, 70);
-        drawScrollSide(graphics, startX + 1, startY + 8 + 1);
+        graphics.blit(TEXTURE, startX, startY + 8, 189, 64, 9, 70);
+        drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
     }
 
-    private void drawScrollSide(GuiGraphics graphics, int startX, int startY) {
+    private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
         if ((this.resultStackList.size() - 1) / (ref.col * ref.row) > 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((70 - 11) * getCurrentScroll()), 189, 64, 7, 9);
+            graphics.blit(TEXTURE, startX, startY + (int) ((70 - 11) * getCurrentScroll()), 199, 64, 7, 9);
         } else {
-            graphics.blit(TEXTURE, startX, startY, 196, 64, 7, 9);
+            graphics.blit(TEXTURE, startX, startY, 206, 64, 7, 9);
         }
     }
 
@@ -270,7 +270,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         }
     }
 
-    public void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+    private void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         int startX = visualZone.startX + resultDisplay.startX;
         int startY = visualZone.startY + resultDisplay.startY;
 
@@ -286,46 +286,34 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
 
-        ItemStackHandler container = getIngreContainer(stack);
-        Optional<TooltipComponent> itemContainerTooltip = Optional.of(new AmountTooltip(container));
+        List<Ingredient> ingres = getIngre(stack);
+        Optional<TooltipComponent> itemContainerTooltip = Optional.of(new AmountTooltip(ingres));
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);
     }
 
     // todo
     @SuppressWarnings("all")
-    private ItemStackHandler getIngreContainer(ItemStack stack) {
+    private List<Ingredient> getIngre(ItemStack stack) {
         Item item = stack.getItem();
 
         if (this.lastResultTooltipStack.is(item)) {
-            return getContainer(this.lastIngreTooltipList);
+            return this.lastIngreTooltipList;
         }
 
         Optional<Recipe> first = this.recipeList.stream()
                 .filter(r -> r.getResultItem(getMinecraft().level.registryAccess()).is(item))
                 .findFirst();
-
         if (first.isEmpty()) {
-            return getContainer(Collections.emptyList());
+            return Collections.emptyList();
         }
 
         this.lastResultTooltipStack = stack;
-        this.lastIngreTooltipList = first.get().getIngredients().stream()
-                .map(ingre -> ((Ingredient) ingre).getItems()[0])
-                .toList();
-        return getContainer(this.lastIngreTooltipList);
+        this.lastIngreTooltipList = first.get().getIngredients();
+        return this.lastIngreTooltipList;
     }
 
-    public ItemStackHandler getContainer(List<ItemStack> stacks) {
-        ItemStackHandler handler = new ItemStackHandler(stacks.size());
-        for (int i = 0; i < stacks.size(); i++) {
-            handler.setStackInSlot(i, stacks.get(i));
-        }
-        return handler;
-    }
-
-
-    public int checkCoordinate2(double pMouseX, double pMouseY, int startX, int startY) {
+    private int checkCoordinate2(double pMouseX, double pMouseY, int startX, int startY) {
         if (pMouseX < startX || pMouseY < startY) return -1;
 
         int offsetRow = (int) (pMouseX - startX);
@@ -355,7 +343,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         return ItemStack.EMPTY;
     }
 
-    public float getCurrentScroll() {
+    private float getCurrentScroll() {
         return Mth.clamp((float) (solIndex * (1.0 / ((this.resultStackList.size() - 1) / (ref.col * ref.row)))), 0, 1);
     }
 
