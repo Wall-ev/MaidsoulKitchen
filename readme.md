@@ -40,6 +40,9 @@
         - [ ] Crock Pot
     - [ ] Fruit Stack
     - [ ] Kitchen Karrot
+    - [ ] Minecraft
+        - [x] Furnace
+        - [ ] Brewing Stand
 - [ ] Farm
     - [x] Berry
         - [x] Simple Farming
