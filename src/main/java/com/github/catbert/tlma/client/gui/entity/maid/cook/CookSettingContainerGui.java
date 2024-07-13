@@ -7,13 +7,11 @@ import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -24,16 +22,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)
@@ -102,7 +97,6 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         super.renderTooltip(graphics, mouseX, mouseY);
         this.renderItemStackTooltips(getMinecraft(), graphics, mouseX, mouseY);
-        this.renderTaskBarTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
@@ -230,25 +224,6 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         }
     }
 
-
-    private void renderTaskBarTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
-        int startX = visualZone.startX() + taskDisplay.startX();
-        int startY = visualZone.startY() + taskDisplay.startY();
-        IMaidTask task = getMaid().getTask();
-        boolean taskWidgetHovered = mouseX >= startX && mouseY >= startY && mouseX < startX + taskDisplay.width() && mouseY < startY + taskDisplay.height();
-        if (taskWidgetHovered) {
-            List<Component> components = new ArrayList<>();
-            components.add(Component.translatable("gui.touhou_little_maid_addon.widget.cook_guide.task.desc", task.getName()));
-            if (task instanceof ICookTask<?, ?> maidTask) {
-                RecipeType<?> recipeType = maidTask.getRecipeType();
-                String typeString = recipeType.toString();
-
-                components.add(CommonComponents.SPACE);
-                components.add(Component.translatable("gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
-            }
-            graphics.renderComponentTooltip(getMinecraft().font, components, mouseX, mouseY);
-        }
-    }
 
     private void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         int startX = visualZone.startX() + resultDisplay.startX();

@@ -32,7 +32,6 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
                 .addHandler(new SimpleFarmingFruitHandler())
                 .addHandler(new FruitStackFruitHandler())
                 .addHandler(new VineryFruitHandler())
-//                .addHandler(new CauponaFruitHandler())
                 .addHandler(new CompatFruitHandler());
         return fruitHandlerBuilder.build();
     }

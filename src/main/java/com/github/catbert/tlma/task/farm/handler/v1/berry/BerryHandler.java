@@ -1,13 +1,28 @@
 package com.github.catbert.tlma.task.farm.handler.v1.berry;
 
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
+import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BerryHandler implements ICompatFarmHandler {
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract class BerryHandler implements ICompatFarmHandler, IHandlerInfo {
+    private static final Set<BerryHandler> berryHandlers = new HashSet<>();
+
     // 下一级处理者
     private BerryHandler nextHandler;
+
+    // todo
+    protected BerryHandler() {
+        berryHandlers.add(this);
+    }
+
+    public static Set<BerryHandler> getBerryHandlers() {
+        return berryHandlers;
+    }
 
     @Override
     public void setNextHandler(ICompatFarmHandler nextHandler) {

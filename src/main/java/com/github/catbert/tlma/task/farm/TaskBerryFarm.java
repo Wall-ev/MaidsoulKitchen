@@ -32,7 +32,6 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
                 .addHandler(new VanillaBerryHandler())
                 .addHandler(new SimpleFarmingBerryHandler())
                 .addHandler(new VineryBerryHandler())
-//                .addHandler(new ConviviumBerryHandler())
                 .addHandler(new CompatBerryHandler());
 
         return berryHandlerBuilder.build();

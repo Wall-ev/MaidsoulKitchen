@@ -224,8 +224,6 @@ dependencies {
 
 
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
-    implementation fg.deobf("curse.maven:convivium-905776:${convivium_file_id}")
-    implementation fg.deobf("curse.maven:caupona-656147:${caupona_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
     implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
 

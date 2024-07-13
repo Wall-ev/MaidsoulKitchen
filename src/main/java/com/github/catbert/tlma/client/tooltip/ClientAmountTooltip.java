@@ -2,7 +2,6 @@ package com.github.catbert.tlma.client.tooltip;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,9 +16,8 @@ import java.util.List;
 
 public class ClientAmountTooltip implements ClientTooltipComponent {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
-
+    private final MutableComponent titleTip = Component.translatable("tooltips.touhou_little_maid_addon.amount.title");
     private final List<Ingredient> ingres;
-    private MutableComponent titleTip = Component.translatable("tooltips.touhou_little_maid_addon.amount.title");
 
     public ClientAmountTooltip(AmountTooltip containerTooltip) {
         this.ingres = containerTooltip.ingredients();
