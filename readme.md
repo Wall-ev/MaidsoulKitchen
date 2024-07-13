@@ -2,7 +2,9 @@
  A [touhoulittlemaid](https://github.com/TartaricAcid/TouhouLittleMaid) addon mod, is designed to teach maids how to use other mods for cooking and farming.
 
 ## Notice
- Due to the author's personal reasons, the development progress will be extremely slow (maybe the pit will be abandoned...). If you want to play as soon as possible, you can click `Star` and find the latest version of the auto-build on the [Releases] (https://github.com/Wall-ev/TouhouLittleMaidAddon/releases) page, but please also note that this is a development version and you need to make backups before playing to avoid losing your property.
+  - Due to the author's personal reasons, the development progress will be extremely slow (maybe the pit will be abandoned...)
+  - If you want to play as soon as possible, you can click `Star` and find the latest version of the auto-build on the [Releases](https://github.com/Wall-ev/TouhouLittleMaidAddon/releases) page
+  - If you download the auto-build version ,you need to make backups before playing to avoid losing your property.
 
 ## Progress
 - [ ] Cook

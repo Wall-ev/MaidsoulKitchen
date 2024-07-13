@@ -2,7 +2,9 @@
  这里是一个[车万女仆](https://github.com/TartaricAcid/TouhouLittleMaid)附属模组，旨在让女仆学会使用其他模组的烹饪和作物的耕种
 
 ## 注意
-  由于作者个人原因，开发进度会及其缓慢（保不准会弃坑...），如果您想尽快游玩，可以点个`Star`，在[Releases](https://github.com/Wall-ev/TouhouLittleMaidAddon/releases)页面找到自动构建好的最新版，但还请注意，这是开发版，在游玩前需要做好备份措施，以免损失财产。
+  - 由于作者个人原因，开发进度会及其缓慢（保不准会弃坑...）
+  - 如果您想尽快游玩，可以点个`Star`，在[Releases](https://github.com/Wall-ev/TouhouLittleMaidAddon/releases)页面找到自动构建好的最新版，
+  - 如果您下载了自动构建的版本，那么在游玩前需要做好备份措施，以免损失财产。
 
 ## 当前进度
 - [ ] 厨艺
