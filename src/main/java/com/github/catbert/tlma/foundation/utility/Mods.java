@@ -28,8 +28,6 @@ public enum Mods {
 
     SF("simplefarming"),
     FS("fruitstack"),
-    CAUPONA("caupona"),
-    CONVIVIUM("convivium"),
 
     /*
         Other
