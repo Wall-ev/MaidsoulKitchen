@@ -100,8 +100,8 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 //            compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
 //        }
 //
-//        compoundNBT.putInt(SEARCHY_OFFSET_TAG, this.entityData.get(SEARCHY_OFFSET_DATA));
-//
+        compoundNBT.putInt(SEARCHY_OFFSET_TAG, this.entityData.get(SEARCHY_OFFSET_DATA));
+
         this.cookTaskData.save(compoundNBT);
     }
 
@@ -111,9 +111,9 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 //            setAddonMaidData$tlma(compoundNBT.getCompound(MAID_ADDON_TAG));
 //        }
 //
-//        if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
-//            this.entityData.set(SEARCHY_OFFSET_DATA, compoundNBT.getInt(SEARCHY_OFFSET_TAG));
-//        }
+        if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
+            this.entityData.set(SEARCHY_OFFSET_DATA, compoundNBT.getInt(SEARCHY_OFFSET_TAG));
+        }
 //
         this.cookTaskData.load(compoundNBT);
     }

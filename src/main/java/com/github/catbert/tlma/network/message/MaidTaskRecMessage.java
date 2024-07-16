@@ -43,7 +43,7 @@ public class MaidTaskRecMessage {
 //
                     ((IAddonMaid) entity).addOrRemoveRecipe1(message.recipeId);
 
-                    ((IAddonMaid) entity).addOrRemoveRecipe2(message.recipeId);
+//                    ((IAddonMaid) entity).addOrRemoveRecipe2(message.recipeId);
                 }
             });
         }

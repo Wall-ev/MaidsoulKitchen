@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -36,12 +35,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
         List<String> recipeIds = cookTaskData1.getTaskRule(this.task.getUid().toString()).getRecipeIds();
-        this.recipes = this.getAllRecipesFor().stream()
+        this.recipes = this.getRecs(maid).stream()
                 .filter(r -> recipeIds.contains(r.getId().toString()))
                 .toList();
 
         if (createRecIng) {
-            this.createRecipesIngredients();
+            this.createRecipesIngredients(maid);
         }
     }
 
@@ -53,12 +52,24 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return maidInventory;
     }
 
-    private List<T> getAllRecipesFor() {
+    private List<T> getRecs(EntityMaid maid) {
+        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
 //        List<T> allRecipesFor = this.maidInventory.getMaid().level().getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
         Level level = this.maidInventory.getMaid().level();
-        List<T> allRecipesFor = task.getRecipes(level);
+
+        List<T> allRecipesFor;
+        if (taskRule.getMode() == CookTaskData.Mode.SELECT) {
+            List<String> recipeIds = taskRule.getRecipeIds();
+            allRecipesFor = task.getRecipes(level).stream()
+                    .filter(r -> recipeIds.contains(r.getId().toString()))
+                    .toList();
+        } else {
+            allRecipesFor = task.getRecipes(level);
+        }
+
         allRecipesFor = new ArrayList<>(allRecipesFor);
-//        allRecipesFor = filterRecipes(allRecipesFor);
+        allRecipesFor = filterRecipes(allRecipesFor);
         shuffle(allRecipesFor);
         return allRecipesFor;
     }
@@ -83,7 +94,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
         if (isLastInv(maid)) return;
-        createRecipesIngredients();
+        createRecipesIngredients(maid);
     }
 
     private boolean isLastInv(EntityMaid maid) {
@@ -118,7 +129,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return recipes;
     }
 
-    private void createRecipesIngredients() {
+    private void createRecipesIngredients(EntityMaid maid) {
         this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
 //        recipesIngredients = new ArrayList<>();
@@ -126,7 +137,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
 
-        for (T t : this.recipes) {
+        for (T t : this.getRecs(maid)) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
