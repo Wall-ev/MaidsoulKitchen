@@ -21,8 +21,6 @@ public final class CookTaskData {
         } else if (recipeIds.size() < 10){
             addTaskRecipe(taskId, recipeId);
         }
-
-        int i = 0;
     }
 
     public boolean containsRecipe(String taskId, String recipeId) {
@@ -31,20 +29,17 @@ public final class CookTaskData {
 
     public void removeTaskRecipe(String taskId, String recipeId) {
         this.getTaskRule(taskId).recipeIds.remove(recipeId);
+        this.getTaskRule(taskId).setNeedUpdate(true);
     }
 
     public void addTaskRecipe(String taskId, String recipeId) {
         this.getTaskRule(taskId).recipeIds.add(recipeId);
-
-        int i = 0;
-
-        TLMAddon.LOGGER.info("addTaskRecipe: " + taskId + " " + recipeId);
-        TLMAddon.LOGGER.info("addTaskRecipe: " + this.getTaskRule(taskId).recipeIds);
-
+        this.getTaskRule(taskId).setNeedUpdate(true);
     }
 
     public void setTaskMode(String taskId, Mode mode) {
         this.getTaskRule(taskId).setMode(mode);
+        this.getTaskRule(taskId).setNeedUpdate(true);
     }
 
     public void addTaskRule(String taskId, TaskRule taskRule) {
@@ -123,6 +118,7 @@ public final class CookTaskData {
     public static class TaskRule {
         private Mode mode;
         private List<String> recipeIds = new ArrayList<>();
+        private boolean needUpdate = true;
 
         public TaskRule(Mode mode, List<String> recipeIds) {
             this.mode = mode;
@@ -143,6 +139,14 @@ public final class CookTaskData {
 
         public void setRecipeIds(List<String> recipeIds) {
             this.recipeIds = recipeIds;
+        }
+
+        public boolean isNeedUpdate() {
+            return needUpdate;
+        }
+
+        public void setNeedUpdate(boolean needUpdate) {
+            this.needUpdate = needUpdate;
         }
     }
 }

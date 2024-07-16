@@ -20,8 +20,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
     private final ICookTask<?, T> task;
     private final boolean single;
+    private CookTaskData.TaskRule lastTaskRule;
     private int repeatTimes = 0;
-    private List<T> recipes;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
@@ -32,12 +32,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.maidInventory = new MaidInventory(maid);
         this.single = single;
         this.task = task;
-
-        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-        List<String> recipeIds = cookTaskData1.getTaskRule(this.task.getUid().toString()).getRecipeIds();
-        this.recipes = this.getRecs(maid).stream()
-                .filter(r -> recipeIds.contains(r.getId().toString()))
-                .toList();
 
         if (createRecIng) {
             this.createRecipesIngredients(maid);
@@ -53,14 +47,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     private List<T> getRecs(EntityMaid maid) {
-        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
 //        List<T> allRecipesFor = this.maidInventory.getMaid().level().getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
         Level level = this.maidInventory.getMaid().level();
 
         List<T> allRecipesFor;
-        if (taskRule.getMode() == CookTaskData.Mode.SELECT) {
-            List<String> recipeIds = taskRule.getRecipeIds();
+        if (lastTaskRule.getMode() == CookTaskData.Mode.SELECT) {
+            List<String> recipeIds = lastTaskRule.getRecipeIds();
             allRecipesFor = task.getRecipes(level).stream()
                     .filter(r -> recipeIds.contains(r.getId().toString()))
                     .toList();
@@ -90,12 +82,32 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public void checkAndCreateRecipesIngredients(EntityMaid maid) {
+        initTaskRule(maid);
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        if (isLastInv(maid)) return;
+        if (isSameTaskRule(maid) && isLastInv(maid)) return;
         createRecipesIngredients(maid);
     }
+
+    private void initTaskRule(EntityMaid maid) {
+        if (lastTaskRule == null) {
+            CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+            this.lastTaskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
+        }
+    }
+
+    private boolean isSameTaskRule(EntityMaid maid) {
+        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
+        if (taskRule.isNeedUpdate()) {
+            taskRule.setNeedUpdate(false);
+            this.lastTaskRule = taskRule;
+            return true;
+        }
+        return false;
+    }
+
 
     private boolean isLastInv(EntityMaid maid) {
 
@@ -206,7 +218,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        return list;
 //    }
 
-    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
         Map<Item, List<ItemStack>> inventoryStack = this.maidInventory.getInventoryStack();
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
@@ -291,11 +303,11 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         Collections.shuffle(recipes);
     }
 
-    public void setRepeatTimes(int repeatTimes) {
-        this.repeatTimes = repeatTimes;
-    }
-
     public int getRepeatTimes() {
         return repeatTimes;
+    }
+
+    public void setRepeatTimes(int repeatTimes) {
+        this.repeatTimes = repeatTimes;
     }
 }
