@@ -41,7 +41,7 @@ public class MaidTaskRecMessage {
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
 //                    ((IAddonMaid) entity).addOrRemoveRecipe(message.recipeId);
 //
-//                    ((IAddonMaid) entity).addOrRemoveRecipe1(message.recipeId);
+                    ((IAddonMaid) entity).addOrRemoveRecipe1(message.recipeId);
 
                     ((IAddonMaid) entity).addOrRemoveRecipe2(message.recipeId);
                 }

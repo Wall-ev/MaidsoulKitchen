@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.fd;
 
-import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,7 +10,7 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import java.util.Optional;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
-public abstract class MixinCookingPotBlockEntity implements IFhCbeAccessor<CookingPotRecipe> {
+public abstract class MixinCookingPotBlockEntity implements IFdCbeAccessor<CookingPotRecipe> {
     @Shadow
     protected abstract Optional<CookingPotRecipe> getMatchingRecipe(RecipeWrapper inventoryWrapper);
 

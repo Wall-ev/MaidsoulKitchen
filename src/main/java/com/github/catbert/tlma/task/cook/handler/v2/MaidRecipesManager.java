@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.task.cook.handler.v2;
 
+import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
+import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
@@ -20,6 +22,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final ICookTask<?, T> task;
     private final boolean single;
     private int repeatTimes = 0;
+    private List<T> recipes;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
@@ -30,6 +33,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.maidInventory = new MaidInventory(maid);
         this.single = single;
         this.task = task;
+
+        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+        List<String> recipeIds = cookTaskData1.getTaskRule(this.task.getUid().toString()).getRecipeIds();
+        this.recipes = this.getAllRecipesFor().stream()
+                .filter(r -> recipeIds.contains(r.getId().toString()))
+                .toList();
 
         if (createRecIng) {
             this.createRecipesIngredients();
@@ -117,7 +126,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
 
-        for (T t : this.getAllRecipesFor()) {
+        for (T t : this.recipes) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));

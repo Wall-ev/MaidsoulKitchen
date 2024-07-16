@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
+import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
@@ -58,6 +59,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private final int titleStartY = 8;
     private final EntityMaid maid;
     private final CompoundTag cookCompound;
+    private final CookTaskData cookTaskData;
     private final List<ItemStack> resultStackList = new ArrayList<>();
     @SuppressWarnings("all")
     private final List<Recipe> recipeList = new ArrayList<>();
@@ -71,7 +73,8 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     public CookSettingContainerGui(CookSettingContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
         this.maid = getMenu().getMaid();
-        this.cookCompound = inv.player.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
+        this.cookCompound = maid.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
+        this.cookTaskData = maid.level().isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
     }
 
     @Override
@@ -228,18 +231,21 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
             @Override
             protected boolean isSelectedRec(int index) {
                 int actualIndex = getActualIndex(index);
-                if (actualIndex >= 999) return false;
-                String recipeId = recipeList.get(actualIndex).getId().toString();
+                if (actualIndex < 999) {
+                    String recipeId = recipeList.get(actualIndex).getId().toString();
 //                return ((IAddonMaid) serverMaid).containsRecipe2(recipeId);
-                return CookSettingContainerGui.this.containsRecipe2(recipeId);
+//                return CookSettingContainerGui.this.containsRecipe2(recipeId);
+                    return CookSettingContainerGui.this.containsRecipe1(recipeId);
+                }
+                return false;
             }
 
             @Override
             protected void recAddOrRemove(int index) {
                 int actualIndex = getActualIndex(index);
-                if (actualIndex < 999 && CookSettingContainerGui.this.selectRecs.size() <= 10) {
+                if (actualIndex < 999) {
                     String recipeId = recipeList.get(actualIndex).getId().toString();
-                    CookSettingContainerGui.this.removeOrAddRec(recipeId);
+//                    CookSettingContainerGui.this.removeOrAddRec(recipeId);
                     NetworkHandler.CHANNEL.sendToServer(new MaidTaskRecMessage(maid.getId(), recipeId));
                 }
             }
@@ -361,5 +367,9 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         CompoundTag compound = this.cookCompound.getCompound(this.currentTask.getUid().toString());
         ListTag list = compound.getList("recipe", Tag.TAG_STRING);
         return list.contains(StringTag.valueOf(recipeId));
+    }
+
+    public boolean containsRecipe1(String recipeId) {
+        return this.cookTaskData.getTaskRule(this.currentTask.getUid().toString()).getRecipeIds().contains(recipeId);
     }
 }

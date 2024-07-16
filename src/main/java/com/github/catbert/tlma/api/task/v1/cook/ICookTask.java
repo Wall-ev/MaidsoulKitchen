@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
@@ -68,13 +69,14 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
      * 默认好感度二级才可以启用任务
      * 当然得等酒石酸把这个用上去才会生效...
      */
+    //todo 自定义启用条件，数据包，或者kjs
     @Override
     default boolean isEnable(EntityMaid maid) {
-        return hasEnoughFavor(maid);
+        return !TaskConfig.COOK_TASK_ENABLE_CONDITION.get() || hasEnoughFavor(maid);
     }
 
     default boolean hasEnoughFavor(EntityMaid maid) {
-        return maid.getFavorability() >= 1;
+        return maid.getFavorabilityManager().getLevel() >= 1;
     }
 
     boolean isCookBE(BlockEntity blockEntity);

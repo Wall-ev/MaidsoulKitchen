@@ -1,5 +1,6 @@
 package com.github.catbert.tlma.entity.passive;
 
+import com.github.catbert.tlma.TLMAddon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -14,11 +15,14 @@ public final class CookTaskData {
     }
 
     public void addOrRemoveTaskRecipe(String taskId, String recipeId) {
-        if (this.getTaskRule(taskId).recipeIds.contains(recipeId)) {
+        List<String> recipeIds = this.getTaskRule(taskId).recipeIds;
+        if (recipeIds.contains(recipeId)) {
             removeTaskRecipe(taskId, recipeId);
-        } else {
+        } else if (recipeIds.size() < 10){
             addTaskRecipe(taskId, recipeId);
         }
+
+        int i = 0;
     }
 
     public boolean containsRecipe(String taskId, String recipeId) {
@@ -31,6 +35,12 @@ public final class CookTaskData {
 
     public void addTaskRecipe(String taskId, String recipeId) {
         this.getTaskRule(taskId).recipeIds.add(recipeId);
+
+        int i = 0;
+
+        TLMAddon.LOGGER.info("addTaskRecipe: " + taskId + " " + recipeId);
+        TLMAddon.LOGGER.info("addTaskRecipe: " + this.getTaskRule(taskId).recipeIds);
+
     }
 
     public void setTaskMode(String taskId, Mode mode) {
@@ -82,8 +92,10 @@ public final class CookTaskData {
                 CompoundTag tag = data.getCompound(key);
                 String mode = tag.getString("Mode");
                 ListTag recsTag = tag.getList("Recs", Tag.TAG_STRING);
+                List<String> list = recsTag.stream().map(Tag::getAsString).toList();
+                List<String> arrayList = new ArrayList<>(list);
 
-                TaskRule taskRule = new TaskRule(Mode.valueOf(mode.toUpperCase()), recsTag.stream().map(Tag::getAsString).toList());
+                TaskRule taskRule = new TaskRule(Mode.valueOf(mode.toUpperCase()), arrayList);
                 taskRules.put(key, taskRule);
             }
         }

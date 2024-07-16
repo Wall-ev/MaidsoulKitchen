@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v2;
 
-import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -94,8 +94,8 @@ public interface IBaseCook<B extends BlockEntity, R extends Recipe<? extends Con
     @SuppressWarnings("unchecked")
     default <T extends IBeInv<B>> boolean beInnerCanCook(B be, T inventoryHandler) {
         RecipeWrapper recipeWrapper = new RecipeWrapper((IItemHandlerModifiable) inventoryHandler);
-        Optional<R> matchingRecipe = ((IFhCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
-        return matchingRecipe.isPresent() && ((IFhCbeAccessor<R>) be).canCook$tlma(matchingRecipe.get());
+        Optional<R> matchingRecipe = ((IFdCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
+        return matchingRecipe.isPresent() && ((IFdCbeAccessor<R>) be).canCook$tlma(matchingRecipe.get());
     }
 
 //    @SuppressWarnings("unchecked")

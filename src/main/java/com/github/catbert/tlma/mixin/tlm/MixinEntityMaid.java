@@ -60,8 +60,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     @SuppressWarnings("all")
     private WeakReference<FakePlayer> fakePlayer;
     @Unique
-    @Final
-    private final CookTaskData cookTaskData = new CookTaskData();
+    private CookTaskData cookTaskData;
 
     protected MixinEntityMaid(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -69,7 +68,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 
     @Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V")
     private void init$tlma(CallbackInfo ci) {
-//        this.cookTaskData = new CookTaskData();
+        this.cookTaskData = new CookTaskData();
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "defineSynchedData()V")
@@ -78,44 +77,44 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 //        compoundTag.putInt(SEARCHY_OFFSET_TAG, 4);
 
 
-        CompoundTag compoundTag = new CompoundTag();
-        TaskManager.getTaskMap().forEach((uid, task) -> {
-            if (task instanceof ICookTask<?,?> cookTask) {
-                CompoundTag taskRuleTag = new CompoundTag();
-                taskRuleTag.putString(MODE, "random");
-                taskRuleTag.put(RECIPE, new ListTag());
-                compoundTag.put(uid.getPath(), taskRuleTag);
-            }
-        });
-        CompoundTag cookTaskTag = new CompoundTag();
-        cookTaskTag.put(COOK_TASK, compoundTag);
-        entityData.define(MAID_ADDON_DATA, cookTaskTag);
-
+//        CompoundTag compoundTag = new CompoundTag();
+//        TaskManager.getTaskMap().forEach((uid, task) -> {
+//            if (task instanceof ICookTask<?,?> cookTask) {
+//                CompoundTag taskRuleTag = new CompoundTag();
+//                taskRuleTag.putString(MODE, "random");
+//                taskRuleTag.put(RECIPE, new ListTag());
+//                compoundTag.put(uid.getPath(), taskRuleTag);
+//            }
+//        });
+//        CompoundTag cookTaskTag = new CompoundTag();
+//        cookTaskTag.put(COOK_TASK, compoundTag);
+//        entityData.define(MAID_ADDON_DATA, cookTaskTag);
+//
         entityData.define(SEARCHY_OFFSET_DATA, 4);
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     private void writeAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
-        CompoundTag addonMaidDat = getAddonMaidData$tlma();
-        if (addonMaidDat != null) {
-            compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
-        }
-
-        compoundNBT.putInt(SEARCHY_OFFSET_TAG, this.entityData.get(SEARCHY_OFFSET_DATA));
-
+//        CompoundTag addonMaidDat = getAddonMaidData$tlma();
+//        if (addonMaidDat != null) {
+//            compoundNBT.put(MAID_ADDON_TAG, addonMaidDat);
+//        }
+//
+//        compoundNBT.putInt(SEARCHY_OFFSET_TAG, this.entityData.get(SEARCHY_OFFSET_DATA));
+//
         this.cookTaskData.save(compoundNBT);
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     private void readAdditional$tlma(CompoundTag compoundNBT, CallbackInfo ci) {
-        if (compoundNBT.contains(MAID_ADDON_TAG)) {
-            setAddonMaidData$tlma(compoundNBT.getCompound(MAID_ADDON_TAG));
-        }
-
-        if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
-            this.entityData.set(SEARCHY_OFFSET_DATA, compoundNBT.getInt(SEARCHY_OFFSET_TAG));
-        }
-
+//        if (compoundNBT.contains(MAID_ADDON_TAG)) {
+//            setAddonMaidData$tlma(compoundNBT.getCompound(MAID_ADDON_TAG));
+//        }
+//
+//        if (compoundNBT.contains(SEARCHY_OFFSET_TAG, Tag.TAG_INT)) {
+//            this.entityData.set(SEARCHY_OFFSET_DATA, compoundNBT.getInt(SEARCHY_OFFSET_TAG));
+//        }
+//
         this.cookTaskData.load(compoundNBT);
     }
 
@@ -223,7 +222,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         if (list.contains(StringTag.valueOf(recipeId))) {
             list.remove(StringTag.valueOf(recipeId));            
         } else {
-            if (list.size() <= 10) {
+            if (list.size() < 10) {
                 list.add(StringTag.valueOf(recipeId));
             }
         }

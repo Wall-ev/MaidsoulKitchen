@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFhCbeAccessor;
+import com.github.catbert.tlma.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IBaseCookItemHandlerBe;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IHeatBe;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
@@ -156,12 +156,12 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
     @Override
     @SuppressWarnings("unchecked")
     default Optional<R> getMatchingRecipe(B be, RecipeWrapper recipeWrapper) {
-        return ((IFhCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
+        return ((IFdCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     default boolean canCook(B be, R recipe) {
-        return ((IFhCbeAccessor<R>) be).canCook$tlma(recipe);
+        return ((IFdCbeAccessor<R>) be).canCook$tlma(recipe);
     }
 }
