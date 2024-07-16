@@ -2,8 +2,8 @@ package com.github.catbert.tlma.task.cook.v1.mc;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.mixin.mc.AbstractFurnaceAccessor;
-import com.github.catbert.tlma.task.ai.brain.MaidCookMakeTask;
-import com.github.catbert.tlma.task.ai.brain.MaidCookMoveTask;
+import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
+import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.catbert.tlma.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;

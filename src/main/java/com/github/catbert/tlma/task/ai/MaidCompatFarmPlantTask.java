@@ -1,47 +1,46 @@
-package com.github.catbert.tlma.task.ai.brain;
+package com.github.catbert.tlma.task.ai;
 
-import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
-import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
+import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
+import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> {
-    private final ICookTask<B, R> task;
-    private final MaidRecipesManager<R> maidRecipesManager;
+public class MaidCompatFarmPlantTask<T extends ICompatFarmHandler> extends Behavior<EntityMaid> {
 
-    public MaidCookMakeTask(ICookTask<B, R> task, @Nullable MaidRecipesManager<R> maidRecipesManager) {
+    private final ICompatFarm<T> task;
+    private final T compatFarmHandler;
+
+    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarm<T> task) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
-        this.maidRecipesManager = maidRecipesManager;
+        this.compatFarmHandler = task.getCompatHandler(maid);
     }
 
-    public MaidCookMakeTask(ICookTask<B, R> task) {
+    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarm<T> task, T handler) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
-        this.maidRecipesManager = null;
+        this.compatFarmHandler = handler;
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid maid) {
-        Brain<EntityMaid> brain = maid.getBrain();
+    protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid owner) {
+        Brain<EntityMaid> brain = owner.getBrain();
         return brain.getMemory(InitEntities.TARGET_POS.get()).map(targetPos -> {
             Vec3 targetV3d = targetPos.currentPosition();
-            if (maid.distanceToSqr(targetV3d) > Math.pow(task.getCloseEnoughDist(), 2)) {
+            if (owner.distanceToSqr(targetV3d) > Math.pow(task.getCloseEnoughDist(), 2)) {
                 Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
                 if (walkTarget.isEmpty() || !walkTarget.get().getTarget().currentPosition().equals(targetV3d)) {
                     brain.eraseMemory(InitEntities.TARGET_POS.get());
@@ -53,16 +52,17 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
+    protected void start(ServerLevel world, EntityMaid maid, long gameTimeIn) {
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockPos basePos = posWrapper.currentBlockPosition();
-            BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
-            if (blockEntity != null && task.isCookBE(blockEntity)) {
-                task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
+            BlockState cropState = world.getBlockState(basePos);
+            if (maid.canDestroyBlock(basePos) && task.canHarvest(maid, basePos, cropState, this.compatFarmHandler)) {
+                task.harvest(maid, basePos, cropState, this.compatFarmHandler);
+                maid.swing(InteractionHand.MAIN_HAND);
+                maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
+                maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
             }
-            maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
-            maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
         });
     }
+
 }

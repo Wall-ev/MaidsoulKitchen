@@ -38,17 +38,19 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
         guiGraphics.drawString(font, titleTip, pX, pY, ChatFormatting.GRAY.getColor());
         int i = 0;
         pY += 10;
-        for (Ingredient stack : this.ingres) {
-            int xOffset = pX + i * 20;
+        for (Ingredient ingre : this.ingres) {
+            ItemStack[] stackItems = ingre.getItems();
+            if (stackItems.length == 0) {
+                continue;
+            }
 
-            ItemStack[] stackItems = stack.getItems();
+            int xOffset = pX + i++ * 20;
+
             guiGraphics.renderItem(stackItems[0], xOffset, pY);
 
             if (stackItems.length > 1) {
                 guiGraphics.blit(TEXTURE, xOffset, pY + 13, 0, 253, 3, 3);
             }
-
-            i++;
         }
     }
 }

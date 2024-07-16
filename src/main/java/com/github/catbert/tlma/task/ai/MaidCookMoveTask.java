@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.task.ai.brain;
+package com.github.catbert.tlma.task.ai;
 
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;

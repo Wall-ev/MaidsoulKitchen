@@ -4,7 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IDrinkTask;
 import com.github.catbert.tlma.foundation.utility.Mods;
-import com.github.catbert.tlma.task.ai.brain.MaidFeedAndDrinkOwnerTask;
+import com.github.catbert.tlma.task.ai.MaidFeedAndDrinkOwnerTask;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFeedTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;

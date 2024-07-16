@@ -27,6 +27,7 @@ public abstract class ResultButton extends Button {
                 if (flag && i != -1 && !getItemStack(i).isEmpty()) {
                     this.playDownSound(Minecraft.getInstance().getSoundManager());
                     this.onClick(pMouseX, pMouseY);
+                    this.recAddOrRemove(i);
                     return true;
                 }
             }
@@ -72,17 +73,20 @@ public abstract class ResultButton extends Button {
                     ItemStack stack = this.getItemStack(index);
                     if (stack.isEmpty()) continue;
 
-                    renderChildren(stack, false, pGuiGraphics, x, y);
+                    renderChildren(stack, isSelectedRec(index), pGuiGraphics, x, y);
                 }
             }
         }
     }
 
     protected abstract ItemStack getItemStack(int index);
+    protected abstract boolean isSelectedRec(int index);
+    protected abstract void recAddOrRemove(int index);
+
     public void renderChildren(ItemStack stack, boolean has, GuiGraphics pGuiGraphics, int x, int y) {
 //        int pUOffset = getUOffset(stack);
 //        int pVOffset = getVOffset(stack);
-        pGuiGraphics.blit(TEXTURE, x, y, 179, 25, 20, 20);
+        pGuiGraphics.blit(TEXTURE, x, y, 179  + (has ? 22 : 0), 25, 20, 20);
         pGuiGraphics.renderItem(stack, x+2, y+2);
     }
 }

@@ -1,17 +1,26 @@
 package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
+import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
+import com.github.catbert.tlma.network.NetworkHandler;
+import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +35,7 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +46,7 @@ import java.util.Optional;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerScreen {
+public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final Zone taskDisplay = new Zone(6, 20, 70, 20);
@@ -46,27 +56,35 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private final Zone scrollDisplay = new Zone(161, 44, 9, 86);
     private final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
     private final int titleStartY = 8;
+    private final EntityMaid maid;
+    private final CompoundTag cookCompound;
+    private final List<ItemStack> resultStackList = new ArrayList<>();
+    @SuppressWarnings("all")
+    private final List<Recipe> recipeList = new ArrayList<>();
+    private final List<String> selectRecs = new ArrayList<>();
     private Zone visualZone;
     private int solIndex = 0;
     private IMaidTask currentTask;
-    private List<ItemStack> resultStackList = Collections.emptyList();
-    private List<Recipe> recipeList = Collections.emptyList();
     private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
-    private List<Ingredient> lastIngreTooltipList = Collections.emptyList();
+    private List<Ingredient> lastIngreTooltipList = new ArrayList<>();
 
     public CookSettingContainerGui(CookSettingContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
+        this.maid = getMenu().getMaid();
+        this.cookCompound = inv.player.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
     }
 
     @Override
     protected void init() {
+        this.init(this.maid.getTask());
+    }
+
+    @Override
+    public void init(IMaidTask task) {
         super.init();
-
         if (getMaid() != null) {
-            this.currentTask = getMaid().getTask();
-
+            this.refreshInfo(task);
             this.guiCoordInfoInit();
-            this.recipeInfoInit();
 
             this.addTitleInfoButton();
             this.addTaskInfoButton();
@@ -80,14 +98,17 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         if (this.currentTask != task) {
             this.currentTask = task;
             this.solIndex = 0;
-            this.recipeList = Collections.emptyList();
+            this.selectRecs.clear();
+            this.selectRecs.addAll(((IAddonMaid) this.maid).getCookTaskData1()
+                    .getTaskRule(this.currentTask.getUid().toString())
+                    .getRecipeIds());
             this.recipeInfoInit();
         }
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        if (getMaid() != null) {
+        if (this.maid != null) {
             this.drawScrollInfoBar(graphics);
         }
         super.render(graphics, mouseX, mouseY, partialTicks);
@@ -130,11 +151,11 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null && this.currentTask instanceof ICookTask<?, ?> task) {
             List<Recipe> allRecipesFor = (List<Recipe>) task.getRecipes(mc.level);
-            this.recipeList = allRecipesFor;
-            resultStackList = allRecipesFor.stream().map(recipe -> recipe.getResultItem(mc.level.registryAccess())).toList();
+            this.recipeList.clear();
+            this.recipeList.addAll(allRecipesFor);
+            this.resultStackList.clear();
+            this.resultStackList.addAll(allRecipesFor.stream().map(recipe -> recipe.getResultItem(mc.level.registryAccess())).toList());
         }
-
-        if (resultStackList.isEmpty()) return;
     }
 
 
@@ -203,11 +224,29 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
             protected ItemStack getItemStack(int index) {
                 return CookSettingContainerGui.this.getItemStack(index);
             }
+
+            @Override
+            protected boolean isSelectedRec(int index) {
+                int actualIndex = getActualIndex(index);
+                if (actualIndex >= 999) return false;
+                String recipeId = recipeList.get(actualIndex).getId().toString();
+//                return ((IAddonMaid) serverMaid).containsRecipe2(recipeId);
+                return CookSettingContainerGui.this.containsRecipe2(recipeId);
+            }
+
+            @Override
+            protected void recAddOrRemove(int index) {
+                int actualIndex = getActualIndex(index);
+                if (actualIndex < 999 && CookSettingContainerGui.this.selectRecs.size() <= 10) {
+                    String recipeId = recipeList.get(actualIndex).getId().toString();
+                    CookSettingContainerGui.this.removeOrAddRec(recipeId);
+                    NetworkHandler.CHANNEL.sendToServer(new MaidTaskRecMessage(maid.getId(), recipeId));
+                }
+            }
         };
 
         this.addRenderableWidget(resultButton);
     }
-
 
     private void drawScrollInfoBar(GuiGraphics graphics) {
         int startX = visualZone.startX() + scrollDisplay.startX();
@@ -291,14 +330,14 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
     private ItemStack getItemStack(int index) {
-        int i = getStackActualIndex(index);
+        int i = getActualIndex(index);
         if (i < resultStackList.size()) {
             return resultStackList.get(i);
         }
         return ItemStack.EMPTY;
     }
 
-    private int getStackActualIndex(int virtuallyIndex) {
+    private int getActualIndex(int virtuallyIndex) {
         int i = virtuallyIndex + (ref.row() * ref.col()) * solIndex;
         if (i < resultStackList.size()) {
             return i;
@@ -308,5 +347,19 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
     private float getCurrentScroll() {
         return Mth.clamp((float) (solIndex * (1.0 / ((this.resultStackList.size() - 1) / (ref.col() * ref.row())))), 0, 1);
+    }
+
+    private void removeOrAddRec(String recipeId) {
+        if (this.selectRecs.contains(recipeId)) {
+            this.selectRecs.remove(recipeId);
+        } else {
+            this.selectRecs.add(recipeId);
+        }
+    }
+
+    public boolean containsRecipe2(String recipeId) {
+        CompoundTag compound = this.cookCompound.getCompound(this.currentTask.getUid().toString());
+        ListTag list = compound.getList("recipe", Tag.TAG_STRING);
+        return list.contains(StringTag.valueOf(recipeId));
     }
 }

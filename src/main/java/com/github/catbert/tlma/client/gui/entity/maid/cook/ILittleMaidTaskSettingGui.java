@@ -1,4 +1,4 @@
 package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
-public interface ILittleMaidTaskSettingScreen {
+public interface ILittleMaidTaskSettingGui {
 }

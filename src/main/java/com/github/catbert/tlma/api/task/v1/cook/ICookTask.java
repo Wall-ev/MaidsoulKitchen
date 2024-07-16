@@ -1,8 +1,8 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.task.ai.brain.MaidCookMakeTask;
-import com.github.catbert.tlma.task.ai.brain.MaidCookMoveTask;
+import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
+import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;

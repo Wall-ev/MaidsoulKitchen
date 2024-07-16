@@ -1,8 +1,8 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.task.ai.brain.MaidCompatFarmMoveTask;
-import com.github.catbert.tlma.task.ai.brain.MaidCompatFarmPlantTask;
+import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
+import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;

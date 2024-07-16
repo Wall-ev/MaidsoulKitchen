@@ -4,7 +4,7 @@ import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskSettingScreen;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskSettingGui;
 import com.github.catbert.tlma.client.gui.mod.PatchouliScreen;
 import com.github.catbert.tlma.client.gui.widget.button.MaidSideTabButton;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
@@ -31,11 +31,11 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         this.topPos = topPos + 28 + 9;
     }
 
-    private void settingBtnPress(AbstractMaidContainerGui<T> screen) {
-        IMaidTask task = screen.getMaid().getTask();
+    private void settingBtnPressed(AbstractMaidContainerGui<T> gui) {
+        IMaidTask task = gui.getMaid().getTask();
 
         if (task instanceof ICookTask<?, ?>) {
-            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(entityId, SideTabIndex.SETTING.getIndex()));
+            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, entityId, SideTabIndex.SETTING.getIndex()));
         } else if (task instanceof ICompatFarm<?>) {
 
         } else if (task instanceof IAddonFarmTask) {
@@ -51,10 +51,10 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
 
     public MaidSideTabButton[] getTabs(AbstractMaidContainerGui<T> screen) {
         int i = 0, startY = 107, spacing = 25;
-        MaidSideTabButton setting = new MaidSideTabButton(rightPos, topPos, startY, (b) -> settingBtnPress(screen), List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"),
+        MaidSideTabButton setting = new MaidSideTabButton(rightPos, topPos, startY, (b) -> settingBtnPressed(screen), List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_setting.desc"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
-        if (screen instanceof ILittleMaidTaskSettingScreen) {
+        if (screen instanceof ILittleMaidTaskSettingGui) {
             setting.active = false;
         }
         i++;
