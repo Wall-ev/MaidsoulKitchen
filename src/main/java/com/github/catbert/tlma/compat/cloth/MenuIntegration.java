@@ -40,7 +40,8 @@ public class MenuIntegration {
 //                .setSaveConsumer(TaskConfig.SERENESEASONS_FARM_TASK_ENABLED::set).build());
 
         task.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.task.enable_cook_task_enable_condition.name"), TaskConfig.COOK_TASK_ENABLE_CONDITION.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.task.enable_cook_task_enable_condition.desc"))
+                .setDefaultValue(TaskConfig.COOK_TASK_ENABLE_CONDITION.getDefault())
+                .setTooltip(Component.translatable("config.touhou_little_maid_addon.task.enable_cook_task_enable_condition.desc"))
                 .setSaveConsumer(TaskConfig.COOK_TASK_ENABLE_CONDITION::set).build());
 
         task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.melon_stem_list.name"), TaskConfig.MELON_STEM_LIST.get().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
@@ -55,6 +56,16 @@ public class MenuIntegration {
                     }
                     TaskConfig.MELON_STEM_LIST.set(melonStemList);
                 }).build());
+
+        task.addEntry(entryBuilder.startIntField(Component.translatable("config.touhou_little_maid_addon.cook_selected_recipes.name"), TaskConfig.COOK_SELECTED_RECIPES.get())
+                .setDefaultValue(TaskConfig.COOK_SELECTED_RECIPES.getDefault())
+                .setTooltip(Component.translatable("config.touhou_little_maid_addon.cook_selected_recipes.desc"))
+                .setSaveConsumer(TaskConfig.COOK_SELECTED_RECIPES::set).build());
+
+        task.addEntry(entryBuilder.startIntField(Component.translatable("config.touhou_little_maid_addon.fruit_search_yoffset.name"), TaskConfig.SEARCHY_OFFSET.get())
+                .setDefaultValue(TaskConfig.SEARCHY_OFFSET.getDefault())
+                .setTooltip(Component.translatable("config.touhou_little_maid_addon.fruit_search_yoffset.desc"))
+                .setSaveConsumer(TaskConfig.SEARCHY_OFFSET::set).build());
     }
 
     private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {

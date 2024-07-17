@@ -1,5 +1,6 @@
 package com.github.catbert.tlma.entity.passive;
 
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -17,7 +18,7 @@ public final class CookTaskData {
         List<String> recipeIds = this.getTaskRule(taskId).recipeIds;
         if (recipeIds.contains(recipeId)) {
             removeTaskRecipe(taskId, recipeId);
-        } else if (recipeIds.size() < 10) {
+        } else if (recipeIds.size() < TaskConfig.COOK_SELECTED_RECIPES.get()) {
             addTaskRecipe(taskId, recipeId);
         }
     }

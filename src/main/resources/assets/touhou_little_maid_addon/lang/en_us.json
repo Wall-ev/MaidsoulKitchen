@@ -91,7 +91,7 @@
   "gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc": "Change maid cook rule: Random Cook",
   "gui.touhou_little_maid_addon.btn.cook_guide.type.select.desc": "Change maid cook rule: Selected Cook",
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select": "This cook mode type isn't selected, so can't select",
-  "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "This cook selected recipes is over size : %s, so can't add",
+  "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "This cook selected recipes is over size : %d, so can't add",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "Now Task: %s",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "Now Cook RecipeType: %s",
   "gui.touhou_little_maid_addon.patchouli_warning.download": "Download Patchouli",

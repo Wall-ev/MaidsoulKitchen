@@ -92,7 +92,7 @@
   "gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc": "切换女仆烹饪规则: 随机烹饪",
   "gui.touhou_little_maid_addon.btn.cook_guide.type.select.desc": "切换女仆烹饪规则: 定向烹饪",
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select": "当前烹饪模式不是定向模式，无法选择",
-  "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "当前烹饪定向配方数已经超额：%s, 无法添加",
+  "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "当前烹饪定向配方数已经超额：%d, 无法添加",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "当前任务: %s",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "当前烹饪配方类型: %s",
   "gui.touhou_little_maid_addon.patchouli_warning.download": "下载 Patchouli",

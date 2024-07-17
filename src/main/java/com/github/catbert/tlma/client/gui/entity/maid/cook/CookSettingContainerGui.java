@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
@@ -14,7 +15,6 @@ import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -288,7 +288,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
         CookTaskData.TaskRule taskRule = this.cookTaskData.getTaskRule(currentTask.getUid().toString());
         boolean modeRandom = taskRule.getMode() == CookTaskData.Mode.RANDOM;
-        boolean overSize = taskRule.getRecipeIds().size() >= 10;
+        boolean overSize = taskRule.getRecipeIds().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
         List<Ingredient> ingres = getIngre(stack);
         Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));

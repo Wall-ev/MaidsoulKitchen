@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.client.tooltip;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
@@ -18,7 +19,7 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final MutableComponent titleTip = Component.translatable("tooltips.touhou_little_maid_addon.amount.title");
     private final MutableComponent randomTip = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
-    private final MutableComponent overSizeTip = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size", "10").withStyle(ChatFormatting.YELLOW);
+    private final MutableComponent overSizeTip = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
     private final List<Ingredient> ingres;
     private final boolean isRandom;
     private final boolean isOverSize;

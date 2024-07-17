@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.mixin.tlm;
 
 import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.util.FakePlayerUtil;
@@ -92,7 +93,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 //        cookTaskTag.put(COOK_TASK, compoundTag);
 //        entityData.define(MAID_ADDON_DATA, cookTaskTag);
 //
-        entityData.define(SEARCHY_OFFSET_DATA, 4);
+        entityData.define(SEARCHY_OFFSET_DATA, TaskConfig.SEARCHY_OFFSET.get());
     }
 
     @Inject(at = @At("TAIL"), remap = true, method = "addAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
@@ -149,7 +150,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         StringTag recipe = StringTag.valueOf(recipeId);
         if (recipeListTag.contains(recipe)) {
             recipeListTag.remove(recipe);
-        } else if (recipeListTag.size() <= 10) {
+        } else if (recipeListTag.size() <= TaskConfig.COOK_SELECTED_RECIPES.get()) {
             recipeListTag.add(recipe);
         }
         getCookTaskTag().put(RECIPE, recipeListTag);
@@ -229,7 +230,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         if (list.contains(StringTag.valueOf(recipeId))) {
             list.remove(StringTag.valueOf(recipeId));
         } else {
-            if (list.size() < 10) {
+            if (list.size() < TaskConfig.COOK_SELECTED_RECIPES.get()) {
                 list.add(StringTag.valueOf(recipeId));
             }
         }
