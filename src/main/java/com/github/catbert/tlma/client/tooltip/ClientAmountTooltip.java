@@ -37,9 +37,9 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
 
     @Override
     public int getWidth(Font font) {
-        int tipMax = 0;
+        int tipMax = font.width(titleTip);
         if (isRandom) {
-            tipMax = Math.max(font.width(titleTip), font.width(randomTip));
+            tipMax = Math.max(tipMax, font.width(randomTip));
         }
         if (isOverSize) {
             tipMax = Math.max(tipMax, font.width(overSizeTip));
