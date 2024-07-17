@@ -39,6 +39,8 @@ public interface IAddonMaid {
 
     boolean containsRecipe1(String recipeId);
 
+    void toggleTaskRuleMode1();
+
     void addOrRemoveRecipe2(String recipeId);
 
     boolean containsRecipe2(String recipeId);

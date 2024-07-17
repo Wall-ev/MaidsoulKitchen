@@ -86,7 +86,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        if (isSameTaskRule(maid) && isLastInv(maid)) return;
+        boolean lastInv = isLastInv(maid);
+        boolean sameTaskRule = isSameTaskRule(maid);
+        if (lastInv && sameTaskRule) return;
         createRecipesIngredients(maid);
     }
 

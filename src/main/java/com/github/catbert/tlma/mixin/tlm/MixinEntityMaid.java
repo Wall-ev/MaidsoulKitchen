@@ -1,16 +1,16 @@
 package com.github.catbert.tlma.mixin.tlm;
 
 import com.github.catbert.tlma.api.IAddonMaid;
-import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.SchedulePos;
-import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -37,9 +37,6 @@ import java.lang.ref.WeakReference;
 
 @Mixin(value = EntityMaid.class, remap = false)
 public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowAttackMob, IMaid, IAddonMaid {
-    @Shadow public abstract IMaidTask getTask();
-
-    @Shadow @Final public static EntityType<EntityMaid> TYPE;
     @Unique
     @SuppressWarnings("all")
     private static final EntityDataAccessor<CompoundTag> MAID_ADDON_DATA = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
@@ -56,15 +53,20 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     private static final String COOK_TASK = "CookTask";
     private static final String RECIPE = "recipe";
     private static final String MODE = "mode";
+    @Shadow
+    @Final
+    public static EntityType<EntityMaid> TYPE;
     @Unique
     @SuppressWarnings("all")
     private WeakReference<FakePlayer> fakePlayer;
     @Unique
     private CookTaskData cookTaskData;
-
     protected MixinEntityMaid(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+
+    @Shadow
+    public abstract IMaidTask getTask();
 
     @Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V")
     private void init$tlma(CallbackInfo ci) {
@@ -208,6 +210,11 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         return cookTaskData.containsRecipe(getTask().getUid().toString(), recipeId);
     }
 
+    public void toggleTaskRuleMode1() {
+        CookTaskData cookTaskData = this.getCookTaskData1();
+        cookTaskData.toggleMode(getTask().getUid().toString());
+    }
+
     @Override
     public void addOrRemoveRecipe2(String recipeId) {
         CompoundTag persistentData = this.getPersistentData();
@@ -220,7 +227,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
             list = new ListTag();
         }
         if (list.contains(StringTag.valueOf(recipeId))) {
-            list.remove(StringTag.valueOf(recipeId));            
+            list.remove(StringTag.valueOf(recipeId));
         } else {
             if (list.size() < 10) {
                 list.add(StringTag.valueOf(recipeId));

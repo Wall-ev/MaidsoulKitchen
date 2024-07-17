@@ -10,6 +10,7 @@ import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
+import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -36,10 +37,7 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)
@@ -177,23 +175,16 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
     private void addTypeButton() {
-        MutableComponent randomComponent = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.random");
-        List<Component> randomTooltip = List.of(Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.random.desc"));
-        int randomButtonWidth = font.width(randomComponent) + (actionDisplay.width() / 2);
-        MutableComponent selectedComponent = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.selected");
-        List<Component> selectedTooltip = List.of(Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type.selected.desc"));
-        int selectedButtonWidth = font.width(selectedComponent) + (actionDisplay.width() / 2);
-
-        int startX = width - leftPos - (-actionDisplay.startX()) - randomButtonWidth - selectedButtonWidth;
+        int maxWidth = 0;
+        for (CookTaskData.Mode value : CookTaskData.Mode.values()) {
+            maxWidth = Math.max(maxWidth, font.width(Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.type." + value.getUid())) + 5);
+        }
+        int startX = width - leftPos - (-actionDisplay.startX()) - maxWidth - 1;
         int startY = visualZone.startY() + actionDisplay.startY();
-
-        NormalTooltipButton randomBtn = new NormalTooltipButton(startX, startY, randomButtonWidth, actionDisplay.height(), randomComponent, randomTooltip, b -> {
+        TypeButton typeButton = new TypeButton(startX, startY, maxWidth, actionDisplay.height(), this.cookTaskData.getTaskRule(this.currentTask.getUid().toString()), b -> {
+            NetworkHandler.CHANNEL.sendToServer(new ToggleTaskRuleModeMessage(maid.getId()));
         });
-        NormalTooltipButton selectedBtn = new NormalTooltipButton(startX + selectedButtonWidth, startY, selectedButtonWidth, actionDisplay.height(), selectedComponent, selectedTooltip, b -> {
-        });
-
-        this.addRenderableWidget(randomBtn);
-        this.addRenderableWidget(selectedBtn);
+        this.addRenderableWidget(typeButton);
     }
 
     // 161, 25 189, 74
@@ -243,10 +234,18 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
             @Override
             protected void recAddOrRemove(int index) {
                 int actualIndex = getActualIndex(index);
-                if (actualIndex < 999) {
+                if (actualIndex < 999 && cookTaskData.getTaskRule(currentTask.getUid().toString()).getMode() == CookTaskData.Mode.SELECT) {
                     String recipeId = recipeList.get(actualIndex).getId().toString();
 //                    CookSettingContainerGui.this.removeOrAddRec(recipeId);
                     NetworkHandler.CHANNEL.sendToServer(new MaidTaskRecMessage(maid.getId(), recipeId));
+                }
+            }
+
+            @Override
+            public void renderChildren(ItemStack stack, boolean has, GuiGraphics pGuiGraphics, int x, int y) {
+                super.renderChildren(stack, has, pGuiGraphics, x, y);
+                if (cookTaskData.getTaskRule(currentTask.getUid().toString()).getMode() == CookTaskData.Mode.RANDOM) {
+                    pGuiGraphics.fill(x, y, x + 20, y + 20, 0x80000000);
                 }
             }
         };

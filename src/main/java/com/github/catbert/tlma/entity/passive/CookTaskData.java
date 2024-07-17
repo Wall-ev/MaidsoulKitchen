@@ -1,6 +1,5 @@
 package com.github.catbert.tlma.entity.passive;
 
-import com.github.catbert.tlma.TLMAddon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -18,7 +17,7 @@ public final class CookTaskData {
         List<String> recipeIds = this.getTaskRule(taskId).recipeIds;
         if (recipeIds.contains(recipeId)) {
             removeTaskRecipe(taskId, recipeId);
-        } else if (recipeIds.size() < 10){
+        } else if (recipeIds.size() < 10) {
             addTaskRecipe(taskId, recipeId);
         }
     }
@@ -37,6 +36,15 @@ public final class CookTaskData {
         this.getTaskRule(taskId).setNeedUpdate(true);
     }
 
+    public void toggleMode(String taskId) {
+        TaskRule taskRule = this.getTaskRule(taskId);
+        if (taskRule.getMode() == Mode.RANDOM) {
+            taskRule.setMode(Mode.SELECT);
+        } else {
+            taskRule.setMode(Mode.RANDOM);
+        }
+    }
+
     public void setTaskMode(String taskId, Mode mode) {
         this.getTaskRule(taskId).setMode(mode);
         this.getTaskRule(taskId).setNeedUpdate(true);
@@ -50,7 +58,7 @@ public final class CookTaskData {
         TaskRule taskRule = taskRules.get(taskId);
         if (taskRule != null) {
             return taskRule;
-        }else {
+        } else {
             TaskRule taskRule1 = new TaskRule(Mode.RANDOM, new ArrayList<>());
             taskRules.put(taskId, taskRule1);
             return taskRule1;

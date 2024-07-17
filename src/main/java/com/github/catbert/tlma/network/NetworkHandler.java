@@ -3,6 +3,7 @@ package com.github.catbert.tlma.network;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
+import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -21,6 +22,8 @@ public final class NetworkHandler {
         CHANNEL.registerMessage(i++, ToggleSideTabMessage.class, ToggleSideTabMessage::encode, ToggleSideTabMessage::decode, ToggleSideTabMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, MaidTaskRecMessage.class, MaidTaskRecMessage::encode, MaidTaskRecMessage::decode, MaidTaskRecMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, ToggleTaskRuleModeMessage.class, ToggleTaskRuleModeMessage::encode, ToggleTaskRuleModeMessage::decode, ToggleTaskRuleModeMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
