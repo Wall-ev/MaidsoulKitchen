@@ -17,24 +17,45 @@ import java.util.List;
 public class ClientAmountTooltip implements ClientTooltipComponent {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final MutableComponent titleTip = Component.translatable("tooltips.touhou_little_maid_addon.amount.title");
+    private final MutableComponent randomTip = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
+    private final MutableComponent overSizeTip = Component.translatable("gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size", "10").withStyle(ChatFormatting.YELLOW);
     private final List<Ingredient> ingres;
+    private final boolean isRandom;
+    private final boolean isOverSize;
 
     public ClientAmountTooltip(AmountTooltip containerTooltip) {
         this.ingres = containerTooltip.ingredients();
+        this.isRandom = containerTooltip.isRandom();
+        this.isOverSize = containerTooltip.isOverSize();
     }
 
     @Override
     public int getHeight() {
-        return 30;
+        return 30 + (this.isRandom ? 10 : 0) + (this.isOverSize ? 10 : 0);
     }
 
     @Override
     public int getWidth(Font font) {
-        return Math.max(font.width(titleTip), ingres.size() * 20);
+        int tipMax = 0;
+        if (isRandom) {
+            tipMax = Math.max(font.width(titleTip), font.width(randomTip));
+        }
+        if (isOverSize) {
+            tipMax = Math.max(tipMax, font.width(overSizeTip));
+        }
+        return Math.max(tipMax, ingres.size() * 20);
     }
 
     @Override
     public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
+        if (isRandom) {
+            guiGraphics.drawString(font, randomTip, pX, pY, ChatFormatting.YELLOW.getColor());
+            pY += 10;
+        }
+        if (isOverSize) {
+            guiGraphics.drawString(font, overSizeTip, pX, pY, ChatFormatting.YELLOW.getColor());
+            pY += 10;
+        }
         guiGraphics.drawString(font, titleTip, pX, pY, ChatFormatting.GRAY.getColor());
         int i = 0;
         pY += 10;

@@ -5,5 +5,5 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
 
-public record AmountTooltip(List<Ingredient> ingredients) implements TooltipComponent {
+public record AmountTooltip(List<Ingredient> ingredients, Boolean isRandom, boolean isOverSize) implements TooltipComponent {
 }

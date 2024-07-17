@@ -14,6 +14,7 @@ import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -285,8 +286,12 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
 
+        CookTaskData.TaskRule taskRule = this.cookTaskData.getTaskRule(currentTask.getUid().toString());
+        boolean modeRandom = taskRule.getMode() == CookTaskData.Mode.RANDOM;
+        boolean overSize = taskRule.getRecipeIds().size() >= 10;
+
         List<Ingredient> ingres = getIngre(stack);
-        Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres));
+        Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);
     }
