@@ -135,13 +135,11 @@ public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContai
             // 向上滚
             if (delta > 0 && solIndex > 0) {
                 solIndex--;
-                this.init();
                 return true;
             }
             // 向下滚
             if (delta < 0 && solIndex < (this.resultStackList.size() - 1) / (ref.col() * ref.row())) {
                 solIndex++;
-                this.init();
                 return true;
             }
         }
@@ -200,13 +198,11 @@ public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContai
         ImageButton upButton = new ImageButton(startX, startY, 9, 7, 199, 74, 14, TEXTURE, b -> {
             if (this.solIndex > 0) {
                 this.solIndex--;
-                this.init();
             }
         });
         Button downButton = new ImageButton(startX, startY + 8 + 1 + 70, 9, 7, 208, 74, 14, TEXTURE, b -> {
             if (this.solIndex < (this.resultStackList.size() - 1) / (ref.col() * ref.row())) {
                 this.solIndex++;
-                this.init();
             }
         });
         this.addRenderableWidget(upButton);
