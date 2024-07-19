@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
+import net.minecraft.world.MenuProvider;
 
 public interface ILittleMaidTask extends ILittleMaid, IMaidTask {
 
@@ -16,4 +17,7 @@ public interface ILittleMaidTask extends ILittleMaid, IMaidTask {
 
     boolean canLoaded();
 
+    default MenuProvider getGuiProvider(EntityMaid maid, int entityId) {
+        return maid.getMaidBackpackType().getGuiProvider(maid.getId());
+    }
 }

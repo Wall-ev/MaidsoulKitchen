@@ -1,37 +1,20 @@
 package com.github.catbert.tlma.inventory.container;
 
+import com.github.catbert.tlma.TLMAddon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.extensions.IForgeMenuType;
 
-public class CookSettingContainer extends AbstractMaidContainer {
-    public static final MenuType<CookSettingContainer> TYPE = IForgeMenuType.create((windowId, inv, data) -> new CookSettingContainer(windowId, inv, data.readInt()));
-
+public abstract class TaskConfigerContainer extends AbstractMaidContainer {
     private static final int PLAYER_INVENTORY_SIZE = 27;
+    public static final ResourceLocation EMPTY = new ResourceLocation(TLMAddon.MOD_ID, "empty");
 
-    public CookSettingContainer(int id, Inventory inventory, int entityId) {
-        super(TYPE, id, inventory, entityId);
-    }
-
-    public static MenuProvider create(int entityId) {
-        return new MenuProvider() {
-            @Override
-            public Component getDisplayName() {
-                return Component.literal("Maid Cook Setting Container");
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookSettingContainer(index, playerInventory, entityId);
-            }
-        };
+    public TaskConfigerContainer(MenuType<?> type, int id, Inventory inventory, int entityId) {
+        super(type, id, inventory, entityId);
     }
 
     @Override

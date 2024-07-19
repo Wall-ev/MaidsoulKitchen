@@ -7,7 +7,7 @@ import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
-import com.github.catbert.tlma.inventory.container.CookSettingContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
@@ -38,7 +38,10 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)
@@ -46,7 +49,7 @@ import java.util.*;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
+public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final Zone taskDisplay = new Zone(6, 20, 70, 20);
@@ -68,17 +71,19 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private IMaidTask currentTask;
     private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
     private List<Ingredient> lastIngreTooltipList = new ArrayList<>();
+    private ResourceLocation taskUid;
 
-    public CookSettingContainerGui(CookSettingContainer screenContainer, Inventory inv, Component titleIn) {
+    public CookConfigerGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
         this.maid = getMenu().getMaid();
+        this.currentTask = maid.level().isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
         this.cookCompound = maid.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
         this.cookTaskData = maid.level().isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
     }
 
     @Override
     protected void init() {
-        this.init(this.maid.getTask());
+        this.init(currentTask);
     }
 
     @Override
@@ -97,7 +102,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     }
 
     public void refreshInfo(IMaidTask task) {
-        if (this.currentTask != task) {
+//        if (this.currentTask != task) {
             this.currentTask = task;
             this.solIndex = 0;
             this.selectRecs.clear();
@@ -105,7 +110,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                     .getTaskRule(this.currentTask.getUid().toString())
                     .getRecipeIds());
             this.recipeInfoInit();
-        }
+//        }
     }
 
     @Override
@@ -130,13 +135,11 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
             // 向上滚
             if (delta > 0 && solIndex > 0) {
                 solIndex--;
-                this.init();
                 return true;
             }
             // 向下滚
             if (delta < 0 && solIndex < (this.resultStackList.size() - 1) / (ref.col() * ref.row())) {
                 solIndex++;
-                this.init();
                 return true;
             }
         }
@@ -195,13 +198,11 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         ImageButton upButton = new ImageButton(startX, startY, 9, 7, 199, 74, 14, TEXTURE, b -> {
             if (this.solIndex > 0) {
                 this.solIndex--;
-                this.init();
             }
         });
         Button downButton = new ImageButton(startX, startY + 8 + 1 + 70, 9, 7, 208, 74, 14, TEXTURE, b -> {
             if (this.solIndex < (this.resultStackList.size() - 1) / (ref.col() * ref.row())) {
                 this.solIndex++;
-                this.init();
             }
         });
         this.addRenderableWidget(upButton);
@@ -217,7 +218,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         ResultButton resultButton = new ResultButton(new Zone(startX, startY, resultDisplay.width(), resultDisplay.height()), ref) {
             @Override
             protected ItemStack getItemStack(int index) {
-                return CookSettingContainerGui.this.getItemStack(index);
+                return CookConfigerGui.this.getItemStack(index);
             }
 
             @Override
@@ -227,7 +228,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                     String recipeId = recipeList.get(actualIndex).getId().toString();
 //                return ((IAddonMaid) serverMaid).containsRecipe2(recipeId);
 //                return CookSettingContainerGui.this.containsRecipe2(recipeId);
-                    return CookSettingContainerGui.this.containsRecipe1(recipeId);
+                    return CookConfigerGui.this.containsRecipe1(recipeId);
                 }
                 return false;
             }

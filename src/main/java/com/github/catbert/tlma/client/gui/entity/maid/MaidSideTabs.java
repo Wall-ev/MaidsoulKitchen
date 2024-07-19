@@ -1,16 +1,12 @@
 package com.github.catbert.tlma.client.gui.entity.maid;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.api.task.IAddonFarmTask;
-import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
-import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskSettingGui;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskConfigerGui;
 import com.github.catbert.tlma.client.gui.mod.PatchouliScreen;
 import com.github.catbert.tlma.client.gui.widget.button.MaidSideTabButton;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
-import com.github.catbert.tlma.task.TaskFeedAndDrinkOwner;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
@@ -34,16 +30,8 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
     private void settingBtnPressed(AbstractMaidContainerGui<T> gui) {
         IMaidTask task = gui.getMaid().getTask();
 
-        if (task instanceof ICookTask<?, ?>) {
-            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, entityId, SideTabIndex.SETTING.getIndex()));
-        } else if (task instanceof ICompatFarm<?>) {
-
-        } else if (task instanceof IAddonFarmTask) {
-
-        } else if (task instanceof TaskFeedAndDrinkOwner) {
-
-        } else if (task instanceof ILittleMaidTask) {
-
+        if (task instanceof ILittleMaidTask) {
+            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, entityId, SideTabIndex.SETTING.getIndex(), task.getUid()));
         } else {
 
         }
@@ -54,7 +42,7 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         MaidSideTabButton setting = new MaidSideTabButton(rightPos, topPos, startY, (b) -> settingBtnPressed(screen), List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_setting.desc"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
-        if (screen instanceof ILittleMaidTaskSettingGui) {
+        if (screen instanceof ILittleMaidTaskConfigerGui) {
             setting.active = false;
         }
         i++;
