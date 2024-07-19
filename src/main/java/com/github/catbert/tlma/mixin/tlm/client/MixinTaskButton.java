@@ -2,6 +2,7 @@ package com.github.catbert.tlma.mixin.tlm.client;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.client.gui.entity.maid.cook.CookConfigerGui;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.MaidTaskConfigerGui;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
@@ -25,7 +26,7 @@ public abstract class MixinTaskButton extends Button {
     @Override
     public void onPress() {
         super.onPress();
-        if (Minecraft.getInstance().screen instanceof CookConfigerGui gui) {
+        if (Minecraft.getInstance().screen instanceof MaidTaskConfigerGui<?> gui) {
             IMaidTask task = this.getTask();
             if (task instanceof ILittleMaidTask && task.isEnable(gui.getMaid())) {
                 NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex(), task.getUid()));

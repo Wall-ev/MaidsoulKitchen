@@ -14,18 +14,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.StringUtils;
 
 @OnlyIn(value = Dist.CLIENT)
-public class PatchouliScreen extends Screen {
+public class PatchouliWarningScreen extends Screen {
     private final String patchouliUrl = "https://www.curseforge.com/minecraft/mc-mods/patchouli";
     private final Screen lastScreen;
     private MultiLineLabel message = MultiLineLabel.EMPTY;
 
-    private PatchouliScreen(Screen lastScreen) {
+    private PatchouliWarningScreen(Screen lastScreen) {
         super(Component.literal("Patchouli"));
         this.lastScreen = lastScreen;
     }
 
     public static void open() {
-        Minecraft.getInstance().setScreen(new PatchouliScreen(Minecraft.getInstance().screen));
+        Minecraft.getInstance().setScreen(new PatchouliWarningScreen(Minecraft.getInstance().screen));
     }
 
     @Override

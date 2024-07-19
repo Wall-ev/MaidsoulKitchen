@@ -49,7 +49,7 @@ import java.util.Optional;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
+public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final Zone taskDisplay = new Zone(6, 20, 70, 20);

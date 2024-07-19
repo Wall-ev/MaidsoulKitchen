@@ -1,16 +1,20 @@
 package com.github.catbert.tlma.client.gui.entity.maid;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.ILittleMaidTaskConfigerGui;
-import com.github.catbert.tlma.client.gui.mod.PatchouliScreen;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.MaidTaskConfigerGui;
+import com.github.catbert.tlma.client.gui.mod.PatchouliWarningScreen;
 import com.github.catbert.tlma.client.gui.widget.button.MaidSideTabButton;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fml.ModList;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.List;
 
@@ -42,13 +46,20 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         MaidSideTabButton setting = new MaidSideTabButton(rightPos, topPos, startY, (b) -> settingBtnPressed(screen), List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_setting"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_setting.desc"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
-        if (screen instanceof ILittleMaidTaskConfigerGui) {
+        if (screen instanceof MaidTaskConfigerGui<?>) {
             setting.active = false;
         }
         i++;
 
         MaidSideTabButton book = new MaidSideTabButton(rightPos, topPos + i * spacing, startY + i * spacing, (b) -> {
-            PatchouliScreen.open();
+            if (ModList.get().isLoaded("patchouli")) {
+                PatchouliAPI.IPatchouliAPI iPatchouliAPI = PatchouliAPI.get();
+                iPatchouliAPI.openBookGUI(new ResourceLocation(TouhouLittleMaid.MOD_ID, "memorizable_gensokyo"));
+                //todo
+//                iPatchouliAPI.openBookEntry();
+            } else {
+                PatchouliWarningScreen.open();
+            }
         }, List.of(Component.translatable("gui.touhou_little_maid_addon.btn.task_book"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_book.desc"),
                 Component.translatable("gui.touhou_little_maid_addon.btn.task_warn_text")));
