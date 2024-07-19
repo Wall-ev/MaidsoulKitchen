@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
@@ -20,7 +22,7 @@ public class TypeButton extends NormalTooltipButton {
     }
 
     @Override
-    public List<Component> getTooltips() {
-        return List.of(Component.translatable(String.format("gui.touhou_little_maid_addon.btn.cook_guide.type.%s.desc", this.taskRule.getMode().getUid())));
+    public void renderTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
+        graphics.renderComponentTooltip(mc.font, List.of(Component.translatable(String.format("gui.touhou_little_maid_addon.btn.cook_guide.type.%s.desc", this.taskRule.getMode().getUid()))), mouseX, mouseY);
     }
 }

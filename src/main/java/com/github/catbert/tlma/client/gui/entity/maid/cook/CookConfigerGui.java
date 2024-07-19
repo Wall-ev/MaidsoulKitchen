@@ -7,7 +7,8 @@ import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
-import com.github.catbert.tlma.inventory.container.CookSettingContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
@@ -15,6 +16,7 @@ import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -46,7 +48,7 @@ import java.util.*;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettingContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
+public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContainer> implements ICookContainerGui, IAddonAbstractMaidContainerGui {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final Zone taskDisplay = new Zone(6, 20, 70, 20);
@@ -68,9 +70,11 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
     private IMaidTask currentTask;
     private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
     private List<Ingredient> lastIngreTooltipList = new ArrayList<>();
+    private ResourceLocation taskUid;
 
-    public CookSettingContainerGui(CookSettingContainer screenContainer, Inventory inv, Component titleIn) {
+    public CookConfigerGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
+//        this.taskUid = screenContainer.taskUid;
         this.maid = getMenu().getMaid();
         this.cookCompound = maid.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
         this.cookTaskData = maid.level().isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
@@ -78,7 +82,12 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
 
     @Override
     protected void init() {
-        this.init(this.maid.getTask());
+        if (taskUid != TaskConfigerContainer.EMPTY) {
+            IMaidTask task = TaskManager.findTask(taskUid).orElse(TaskManager.getIdleTask());
+            this.init(task);
+        }else {
+            this.init(this.maid.getTask());
+        }
     }
 
     @Override
@@ -217,7 +226,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
         ResultButton resultButton = new ResultButton(new Zone(startX, startY, resultDisplay.width(), resultDisplay.height()), ref) {
             @Override
             protected ItemStack getItemStack(int index) {
-                return CookSettingContainerGui.this.getItemStack(index);
+                return CookConfigerGui.this.getItemStack(index);
             }
 
             @Override
@@ -227,7 +236,7 @@ public class CookSettingContainerGui extends AbstractMaidContainerGui<CookSettin
                     String recipeId = recipeList.get(actualIndex).getId().toString();
 //                return ((IAddonMaid) serverMaid).containsRecipe2(recipeId);
 //                return CookSettingContainerGui.this.containsRecipe2(recipeId);
-                    return CookSettingContainerGui.this.containsRecipe1(recipeId);
+                    return CookConfigerGui.this.containsRecipe1(recipeId);
                 }
                 return false;
             }

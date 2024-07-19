@@ -1,9 +1,9 @@
 package com.github.catbert.tlma.mixin.tlm;
 
 import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
-import com.github.catbert.tlma.inventory.container.CookSettingContainer;
 import com.github.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
@@ -62,6 +62,9 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
     private WeakReference<FakePlayer> fakePlayer;
     @Unique
     private CookTaskData cookTaskData;
+    @Shadow
+    private IMaidTask task;
+
     protected MixinEntityMaid(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -168,18 +171,22 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         }
     }
 
-    public boolean openMaidGuiFromSideTab(Player player, int tabIndex) {
+    public boolean openMaidGuiFromSideTab(Player player, int tabIndex, boolean simulate) {
         if (player instanceof ServerPlayer && !this.isSleeping()) {
             this.navigation.stop();
-            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeInt(getId()));
+            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex, simulate), (buffer) -> buffer.writeInt(getId()));
         }
         return true;
     }
 
-    public MenuProvider getGuiProviderFromSideTab(int tabIndex) {
+    public MenuProvider getGuiProviderFromSideTab(int tabIndex, boolean simulate) {
+        if (tabIndex == 0 && task instanceof ILittleMaidTask littleMaidTask) {
+            return littleMaidTask.getGuiProvider((EntityMaid) (Object) this, getId(), simulate);
+        }
         switch (tabIndex) {
             case 0:
-                return CookSettingContainer.create(getId());
+//                return this.getMaidBackpackType().getGuiProvider(getId());
+//                return TaskConfigerContainer.create(getId());
             default:
                 return this.getMaidBackpackType().getGuiProvider(getId());
         }

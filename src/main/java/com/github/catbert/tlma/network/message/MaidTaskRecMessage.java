@@ -1,9 +1,7 @@
 package com.github.catbert.tlma.network.message;
 
 import com.github.catbert.tlma.api.IAddonMaid;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.CookSettingContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;

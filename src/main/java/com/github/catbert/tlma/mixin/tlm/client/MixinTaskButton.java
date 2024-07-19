@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.mixin.tlm.client;
 
-import com.github.catbert.tlma.client.gui.entity.maid.cook.CookSettingContainerGui;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.IAddonAbstractMaidContainerGui;
+import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.CookConfigerGui;
 import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
@@ -25,12 +25,11 @@ public abstract class MixinTaskButton extends Button {
     @Override
     public void onPress() {
         super.onPress();
-        if (Minecraft.getInstance().screen instanceof CookSettingContainerGui gui) {
+        if (Minecraft.getInstance().screen instanceof CookConfigerGui gui) {
             IMaidTask task = this.getTask();
-            boolean enable = task.isEnable(gui.getMaid());
-//            if (enable && task instanceof ICookTask<?,?>) {
-            if (enable) {
-                ((IAddonAbstractMaidContainerGui) gui).init(this.getTask());
+            if (task instanceof ILittleMaidTask && task.isEnable(gui.getMaid())) {
+                NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex(), true));
+//                ((IAddonAbstractMaidContainerGui) gui).init(this.getTask());
 //                NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex()));
 
 //                NetworkHandler.CHANNEL.sendToServer(new OpeCookingSettingGuiMessage(cookingSettingContainerGui.getMaid().getId()));

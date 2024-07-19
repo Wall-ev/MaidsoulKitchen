@@ -2,6 +2,8 @@ package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
+import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
@@ -10,10 +12,15 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -73,6 +80,22 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     @Override
     default boolean isEnable(EntityMaid maid) {
         return !TaskConfig.COOK_TASK_ENABLE_CONDITION.get() || hasEnoughFavor(maid);
+    }
+
+    @Override
+    default MenuProvider getGuiProvider(EntityMaid maid, int entityId, boolean simulate) {
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return Component.literal("Maid Cook Configer Container");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
+                return new CookConfigerContainer(getUid().toString(), index, playerInventory, entityId);
+//                return new CookConfigerContainer(simulate ? getUid() : TaskConfigerContainer.EMPTY, index, playerInventory, entityId);
+            }
+        };
     }
 
     default boolean hasEnoughFavor(EntityMaid maid) {

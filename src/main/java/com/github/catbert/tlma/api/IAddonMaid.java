@@ -23,7 +23,7 @@ public interface IAddonMaid {
 
     void setStartYOffset$tlma(int offset);
 
-    boolean openMaidGuiFromSideTab(Player player, int tabIndex);
+    boolean openMaidGuiFromSideTab(Player player, int tabIndex, boolean simulate);
 
     MenuProvider getGuiProviderFromSideTab(int tabIndex);
 
