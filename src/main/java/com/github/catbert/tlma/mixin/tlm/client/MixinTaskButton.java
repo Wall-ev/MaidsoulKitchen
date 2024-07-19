@@ -28,7 +28,7 @@ public abstract class MixinTaskButton extends Button {
         if (Minecraft.getInstance().screen instanceof CookConfigerGui gui) {
             IMaidTask task = this.getTask();
             if (task instanceof ILittleMaidTask && task.isEnable(gui.getMaid())) {
-                NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex(), true));
+                NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex(), task.getUid()));
 //                ((IAddonAbstractMaidContainerGui) gui).init(this.getTask());
 //                NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, gui.getMaid().getId(), SideTabIndex.SETTING.getIndex()));
 

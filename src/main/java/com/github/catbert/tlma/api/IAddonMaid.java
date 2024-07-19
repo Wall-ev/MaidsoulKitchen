@@ -3,6 +3,7 @@ package com.github.catbert.tlma.api;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
@@ -23,7 +24,7 @@ public interface IAddonMaid {
 
     void setStartYOffset$tlma(int offset);
 
-    boolean openMaidGuiFromSideTab(Player player, int tabIndex, boolean simulate);
+    boolean openMaidGuiFromSideTab(Player player, int tabIndex);
 
     MenuProvider getGuiProviderFromSideTab(int tabIndex);
 

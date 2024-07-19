@@ -83,7 +83,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     @Override
-    default MenuProvider getGuiProvider(EntityMaid maid, int entityId, boolean simulate) {
+    default MenuProvider getGuiProvider(EntityMaid maid, int entityId) {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
@@ -92,8 +92,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigerContainer(getUid().toString(), index, playerInventory, entityId);
-//                return new CookConfigerContainer(simulate ? getUid() : TaskConfigerContainer.EMPTY, index, playerInventory, entityId);
+                return new CookConfigerContainer(index, playerInventory, entityId);
             }
         };
     }

@@ -8,7 +8,6 @@ import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
-import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
@@ -16,7 +15,6 @@ import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -40,7 +38,10 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)
@@ -74,20 +75,15 @@ public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContai
 
     public CookConfigerGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
-//        this.taskUid = screenContainer.taskUid;
         this.maid = getMenu().getMaid();
+        this.currentTask = maid.level().isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
         this.cookCompound = maid.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
         this.cookTaskData = maid.level().isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
     }
 
     @Override
     protected void init() {
-        if (taskUid != TaskConfigerContainer.EMPTY) {
-            IMaidTask task = TaskManager.findTask(taskUid).orElse(TaskManager.getIdleTask());
-            this.init(task);
-        }else {
-            this.init(this.maid.getTask());
-        }
+        this.init(currentTask);
     }
 
     @Override
@@ -106,7 +102,7 @@ public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContai
     }
 
     public void refreshInfo(IMaidTask task) {
-        if (this.currentTask != task) {
+//        if (this.currentTask != task) {
             this.currentTask = task;
             this.solIndex = 0;
             this.selectRecs.clear();
@@ -114,7 +110,7 @@ public class CookConfigerGui extends AbstractMaidContainerGui<CookConfigerContai
                     .getTaskRule(this.currentTask.getUid().toString())
                     .getRecipeIds());
             this.recipeInfoInit();
-        }
+//        }
     }
 
     @Override

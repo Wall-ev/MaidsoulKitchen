@@ -17,7 +17,7 @@ public interface ILittleMaidTask extends ILittleMaid, IMaidTask {
 
     boolean canLoaded();
 
-    default MenuProvider getGuiProvider(EntityMaid maid, int entityId, boolean simulate) {
+    default MenuProvider getGuiProvider(EntityMaid maid, int entityId) {
         return maid.getMaidBackpackType().getGuiProvider(maid.getId());
     }
 }

@@ -171,17 +171,17 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
         }
     }
 
-    public boolean openMaidGuiFromSideTab(Player player, int tabIndex, boolean simulate) {
+    public boolean openMaidGuiFromSideTab(Player player, int tabIndex) {
         if (player instanceof ServerPlayer && !this.isSleeping()) {
             this.navigation.stop();
-            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex, simulate), (buffer) -> buffer.writeInt(getId()));
+            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeInt(getId()));
         }
         return true;
     }
 
-    public MenuProvider getGuiProviderFromSideTab(int tabIndex, boolean simulate) {
+    public MenuProvider getGuiProviderFromSideTab(int tabIndex) {
         if (tabIndex == 0 && task instanceof ILittleMaidTask littleMaidTask) {
-            return littleMaidTask.getGuiProvider((EntityMaid) (Object) this, getId(), simulate);
+            return littleMaidTask.getGuiProvider((EntityMaid) (Object) this, getId());
         }
         switch (tabIndex) {
             case 0:

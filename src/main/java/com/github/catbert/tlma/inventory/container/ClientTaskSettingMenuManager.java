@@ -1,11 +1,13 @@
 package com.github.catbert.tlma.inventory.container;
 
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import net.minecraft.nbt.CompoundTag;
 
 public class ClientTaskSettingMenuManager {
     private static CompoundTag menuData;
     private static CookTaskData cookTaskData;
+    private static IMaidTask task;
     private ClientTaskSettingMenuManager() {
     }
 
@@ -23,6 +25,14 @@ public class ClientTaskSettingMenuManager {
 
     public static CompoundTag getMenuData() {
         return ClientTaskSettingMenuManager.menuData;
+    }
+
+    public static IMaidTask getTask() {
+        return task;
+    }
+
+    public static void setTask(IMaidTask task) {
+        ClientTaskSettingMenuManager.task = task;
     }
 
     public static void clearMenuData() {
