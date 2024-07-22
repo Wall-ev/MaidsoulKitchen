@@ -19,6 +19,7 @@ public class CFRuleButton extends Button implements ITooltipBtn {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
     private final BerryHandler handlerInfo;
     private final List<ItemStack> blockItems = new ArrayList<>();
+    private final ResultInfo ref = new ResultInfo(1, 9, 8, 8, 2, 2);
 
     public CFRuleButton(BerryHandler handlerInfo, int pX, int pY, OnPress pOnPress) {
         super(pX, pY, 152, 24, Component.empty(), pOnPress, Supplier::get);
@@ -38,30 +39,68 @@ public class CFRuleButton extends Button implements ITooltipBtn {
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         Minecraft mc = Minecraft.getInstance();
 
-        int pV0ffset = this.isHovered ? this.height : 0;
-        pGuiGraphics.blit(TEXTURE, this.getX(), this.getY(), 0, pV0ffset, this.width, this.height);
-
-        pGuiGraphics.blit(TEXTURE, this.getX() + 3, this.getY() + 3, 152 + 2, 3, 18, 18);
-        pGuiGraphics.renderItem(handlerInfo.getIcon(), this.getX() + 4, this.getY() + 4);
-
-        pGuiGraphics.blit(TEXTURE, this.getX() + 131, this.getY() + 3, 152 + 2, 3, 18, 18);
-        pGuiGraphics.blit(TEXTURE, this.getX() + 131 + 1 + 1, this.getY() + 3 + 1 + 1, 152 + 2 + 18 + 2, 5, 14, 14);
-//        pGuiGraphics.blit(TEXTURE, this.getX() + 131 + 1, this.getY() + 3 + 1, 152 + 2 + 18 + 2, 5 + 24, 14, 14);
-
-        pGuiGraphics.drawString(mc.font, handlerInfo.getName(), this.getX() + 24, this.getY() + 3, 0x404040, false);
-
-        pGuiGraphics.pose().pushPose();
-        pGuiGraphics.pose().scale(0.5f, 0.5f, 1);
-        pGuiGraphics.renderItem(handlerInfo.getIcon(), (this.getX() + 24) * 2, (this.getY() + 13) * 2);
-        int i = 0;
-        for (ItemStack itemStack : blockItems) {
-            pGuiGraphics.renderItem(itemStack, (this.getX() + 24 + (i++ * 10)) * 2, (this.getY() + 13) * 2);
+        {
+            int pV0ffset = this.isHovered ? this.height : 0;
+            pGuiGraphics.blit(TEXTURE, this.getX(), this.getY(), 0, pV0ffset, this.width, this.height);
         }
-        pGuiGraphics.pose().popPose();
+
+        {
+            pGuiGraphics.blit(TEXTURE, this.getX() + 3, this.getY() + 3, 152 + 2, 3, 18, 18);
+            pGuiGraphics.renderItem(handlerInfo.getIcon(), this.getX() + 4, this.getY() + 4);
+        }
+
+        {
+            int pV0ffset = 0; // 0 : 24
+            pGuiGraphics.blit(TEXTURE, this.getX() + 131, this.getY() + 3, 152 + 2, 3, 18, 18);
+            pGuiGraphics.blit(TEXTURE, this.getX() + 131 + 1 + 1, this.getY() + 3 + 1 + 1, 152 + 2 + 18 + 2, 5 + pV0ffset, 14, 14);
+        }
+
+        {
+            pGuiGraphics.drawString(mc.font, handlerInfo.getName(), this.getX() + 24, this.getY() + 3, 0x404040, false);
+
+            pGuiGraphics.pose().pushPose();
+            pGuiGraphics.pose().scale(0.5f, 0.5f, 1);
+            int i = 0;
+            for (ItemStack itemStack : blockItems) {
+                pGuiGraphics.renderItem(itemStack, (this.getX() + 24 + (i++ * 10)) * 2, (this.getY() + 13) * 2);
+            }
+            pGuiGraphics.pose().popPose();
+        }
     }
 
     @Override
     public void renderTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
+        if (isHovered()) {
+            this.renderResStackTooltip(graphics, mc, mouseX, mouseY);
+        }
+    }
+
+    private void renderResStackTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
+        int index = checkCoordinate2(mouseX, mouseY, this.getX() + 24, this.getY() + 13);
+        if (index != -1 && index < blockItems.size()) {
+            graphics.renderTooltip(mc.font, blockItems.get(index), mouseX, mouseY);
+        }
+    }
+
+    private int checkCoordinate2(double pMouseX, double pMouseY, int startX, int startY) {
+        if (pMouseX < startX || pMouseY < startY) return -1;
+
+        int offsetRow = (int) (pMouseX - startX);
+        int offsetCol = (int) (pMouseY - startY);
+
+        if (offsetRow % (ref.rowWidth() + ref.rowSpacing()) < ref.rowWidth() && offsetCol % (ref.colHeight() + ref.colSpacing()) < ref.colHeight()) {
+            int blockCol = offsetRow / (ref.rowWidth() + ref.rowSpacing());
+            int blockRow = offsetCol / (ref.colHeight() + ref.colSpacing());
+
+            if (blockRow >= 0 && blockRow < ref.row() && blockCol >= 0 && blockCol < ref.col()) {
+                int blockIndex = blockRow * ref.col() + blockCol;
+
+                if (blockIndex >= 0 && blockIndex < ref.col() * ref.row()) {
+                    return blockIndex;
+                }
+            }
+        }
+        return -1;
 
     }
 }
