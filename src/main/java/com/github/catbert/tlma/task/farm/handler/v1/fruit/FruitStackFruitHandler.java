@@ -5,6 +5,7 @@ import com.fruitstack.fruitstack.common.block.BlockFruitCrop;
 import com.fruitstack.fruitstack.common.block.GrapeCropBlock;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FruitStackFruitHandler extends FruitHandler{
@@ -19,5 +20,10 @@ public class FruitStackFruitHandler extends FruitHandler{
     @Override
     public boolean canLoad() {
         return Mods.FS.isLoaded;
+    }
+
+    @Override
+    public boolean isFarmBlock(Block block) {
+        return block instanceof BlockFruitCrop || block instanceof GrapeCropBlock;
     }
 }

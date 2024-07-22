@@ -29,10 +29,10 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
     public BerryHandler getCompatHandler(EntityMaid maid) {
         ICompatFarmHandler.Builder<BerryHandler> berryHandlerBuilder = new BerryHandler.Builder<>();
         berryHandlerBuilder
-                .addHandler(new VanillaBerryHandler())
-                .addHandler(new SimpleFarmingBerryHandler())
-                .addHandler(new VineryBerryHandler())
-                .addHandler(new CompatBerryHandler());
+                .addHandler(BerryHandlerManager.MINECRAFT.getVineryBerryHandler())
+                .addHandler(BerryHandlerManager.SIMPLE_FARMING.getVineryBerryHandler())
+                .addHandler(BerryHandlerManager.VINERY.getVineryBerryHandler())
+                .addHandler(BerryHandlerManager.COMPAT.getVineryBerryHandler());
 
         return berryHandlerBuilder.build();
     }

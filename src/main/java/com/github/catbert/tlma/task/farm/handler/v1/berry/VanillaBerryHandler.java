@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,6 +22,11 @@ public class VanillaBerryHandler extends BerryHandler{
     @Override
     public boolean canLoad() {
         return true;
+    }
+
+    @Override
+    public boolean isFarmBlock(Block block) {
+        return block instanceof SweetBerryBushBlock;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import dev.enemeez.simplefarming.common.block.FruitLeavesBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SimpleFarmingFruitHandler extends FruitHandler {
@@ -16,5 +17,10 @@ public class SimpleFarmingFruitHandler extends FruitHandler {
     @Override
     public boolean canLoad() {
         return Mods.SF.isLoaded;
+    }
+
+    @Override
+    public boolean isFarmBlock(Block block) {
+        return block instanceof FruitLeavesBlock;
     }
 }

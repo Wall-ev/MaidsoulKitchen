@@ -13,7 +13,7 @@ import net.satisfy.vinery.block.grape.GrapeVineBlock;
 import net.satisfy.vinery.registry.ObjectRegistry;
 
 public class VineryBerryHandler extends BerryHandler{
-    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "minecraft");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "veniry");
 
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
@@ -25,6 +25,11 @@ public class VineryBerryHandler extends BerryHandler{
     @Override
     public boolean canLoad() {
         return Mods.DV.isLoaded;
+    }
+
+    @Override
+    public boolean isFarmBlock(Block block) {
+        return (block instanceof GrapeBush || block instanceof GrapeVineBlock);
     }
 
     @Override

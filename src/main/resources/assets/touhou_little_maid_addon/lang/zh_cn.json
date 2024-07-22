@@ -79,6 +79,14 @@
 
   "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5",
 
+  "rule.berry.touhou_little_maid_addon.simplefarming": "简单农业",
+  "rule.berry.touhou_little_maid_addon.simplefarming.desc": "简单农业",
+  "rule.berry.touhou_little_maid_addon.compat": "兼容模式",
+  "rule.berry.touhou_little_maid_addon.compat.desc": "兼容模式",
+  "rule.berry.touhou_little_maid_addon.minecraft": "原版",
+  "rule.berry.touhou_little_maid_addon.minecraft.desc": "原版",
+  "rule.berry.touhou_little_maid_addon.veniry": "葡园酒香",
+  "rule.berry.touhou_little_maid_addon.veniry.desc": "葡园酒香",
 
   "gui.touhou_little_maid_addon.btn.task_setting": "任务设置",
   "gui.touhou_little_maid_addon.btn.task_setting.desc": " -§a 用于一些任务的设置,比如各种模式的烹饪",
@@ -98,6 +106,9 @@
   "gui.touhou_little_maid_addon.patchouli_warning.download": "下载 Patchouli",
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "你需要下载Patchouli Mod才可以启用跳转到手册对应章节功能",
   "gui.touhou_little_maid_addon.cook_setting_screen.title": "烹饪指南",
+  "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "农耕指南",
+  "gui.touhou_little_maid_addon.berry_farm_configer_screen.title": "浆果农场指南",
+  "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "水果农场指南",
   "tooltips.touhou_little_maid_addon.amount.title": "制作一份的原料:",
 
 

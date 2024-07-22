@@ -66,7 +66,6 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
     @SuppressWarnings("all")
     private final List<Recipe> recipeList = new ArrayList<>();
     private final List<String> selectRecs = new ArrayList<>();
-    private Zone visualZone;
     private int solIndex = 0;
     private IMaidTask currentTask;
     private ItemStack lastResultTooltipStack = ItemStack.EMPTY;
@@ -91,7 +90,7 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
         super.init();
         if (getMaid() != null) {
             this.refreshInfo(task);
-            this.guiCoordInfoInit();
+//            this.guiCoordInfoInit();
 
             this.addTitleInfoButton();
             this.addTaskInfoButton();
@@ -147,9 +146,7 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
     }
 
 
-    private void guiCoordInfoInit() {
-        visualZone = new Zone(leftPos + 81, topPos + 28, 176, 137);
-    }
+
 
     @SuppressWarnings("all")
     private void recipeInfoInit() {
@@ -247,7 +244,9 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
             public void renderChildren(ItemStack stack, boolean has, GuiGraphics pGuiGraphics, int x, int y) {
                 super.renderChildren(stack, has, pGuiGraphics, x, y);
                 if (cookTaskData.getTaskRule(currentTask.getUid().toString()).getMode() == CookTaskData.Mode.RANDOM) {
-                    pGuiGraphics.fill(x, y, x + 20, y + 20, 0x80000000);
+                    pGuiGraphics.fill(x, y, x + 20, y + 20, 0x50000000);
+                } else {
+                    pGuiGraphics.fill(x, y, x + 20, y + 20, 0x50F9F9F9);
                 }
             }
         };

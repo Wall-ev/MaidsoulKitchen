@@ -2,6 +2,7 @@ package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface ICompatFarmHandler {
@@ -11,6 +12,8 @@ public interface ICompatFarmHandler {
     boolean shouldMoveTo(EntityMaid maid, BlockPos cropPos, BlockState cropState);
 
     boolean canLoad();
+
+    boolean isFarmBlock(Block block);
 
     class Builder<T extends ICompatFarmHandler> {
         private T head;

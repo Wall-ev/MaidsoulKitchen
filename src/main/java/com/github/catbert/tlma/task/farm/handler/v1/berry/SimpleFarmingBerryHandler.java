@@ -8,6 +8,7 @@ import dev.enemeez.simplefarming.common.registries.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SimpleFarmingBerryHandler extends BerryHandler{
@@ -25,8 +26,13 @@ public class SimpleFarmingBerryHandler extends BerryHandler{
     }
 
     @Override
+    public boolean isFarmBlock(Block block) {
+        return block instanceof BerryBushBlock;
+    }
+
+    @Override
     public ItemStack getIcon() {
-        return ModItems.BLUEBERRY_PIE.get().getDefaultInstance();
+        return ModItems.BLUEBERRY_BUSH.get().getDefaultInstance();
     }
 
     @Override

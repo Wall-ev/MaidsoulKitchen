@@ -78,6 +78,14 @@
 
   "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
 
+  "rule.berry.touhou_little_maid_addon.simplefarming": "Simple Farming",
+  "rule.berry.touhou_little_maid_addon.simplefarming.desc": "Simple Farming",
+  "rule.berry.touhou_little_maid_addon.compat": "Compat",
+  "rule.berry.touhou_little_maid_addon.compat.desc": "Compat",
+  "rule.berry.touhou_little_maid_addon.minecraft": "Minecraft",
+  "rule.berry.touhou_little_maid_addon.minecraft.desc": "Minecraft",
+  "rule.berry.touhou_little_maid_addon.veniry": "Vinery",
+  "rule.berry.touhou_little_maid_addon.veniry.desc": "Vinery",
 
   "gui.touhou_little_maid_addon.btn.task_setting": "Task Setting",
   "gui.touhou_little_maid_addon.btn.task_setting.desc": " -§a used to configer task, for example various of cooking task",
@@ -97,6 +105,9 @@
   "gui.touhou_little_maid_addon.patchouli_warning.download": "Download Patchouli",
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "You'll need to install the Patchouli mod to open book entry feature",
   "gui.touhou_little_maid_addon.cook_setting_screen.title": "Cook Guide",
+  "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "CompatFarm Guide",
+  "gui.touhou_little_maid_addon.berry_farm_configer_screen.title": "Berry Farm Guide",
+  "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "Fruit Farm Guide",
   "tooltips.touhou_little_maid_addon.amount.title": "Craft One Amount Ingredient:",
 
   "patchouli.touhou_little_maid_addon_addon.book.categories.addon.name": "Addon",
