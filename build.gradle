@@ -208,6 +208,11 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770828")
 
+    implementation fg.deobf("curse.maven:storage-drawers-223852:${storage_drawers_file_id}")
+    implementation fg.deobf("curse.maven:toms-storage-378609:5548573")
+    implementation fg.deobf("curse.maven:sophisticated-core-618298:5326245")
+    implementation fg.deobf("curse.maven:sophisticated-storage-619320:5327377")
+
     implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
 
     implementation fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
