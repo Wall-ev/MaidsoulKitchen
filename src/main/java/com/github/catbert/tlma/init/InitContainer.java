@@ -3,6 +3,7 @@ package com.github.catbert.tlma.init;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.inventory.container.CompatFarmConfigerContainer;
 import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.WiosContainer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -13,4 +14,5 @@ public final class InitContainer {
 
     public static final RegistryObject<MenuType<CookConfigerContainer>> COOK_CONTAINER = CONTAINER_TYPE.register("cook_configer_container", () -> CookConfigerContainer.TYPE);
     public static final RegistryObject<MenuType<CompatFarmConfigerContainer>> COMPAT_FARM_CONTAINER = CONTAINER_TYPE.register("compat_farm_config_container", () -> CompatFarmConfigerContainer.TYPE);
+    public static final RegistryObject<MenuType<WiosContainer>> WIOS_CONTAINER = CONTAINER_TYPE.register("wios_container", () -> WiosContainer.TYPE);
 }

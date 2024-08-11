@@ -26,6 +26,7 @@
     "herbal.MixinTeaKettleBlockEntity",
     "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
+    "storagedrawers.MixinBlockEntityController",
     "tlm.MixinEntityMaid",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"

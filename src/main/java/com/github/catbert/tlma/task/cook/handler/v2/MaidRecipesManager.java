@@ -3,18 +3,31 @@ package com.github.catbert.tlma.task.cook.handler.v2;
 import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.item.ItemWios;
+import com.github.catbert.tlma.api.ISDController;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.inventory.handler.BaubleItemHandler;
+import com.jaquadro.minecraft.storagedrawers.api.capabilities.IItemRepository;
+import com.jaquadro.minecraft.storagedrawers.block.tile.BlockEntityController;
+import com.jaquadro.minecraft.storagedrawers.util.ItemCollectionRegistry;
+import com.jaquadro.minecraft.storagedrawers.util.WorldUtils;
 import com.mojang.datafixers.util.Pair;
+import com.tom.storagemod.tile.StorageTerminalBlockEntity;
+import com.tom.storagemod.util.StoredItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
@@ -23,6 +36,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private CookTaskData.TaskRule lastTaskRule;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
+
+    private int resStatus = 0;
+    private List<T> currentRecs;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
         this(maid, task, single, false);
@@ -88,8 +104,45 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 是否为上一次的背包以及手上的物品
         boolean lastInv = isLastInv(maid);
         boolean sameTaskRule = isSameTaskRule(maid);
-        if (lastInv && sameTaskRule) return;
-        createRecipesIngredients(maid);
+//        if (lastInv && sameTaskRule) {
+            resStatus++;
+//        }
+
+        this.currentRecs = this.getRecs(maid);
+
+
+
+        if (resStatus == 2) {
+            transFromStorage(maid);
+        }
+        if (resStatus == 0) {
+            createRecipesIngredients(maid);
+        }
+    }
+
+    private void transFromTomStorage(StorageTerminalBlockEntity blockEntity, EntityMaid maid) {
+        Map<StoredItemStack, Long> stacks = blockEntity.getStacks();
+
+        Map<ItemStack, StoredItemStack> takeStoredStack = new HashMap<>();
+
+        for (T currentRec : this.currentRecs) {
+            NonNullList<Ingredient> ingredients = currentRec.getIngredients();
+            for (Ingredient ingredient : ingredients) {
+                for (Map.Entry<StoredItemStack, Long> storedItemStackLongEntry : stacks.entrySet()) {
+                    if (ingredient.test(storedItemStackLongEntry.getKey().getStack())) {
+                        takeStoredStack.put(storedItemStackLongEntry.getKey(), storedItemStackLongEntry.getValue());
+                        break;
+                    }
+                }
+            }
+        }
+
+    }
+
+    protected void getIngres(EntityMaid maid) {
+        BlockEntityController blockEntity1 = (BlockEntityController) WorldUtils.getBlockEntity(maid.level(), maid.blockPosition(), BlockEntityController.class);
+        IItemRepository itemRepository = blockEntity1.getItemRepository();
+//        itemRepository.getStoredItemCount()
     }
 
     private void initTaskRule(EntityMaid maid) {
@@ -151,7 +204,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
 
-        for (T t : this.getRecs(maid)) {
+        for (T t : this.currentRecs) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
@@ -164,6 +217,80 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
 //        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
 //        LOGGER.info(this.recipesIngredients);
+    }
+
+    private void transFromStorage(EntityMaid maid) {
+
+        BlockPos blockPos = null;
+        BaubleItemHandler maidBauble = maid.getMaidBauble();
+        for (int i = 0; i < maidBauble.getSlots(); i++) {
+            ItemStack stackInSlot = maidBauble.getStackInSlot(i);
+            if (stackInSlot.getItem() instanceof ItemWios) {
+                blockPos = ItemWios.getBindingPos(stackInSlot);
+                break;
+            }
+        }
+
+        if (blockPos == null) return;
+
+        BlockEntityController blockEntity1 = WorldUtils.getBlockEntity(maid.level(), blockPos, BlockEntityController.class);
+        if (blockEntity1 == null) return;
+
+        ItemCollectionRegistry<?> drawerPrimaryLookup = ((ISDController) blockEntity1).getDrawerPrimaryLookup();
+//        Set<Map.Entry<Item, ? extends Collection<?>>> entries = drawerPrimaryLookup.entrySet();
+
+        IItemRepository itemRepository = blockEntity1.getItemRepository();
+        NonNullList<IItemRepository.ItemRecord> allItems = itemRepository.getAllItems();
+        List<ItemStack> list = allItems.stream()
+                .map(itemRecord -> itemRecord.itemPrototype).toList();
+
+        Set<Item> collect = ((ISDController) blockEntity1).getDrawerPrimaryLookup()
+                .entrySet().stream()
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+
+
+        List<T> recs = this.getRecs(maid);
+        for (T rec : recs) {
+            int maxAmount = 64;
+            boolean canTake = true;
+            List<ItemStack> takeStacks = new ArrayList<>();
+            for (Ingredient ingredient : rec.getIngredients()) {
+
+                Optional<ItemStack> first = list.stream().filter(ingredient).findFirst();
+
+                if (first.isPresent()) {
+                    maxAmount = Math.max(maxAmount, itemRepository.getStoredItemCount(first.get(), stack -> stack.is(first.get().getItem())));
+                    takeStacks.add(first.get());
+                } else {
+                    canTake = false;
+                    break;
+                }
+            }
+
+            if (canTake) {
+
+                boolean canInsert2Maid = true;
+                CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+
+                for (ItemStack takeStack : takeStacks) {
+                    ItemStack itemStack = itemRepository.extractItem(takeStack, maxAmount, true);
+                    if (!ItemHandlerHelper.insertItemStacked(availableInv, itemStack, true).isEmpty()) {
+                        canInsert2Maid = false;
+                        break;
+                    }
+                }
+
+                if (canInsert2Maid) {
+                    for (ItemStack takeStack : takeStacks) {
+                        ItemStack itemStack = itemRepository.extractItem(takeStack, maxAmount, false);
+                        ItemHandlerHelper.insertItemStacked(availableInv, itemStack, false);
+                    }
+                }
+            }
+        }
+
+        resStatus = 0;
     }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
