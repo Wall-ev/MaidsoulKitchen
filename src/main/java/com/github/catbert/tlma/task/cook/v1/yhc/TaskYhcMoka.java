@@ -13,14 +13,9 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
-@LittleMaidExtension
+
 public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "yhc_moka_pot");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.YHCD.isLoaded;
-    }
 
     @Override
     public ItemStackHandler getItemStackHandler(MokaMakerBlockEntity be) {

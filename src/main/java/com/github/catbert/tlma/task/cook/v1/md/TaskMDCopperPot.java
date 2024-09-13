@@ -19,14 +19,9 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 import java.util.List;
 
-@LittleMaidExtension
+
 public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "md_copper_pot");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.MD.isLoaded;
-    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {

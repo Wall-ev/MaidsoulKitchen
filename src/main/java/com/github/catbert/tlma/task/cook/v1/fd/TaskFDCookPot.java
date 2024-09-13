@@ -14,14 +14,9 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
-@LittleMaidExtension
+
 public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fd_cooking_pot");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.FD.isLoaded;
-    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {

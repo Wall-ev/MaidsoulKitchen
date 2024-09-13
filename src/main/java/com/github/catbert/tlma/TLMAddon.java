@@ -4,9 +4,6 @@ import com.github.catbert.tlma.config.GeneralConfig;
 import com.github.catbert.tlma.init.InitContainer;
 import com.github.catbert.tlma.init.InitEffects;
 import com.github.catbert.tlma.init.InitItems;
-import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
-import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +19,7 @@ public final class TLMAddon {
 
     public TLMAddon() {
         initRegister();
-        initOtherRegister();
+        initConfigureRegister();
     }
 
     private static void initRegister() {
@@ -32,7 +29,7 @@ public final class TLMAddon {
         InitContainer.CONTAINER_TYPE.register(modEventBus);
     }
 
-    private static void initOtherRegister() {
+    private static void initConfigureRegister() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, GeneralConfig.init());
     }
 }

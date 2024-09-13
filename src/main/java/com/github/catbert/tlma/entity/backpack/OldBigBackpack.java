@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
-@LittleMaidExtension
+
 public class OldBigBackpack extends BigBackpack implements ILittleMaidBackpack {
     public static final ResourceLocation ID = new ResourceLocation(TLMAddon.MOD_ID, "old_big_backpack");
 

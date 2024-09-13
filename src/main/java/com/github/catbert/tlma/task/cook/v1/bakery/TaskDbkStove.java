@@ -24,7 +24,6 @@ import net.satisfy.bakery.registry.RecipeTypeRegistry;
 
 import java.util.List;
 
-@LittleMaidExtension
 public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
 
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dkb_stove");
@@ -95,11 +94,6 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
             fuelStack.setCount(0);
             return true;
         }
-    }
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DBK.isLoaded;
     }
 
     @Override

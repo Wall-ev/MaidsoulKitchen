@@ -20,7 +20,7 @@ public final class SetSearchYOffsetEvent {
         EntityMaid maid = event.getMaid();
 
         if (player.getMainHandItem().is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.NAME) {
-            if (!maid.level().isClientSide) {
+            if (!maid.level.isClientSide) {
 
                 int startYOffset$tlma = ((IAddonMaid) maid).getStartYOffset$tlma();
                 if (!player.isDiscrete() && startYOffset$tlma < 5) {

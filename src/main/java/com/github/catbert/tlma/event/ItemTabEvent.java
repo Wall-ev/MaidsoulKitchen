@@ -14,7 +14,9 @@ public final class ItemTabEvent {
     @SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == InitCreativeTabs.MAIN_TAB.getKey()){
-            InitItems.ITEMS.getEntries().stream().filter(RegistryObject::isPresent).forEach(entry -> event.accept(entry.get()));
+            InitItems.ITEMS.getEntries().stream()
+                    .filter(RegistryObject::isPresent)
+                    .forEach(entry -> event.accept(entry.get()));
         }
     }
 }

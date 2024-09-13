@@ -35,7 +35,7 @@ public class MaidTaskRecMessage {
                 if (sender == null) {
                     return;
                 }
-                Entity entity = sender.level().getEntity(message.entityId);
+                Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
 //                    ((IAddonMaid) entity).addOrRemoveRecipe(message.recipeId);
 //

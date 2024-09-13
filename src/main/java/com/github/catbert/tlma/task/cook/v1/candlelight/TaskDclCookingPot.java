@@ -18,14 +18,9 @@ import net.satisfy.candlelight.registry.ObjectRegistry;
 import java.util.List;
 import java.util.Map;
 
-@LittleMaidExtension
+
 public class TaskDclCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dcl_cooking_pot");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DCL.isLoaded;
-    }
 
     @Override
     public boolean isHeated(CookingPotBlockEntity be) {

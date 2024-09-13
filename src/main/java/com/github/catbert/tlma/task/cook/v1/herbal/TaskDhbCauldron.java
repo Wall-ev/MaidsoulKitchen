@@ -19,14 +19,9 @@ import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 import java.util.List;
 import java.util.Map;
 
-@LittleMaidExtension
+
 public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, CauldronRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dhb_cauldron");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DHB.isLoaded;
-    }
 
     @Override
     public boolean isHeated(CauldronBlockEntity be) {

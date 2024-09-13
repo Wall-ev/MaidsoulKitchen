@@ -44,7 +44,7 @@ public class ToggleSideTabMessage {
                 if (sender == null) {
                     return;
                 }
-                Entity entity = sender.level().getEntity(message.entityId);
+                Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
                     ClientTaskSettingMenuManager.setCookTaskData(((IAddonMaid)maid).getCookTaskData1());
                     ClientTaskSettingMenuManager.setMenuData(maid.getPersistentData());

@@ -1,15 +1,14 @@
 package com.github.catbert.tlma.client.renderer.entity.geckolayer;
 
 import com.github.catbert.tlma.config.subconfig.RenderConfig;
+import com.github.catbert.tlma.mixin.tlm.AnimatedGeoModelAccessor;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.client.model.MaidBannerModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.GeckoEntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.InGameMaidConfig;
-import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.IAnimatable;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.GeoLayerRenderer;
-import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.render.built.GeoBone;
-import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.render.built.GeoModel;
+import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.AnimatedGeoBone;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.util.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -25,7 +24,7 @@ import net.minecraft.world.item.Item;
 
 import static com.github.catbert.tlma.TLMAddon.LOGGER;
 
-public class GeckoLayerMaidLDBanner<T extends Mob & IAnimatable> extends GeoLayerRenderer<T> {
+public class GeckoLayerMaidLDBanner<T extends Mob> extends GeoLayerRenderer<T, GeckoEntityMaidRenderer<T>> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TouhouLittleMaid.MOD_ID, "textures/entity/maid_banner.png");
     private final GeckoEntityMaidRenderer renderer;
     private final MaidBannerModel bannerModel;
@@ -47,12 +46,12 @@ public class GeckoLayerMaidLDBanner<T extends Mob & IAnimatable> extends GeoLaye
 
         Item item = maid.getBackpackShowItem().getItem();
         if (item instanceof StandardItem) {
-            if (!this.renderer.getMainInfo().isShowBackpack() || !InGameMaidConfig.INSTANCE.isShowBackItem() || entity.isSleeping() || entity.isInvisible()) {
+            if (!this.entityRenderer.getAnimatableEntity(entity).getMaidInfo().isShowBackpack() || !InGameMaidConfig.INSTANCE.isShowBackItem() || entity.isSleeping() || entity.isInvisible()) {
                 return;
             }
 
-            GeoModel geoModel = this.entityRenderer.getGeoModel();
-            if (geoModel != null && !geoModel.backpackBones.isEmpty()) {
+            AnimatedGeoModelAccessor geoModel = (AnimatedGeoModelAccessor) this.entityRenderer.getAnimatableEntity(entity).getCurrentModel();
+            if (geoModel != null && !geoModel.getBackpackBones().isEmpty()) {
                 matrixStack.pushPose();
                 this.translateToBackpack(matrixStack, geoModel);
                 matrixStack.translate(0.0, -1.5, 0.02);
@@ -74,12 +73,12 @@ public class GeckoLayerMaidLDBanner<T extends Mob & IAnimatable> extends GeoLaye
         }
     }
 
-    private void translateToBackpack(PoseStack poseStack, GeoModel geoModel) {
-        int size = geoModel.backpackBones.size();
+    private void translateToBackpack(PoseStack poseStack, AnimatedGeoModelAccessor geoModel) {
+        int size = geoModel.getBackpackBones().size();
         for (int i = 0; i < size - 1; i++) {
-            RenderUtils.prepMatrixForBone(poseStack, geoModel.backpackBones.get(i));
+            RenderUtils.prepMatrixForBone(poseStack, geoModel.getBackpackBones().get(i));
         }
-        GeoBone lastBone = geoModel.backpackBones.get(size - 1);
+        AnimatedGeoBone lastBone = geoModel.getBackpackBones().get(size - 1);
         RenderUtils.translateMatrixToBone(poseStack, lastBone);
         RenderUtils.translateToPivotPoint(poseStack, lastBone);
         RenderUtils.rotateMatrixAroundBone(poseStack, lastBone);

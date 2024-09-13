@@ -18,14 +18,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static com.github.catbert.tlma.event.TaskMelonEvent.MELON_STEM_MAP;
 
-@LittleMaidExtension
+
 public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "compat_melon");
-
-    @Override
-    public boolean canLoaded() {
-        return true;
-    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
@@ -47,7 +42,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
         if (MELON_STEM_MAP.containsKey(block)) {
             Block stemBlock = MELON_STEM_MAP.get(block).getFirst();
             for (Direction direction : Direction.Plane.HORIZONTAL) {
-                BlockState offsetState = maid.level().getBlockState(cropPos.relative(direction));
+                BlockState offsetState = maid.level.getBlockState(cropPos.relative(direction));
                 if (offsetState.is(stemBlock)) {
                     return true;
                 }
@@ -59,7 +54,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
 //        if (STEM_MELON_MAP.containsKey(block)) {
 //            Direction direction = cropState.getValue(HorizontalDirectionalBlock.FACING);
 //            Block melonBlock = STEM_MELON_MAP.get(block);
-//            return maid.level().getBlockState(cropPos.relative(direction)).is(melonBlock);
+//            return maid.level.getBlockState(cropPos.relative(direction)).is(melonBlock);
 //        }
     }
 

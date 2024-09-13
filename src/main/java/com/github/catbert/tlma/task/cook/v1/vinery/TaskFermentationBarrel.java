@@ -18,14 +18,9 @@ import net.satisfy.vinery.registry.RecipeTypesRegistry;
 import java.util.List;
 import java.util.Map;
 
-@LittleMaidExtension
+
 public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarrelBlockEntity, FermentationBarrelRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dv_fermentation_barrel");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DV.isLoaded;
-    }
 
     @Override
     public boolean isHeated(FermentationBarrelBlockEntity be) {

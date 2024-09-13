@@ -3,7 +3,6 @@ package com.github.catbert.tlma.item.bauble;
 import com.github.catbert.tlma.api.ILittleMaidBauble;
 import com.github.catbert.tlma.init.InitEffects;
 import com.github.catbert.tlma.init.InitItems;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidDamageEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityExtinguishingAgent;
@@ -25,22 +24,10 @@ import java.util.List;
 
 import static com.github.catbert.tlma.item.bauble.BurnDamageManager.getBurnDamageTypes;
 
-@LittleMaidExtension
 public class BurnProtectBauble implements ILittleMaidBauble {
 
     public BurnProtectBauble() {
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public boolean canLoaded() {
-        return true;
-    }
-
-    @Override
-    @NotNull
-    public RegistryObject<Item> getBindingItem() {
-        return InitItems.BURN_PROTECT_BAUBLE;
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -56,8 +43,8 @@ public class BurnProtectBauble implements ILittleMaidBauble {
                 stack.hurtAndBreak(1, maid, m -> maid.sendItemBreakMessage(stack));
                 maid.getMaidBauble().setStackInSlot(slot, stack);
                 maid.addEffect(new MobEffectInstance(InitEffects.BURN_PROTECT.get(), 300));
-                if (!maid.level().isClientSide) {
-                    maid.level().addFreshEntity(new EntityExtinguishingAgent(maid.level(), maid.position()));
+                if (!maid.level.isClientSide) {
+                    maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level(), maid.position()));
                 }
             }
         }

@@ -30,14 +30,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-@LittleMaidExtension
+
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "furnace");
-
-    @Override
-    public boolean canLoaded() {
-        return true;
-    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
@@ -71,7 +66,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level().isClientSide) return new ArrayList<>();
+        if (maid.level.isClientSide) return new ArrayList<>();
         MaidCookMoveTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMoveTask = new MaidCookMoveTask<>(maid, this);
         MaidCookMakeTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMakeTask = new MaidCookMakeTask<>(this);
         return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
@@ -164,7 +159,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     }
 
     private Optional<? extends AbstractCookingRecipe> getRecipe(EntityMaid maid, ItemStack stack, RecipeType<? extends AbstractCookingRecipe> recipeType) {
-        return maid.level().getRecipeManager().getRecipeFor(recipeType, new SimpleContainer(stack), maid.level());
+        return maid.level.getRecipeManager().getRecipeFor(recipeType, new SimpleContainer(stack), maid.level());
     }
 
     @Override

@@ -15,14 +15,9 @@ import satisfy.beachparty.registry.ObjectRegistry;
 import satisfy.beachparty.registry.RecipeRegistry;
 
 
-@LittleMaidExtension
+
 public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, TikiBarRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dbp_tiki_bar");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DBP.isLoaded;
-    }
 
     @Override
     public int getOutputSlot() {

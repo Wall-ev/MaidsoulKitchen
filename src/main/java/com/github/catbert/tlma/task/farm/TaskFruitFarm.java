@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-@LittleMaidExtension
+
 public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
 
@@ -38,7 +38,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level().isClientSide) return Lists.newArrayList();
+        if (maid.level.isClientSide) return Lists.newArrayList();
         MaidCompatFruitMoveTask<FruitHandler> maidFarmMoveTask = new MaidCompatFruitMoveTask<>(maid, this, 0.6F);
         MaidCompatFarmPlantTask<FruitHandler> maidFarmPlantTask = new MaidCompatFarmPlantTask<>(maid, this, maidFarmMoveTask.getCompatFarmHandler());
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));
@@ -71,12 +71,6 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     @Override
     public ItemStack getIcon() {
         return Items.APPLE.getDefaultInstance();
-    }
-
-    @Override
-    public boolean canLoaded() {
-//        return Mods.hasLoaded(Mods.FS, Mods.CAUPONA, Mods.SF, Mods.DV);
-        return true;
     }
 
     @Override

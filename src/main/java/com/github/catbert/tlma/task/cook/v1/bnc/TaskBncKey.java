@@ -18,15 +18,10 @@ import umpaz.brewinandchewin.common.registry.BCRecipeTypes;
 
 import java.util.*;
 
-@LittleMaidExtension
+
 public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
 
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "bnc_key");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.BNCD.isLoaded;
-    }
 
     @Override
     public ItemStackHandler getItemStackHandler(KegBlockEntity be) {

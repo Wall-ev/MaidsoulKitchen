@@ -14,14 +14,9 @@ import satisfy.beachparty.recipe.MiniFridgeRecipe;
 import satisfy.beachparty.registry.ObjectRegistry;
 import satisfy.beachparty.registry.RecipeRegistry;
 
-@LittleMaidExtension
+
 public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEntity, MiniFridgeRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dbp_mini_fridge");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DBP.isLoaded;
-    }
 
     @Override
     public int getOutputSlot() {

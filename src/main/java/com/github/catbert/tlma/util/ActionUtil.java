@@ -7,13 +7,9 @@ public final class ActionUtil {
     private ActionUtil() {
     }
 
-    public static void modRun(Mods mod, Run actionRun) {
+    public static void modRun(Mods mod, Runnable runnable) {
         if (mod.isLoaded) {
-            actionRun.run();
+            runnable.run();
         }
-    }
-
-    public interface Run {
-        void run();
     }
 }

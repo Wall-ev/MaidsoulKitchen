@@ -14,13 +14,9 @@ import satisfy.herbalbrews.recipe.TeaKettleRecipe;
 import satisfy.herbalbrews.registry.ObjectRegistry;
 import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 
-@LittleMaidExtension
+
 public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEntity, TeaKettleRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dhb_tea_kettle");
-    @Override
-    public boolean canLoaded() {
-        return Mods.DHB.isLoaded;
-    }
 
     @Override
     public boolean isHeated(TeaKettleBlockEntity be) {

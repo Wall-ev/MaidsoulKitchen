@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-@LittleMaidExtension
+
 public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
 
@@ -52,7 +52,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level().isClientSide) return Lists.newArrayList();
+        if (maid.level.isClientSide) return Lists.newArrayList();
         MaidCompatFarmMoveTask<BerryHandler> maidFarmMoveTask = new MaidCompatFarmMoveTask<>(maid, this, 0.6F) {
             @Override
             public boolean checkPathReach(EntityMaid maid, BlockPos pos) {
@@ -84,11 +84,6 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
     @Override
     public ItemStack getIcon() {
         return Items.SWEET_BERRIES.getDefaultInstance();
-    }
-
-    @Override
-    public boolean canLoaded() {
-        return true;
     }
 
     @Override

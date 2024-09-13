@@ -20,7 +20,7 @@ import sereneseasons.api.season.SeasonHelper;
 
 import java.util.List;
 
-@LittleMaidExtension
+
 public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "sereneseasons_farm");
 
@@ -35,11 +35,6 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
         }
 
         return false;
-    }
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.SS.isLoaded;
     }
 
     @Override

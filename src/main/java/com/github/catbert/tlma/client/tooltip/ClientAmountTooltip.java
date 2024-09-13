@@ -47,6 +47,7 @@ public class ClientAmountTooltip implements ClientTooltipComponent {
         return Math.max(tipMax, ingres.size() * 20);
     }
 
+    @SuppressWarnings("type_parameter")
     @Override
     public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
         if (isRandom) {

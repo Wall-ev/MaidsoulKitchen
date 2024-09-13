@@ -18,14 +18,8 @@ import net.satisfy.bakery.registry.ObjectRegistry;
 import java.util.List;
 import java.util.Map;
 
-@LittleMaidExtension
 public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dkb_cooking_pot");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DBK.isLoaded;
-    }
 
     @Override
     public boolean isHeated(CookingPotBlockEntity be) {

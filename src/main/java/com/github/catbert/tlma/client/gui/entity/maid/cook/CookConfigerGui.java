@@ -75,9 +75,9 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
     public CookConfigerGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
         this.maid = getMenu().getMaid();
-        this.currentTask = maid.level().isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
-        this.cookCompound = maid.level().isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
-        this.cookTaskData = maid.level().isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
+        this.currentTask = maid.level.isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
+        this.cookCompound = maid.level.isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
+        this.cookTaskData = maid.level.isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
     }
 
     @Override

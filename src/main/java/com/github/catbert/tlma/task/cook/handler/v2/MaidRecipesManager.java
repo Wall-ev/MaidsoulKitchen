@@ -47,7 +47,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     private List<T> getRecs(EntityMaid maid) {
-//        List<T> allRecipesFor = this.maidInventory.getMaid().level().getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
+//        List<T> allRecipesFor = this.maidInventory.getMaid().level.getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
         Level level = this.maidInventory.getMaid().level();
 
         List<T> allRecipesFor;

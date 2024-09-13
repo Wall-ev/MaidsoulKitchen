@@ -25,14 +25,9 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.*;
 
-@LittleMaidExtension
+
 public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntity, BrewingRecipe> {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "drinkbeer_beerbarrel");
-
-    @Override
-    public boolean canLoaded() {
-        return Mods.DB.isLoaded;
-    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {

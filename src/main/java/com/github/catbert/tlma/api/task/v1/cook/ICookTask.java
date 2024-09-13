@@ -34,8 +34,8 @@ import java.util.function.Predicate;
 public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level().isClientSide) return new ArrayList<>();
-//        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level().isClientSide);
+        if (maid.level.isClientSide) return new ArrayList<>();
+//        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level.isClientSide);
 
         MaidRecipesManager<R> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
         MaidCookMoveTask<B, R> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
@@ -79,7 +79,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     //todo 自定义启用条件，数据包，或者kjs
     @Override
     default boolean isEnable(EntityMaid maid) {
-        return !TaskConfig.COOK_TASK_ENABLE_CONDITION.get() || hasEnoughFavor(maid);
+        return TaskConfig.COOK_TASK_ENABLE_CONDITION.get() && hasEnoughFavor(maid);
     }
 
     @Override
