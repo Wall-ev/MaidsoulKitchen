@@ -2,6 +2,7 @@ package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.task.farm.handler.v1.berry.BerryHandler;
+import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CFRuleButton extends Button implements ITooltipBtn {
+public class CFRuleButton extends Button implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
     private final BerryHandler handlerInfo;
     private final List<ItemStack> blockItems = new ArrayList<>();
@@ -66,6 +67,11 @@ public class CFRuleButton extends Button implements ITooltipBtn {
             }
             pGuiGraphics.pose().popPose();
         }
+    }
+
+    @Override
+    public boolean isTooltipHovered() {
+        return this.isHovered();
     }
 
     @Override

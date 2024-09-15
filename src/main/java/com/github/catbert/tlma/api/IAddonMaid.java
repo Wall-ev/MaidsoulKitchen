@@ -24,9 +24,9 @@ public interface IAddonMaid {
 
     void setStartYOffset$tlma(int offset);
 
-    boolean openMaidGuiFromSideTab(Player player, int tabIndex);
+    boolean openMaidGuiFromSideTab(Player player, int tabIndex, boolean taskListOpen, int taskPage);
 
-    MenuProvider getGuiProviderFromSideTab(int tabIndex);
+    MenuProvider getGuiProviderFromSideTab(int tabIndex, boolean taskListOpen, int taskPage);
 
     void addOrRemoveRecipe(String recipeId);
 

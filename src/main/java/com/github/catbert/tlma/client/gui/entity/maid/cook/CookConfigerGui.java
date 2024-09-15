@@ -2,18 +2,20 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
+import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
 import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
-import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -59,7 +61,6 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
     private final Zone scrollDisplay = new Zone(161, 44, 9, 86);
     private final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
     private final int titleStartY = 8;
-    private final EntityMaid maid;
     private final CompoundTag cookCompound;
     private final CookTaskData cookTaskData;
     private final List<ItemStack> resultStackList = new ArrayList<>();
@@ -74,7 +75,6 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
 
     public CookConfigerGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
-        this.maid = getMenu().getMaid();
         this.currentTask = maid.level.isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
         this.cookCompound = maid.level.isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
         this.cookTaskData = maid.level.isClientSide ? ClientTaskSettingMenuManager.getCookTaskData() : ((IAddonMaid) maid).getCookTaskData1();
@@ -144,9 +144,6 @@ public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> 
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
-
-
-
 
     @SuppressWarnings("all")
     private void recipeInfoInit() {

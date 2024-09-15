@@ -40,7 +40,7 @@ public class LayerMaidLDBanner extends RenderLayer<Mob, BedrockModel<Mob>> {
             return;
         }
 
-        if (!(RenderConfig.LD_BANNER_RENDER_ENABLED.get())) return;
+        if (!RenderConfig.LD_BANNER_RENDER_ENABLED.get()) return;
 
         Item item = maid.getBackpackShowItem().getItem();
         if (item instanceof StandardItem) {

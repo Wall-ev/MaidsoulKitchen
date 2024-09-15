@@ -17,12 +17,16 @@ public class ToggleSideTabMessage {
     private final int entityId;
     private final int tabId;
     private final ResourceLocation taskUid;
+    private final boolean taskListOpen;
+    private final int taskPage;
 
-    public ToggleSideTabMessage(int containerId, int entityId, int tabId, ResourceLocation taskUid) {
+    public ToggleSideTabMessage(int containerId, int entityId, int tabId, ResourceLocation taskUid, boolean taskListOpen, int taskPage) {
         this.containerId = containerId;
         this.entityId = entityId;
         this.tabId = tabId;
         this.taskUid = taskUid;
+        this.taskListOpen = taskListOpen;
+        this.taskPage = taskPage;
     }
 
     public static void encode(ToggleSideTabMessage message, FriendlyByteBuf buf) {
@@ -30,10 +34,12 @@ public class ToggleSideTabMessage {
         buf.writeInt(message.entityId);
         buf.writeInt(message.tabId);
         buf.writeResourceLocation(message.taskUid);
+        buf.writeBoolean(message.taskListOpen);
+        buf.writeInt(message.taskPage);
     }
 
     public static ToggleSideTabMessage decode(FriendlyByteBuf buf) {
-        return new ToggleSideTabMessage(buf.readInt(), buf.readInt(), buf.readInt(), buf.readResourceLocation());
+        return new ToggleSideTabMessage(buf.readInt(), buf.readInt(), buf.readInt(), buf.readResourceLocation(), buf.readBoolean(), buf.readInt());
     }
 
     public static void handle(ToggleSideTabMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
@@ -49,7 +55,7 @@ public class ToggleSideTabMessage {
                     ClientTaskSettingMenuManager.setCookTaskData(((IAddonMaid)maid).getCookTaskData1());
                     ClientTaskSettingMenuManager.setMenuData(maid.getPersistentData());
                     ClientTaskSettingMenuManager.setTask(TaskManager.findTask(message.taskUid).orElse(TaskManager.getIdleTask()));
-                    ((IAddonMaid) entity).openMaidGuiFromSideTab(sender, message.tabId);
+                    ((IAddonMaid) entity).openMaidGuiFromSideTab(sender, message.tabId, message.taskListOpen, message.taskPage);
                 }
             });
         }

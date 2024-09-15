@@ -6,7 +6,7 @@ import net.minecraft.world.MenuProvider;
 
 public interface ILittleMaidTask extends IMaidTask {
 
-    default MenuProvider getGuiProvider(EntityMaid maid, int entityId) {
+    default MenuProvider getGuiProvider(EntityMaid maid, int entityId, boolean taskListOpen, int taskPage) {
         return maid.getMaidBackpackType().getGuiProvider(maid.getId());
     }
 }

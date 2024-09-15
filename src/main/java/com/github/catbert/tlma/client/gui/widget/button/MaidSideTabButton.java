@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public class MaidSideTabButton extends Button implements ITooltipBtn{
+public class MaidSideTabButton extends Button implements ITooltipButton {
     private static final ResourceLocation RIGHT_SIDE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/maid_gui_right_side.png");
     private final List<Component> tooltips;
     private final int top;
@@ -29,6 +30,11 @@ public class MaidSideTabButton extends Button implements ITooltipBtn{
         }
         // 193, 111
         graphics.blit(RIGHT_SIDE, this.getX() + 6, this.getY() + 4, 193, top + 4, 16, 16, 256, 256);
+    }
+
+    @Override
+    public boolean isTooltipHovered() {
+        return this.isHovered();
     }
 
     @Override

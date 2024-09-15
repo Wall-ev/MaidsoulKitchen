@@ -35,7 +35,7 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
         IMaidTask task = gui.getMaid().getTask();
 
         if (task instanceof ILittleMaidTask) {
-            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, entityId, SideTabIndex.SETTING.getIndex(), task.getUid()));
+            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(gui.getMenu().containerId, entityId, SideTabIndex.SETTING.getIndex(), task.getUid(), gui.isTaskListOpen(), ((IAbstractMaidContainerGui)gui).getTaskPage()));
         } else {
 
         }
