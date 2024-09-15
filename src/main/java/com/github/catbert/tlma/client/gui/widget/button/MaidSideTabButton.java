@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.entity.passive.SideTab;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -15,11 +16,13 @@ public class MaidSideTabButton extends Button implements ITooltipButton {
     private static final ResourceLocation RIGHT_SIDE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/maid_gui_right_side.png");
     private final List<Component> tooltips;
     private final int top;
+    public final SideTab sideTab;
 
-    public MaidSideTabButton(int x, int y, int top, OnPress onPressIn, List<Component> tooltips) {
+    public MaidSideTabButton(SideTab sideTab, int x, int y, int top, OnPress onPressIn, List<Component> tooltips) {
         super(Button.builder(Component.empty(), onPressIn).pos(x, y).size(26, 24));
         this.top = top;
         this.tooltips = tooltips;
+        this.sideTab = sideTab;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class MaidAddonEmiPlugin implements EmiPlugin {
             if (!(screen instanceof AbstractMaidContainerGui<?> maidContainerGui)) {
                 return;
             }
-            consumer.accept(new Bounds(maidContainerGui.getGuiLeft() + 251 + 5, maidContainerGui.getGuiTop() + 26 + 7, 21, 74));
+            consumer.accept(new Bounds(maidContainerGui.getGuiLeft() + 251 + 5, maidContainerGui.getGuiTop() + 26 + 7, 21, 99));
         }));
     }
 

@@ -3,7 +3,7 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainerGui;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
-import com.github.catbert.tlma.entity.passive.SideTabIndex;
+import com.github.catbert.tlma.entity.passive.SideTab;
 import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
@@ -34,7 +34,7 @@ public abstract class MaidTaskConfigerGui<T extends TaskConfigerContainer> exten
     protected void taskButtonPressed(IMaidTask maidTask, boolean enable) {
         super.taskButtonPressed(maidTask, enable);
         if (maidTask instanceof ILittleMaidTask && maidTask.isEnable(this.maid)) {
-            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(this.getMenu().containerId, this.maid.getId(), SideTabIndex.SETTING.getIndex(), maidTask.getUid(), this.isTaskListOpen(), ((IAbstractMaidContainerGui)this).getTaskPage()));
+            NetworkHandler.CHANNEL.sendToServer(new ToggleSideTabMessage(this.getMenu().containerId, this.maid.getId(), SideTab.TASK_SETTING.getIndex(), maidTask.getUid(), this.isTaskListOpen(), ((IAbstractMaidContainerGui)this).getTaskPage()));
         }
     }
 

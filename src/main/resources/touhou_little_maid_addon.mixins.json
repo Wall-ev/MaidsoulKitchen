@@ -28,6 +28,7 @@
     "tlm.AnimatedGeoModelAccessor",
     "tlm.MixinAbstractMaidContainer",
     "tlm.MixinEntityMaid",
+    "tlm.MixinMenuIntegration",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"
   ]

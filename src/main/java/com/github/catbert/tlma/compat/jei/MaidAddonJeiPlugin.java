@@ -25,7 +25,7 @@ public class MaidAddonJeiPlugin implements IModPlugin {
         registration.addGenericGuiContainerHandler(AbstractMaidContainerGui.class, new IGuiContainerHandler<AbstractMaidContainerGui<?>>() {
             @Override
             public List<Rect2i> getGuiExtraAreas(AbstractMaidContainerGui containerScreen) {
-                return Collections.singletonList(new Rect2i(containerScreen.getGuiLeft() + 251 + 5, containerScreen.getGuiTop() + 26 + 7, 21, 74));
+                return Collections.singletonList(new Rect2i(containerScreen.getGuiLeft() + 251 + 5, containerScreen.getGuiTop() + 26 + 7, 21, 99));
             }
         });
     }

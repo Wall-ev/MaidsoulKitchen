@@ -64,6 +64,11 @@ public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContai
         this.drawSideTabGui(graphics, partialTicks, x, y);
     }
 
+    @Override
+    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
+        return super.mouseScrolled(pMouseX, pMouseY, pDelta);
+    }
+
     @SuppressWarnings("unchecked")
     private void addSideTabsButton() {
         MaidSideTabs<T> maidTabs = new MaidSideTabs<>(maid.getId(), leftPos, topPos);
@@ -74,7 +79,7 @@ public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContai
     }
 
     private void drawSideTabGui(GuiGraphics graphics, float partialTicks, int x, int y) {
-        graphics.blit(RIGHT_SIDE, leftPos + 251 + 5, topPos + 28 + 9, 235, 107, 21, 74);
+        graphics.blit(RIGHT_SIDE, leftPos + 251 + 5, topPos + 28 + 9, 235, 107, 21, 99);
     }
 
     @Override

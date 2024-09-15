@@ -1,14 +1,15 @@
 package com.github.catbert.tlma.entity.passive;
 
-public enum SideTabIndex {
+public enum SideTab {
 
-    SETTING(0),
-    BOOK(1),
-    INFO(2);
+    TASK_SETTING(0),
+    TASK_BOOK(1),
+    TASK_INFO(2),
+    MOD_SETTING(3);
 
     private final int index;
 
-    SideTabIndex(int index) {
+    SideTab(int index) {
         this.index = index;
     }
 

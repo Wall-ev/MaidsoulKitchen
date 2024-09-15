@@ -15,7 +15,7 @@ public class MaidAddonREIClientPlugin implements REIClientPlugin {
     @Override
     public void registerExclusionZones(ExclusionZones zones) {
         zones.register(AbstractMaidContainerGui.class, (ExclusionZonesProvider<AbstractMaidContainerGui<?>>) screen -> {
-            return Collections.singletonList(new Rectangle(screen.getGuiLeft() + 251 + 5, screen.getGuiTop() + 26 + 7, 21, 74));
+            return Collections.singletonList(new Rectangle(screen.getGuiLeft() + 251 + 5, screen.getGuiTop() + 26 + 7, 21, 99));
         });
     }
 

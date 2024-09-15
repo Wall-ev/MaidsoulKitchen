@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 
 public enum Mods {
+    CLOTH_CONFIG("cloth_config"),
 
     /*
         Farmer's Delight && Addons

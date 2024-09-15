@@ -2,21 +2,17 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.IAddonMaid;
-import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
-import com.github.catbert.tlma.entity.passive.SideTabIndex;
 import com.github.catbert.tlma.inventory.container.ClientTaskSettingMenuManager;
 import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
-import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
 import com.github.catbert.tlma.network.message.ToggleTaskRuleModeMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -54,12 +50,12 @@ import java.util.Optional;
 public class CookConfigerGui extends MaidTaskConfigerGui<CookConfigerContainer> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
-    private final Zone taskDisplay = new Zone(6, 20, 70, 20);
+    protected final Zone taskDisplay = new Zone(6, 20, 70, 20);
     // 需要特殊处理
-    private final Zone actionDisplay = new Zone(-5, 27, 8, 13);
-    private final Zone resultDisplay = new Zone(6, 44, 152, 86);
-    private final Zone scrollDisplay = new Zone(161, 44, 9, 86);
-    private final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
+    protected final Zone actionDisplay = new Zone(-5, 27, 8, 13);
+    protected final Zone resultDisplay = new Zone(6, 44, 152, 86);
+    protected final Zone scrollDisplay = new Zone(161, 44, 9, 86);
+    protected final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
     private final int titleStartY = 8;
     private final CompoundTag cookCompound;
     private final CookTaskData cookTaskData;

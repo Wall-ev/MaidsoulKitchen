@@ -5,7 +5,9 @@ import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 
@@ -18,14 +20,22 @@ public class MenuIntegration {
         ConfigBuilder root = ConfigBuilder.create().setTitle(Component.literal("Touhou Little Maid Addon"));
         root.setGlobalized(true);
         root.setGlobalizedExpanded(false);
+        return getConfigBuilder(root, false);
+    }
+
+    public static ConfigBuilder getConfigBuilder(ConfigBuilder root, boolean tlmEntry) {
         ConfigEntryBuilder entryBuilder = root.entryBuilder();
-        taskConfig(root, entryBuilder);
-        renderConfig(root, entryBuilder);
+        taskConfig(root, entryBuilder, tlmEntry);
+        renderConfig(root, entryBuilder, tlmEntry);
         return root;
     }
 
-    private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
-        ConfigCategory task = root.getOrCreateCategory(Component.translatable("config.touhou_little_maid_addon.task.name"));
+    private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
+        MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.task.name");
+        if (tlmEntry) {
+            entryTitle.append(Component.literal("[Addon: Farm and Cook]").withStyle(ChatFormatting.YELLOW));
+        }
+        ConfigCategory task = root.getOrCreateCategory(entryTitle);
 
 //        task.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.task.berry_farm_task.name"), TaskConfig.BERRY_FARM_TASK_ENABLED.get())
 //                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.chair.berry_farm_task.desc"))
@@ -68,8 +78,12 @@ public class MenuIntegration {
                 .setSaveConsumer(TaskConfig.SEARCHY_OFFSET::set).build());
     }
 
-    private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
-        ConfigCategory task = root.getOrCreateCategory(Component.translatable("config.touhou_little_maid_addon.render.name"));
+    private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
+        MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.render.name");
+        if (tlmEntry) {
+            entryTitle.append(Component.literal("[Addon: Farm and Cook]").withStyle(ChatFormatting.YELLOW));
+        }
+        ConfigCategory task = root.getOrCreateCategory(entryTitle);
 
         task.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.render.ld_banner_render.name"), RenderConfig.LD_BANNER_RENDER_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.render.ld_banner_render.desc"))
