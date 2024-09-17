@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.network.message;
 
-import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.network.NetworkHandler;
+import com.github.catbert.tlma.network.message.client.ClientSetCookTaskModeMessage;
+import com.github.catbert.tlma.util.MaidAddonTagUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,25 +11,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class ToggleTaskRuleModeMessage {
-    private final int entityId;
-//    private final String rec;
+public record SetCookTaskModeMessage(int entityId, String taskUid, String mode) {
 
-    public ToggleTaskRuleModeMessage(int entityId) {
-        this.entityId = entityId;
-//        this.rec = rec;
-    }
-
-    public static void encode(ToggleTaskRuleModeMessage message, FriendlyByteBuf buf) {
+    public static void encode(SetCookTaskModeMessage message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityId);
-//        buf.writeUtf(message.rec);
+        buf.writeUtf(message.taskUid);
+        buf.writeUtf(message.mode);
     }
 
-    public static ToggleTaskRuleModeMessage decode(FriendlyByteBuf buf) {
-        return new ToggleTaskRuleModeMessage(buf.readInt());
+    public static SetCookTaskModeMessage decode(FriendlyByteBuf buf) {
+        return new SetCookTaskModeMessage(buf.readInt(), buf.readUtf(), buf.readUtf());
     }
 
-    public static void handle(ToggleTaskRuleModeMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(SetCookTaskModeMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         if (context.getDirection().getReceptionSide().isServer()) {
             context.enqueueWork(() -> {
@@ -37,7 +33,8 @@ public class ToggleTaskRuleModeMessage {
                 }
                 Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
-                    ((IAddonMaid) entity).toggleTaskRuleMode1();
+                    MaidAddonTagUtil.setCookTaskMode(maid, message.taskUid, message.mode);
+                    NetworkHandler.sendToClientPlayer(new ClientSetCookTaskModeMessage(message.entityId, message.taskUid, message.mode), sender);
                 }
             });
         }

@@ -33,11 +33,6 @@ public class CompatFarmConfigerGui extends MaidTaskConfigerGui<CompatFarmConfige
         }
     }
 
-    @Override
-    public void init(IMaidTask task) {
-        this.init();
-    }
-
     private void addTitleButton() {
         MutableComponent titleComponent = Component.translatable("gui.touhou_little_maid_addon.berry_farm_configer_screen.title");
         int titleStartX = visualZone.startX() + (visualZone.width() - font.width(titleComponent)) / 2;

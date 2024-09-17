@@ -9,8 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.FakePlayer;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
-public interface IAddonMaid {
+ public interface IAddonMaid {
 
     WeakReference<FakePlayer> getFakePlayer$tlma();
 
@@ -46,4 +47,15 @@ public interface IAddonMaid {
 
     boolean containsRecipe2(String recipeId);
 
+    CompoundTag getCookInfo();
+
+    void setCookInfo(CompoundTag cookInfo);
+
+    void putCookTaskInfo(ResourceLocation taskRec, CookTaskData.Mode mode, List<ResourceLocation> recs);
+
+    String getCookTaskMode(ResourceLocation taskRec);
+
+    void setCookTaskMode(String taskRec, String mode);
+
+    void setTaskRule(String taskUid, CookTaskData.TaskRule taskRule);
 }

@@ -55,6 +55,14 @@ public final class CookTaskData {
         taskRules.put(taskId, taskRule);
     }
 
+    public void setTaskRule(String taskId, TaskRule taskRule) {
+        if (taskRules.get(taskId) == null) {
+            addTaskRule(taskId, taskRule);
+        }else {
+            taskRules.replace(taskId, taskRule);
+        }
+    }
+
     public TaskRule getTaskRule(String taskId) {
         TaskRule taskRule = taskRules.get(taskId);
         if (taskRule != null) {
@@ -132,6 +140,22 @@ public final class CookTaskData {
         public TaskRule(Mode mode, List<String> recipeIds) {
             this.mode = mode;
             this.recipeIds = recipeIds;
+        }
+
+        public void toggleMode() {
+            if (mode == Mode.RANDOM) {
+                setMode(Mode.SELECT);
+            } else {
+                setMode(Mode.RANDOM);
+            }
+        }
+
+        public void toggleRecipe(String recipeId) {
+            if (recipeIds.size() < TaskConfig.COOK_SELECTED_RECIPES.get() && !recipeIds.contains(recipeId)) {
+                recipeIds.add(recipeId);
+            } else {
+                recipeIds.remove(recipeId);
+            }
         }
 
         public Mode getMode() {

@@ -144,6 +144,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     private void createRecipesIngredients(EntityMaid maid) {
+        if (lastTaskRule == null) return;
+
         this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
 //        recipesIngredients = new ArrayList<>();

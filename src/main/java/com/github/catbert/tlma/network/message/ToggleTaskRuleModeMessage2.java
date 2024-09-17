@@ -3,29 +3,34 @@ package com.github.catbert.tlma.network.message;
 import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ToggleSideTabMessage(int containerId, int entityId, int tabId, ResourceLocation taskUid, boolean taskListOpen, int taskPage) {
+public class ToggleTaskRuleModeMessage2 {
+    private final int entityId;
+    private final String taskUid;
+    private final String mode;
 
-    public static void encode(ToggleSideTabMessage message, FriendlyByteBuf buf) {
-        buf.writeInt(message.containerId);
+    public ToggleTaskRuleModeMessage2(int entityId, String taskUid, String mode) {
+        this.entityId = entityId;
+        this.taskUid = taskUid;
+        this.mode = mode;
+    }
+
+    public static void encode(ToggleTaskRuleModeMessage2 message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityId);
-        buf.writeInt(message.tabId);
-        buf.writeResourceLocation(message.taskUid);
-        buf.writeBoolean(message.taskListOpen);
-        buf.writeInt(message.taskPage);
+        buf.writeUtf(message.taskUid);
+        buf.writeUtf(message.mode);
     }
 
-    public static ToggleSideTabMessage decode(FriendlyByteBuf buf) {
-        return new ToggleSideTabMessage(buf.readInt(), buf.readInt(), buf.readInt(), buf.readResourceLocation(), buf.readBoolean(), buf.readInt());
+    public static ToggleTaskRuleModeMessage2 decode(FriendlyByteBuf buf) {
+        return new ToggleTaskRuleModeMessage2(buf.readInt(), buf.readUtf(), buf.readUtf());
     }
 
-    public static void handle(ToggleSideTabMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(ToggleTaskRuleModeMessage2 message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         if (context.getDirection().getReceptionSide().isServer()) {
             context.enqueueWork(() -> {
@@ -35,7 +40,7 @@ public record ToggleSideTabMessage(int containerId, int entityId, int tabId, Res
                 }
                 Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
-                    ((IAddonMaid) entity).openMaidGuiFromSideTab(sender, message.tabId, message.taskListOpen, message.taskPage);
+                    ((IAddonMaid) entity).setCookTaskMode(message.taskUid, message.mode);
                 }
             });
         }
