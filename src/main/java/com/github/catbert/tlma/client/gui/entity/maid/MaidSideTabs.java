@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.client.gui.entity.maid;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.MaidTaskConfigerGui;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.MaidTaskConfigureGui;
 import com.github.catbert.tlma.client.gui.mod.ClothConfigScreen;
 import com.github.catbert.tlma.client.gui.mod.PatchouliWarningScreen;
 import com.github.catbert.tlma.client.gui.widget.button.MaidSideTabButton;
@@ -51,7 +51,7 @@ public class MaidSideTabs<T extends AbstractMaidContainer> {
 
     public MaidSideTabButton[] getTabs(AbstractMaidContainerGui<T> screen) {
         MaidSideTabButton taskSetting = genSideTabButton(screen, SideTab.TASK_SETTING, (b) -> settingBtnPressed(screen));
-        if (screen instanceof MaidTaskConfigerGui<?>) {
+        if (screen instanceof MaidTaskConfigureGui<?>) {
             taskSetting.active = false;
         }
 

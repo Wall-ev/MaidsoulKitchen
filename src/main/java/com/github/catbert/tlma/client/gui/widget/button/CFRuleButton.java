@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
+import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.catbert.tlma.task.farm.handler.v1.berry.BerryHandler;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import net.minecraft.client.Minecraft;
@@ -18,18 +20,22 @@ import java.util.function.Supplier;
 
 public class CFRuleButton extends Button implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
-    private final BerryHandler handlerInfo;
+    private final IHandlerInfo handlerInfo;
+    private final ICompatFarmHandler handler;
     private final List<ItemStack> blockItems = new ArrayList<>();
     private final ResultInfo ref = new ResultInfo(1, 9, 8, 8, 2, 2);
+    protected boolean isSelected;
 
-    public CFRuleButton(BerryHandler handlerInfo, int pX, int pY, OnPress pOnPress) {
-        super(pX, pY, 152, 24, Component.empty(), pOnPress, Supplier::get);
+    public CFRuleButton(IHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY) {
+        super(pX, pY, 152, 24, Component.empty(), b -> {}, Supplier::get);
         this.handlerInfo = handlerInfo;
+        this.handler = handler;
+        this.isSelected = isSelected;
 
         int i = 0;
         for (Block block : ForgeRegistries.BLOCKS) {
             if (i > 9) break;
-            if (handlerInfo.isFarmBlock(block)) {
+            if (handler.isFarmBlock(block)) {
                 blockItems.add(new ItemStack(block));
                 i++;
             }
@@ -51,7 +57,7 @@ public class CFRuleButton extends Button implements ITooltipButton {
         }
 
         {
-            int pV0ffset = 0; // 0 : 24
+            int pV0ffset = this.isSelected ? 0 : 24; // 0 : 24
             pGuiGraphics.blit(TEXTURE, this.getX() + 131, this.getY() + 3, 152 + 2, 3, 18, 18);
             pGuiGraphics.blit(TEXTURE, this.getX() + 131 + 1 + 1, this.getY() + 3 + 1 + 1, 152 + 2 + 18 + 2, 5 + pV0ffset, 14, 14);
         }

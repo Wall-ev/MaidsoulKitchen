@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.farm.handler.v1.berry;
 
-public enum BerryHandlerManager {
+
+public enum BerryHandlerManager{
 
     MINECRAFT(new VanillaBerryHandler()),
     SIMPLE_FARMING(new SimpleFarmingBerryHandler()),

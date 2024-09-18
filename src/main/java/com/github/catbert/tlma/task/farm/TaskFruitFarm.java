@@ -8,7 +8,6 @@ import com.github.catbert.tlma.api.task.IFakePlayerTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFruitMoveTask;
 import com.github.catbert.tlma.task.farm.handler.v1.fruit.*;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -26,14 +25,11 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
 
     @Override
-    public FruitHandler getCompatHandler(EntityMaid maid) {
-        ICompatFarmHandler.Builder<FruitHandler> fruitHandlerBuilder = new FruitHandler.Builder<>();
-        fruitHandlerBuilder
-                .addHandler(new SimpleFarmingFruitHandler())
-                .addHandler(new FruitStackFruitHandler())
-                .addHandler(new VineryFruitHandler())
-                .addHandler(new CompatFruitHandler());
-        return fruitHandlerBuilder.build();
+    public List<FruitHandler> getHandlers() {
+        return Lists.newArrayList(FruitHandlerManager.FRUITSTACK.getFruitHandler(),
+                FruitHandlerManager.SIMPLE_FARMING.getFruitHandler(),
+                FruitHandlerManager.VINERY.getFruitHandler(),
+                FruitHandlerManager.COMPAT.getFruitHandler());
     }
 
     @Override

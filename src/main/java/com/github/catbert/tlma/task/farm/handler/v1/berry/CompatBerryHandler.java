@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CompatBerryHandler extends BerryHandler implements ICompatHandler {
-    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "compat");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berry_compat");
 
     @Override
     public boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {

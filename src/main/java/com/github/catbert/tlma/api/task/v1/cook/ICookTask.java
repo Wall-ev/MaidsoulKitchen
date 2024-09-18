@@ -2,11 +2,8 @@ package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainer;
-import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainerGui;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigerContainer;
-import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
-import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigureContainer;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
@@ -95,7 +92,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                IAbstractMaidContainer compatFarmConfigerContainer = (IAbstractMaidContainer) new CookConfigerContainer(index, playerInventory, entityId);
+                IAbstractMaidContainer compatFarmConfigerContainer = (IAbstractMaidContainer) new CookConfigureContainer(index, playerInventory, entityId);
                 compatFarmConfigerContainer.setTaskListOpen(taskListOpen);
                 compatFarmConfigerContainer.setTaskPage(taskPage);
                 return (AbstractContainerMenu) compatFarmConfigerContainer;

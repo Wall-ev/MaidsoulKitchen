@@ -106,7 +106,7 @@
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "You'll need to install the Patchouli mod to open book entry feature",
   "gui.touhou_little_maid_addon.cook_setting_screen.title": "Cook Guide",
   "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "CompatFarm Guide",
-  "gui.touhou_little_maid_addon.berry_farm_configer_screen.title": "Berry Farm Guide",
+  "gui.touhou_little_maid_addon.berry_farm_configure_screen.title": "Berry Farm Guide",
   "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "Fruit Farm Guide",
   "tooltips.touhou_little_maid_addon.amount.title": "Craft One Amount Ingredient:",
 

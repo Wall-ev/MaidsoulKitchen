@@ -2,9 +2,10 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainerGui;
+import com.github.catbert.tlma.client.gui.widget.button.TitleInfoButton;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
 import com.github.catbert.tlma.entity.passive.SideTab;
-import com.github.catbert.tlma.inventory.container.TaskConfigerContainer;
+import com.github.catbert.tlma.inventory.container.TaskConfigureContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskMessage;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
@@ -15,13 +16,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public abstract class MaidTaskConfigerGui<T extends TaskConfigerContainer> extends AbstractMaidContainerGui<T>{
-    protected final int titleStartY = 8;
+public abstract class MaidTaskConfigureGui<T extends TaskConfigureContainer> extends AbstractMaidContainerGui<T>{
     protected Zone visualZone;
+    protected final int titleStartY = 8;
+    protected int solIndex = 0;
     protected final EntityMaid maid;
     protected final IMaidTask task;
 
-    public MaidTaskConfigerGui(T screenContainer, Inventory inv, Component titleIn) {
+    public MaidTaskConfigureGui(T screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
         this.maid = getMenu().getMaid();
         this.task = this.maid.getTask();
@@ -41,6 +43,8 @@ public abstract class MaidTaskConfigerGui<T extends TaskConfigerContainer> exten
 
     protected void initAdditionGuiInfo() {
         visualZone = new Zone(leftPos + 81, topPos + 28, 176, 137);
+
+        this.addTitleInfoButton();
     }
 
     @Override
@@ -60,5 +64,11 @@ public abstract class MaidTaskConfigerGui<T extends TaskConfigerContainer> exten
         if (maidTask instanceof ILittleMaidTask && maidTask.isEnable(this.maid)) {
             NetworkHandler.sendToServer(new ToggleSideTabMessage(this.getMenu().containerId, this.maid.getId(), SideTab.TASK_SETTING.getIndex(), maidTask.getUid(), this.isTaskListOpen(), ((IAbstractMaidContainerGui)this).getTaskPage()));
         }
+    }
+
+    protected void addTitleInfoButton() {
+        int titleStartX = visualZone.startX() + (visualZone.width() - font.width(this.title)) / 2;
+        TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(this.title), 9, this.title);
+        this.addRenderableWidget(titleInfoButton);
     }
 }

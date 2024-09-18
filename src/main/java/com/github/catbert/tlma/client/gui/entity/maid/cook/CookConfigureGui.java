@@ -4,7 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
-import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigureContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.SetCookTaskModeMessage;
 import com.github.catbert.tlma.util.MaidAddonTagUtil;
@@ -13,7 +13,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -30,7 +29,7 @@ import java.util.List;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookConfigureGui extends MaidTaskConfigerGui<CookConfigerContainer> {
+public class CookConfigureGui extends MaidTaskConfigureGui<CookConfigureContainer> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     protected final Zone taskDisplay = new Zone(6, 20, 70, 20);
     // 需要特殊处理
@@ -41,10 +40,9 @@ public class CookConfigureGui extends MaidTaskConfigerGui<CookConfigerContainer>
     @SuppressWarnings("rawtypes")
     private List<Recipe> recipeList;
     private CompoundTag cookTaskInfo;
-    private int solIndex = 0;
 
-    public CookConfigureGui(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
-        super(screenContainer, inv, titleIn);
+    public CookConfigureGui(CookConfigureContainer screenContainer, Inventory inv, Component titleIn) {
+        super(screenContainer, inv, Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title"));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -58,7 +56,6 @@ public class CookConfigureGui extends MaidTaskConfigerGui<CookConfigerContainer>
     @Override
     protected void initAdditionGuiInfo() {
         super.initAdditionGuiInfo();
-        this.addTitleInfoButton();
         this.addTaskInfoButton();
         this.addTypeButton();
         this.addResultInfo();
@@ -99,13 +96,6 @@ public class CookConfigureGui extends MaidTaskConfigerGui<CookConfigerContainer>
             }
         }
         return super.mouseScrolled(mouseX, mouseY, delta);
-    }
-
-    private void addTitleInfoButton() {
-        MutableComponent titleComponent = Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title");
-        int titleStartX = visualZone.startX() + (visualZone.width() - font.width(titleComponent)) / 2;
-        TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(titleComponent), 9, titleComponent);
-        this.addRenderableWidget(titleInfoButton);
     }
 
     private void addTaskInfoButton() {

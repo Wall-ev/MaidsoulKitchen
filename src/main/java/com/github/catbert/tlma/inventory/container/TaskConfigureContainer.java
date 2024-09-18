@@ -9,11 +9,11 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public abstract class TaskConfigerContainer extends AbstractMaidContainer {
+public abstract class TaskConfigureContainer extends AbstractMaidContainer {
     private static final int PLAYER_INVENTORY_SIZE = 27;
     public static final ResourceLocation EMPTY = new ResourceLocation(TLMAddon.MOD_ID, "empty");
 
-    public TaskConfigerContainer(MenuType<?> type, int id, Inventory inventory, int entityId) {
+    public TaskConfigureContainer(MenuType<?> type, int id, Inventory inventory, int entityId) {
         super(type, id, inventory, entityId);
     }
 

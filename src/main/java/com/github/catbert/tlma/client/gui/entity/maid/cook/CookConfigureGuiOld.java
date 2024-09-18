@@ -6,7 +6,7 @@ import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
-import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigureContainer;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskRecMessage;
@@ -22,7 +22,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -46,7 +45,7 @@ import java.util.Optional;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class CookConfigerGuiOld extends MaidTaskConfigerGui<CookConfigerContainer> {
+public class CookConfigureGuiOld extends MaidTaskConfigureGui<CookConfigureContainer> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     protected final Zone taskDisplay = new Zone(6, 20, 70, 20);
@@ -69,7 +68,7 @@ public class CookConfigerGuiOld extends MaidTaskConfigerGui<CookConfigerContaine
     private List<Ingredient> lastIngreTooltipList = new ArrayList<>();
     private ResourceLocation taskUid;
 
-    public CookConfigerGuiOld(CookConfigerContainer screenContainer, Inventory inv, Component titleIn) {
+    public CookConfigureGuiOld(CookConfigureContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
 //        this.currentTask = maid.level.isClientSide ? ClientTaskSettingMenuManager.getTask() : maid.getTask();
 //        this.cookCompound = maid.level.isClientSide ? ClientTaskSettingMenuManager.getMenuData() : maid.getPersistentData();
@@ -158,12 +157,12 @@ public class CookConfigerGuiOld extends MaidTaskConfigerGui<CookConfigerContaine
     }
 
 
-    private void addTitleInfoButton() {
-        MutableComponent titleComponent = Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title");
-        int titleStartX = visualZone.startX() + (visualZone.width() - font.width(titleComponent)) / 2;
-        TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(titleComponent), 9, titleComponent);
-        this.addRenderableWidget(titleInfoButton);
-    }
+//    private void addTitleInfoButton() {
+//        MutableComponent titleComponent = Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title");
+//        int titleStartX = visualZone.startX() + (visualZone.width() - font.width(titleComponent)) / 2;
+//        TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(titleComponent), 9, titleComponent);
+//        this.addRenderableWidget(titleInfoButton);
+//    }
 
     private void addTaskInfoButton() {
         int startX = visualZone.startX() + taskDisplay.startX();
@@ -212,7 +211,7 @@ public class CookConfigerGuiOld extends MaidTaskConfigerGui<CookConfigerContaine
         ResultButton resultButton = new ResultButton(new Zone(startX, startY, resultDisplay.width(), resultDisplay.height()), ref) {
             @Override
             protected ItemStack getItemStack(int index) {
-                return CookConfigerGuiOld.this.getItemStack(index);
+                return CookConfigureGuiOld.this.getItemStack(index);
             }
 
             @Override
@@ -222,7 +221,7 @@ public class CookConfigerGuiOld extends MaidTaskConfigerGui<CookConfigerContaine
                     String recipeId = recipeList.get(actualIndex).getId().toString();
 //                return ((IAddonMaid) serverMaid).containsRecipe2(recipeId);
 //                return CookSettingContainerGui.this.containsRecipe2(recipeId);
-                    return CookConfigerGuiOld.this.containsRecipe1(recipeId);
+                    return CookConfigureGuiOld.this.containsRecipe1(recipeId);
                 }
                 return false;
             }

@@ -2,11 +2,10 @@ package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainer;
-import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainerGui;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigerContainer;
-import com.github.catbert.tlma.inventory.container.CookConfigerContainer;
+import com.github.catbert.tlma.inventory.container.CompatFarmConfigureContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
+import com.github.catbert.tlma.task.farm.handler.v1.fruit.FruitHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
@@ -26,13 +25,21 @@ import java.util.List;
 
 public interface ICompatFarm<T extends ICompatFarmHandler> extends ILittleMaidTask {
 
+    List<T> getHandlers();
+
     /**
      * 后面用于自定义女仆过滤规则
      *
      * @param maid
      * @return
      */
-    T getCompatHandler(EntityMaid maid);
+    default T getCompatHandler(EntityMaid maid) {
+        ICompatFarmHandler.Builder<T> iCompatFarmHandlerBuilder = new ICompatFarmHandler.Builder<>();
+        for (T handler : getHandlers()) {
+            iCompatFarmHandlerBuilder.addHandler(handler);
+        }
+        return iCompatFarmHandlerBuilder.build();
+    }
 
     boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
 
@@ -63,7 +70,7 @@ public interface ICompatFarm<T extends ICompatFarmHandler> extends ILittleMaidTa
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                IAbstractMaidContainer compatFarmConfigerContainer = (IAbstractMaidContainer) new CompatFarmConfigerContainer(index, playerInventory, entityId);
+                IAbstractMaidContainer compatFarmConfigerContainer = (IAbstractMaidContainer) new CompatFarmConfigureContainer(index, playerInventory, entityId);
                 compatFarmConfigerContainer.setTaskListOpen(taskListOpen);
                 compatFarmConfigerContainer.setTaskPage(taskPage);
                 return (AbstractContainerMenu) compatFarmConfigerContainer;
