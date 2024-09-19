@@ -3,8 +3,10 @@ package com.github.catbert.tlma.task.cook.handler.v2;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +21,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
     private final ICookTask<?, T> task;
     private final boolean single;
-    private CookTaskData.TaskRule lastTaskRule;
+    private String lastTaskRule;
+    private List<String> recipeIds;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
 
@@ -33,6 +36,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.task = task;
 
         if (createRecIng) {
+            this.initTaskData(maid);
             this.createRecipesIngredients(maid);
         }
     }
@@ -50,8 +54,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         Level level = this.maidInventory.getMaid().level();
 
         List<T> allRecipesFor;
-        if (lastTaskRule.getMode() == CookTaskData.Mode.SELECT) {
-            List<String> recipeIds = lastTaskRule.getRecipeIds();
+        if (CookTaskData.Mode.SELECT.getUid().equals(this.lastTaskRule)) {
             allRecipesFor = task.getRecipes(level).stream()
                     .filter(r -> recipeIds.contains(r.getId().toString()))
                     .toList();
@@ -81,7 +84,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public void checkAndCreateRecipesIngredients(EntityMaid maid) {
-        initTaskRule(maid);
+        initTaskData(maid);
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
@@ -91,22 +94,26 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         createRecipesIngredients(maid);
     }
 
-    private void initTaskRule(EntityMaid maid) {
-        if (lastTaskRule == null) {
-//            CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-//            this.lastTaskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
+    private void initTaskData(EntityMaid maid) {
+        if (lastTaskRule == null || recipeIds == null) {
+            this.lastTaskRule = MaidTaskDataUtil.getCookTaskMode(maid, this.task.getUid().toString());
+            this.recipeIds = MaidTaskDataUtil.getCookTaskRecs(maid, this.task.getUid().toString())
+                    .stream().map(Tag::getAsString).toList();
         }
     }
 
     private boolean isSameTaskRule(EntityMaid maid) {
+//        String cookTaskMode = MaidTaskDataUtil.getCookTaskMode(maid, this.task.getUid().toString());
+
 //        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
 //        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
 //        if (taskRule.isNeedUpdate()) {
 //            taskRule.setNeedUpdate(false);
-//            this.lastTaskRule = taskRule;
+//            this.lastTaskRule = cookTaskMode;
 //            return true;
 //        }
-        return false;
+//        return false;
+        return true;
     }
 
 
@@ -143,7 +150,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     private void createRecipesIngredients(EntityMaid maid) {
-        if (lastTaskRule == null) return;
+        if (lastTaskRule == null || recipeIds == null) return;
 
         this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
