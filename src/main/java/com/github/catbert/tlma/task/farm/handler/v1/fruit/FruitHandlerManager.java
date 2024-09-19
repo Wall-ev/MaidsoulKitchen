@@ -1,6 +1,8 @@
 package com.github.catbert.tlma.task.farm.handler.v1.fruit;
 
-public enum FruitHandlerManager{
+import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
+
+public enum FruitHandlerManager implements IFarmHandlerManager<FruitHandler> {
 
     FRUITSTACK(new FruitStackFruitHandler()),
     SIMPLE_FARMING(new SimpleFarmingFruitHandler()),
@@ -13,7 +15,8 @@ public enum FruitHandlerManager{
         this.fruitHandler = vineryBerryHandler;
     }
 
-    public FruitHandler getFruitHandler() {
+    public FruitHandler getFarmHandler() {
         return fruitHandler;
     }
+
 }

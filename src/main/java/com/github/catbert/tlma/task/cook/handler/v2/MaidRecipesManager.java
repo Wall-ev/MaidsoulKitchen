@@ -1,6 +1,5 @@
 package com.github.catbert.tlma.task.cook.handler.v2;
 
-import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
@@ -94,19 +93,19 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     private void initTaskRule(EntityMaid maid) {
         if (lastTaskRule == null) {
-            CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-            this.lastTaskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
+//            CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+//            this.lastTaskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
         }
     }
 
     private boolean isSameTaskRule(EntityMaid maid) {
-        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
-        if (taskRule.isNeedUpdate()) {
-            taskRule.setNeedUpdate(false);
-            this.lastTaskRule = taskRule;
-            return true;
-        }
+//        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
+//        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
+//        if (taskRule.isNeedUpdate()) {
+//            taskRule.setNeedUpdate(false);
+//            this.lastTaskRule = taskRule;
+//            return true;
+//        }
         return false;
     }
 

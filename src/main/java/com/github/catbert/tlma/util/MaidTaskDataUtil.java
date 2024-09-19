@@ -11,24 +11,69 @@ import net.minecraft.network.syncher.SynchedEntityData;
 
 import java.util.List;
 
-public final class MaidAddonTagUtil {
-    public static final EntityDataAccessor<CompoundTag> DATA_COOK_INFO = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
-    public static final String COOK_TASK_INFO_TAG = "CookTaskInfo";
+public final class MaidTaskDataUtil {
+    public static final EntityDataAccessor<CompoundTag> TASK_DATA_INFO = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
+    public static final String TASK_DATA_TAG = "TaskData";
+    public static final String COOK_TASK_TAG = "Cook";
     public static final String COOK_TASK_MODE_TAG = "Mode";
     public static final String COOK_TASK_RECS_TAG = "Recs";
+    public static final String FARM_TASK_TAG = "Farm";
+    public static final String FARM_TASK_RULES_TAG = "Rules";
 
-    public static CompoundTag getEdCookInfo(EntityMaid maid) {
-        return maid.getEntityData().get(DATA_COOK_INFO);
+    public static CompoundTag getTaskData(EntityMaid maid) {
+        return maid.getEntityData().get(TASK_DATA_INFO);
     }
 
-    public static void setEdCookInfo(EntityMaid maid, CompoundTag compoundTag) {
-        maid.getEntityData().set(DATA_COOK_INFO, compoundTag);
+    public static void setTaskData(EntityMaid maid, CompoundTag compoundTag) {
+        maid.getEntityData().set(TASK_DATA_INFO, compoundTag);
     }
 
-    public static CompoundTag getCookTaskInfos(EntityMaid maid) {
-        CompoundTag compound = getEdCookInfo(maid).getCompound(COOK_TASK_INFO_TAG);
+    /** -------------------------FarmTaskData----------------------------------------- **/
+    public static CompoundTag getFarmTaskInfos(EntityMaid maid) {
+        CompoundTag compound = getTaskData(maid).getCompound(FARM_TASK_TAG);
         if (compound.isEmpty()) {
-            getEdCookInfo(maid).put(COOK_TASK_INFO_TAG, compound);
+            getTaskData(maid).put(FARM_TASK_TAG, compound);
+        }
+        return compound;
+    }
+
+    public static CompoundTag getFarmTaskInfo(EntityMaid maid, String taskUid) {
+        CompoundTag compound = getFarmTaskInfos(maid).getCompound(taskUid);
+        if (compound.isEmpty()) {
+            getFarmTaskInfos(maid).put(taskUid, compound);
+        }
+        return compound;
+    }
+
+    public static List<String> getFarmTaskRules(CompoundTag compound) {
+        ListTag list = compound.getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
+        return list.stream().map(Tag::getAsString).toList();
+    }
+
+    public static ListTag getFarmTaskRules(EntityMaid maid, String taskUid) {
+        ListTag list = getFarmTaskInfo(maid, taskUid).getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
+        if (list.isEmpty()) {
+            getFarmTaskInfo(maid, taskUid).put(FARM_TASK_RULES_TAG, list);
+        }
+        return list;
+    }
+
+    public static void addFarmTaskRule(EntityMaid maid, String taskUid, String ruleUid) {
+        ListTag cookTaskMode4 = getFarmTaskRules(maid, taskUid);
+        cookTaskMode4.add(StringTag.valueOf(ruleUid));
+    }
+
+    public static void removeFarmTaskRule(EntityMaid maid, String taskUid, String ruleUid) {
+        ListTag cookTaskMode4 = getFarmTaskRules(maid, taskUid);
+        cookTaskMode4.removeIf(tag -> tag.getAsString().equals(ruleUid));
+    }
+    /* ------------------------FarmTaskDataEnd---------------------------------------- */
+
+    /** -------------------------CookTaskData----------------------------------------- **/
+    public static CompoundTag getCookTaskInfos(EntityMaid maid) {
+        CompoundTag compound = getTaskData(maid).getCompound(COOK_TASK_TAG);
+        if (compound.isEmpty()) {
+            getTaskData(maid).put(COOK_TASK_TAG, compound);
         }
         return compound;
     }
@@ -85,5 +130,6 @@ public final class MaidAddonTagUtil {
 //            cookTaskMode4.add(recTag);
 //        }
 //    }
+    /* ------------------------CookTaskDataEnd---------------------------------------- */
 
 }

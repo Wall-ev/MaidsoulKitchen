@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.task;
+package com.github.catbert.tlma.task.other;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;

@@ -3,10 +3,10 @@ package com.github.catbert.tlma.task.farm;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
-import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
+import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.task.farm.handler.v1.berry.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
@@ -24,13 +24,9 @@ import java.util.List;
 public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask, IAddonFarmTask {
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
 
-
     @Override
-    public List<BerryHandler> getHandlers() {
-        return Lists.newArrayList(BerryHandlerManager.MINECRAFT.getVineryBerryHandler(),
-                BerryHandlerManager.SIMPLE_FARMING.getVineryBerryHandler(),
-                BerryHandlerManager.VINERY.getVineryBerryHandler(),
-                BerryHandlerManager.COMPAT.getVineryBerryHandler());
+    public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
+        return BerryHandlerManager.values();
     }
 
     @Override

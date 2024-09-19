@@ -6,7 +6,7 @@ import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.CookTaskRecActionMessage;
-import com.github.catbert.tlma.util.MaidAddonTagUtil;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;
@@ -32,7 +32,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private final ItemStack stack;
     @SuppressWarnings("all")
     public RecButton(EntityMaid maid, CompoundTag cookTaskInfo, Recipe<?> recipe, int pX, int pY) {
-        super(pX, pY, 20, 20, MaidAddonTagUtil.getCookTaskRecs(cookTaskInfo).contains(recipe.getId().toString()));
+        super(pX, pY, 20, 20, MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo).contains(recipe.getId().toString()));
         this.initTextureValues(179, 25, 22, 0, TEXTURE);
         this.maid = maid;
         this.recipe = recipe;
@@ -43,12 +43,12 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         // 不是选择模式，不可点击
-        if (!MaidAddonTagUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
+        if (!MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
             return false;
         }
         // 超出数量限制并且要继续添加配方，不可点击
-        if (MaidAddonTagUtil.getCookTaskRecs(cookTaskInfo).size() >= TaskConfig.COOK_SELECTED_RECIPES.get() &&
-                !MaidAddonTagUtil.getCookTaskRecs(cookTaskInfo).contains(recipe.getId().toString())) {
+        if (MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo).size() >= TaskConfig.COOK_SELECTED_RECIPES.get() &&
+                !MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo).contains(recipe.getId().toString())) {
             return false;
         }
 
@@ -69,7 +69,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     private void renderShadow(GuiGraphics graphics) {
-        if (MaidAddonTagUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
+        if (MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
             graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50F9F9F9);
         } else {
             graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50000000);
@@ -94,8 +94,8 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
 
-        boolean modeRandom = !MaidAddonTagUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid());
-        boolean overSize = MaidAddonTagUtil.getCookTaskRecs(cookTaskInfo).size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
+        boolean modeRandom = !MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid());
+        boolean overSize = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo).size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
         List<Ingredient> ingres = recipe.getIngredients();
         Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));

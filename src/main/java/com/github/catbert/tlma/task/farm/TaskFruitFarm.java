@@ -3,10 +3,10 @@ package com.github.catbert.tlma.task.farm;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
-import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFruitMoveTask;
+import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.task.farm.handler.v1.fruit.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
@@ -25,19 +25,16 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
 
     @Override
-    public List<FruitHandler> getHandlers() {
-        return Lists.newArrayList(FruitHandlerManager.FRUITSTACK.getFruitHandler(),
-                FruitHandlerManager.SIMPLE_FARMING.getFruitHandler(),
-                FruitHandlerManager.VINERY.getFruitHandler(),
-                FruitHandlerManager.COMPAT.getFruitHandler());
-    }
-
-    @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return Lists.newArrayList();
         MaidCompatFruitMoveTask<FruitHandler> maidFarmMoveTask = new MaidCompatFruitMoveTask<>(maid, this, 0.6F);
         MaidCompatFarmPlantTask<FruitHandler> maidFarmPlantTask = new MaidCompatFarmPlantTask<>(maid, this, maidFarmMoveTask.getCompatFarmHandler());
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));
+    }
+
+    @Override
+    public IFarmHandlerManager<FruitHandler>[] getManagerHandlerValues() {
+        return FruitHandlerManager.values();
     }
 
     @Override

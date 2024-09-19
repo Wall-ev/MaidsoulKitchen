@@ -10,20 +10,20 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ClientCookTaskRecActionMessage(int entityId, String taskUid, String rec, boolean add) {
+public record ClientFarmTaskRuleActionMessage(int entityId, String taskUid, String rule, boolean add) {
 
-    public static void encode(ClientCookTaskRecActionMessage message, FriendlyByteBuf buf) {
+    public static void encode(ClientFarmTaskRuleActionMessage message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityId);
         buf.writeUtf(message.taskUid);
-        buf.writeUtf(message.rec);
+        buf.writeUtf(message.rule);
         buf.writeBoolean(message.add);
     }
 
-    public static ClientCookTaskRecActionMessage decode(FriendlyByteBuf buf) {
-        return new ClientCookTaskRecActionMessage(buf.readInt(), buf.readUtf(), buf.readUtf(), buf.readBoolean());
+    public static ClientFarmTaskRuleActionMessage decode(FriendlyByteBuf buf) {
+        return new ClientFarmTaskRuleActionMessage(buf.readInt(), buf.readUtf(), buf.readUtf(), buf.readBoolean());
     }
 
-    public static void handle(ClientCookTaskRecActionMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(ClientFarmTaskRuleActionMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         if (context.getDirection().getReceptionSide().isClient()) {
             context.enqueueWork(() -> {
@@ -34,9 +34,9 @@ public record ClientCookTaskRecActionMessage(int entityId, String taskUid, Strin
                 Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
                     if (message.add) {
-                        MaidTaskDataUtil.addCookTaskRec(maid, message.taskUid, message.rec);
+                        MaidTaskDataUtil.addFarmTaskRule(maid, message.taskUid, message.rule);
                     } else {
-                        MaidTaskDataUtil.removeCookTaskRec(maid, message.taskUid, message.rec);
+                        MaidTaskDataUtil.removeFarmTaskRule(maid, message.taskUid, message.rule);
                     }
                 }
             });

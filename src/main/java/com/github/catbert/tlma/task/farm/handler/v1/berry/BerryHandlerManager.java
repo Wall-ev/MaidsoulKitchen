@@ -1,7 +1,9 @@
 package com.github.catbert.tlma.task.farm.handler.v1.berry;
 
 
-public enum BerryHandlerManager{
+import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
+
+public enum BerryHandlerManager implements IFarmHandlerManager<BerryHandler> {
 
     MINECRAFT(new VanillaBerryHandler()),
     SIMPLE_FARMING(new SimpleFarmingBerryHandler()),
@@ -14,7 +16,7 @@ public enum BerryHandlerManager{
         this.vineryBerryHandler = vineryBerryHandler;
     }
 
-    public BerryHandler getVineryBerryHandler() {
+    public BerryHandler getFarmHandler() {
         return vineryBerryHandler;
     }
 }

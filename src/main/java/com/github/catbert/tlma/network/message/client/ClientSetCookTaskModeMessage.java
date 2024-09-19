@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.network.message.client;
 
-import com.github.catbert.tlma.util.MaidAddonTagUtil;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -32,7 +32,7 @@ public record ClientSetCookTaskModeMessage(int entityId, String taskUid, String 
                 }
                 Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
-                    MaidAddonTagUtil.setCookTaskMode(maid, message.taskUid, message.mode);
+                    MaidTaskDataUtil.setCookTaskMode(maid, message.taskUid, message.mode);
                 }
             });
         }

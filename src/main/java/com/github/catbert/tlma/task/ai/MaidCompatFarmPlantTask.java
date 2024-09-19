@@ -2,6 +2,7 @@ package com.github.catbert.tlma.task.ai;
 
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
+import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.google.common.collect.ImmutableMap;
@@ -18,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public class MaidCompatFarmPlantTask<T extends ICompatFarmHandler> extends Behavior<EntityMaid> {
+public class MaidCompatFarmPlantTask<T extends ICompatFarmHandler & IHandlerInfo> extends Behavior<EntityMaid> {
 
     private final ICompatFarm<T> task;
     private final T compatFarmHandler;

@@ -7,7 +7,7 @@ import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.CookConfigureContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.SetCookTaskModeMessage;
-import com.github.catbert.tlma.util.MaidAddonTagUtil;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
@@ -50,7 +50,7 @@ public class CookConfigureGui extends MaidTaskConfigureGui<CookConfigureContaine
     protected void initAdditionData() {
         super.initAdditionData();
         this.recipeList = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(maid.level);
-        this.cookTaskInfo = MaidAddonTagUtil.getCookTaskInfo(maid, task.getUid().toString());
+        this.cookTaskInfo = MaidTaskDataUtil.getCookTaskInfo(maid, task.getUid().toString());
     }
 
     @Override
@@ -113,7 +113,7 @@ public class CookConfigureGui extends MaidTaskConfigureGui<CookConfigureContaine
         int startX = width - leftPos - (-typeDisplay.startX()) - maxWidth - 1;
         int startY = visualZone.startY() + typeDisplay.startY();
 
-        TypeButton2 typeButton = new TypeButton2(startX, startY, maxWidth, typeDisplay.height(), MaidAddonTagUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
+        TypeButton2 typeButton = new TypeButton2(startX, startY, maxWidth, typeDisplay.height(), MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 this.toggleSelected();

@@ -7,9 +7,14 @@ import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.catbert.tlma.client.gui.widget.button.CFRuleButton;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
 import com.github.catbert.tlma.inventory.container.CompatFarmConfigureContainer;
+import com.github.catbert.tlma.network.NetworkHandler;
+import com.github.catbert.tlma.network.message.FarmTaskRuleActionMessage;
+import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -18,6 +23,7 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
+import java.util.Arrays;
 import java.util.List;
 
 @IPNPlayerSideOnly
@@ -31,6 +37,8 @@ public class CompatFarmConfigureGui extends MaidTaskConfigureGui<CompatFarmConfi
     protected final Zone scrollDisplay = new Zone(161, 20, 9, 110);
     private final int limitSize = 4;
     private List<ICompatFarmHandler> handlers;
+    private CompoundTag farmTaskInfo;
+
     public CompatFarmConfigureGui(CompatFarmConfigureContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, Component.translatable("gui.touhou_little_maid_addon.berry_farm_configure_screen.title"));
     }
@@ -39,7 +47,8 @@ public class CompatFarmConfigureGui extends MaidTaskConfigureGui<CompatFarmConfi
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = ((ICompatFarm<ICompatFarmHandler>) task).getHandlers();
+        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
+        this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
     }
 
     @Override
@@ -84,10 +93,13 @@ public class CompatFarmConfigureGui extends MaidTaskConfigureGui<CompatFarmConfi
         for (int i = index; i < Math.min(handlers.size(), index + limitSize); i++) {
             ICompatFarmHandler handler = handlers.get(i);
             if (!handler.canLoad()) continue;
-            CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, false, startX, startY) {
+            String handlerUid = ((IHandlerInfo) handler).getUid().toString();
+            boolean contains = MaidTaskDataUtil.getFarmTaskRules(farmTaskInfo).contains(handlerUid);
+            CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
+                    NetworkHandler.sendToServer(new FarmTaskRuleActionMessage(maid.getId(), task.getUid().toString(), this.handlerInfo.getUid().toString(), this.isSelected));
                 }
             };
             this.addRenderableWidget(cfRuleButton);

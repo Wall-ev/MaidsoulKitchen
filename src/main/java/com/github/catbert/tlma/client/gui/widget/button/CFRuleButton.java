@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 
 public class CFRuleButton extends Button implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
-    private final IHandlerInfo handlerInfo;
-    private final ICompatFarmHandler handler;
+    protected final IHandlerInfo handlerInfo;
+    protected final ICompatFarmHandler handler;
     private final List<ItemStack> blockItems = new ArrayList<>();
     private final ResultInfo ref = new ResultInfo(1, 9, 8, 8, 2, 2);
     protected boolean isSelected;

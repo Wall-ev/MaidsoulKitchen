@@ -3,6 +3,7 @@ package com.github.catbert.tlma.network;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.network.message.*;
 import com.github.catbert.tlma.network.message.client.ClientCookTaskRecActionMessage;
+import com.github.catbert.tlma.network.message.client.ClientFarmTaskRuleActionMessage;
 import com.github.catbert.tlma.network.message.client.ClientMaidTaskMessage;
 import com.github.catbert.tlma.network.message.client.ClientSetCookTaskModeMessage;
 import net.minecraft.resources.ResourceLocation;
@@ -37,17 +38,9 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ClientCookTaskRecActionMessage.class, ClientCookTaskRecActionMessage::encode, ClientCookTaskRecActionMessage::decode, ClientCookTaskRecActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-
-
-        CHANNEL.registerMessage(i++, MaidTaskRecMessage.class, MaidTaskRecMessage::encode, MaidTaskRecMessage::decode, MaidTaskRecMessage::handle,
+        CHANNEL.registerMessage(i++, FarmTaskRuleActionMessage.class, FarmTaskRuleActionMessage::encode, FarmTaskRuleActionMessage::decode, FarmTaskRuleActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ToggleTaskRuleModeMessage.class, ToggleTaskRuleModeMessage::encode, ToggleTaskRuleModeMessage::decode, ToggleTaskRuleModeMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ToggleTaskRuleModeMessage2.class, ToggleTaskRuleModeMessage2::encode, ToggleTaskRuleModeMessage2::decode, ToggleTaskRuleModeMessage2::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SyncServerCookTaskMessage.class, SyncServerCookTaskMessage::encode, SyncServerCookTaskMessage::decode, SyncServerCookTaskMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SyncClientCookTaskMessage.class, SyncClientCookTaskMessage::encode, SyncClientCookTaskMessage::decode, SyncClientCookTaskMessage::handle,
+        CHANNEL.registerMessage(i++, ClientFarmTaskRuleActionMessage.class, ClientFarmTaskRuleActionMessage::encode, ClientFarmTaskRuleActionMessage::decode, ClientFarmTaskRuleActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 

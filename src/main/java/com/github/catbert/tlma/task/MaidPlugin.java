@@ -23,6 +23,7 @@ import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.TaskCompatMelonFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.task.farm.TaskSSFarm;
+import com.github.catbert.tlma.task.other.TaskFeedAndDrinkOwner;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IMaidBackpack;

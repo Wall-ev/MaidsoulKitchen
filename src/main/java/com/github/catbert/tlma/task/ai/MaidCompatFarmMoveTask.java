@@ -3,13 +3,14 @@ package com.github.catbert.tlma.task.ai;
 import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
+import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidMoveToBlockTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler> extends MaidMoveToBlockTask {
+public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler & IHandlerInfo> extends MaidMoveToBlockTask {
     private final ICompatFarm<T> task;
     private final T compatFarmHandler;
 
