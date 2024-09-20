@@ -33,7 +33,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
 //        LOGGER.info("TaskBerriesFarm cropState: " + cropState);
 
-        return handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override

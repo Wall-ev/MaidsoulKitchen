@@ -6,6 +6,7 @@ import com.github.catbert.tlma.inventory.container.CompatFarmConfigureContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
@@ -36,10 +37,12 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
      * @return
      */
     default T getCompatHandler(EntityMaid maid) {
+        List<String> farmTaskRulesList = MaidTaskDataUtil.getFarmTaskRulesList(maid, this.getUid().toString());
         ICompatFarmHandler.Builder<T> iCompatFarmHandlerBuilder = new ICompatFarmHandler.Builder<>();
         for (IFarmHandlerManager<T> handler : getManagerHandlerValues()) {
             T farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();
+            if (!farmTaskRulesList.contains(uid.toString())) continue;
             iCompatFarmHandlerBuilder.addHandler(farmHandler);
         }
         return iCompatFarmHandlerBuilder.build();

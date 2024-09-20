@@ -28,7 +28,9 @@ public final class MaidTaskDataUtil {
         maid.getEntityData().set(TASK_DATA_INFO, compoundTag);
     }
 
-    /** -------------------------FarmTaskData----------------------------------------- **/
+    /**
+     * -------------------------FarmTaskData-----------------------------------------
+     **/
     public static CompoundTag getFarmTaskInfos(EntityMaid maid) {
         CompoundTag compound = getTaskData(maid).getCompound(FARM_TASK_TAG);
         if (compound.isEmpty()) {
@@ -58,6 +60,10 @@ public final class MaidTaskDataUtil {
         return list;
     }
 
+    public static List<String> getFarmTaskRulesList(EntityMaid maid, String taskUid) {
+        return getFarmTaskRules(maid, taskUid).stream().map(Tag::getAsString).toList();
+    }
+
     public static void addFarmTaskRule(EntityMaid maid, String taskUid, String ruleUid) {
         ListTag cookTaskMode4 = getFarmTaskRules(maid, taskUid);
         cookTaskMode4.add(StringTag.valueOf(ruleUid));
@@ -69,7 +75,9 @@ public final class MaidTaskDataUtil {
     }
     /* ------------------------FarmTaskDataEnd---------------------------------------- */
 
-    /** -------------------------CookTaskData----------------------------------------- **/
+    /**
+     * -------------------------CookTaskData-----------------------------------------
+     **/
     public static CompoundTag getCookTaskInfos(EntityMaid maid) {
         CompoundTag compound = getTaskData(maid).getCompound(COOK_TASK_TAG);
         if (compound.isEmpty()) {

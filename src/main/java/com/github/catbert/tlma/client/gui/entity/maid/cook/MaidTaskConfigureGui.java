@@ -8,6 +8,7 @@ import com.github.catbert.tlma.entity.passive.SideTab;
 import com.github.catbert.tlma.inventory.container.TaskConfigureContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.MaidTaskMessage;
+import com.github.catbert.tlma.network.message.RefreshMaidBrainMessage;
 import com.github.catbert.tlma.network.message.ToggleSideTabMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
@@ -70,5 +71,11 @@ public abstract class MaidTaskConfigureGui<T extends TaskConfigureContainer> ext
         int titleStartX = visualZone.startX() + (visualZone.width() - font.width(this.title)) / 2;
         TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(this.title), 9, this.title);
         this.addRenderableWidget(titleInfoButton);
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        NetworkHandler.sendToServer(new RefreshMaidBrainMessage(maid.getId()));
     }
 }

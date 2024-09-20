@@ -11,8 +11,8 @@ public enum FruitHandlerManager implements IFarmHandlerManager<FruitHandler> {
 
     private final FruitHandler fruitHandler;
 
-    FruitHandlerManager(FruitHandler vineryBerryHandler) {
-        this.fruitHandler = vineryBerryHandler;
+    FruitHandlerManager(FruitHandler fruitHandler) {
+        this.fruitHandler = fruitHandler;
     }
 
     public FruitHandler getFarmHandler() {

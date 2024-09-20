@@ -10,13 +10,13 @@ public enum BerryHandlerManager implements IFarmHandlerManager<BerryHandler> {
     VINERY(new VineryBerryHandler()),
     COMPAT(new CompatBerryHandler());
 
-    private final BerryHandler vineryBerryHandler;
+    private final BerryHandler berryHandler;
 
-    BerryHandlerManager(BerryHandler vineryBerryHandler) {
-        this.vineryBerryHandler = vineryBerryHandler;
+    BerryHandlerManager(BerryHandler berryHandler) {
+        this.berryHandler = berryHandler;
     }
 
     public BerryHandler getFarmHandler() {
-        return vineryBerryHandler;
+        return berryHandler;
     }
 }

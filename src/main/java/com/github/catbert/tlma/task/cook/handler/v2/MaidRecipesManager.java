@@ -89,8 +89,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
         boolean lastInv = isLastInv(maid);
-        boolean sameTaskRule = isSameTaskRule(maid);
-        if (lastInv && sameTaskRule) return;
+        if (lastInv) return;
         createRecipesIngredients(maid);
     }
 
@@ -102,21 +101,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         }
     }
 
-    private boolean isSameTaskRule(EntityMaid maid) {
-//        String cookTaskMode = MaidTaskDataUtil.getCookTaskMode(maid, this.task.getUid().toString());
-
-//        CookTaskData cookTaskData1 = ((IAddonMaid) maid).getCookTaskData1();
-//        CookTaskData.TaskRule taskRule = cookTaskData1.getTaskRule(this.task.getUid().toString());
-//        if (taskRule.isNeedUpdate()) {
-//            taskRule.setNeedUpdate(false);
-//            this.lastTaskRule = cookTaskMode;
-//            return true;
-//        }
-//        return false;
-        return true;
-    }
-
-
+    // todo
+    // 有时候不灵，应该是更新了数据存储的方式导致的，
+    // 初始化的时候出问题
     private boolean isLastInv(EntityMaid maid) {
 
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);

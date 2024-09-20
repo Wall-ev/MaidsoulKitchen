@@ -41,7 +41,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
 //        LOGGER.info("TaskFruitFarm cropState: " + cropState);
 
-        return handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
