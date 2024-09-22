@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.inventory.container.CookConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
@@ -112,4 +113,8 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
     void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager);
 
+    @Override
+    default TaskBookEntryType getBookEntryType() {
+        return TaskBookEntryType.COOK;
+    }
 }

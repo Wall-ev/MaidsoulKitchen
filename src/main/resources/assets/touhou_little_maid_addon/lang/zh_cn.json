@@ -161,8 +161,9 @@
 
   "tooltips.touhou_little_maid_addon.amount.title": "制作一份的原料:",
 
-  "patchouli.touhou_little_maid_addon_addon.book.categories.addon": "拓展",
-  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧.",
   "patchouli.touhou_little_maid_addon.book.entries.addon.book": "烹饪",
-  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "女仆会使用模组厨具方块进行烹饪.\n你只需要把配方原料放入到女仆背包."
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "女仆会使用模组厨具方块进行烹饪.\n你只需要把配方原料放入到女仆背包.",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.1.text": "这是女仆烹饪任务的设置界面，你可以点击侧边栏第一个跳转到这界面\n- 1.这是显示当前女仆的烹饪任务\n- 2.切换烹饪模式：随机和定向（随机）模式\n  - 随机模式：完全随机,从所有的配方中随机抽取符合的配方进行烹饪\n  - 定向（随机）模式：从选定的配方中随机抽取符合的配方进行烹饪\n- 3.选择要烹饪的食物\n- 4.你可以点击上下按钮来切换上下页配方,或者鼠标滚轮也可以",
+  "patchouli.touhou_little_maid_addon_addon.book.categories.addon": "拓展",
+  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "一个附属模组,让女仆学会农耕与烹饪技巧."
 }

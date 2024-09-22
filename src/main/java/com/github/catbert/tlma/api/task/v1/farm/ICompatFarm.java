@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
 import com.github.catbert.tlma.inventory.container.CookConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
@@ -81,5 +82,10 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
                 return new CompatFarmConfigContainer(index, playerInventory, entityId);
             }
         };
+    }
+
+    @Override
+    default TaskBookEntryType getBookEntryType() {
+        return TaskBookEntryType.FARM;
     }
 }

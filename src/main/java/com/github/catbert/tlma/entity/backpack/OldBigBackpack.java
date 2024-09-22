@@ -50,9 +50,4 @@ public class OldBigBackpack extends BigBackpack implements ILittleMaidBackpack {
     public Item getItem() {
         return InitItems.OLD_MAID_BACKPACK_BIG.get();
     }
-
-    @Override
-    public boolean canLoaded() {
-        return true;
-    }
 }

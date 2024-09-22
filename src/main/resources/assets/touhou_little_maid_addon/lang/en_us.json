@@ -160,8 +160,9 @@
 
   "tooltips.touhou_little_maid_addon.amount.title": "Craft One Amount Ingredient:",
 
-  "patchouli.touhou_little_maid_addon_addon.book.categories.addon": "Addon",
-  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook.",
   "patchouli.touhou_little_maid_addon.book.entries.addon.book": "Cook",
-  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory."
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory.",
+  "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.1.text": "This is the settings screen for the maid's cooking task, and you can click on the sidebar to jump to this screen firstn\n- 1.This is a display of the current maid's cooking tasksn\n- 2.Toggle cooking modes: Random and Directional (Random) moden\n  - Random Mode: Completely random, randomly select the matching recipe from all the recipes for cookingn\n  - Directional (Random) Mode: Randomly select matching recipes from selected recipes for cookingn\n- 3.Select the food you want to cookn\n- 4.You can click the up and down buttons to switch between the upper and lower page recipes, or the mouse wheel can also be used",
+  "patchouli.touhou_little_maid_addon_addon.book.categories.addon": "Addon",
+  "patchouli.touhou_little_maid_addon.book.categories.addon.description": "A addon that make maid lear more skill about farm and cook."
 }

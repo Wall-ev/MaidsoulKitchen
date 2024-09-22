@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import sereneseasons.api.season.SeasonHelper;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
@@ -28,7 +29,7 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);
         if (plantB) {
-            String lowerCase = SeasonHelper.getSeasonState(maid.level()).getSeason().name().toLowerCase();
+            String lowerCase = SeasonHelper.getSeasonState(maid.level()).getSeason().name().toLowerCase(Locale.ENGLISH);
             TagKey<Item> itemTagKey = ItemTags.create(new ResourceLocation("sereneseasons:" + lowerCase + "_crops"));
             return seed.getTags().anyMatch(itemTagKey::equals) ||
                     seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));

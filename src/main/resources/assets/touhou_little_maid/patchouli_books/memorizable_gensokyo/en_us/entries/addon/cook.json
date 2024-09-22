@@ -7,6 +7,13 @@
     {
       "type": "text",
       "text": "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.text"
+    },
+    {
+      "type": "image",
+      "images": [
+        "touhou_little_maid_addon:textures/book/cook_gui.png"
+      ],
+      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.1.text"
     }
   ]
 }
