@@ -16,17 +16,13 @@ public final class CompatRegistry {
     public static final String PATCHOULI = "patchouli";
     @SubscribeEvent
     public static void onEnqueue(final InterModEnqueueEvent event) {
-        event.enqueueWork(() -> checkModLoad(CLOTH_CONFIG, () -> {
-            if (FMLEnvironment.dist == Dist.CLIENT) {
-                ClothCompat.init();
-            }
-        }));
+        event.enqueueWork(() -> checkModLoad(CLOTH_CONFIG, ClothCompat::init));
+        event.enqueueWork(() -> checkModLoad(PATCHOULI, PatchouliCompat::init));
         event.enqueueWork(() -> {
             if (FMLEnvironment.dist == Dist.CLIENT) {
                 ClothConfigScreen.registerNoClothConfigPage();
             }
         });
-        event.enqueueWork(() -> checkModLoad(PATCHOULI, PatchouliCompat::init));
     }
 
     private static void checkModLoad(String modId, Runnable runnable) {

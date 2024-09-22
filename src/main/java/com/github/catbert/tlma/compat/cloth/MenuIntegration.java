@@ -44,70 +44,90 @@ public class MenuIntegration {
         ConfigCategory register = root.getOrCreateCategory(entryTitle);
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.berry_farm_task"), RegisterConfig.BERRY_FARM_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.berry_farm_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.berry_farm_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.BERRY_FARM_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.fruit_farm_task"), RegisterConfig.FRUIT_FARM_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fruit_farm_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fruit_farm_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FRUIT_FARM_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.compat_melon_farm_task"), RegisterConfig.FRUIT_FARM_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.compat_melon_farm_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.compat_melon_farm_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FRUIT_FARM_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.serene_seasons_farm_task"), RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.serene_seasons_farm_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.serene_seasons_farm_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.feed_and_drink_task"), RegisterConfig.FEED_AND_DRINK_OWNER_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.feed_and_drink_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.feed_and_drink_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FEED_AND_DRINK_OWNER_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.furnace_task"), RegisterConfig.FURNACE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.furnace_task.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.furnace_task.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FURNACE_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.fd_cook_pot"), RegisterConfig.FD_COOK_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fd_cook_pot.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fd_cook_pot.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FD_COOK_POT_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.md_cook_pot"), RegisterConfig.MD_COOK_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.md_cook_pot.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.md_cook_pot.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.MD_COOK_POT_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.bnc_key"), RegisterConfig.BNC_KEY_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.bnc_key.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.bnc_key.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.BNC_KEY_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.yhc_moka"), RegisterConfig.YHC_MOKA_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.yhc_moka.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.yhc_moka.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.YHC_MOKA_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.db_beer"), RegisterConfig.DB_BEER_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.db_beer.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.db_beer.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DB_BEER_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dbk_cooking_pot"), RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbk_cooking_pot.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbk_cooking_pot.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DBK_COOKING_POT_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dbk_stove"), RegisterConfig.DBK_STOVE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbk_stove.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbk_stove.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DBK_STOVE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dbp_mini_fridge"), RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbp_mini_fridge.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbp_mini_fridge.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dbp_tiki_bar"), RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbp_tiki_bar.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dbp_tiki_bar.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pan"), RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pan.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pan.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pot"), RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pot.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dcl_cooking_pot.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DCL_COOKING_POT_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dhb_cauldron"), RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dhb_cauldron.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dhb_cauldron.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DHB_CAULDRON_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.dhb_tea_kettle"), RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dhb_tea_kettle.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.dhb_tea_kettle.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.fermentation_barrel"), RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fermentation_barrel.tooltip"))
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.fermentation_barrel.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"))
                 .setSaveConsumer(RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED::set).build());
     }
 
