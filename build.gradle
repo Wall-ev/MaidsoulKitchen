@@ -201,10 +201,10 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
-    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
+//    runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
+//    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
 
-//    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
 
     // api
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
@@ -224,33 +224,32 @@ dependencies {
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
     implementation fg.deobf("curse.maven:my-nethers-delight-1003673:${my_nethers_delight_file_id}")
-    implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
-    compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
-        transitive = false
-        jarJar.ranged(it, "[MC1.20-1.3.11,)")
-    }
-    implementation fg.deobf("curse.maven:bnc-1-20-port-898078:${bnc_file_id}")
-
+//    implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
+//    compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
+//        transitive = false
+//        jarJar.ranged(it, "[MC1.20-1.3.11,)")
+//    }
+    implementation fg.deobf("curse.maven:brewin-and-chewin-637808:${bnc_file_id}")
 
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
+//    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
 
     implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
 //    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
 
-    implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
+//    implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
+//    implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
     implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
     implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
-    implementation fg.deobf("curse.maven:l2library-620203:5447286")
-    implementation fg.deobf("curse.maven:modulargolems-690937:5476223")
+//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+//    implementation fg.deobf("curse.maven:l2library-620203:5447286")
+//    implementation fg.deobf("curse.maven:modulargolems-690937:5476223")
 
     runtimeOnly "curse.maven:kotlin-for-forge-351264:${kotlin_id}"
     runtimeOnly fg.deobf("curse.maven:libipn-679177:${libipn_id}")
