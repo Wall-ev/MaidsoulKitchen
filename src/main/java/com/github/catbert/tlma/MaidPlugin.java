@@ -2,7 +2,6 @@ package com.github.catbert.tlma;
 
 import com.github.catbert.tlma.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.catbert.tlma.client.renderer.entity.layer.LayerMaidLDBanner;
-import com.github.catbert.tlma.compat.cloth.MenuIntegration;
 import com.github.catbert.tlma.entity.backpack.OldBigBackpack;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.init.InitItems;
@@ -45,11 +44,11 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.meal.MaidMealManager;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 
 @LittleMaidExtension
@@ -110,22 +109,17 @@ public final class MaidPlugin implements ILittleMaid {
 
     }
 
-    @Override
-    public void addClothConfigEntry(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
-        MenuIntegration.addConfig(root, entryBuilder, true);
-    }
-
-    @Override
-    public void addEntityMaidRenderer(EntityMaidRenderer renderer, EntityRendererProvider.Context renderManager) {
+    @OnlyIn(Dist.CLIENT)
+    public void addAdditionMaidLayer(EntityMaidRenderer renderer, EntityRendererProvider.Context context) {
         ActionUtil.modRun(Mods.DAPI, () -> {
-            renderer.addLayer(new LayerMaidLDBanner(renderer, renderManager.getModelSet()));
+            renderer.addLayer(new LayerMaidLDBanner(renderer, context.getModelSet()));
         });
     }
 
-    @Override
-    public void addGeckoEntityMaidRenderer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context renderManager) {
+    @OnlyIn(Dist.CLIENT)
+    public void addAdditionGeckoMaidLayer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context context) {
         ActionUtil.modRun(Mods.DAPI, () -> {
-            renderer.addLayer(new GeckoLayerMaidLDBanner<>(renderer, renderManager.getModelSet()));
+            renderer.addLayer(new GeckoLayerMaidLDBanner<>(renderer, context.getModelSet()));
         });
     }
 

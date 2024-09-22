@@ -2,6 +2,7 @@ package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
+import com.github.catbert.tlma.inventory.container.CookConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
@@ -67,11 +68,12 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
     }
 
     @Override
-    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid, int entityId, boolean taskListOpen, int taskPage) {
+    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Compat Farm Configer Container");
+                return Component.literal("Maid Compat Farm Config Container");
             }
 
             @Override

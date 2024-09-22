@@ -8,6 +8,8 @@ import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -83,11 +85,12 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     @Override
-    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid, int entityId, boolean taskListOpen, int taskPage) {
+    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Configer Container");
+                return Component.literal("Maid Cook Config Container");
             }
 
             @Override
