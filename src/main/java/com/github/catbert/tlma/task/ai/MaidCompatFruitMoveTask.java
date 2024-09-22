@@ -4,6 +4,7 @@ import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -72,7 +73,7 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & IHandlerInfo
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
         if (!initSearchStartY) {
             initSearchStartY = true;
-            searchStartY = ((IAddonMaid)entityMaid).getStartYOffset$tlma();
+            searchStartY = MaidTaskDataUtil.getFruitFarmSearchYOffset(entityMaid, this.task.getUid().toString());
         }
         ((IAddonMaid)entityMaid).initFakePlayer$tlma();
         BlockState cropState = serverLevel.getBlockState(blockPos);

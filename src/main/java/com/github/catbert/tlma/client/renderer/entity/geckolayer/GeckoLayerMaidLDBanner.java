@@ -1,7 +1,6 @@
 package com.github.catbert.tlma.client.renderer.entity.geckolayer;
 
 import com.github.catbert.tlma.config.subconfig.RenderConfig;
-import com.github.catbert.tlma.mixin.tlm.AnimatedGeoModelAccessor;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.client.model.MaidBannerModel;
@@ -49,7 +48,7 @@ public class GeckoLayerMaidLDBanner<T extends Mob> extends GeoLayerRenderer<T, G
             }
 
             AnimatedGeoModel geoModel = this.entityRenderer.getAnimatableEntity(entity).getCurrentModel();
-            if (geoModel != null && !((AnimatedGeoModelAccessor) geoModel).getBackpackBones().isEmpty()) {
+            if (geoModel != null && !geoModel.backpackBones().isEmpty()) {
                 matrixStack.pushPose();
                 RenderUtils.prepMatrixForLocator(matrixStack, geoModel.backpackBones());
                 matrixStack.translate(0, 0.75, 0.3);

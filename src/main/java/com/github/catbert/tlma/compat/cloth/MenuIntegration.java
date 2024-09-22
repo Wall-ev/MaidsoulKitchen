@@ -30,7 +30,7 @@ public class MenuIntegration {
         return root;
     }
 
-    private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
+    public static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.task.name");
         if (tlmEntry) {
             entryTitle.append(Component.literal("[Addon: Farm and Cook]").withStyle(ChatFormatting.YELLOW));
@@ -78,7 +78,7 @@ public class MenuIntegration {
                 .setSaveConsumer(TaskConfig.SEARCHY_OFFSET::set).build());
     }
 
-    private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
+    public static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.render.name");
         if (tlmEntry) {
             entryTitle.append(Component.literal("[Addon: Farm and Cook]").withStyle(ChatFormatting.YELLOW));

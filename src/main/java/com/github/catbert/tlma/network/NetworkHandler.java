@@ -4,8 +4,8 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.network.message.*;
 import com.github.catbert.tlma.network.message.client.ClientCookTaskRecActionMessage;
 import com.github.catbert.tlma.network.message.client.ClientFarmTaskRuleActionMessage;
-import com.github.catbert.tlma.network.message.client.ClientMaidTaskMessage;
 import com.github.catbert.tlma.network.message.client.ClientSetCookTaskModeMessage;
+import com.github.catbert.tlma.network.message.client.ClientSetFruitFarmSearchYOffsetMessage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -24,17 +24,12 @@ public final class NetworkHandler {
 
     public static void init() {
         int i = 0;
-        CHANNEL.registerMessage(i++, ToggleSideTabMessage.class, ToggleSideTabMessage::encode, ToggleSideTabMessage::decode, ToggleSideTabMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        // Server
+
+        // Server && Client
         CHANNEL.registerMessage(i++, SetCookTaskModeMessage.class, SetCookTaskModeMessage::encode, SetCookTaskModeMessage::decode, SetCookTaskModeMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, RefreshMaidBrainMessage.class, RefreshMaidBrainMessage::encode, RefreshMaidBrainMessage::decode, RefreshMaidBrainMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ClientSetCookTaskModeMessage.class, ClientSetCookTaskModeMessage::encode, ClientSetCookTaskModeMessage::decode, ClientSetCookTaskModeMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(i++, MaidTaskMessage.class, MaidTaskMessage::encode, MaidTaskMessage::decode, MaidTaskMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClientMaidTaskMessage.class, ClientMaidTaskMessage::encode, ClientMaidTaskMessage::decode, ClientMaidTaskMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(i++, CookTaskRecActionMessage.class, CookTaskRecActionMessage::encode, CookTaskRecActionMessage::decode, CookTaskRecActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
@@ -43,6 +38,9 @@ public final class NetworkHandler {
         CHANNEL.registerMessage(i++, FarmTaskRuleActionMessage.class, FarmTaskRuleActionMessage::encode, FarmTaskRuleActionMessage::decode, FarmTaskRuleActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ClientFarmTaskRuleActionMessage.class, ClientFarmTaskRuleActionMessage::encode, ClientFarmTaskRuleActionMessage::decode, ClientFarmTaskRuleActionMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        // Client
+        CHANNEL.registerMessage(i++, ClientSetFruitFarmSearchYOffsetMessage.class, ClientSetFruitFarmSearchYOffsetMessage::encode, ClientSetFruitFarmSearchYOffsetMessage::decode, ClientSetFruitFarmSearchYOffsetMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 

@@ -5,27 +5,24 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 
 import java.util.List;
 
 public final class MaidTaskDataUtil {
-    public static final EntityDataAccessor<CompoundTag> TASK_DATA_INFO = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
-    public static final String TASK_DATA_TAG = "TaskData";
     public static final String COOK_TASK_TAG = "Cook";
     public static final String COOK_TASK_MODE_TAG = "Mode";
     public static final String COOK_TASK_RECS_TAG = "Recs";
     public static final String FARM_TASK_TAG = "Farm";
     public static final String FARM_TASK_RULES_TAG = "Rules";
+    public static final String FRUIT_FARM_SEARCH_YOFFSET_TAG = "SearchYOffset";
+    public static final int FRUIT_FARM_SEARCH_YOFFSET_DEFAULT = 3;
 
     public static CompoundTag getTaskData(EntityMaid maid) {
-        return maid.getEntityData().get(TASK_DATA_INFO);
+        return maid.getTaskData();
     }
 
     public static void setTaskData(EntityMaid maid, CompoundTag compoundTag) {
-        maid.getEntityData().set(TASK_DATA_INFO, compoundTag);
+        maid.setTaskData(compoundTag);
     }
 
     /**
@@ -72,6 +69,37 @@ public final class MaidTaskDataUtil {
     public static void removeFarmTaskRule(EntityMaid maid, String taskUid, String ruleUid) {
         ListTag cookTaskMode4 = getFarmTaskRules(maid, taskUid);
         cookTaskMode4.removeIf(tag -> tag.getAsString().equals(ruleUid));
+    }
+
+    // fruitFarm
+    public static int getFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
+        CompoundTag farmTaskInfo = getFarmTaskInfo(maid, taskUid);
+        if (!farmTaskInfo.contains(FRUIT_FARM_SEARCH_YOFFSET_TAG, Tag.TAG_INT)) {
+            farmTaskInfo.putInt(FRUIT_FARM_SEARCH_YOFFSET_TAG, FRUIT_FARM_SEARCH_YOFFSET_DEFAULT);
+        }
+        return farmTaskInfo.getInt(FRUIT_FARM_SEARCH_YOFFSET_TAG);
+    }
+
+    public static void setFruitFarmSearchYOffset(EntityMaid maid, String taskUid, int offset) {
+        getFarmTaskInfo(maid, taskUid).putInt(FRUIT_FARM_SEARCH_YOFFSET_TAG, offset);
+    }
+
+    public static void decreaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
+        int fruitFarmSearchYOffset = getFruitFarmSearchYOffset(maid, taskUid);
+        setFruitFarmSearchYOffset(maid, taskUid, ++fruitFarmSearchYOffset);
+    }
+
+    public static void increaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
+        int fruitFarmSearchYOffset = getFruitFarmSearchYOffset(maid, taskUid);
+        setFruitFarmSearchYOffset(maid, taskUid, --fruitFarmSearchYOffset);
+    }
+
+    public static void inDeFruitFarmSearchYOffset(EntityMaid maid, String taskUid, boolean decrease) {
+        if (decrease) {
+            decreaseFruitFarmSearchYOffset(maid, taskUid);
+        }else {
+            increaseFruitFarmSearchYOffset(maid, taskUid);
+        }
     }
     /* ------------------------FarmTaskDataEnd---------------------------------------- */
 

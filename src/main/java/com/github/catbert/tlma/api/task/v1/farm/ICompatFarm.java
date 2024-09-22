@@ -1,8 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.client.gui.entity.maid.IAbstractMaidContainer;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigureContainer;
+import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
@@ -68,7 +67,7 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
     }
 
     @Override
-    default MenuProvider getGuiProvider(EntityMaid maid, int entityId, boolean taskListOpen, int taskPage) {
+    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid, int entityId, boolean taskListOpen, int taskPage) {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
@@ -77,10 +76,7 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                IAbstractMaidContainer compatFarmConfigerContainer = (IAbstractMaidContainer) new CompatFarmConfigureContainer(index, playerInventory, entityId);
-                compatFarmConfigerContainer.setTaskListOpen(taskListOpen);
-                compatFarmConfigerContainer.setTaskPage(taskPage);
-                return (AbstractContainerMenu) compatFarmConfigerContainer;
+                return new CompatFarmConfigContainer(index, playerInventory, entityId);
             }
         };
     }

@@ -1,7 +1,9 @@
 package com.github.catbert.tlma.event;
 
-import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.network.NetworkHandler;
+import com.github.catbert.tlma.network.message.client.ClientSetFruitFarmSearchYOffsetMessage;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
+import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.chat.Component;
@@ -22,12 +24,15 @@ public final class SetSearchYOffsetEvent {
         if (player.getMainHandItem().is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.NAME) {
             if (!maid.level.isClientSide) {
 
-                int startYOffset$tlma = ((IAddonMaid) maid).getStartYOffset$tlma();
+                String taskUid = maid.getTask().getUid().toString();
+                int startYOffset$tlma = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, taskUid);
                 if (!player.isDiscrete() && startYOffset$tlma < 5) {
-                    ((IAddonMaid) maid).setStartYOffset$tlma(startYOffset$tlma + 1);
-                    maid.refreshBrain((ServerLevel) maid.level());
+                    MaidTaskDataUtil.setFruitFarmSearchYOffset(maid, taskUid, startYOffset$tlma + 1);
+                    NetworkHandler.sendToClientPlayer(new ClientSetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma + 1), player);
+                    maid.refreshBrain((ServerLevel) maid.level);
                 } else if (player.isDiscrete() && startYOffset$tlma > -5) {
-                    ((IAddonMaid) maid).setStartYOffset$tlma(startYOffset$tlma - 1);
+                    MaidTaskDataUtil.setFruitFarmSearchYOffset(maid, taskUid, startYOffset$tlma - 1);
+                    NetworkHandler.sendToClientPlayer(new ClientSetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma - 1), player);
                     maid.refreshBrain((ServerLevel) maid.level());
                 } else {
                     player.sendSystemMessage(Component.translatable("message.touhou_little_maid_addon.book.max_yoffset"));

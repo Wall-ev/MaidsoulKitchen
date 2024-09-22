@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 
 public enum Mods {
+    PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
 
     /*

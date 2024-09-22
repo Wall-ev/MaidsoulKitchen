@@ -202,6 +202,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
+    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
+
+//    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
 
     // api
     implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
@@ -257,7 +260,6 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
 
     // rei
     compileOnly fg.deobf("curse.maven:architectury-api-419699:${architectury_api_id}")
