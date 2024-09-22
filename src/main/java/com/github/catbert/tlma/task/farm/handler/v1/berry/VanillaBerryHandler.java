@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class VanillaBerryHandler extends BerryHandler{
-    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "minecraft");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berry_minecraft");
 
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {

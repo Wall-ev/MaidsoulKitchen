@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.catbert.tlma.task.farm.FarmType;
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IHandlerInfo {
+    FarmType getFarmType();
 
     ItemStack getIcon();
 
@@ -24,11 +25,11 @@ public interface IHandlerInfo {
     //todo
     //默认读取模组tab的翻译名,其次为本模组的翻译名
     default MutableComponent getName() {
-        return Component.translatable(String.format("rule.berry.%s.%s", getUid().getNamespace(), getUid().getPath()));
+        return Component.translatable(String.format("rule.%s.%s.%s", getFarmType().name().toLowerCase(), getUid().getNamespace(), getUid().getPath()));
     }
 
     default List<Component> getDesc() {
-        String key = String.format("rule.berry.%s.%s.desc", getUid().getNamespace(), getUid().getPath());
+        String key = String.format("rule.%s.%s.%s.desc", getFarmType().name().toLowerCase(), getUid().getNamespace(), getUid().getPath());
         return Lists.newArrayList(Component.translatable(key));
     }
 

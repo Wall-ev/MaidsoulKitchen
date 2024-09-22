@@ -65,7 +65,7 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
     modId="touhou_little_maid"
     mandatory=true
-    versionRange="[1.1.10,)"
+    versionRange="[1.1.12,)"
     ordering="NONE"
     side="BOTH"
 

@@ -2,6 +2,7 @@ package com.github.catbert.tlma.task.farm.handler.v1.berry;
 
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
+import com.github.catbert.tlma.task.farm.FarmType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,6 +33,11 @@ public abstract class BerryHandler implements ICompatFarmHandler, IHandlerInfo {
     @Override
     public boolean shouldMoveTo(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         return this.canHarvest(maid, cropPos, cropState);
+    }
+
+    @Override
+    public FarmType getFarmType() {
+        return FarmType.BERRY;
     }
 
     protected abstract boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState);

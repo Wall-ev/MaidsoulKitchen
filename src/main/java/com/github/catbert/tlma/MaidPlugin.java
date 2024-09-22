@@ -2,6 +2,7 @@ package com.github.catbert.tlma;
 
 import com.github.catbert.tlma.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.catbert.tlma.client.renderer.entity.layer.LayerMaidLDBanner;
+import com.github.catbert.tlma.compat.cloth.MenuIntegration;
 import com.github.catbert.tlma.entity.backpack.OldBigBackpack;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.init.InitItems;
@@ -51,11 +52,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.RegistryObject;
 
-import static com.github.catbert.tlma.compat.cloth.MenuIntegration.renderConfig;
-import static com.github.catbert.tlma.compat.cloth.MenuIntegration.taskConfig;
-
 @LittleMaidExtension
-public class MaidPlugin implements ILittleMaid {
+public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void addMaidTask(TaskManager manager) {
@@ -114,8 +112,7 @@ public class MaidPlugin implements ILittleMaid {
 
     @Override
     public void addClothConfigEntry(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
-        taskConfig(root, entryBuilder, true);
-        renderConfig(root, entryBuilder, true);
+        MenuIntegration.addConfig(root, entryBuilder, true);
     }
 
     @Override

@@ -113,7 +113,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         int startX = width - leftPos - (-typeDisplay.startX()) - maxWidth - 1;
         int startY = visualZone.startY() + typeDisplay.startY();
 
-        TypeButton2 typeButton = new TypeButton2(startX, startY, maxWidth, typeDisplay.height(), MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
+        TypeButton typeButton = new TypeButton(startX, startY, maxWidth, typeDisplay.height(), MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 this.toggleSelected();

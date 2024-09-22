@@ -8,27 +8,12 @@ import java.util.List;
 
 public class TaskConfig {
 
-//    public static ForgeConfigSpec.BooleanValue BERRY_FARM_TASK_ENABLED;
-//    public static ForgeConfigSpec.BooleanValue FRUIT_FARM_TASK_ENABLED;
-//    public static ForgeConfigSpec.BooleanValue SERENESEASONS_FARM_TASK_ENABLED;
-
-    public static ForgeConfigSpec.BooleanValue COOK_TASK_ENABLE_CONDITION;
     public static ForgeConfigSpec.ConfigValue<List<List<String>>> MELON_STEM_LIST;
     public static ForgeConfigSpec.ConfigValue<Integer> COOK_SELECTED_RECIPES;
     public static ForgeConfigSpec.ConfigValue<Integer> SEARCHY_OFFSET;
 
     public static void init(ForgeConfigSpec.Builder builder) {
-        builder.push("task");
-
-//        builder.comment("This can make the berry farm task enabled or not.");
-//        BERRY_FARM_TASK_ENABLED = builder.define("BerryTaskEnabled", true);
-//        builder.comment("This can make the fruit farm task enabled or not.");
-//        FRUIT_FARM_TASK_ENABLED = builder.define("FruitTaskEnabled", true);
-//        builder.comment("This can make the sereneseasons farm task enabled or not.");
-//        SERENESEASONS_FARM_TASK_ENABLED = builder.define("SereneSeasonsTaskEnabled", true);
-
-        builder.comment("This can enable the cook task enable condition or not.");
-        COOK_TASK_ENABLE_CONDITION = builder.define("BerryTaskEnabled", true);
+        builder.push("Task");
 
         builder.comment("These entries configure the melon stem list.", "rule: [melon_item_id, attached_melon_stem_block_id]", "Eg: [\"minecraft:melon\", \"minecraft:attached_melon_stem\"]");
         MELON_STEM_LIST = builder.define("MelonStemList", getmelonStemList());

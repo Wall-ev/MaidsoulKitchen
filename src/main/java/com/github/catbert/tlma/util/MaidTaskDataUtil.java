@@ -1,5 +1,9 @@
 package com.github.catbert.tlma.util;
 
+import com.github.catbert.tlma.task.farm.TaskBerryFarm;
+import com.github.catbert.tlma.task.farm.TaskFruitFarm;
+import com.github.catbert.tlma.task.farm.handler.v1.berry.BerryHandlerManager;
+import com.github.catbert.tlma.task.farm.handler.v1.fruit.FruitHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -44,17 +48,31 @@ public final class MaidTaskDataUtil {
         return compound;
     }
 
-    public static List<String> getFarmTaskRules(CompoundTag compound) {
-        ListTag list = compound.getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
+    public static List<String> getFarmTaskRules(CompoundTag compound, String taskUid) {
+        ListTag list = getFarmTaskRulesFromTag(compound, taskUid);
         return list.stream().map(Tag::getAsString).toList();
     }
 
-    public static ListTag getFarmTaskRules(EntityMaid maid, String taskUid) {
-        ListTag list = getFarmTaskInfo(maid, taskUid).getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
-        if (list.isEmpty()) {
-            getFarmTaskInfo(maid, taskUid).put(FARM_TASK_RULES_TAG, list);
+    private static ListTag getFarmTaskRulesFromTag(CompoundTag compound, String taskUid) {
+        if (compound.contains(FARM_TASK_RULES_TAG, Tag.TAG_LIST)) {
+            return compound.getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
         }
-        return list;
+
+        ListTag tags = new ListTag();
+        if (taskUid.equals(TaskFruitFarm.NAME.toString())) {
+            tags.add(StringTag.valueOf(FruitHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
+        } else if (taskUid.equals(TaskBerryFarm.NAME.toString())) {
+            tags.add(StringTag.valueOf(BerryHandlerManager.MINECRAFT.getFarmHandler().getUid().toString()));
+            tags.add(StringTag.valueOf(BerryHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
+            compound.put(FARM_TASK_RULES_TAG, tags);
+        }
+        compound.put(FARM_TASK_RULES_TAG, tags);
+        return compound.getList(FARM_TASK_RULES_TAG, Tag.TAG_STRING);
+    }
+
+    public static ListTag getFarmTaskRules(EntityMaid maid, String taskUid) {
+        CompoundTag farmTaskInfo = getFarmTaskInfo(maid, taskUid);
+        return getFarmTaskRulesFromTag(farmTaskInfo, taskUid);
     }
 
     public static List<String> getFarmTaskRulesList(EntityMaid maid, String taskUid) {
@@ -84,21 +102,21 @@ public final class MaidTaskDataUtil {
         getFarmTaskInfo(maid, taskUid).putInt(FRUIT_FARM_SEARCH_YOFFSET_TAG, offset);
     }
 
-    public static void decreaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
+    public static void increaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
         int fruitFarmSearchYOffset = getFruitFarmSearchYOffset(maid, taskUid);
         setFruitFarmSearchYOffset(maid, taskUid, ++fruitFarmSearchYOffset);
     }
 
-    public static void increaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
+    public static void decreaseFruitFarmSearchYOffset(EntityMaid maid, String taskUid) {
         int fruitFarmSearchYOffset = getFruitFarmSearchYOffset(maid, taskUid);
         setFruitFarmSearchYOffset(maid, taskUid, --fruitFarmSearchYOffset);
     }
 
-    public static void inDeFruitFarmSearchYOffset(EntityMaid maid, String taskUid, boolean decrease) {
-        if (decrease) {
-            decreaseFruitFarmSearchYOffset(maid, taskUid);
-        }else {
+    public static void inDeFruitFarmSearchYOffset(EntityMaid maid, String taskUid, boolean increase) {
+        if (increase) {
             increaseFruitFarmSearchYOffset(maid, taskUid);
+        }else {
+            decreaseFruitFarmSearchYOffset(maid, taskUid);
         }
     }
     /* ------------------------FarmTaskDataEnd---------------------------------------- */

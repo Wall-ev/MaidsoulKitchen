@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SimpleFarmingBerryHandler extends BerryHandler{
-    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "simplefarming");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berry_simple_farming");
 
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {

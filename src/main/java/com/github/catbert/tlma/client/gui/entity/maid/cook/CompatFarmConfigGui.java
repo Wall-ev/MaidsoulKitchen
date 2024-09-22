@@ -5,6 +5,7 @@ import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
 import com.github.catbert.tlma.client.gui.widget.button.CFRuleButton;
+import com.github.catbert.tlma.client.gui.widget.button.ResultInfo;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
 import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
@@ -35,12 +36,14 @@ import java.util.List;
 public class CompatFarmConfigGui extends MaidTaskConfigGui<CompatFarmConfigContainer> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
     protected final Zone scrollDisplay = new Zone(161, 20, 9, 110);
-    private final int limitSize = 4;
+    protected final Zone ruleDisplay = new Zone(6, 20, 152, 110);
+    protected final ResultInfo ref = new ResultInfo(4, 1, 152, 24, 0, 5);
+    private final int limitSize = ref.row() * ref.col();
     private List<ICompatFarmHandler> handlers;
     private CompoundTag farmTaskInfo;
 
     public CompatFarmConfigGui(CompatFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
-        super(screenContainer, inv, Component.translatable("gui.touhou_little_maid_addon.berry_farm_configure_screen.title"));
+        super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(Component.translatable("gui.touhou_little_maid_addon.farm_config_screen.title")));
     }
 
     @SuppressWarnings("unchecked")
@@ -86,15 +89,15 @@ public class CompatFarmConfigGui extends MaidTaskConfigGui<CompatFarmConfigConta
     }
 
     private void addRuleButton() {
-        int startX = visualZone.startX() + 6;
-        int startY = visualZone.startY() + 20;
+        int startX = visualZone.startX() + ruleDisplay.startX();
+        int startY = visualZone.startY() + ruleDisplay.startY();
         int index = solIndex * limitSize;
 
         for (int i = index; i < Math.min(handlers.size(), index + limitSize); i++) {
             ICompatFarmHandler handler = handlers.get(i);
             if (!handler.canLoad()) continue;
             String handlerUid = ((IHandlerInfo) handler).getUid().toString();
-            boolean contains = MaidTaskDataUtil.getFarmTaskRules(farmTaskInfo).contains(handlerUid);
+            boolean contains = MaidTaskDataUtil.getFarmTaskRules(farmTaskInfo, this.task.getUid().toString()).contains(handlerUid);
             CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
@@ -103,7 +106,7 @@ public class CompatFarmConfigGui extends MaidTaskConfigGui<CompatFarmConfigConta
                 }
             };
             this.addRenderableWidget(cfRuleButton);
-            startY += 24 + 5;
+            startY += ref.colHeight() + ref.colSpacing();
         }
     }
 

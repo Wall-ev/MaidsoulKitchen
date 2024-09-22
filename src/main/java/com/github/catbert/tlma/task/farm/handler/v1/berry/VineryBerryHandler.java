@@ -13,7 +13,7 @@ import net.satisfy.vinery.block.grape.GrapeVineBlock;
 import net.satisfy.vinery.registry.ObjectRegistry;
 
 public class VineryBerryHandler extends BerryHandler{
-    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "veniry");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berry_vinery");
 
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {

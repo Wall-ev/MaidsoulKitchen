@@ -78,7 +78,8 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     //todo 自定义启用条件，数据包，或者kjs
     @Override
     default boolean isEnable(EntityMaid maid) {
-        return TaskConfig.COOK_TASK_ENABLE_CONDITION.get() && hasEnoughFavor(maid);
+//        return TaskConfig.COOK_TASK_ENABLE_CONDITION.get() && hasEnoughFavor(maid);
+        return true && hasEnoughFavor(maid);
     }
 
     @Override
