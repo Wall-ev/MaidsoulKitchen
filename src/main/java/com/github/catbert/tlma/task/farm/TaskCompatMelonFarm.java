@@ -3,13 +3,18 @@ package com.github.catbert.tlma.task.farm;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.catbert.tlma.inventory.container.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -77,5 +82,19 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
         } else {
             super.harvest(maid, cropPos, cropState);
         }
+    }
+
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            public Component getDisplayName() {
+                return Component.literal("Maid Task Config Container");
+            }
+
+            public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {
+                return new CompatMelonConfigContainer(index, playerInventory, entityId);
+            }
+        };
     }
 }

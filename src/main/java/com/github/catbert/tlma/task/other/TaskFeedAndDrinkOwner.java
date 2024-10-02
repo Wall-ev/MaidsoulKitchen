@@ -4,11 +4,14 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IDrinkTask;
 import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.inventory.container.NoConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidFeedAndDrinkOwnerTask;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFeedTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -16,12 +19,15 @@ import dev.ghen.thirst.api.ThirstHelper;
 import dev.ghen.thirst.content.purity.WaterPurity;
 import dev.ghen.thirst.foundation.common.capability.IThirst;
 import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -193,5 +199,19 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     private boolean isHarmfulEffect(MobEffectInstance effect) {
         return effect.getEffect().getCategory() == MobEffectCategory.HARMFUL;
+    }
+
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            public Component getDisplayName() {
+                return Component.literal("Maid Task No Config Container");
+            }
+
+            public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {
+                return new NoConfigContainer(index, playerInventory, entityId);
+            }
+        };
     }
 }

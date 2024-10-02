@@ -150,7 +150,7 @@
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select": "当前烹饪模式不是定向模式，无法选择",
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "当前烹饪定向配方数已经超额：%d, 无法添加",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "当前任务: %s",
-  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "当前烹饪配方类型: %s",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "配方类型: %s",
   "gui.touhou_little_maid_addon.patchouli_warning.download": "下载 Patchouli",
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "你需要下载Patchouli Mod才可以启用跳转到手册对应章节功能",
   "gui.touhou_little_maid_addon.cook_setting_screen.title": "烹饪指南",
@@ -158,6 +158,9 @@
   "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "农耕指南",
   "gui.touhou_little_maid_addon.berry_farm_configure_screen.title": "浆果农场指南",
   "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "水果农场指南",
+  "gui.touhou_little_maid_addon.config.no_config": "这个任务没有配置.",
+  "gui.touhou_little_maid_addon.config.global_config": "全局配置该任务.",
+  "gui.touhou_little_maid_addon.search" : "搜索...",
 
   "tooltips.touhou_little_maid_addon.amount.title": "制作一份的原料:",
 

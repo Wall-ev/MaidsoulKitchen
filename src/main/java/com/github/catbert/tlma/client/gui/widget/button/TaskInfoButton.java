@@ -5,9 +5,11 @@ import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -38,13 +40,13 @@ public class TaskInfoButton extends NormalTooltipButton {
         }
     }
 
+    protected void renderScrollingTaskString(GuiGraphics pGuiGraphics, Font pFont, int x, int y, int pWidth, int pColor) {
+        renderScrollingString(pGuiGraphics, pFont, this.getMessage(), x, y, x + pWidth, y + pFont.lineHeight, pColor);
+    }
+
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         return false;
-    }
-
-    private List<Component> getDesc() {
-        return getDesc(task);
     }
 
     public static List<Component> getDesc(IMaidTask task) {
@@ -58,14 +60,5 @@ public class TaskInfoButton extends NormalTooltipButton {
             components.add(Component.translatable("gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
         }
         return components;
-    }
-
-    public IMaidTask getTask() {
-        return task;
-    }
-
-    public void setTask(IMaidTask task) {
-        this.task = task;
-        setTooltips(getDesc());
     }
 }

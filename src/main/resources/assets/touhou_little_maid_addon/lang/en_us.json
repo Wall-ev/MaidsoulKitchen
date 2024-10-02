@@ -149,7 +149,7 @@
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.not_select": "This cook mode type isn't selected, so can't select",
   "gui.touhou_little_maid_addon.btn.cook_guide.warn.over_size": "This cook selected recipes is over size : %d, so can't add",
   "gui.touhou_little_maid_addon.widget.cook_guide.task.desc": "Now Task: %s",
-  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "Now Cook RecipeType: %s",
+  "gui.touhou_little_maid_addon.widget.cook_guide.task.recipe_type": "RecipeType: %s",
   "gui.touhou_little_maid_addon.patchouli_warning.download": "Download Patchouli",
   "gui.touhou_little_maid_addon.patchouli_warning.tips": "You'll need to install the Patchouli mod to open book entry feature",
   "gui.touhou_little_maid_addon.cook_setting_screen.title": "Cook Guide",
@@ -157,6 +157,9 @@
   "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "CompatFarm Guide",
   "gui.touhou_little_maid_addon.berry_farm_configure_screen.title": "Berry Farm Guide",
   "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "Fruit Farm Guide",
+  "gui.touhou_little_maid_addon.config.no_config": "This task has no configuration.",
+  "gui.touhou_little_maid_addon.config.global_config": "Configure this task globally.",
+  "gui.touhou_little_maid_addon.search" : "Search...",
 
   "tooltips.touhou_little_maid_addon.amount.title": "Craft One Amount Ingredient:",
 

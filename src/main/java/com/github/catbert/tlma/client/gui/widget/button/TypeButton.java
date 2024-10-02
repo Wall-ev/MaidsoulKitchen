@@ -1,14 +1,17 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
+import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TypeButton extends NormalTooltipButton {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     protected boolean isSelected;
     protected String modeUid;
 
@@ -25,6 +28,16 @@ public class TypeButton extends NormalTooltipButton {
 
     private void setModeUid(boolean isSelected) {
         this.modeUid = isSelected ? CookTaskData.Mode.SELECT.getUid() : CookTaskData.Mode.RANDOM.getUid();
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        pGuiGraphics.blit(TEXTURE, getX(), getY(), 0, 232, 18, 18);
+        if (isSelected) {
+            pGuiGraphics.blit(TEXTURE, getX() + 1, getY() + 1, 16, 197, 16, 16);
+        }else {
+            pGuiGraphics.blit(TEXTURE, getX() + 1, getY() + 1, 16, 181, 16, 16);
+        }
     }
 
     @Override
