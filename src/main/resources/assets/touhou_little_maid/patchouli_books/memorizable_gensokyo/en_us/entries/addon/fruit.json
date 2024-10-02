@@ -1,0 +1,16 @@
+{
+  "sortnum": 3,
+  "name": "patchouli.touhou_little_maid_addon.book.entries.addon.fruit",
+  "icon": "minecraft:apple",
+  "category": "touhou_little_maid:addon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.fruit.pages.0.1.text"
+    },
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.fruit.pages.1.1.text"
+    }
+  ]
+}

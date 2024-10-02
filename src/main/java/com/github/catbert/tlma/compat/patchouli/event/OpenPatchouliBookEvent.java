@@ -17,8 +17,8 @@ public class OpenPatchouliBookEvent {
 
         if (uid.getNamespace().equals(TLMAddon.MOD_ID) && event.getTask() instanceof ILittleMaidTask task) {
             ResourceLocation location = new ResourceLocation(TouhouLittleMaid.MOD_ID, "memorizable_gensokyo");
-            PatchouliAPI.get().openBookEntry(location, new ResourceLocation(TouhouLittleMaid.MOD_ID, "addon/cook"), 1);
-//            PatchouliAPI.get().openBookEntry(location, new ResourceLocation(TouhouLittleMaid.MOD_ID, "addon/" + task.getBookEntryType().name().toLowerCase(Locale.ENGLISH)), 1);
+            String lowerCase = task.getBookEntryType().name;
+            PatchouliAPI.get().openBookEntry(location, new ResourceLocation(TouhouLittleMaid.MOD_ID, "addon/" + lowerCase), 1);
         }
     }
 

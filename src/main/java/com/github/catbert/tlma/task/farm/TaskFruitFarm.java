@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.farm;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
@@ -69,5 +70,10 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     @Override
     public boolean isEnable(EntityMaid maid) {
         return true;
+    }
+
+    @Override
+    public TaskBookEntryType getBookEntryType() {
+        return TaskBookEntryType.FRUIT_FARM;
     }
 }
