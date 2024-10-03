@@ -23,6 +23,9 @@
     "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
+    "tomstorage.BlockEntityControllerAccessor",
+    "tomstorage.ItemRepositoryAccessor",
+    "tomstorage.SlotRecordAccessor",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.MixinBasePotBlockEntity"
   ]

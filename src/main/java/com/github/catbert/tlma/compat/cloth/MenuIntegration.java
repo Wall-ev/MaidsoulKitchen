@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MenuIntegration {
-    private static final String TIP = "[Addon: Farm and Cook]";
+    private static final String TIP = "[Addon: Farm And Cook]";
     public static ConfigBuilder getConfigBuilder() {
         ConfigBuilder root = ConfigBuilder.create().setTitle(Component.literal("Touhou Little Maid Addon"));
         root.setGlobalized(true);
