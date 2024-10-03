@@ -15,14 +15,17 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 
-import static com.github.catbert.tlma.event.TaskMelonEvent.MELON_STEM_MAP;
-
+import static com.github.catbert.tlma.event.MelonConfigEvent.MELON_STEM_MAP;
+import static com.github.catbert.tlma.util.BlockUtil.getId;
 
 public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "compat_melon");
@@ -39,48 +42,64 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
 
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        boolean canHarvest = super.canHarvest(maid, cropPos, cropState);
-        if (canHarvest) return true;
-
         Block block = cropState.getBlock();
-//         STEM_MELON_MAP: melon, stem
-        if (MELON_STEM_MAP.containsKey(block)) {
-            Block stemBlock = MELON_STEM_MAP.get(block).getFirst();
+        if (MELON_STEM_MAP.containsKey(getId(block))) {
+            String stemBlockId = MELON_STEM_MAP.get(getId(block));
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockState offsetState = maid.level.getBlockState(cropPos.relative(direction));
-                if (offsetState.is(stemBlock)) {
+                if (getId(offsetState).equals(stemBlockId)) {
                     return true;
                 }
             }
         }
         return false;
-
-//         STEM_MELON_MAP: stem, melon
-//        if (STEM_MELON_MAP.containsKey(block)) {
-//            Direction direction = cropState.getValue(HorizontalDirectionalBlock.FACING);
-//            Block melonBlock = STEM_MELON_MAP.get(block);
-//            return maid.level.getBlockState(cropPos.relative(direction)).is(melonBlock);
-//        }
     }
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         Block block = cropState.getBlock();
-        if (MELON_STEM_MAP.containsKey(block)) {
+        if (MELON_STEM_MAP.containsKey(getId(block))) {
             ItemStack mainHandItem = maid.getMainHandItem();
             if (EnchantmentHelper.hasSilkTouch(mainHandItem)) {
-                Item melonItem = MELON_STEM_MAP.get(block).getSecond();
-                if (maid.destroyBlock(cropPos, false)) {
+                if (this.destroyBlockByHandItem(maid, cropPos)) {
                     mainHandItem.hurtAndBreak(1, maid, (e) -> {
                         e.broadcastBreakEvent(InteractionHand.MAIN_HAND);
                     });
-                    Block.popResource(maid.level(), cropPos, melonItem.getDefaultInstance());
                 }
             } else {
                 maid.destroyBlock(cropPos);
             }
         } else {
             super.harvest(maid, cropPos, cropState);
+        }
+    }
+
+    public boolean destroyBlockByHandItem(EntityMaid maid, BlockPos pos) {
+        return this.destroyBlockByHandItem(maid, pos, true);
+    }
+
+    public boolean destroyBlockByHandItem(EntityMaid maid, BlockPos pos, boolean dropBlock) {
+        return maid.canDestroyBlock(pos) && this.destroyBlockByHandItem(maid, maid.level, pos, dropBlock);
+    }
+
+    private boolean destroyBlockByHandItem(EntityMaid maid, Level level, BlockPos blockPos, boolean dropBlock) {
+        BlockState blockState = level.getBlockState(blockPos);
+        if (blockState.isAir()) {
+            return false;
+        } else {
+            FluidState fluidState = level.getFluidState(blockPos);
+            if (!(blockState.getBlock() instanceof BaseFireBlock)) {
+                level.levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, blockPos, Block.getId(blockState));
+            }
+            if (dropBlock) {
+                BlockEntity blockEntity = blockState.hasBlockEntity() ? level.getBlockEntity(blockPos) : null;
+                maid.dropResourcesToMaidInv(blockState, level, blockPos, blockEntity, maid, maid.getMainHandItem());
+            }
+            boolean setResult = level.setBlock(blockPos, fluidState.createLegacyBlock(), Block.UPDATE_ALL);
+            if (setResult) {
+                level.gameEvent(GameEvent.BLOCK_DESTROY, blockPos, GameEvent.Context.of(maid, blockState));
+            }
+            return setResult;
         }
     }
 

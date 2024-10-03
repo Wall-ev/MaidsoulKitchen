@@ -6,7 +6,9 @@
 
   "config.touhou_little_maid_addon.task": "Task",
   "config.touhou_little_maid_addon.task.melon_stem_list": "Melon Stem List",
-  "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "These entries configure the melon stem list\nrule: §emelon_item_id§c,§eattached_melon_stem_block_id\nEg: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
+  "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "These entries configure the melon stem list\nrule: §eattached_melon_stem_block_id\nEg: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
+  "config.touhou_little_maid_addon.task.melon_and_stem_list": "Melon And Stem List",
+  "config.touhou_little_maid_addon.task.melon_and_stem_list.tooltip": "These entries configure the melon stem and melon_block list\nrule: §emelon_item_id(silk touch)§c,§eattached_melon_stem_block_id\nEg: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
   "config.touhou_little_maid_addon.task.cook_selected_recipes": "Cook Selected Recipe Numbs",
   "config.touhou_little_maid_addon.task.cook_selected_recipes.tooltip": "Cook Selected Recipe Numbs",
   "config.touhou_little_maid_addon.task.fruit_search_yoffset": "Fruit Task Search YOffset Numbs",

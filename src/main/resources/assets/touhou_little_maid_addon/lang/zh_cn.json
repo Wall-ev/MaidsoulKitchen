@@ -5,8 +5,10 @@
   "effect.touhou_little_maid_addon.burn_protect": "抗燃",
 
   "config.touhou_little_maid_addon.task": "任务",
-  "config.touhou_little_maid_addon.task.melon_stem_list": "瓜类瓜苗配置",
-  "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "这些条目配置了要采集的瓜\n规则: §e瓜的物品id§c,§e瓜苗的方块id\n例如: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
+  "config.touhou_little_maid_addon.task.melon_stem_list": "瓜苗配置",
+  "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "这些条目配置了要采集的瓜的瓜苗\n规则: §e瓜苗的方块id\n例如: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
+  "config.touhou_little_maid_addon.task.melon_and_stem_list": "瓜类瓜苗配置",
+  "config.touhou_little_maid_addon.task.melon_and_stem_list.tooltip": "这些条目配置了要采集的瓜\n规则: §e瓜的物品id(精准采集)§c,§e瓜苗的方块id\n例如: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
   "config.touhou_little_maid_addon.task.cook_selected_recipes": "烹饪定向配方最大数量值",
   "config.touhou_little_maid_addon.task.cook_selected_recipes.tooltip": "烹饪定向配方最大数量值",
   "config.touhou_little_maid_addon.task.fruit_search_yoffset": "水果农场检索高度值",

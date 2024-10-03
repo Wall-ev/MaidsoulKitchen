@@ -1,22 +1,29 @@
 package com.github.catbert.tlma.config.subconfig;
 
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.catbert.tlma.util.BlockUtil.getId;
+
 public class TaskConfig {
 
-    public static ForgeConfigSpec.ConfigValue<List<List<String>>> MELON_STEM_LIST;
+    public static ForgeConfigSpec.ConfigValue<List<String>> MELON_STEM_LIST;
+    public static ForgeConfigSpec.ConfigValue<List<List<String>>> MELON_AND_STEM_LIST;
     public static ForgeConfigSpec.ConfigValue<Integer> COOK_SELECTED_RECIPES;
     public static ForgeConfigSpec.ConfigValue<Integer> SEARCHY_OFFSET;
 
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("Task");
 
-        builder.comment("These entries configure the melon stem list.", "rule: [melon_item_id, attached_melon_stem_block_id]", "Eg: [\"minecraft:melon\", \"minecraft:attached_melon_stem\"]");
+        builder.comment("These entries configure the melon stem list.", "rule: attached_melon_stem_block_id", "Eg: minecraft:attached_pumpkin_stem minecraft:attached_pumpkin_stem ...");
         MELON_STEM_LIST = builder.define("MelonStemList", getmelonStemList());
+
+        builder.comment("These entries configure the melon stem and melon_block item list.", "rule: [melon_block_id, attached_melon_stem_block_id]", "Eg: [\"minecraft:melon\", \"minecraft:attached_melon_stem\"]");
+        MELON_AND_STEM_LIST = builder.define("MelonAndStemList", getmelonAndStemList());
 
         builder.comment("These can configure the cook selected recipes max size.");
         COOK_SELECTED_RECIPES = builder.define("CookSelectedRecipes", 10);
@@ -27,11 +34,18 @@ public class TaskConfig {
         builder.pop();
     }
 
-    private static List<List<String>> getmelonStemList() {
+    private static List<String> getmelonStemList() {
+        List<String> melonStemList = new ArrayList<>();
+        melonStemList.add(getId(Blocks.ATTACHED_MELON_STEM));
+        melonStemList.add(getId(Blocks.ATTACHED_PUMPKIN_STEM));
+        return melonStemList;
+    }
+
+    private static List<List<String>> getmelonAndStemList() {
         List<List<String>> melonStemList = new ArrayList<>();
-        melonStemList.add(Arrays.asList("simplefarming:cantaloupe_block", "simplefarming:attached_cantaloupe_stem"));
-        melonStemList.add(Arrays.asList("simplefarming:honeydew_block", "simplefarming:attached_honeydew_stem"));
-        melonStemList.add(Arrays.asList("simplefarming:squash_block", "simplefarming:attached_squash_stem"));
+        melonStemList.add(Arrays.asList("simplefarming:cantaloupe", "simplefarming:attached_cantaloupe_stem"));
+        melonStemList.add(Arrays.asList("simplefarming:honeydew", "simplefarming:attached_honeydew_stem"));
+        melonStemList.add(Arrays.asList("simplefarming:squash", "simplefarming:attached_squash_stem"));
         return melonStemList;
     }
 }

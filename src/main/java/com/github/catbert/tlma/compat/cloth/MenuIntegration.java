@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.config.subconfig.RegisterConfig;
 import com.github.catbert.tlma.config.subconfig.RenderConfig;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
+import com.github.catbert.tlma.event.MelonConfigEvent;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -145,17 +146,26 @@ public class MenuIntegration {
         }
         ConfigCategory task = root.getOrCreateCategory(entryTitle);
 
-        task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.task.melon_stem_list"), TaskConfig.MELON_STEM_LIST.get().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
-                .setDefaultValue(TaskConfig.MELON_STEM_LIST.getDefault().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
+        task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.task.melon_stem_list"), TaskConfig.MELON_STEM_LIST.get())
+                .setDefaultValue(TaskConfig.MELON_STEM_LIST.getDefault())
                 .setTooltip(Component.translatable("config.touhou_little_maid_addon.task.melon_stem_list.tooltip"), addition)
                 .setSaveConsumer(l -> {
-                    List<List<String>> melonStemList = new ArrayList<>();
+                    TaskConfig.MELON_STEM_LIST.set(l);
+                    MelonConfigEvent.handleConfig();
+                }).build());
+
+        task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.task.melon_and_stem_list"), TaskConfig.MELON_AND_STEM_LIST.get().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
+                .setDefaultValue(TaskConfig.MELON_AND_STEM_LIST.getDefault().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
+                .setTooltip(Component.translatable("config.touhou_little_maid_addon.task.melon_and_stem_list.tooltip"), addition)
+                .setSaveConsumer(l -> {
+                    List<List<String>> melonAndStemList = new ArrayList<>();
                     for (String s : l) {
                         String[] split = s.split(",");
                         if (split.length < 2) continue;
-                        melonStemList.add(Arrays.asList(split[0], split[1]));
+                        melonAndStemList.add(Arrays.asList(split[0], split[1]));
                     }
-                    TaskConfig.MELON_STEM_LIST.set(melonStemList);
+                    TaskConfig.MELON_AND_STEM_LIST.set(melonAndStemList);
+                    MelonConfigEvent.handleConfig();
                 }).build());
 
         task.addEntry(entryBuilder.startIntField(Component.translatable("config.touhou_little_maid_addon.task.cook_selected_recipes"), TaskConfig.COOK_SELECTED_RECIPES.get())
