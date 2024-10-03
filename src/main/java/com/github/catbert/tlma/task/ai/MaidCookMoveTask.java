@@ -36,6 +36,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
         this(maid, task, 0.5f, 2, false);
         this.maidRecipesManager = maidRecipesManager;
+        this.setMaxCheckRate(5);
     }
 
     public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, boolean single) {

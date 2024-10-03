@@ -113,7 +113,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
 
         if (resStatus == 2) {
-            transFromStorage(maid);
+            transFromStorageDrawers(maid);
         }
         if (resStatus == 0) {
             createRecipesIngredients(maid);
@@ -130,7 +130,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             for (Ingredient ingredient : ingredients) {
                 for (Map.Entry<StoredItemStack, Long> storedItemStackLongEntry : stacks.entrySet()) {
                     if (ingredient.test(storedItemStackLongEntry.getKey().getStack())) {
-                        takeStoredStack.put(storedItemStackLongEntry.getKey(), storedItemStackLongEntry.getValue());
+                        takeStoredStack.put(storedItemStackLongEntry.getKey().getStack(), storedItemStackLongEntry.getKey());
                         break;
                     }
                 }
@@ -219,8 +219,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        LOGGER.info(this.recipesIngredients);
     }
 
-    private void transFromStorage(EntityMaid maid) {
-
+    private void transFromStorageDrawers(EntityMaid maid) {
         BlockPos blockPos = null;
         BaubleItemHandler maidBauble = maid.getMaidBauble();
         for (int i = 0; i < maidBauble.getSlots(); i++) {

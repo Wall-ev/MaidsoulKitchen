@@ -18,6 +18,6 @@ public final class InitContainerGui {
     public static void clientSetup(FMLClientSetupEvent evt) {
         evt.enqueueWork(() -> MenuScreens.register(CookConfigerContainer.TYPE, CookConfigerGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatFarmConfigerContainer.TYPE, CompatFarmConfigerGui::new));
-//        evt.enqueueWork(() -> MenuScreens.register(WiosContainer.TYPE, WiosContainerGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(WiosContainer.TYPE, WiosContainerGui::new));
     }
 }

@@ -1,6 +1,9 @@
 package com.github.catbert.tlma.item;
 
+import com.github.catbert.tlma.inventory.container.WiosContainer;
+import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
+import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.WirelessIOContainer;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemWirelessIO;
 import com.jaquadro.minecraft.storagedrawers.block.tile.BlockEntityController;
@@ -68,7 +71,7 @@ public class ItemWios extends ItemWirelessIO {
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new WirelessIOContainer(id, inventory, player.getMainHandItem());
+        return new WiosContainer(id, inventory, player.getMainHandItem());
     }
 
     public static void setBindingPos(ItemStack stack, BlockPos pos) {
