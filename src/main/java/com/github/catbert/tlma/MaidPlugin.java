@@ -6,6 +6,7 @@ import com.github.catbert.tlma.entity.backpack.OldBigBackpack;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.init.InitItems;
 import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
+import com.github.catbert.tlma.item.bauble.WiosBauble;
 import com.github.catbert.tlma.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.catbert.tlma.task.cook.v1.bakery.TaskDbkStove;
 import com.github.catbert.tlma.task.cook.v1.beachparty.TaskDbpMiniFridge;
@@ -112,6 +113,7 @@ public final class MaidPlugin implements ILittleMaid {
     public void bindMaidBauble(BaubleManager manager) {
         if (Mods.MC.isLoaded) {
             manager.bind(InitItems.BURN_PROTECT_BAUBLE, new BurnProtectBauble());
+            manager.bind(InitItems.WIOS_BAUBLE, new WiosBauble());
         }
     }
 

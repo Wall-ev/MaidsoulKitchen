@@ -7,6 +7,8 @@ public enum Mods {
     PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
 
+    STORAGE_DRAWERS("storagedrawers"),
+
     /*
         Farmer's Delight && Addons
      */

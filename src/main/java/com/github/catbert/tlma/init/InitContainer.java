@@ -1,10 +1,7 @@
 package com.github.catbert.tlma.init;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
-import com.github.catbert.tlma.inventory.container.CompatMelonConfigContainer;
-import com.github.catbert.tlma.inventory.container.CookConfigContainer;
-import com.github.catbert.tlma.inventory.container.NoConfigContainer;
+import com.github.catbert.tlma.inventory.container.*;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -17,4 +14,5 @@ public final class InitContainer {
     public static final RegistryObject<MenuType<CompatFarmConfigContainer>> COMPAT_FARM_CONTAINER = CONTAINER_TYPE.register("compat_farm_config_container", () -> CompatFarmConfigContainer.TYPE);
     public static final RegistryObject<MenuType<NoConfigContainer>> NO_CONFIG_CONTAINER = CONTAINER_TYPE.register("no_config_container", () -> NoConfigContainer.TYPE);
     public static final RegistryObject<MenuType<CompatMelonConfigContainer>> COMPAT_MELON_CONFIG_CONTAINER = CONTAINER_TYPE.register("compat_melon_config_container", () -> CompatMelonConfigContainer.TYPE);
+    public static final RegistryObject<MenuType<WiosContainer>> WIOS_CONTAINER = CONTAINER_TYPE.register("wios_container", () -> WiosContainer.TYPE);
 }

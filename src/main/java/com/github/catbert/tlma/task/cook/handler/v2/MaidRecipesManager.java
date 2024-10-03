@@ -2,7 +2,9 @@ package com.github.catbert.tlma.task.cook.handler.v2;
 
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
+import com.github.catbert.tlma.task.cook.handler.v2.storage.StorageDrawersHandler;
 import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
@@ -88,8 +90,13 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        boolean lastInv = isLastInv(maid);
-        if (lastInv) return;
+//        boolean lastInv = isLastInv(maid);
+//        if (lastInv) return;
+
+        if (Mods.STORAGE_DRAWERS.isLoaded) {
+            StorageDrawersHandler.trans(maid, this.getRecs(maid));
+        }
+
         createRecipesIngredients(maid);
     }
 
