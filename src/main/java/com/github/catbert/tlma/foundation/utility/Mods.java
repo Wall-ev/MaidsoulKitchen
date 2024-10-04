@@ -7,6 +7,9 @@ public enum Mods {
     PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
 
+    JADE("jade"),
+    TOP("theoneprobe"),
+
     /*
         Farmer's Delight && Addons
      */

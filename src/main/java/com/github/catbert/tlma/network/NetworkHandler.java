@@ -39,9 +39,12 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ClientFarmTaskRuleActionMessage.class, ClientFarmTaskRuleActionMessage::encode, ClientFarmTaskRuleActionMessage::decode, ClientFarmTaskRuleActionMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        // Client
+        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetMessage.class, SetFruitFarmSearchYOffsetMessage::encode, SetFruitFarmSearchYOffsetMessage::decode, SetFruitFarmSearchYOffsetMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ClientSetFruitFarmSearchYOffsetMessage.class, ClientSetFruitFarmSearchYOffsetMessage::encode, ClientSetFruitFarmSearchYOffsetMessage::decode, ClientSetFruitFarmSearchYOffsetMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        // Client
+
     }
 
     public static void sendToServer(Object message) {

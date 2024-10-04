@@ -4,6 +4,8 @@
 
   "effect.touhou_little_maid_addon.burn_protect": "Burn Protect",
 
+  "config.touhou_little_maid_addon.title": "Touhou Little Maid Addon: Farm And Cook",
+  "config.touhou_little_maid_addon.title.tip": "[Addon: Farm And Cook]",
   "config.touhou_little_maid_addon.task": "Task",
   "config.touhou_little_maid_addon.task.melon_stem_list": "Melon Stem List",
   "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "These entries configure the melon stem list\nrule: §eattached_melon_stem_block_id\nEg: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
@@ -117,6 +119,9 @@
 
   "overlay.touhou_little_maid_addon.book.tips": "The book will change the working mode to the retrieval start height value of the maid of the fruit\nRight-click +1, stealth right-click -1\nThe search range is 2 blocks up from the starting height",
   "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "SearchYOffest: ",
+
+  "top.touhou_little_maid_addon.entity_maid.farm.rule": "Rule: ",
+  "top.touhou_little_maid_addon.entity_maid.farm.fruit.search_y_offset": "Y_Retrieval: ",
 
   "message.touhou_little_maid_addon.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
 

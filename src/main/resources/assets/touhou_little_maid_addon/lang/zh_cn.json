@@ -4,6 +4,8 @@
 
   "effect.touhou_little_maid_addon.burn_protect": "抗燃",
 
+  "config.touhou_little_maid_addon.title": "车万女仆拓展：农耕与烹饪",
+  "config.touhou_little_maid_addon.title.tip": "[拓展：农耕与烹饪]",
   "config.touhou_little_maid_addon.task": "任务",
   "config.touhou_little_maid_addon.task.melon_stem_list": "瓜苗配置",
   "config.touhou_little_maid_addon.task.melon_stem_list.tooltip": "这些条目配置了要采集的瓜的瓜苗\n规则: §e瓜苗的方块id\n例如: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
@@ -117,7 +119,10 @@
 
 
   "overlay.touhou_little_maid_addon.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值\n右击+1,潜行右击-1\n检索范围为起始高度向上延伸2格",
-  "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "\n检索起始高度: ",
+  "overlay.touhou_little_maid_addon.book.tips.search_yoffset": "检索起始高度: ",
+
+  "top.touhou_little_maid_addon.entity_maid.farm.rule": "规则: ",
+  "top.touhou_little_maid_addon.entity_maid.farm.fruit.search_y_offset": "检索高度: ",
 
   "message.touhou_little_maid_addon.book.max_yoffset": "检索起始高度的取值范围为-5到5",
 

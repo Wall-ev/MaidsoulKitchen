@@ -138,7 +138,7 @@ public class CompatFarmConfigGui extends MaidTaskConfigGui<CompatFarmConfigConta
     }
 
     private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
-        if ((this.handlers.size() - 1) / limitSize > 1) {
+        if ((this.handlers.size() - 1) / limitSize >= 1) {
             graphics.blit(TEXTURE, startX, startY + (int) ((95 - 12) * getCurrentScroll()), 228, 0, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 235, 0, 7, 9);

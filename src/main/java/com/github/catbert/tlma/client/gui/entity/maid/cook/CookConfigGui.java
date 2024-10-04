@@ -370,8 +370,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
-        if ((this.recipeList.size() - 1) / (ref.col() * ref.row()) > 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((70 - 11) * getCurrentScroll()), 199, 64, 7, 9);
+        if ((this.recipeList.size() - 1) / (ref.col() * ref.row()) >= 1) {
+            graphics.blit(TEXTURE, startX, startY + (int) ((70 - 2 - 9) * getCurrentScroll()), 199, 64, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 206, 64, 7, 9);
         }

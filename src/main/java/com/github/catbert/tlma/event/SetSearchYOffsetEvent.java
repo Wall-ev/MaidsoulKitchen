@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.event;
 
 import com.github.catbert.tlma.network.NetworkHandler;
+import com.github.catbert.tlma.network.message.SetFruitFarmSearchYOffsetMessage;
 import com.github.catbert.tlma.network.message.client.ClientSetFruitFarmSearchYOffsetMessage;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.util.MaidTaskDataUtil;
@@ -27,13 +28,9 @@ public final class SetSearchYOffsetEvent {
                 String taskUid = maid.getTask().getUid().toString();
                 int startYOffset$tlma = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, taskUid);
                 if (!player.isDiscrete() && startYOffset$tlma < 5) {
-                    MaidTaskDataUtil.setFruitFarmSearchYOffset(maid, taskUid, startYOffset$tlma + 1);
-                    NetworkHandler.sendToClientPlayer(new ClientSetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma + 1), player);
-                    maid.refreshBrain((ServerLevel) maid.level);
+                    NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma + 1));
                 } else if (player.isDiscrete() && startYOffset$tlma > -5) {
-                    MaidTaskDataUtil.setFruitFarmSearchYOffset(maid, taskUid, startYOffset$tlma - 1);
-                    NetworkHandler.sendToClientPlayer(new ClientSetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma - 1), player);
-                    maid.refreshBrain((ServerLevel) maid.level());
+                    NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), taskUid, startYOffset$tlma - 1));
                 } else {
                     player.sendSystemMessage(Component.translatable("message.touhou_little_maid_addon.book.max_yoffset"));
                 }

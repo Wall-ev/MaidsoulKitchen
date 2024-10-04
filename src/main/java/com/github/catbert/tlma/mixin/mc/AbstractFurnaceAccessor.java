@@ -8,11 +8,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(AbstractFurnaceBlockEntity.class)
+@Mixin(value = AbstractFurnaceBlockEntity.class)
 public interface AbstractFurnaceAccessor {
 
     @Final
-    @Accessor
+    @Accessor(remap = false)
     RecipeType<? extends AbstractCookingRecipe> getRecipeType();
 
     @Invoker("isLit")

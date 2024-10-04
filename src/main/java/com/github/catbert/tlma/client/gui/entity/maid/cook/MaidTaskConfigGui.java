@@ -3,8 +3,13 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 import com.github.catbert.tlma.client.gui.widget.button.TitleInfoButton;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.TaskConfigContainer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.awt.*;
 
 public abstract class MaidTaskConfigGui<T extends TaskConfigContainer> extends com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.task.MaidTaskConfigGui<T> {
     protected final int titleStartY = 8;
@@ -25,5 +30,14 @@ public abstract class MaidTaskConfigGui<T extends TaskConfigContainer> extends c
         int titleStartX = visualZone.startX() + (visualZone.width() - font.width(this.title)) / 2;
         TitleInfoButton titleInfoButton = new TitleInfoButton(titleStartX, visualZone.startY() + titleStartY, font.width(this.title), 9, this.title);
         this.addRenderableWidget(titleInfoButton);
+    }
+
+    protected void renderNoConfigTip(GuiGraphics graphics) {
+        int color = Color.YELLOW.getRGB();
+        MutableComponent translatable = Component.translatable("gui.touhou_little_maid_addon.config.no_config").withStyle(ChatFormatting.ITALIC);
+        int startX = ((visualZone.width() - font.width(translatable)) / 2) + visualZone.startX();
+        int startY = ((visualZone.height() - font.lineHeight ) / 2) + visualZone.startY();
+        graphics.drawString(font, translatable, startX, startY, color, false);
+        graphics.fill(startX, startY + font.lineHeight + 1, startX + font.width(translatable), startY + font.lineHeight + 2, color);
     }
 }

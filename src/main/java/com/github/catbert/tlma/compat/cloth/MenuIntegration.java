@@ -19,9 +19,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MenuIntegration {
-    private static final String TIP = "[Addon: Farm and Cook]";
+    private static final Component MENU_TITLE = Component.translatable("config.touhou_little_maid_addon.title");
+    private static final Component MENU_TITLE_TIP = Component.translatable("config.touhou_little_maid_addon.title.tip").withStyle(ChatFormatting.YELLOW);
+    private static final String MOD_TIP = "[Addon: Farm And Cook]";
     public static ConfigBuilder getConfigBuilder() {
-        ConfigBuilder root = ConfigBuilder.create().setTitle(Component.literal("Touhou Little Maid Addon"));
+        ConfigBuilder root = ConfigBuilder.create().setTitle(MENU_TITLE);
         root.setGlobalized(true);
         root.setGlobalizedExpanded(false);
         return getConfigBuilder(root, false);
@@ -40,10 +42,10 @@ public class MenuIntegration {
 
     private static void registerConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.register");
-        MutableComponent addition = Component.empty();
+        MutableComponent addition = Component.literal("");
         if (tlmEntry) {
-            entryTitle.append(Component.literal(TIP).withStyle(ChatFormatting.YELLOW));
-            addition.append(Component.literal("\n" + TIP).withStyle(ChatFormatting.BLUE))
+            entryTitle.append(MENU_TITLE_TIP);
+            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
                     .append(Component.literal("\nModId: " + TLMAddon.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
         }
         ConfigCategory register = root.getOrCreateCategory(entryTitle);
@@ -138,10 +140,10 @@ public class MenuIntegration {
 
     private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.task");
-        MutableComponent addition = Component.empty();
+        MutableComponent addition = Component.literal("");
         if (tlmEntry) {
-            entryTitle.append(Component.literal(TIP).withStyle(ChatFormatting.YELLOW));
-            addition.append(Component.literal("\n" + TIP).withStyle(ChatFormatting.BLUE))
+            entryTitle.append(MENU_TITLE_TIP);
+            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
                     .append(Component.literal("\nModId: " + TLMAddon.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
         }
         ConfigCategory task = root.getOrCreateCategory(entryTitle);
@@ -181,10 +183,10 @@ public class MenuIntegration {
 
     private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = Component.translatable("config.touhou_little_maid_addon.render");
-        MutableComponent addition = Component.empty();
+        MutableComponent addition = Component.literal("");
         if (tlmEntry) {
-            entryTitle.append(Component.literal(TIP).withStyle(ChatFormatting.YELLOW));
-            addition.append(Component.literal("\n" + TIP).withStyle(ChatFormatting.BLUE))
+            entryTitle.append(MENU_TITLE_TIP);
+            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
                     .append(Component.literal("\nModId: " + TLMAddon.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
         }
         ConfigCategory render = root.getOrCreateCategory(entryTitle);

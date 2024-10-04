@@ -28,13 +28,4 @@ public class NoConfigGui extends MaidTaskConfigGui<NoConfigContainer> {
         super.renderAddition(graphics, mouseX, mouseY, partialTicks);
         renderNoConfigTip(graphics);
     }
-
-    private void renderNoConfigTip(GuiGraphics graphics) {
-        int color = Color.YELLOW.getRGB();
-        MutableComponent translatable = Component.translatable("gui.touhou_little_maid_addon.config.no_config").withStyle(ChatFormatting.ITALIC);
-        int startX = ((visualZone.width() - font.width(translatable)) / 2) + visualZone.startX();
-        int startY = ((visualZone.height() - font.lineHeight ) / 2) + visualZone.startY();
-        graphics.drawString(font, translatable, startX, startY, color, false);
-        graphics.fill(startX, startY + font.lineHeight + 1, startX + font.width(translatable), startY + font.lineHeight + 2, color);
-    }
 }
