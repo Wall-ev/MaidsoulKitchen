@@ -5,6 +5,8 @@ import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
+import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
+import com.github.catbert.tlma.inventory.container.FruitFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFruitMoveTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
@@ -13,8 +15,13 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -75,5 +82,21 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
     @Override
     public TaskBookEntryType getBookEntryType() {
         return TaskBookEntryType.FRUIT_FARM;
+    }
+
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return Component.literal("Maid Fruit Farm Config Container");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
+                return new FruitFarmConfigContainer(index, playerInventory, entityId);
+            }
+        };
     }
 }

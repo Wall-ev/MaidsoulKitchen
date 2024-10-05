@@ -1,13 +1,7 @@
 package com.github.catbert.tlma.client.init;
 
-import com.github.catbert.tlma.client.gui.entity.maid.cook.CompatFarmConfigGui;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.CompatMelonConfigGui;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.CookConfigGui;
-import com.github.catbert.tlma.client.gui.entity.maid.cook.NoConfigGui;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
-import com.github.catbert.tlma.inventory.container.CompatMelonConfigContainer;
-import com.github.catbert.tlma.inventory.container.CookConfigContainer;
-import com.github.catbert.tlma.inventory.container.NoConfigContainer;
+import com.github.catbert.tlma.client.gui.entity.maid.cook.*;
+import com.github.catbert.tlma.inventory.container.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,6 +14,7 @@ public final class InitContainerGui {
     public static void clientSetup(FMLClientSetupEvent evt) {
         evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer.TYPE, CookConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatFarmConfigContainer.TYPE, CompatFarmConfigGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer.TYPE, FruitFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(NoConfigContainer.TYPE, NoConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatMelonConfigContainer.TYPE, CompatMelonConfigGui::new));
     }
