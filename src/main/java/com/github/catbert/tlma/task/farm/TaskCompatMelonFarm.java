@@ -3,7 +3,7 @@ package com.github.catbert.tlma.task.farm;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
-import com.github.catbert.tlma.inventory.container.CompatMelonConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;

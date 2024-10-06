@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.client.gui.entity.maid.cook;
+package com.github.catbert.tlma.client.gui.entity.maid;
 
 import com.github.catbert.tlma.client.gui.widget.button.TitleInfoButton;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;

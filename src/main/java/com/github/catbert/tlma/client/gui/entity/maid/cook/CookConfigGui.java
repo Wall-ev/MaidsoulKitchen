@@ -2,9 +2,10 @@ package com.github.catbert.tlma.client.gui.entity.maid.cook;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
+import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
-import com.github.catbert.tlma.inventory.container.CookConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.SetCookTaskModeMessage;
 import com.github.catbert.tlma.util.MaidTaskDataUtil;

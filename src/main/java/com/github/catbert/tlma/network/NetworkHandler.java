@@ -25,7 +25,10 @@ public final class NetworkHandler {
     public static void init() {
         int i = 0;
         // Server
-
+        CHANNEL.registerMessage(i++, ToggleCookBagGuiSideTabMessage.class, ToggleCookBagGuiSideTabMessage::encode, ToggleCookBagGuiSideTabMessage::decode, ToggleCookBagGuiSideTabMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, SetCookBagBindModeMessage.class, SetCookBagBindModeMessage::encode, SetCookBagBindModeMessage::decode, SetCookBagBindModeMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
         CHANNEL.registerMessage(i++, SetCookTaskModeMessage.class, SetCookTaskModeMessage::encode, SetCookTaskModeMessage::decode, SetCookTaskModeMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));

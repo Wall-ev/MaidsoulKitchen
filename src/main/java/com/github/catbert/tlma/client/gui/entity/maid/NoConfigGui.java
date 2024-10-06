@@ -1,16 +1,12 @@
-package com.github.catbert.tlma.client.gui.entity.maid.cook;
+package com.github.catbert.tlma.client.gui.entity.maid;
 
-import com.github.catbert.tlma.inventory.container.NoConfigContainer;
-import net.minecraft.ChatFormatting;
+import com.github.catbert.tlma.inventory.container.maid.NoConfigContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
-
-import java.awt.*;
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)

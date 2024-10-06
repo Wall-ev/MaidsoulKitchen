@@ -2,15 +2,12 @@ package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.TaskBookEntryType;
-import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.inventory.container.CookConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
-import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
-import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;

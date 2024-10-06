@@ -1,7 +1,8 @@
-package com.github.catbert.tlma.client.gui.entity.maid.cook;
+package com.github.catbert.tlma.client.gui.entity.maid.farm;
 
+import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.NavCompatMelonConfigButton;
-import com.github.catbert.tlma.inventory.container.CompatMelonConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CompatMelonConfigContainer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

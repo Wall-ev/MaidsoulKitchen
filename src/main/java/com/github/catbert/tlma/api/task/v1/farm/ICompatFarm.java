@@ -1,8 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
-import com.github.catbert.tlma.api.TaskBookEntryType;
-import com.github.catbert.tlma.inventory.container.CompatFarmConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CompatFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;

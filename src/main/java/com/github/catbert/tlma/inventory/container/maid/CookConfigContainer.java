@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.inventory.container;
+package com.github.catbert.tlma.inventory.container.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.TaskConfigContainer;
 import net.minecraft.world.entity.player.Inventory;
