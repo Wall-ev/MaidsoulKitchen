@@ -165,6 +165,7 @@
   "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "农耕指南",
   "gui.touhou_little_maid_addon.berry_farm_configure_screen.title": "浆果农场指南",
   "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "水果农场指南",
+  "gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset": "检索高度: %s",
   "gui.touhou_little_maid_addon.config.no_config": "这个任务没有配置.",
   "gui.touhou_little_maid_addon.config.global_config": "全局配置该任务.",
   "gui.touhou_little_maid_addon.search" : "搜索...",

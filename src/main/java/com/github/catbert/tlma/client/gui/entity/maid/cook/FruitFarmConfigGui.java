@@ -50,12 +50,13 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(Component.translatable("gui.touhou_little_maid_addon.farm_config_screen.title")));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked"})
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
         this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
         this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
+        this.retrieval = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, task.getUid().toString());
     }
 
     @Override
@@ -69,26 +70,24 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     @Override
     protected void initBaseData() {
         super.initBaseData();
-        this.retrieval = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, task.getUid().toString());
     }
 
     private void addRetrievalButton() {
-        int x = font.width(Component.literal("检索高度: " + "--"));
+        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", "--");
+        int x = font.width(literal);
         int startX = visualZone.startX() + 6 + 26 + x;
         int startY = visualZone.startY() + 22 + 2;
         ImageButton addButton = new ImageButton(startX, startY, 17, 18, 80, 238, 0, TEXTURE, b -> {
             if (this.retrieval >= 5) {
                 return;
             }
-            this.retrieval++;
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), this.retrieval));
+            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), ++this.retrieval));
         });
         Button downButton = new ImageButton(startX + 17, startY, 17, 18, 80 + 17, 238, 0, TEXTURE, b -> {
             if (this.retrieval <= -5) {
                 return;
             }
-            this.retrieval--;
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), this.retrieval));
+            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), --this.retrieval));
         });
         this.addRenderableWidget(addButton);
         this.addRenderableWidget(downButton);
@@ -102,8 +101,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     }
 
     private void renderRetrieval(GuiGraphics graphics) {
-//        MutableComponent literal = Component.literal("Retrieval Height: " + retrieval);
-        MutableComponent literal = Component.literal("检索高度: " + retrieval);
+        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", retrieval);
         // 暂时先这样... todo
         int width = font.width(literal);
         int x = visualZone.startX() + 6;
@@ -111,8 +109,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         graphics.blit(TEXTURE, x, y, 0 ,236, 22, 20);
         // 暂时先这样... todo
         if (retrieval >= 0) {
-            int width1 = font.width(Component.literal("-"));
-            width += width1;
+            width += font.width(Component.literal("-"));
             for (int i = 0; i < width; i++) {
                 graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
             }
@@ -193,14 +190,16 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     private void drawScrollInfoBar(GuiGraphics graphics) {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 95);
+        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 2);
+        graphics.blit(TEXTURE, startX, startY + 8 + 2, 247, 10, 9, 62);
+        graphics.blit(TEXTURE, startX, startY + 8 + 2 + 62, 247, 100, 9, 2);
         drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
     }
 
     // 95 - 29 = 66;
     private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
         if ((this.handlers.size() - 1) / limitSize >= 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((95 - 12) * getCurrentScroll()), 228, 0, 7, 9);
+            graphics.blit(TEXTURE, startX, startY + (int) ((67 - 12) * getCurrentScroll()), 228, 0, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 235, 0, 7, 9);
         }

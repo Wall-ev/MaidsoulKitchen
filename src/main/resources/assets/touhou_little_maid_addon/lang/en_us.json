@@ -164,6 +164,7 @@
   "gui.touhou_little_maid_addon.compat_farm_configer_screen.title": "CompatFarm Guide",
   "gui.touhou_little_maid_addon.berry_farm_configure_screen.title": "Berry Farm Guide",
   "gui.touhou_little_maid_addon.fruit_farm_configer_screen.title": "Fruit Farm Guide",
+  "gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset": "Y_Retrieval: %s",
   "gui.touhou_little_maid_addon.config.no_config": "This task has no configuration.",
   "gui.touhou_little_maid_addon.config.global_config": "Configure this task globally.",
   "gui.touhou_little_maid_addon.search" : "Search...",
