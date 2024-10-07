@@ -2,6 +2,7 @@ package com.github.catbert.tlma.task.cook.handler;
 
 import com.github.catbert.tlma.inventory.container.item.BagType;
 import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
@@ -11,12 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CookBagInventory implements ICookInventory{
+public class CookBagInventory implements ICookInventory {
     private final ItemStack stack;
-    private Map<BagType, ItemStackHandler> containers;
     private final Map<Item, Integer> inventoryItem = new HashMap<>();
     private final Map<Item, List<ItemStack>> inventoryStack = new HashMap<>();
     private final List<ItemStack> lastInvStack = new ArrayList<>();
+    private Map<BagType, ItemStackHandler> containers;
 
     public CookBagInventory(ItemStack stack) {
         this.stack = stack;
@@ -94,6 +95,11 @@ public class CookBagInventory implements ICookInventory{
 
     public List<ItemStack> getLastInvStack() {
         return lastInvStack;
+    }
+
+    @Override
+    public ItemStackHandler getAvailableInv(EntityMaid maid, BagType bagType) {
+        return containers.get(bagType);
     }
 
     @Override

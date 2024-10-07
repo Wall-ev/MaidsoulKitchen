@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -214,7 +215,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     }
 
     @Override
-    public void extractOutputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
+    public void extractOutputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         ItemStack stackInSlot = inventory.getItem(this.getOutputSlot());
 
         if (!stackInSlot.isEmpty() && ((BeerBarrelBlockAccessor)blockEntity).statusCode$tlma() == 2) {
@@ -244,7 +245,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     }
 
     @Override
-    public void extractInputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
+    public void extractInputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         for (int i = this.getInputStartSlot(); i < this.getInputSize() + this.getInputStartSlot(); ++i) {
             ItemStack stackInSlot = inventory.getItem(i);
             ItemStack copy = stackInSlot.copy();

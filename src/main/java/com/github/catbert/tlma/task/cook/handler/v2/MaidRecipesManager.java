@@ -24,6 +24,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -39,7 +40,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
     private List<T> currentRecs = new ArrayList<>();
-    private ICookInventory lastIngredientInv;
+    private ICookInventory lastInv;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
         this(maid, task, single, false);
@@ -234,16 +235,58 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        recipesIngredients = new ArrayList<>();
 
         this.currentRecs = getRecs(maid);
+        // 将CookBag里无用的配方原料放回原料箱子
+        tranUnIngre2Chest(maid);
+        // 获取原料箱子配方原料并置入CookBag
         mapChestIngredient(maid);
         this.maidInventory.refreshInv();
-        extracted(maid);
+        createIngres(maid);
         this.currentRecs.clear();
 
 //        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
 //        LOGGER.info(this.recipesIngredients);
     }
 
-    private void extracted(EntityMaid maid) {
+    public void tranOutput2Chest(EntityMaid maid) {
+        tranCookBag2Chest(maid, BagType.OUTPUT);
+    }
+
+    public void tranUnIngre2Chest(EntityMaid maid) {
+        tranCookBag2Chest(maid, BagType.INGREDIENT);
+    }
+
+    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return;
+
+        List<BlockPos> ingredientPos = ItemCookBag.getBindModePoses(stackInSlot1, bagType.name);
+        if (ingredientPos.isEmpty()) return;
+
+        Map<BagType, ItemStackHandler> containers = ItemCookBag.getContainers(stackInSlot1);
+        if (!containers.containsKey(bagType)) return;
+        ItemStackHandler itemStackHandler = containers.get(bagType);
+
+        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
+            ItemStack stack = itemStackHandler.getStackInSlot(i);
+            if (stack.isEmpty()) continue;
+
+            for (BlockPos ingredientPo : ingredientPos) {
+                BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
+                if (stack.isEmpty()) break;
+
+                if (blockEntity != null) {
+                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
+                        stack.shrink(stack.getCount() - leftStack.getCount());
+                    });
+                }
+            }
+        }
+        ItemCookBag.setContainer(stackInSlot1, containers);
+    }
+
+    private void createIngres(EntityMaid maid) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>(getIngredientInv(maid).getInventoryItem());
 
@@ -263,19 +306,19 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
         if (!stackInSlot1.is(InitItems.COOK_BAG.get()))  {
-            this.setLastIngredientInv(this.maidInventory);
+            this.setLastInv(this.maidInventory);
         } else {
-            this.setLastIngredientInv(new CookBagInventory(stackInSlot1));
+            this.setLastInv(new CookBagInventory(stackInSlot1));
         }
-        return this.getLastIngredientInv();
+        return this.getLastInv();
     }
 
-    private void setLastIngredientInv(ICookInventory lastIngredientInv) {
-        this.lastIngredientInv = lastIngredientInv;
+    private void setLastInv(ICookInventory lastInv) {
+        this.lastInv = lastInv;
     }
 
-    public ICookInventory getLastIngredientInv() {
-        return lastIngredientInv;
+    public ICookInventory getLastInv() {
+        return lastInv;
     }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
@@ -423,5 +466,25 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     public void setRepeatTimes(int repeatTimes) {
         this.repeatTimes = repeatTimes;
+    }
+
+    public IItemHandlerModifiable getOutputInv(EntityMaid maid) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return maidInv;
+
+        ICookInventory lastIngredientInv1 = this.getLastInv();
+
+        return lastIngredientInv1.getAvailableInv(maid, BagType.OUTPUT);
+    }
+
+    public IItemHandlerModifiable getIngreInv(EntityMaid maid) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return maidInv;
+
+        ICookInventory lastIngredientInv1 = this.getLastInv();
+
+        return lastIngredientInv1.getAvailableInv(maid, BagType.INGREDIENT);
     }
 }

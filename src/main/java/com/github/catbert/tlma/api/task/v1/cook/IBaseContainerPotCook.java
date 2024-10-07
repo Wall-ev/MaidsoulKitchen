@@ -65,6 +65,8 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         tryExtractItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+
+        maidRecipesManager.getLastInv().syncInv();
     }
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
@@ -72,14 +74,14 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
         // 取出最终物品
-        extractOutputStack(inventory, availableInv, blockEntity);
+        extractOutputStack(inventory, maidRecipesManager.getOutputInv(entityMaid), blockEntity);
 
 
         boolean heated = isHeated(blockEntity);
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
         if (inputCanTake(b, inventory)) {
-            extractInputStack(inventory, availableInv, blockEntity);
+            extractInputStack(inventory, maidRecipesManager.getIngreInv(entityMaid), blockEntity);
         }
 
         pickupAction(entityMaid);
@@ -95,7 +97,6 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);
 
         pickupAction(entityMaid);
-
     }
 
     boolean beInnerCanCook(Container inventory, B be);

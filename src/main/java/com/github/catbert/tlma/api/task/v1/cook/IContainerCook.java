@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -20,7 +21,7 @@ public interface IContainerCook extends IMaidAction {
 
     int getInputSize();
 
-    default void extractOutputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
+    default void extractOutputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         ItemStack stackInSlot = inventory.getItem(this.getOutputSlot());
         ItemStack copy = stackInSlot.copy();
 
@@ -31,7 +32,7 @@ public interface IContainerCook extends IMaidAction {
     }
 
 
-    default void extractInputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
+    default void extractInputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         for (int i = this.getInputStartSlot(); i < this.getInputSize() + this.getInputStartSlot(); ++i) {
             ItemStack stackInSlot = inventory.getItem(i);
             ItemStack copy = stackInSlot.copy();
@@ -43,7 +44,7 @@ public interface IContainerCook extends IMaidAction {
         blockEntity.setChanged();
     }
 
-    default void insertInputStack(Container inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+    default void insertInputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 

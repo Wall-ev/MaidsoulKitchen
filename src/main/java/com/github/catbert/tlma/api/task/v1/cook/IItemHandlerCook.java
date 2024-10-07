@@ -1,14 +1,19 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
+import com.github.catbert.tlma.init.InitItems;
+import com.github.catbert.tlma.inventory.container.item.BagType;
+import com.github.catbert.tlma.item.bauble.ItemCookBag;
 import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IItemHandlerCook extends IMaidAction {
 
@@ -20,36 +25,36 @@ public interface IItemHandlerCook extends IMaidAction {
 
     int getInputSize();
 
-    default void extractOutputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
-        ItemStack stackInSlot = inventory.getStackInSlot(this.getOutputSlot());
+    default void extractOutputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
+        ItemStack stackInSlot = beInv.getStackInSlot(this.getOutputSlot());
         ItemStack copy = stackInSlot.copy();
 
         if (stackInSlot.isEmpty()) return;
-        inventory.extractItem(this.getOutputSlot(), stackInSlot.getCount(), false);
+        beInv.extractItem(this.getOutputSlot(), stackInSlot.getCount(), false);
         ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
         blockEntity.setChanged();
     }
 
 
-    default void extractInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity) {
+    default void extractInputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         for (int i = this.getInputStartSlot(); i < this.getInputSize() + this.getInputStartSlot(); ++i) {
-            ItemStack stackInSlot = inventory.getStackInSlot(i);
+            ItemStack stackInSlot = beInv.getStackInSlot(i);
             ItemStack copy = stackInSlot.copy();
             if (!stackInSlot.isEmpty()) {
-                inventory.extractItem(i, stackInSlot.getCount(), false);
+                beInv.extractItem(i, stackInSlot.getCount(), false);
                 ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
             }
         }
         blockEntity.setChanged();
     }
 
-    default void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+    default void insertInputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
         if (hasEnoughIngredient(amounts, ingredients)) {
             for (int i = getInputStartSlot(), j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
-                insertAndShrink(inventory, amounts.get(j), ingredients, j, i);
+                insertAndShrink(beInv, amounts.get(j), ingredients, j, i);
             }
             blockEntity.setChanged();
         }

@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -17,14 +18,14 @@ import java.util.*;
 public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends TaskFdPot<B, R> {
 
     @Override
-    public void insertInputStack(ItemStackHandler inventory, CombinedInvWrapper availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+    public void insertInputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
         if (hasEnoughIngredient(amounts, ingredients)) {
             for (int i = getInputStartSlot(), j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
                 if (ingredients.get(j).isEmpty()) continue;
-                insertAndShrink(inventory, amounts.get(i), ingredients, j, i);
+                insertAndShrink(beInv, amounts.get(i), ingredients, j, i);
             }
             blockEntity.setChanged();
         }

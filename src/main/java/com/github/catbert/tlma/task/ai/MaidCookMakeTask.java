@@ -60,6 +60,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
             if (blockEntity != null && task.isCookBE(blockEntity)) {
                 task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
+                this.maidRecipesManager.tranOutput2Chest(maid);
             }
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
             maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);

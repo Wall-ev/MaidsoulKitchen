@@ -83,6 +83,8 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         tryExtractItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+
+        maidRecipesManager.getLastInv().syncInv();
     }
 
     default void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
@@ -95,9 +97,6 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);
 
         pickupAction(entityMaid);
-
-        maidRecipesManager.getLastIngredientInv().syncInv();
-
     }
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
@@ -132,7 +131,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
 
         // 取出最终物品
-        extractOutputStack(inventory, availableInv, blockEntity);
+        extractOutputStack(inventory, maidRecipesManager.getOutputInv(entityMaid), blockEntity);
 
 
         boolean heated = isHeated(blockEntity);
@@ -140,7 +139,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
         if (!b && hasInput(inventory)) {
-            extractInputStack(inventory, availableInv, blockEntity);
+            extractInputStack(inventory, maidRecipesManager.getIngreInv(entityMaid), blockEntity);
         }
 
 
