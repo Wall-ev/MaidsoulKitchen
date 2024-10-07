@@ -1,7 +1,6 @@
 package com.github.catbert.tlma.inventory.container.item;
 
 import com.github.catbert.tlma.init.InitItems;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -9,44 +8,16 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class CookBagAbstractContainer extends AbstractContainerMenu {
     public final ItemStack cookBag;
-    public final ItemStackHandler container;
 
     public CookBagAbstractContainer(@Nullable MenuType<?> pMenuType, int id, Inventory inventory, ItemStack cookBag) {
         super(pMenuType, id);
         this.cookBag = cookBag;
-        this.container = ItemCookBag.getContainer(cookBag);
         this.addPlayerSlots(inventory);
-    }
-
-    protected void addBagTypeSlots(ItemStackHandler container) {
-
-        int yOffset = 22 + 1, i = 0;
-        for (int i1 = 0; i1 < BagType.INGREDIENT.size; i1++, yOffset += 18) {
-            for (int col = 0; col < 9; ++col, i++) {
-                this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset));
-            }
-        }
-        yOffset += 11;
-
-        List<BagType> list = Arrays.stream(BagType.values()).skip(1).toList();
-
-        for (BagType value : list) {
-            int size = value.size;
-            for (int row = 0; row < size; ++row, yOffset += 18) {
-                for (int col = 0; col < 9; ++col, i++) {
-                    this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset));
-                }
-            }
-        }
     }
 
     protected void addPlayerSlots(Inventory inventory) {
@@ -65,11 +36,7 @@ public abstract class CookBagAbstractContainer extends AbstractContainerMenu {
 
     @Override
     public void clicked(int slotId, int button, ClickType clickTypeIn, Player player) {
-        if (clickTypeIn == ClickType.SWAP) {
-            return;
-        }
         super.clicked(slotId, button, clickTypeIn, player);
-        ItemCookBag.setContainer(cookBag, container);
     }
 
     @Override

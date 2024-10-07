@@ -1,18 +1,31 @@
 package com.github.catbert.tlma.task.cook.handler.v2;
 
+import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.init.InitItems;
+import com.github.catbert.tlma.inventory.container.item.BagType;
+import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.task.cook.handler.CookBagInventory;
+import com.github.catbert.tlma.task.cook.handler.ICookInventory;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
 import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.*;
@@ -25,6 +38,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private List<String> recipeIds;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
+    private List<T> currentRecs = new ArrayList<>();
+    private ICookInventory lastIngredientInv;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
         this(maid, task, single, false);
@@ -73,8 +88,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
-//        LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
-//        LOGGER.info(recipesIngredients);
+        TLMAddon.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
+        TLMAddon.LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
         int size = recipesIngredients.size();
         Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);
@@ -89,7 +104,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
         boolean lastInv = isLastInv(maid);
-        if (lastInv) return;
+//        if (lastInv) return;
         createRecipesIngredients(maid);
     }
 
@@ -136,17 +151,103 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return recipes;
     }
 
+    public void mapChestIngredient(EntityMaid maid) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return;
+
+        List<BlockPos> ingredientPos = ItemCookBag.getBindModePoses(stackInSlot1, BagType.INGREDIENT.name);
+        if (ingredientPos.isEmpty()) return;
+
+        Map<BagType, ItemStackHandler> containers = ItemCookBag.getContainers(stackInSlot1);
+        if (!containers.containsKey(BagType.INGREDIENT)) return;
+        ItemStackHandler inventory = containers.get(BagType.INGREDIENT);
+//        ItemStackHandler inventory = ItemCookBag.getContainer(stackInSlot1);
+
+        ServerLevel level = (ServerLevel) maid.level;
+
+        List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
+        Map<Item, Integer> available = new HashMap<>();
+        Map<Item, List<ItemStack>> ingredientAmount = new HashMap<>();
+        // 汇集所有箱子的原料
+        for (BlockPos ingredientPo : ingredientPos) {
+            BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
+            if (blockEntity != null) {
+                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                    for (int i = 0; i < beInv.getSlots(); i++) {
+                        ItemStack stackInSlot = beInv.getStackInSlot(i);
+                        Item item = stackInSlot.getItem();
+
+                        if (stackInSlot.isEmpty()) continue;
+
+                        available.merge(item, stackInSlot.getCount(), Integer::sum);
+
+                        List<ItemStack> itemStacks = ingredientAmount.get(item);
+                        if (itemStacks == null) {
+                            ingredientAmount.put(item, Lists.newArrayList(stackInSlot));
+                        }else {
+                            itemStacks.add(stackInSlot);
+                        }
+                    }
+                });
+            }
+        }
+        // 获取配方所需的原料的份量
+        for (T t : this.currentRecs) {
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
+            if (!maxCount.getFirst().isEmpty()) {
+                _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
+            }
+        }
+        // 转移箱子原料至CookBag
+        for (Pair<List<Integer>, List<Item>> listListPair : _make) {
+            List<Integer> first = listListPair.getFirst();
+            List<Item> second = listListPair.getSecond();
+
+            for (int i = 0; i < first.size(); i++) {
+                Integer i1 = first.get(i);
+                Item item = second.get(i);
+
+                List<ItemStack> itemStacks = ingredientAmount.get(item);
+                for (ItemStack itemStack : itemStacks) {
+                    if (itemStack.isEmpty()) continue;
+                    int count = itemStack.getCount();
+                    // 减去当前物品的数量还是大于0，证明还没满足，就整体移动
+                    if (i1 - count > 0) {
+                        ItemHandlerHelper.insertItemStacked(inventory, itemStack, false);
+                    } else {
+                        ItemHandlerHelper.insertItemStacked(inventory, itemStack.split(i1), false);
+                        break;
+                    }
+                    i1 -= count;
+                }
+            }
+        }
+        // 更新CookBag的inventory
+        ItemCookBag.setContainer(stackInSlot1, containers);
+    }
+
     private void createRecipesIngredients(EntityMaid maid) {
         if (lastTaskRule == null || recipeIds == null) return;
 
-        this.maidInventory.refreshInv();
 //        recipesIngredients.clear();
 //        recipesIngredients = new ArrayList<>();
 
-        List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
-        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
+        this.currentRecs = getRecs(maid);
+        mapChestIngredient(maid);
+        this.maidInventory.refreshInv();
+        extracted(maid);
+        this.currentRecs.clear();
 
-        for (T t : this.getRecs(maid)) {
+//        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
+//        LOGGER.info(this.recipesIngredients);
+    }
+
+    private void extracted(EntityMaid maid) {
+        List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
+        Map<Item, Integer> available = new HashMap<>(getIngredientInv(maid).getInventoryItem());
+
+        for (T t : this.currentRecs) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
@@ -155,10 +256,26 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         repeat(_make, available, this.repeatTimes);
 
-        this.recipesIngredients = transform(_make, available);
+        this.recipesIngredients = transform(maid, _make, available);
+    }
 
-//        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
-//        LOGGER.info(this.recipesIngredients);
+    public ICookInventory getIngredientInv(EntityMaid maid) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.COOK_BAG.get()))  {
+            this.setLastIngredientInv(this.maidInventory);
+        } else {
+            this.setLastIngredientInv(new CookBagInventory(stackInSlot1));
+        }
+        return this.getLastIngredientInv();
+    }
+
+    private void setLastIngredientInv(ICookInventory lastIngredientInv) {
+        this.lastIngredientInv = lastIngredientInv;
+    }
+
+    public ICookInventory getLastIngredientInv() {
+        return lastIngredientInv;
     }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
@@ -215,8 +332,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        return list;
 //    }
 
-    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
-        Map<Item, List<ItemStack>> inventoryStack = this.maidInventory.getInventoryStack();
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
+        Map<Item, List<ItemStack>> inventoryStack = this.getIngredientInv(maid).getInventoryStack();
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
                 return inventoryStack.get(item);

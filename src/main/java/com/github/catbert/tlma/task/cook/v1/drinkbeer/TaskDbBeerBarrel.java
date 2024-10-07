@@ -175,9 +175,9 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
             }
 
             @Override
-            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
+            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
 //                repeat(oriList, available);
-                return super.transform(oriList, available);
+                return super.transform(maid, oriList, available);
             }
         };
     }

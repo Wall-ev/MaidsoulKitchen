@@ -26,15 +26,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 
 public class ItemCookBag extends Item implements MenuProvider {
     private static final int COOK_BAG_SIZE = getCookBagSize();
@@ -42,39 +42,9 @@ public class ItemCookBag extends Item implements MenuProvider {
     private static final String BIND_MODE_TAG = "CookBagBindMode";
     private static final String BIND_POS_TAG = "CookBagBindPos";
     private static final int BIND_SIZE = 3;
+
     public ItemCookBag() {
-        super(new Item.Properties());
-    }
-
-    @Override
-    public InteractionResult useOn(UseOnContext context) {
-        Level worldIn = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        Player player = context.getPlayer();
-        InteractionHand hand = context.getHand();
-        BlockEntity te = worldIn.getBlockEntity(pos);
-
-        if (hand != InteractionHand.MAIN_HAND) {
-            return super.useOn(context);
-        }
-        if (player == null) {
-            return super.useOn(context);
-        }
-
-        for (IChestType type : ChestManager.getAllChestTypes()) {
-            if (!type.isChest(te)) {
-                continue;
-            }
-            if (type.canOpenByPlayer(te, player)) {
-                ItemStack stack = player.getMainHandItem();
-                String bindMode = getBindMode(stack);
-                if (!bindMode.isEmpty()) {
-                    actionModePos(stack, bindMode, pos);
-                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
-                }
-            }
-        }
-        return super.useOn(context);
+        super(new Item.Properties().stacksTo(1));
     }
 
     public static void actionModePos(ItemStack stack, String mode, BlockPos blockPos) {
@@ -84,11 +54,11 @@ public class ItemCookBag extends Item implements MenuProvider {
             ListTag list = compound.getList(mode, Tag.TAG_COMPOUND);
             AtomicBoolean remove = new AtomicBoolean(false);
             list.removeIf(tag1 -> {
-                 if (NbtUtils.readBlockPos((CompoundTag) tag1).equals(blockPos)) {
-                     remove.set(true);
-                     return true;
-                 }
-                 return false;
+                if (NbtUtils.readBlockPos((CompoundTag) tag1).equals(blockPos)) {
+                    remove.set(true);
+                    return true;
+                }
+                return false;
             });
 
             if (!remove.get()) {
@@ -136,6 +106,40 @@ public class ItemCookBag extends Item implements MenuProvider {
         return size;
     }
 
+    public static Map<BagType, ItemStackHandler> getContainers(ItemStack stack) {
+        Map<BagType, ItemStackHandler> bagTypeItemStackHandlerHashMap = new HashMap<>();
+        if (stack.is(InitItems.COOK_BAG.get())) {
+            CompoundTag tag = stack.getTag();
+            if (tag == null || !tag.contains(CONTAINER_TAG, Tag.TAG_COMPOUND)) {
+                for (BagType value : BagType.values()) {
+                    ItemStackHandler handler = new ItemStackHandler(value.size * 9);
+                    bagTypeItemStackHandlerHashMap.put(value, handler);
+                }
+            } else {
+                CompoundTag compound = tag.getCompound(CONTAINER_TAG);
+                for (BagType value : BagType.values()) {
+                    ItemStackHandler handler = new ItemStackHandler(value.size * 9);
+                    if (compound.contains(value.name, Tag.TAG_COMPOUND)) {
+                        handler.deserializeNBT(compound.getCompound(value.name));
+                    }
+                    bagTypeItemStackHandlerHashMap.put(value, handler);
+                }
+            }
+        }
+        return bagTypeItemStackHandlerHashMap;
+    }
+
+    public static void setContainer(ItemStack stack, Map<BagType, ItemStackHandler> handlers) {
+        if (stack.is(InitItems.COOK_BAG.get())) {
+            CompoundTag orCreateTag = stack.getOrCreateTag();
+            CompoundTag compound = orCreateTag.getCompound(CONTAINER_TAG);
+            handlers.forEach((bagType, itemStackHandler) -> {
+                compound.put(bagType.name, itemStackHandler.serializeNBT());
+            });
+            orCreateTag.put(CONTAINER_TAG, compound);
+        }
+    }
+
     public static ItemStackHandler getContainer(ItemStack stack) {
         ItemStackHandler handler = new ItemStackHandler(COOK_BAG_SIZE);
         if (stack.is(InitItems.COOK_BAG.get())) {
@@ -153,26 +157,6 @@ public class ItemCookBag extends Item implements MenuProvider {
         }
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        if (handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer) {
-            NetworkHooks.openScreen((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
-            return InteractionResultHolder.success(playerIn.getMainHandItem());
-        }
-        return super.use(worldIn, playerIn, handIn);
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.literal("Cook Bag Container");
-    }
-
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new CookBagConfigContainer(pContainerId, pPlayerInventory, pPlayer.getMainHandItem());
-    }
-
     public static boolean openCookBagGuiFromSideTab(Player player, int tabIndex) {
         if (player instanceof ServerPlayer) {
             NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeItem(player.getMainHandItem()));
@@ -183,7 +167,7 @@ public class ItemCookBag extends Item implements MenuProvider {
     private static MenuProvider getGuiProviderFromSideTab(int tabIndex) {
         if (tabIndex == 0) {
             return getCookBagConfigContainer();
-        }else {
+        } else {
             return getCookBagContainer();
         }
     }
@@ -214,5 +198,56 @@ public class ItemCookBag extends Item implements MenuProvider {
                 return new CookBagConfigContainer(index, playerInventory, player.getMainHandItem());
             }
         };
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level worldIn = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Player player = context.getPlayer();
+        InteractionHand hand = context.getHand();
+        BlockEntity te = worldIn.getBlockEntity(pos);
+
+        if (hand != InteractionHand.MAIN_HAND) {
+            return super.useOn(context);
+        }
+        if (player == null) {
+            return super.useOn(context);
+        }
+
+        for (IChestType type : ChestManager.getAllChestTypes()) {
+            if (!type.isChest(te)) {
+                continue;
+            }
+            if (type.canOpenByPlayer(te, player)) {
+                ItemStack stack = player.getMainHandItem();
+                String bindMode = getBindMode(stack);
+                if (!bindMode.isEmpty()) {
+                    actionModePos(stack, bindMode, pos);
+                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                }
+            }
+        }
+        return super.useOn(context);
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+        if (handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer) {
+            NetworkHooks.openScreen((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
+            return InteractionResultHolder.success(playerIn.getMainHandItem());
+        }
+        return super.use(worldIn, playerIn, handIn);
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("Cook Bag Container");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new CookBagConfigContainer(pContainerId, pPlayerInventory, pPlayer.getMainHandItem());
     }
 }

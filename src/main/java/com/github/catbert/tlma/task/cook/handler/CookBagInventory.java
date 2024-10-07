@@ -1,29 +1,32 @@
 package com.github.catbert.tlma.task.cook.handler;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.catbert.tlma.inventory.container.item.BagType;
+import com.github.catbert.tlma.item.bauble.ItemCookBag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MaidInventory implements ICookInventory{
-    private final EntityMaid maid;
+public class CookBagInventory implements ICookInventory{
+    private final ItemStack stack;
+    private Map<BagType, ItemStackHandler> containers;
     private final Map<Item, Integer> inventoryItem = new HashMap<>();
     private final Map<Item, List<ItemStack>> inventoryStack = new HashMap<>();
     private final List<ItemStack> lastInvStack = new ArrayList<>();
 
-    public MaidInventory(EntityMaid maid) {
-        this.maid = maid;
+    public CookBagInventory(ItemStack stack) {
+        this.stack = stack;
         this.refreshInv();
     }
 
     public void refreshInv() {
         clearCacheStackInfo();
-        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        containers = ItemCookBag.getContainers(stack);
+        ItemStackHandler availableInv = containers.getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
         List<Integer> blackSlots = getBlackSlots();
         for (int i = 0; i < availableInv.getSlots(); i++) {
             ItemStack stack = availableInv.getStackInSlot(i);
@@ -85,11 +88,16 @@ public class MaidInventory implements ICookInventory{
         return inventoryItem;
     }
 
-    public EntityMaid getMaid() {
-        return maid;
+    public ItemStack getStack() {
+        return stack;
     }
 
     public List<ItemStack> getLastInvStack() {
         return lastInvStack;
+    }
+
+    @Override
+    public void syncInv() {
+        ItemCookBag.setContainer(stack, containers);
     }
 }

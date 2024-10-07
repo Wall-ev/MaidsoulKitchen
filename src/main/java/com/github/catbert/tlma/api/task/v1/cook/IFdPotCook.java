@@ -96,6 +96,8 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
         pickupAction(entityMaid);
 
+        maidRecipesManager.getLastIngredientInv().syncInv();
+
     }
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
