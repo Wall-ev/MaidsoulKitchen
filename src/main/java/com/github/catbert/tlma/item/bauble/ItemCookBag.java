@@ -5,8 +5,6 @@ import com.github.catbert.tlma.inventory.container.item.BagType;
 import com.github.catbert.tlma.inventory.container.item.CookBagAbstractContainer;
 import com.github.catbert.tlma.inventory.container.item.CookBagConfigContainer;
 import com.github.catbert.tlma.inventory.container.item.CookBagContainer;
-import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
-import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -215,19 +214,15 @@ public class ItemCookBag extends Item implements MenuProvider {
             return super.useOn(context);
         }
 
-        for (IChestType type : ChestManager.getAllChestTypes()) {
-            if (!type.isChest(te)) {
-                continue;
-            }
-            if (type.canOpenByPlayer(te, player)) {
-                ItemStack stack = player.getMainHandItem();
-                String bindMode = getBindMode(stack);
-                if (!bindMode.isEmpty()) {
-                    actionModePos(stack, bindMode, pos);
-                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
-                }
+        if (te instanceof RandomizableContainerBlockEntity rbe && rbe.canOpen(player)) {
+            ItemStack stack = player.getMainHandItem();
+            String bindMode = getBindMode(stack);
+            if (!bindMode.isEmpty()) {
+                actionModePos(stack, bindMode, pos);
+                return InteractionResult.sidedSuccess(worldIn.isClientSide);
             }
         }
+
         return super.useOn(context);
     }
 
