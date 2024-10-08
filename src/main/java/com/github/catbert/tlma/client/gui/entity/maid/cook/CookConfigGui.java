@@ -372,7 +372,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                                 recButton.active = false;
                             }
                             // 超出数量限制并且要继续添加配方，不可点击
-                            else if (cookTaskRecs1.size() + 1 >= (TaskConfig.COOK_SELECTED_RECIPES.get())
+                            else if (cookTaskRecs1.size() + (this.isStateTriggered ? 1 : -1) >= (TaskConfig.COOK_SELECTED_RECIPES.get())
                                     && !cookTaskRecs1.contains(id)) {
                                 recButton.active = false;
                             }else {
