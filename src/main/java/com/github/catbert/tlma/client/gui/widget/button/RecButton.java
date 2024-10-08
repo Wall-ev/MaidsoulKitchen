@@ -102,4 +102,8 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);
     }
+
+    public Recipe<?> getRecipe() {
+        return recipe;
+    }
 }

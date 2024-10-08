@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.*;
+import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
@@ -50,9 +51,10 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     protected final Zone resultDisplay = new Zone(6, 44, 152, 86);
     protected final Zone scrollDisplay = new Zone(161, 44, 9, 86);
     protected final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
-    private EditBox searchBox;
     @SuppressWarnings("rawtypes")
     private final List<Recipe> recipeList = new ArrayList<>();
+    private final List<RecButton> recButtons = new ArrayList<>();
+    private EditBox searchBox;
     private CompoundTag cookTaskInfo;
 
     public CookConfigGui(CookConfigContainer screenContainer, Inventory inv, Component titleIn) {
@@ -141,11 +143,13 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         String value = this.searchBox.getValue();
         this.searchBox.setValue(value);
     }
+
     @Override
     protected void containerTick() {
         super.containerTick();
         this.searchBox.tick();
     }
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.searchBox.mouseClicked(mouseX, mouseY, button)) {
@@ -156,6 +160,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
+
     @Override
     public boolean charTyped(char codePoint, int modifiers) {
         if (searchBox == null) {
@@ -171,6 +176,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         }
         return false;
     }
+
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         boolean hasKeyCode = InputConstants.getKey(keyCode, scanCode).getNumericKeyValue().isPresent();
@@ -188,6 +194,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             return this.searchBox.isFocused() && this.searchBox.isVisible() && keyCode != 256 || super.keyPressed(keyCode, scanCode, modifiers);
         }
     }
+
     @Override
     protected void insertText(String text, boolean overwrite) {
         if (overwrite) {
@@ -232,7 +239,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
 
             @Override
             public boolean isMouseOver(double pMouseX, double pMouseY) {
-                return this.visible && pMouseX >= (double)startX && pMouseX < (double)(startX + this.width) && pMouseY >= (double)startY && pMouseY < (double)(startY + this.height);
+                return this.visible && pMouseX >= (double) startX && pMouseX < (double) (startX + this.width) && pMouseY >= (double) startY && pMouseY < (double) (startY + this.height);
             }
         };
         searchBox.setVisible(visible);
@@ -288,14 +295,45 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 this.toggleSelected();
+
+                List<String> cookTaskRecs = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
+
+                for (RecButton recButton : recButtons) {
+                    // 不是定向模式
+                    if (!isSelected) {
+                        recButton.active = false;
+                    }
+                    // 超过数量上线并且是未含有的配方
+                    else if (cookTaskRecs.size() >= TaskConfig.COOK_SELECTED_RECIPES.get() && !cookTaskRecs.contains(recButton.getRecipe().getId().toString())) {
+                        recButton.active = false;
+                    } else {
+                        recButton.active = true;
+                    }
+                }
+
                 NetworkHandler.sendToServer(new SetCookTaskModeMessage(maid.getId(), task.getUid().toString(), this.isSelected ? CookTaskData.Mode.SELECT.getUid() : CookTaskData.Mode.RANDOM.getUid()));
             }
         };
         this.addRenderableWidget(typeButton);
     }
 
+    // 适配鼠标类型显示
+    private void initRecButtonActive(RecButton recButton, String cookTaskMode, List<String> cookTaskRecs) {
+        if (!cookTaskMode.equals(CookTaskData.Mode.SELECT.getUid())) {
+            recButton.active = false;
+            return;
+        }
+        if (cookTaskRecs.size() >= TaskConfig.COOK_SELECTED_RECIPES.get() && !cookTaskRecs.contains(recButton.getRecipe().getId().toString())) {
+            recButton.active = false;
+            return;
+        }
+        recButton.active = true;
+    }
+
     @SuppressWarnings("rawtypes")
     private void addResultInfo() {
+        this.recButtons.clear();
+
         int startX = visualZone.startX() + resultDisplay.startX();
         int startY = visualZone.startY() + resultDisplay.startY();
 
@@ -308,8 +346,45 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 Recipe recipe = this.recipeList.get(index++);
                 int x = startX + (ref.rowWidth() + ref.rowSpacing()) * col;
                 int y = startY + (ref.colHeight() + ref.colSpacing()) * row;
-                RecButton recButton = new RecButton(maid, cookTaskInfo, recipe, x, y);
+                List<String> cookTaskRecs = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
+                RecButton recButton = new RecButton(maid, cookTaskInfo, recipe, x, y) {
+                    @Override
+                    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+                        return super.mouseClicked(pMouseX, pMouseY, pButton);
+                    }
+
+                    @Override
+                    public void onClick(double pMouseX, double pMouseY) {
+                        super.onClick(pMouseX, pMouseY);
+
+                        boolean selectedType = MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid());
+                        List<String> cookTaskRecs1 = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
+                        for (RecButton recButton : recButtons) {
+                            String id = recButton.getRecipe().getId().toString();
+
+                            if (id.equals(this.getRecipe().getId().toString())) {
+                                this.active = true;
+                                continue;
+                            }
+
+                            // 不是选择模式，不可点击
+                            if (!selectedType) {
+                                recButton.active = false;
+                            }
+                            // 超出数量限制并且要继续添加配方，不可点击
+                            else if (cookTaskRecs1.size() + 1 >= (TaskConfig.COOK_SELECTED_RECIPES.get())
+                                    && !cookTaskRecs1.contains(id)) {
+                                recButton.active = false;
+                            }else {
+                                recButton.active = true;
+                            }
+                        }
+                    }
+                };
+                initRecButtonActive(recButton, MaidTaskDataUtil.getCookTaskMode(cookTaskInfo), cookTaskRecs);
                 this.addRenderableWidget(recButton);
+
+                this.recButtons.add(recButton);
             }
         }
     }
@@ -360,7 +435,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private void drawSplitZoneCard(GuiGraphics graphics) {
         int startX = width - leftPos - (-typeDisplay.startX()) - typeDisplay.width() - 2;
         int startY = visualZone.startY() + typeDisplay.startY();
-        graphics.fill(startX - 1, startY, startX , startY + typeDisplay.width(), Color.BLACK.getRGB());
+        graphics.fill(startX - 1, startY, startX, startY + typeDisplay.width(), Color.BLACK.getRGB());
     }
 
     private void drawScrollInfoBar(GuiGraphics graphics) {
