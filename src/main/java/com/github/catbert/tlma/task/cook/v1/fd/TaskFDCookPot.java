@@ -2,9 +2,17 @@ package com.github.catbert.tlma.task.cook.v1.fd;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
 import com.github.catbert.tlma.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -72,4 +80,19 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     public boolean isHeated(CookingPotBlockEntity be) {
         return be.isHeated();
     }
+
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return Component.literal("Maid Cook Config Container2");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
+                return new CookConfigContainer2(index, playerInventory, entityId);
+            }
+        };    }
 }

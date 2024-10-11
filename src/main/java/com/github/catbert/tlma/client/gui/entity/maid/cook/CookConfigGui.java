@@ -117,6 +117,11 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     @Override
+    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+        super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
         // 176, 137
         boolean isCookSettingMainZone = mouseX >= visualZone.startX() && mouseY >= visualZone.startY() && mouseX < visualZone.startX() + visualZone.width() && mouseY < visualZone.startY() + visualZone.height();
@@ -294,7 +299,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         TypeButton typeButton = new TypeButton(startX, startY, typeDisplay.width(), typeDisplay.height(), MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
             @Override
             public void onClick(double mouseX, double mouseY) {
-                this.toggleSelected();
+                this.toggleState();
 
                 List<String> cookTaskRecs = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
 

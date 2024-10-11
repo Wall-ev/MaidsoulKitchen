@@ -13,6 +13,7 @@ import net.minecraft.nbt.Tag;
 import java.util.List;
 
 public final class MaidTaskDataUtil {
+    public static final String TASK_DATA_TAG = "TaskData";
     public static final String COOK_TASK_TAG = "Cook";
     public static final String COOK_TASK_MODE_TAG = "Mode";
     public static final String COOK_TASK_RECS_TAG = "Recs";
@@ -22,11 +23,11 @@ public final class MaidTaskDataUtil {
     public static final int FRUIT_FARM_SEARCH_YOFFSET_DEFAULT = 3;
 
     public static CompoundTag getTaskData(EntityMaid maid) {
-        return maid.getTaskData();
+        return maid.getPersistentData().getCompound(TASK_DATA_TAG);
     }
 
     public static void setTaskData(EntityMaid maid, CompoundTag compoundTag) {
-        maid.setTaskData(compoundTag);
+        maid.getPersistentData().put(TASK_DATA_TAG, compoundTag);
     }
 
     /**

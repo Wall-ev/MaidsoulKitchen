@@ -13,6 +13,7 @@ public final class InitContainer {
     public static final DeferredRegister<MenuType<?>> CONTAINER_TYPE = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TLMAddon.MOD_ID);
 
     public static final RegistryObject<MenuType<CookConfigContainer>> COOK_CONTAINER = CONTAINER_TYPE.register("cook_config_container", () -> CookConfigContainer.TYPE);
+    public static final RegistryObject<MenuType<CookConfigContainer2>> COOK_CONTAINER2 = CONTAINER_TYPE.register("cook_config_container2", () -> CookConfigContainer2.TYPE);
     public static final RegistryObject<MenuType<CompatFarmConfigContainer>> COMPAT_FARM_CONTAINER = CONTAINER_TYPE.register("compat_farm_config_container", () -> CompatFarmConfigContainer.TYPE);
     public static final RegistryObject<MenuType<FruitFarmConfigContainer>> FRUIT_FARM_CONTAINER = CONTAINER_TYPE.register("fruit_farm_config_container", () -> FruitFarmConfigContainer.TYPE);
     public static final RegistryObject<MenuType<NoConfigContainer>> NO_CONFIG_CONTAINER = CONTAINER_TYPE.register("no_config_container", () -> NoConfigContainer.TYPE);

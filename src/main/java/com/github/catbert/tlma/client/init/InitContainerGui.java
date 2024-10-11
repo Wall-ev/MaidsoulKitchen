@@ -21,6 +21,7 @@ public final class InitContainerGui {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent evt) {
         evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer.TYPE, CookConfigGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer2.TYPE, CookConfigGui2::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatFarmConfigContainer.TYPE, CompatFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer.TYPE, FruitFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(NoConfigContainer.TYPE, NoConfigGui::new));

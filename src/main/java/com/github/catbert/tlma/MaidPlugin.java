@@ -6,6 +6,7 @@ import com.github.catbert.tlma.config.subconfig.RegisterConfig;
 import com.github.catbert.tlma.entity.backpack.OldBigBackpack;
 import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.init.InitItems;
+import com.github.catbert.tlma.init.InitTaskData;
 import com.github.catbert.tlma.item.bauble.BurnProtectBauble;
 import com.github.catbert.tlma.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.catbert.tlma.task.cook.v1.bakery.TaskDbkStove;
@@ -34,6 +35,7 @@ import com.github.tartaricacid.touhoulittlemaid.client.overlay.MaidTipsOverlay;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.GeckoEntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.entity.backpack.BackpackManager;
+import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.meal.MaidMealManager;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
@@ -153,6 +155,13 @@ public final class MaidPlugin implements ILittleMaid {
     @Override
     public void addMaidMeal(MaidMealManager manager) {
 
+    }
+
+    @Override
+    public void registerTaskData(TaskDataRegister register) {
+        if (Mods.FD.isLoaded && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
+            InitTaskData.registerAll(register);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

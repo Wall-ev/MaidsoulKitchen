@@ -21,7 +21,7 @@ public class TypeButton extends NormalTooltipButton {
         this.setModeUid(isSelected);
     }
 
-    protected void toggleSelected() {
+    protected void toggleState() {
         this.isSelected = !this.isSelected;
         this.setModeUid(this.isSelected);
     }
