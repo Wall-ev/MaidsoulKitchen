@@ -27,7 +27,7 @@ import java.util.Locale;
 
 
 public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "sereneseasons_farm");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "sereneseasons_farm");
 
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
@@ -44,7 +44,7 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override

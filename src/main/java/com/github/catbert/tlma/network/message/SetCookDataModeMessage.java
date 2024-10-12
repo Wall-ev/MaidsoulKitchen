@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.network.message;
 
-import com.github.catbert.tlma.entity.data.inner.CookData;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;

@@ -8,18 +8,17 @@ import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.CFRuleButton;
 import com.github.catbert.tlma.client.gui.widget.button.ResultInfo;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
-import com.github.catbert.tlma.inventory.container.maid.FruitFarmConfigContainer;
+import com.github.catbert.tlma.entity.data.inner.task.BerryData;
+import com.github.catbert.tlma.inventory.container.maid.BerryFarmConfigContainer2;
+import com.github.catbert.tlma.inventory.container.maid.CompatFarmConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
-import com.github.catbert.tlma.network.message.FarmTaskRuleActionMessage;
-import com.github.catbert.tlma.network.message.SetFruitFarmSearchYOffsetMessage;
+import com.github.catbert.tlma.network.message.ActionBerryFarmRuleMessage;
+import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,7 +26,6 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,92 +35,38 @@ import java.util.List;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
-public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContainer> {
+public class BerryFarmConfigGui2 extends MaidTaskConfigGui<BerryFarmConfigContainer2> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/farm_guide.png");
-    protected final Zone scrollDisplay = new Zone(161, 47, 9, 110);
-    protected final Zone ruleDisplay = new Zone(6, 47, 152, 110);
-    protected final ResultInfo ref = new ResultInfo(3, 1, 152, 24, 0, 5);
+    protected final Zone scrollDisplay = new Zone(161, 20, 9, 110);
+    protected final Zone ruleDisplay = new Zone(6, 20, 152, 110);
+    protected final ResultInfo ref = new ResultInfo(4, 1, 152, 24, 0, 5);
     private final int limitSize = ref.row() * ref.col();
     private List<ICompatFarmHandler> handlers;
-    private CompoundTag farmTaskInfo;
-    private int retrieval;
+    private BerryData farmTaskInfo;
 
-    public FruitFarmConfigGui(FruitFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
+    public BerryFarmConfigGui2(BerryFarmConfigContainer2 screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(Component.translatable("gui.touhou_little_maid_addon.farm_config_screen.title")));
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
         this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
-        this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
-        this.retrieval = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, task.getUid().toString());
+        this.farmTaskInfo = maid.getOrCreateData(((TaskBerryFarm) task).getCookDataKey(), new BerryData());
     }
 
     @Override
     protected void initAdditionWidgets() {
         super.initAdditionWidgets();
-        this.addRetrievalButton();
         this.addRuleButton();
         this.addScrollButton();
     }
 
     @Override
-    protected void initBaseData() {
-        super.initBaseData();
-    }
-
-    private void addRetrievalButton() {
-        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", "--");
-        int x = font.width(literal);
-        int startX = visualZone.startX() + 6 + 26 + x;
-        int startY = visualZone.startY() + 22 + 2;
-        ImageButton addButton = new ImageButton(startX, startY, 17, 18, 80, 238, 0, TEXTURE, b -> {
-            if (this.retrieval >= 5) {
-                return;
-            }
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), ++this.retrieval));
-        });
-        Button downButton = new ImageButton(startX + 17, startY, 17, 18, 80 + 17, 238, 0, TEXTURE, b -> {
-            if (this.retrieval <= -5) {
-                return;
-            }
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), --this.retrieval));
-        });
-        this.addRenderableWidget(addButton);
-        this.addRenderableWidget(downButton);
-    }
-
-    @Override
     protected void renderAddition(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.renderAddition(graphics, mouseX, mouseY, partialTicks);
-        this.renderRetrieval(graphics);
         this.drawScrollInfoBar(graphics);
-    }
-
-    private void renderRetrieval(GuiGraphics graphics) {
-        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", retrieval);
-        // 暂时先这样... todo
-        int width = font.width(literal);
-        int x = visualZone.startX() + 6;
-        int y = visualZone.startY() + 22;
-        graphics.blit(TEXTURE, x, y, 0 ,236, 22, 20);
-        // 暂时先这样... todo
-        if (retrieval >= 0) {
-            width += font.width(Component.literal("-"));
-            for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
-            }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76,236, 8, 20);
-        }else {
-            for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
-            }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76 ,236, 8, 20);
-        }
-        graphics.renderItem(task.getIcon(), x + 2, y + 2);
-        graphics.drawString(font, literal, x + 22, y + 7, Color.WHITE.getRGB(), false);
     }
 
     @Override
@@ -155,12 +99,13 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
             ICompatFarmHandler handler = handlers.get(i);
             if (!handler.canLoad()) continue;
             String handlerUid = ((IHandlerInfo) handler).getUid().toString();
-            boolean contains = MaidTaskDataUtil.getFarmTaskRules(farmTaskInfo, this.task.getUid().toString()).contains(handlerUid);
+            boolean contains = farmTaskInfo.rules().contains(handlerUid);
             CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
-                    NetworkHandler.sendToServer(new FarmTaskRuleActionMessage(maid.getId(), task.getUid().toString(), this.handlerInfo.getUid().toString(), this.isSelected));
+                    farmTaskInfo.addOrRemoveRule(this.handlerInfo.getUid().toString());
+                    NetworkHandler.sendToServer(new ActionBerryFarmRuleMessage(maid.getId(), ((TaskBerryFarm) task).getCookDataKey().getKey(), this.handlerInfo.getUid().toString()));
                 }
             };
             this.addRenderableWidget(cfRuleButton);
@@ -178,7 +123,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
                 this.init();
             }
         });
-        Button downButton = new ImageButton(startX, startY + 8 + 1 + 66, 9, 7, 237, 10, 14, TEXTURE, b -> {
+        Button downButton = new ImageButton(startX, startY + 8 + 1 + 95, 9, 7, 237, 10, 14, TEXTURE, b -> {
             if (this.solIndex < (this.handlers.size() - 1) / limitSize) {
                 this.solIndex++;
                 this.init();
@@ -191,16 +136,13 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     private void drawScrollInfoBar(GuiGraphics graphics) {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 2);
-        graphics.blit(TEXTURE, startX, startY + 8 + 2, 247, 10, 9, 62);
-        graphics.blit(TEXTURE, startX, startY + 8 + 2 + 62, 247, 100, 9, 2);
+        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 95);
         drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
     }
 
-    // 95 - 29 = 66;
     private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
         if ((this.handlers.size() - 1) / limitSize >= 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((67 - 12) * getCurrentScroll()), 228, 0, 7, 9);
+            graphics.blit(TEXTURE, startX, startY + (int) ((95 - 12) * getCurrentScroll()), 228, 0, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 235, 0, 7, 9);
         }

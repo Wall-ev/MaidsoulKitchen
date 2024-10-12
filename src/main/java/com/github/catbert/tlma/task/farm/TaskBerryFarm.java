@@ -5,16 +5,25 @@ import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
+import com.github.catbert.tlma.entity.data.inner.task.BerryData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
+import com.github.catbert.tlma.inventory.container.maid.BerryFarmConfigContainer2;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.task.farm.handler.v1.berry.*;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,8 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 
-public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask, IAddonFarmTask {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
+public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
 
     @Override
     public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
@@ -71,7 +80,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -87,5 +96,26 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler>, IFakePlayerTask
     @Override
     public TaskBookEntryType getBookEntryType() {
         return TaskBookEntryType.BERRY_FARM;
+    }
+
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return Component.literal("Maid Berry Farm Config Container");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
+                return new BerryFarmConfigContainer2(index, playerInventory, entityId);
+            }
+        };
+    }
+
+    @Override
+    public TaskDataKey<BerryData> getCookDataKey() {
+        return RegisterData.BERRY_FARM;
     }
 }

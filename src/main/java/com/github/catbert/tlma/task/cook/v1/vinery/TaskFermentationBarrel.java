@@ -1,9 +1,10 @@
 package com.github.catbert.tlma.task.cook.v1.vinery;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 
 public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarrelBlockEntity, FermentationBarrelRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dv_fermentation_barrel");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dv_fermentation_barrel");
 
     @Override
     public boolean isHeated(FermentationBarrelBlockEntity be) {
@@ -54,7 +55,7 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -66,5 +67,10 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
     protected boolean tExtraStartRecipe(FermentationBarrelRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
         // 别问我为什么这里是硬编码,葡园酒香这里就是硬编码...
        return extraRecipe(ObjectRegistry.WINE_BOTTLE.get(), recipe, available, single, canMake, itemTimes, invIngredient);
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.FERMENTATION_BARREL;
     }
 }

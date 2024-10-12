@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.network.message;
 
-import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.entity.data.inner.task.FruitData;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -12,19 +12,19 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ActionCookDataRecMessage(int entityId, ResourceLocation dataKey, String rec) {
+public record SetFruitFarmSearchYOffsetMessage2(int entityId, ResourceLocation dataKey, int searchYOffset) {
 
-    public static void encode(ActionCookDataRecMessage message, FriendlyByteBuf buf) {
+    public static void encode(SetFruitFarmSearchYOffsetMessage2 message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityId);
         buf.writeResourceLocation(message.dataKey);
-        buf.writeUtf(message.rec);
+        buf.writeInt(message.searchYOffset);
     }
 
-    public static ActionCookDataRecMessage decode(FriendlyByteBuf buf) {
-        return new ActionCookDataRecMessage(buf.readInt(), buf.readResourceLocation(), buf.readUtf());
+    public static SetFruitFarmSearchYOffsetMessage2 decode(FriendlyByteBuf buf) {
+        return new SetFruitFarmSearchYOffsetMessage2(buf.readInt(), buf.readResourceLocation(), buf.readInt());
     }
 
-    public static void handle(ActionCookDataRecMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+    public static void handle(SetFruitFarmSearchYOffsetMessage2 message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         if (context.getDirection().getReceptionSide().isServer()) {
             context.enqueueWork(() -> {
@@ -34,10 +34,10 @@ public record ActionCookDataRecMessage(int entityId, ResourceLocation dataKey, S
                 }
                 Entity entity = sender.level.getEntity(message.entityId);
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
-                    TaskDataKey<CookData> value = TaskDataRegister.getValue(message.dataKey);
-                    CookData cookData = maid.getOrCreateData(value, new CookData());
-                    cookData.addOrRemoveRec(message.rec);
-                    maid.setAndSyncData(value, cookData);
+                    TaskDataKey<FruitData> value = TaskDataRegister.getValue(message.dataKey);
+                    FruitData fruitData = maid.getOrCreateData(value, new FruitData());
+                    fruitData.setSearchYOffset(message.searchYOffset);
+                    maid.setAndSyncData(value, fruitData);
                 }
             });
         }

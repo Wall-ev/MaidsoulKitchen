@@ -30,6 +30,12 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionCookDataRecMessage.class, ActionCookDataRecMessage::encode, ActionCookDataRecMessage::decode, ActionCookDataRecMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetMessage2.class, SetFruitFarmSearchYOffsetMessage2::encode, SetFruitFarmSearchYOffsetMessage2::decode, SetFruitFarmSearchYOffsetMessage2::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, ActionBerryFarmRuleMessage.class, ActionBerryFarmRuleMessage::encode, ActionBerryFarmRuleMessage::decode, ActionBerryFarmRuleMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, ActionFruitFarmRuleMessage.class, ActionFruitFarmRuleMessage::encode, ActionFruitFarmRuleMessage::decode, ActionFruitFarmRuleMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
         CHANNEL.registerMessage(i++, SetCookTaskModeMessage.class, SetCookTaskModeMessage::encode, SetCookTaskModeMessage::decode, SetCookTaskModeMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));

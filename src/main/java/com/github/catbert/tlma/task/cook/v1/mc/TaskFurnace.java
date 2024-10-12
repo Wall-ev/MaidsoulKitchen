@@ -1,12 +1,14 @@
 package com.github.catbert.tlma.task.cook.v1.mc;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.mixin.mc.AbstractFurnaceAccessor;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.catbert.tlma.task.cook.v1.common.TaskBaseContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -265,5 +267,10 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     private boolean isFuel(ItemStack stack) {
         return AbstractFurnaceBlockEntity.isFuel(stack);
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.MC_FURNACE;
     }
 }

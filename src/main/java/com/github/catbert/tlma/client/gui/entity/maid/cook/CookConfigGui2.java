@@ -5,13 +5,11 @@ import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.entity.data.inner.CookData;
-import com.github.catbert.tlma.init.InitTaskData;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ActionCookDataRecMessage;
 import com.github.catbert.tlma.network.message.SetCookDataModeMessage;
-import com.github.catbert.tlma.task.cook.v1.fd.TaskFDCookPot;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -68,7 +66,7 @@ public class CookConfigGui2 extends MaidTaskConfigGui<CookConfigContainer2> {
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        if (!(task instanceof TaskFDCookPot )) {
+        if (!(task instanceof ICookTask<?, ?>)) {
             return;
         }
 
@@ -77,7 +75,8 @@ public class CookConfigGui2 extends MaidTaskConfigGui<CookConfigContainer2> {
     }
 
     private void initCookData() {
-        this.cookData = maid.getOrCreateData(InitTaskData.FD_COOK_DATA, new CookData());
+        this.cookTask = (ICookTask<?, ?>) task;
+        this.cookData = maid.getOrCreateData(cookTask.getCookDataKey(), new CookData());
     }
 
     @SuppressWarnings("all")
@@ -319,7 +318,7 @@ public class CookConfigGui2 extends MaidTaskConfigGui<CookConfigContainer2> {
 
     private void setAndSyncMode(String mode) {
         cookData.setMode(mode);
-        NetworkHandler.sendToServer(new SetCookDataModeMessage(maid.getId(), InitTaskData.FD_COOK_DATA.getKey(), mode));
+        NetworkHandler.sendToServer(new SetCookDataModeMessage(maid.getId(), cookTask.getCookDataKey().getKey(), mode));
     }
 
     private void setAndSyncMode(boolean isSelected) {
@@ -396,8 +395,8 @@ public class CookConfigGui2 extends MaidTaskConfigGui<CookConfigContainer2> {
     }
 
     private void arAndSyncRec(String rec) {
-        cookData.addOrRemovalRec(rec);
-        NetworkHandler.sendToServer(new ActionCookDataRecMessage(maid.getId(), InitTaskData.FD_COOK_DATA.getKey(), rec));
+        cookData.addOrRemoveRec(rec);
+        NetworkHandler.sendToServer(new ActionCookDataRecMessage(maid.getId(), cookTask.getCookDataKey().getKey(), rec));
     }
 
     // 161, 25 189, 74

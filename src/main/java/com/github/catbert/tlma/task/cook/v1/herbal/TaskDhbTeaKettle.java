@@ -1,9 +1,10 @@
 package com.github.catbert.tlma.task.cook.v1.herbal;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdBaseContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 
 
 public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEntity, TeaKettleRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dhb_tea_kettle");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dhb_tea_kettle");
 
     @Override
     public boolean isHeated(TeaKettleBlockEntity be) {
@@ -55,11 +56,16 @@ public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEnti
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
     public ItemStack getIcon() {
         return ObjectRegistry.TEA_KETTLE.get().asItem().getDefaultInstance();
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.DHB_TEA_KETTLE;
     }
 }

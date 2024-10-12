@@ -1,9 +1,10 @@
 package com.github.catbert.tlma.task.cook.v1.herbal;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 
 public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, CauldronRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dhb_cauldron");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dhb_cauldron");
 
     @Override
     public boolean isHeated(CauldronBlockEntity be) {
@@ -55,7 +56,7 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -66,5 +67,10 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
     @Override
     protected boolean tExtraStartRecipe(CauldronRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
        return extraRecipe(Items.GLASS_BOTTLE.asItem(), recipe, available, single, canMake, itemTimes, invIngredient);
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.DHB_CAULDRON;
     }
 }

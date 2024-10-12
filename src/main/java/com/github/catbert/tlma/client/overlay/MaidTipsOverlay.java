@@ -33,12 +33,12 @@ public class MaidTipsOverlay implements IGuiOverlay {
     }
 
     private static MutableComponent checkSpecialTips(ItemStack mainhandItem, EntityMaid maid, LocalPlayer player) {
-        if (maid.isOwnedBy(player) && mainhandItem.is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.NAME) {
-            return Component.translatable("overlay.touhou_little_maid_addon.book.tips")
-                    .append(Component.translatable("overlay.touhou_little_maid_addon.book.tips.search_yoffset")
-                            .append(MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, maid.getTask().getUid().toString()) + ""));
-
-        }
+//        if (maid.isOwnedBy(player) && mainhandItem.is(Items.BOOK) && maid.getTask().getUid() == TaskFruitFarm.UID) {
+//            return Component.translatable("overlay.touhou_little_maid_addon.book.tips")
+//                    .append(Component.translatable("overlay.touhou_little_maid_addon.book.tips.search_yoffset")
+//                            .append(MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, maid.getTask().getUid().toString()) + ""));
+//
+//        }
         return null;
     }
 

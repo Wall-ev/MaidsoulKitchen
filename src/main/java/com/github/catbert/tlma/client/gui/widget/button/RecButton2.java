@@ -2,10 +2,8 @@ package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.entity.data.inner.CookData;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
-import com.github.catbert.tlma.network.NetworkHandler;
-import com.github.catbert.tlma.network.message.CookTaskRecActionMessage;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.Minecraft;

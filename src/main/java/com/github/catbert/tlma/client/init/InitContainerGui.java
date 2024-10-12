@@ -2,9 +2,7 @@ package com.github.catbert.tlma.client.init;
 
 import com.github.catbert.tlma.client.gui.entity.maid.NoConfigGui;
 import com.github.catbert.tlma.client.gui.entity.maid.cook.*;
-import com.github.catbert.tlma.client.gui.entity.maid.farm.CompatFarmConfigGui;
-import com.github.catbert.tlma.client.gui.entity.maid.farm.CompatMelonConfigGui;
-import com.github.catbert.tlma.client.gui.entity.maid.farm.FruitFarmConfigGui;
+import com.github.catbert.tlma.client.gui.entity.maid.farm.*;
 import com.github.catbert.tlma.client.gui.item.CookBagConfigContainerGui;
 import com.github.catbert.tlma.client.gui.item.CookBagGui;
 import com.github.catbert.tlma.inventory.container.item.CookBagConfigContainer;
@@ -23,7 +21,9 @@ public final class InitContainerGui {
         evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer.TYPE, CookConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer2.TYPE, CookConfigGui2::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatFarmConfigContainer.TYPE, CompatFarmConfigGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(BerryFarmConfigContainer2.TYPE, BerryFarmConfigGui2::new));
         evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer.TYPE, FruitFarmConfigGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer2.TYPE, FruitFarmConfigGui2::new));
         evt.enqueueWork(() -> MenuScreens.register(NoConfigContainer.TYPE, NoConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatMelonConfigContainer.TYPE, CompatMelonConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CookBagContainer.TYPE, CookBagGui::new));

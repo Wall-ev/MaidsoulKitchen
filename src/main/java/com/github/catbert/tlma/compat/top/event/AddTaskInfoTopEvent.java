@@ -2,6 +2,9 @@ package com.github.catbert.tlma.compat.top.event;
 
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
+import com.github.catbert.tlma.entity.data.inner.task.BerryData;
+import com.github.catbert.tlma.entity.data.inner.task.FruitData;
+import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.util.MaidTaskDataUtil;
@@ -18,6 +21,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddTaskInfoTopEvent {
@@ -29,17 +33,26 @@ public class AddTaskInfoTopEvent {
         ProbeMode probeMode = event.getProbeMode();
         EntityMaid maid = event.getMaid();
 
-        if (!(maid.getTask() instanceof ICompatFarm<?> farmTask)) return;
-        if (farmTask.getUid().equals(TaskFruitFarm.NAME)) {
+        if (!(maid.getTask() instanceof ICompatFarm<?, ?> farmTask)) return;
+        if (farmTask.getUid().equals(TaskFruitFarm.UID)) {
             // todo: sync
-            int fruitFarmSearchYOffset = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, farmTask.getUid().toString());
+            FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm)farmTask).getCookDataKey(), new FruitData());
+            int fruitFarmSearchYOffset = fruitData.searchYOffset();
             probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text(Component.translatable("top.touhou_little_maid_addon.entity_maid.farm.fruit.search_y_offset")
                             .append(Component.literal("" + fruitFarmSearchYOffset)));
         }
 
         boolean first = true;
-        List<String> farmTaskRulesList = MaidTaskDataUtil.getFarmTaskRulesList(maid, farmTask.getUid().toString());
+        List<String> farmTaskRulesList = new ArrayList<>();
+        if (farmTask instanceof TaskFruitFarm fruitFarm) {
+            FruitData fruitData = maid.getOrCreateData(fruitFarm.getCookDataKey(), new FruitData());
+            farmTaskRulesList = fruitData.rules();
+        } else if (farmTask instanceof TaskBerryFarm berryFarm){
+            BerryData berryData = maid.getOrCreateData(berryFarm.getCookDataKey(), new BerryData());
+            farmTaskRulesList = berryData.rules();
+        }
+
         for (IFarmHandlerManager<?> handler : farmTask.getManagerHandlerValues()) {
             IHandlerInfo farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();

@@ -60,9 +60,9 @@ public final class MaidTaskDataUtil {
         }
 
         ListTag tags = new ListTag();
-        if (taskUid.equals(TaskFruitFarm.NAME.toString())) {
+        if (taskUid.equals(TaskFruitFarm.UID.toString())) {
             tags.add(StringTag.valueOf(FruitHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
-        } else if (taskUid.equals(TaskBerryFarm.NAME.toString())) {
+        } else if (taskUid.equals(TaskBerryFarm.UID.toString())) {
             tags.add(StringTag.valueOf(BerryHandlerManager.MINECRAFT.getFarmHandler().getUid().toString()));
             tags.add(StringTag.valueOf(BerryHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
             compound.put(FARM_TASK_RULES_TAG, tags);
@@ -176,8 +176,8 @@ public final class MaidTaskDataUtil {
         cookTaskMode4.removeIf(tag -> tag.getAsString().equals(rec));
     }
 
-//    public static void addOrRemoveCookTaskRec(EntityMaid maid, String taskUid, String rec) {
-//        ListTag cookTaskMode4 = getCookTaskRecs(maid, taskUid);
+//    public static void addOrRemoveCookTaskRec(EntityMaid maid, String dataKey, String rec) {
+//        ListTag cookTaskMode4 = getCookTaskRecs(maid, dataKey);
 //        StringTag recTag = StringTag.valueOf(rec);
 //        if (cookTaskMode4.contains(recTag)) {
 //            cookTaskMode4.remove(recTag);

@@ -1,11 +1,12 @@
 package com.github.catbert.tlma.task.cook.v1.drinkbeer;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.mixin.drinkbeer.BeerBarrelBlockAccessor;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.catbert.tlma.task.cook.v1.common.TaskBaseContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity;
@@ -28,7 +29,7 @@ import java.util.*;
 
 
 public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntity, BrewingRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "drinkbeer_beerbarrel");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "drinkbeer_beerbarrel");
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
@@ -42,7 +43,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -255,5 +256,10 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
                 blockEntity.setChanged();
             }
         }
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.DB_BEER;
     }
 }

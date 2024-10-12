@@ -1,10 +1,9 @@
-package com.github.catbert.tlma.entity.data.inner;
+package com.github.catbert.tlma.entity.data.inner.task;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -18,7 +17,7 @@ public class CookData {
     private List<String> recs;
 
     public CookData() {
-        this(Mode.RANDOM.name, new ArrayList<>());
+        this(Mode.RANDOM.name, Lists.newArrayList());
     }
 
     public CookData(String mode, List<String> recs) {
@@ -34,7 +33,7 @@ public class CookData {
         this.recs.remove(rec);
     }
 
-    public void addOrRemovalRec(String rec) {
+    public void addOrRemoveRec(String rec) {
         if (this.recs.contains(rec)) {
             this.recs.remove(rec);
         } else {
