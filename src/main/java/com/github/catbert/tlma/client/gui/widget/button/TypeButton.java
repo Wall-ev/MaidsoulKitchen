@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -27,7 +27,7 @@ public class TypeButton extends NormalTooltipButton {
     }
 
     private void setModeUid(boolean isSelected) {
-        this.modeUid = isSelected ? CookTaskData.Mode.SELECT.getUid() : CookTaskData.Mode.RANDOM.getUid();
+        this.modeUid = isSelected ? CookData.Mode.SELECT.name : CookData.Mode.RANDOM.name;
     }
 
     @Override

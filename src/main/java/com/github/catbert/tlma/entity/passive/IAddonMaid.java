@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.api;
+package com.github.catbert.tlma.entity.passive;
 
 import net.minecraftforge.common.util.FakePlayer;
 

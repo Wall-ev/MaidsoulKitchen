@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.mixin.tlm;
 
-import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.entity.passive.IAddonMaid;
 import com.github.catbert.tlma.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;

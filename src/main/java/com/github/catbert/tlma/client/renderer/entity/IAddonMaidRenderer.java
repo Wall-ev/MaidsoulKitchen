@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.api;
+package com.github.catbert.tlma.client.renderer.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 

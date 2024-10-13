@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.task.ai;
 
-import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.entity.passive.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;

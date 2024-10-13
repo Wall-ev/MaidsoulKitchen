@@ -3,7 +3,6 @@ package com.github.catbert.tlma.task.cook.handler.v2;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
-import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.init.InitItems;
 import com.github.catbert.tlma.inventory.container.item.BagType;
 import com.github.catbert.tlma.item.ItemCookBag;
@@ -69,7 +68,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         Level level = this.maidInventory.getMaid().level();
 
         List<T> allRecipesFor;
-        if (CookTaskData.Mode.SELECT.getUid().equals(this.lastTaskRule)) {
+        if (CookData.Mode.SELECT.name.equals(this.lastTaskRule)) {
             allRecipesFor = task.getRecipes(level).stream()
                     .filter(r -> recipeIds.contains(r.getId().toString()))
                     .toList();

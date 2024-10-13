@@ -12,6 +12,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -30,6 +31,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
     default boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
+
 
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack outputStack = inventory.getStackInSlot(getOutputSlot());

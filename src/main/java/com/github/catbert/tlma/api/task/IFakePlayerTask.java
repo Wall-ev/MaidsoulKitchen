@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.api.task;
 
-import com.github.catbert.tlma.api.IAddonMaid;
+import com.github.catbert.tlma.entity.passive.IAddonMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
