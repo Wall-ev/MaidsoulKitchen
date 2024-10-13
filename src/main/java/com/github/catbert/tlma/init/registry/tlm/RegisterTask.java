@@ -22,6 +22,7 @@ import com.github.catbert.tlma.task.farm.TaskCompatMelonFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.task.farm.TaskSSFarm;
 import com.github.catbert.tlma.task.other.TaskFeedAndDrinkOwner;
+import com.github.catbert.tlma.task.other.TaskFeedAnimalT;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
 public final class RegisterTask {
@@ -39,6 +40,7 @@ public final class RegisterTask {
             manager.add(new TaskFruitFarm());
         }
 
+        manager.add(new TaskFeedAnimalT());
 
         if (Mods.SS.isLoaded && RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED.get()) {
             manager.add(new TaskSSFarm());
