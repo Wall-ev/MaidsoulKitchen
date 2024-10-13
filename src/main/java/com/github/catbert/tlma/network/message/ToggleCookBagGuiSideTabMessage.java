@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.network.message;
 
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;

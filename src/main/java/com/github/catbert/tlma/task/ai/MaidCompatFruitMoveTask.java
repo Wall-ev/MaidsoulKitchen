@@ -4,7 +4,8 @@ import com.github.catbert.tlma.api.IAddonMaid;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarmHandler;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
+import com.github.catbert.tlma.entity.data.inner.task.FruitData;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -62,18 +63,11 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & IHandlerInfo
         this.searchForDestination(pLevel, pEntity);
     }
 
-    /**
-     * 判定条件
-     *
-     * @param serverLevel  当前实体所处的 world
-     * @param entityMaid 当前需要移动的实体
-     * @param blockPos      当前检索的 pos
-     * @return 是否符合判定条件
-     */
+    @SuppressWarnings("unchecked")
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
         if (!initSearchStartY) {
             initSearchStartY = true;
-            searchStartY = MaidTaskDataUtil.getFruitFarmSearchYOffset(entityMaid, this.task.getUid().toString());
+            searchStartY = entityMaid.getOrCreateData(((TaskDataKey<FruitData>)task.getCookDataKey()), new FruitData()).searchYOffset();
         }
         ((IAddonMaid)entityMaid).initFakePlayer$tlma();
         BlockState cropState = serverLevel.getBlockState(blockPos);

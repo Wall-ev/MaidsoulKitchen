@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.init;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemDamageableBauble;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemMaidBackpack;
 import net.minecraft.world.item.Item;

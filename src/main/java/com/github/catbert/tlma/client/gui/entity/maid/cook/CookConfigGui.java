@@ -5,11 +5,11 @@ import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.*;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.entity.passive.CookTaskData;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
-import com.github.catbert.tlma.network.message.SetCookTaskModeMessage;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
+import com.github.catbert.tlma.network.message.ActionCookDataRecMessage;
+import com.github.catbert.tlma.network.message.SetCookDataModeMessage;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -18,12 +18,13 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.StateSwitchingButton;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
@@ -55,7 +56,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private final List<Recipe> recipeList = new ArrayList<>();
     private final List<RecButton> recButtons = new ArrayList<>();
     private EditBox searchBox;
-    private CompoundTag cookTaskInfo;
+    private CookData cookData;
+    private ICookTask<?, ?> cookTask;
 
     public CookConfigGui(CookConfigContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, Component.translatable("gui.touhou_little_maid_addon.cook_setting_screen.title"));
@@ -64,25 +66,33 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        if (!(task instanceof ICookTask<?, ?>) || maid == null) {
+        if (!(task instanceof ICookTask<?, ?>)) {
             return;
         }
-        this.cookTaskInfo = MaidTaskDataUtil.getCookTaskInfo(maid, task.getUid().toString());
+
+        this.initCookData();
         this.initRecipeList();
+    }
+
+    private void initCookData() {
+        this.cookTask = (ICookTask<?, ?>) task;
+        this.cookData = cookTask.getTaskData(maid);
     }
 
     @SuppressWarnings("all")
     private void initRecipeList() {
         this.recipeList.clear();
         List<Recipe> recipes;
+        Level level = maid.level;
+        RegistryAccess registryAccess = level.registryAccess();
         if (searchBox != null && StringUtils.isNotBlank(searchBox.getValue())) {
             String search = this.searchBox.getValue().toLowerCase(Locale.US);
-            recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(maid.level)
+            recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level)
                     .stream().filter(recipe -> {
-                        return recipe.getResultItem(maid.level.registryAccess()).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
+                        return recipe.getResultItem(registryAccess).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
                     }).toList();
         } else {
-            recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(maid.level); // all recipes
+            recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level); // all recipes
         }
         this.recipeList.addAll(recipes);
     }
@@ -296,43 +306,23 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         int startX = width - leftPos - (-typeDisplay.startX()) - typeDisplay.width() - 1;
         int startY = visualZone.startY() + typeDisplay.startY();
 
-        TypeButton typeButton = new TypeButton(startX, startY, typeDisplay.width(), typeDisplay.height(), MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid())) {
+        TypeButton typeButton = new TypeButton(startX, startY, typeDisplay.width(), typeDisplay.height(), cookData.mode().equals(CookData.Mode.SELECT.name)) {
             @Override
             public void onClick(double mouseX, double mouseY) {
-                this.toggleState();
-
-                List<String> cookTaskRecs = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
-
-                for (RecButton recButton : recButtons) {
-                    // 不是定向模式
-                    if (!isSelected) {
-                        recButton.active = false;
-                    }
-                    // 超过数量上线并且是未含有的配方
-                    else if (cookTaskRecs.size() >= TaskConfig.COOK_SELECTED_RECIPES.get() && !cookTaskRecs.contains(recButton.getRecipe().getId().toString())) {
-                        recButton.active = false;
-                    } else {
-                        recButton.active = true;
-                    }
-                }
-
-                NetworkHandler.sendToServer(new SetCookTaskModeMessage(maid.getId(), task.getUid().toString(), this.isSelected ? CookTaskData.Mode.SELECT.getUid() : CookTaskData.Mode.RANDOM.getUid()));
+                setAndSyncMode(!isSelected);
+                updateRecButtonsState(this::toggleState);
             }
         };
         this.addRenderableWidget(typeButton);
     }
 
-    // 适配鼠标类型显示
-    private void initRecButtonActive(RecButton recButton, String cookTaskMode, List<String> cookTaskRecs) {
-        if (!cookTaskMode.equals(CookTaskData.Mode.SELECT.getUid())) {
-            recButton.active = false;
-            return;
-        }
-        if (cookTaskRecs.size() >= TaskConfig.COOK_SELECTED_RECIPES.get() && !cookTaskRecs.contains(recButton.getRecipe().getId().toString())) {
-            recButton.active = false;
-            return;
-        }
-        recButton.active = true;
+    private void setAndSyncMode(String mode) {
+        cookData.setMode(mode);
+        NetworkHandler.sendToServer(new SetCookDataModeMessage(maid.getId(), cookTask.getCookDataKey().getKey(), mode));
+    }
+
+    private void setAndSyncMode(boolean isSelected) {
+        setAndSyncMode(isSelected ? CookData.Mode.SELECT.name : CookData.Mode.RANDOM.name);
     }
 
     @SuppressWarnings("rawtypes")
@@ -351,47 +341,62 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 Recipe recipe = this.recipeList.get(index++);
                 int x = startX + (ref.rowWidth() + ref.rowSpacing()) * col;
                 int y = startY + (ref.colHeight() + ref.colSpacing()) * row;
-                List<String> cookTaskRecs = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
-                RecButton recButton = new RecButton(maid, cookTaskInfo, recipe, x, y) {
-                    @Override
-                    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-                        return super.mouseClicked(pMouseX, pMouseY, pButton);
-                    }
-
+                RecButton recButton = new RecButton(maid, cookData, recipe, x, y) {
                     @Override
                     public void onClick(double pMouseX, double pMouseY) {
-                        super.onClick(pMouseX, pMouseY);
-
-                        boolean selectedType = MaidTaskDataUtil.getCookTaskMode(cookTaskInfo).equals(CookTaskData.Mode.SELECT.getUid());
-                        List<String> cookTaskRecs1 = MaidTaskDataUtil.getCookTaskRecs(cookTaskInfo);
-                        for (RecButton recButton : recButtons) {
-                            String id = recButton.getRecipe().getId().toString();
-
-                            if (id.equals(this.getRecipe().getId().toString())) {
-                                this.active = true;
-                                continue;
-                            }
-
-                            // 不是选择模式，不可点击
-                            if (!selectedType) {
-                                recButton.active = false;
-                            }
-                            // 超出数量限制并且要继续添加配方，不可点击
-                            else if (cookTaskRecs1.size() + (this.isStateTriggered ? 1 : -1) >= (TaskConfig.COOK_SELECTED_RECIPES.get())
-                                    && !cookTaskRecs1.contains(id)) {
-                                recButton.active = false;
-                            }else {
-                                recButton.active = true;
-                            }
-                        }
+                        arAndSyncRec(getRecipe().getId().toString());
+                        updateRecButtonsState(this::toggleState);
                     }
                 };
-                initRecButtonActive(recButton, MaidTaskDataUtil.getCookTaskMode(cookTaskInfo), cookTaskRecs);
+                initRecButtonActive(recButton);
                 this.addRenderableWidget(recButton);
 
                 this.recButtons.add(recButton);
             }
         }
+    }
+
+    private void initRecButtonActive(RecButton recButton) {
+        initRecButtonActive(recButton, cookData.mode(), cookData.recs());
+    }
+
+    // 适配鼠标类型显示
+    private void initRecButtonActive(RecButton recButton, String cookTaskMode, List<String> cookTaskRecs) {
+        if (!cookTaskMode.equals(CookData.Mode.SELECT.name)) {
+            recButton.active = false;
+            return;
+        }
+        if (cookTaskRecs.size() >= TaskConfig.COOK_SELECTED_RECIPES.get() && !cookTaskRecs.contains(recButton.getRecipe().getId().toString())) {
+            recButton.active = false;
+            return;
+        }
+        recButton.active = true;
+    }
+
+    private void updateRecButtonsState(Runnable selfRun) {
+        boolean selectedType = cookData.mode().equals(CookData.Mode.SELECT.name);
+        List<String> cookTaskRecs1 = cookData.recs();
+        for (RecButton recButton : recButtons) {
+            String id = recButton.getRecipe().getId().toString();
+            // 不是选择模式，不可点击
+            if (!selectedType) {
+                recButton.active = false;
+            }
+            // 超出数量限制并且要继续添加配方，不可点击
+            else if (cookTaskRecs1.size() >= (TaskConfig.COOK_SELECTED_RECIPES.get())
+                    && !cookTaskRecs1.contains(id)) {
+                recButton.active = false;
+            }else {
+                recButton.active = true;
+            }
+        }
+
+        selfRun.run();
+    }
+
+    private void arAndSyncRec(String rec) {
+        cookData.addOrRemoveRec(rec);
+        NetworkHandler.sendToServer(new ActionCookDataRecMessage(maid.getId(), cookTask.getCookDataKey().getKey(), rec));
     }
 
     // 161, 25 189, 74

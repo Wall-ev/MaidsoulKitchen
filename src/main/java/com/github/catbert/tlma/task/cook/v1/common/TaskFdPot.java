@@ -2,7 +2,7 @@ package com.github.catbert.tlma.task.cook.v1.common;
 
 import com.github.catbert.tlma.api.task.v1.cook.IFdPotCook;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
-import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.network.chat.Component;
@@ -36,7 +36,7 @@ public abstract class TaskFdPot<B extends BlockEntity, R extends Recipe<? extend
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer2(index, playerInventory, entityId);
+                return new CookConfigContainer(index, playerInventory, entityId);
             }
         };
     }

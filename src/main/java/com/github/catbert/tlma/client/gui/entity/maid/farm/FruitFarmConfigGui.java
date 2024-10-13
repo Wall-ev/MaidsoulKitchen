@@ -8,16 +8,16 @@ import com.github.catbert.tlma.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.catbert.tlma.client.gui.widget.button.CFRuleButton;
 import com.github.catbert.tlma.client.gui.widget.button.ResultInfo;
 import com.github.catbert.tlma.client.gui.widget.button.Zone;
+import com.github.catbert.tlma.entity.data.inner.task.FruitData;
 import com.github.catbert.tlma.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
-import com.github.catbert.tlma.network.message.FarmTaskRuleActionMessage;
+import com.github.catbert.tlma.network.message.ActionFruitFarmRuleMessage;
 import com.github.catbert.tlma.network.message.SetFruitFarmSearchYOffsetMessage;
+import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -43,9 +43,9 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     protected final Zone ruleDisplay = new Zone(6, 47, 152, 110);
     protected final ResultInfo ref = new ResultInfo(3, 1, 152, 24, 0, 5);
     private final int limitSize = ref.row() * ref.col();
+    private TaskFruitFarm fruitFarm;
     private List<ICompatFarmHandler> handlers;
-    private CompoundTag farmTaskInfo;
-    private int retrieval;
+    private FruitData farmTaskInfo;
 
     public FruitFarmConfigGui(FruitFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(Component.translatable("gui.touhou_little_maid_addon.farm_config_screen.title")));
@@ -56,8 +56,8 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     protected void initAdditionData() {
         super.initAdditionData();
         this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
-        this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
-        this.retrieval = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, task.getUid().toString());
+        this.fruitFarm = (TaskFruitFarm) task;
+        this.farmTaskInfo = fruitFarm.getTaskData(maid);
     }
 
     @Override
@@ -79,16 +79,18 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         int startX = visualZone.startX() + 6 + 26 + x;
         int startY = visualZone.startY() + 22 + 2;
         ImageButton addButton = new ImageButton(startX, startY, 17, 18, 80, 238, 0, TEXTURE, b -> {
-            if (this.retrieval >= 5) {
+            if (this.farmTaskInfo.searchYOffset() >= 5) {
                 return;
             }
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), ++this.retrieval));
+            this.farmTaskInfo.increaseYOffset();
+            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset()));
         });
         Button downButton = new ImageButton(startX + 17, startY, 17, 18, 80 + 17, 238, 0, TEXTURE, b -> {
-            if (this.retrieval <= -5) {
+            if (this.farmTaskInfo.searchYOffset() <= -5) {
                 return;
             }
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), task.getUid().toString(), --this.retrieval));
+            this.farmTaskInfo.decreaseYOffset();
+            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset()));
         });
         this.addRenderableWidget(addButton);
         this.addRenderableWidget(downButton);
@@ -102,14 +104,14 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     }
 
     private void renderRetrieval(GuiGraphics graphics) {
-        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", retrieval);
+        MutableComponent literal = Component.translatable("gui.touhou_little_maid_addon.fruit_farm_configer_screen.farm.fruit.search_y_offset", this.farmTaskInfo.searchYOffset());
         // 暂时先这样... todo
         int width = font.width(literal);
         int x = visualZone.startX() + 6;
         int y = visualZone.startY() + 22;
         graphics.blit(TEXTURE, x, y, 0 ,236, 22, 20);
         // 暂时先这样... todo
-        if (retrieval >= 0) {
+        if (this.farmTaskInfo.searchYOffset() >= 0) {
             width += font.width(Component.literal("-"));
             for (int i = 0; i < width; i++) {
                 graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
@@ -155,12 +157,13 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
             ICompatFarmHandler handler = handlers.get(i);
             if (!handler.canLoad()) continue;
             String handlerUid = ((IHandlerInfo) handler).getUid().toString();
-            boolean contains = MaidTaskDataUtil.getFarmTaskRules(farmTaskInfo, this.task.getUid().toString()).contains(handlerUid);
+            boolean contains = farmTaskInfo.rules().contains(handlerUid);
             CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
-                    NetworkHandler.sendToServer(new FarmTaskRuleActionMessage(maid.getId(), task.getUid().toString(), this.handlerInfo.getUid().toString(), this.isSelected));
+                    farmTaskInfo.addOrRemoveRule(this.handlerInfo.getUid().toString());
+                    NetworkHandler.sendToServer(new ActionFruitFarmRuleMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.handlerInfo.getUid().toString()));
                 }
             };
             this.addRenderableWidget(cfRuleButton);

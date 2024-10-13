@@ -2,7 +2,6 @@ package com.github.catbert.tlma.network;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.network.message.*;
-import com.github.catbert.tlma.network.message.client.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -30,29 +29,14 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionCookDataRecMessage.class, ActionCookDataRecMessage::encode, ActionCookDataRecMessage::decode, ActionCookDataRecMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetMessage2.class, SetFruitFarmSearchYOffsetMessage2::encode, SetFruitFarmSearchYOffsetMessage2::decode, SetFruitFarmSearchYOffsetMessage2::handle,
+        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetMessage.class, SetFruitFarmSearchYOffsetMessage::encode, SetFruitFarmSearchYOffsetMessage::decode, SetFruitFarmSearchYOffsetMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionBerryFarmRuleMessage.class, ActionBerryFarmRuleMessage::encode, ActionBerryFarmRuleMessage::decode, ActionBerryFarmRuleMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionFruitFarmRuleMessage.class, ActionFruitFarmRuleMessage::encode, ActionFruitFarmRuleMessage::decode, ActionFruitFarmRuleMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
-        CHANNEL.registerMessage(i++, SetCookTaskModeMessage.class, SetCookTaskModeMessage::encode, SetCookTaskModeMessage::decode, SetCookTaskModeMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClientSetCookTaskModeMessage.class, ClientSetCookTaskModeMessage::encode, ClientSetCookTaskModeMessage::decode, ClientSetCookTaskModeMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(i++, CookTaskRecActionMessage.class, CookTaskRecActionMessage::encode, CookTaskRecActionMessage::decode, CookTaskRecActionMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClientCookTaskRecActionMessage.class, ClientCookTaskRecActionMessage::encode, ClientCookTaskRecActionMessage::decode, ClientCookTaskRecActionMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(i++, FarmTaskRuleActionMessage.class, FarmTaskRuleActionMessage::encode, FarmTaskRuleActionMessage::decode, FarmTaskRuleActionMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClientFarmTaskRuleActionMessage.class, ClientFarmTaskRuleActionMessage::encode, ClientFarmTaskRuleActionMessage::decode, ClientFarmTaskRuleActionMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetMessage.class, SetFruitFarmSearchYOffsetMessage::encode, SetFruitFarmSearchYOffsetMessage::decode, SetFruitFarmSearchYOffsetMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClientSetFruitFarmSearchYOffsetMessage.class, ClientSetFruitFarmSearchYOffsetMessage::encode, ClientSetFruitFarmSearchYOffsetMessage::decode, ClientSetFruitFarmSearchYOffsetMessage::handle,
-                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+
         // Client
 
     }

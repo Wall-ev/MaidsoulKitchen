@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.inventory.container.item;
 
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;

@@ -1,7 +1,7 @@
 package com.github.catbert.tlma.task.cook.handler;
 
 import com.github.catbert.tlma.inventory.container.item.BagType;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

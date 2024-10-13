@@ -1,13 +1,8 @@
 package com.github.catbert.tlma.network.message;
 
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
-import com.github.catbert.tlma.network.NetworkHandler;
-import com.github.catbert.tlma.network.message.client.ClientSetCookTaskModeMessage;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.catbert.tlma.item.ItemCookBag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

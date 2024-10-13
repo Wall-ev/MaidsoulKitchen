@@ -2,12 +2,11 @@ package com.github.catbert.tlma.compat.top.event;
 
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.v1.farm.IHandlerInfo;
-import com.github.catbert.tlma.entity.data.inner.task.BerryData;
+import com.github.catbert.tlma.entity.data.inner.task.FarmData;
 import com.github.catbert.tlma.entity.data.inner.task.FruitData;
-import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.api.event.AddTopInfoEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -21,11 +20,11 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddTaskInfoTopEvent {
 
+    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public void addTaskInfo(AddTopInfoEvent event) {
         IProbeInfo probeInfo = event.getProbeInfo();
@@ -36,7 +35,7 @@ public class AddTaskInfoTopEvent {
         if (!(maid.getTask() instanceof ICompatFarm<?, ?> farmTask)) return;
         if (farmTask.getUid().equals(TaskFruitFarm.UID)) {
             // todo: sync
-            FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm)farmTask).getCookDataKey(), new FruitData());
+            FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
             int fruitFarmSearchYOffset = fruitData.searchYOffset();
             probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text(Component.translatable("top.touhou_little_maid_addon.entity_maid.farm.fruit.search_y_offset")
@@ -44,14 +43,8 @@ public class AddTaskInfoTopEvent {
         }
 
         boolean first = true;
-        List<String> farmTaskRulesList = new ArrayList<>();
-        if (farmTask instanceof TaskFruitFarm fruitFarm) {
-            FruitData fruitData = maid.getOrCreateData(fruitFarm.getCookDataKey(), new FruitData());
-            farmTaskRulesList = fruitData.rules();
-        } else if (farmTask instanceof TaskBerryFarm berryFarm){
-            BerryData berryData = maid.getOrCreateData(berryFarm.getCookDataKey(), new BerryData());
-            farmTaskRulesList = berryData.rules();
-        }
+        FarmData farmData = farmTask.getTaskData(maid);
+        List<String> farmTaskRulesList = farmData.rules();
 
         for (IFarmHandlerManager<?> handler : farmTask.getManagerHandlerValues()) {
             IHandlerInfo farmHandler = handler.getFarmHandler();

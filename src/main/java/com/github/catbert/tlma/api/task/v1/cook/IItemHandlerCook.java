@@ -1,10 +1,6 @@
 package com.github.catbert.tlma.api.task.v1.cook;
 
-import com.github.catbert.tlma.init.InitItems;
-import com.github.catbert.tlma.inventory.container.item.BagType;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
 import com.github.catbert.tlma.task.cook.v1.common.action.IMaidAction;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,7 +9,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IItemHandlerCook extends IMaidAction {
 

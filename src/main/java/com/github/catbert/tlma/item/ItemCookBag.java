@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.item.bauble;
+package com.github.catbert.tlma.item;
 
 import com.github.catbert.tlma.init.InitItems;
 import com.github.catbert.tlma.inventory.container.item.BagType;

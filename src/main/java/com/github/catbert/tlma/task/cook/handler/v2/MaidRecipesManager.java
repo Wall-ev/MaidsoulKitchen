@@ -2,19 +2,18 @@ package com.github.catbert.tlma.task.cook.handler.v2;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.entity.passive.CookTaskData;
 import com.github.catbert.tlma.init.InitItems;
 import com.github.catbert.tlma.inventory.container.item.BagType;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import com.github.catbert.tlma.task.cook.handler.CookBagInventory;
 import com.github.catbert.tlma.task.cook.handler.ICookInventory;
 import com.github.catbert.tlma.task.cook.handler.MaidInventory;
-import com.github.catbert.tlma.util.MaidTaskDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -109,11 +108,13 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         createRecipesIngredients(maid);
     }
 
+    @SuppressWarnings("unchecked")
     private void initTaskData(EntityMaid maid) {
         if (lastTaskRule == null || recipeIds == null) {
-            this.lastTaskRule = MaidTaskDataUtil.getCookTaskMode(maid, this.task.getUid().toString());
-            this.recipeIds = MaidTaskDataUtil.getCookTaskRecs(maid, this.task.getUid().toString())
-                    .stream().map(Tag::getAsString).toList();
+            ICookTask<?, T> cookTask = (ICookTask<?, T>) maid.getTask();
+            CookData cookData = cookTask.getTaskData(maid);
+            this.lastTaskRule = cookData.mode();
+            this.recipeIds = cookData.recs();
         }
     }
 

@@ -3,7 +3,7 @@ package com.github.catbert.tlma.client.event;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.init.InitItems;
 import com.github.catbert.tlma.inventory.container.item.BagType;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -17,8 +17,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = TLMAddon.MOD_ID, value = Dist.CLIENT)

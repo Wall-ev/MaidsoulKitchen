@@ -7,7 +7,7 @@ import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
 import com.github.catbert.tlma.entity.data.inner.task.BerryData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
-import com.github.catbert.tlma.inventory.container.maid.BerryFarmConfigContainer2;
+import com.github.catbert.tlma.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
@@ -79,6 +79,11 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
     }
 
     @Override
+    public BerryData getDefaultData() {
+        return new BerryData();
+    }
+
+    @Override
     public ResourceLocation getUid() {
         return UID;
     }
@@ -109,7 +114,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new BerryFarmConfigContainer2(index, playerInventory, entityId);
+                return new BerryFarmConfigContainer(index, playerInventory, entityId);
             }
         };
     }

@@ -3,7 +3,7 @@ package com.github.catbert.tlma.task.cook.v1.fd;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
-import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -92,7 +92,7 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer2(index, playerInventory, entityId);
+                return new CookConfigContainer(index, playerInventory, entityId);
             }
         };
     }

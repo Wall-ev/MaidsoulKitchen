@@ -4,11 +4,10 @@ import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.api.task.IDataTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
-import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
@@ -96,7 +95,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer2(index, playerInventory, entityId);
+                return new CookConfigContainer(index, playerInventory, entityId);
             }
         };
     }
@@ -116,5 +115,10 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     @Override
     default TaskBookEntryType getBookEntryType() {
         return TaskBookEntryType.COOK;
+    }
+
+    @Override
+    default CookData getDefaultData() {
+        return new CookData();
     }
 }

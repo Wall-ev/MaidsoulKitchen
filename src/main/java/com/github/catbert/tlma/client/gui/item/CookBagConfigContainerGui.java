@@ -3,7 +3,7 @@ package com.github.catbert.tlma.client.gui.item;
 import com.github.catbert.tlma.client.gui.widget.button.CookBagModeButton;
 import com.github.catbert.tlma.inventory.container.item.BagType;
 import com.github.catbert.tlma.inventory.container.item.CookBagConfigContainer;
-import com.github.catbert.tlma.item.bauble.ItemCookBag;
+import com.github.catbert.tlma.item.ItemCookBag;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.SetCookBagBindModeMessage;
 import net.minecraft.client.gui.Font;
