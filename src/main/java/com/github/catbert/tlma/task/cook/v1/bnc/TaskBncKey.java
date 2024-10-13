@@ -1,10 +1,11 @@
 package com.github.catbert.tlma.task.cook.v1.bnc;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.mixin.bnc.KegBlockEntityAccessor;
 import com.github.catbert.tlma.task.cook.v1.common.TaskFdCiCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -21,7 +22,7 @@ import java.util.*;
 
 public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
 
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "bnc_key");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "bnc_key");
 
     @Override
     public ItemStackHandler getItemStackHandler(KegBlockEntity be) {
@@ -80,11 +81,16 @@ public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
     public ItemStack getIcon() {
         return BCBlocks.KEG.get().asItem().getDefaultInstance();
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.BNC_KEY;
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.nbt.Tag;
 import java.util.List;
 
 public final class MaidTaskDataUtil {
+    public static final String TASK_DATA_TAG = "TaskData";
     public static final String COOK_TASK_TAG = "Cook";
     public static final String COOK_TASK_MODE_TAG = "Mode";
     public static final String COOK_TASK_RECS_TAG = "Recs";
@@ -22,11 +23,11 @@ public final class MaidTaskDataUtil {
     public static final int FRUIT_FARM_SEARCH_YOFFSET_DEFAULT = 3;
 
     public static CompoundTag getTaskData(EntityMaid maid) {
-        return maid.getTaskData();
+        return maid.getPersistentData().getCompound(TASK_DATA_TAG);
     }
 
     public static void setTaskData(EntityMaid maid, CompoundTag compoundTag) {
-        maid.setTaskData(compoundTag);
+        maid.getPersistentData().put(TASK_DATA_TAG, compoundTag);
     }
 
     /**
@@ -59,9 +60,9 @@ public final class MaidTaskDataUtil {
         }
 
         ListTag tags = new ListTag();
-        if (taskUid.equals(TaskFruitFarm.NAME.toString())) {
+        if (taskUid.equals(TaskFruitFarm.UID.toString())) {
             tags.add(StringTag.valueOf(FruitHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
-        } else if (taskUid.equals(TaskBerryFarm.NAME.toString())) {
+        } else if (taskUid.equals(TaskBerryFarm.UID.toString())) {
             tags.add(StringTag.valueOf(BerryHandlerManager.MINECRAFT.getFarmHandler().getUid().toString()));
             tags.add(StringTag.valueOf(BerryHandlerManager.COMPAT.getFarmHandler().getUid().toString()));
             compound.put(FARM_TASK_RULES_TAG, tags);
@@ -175,8 +176,8 @@ public final class MaidTaskDataUtil {
         cookTaskMode4.removeIf(tag -> tag.getAsString().equals(rec));
     }
 
-//    public static void addOrRemoveCookTaskRec(EntityMaid maid, String taskUid, String rec) {
-//        ListTag cookTaskMode4 = getCookTaskRecs(maid, taskUid);
+//    public static void addOrRemoveCookTaskRec(EntityMaid maid, String dataKey, String rec) {
+//        ListTag cookTaskMode4 = getCookTaskRecs(maid, dataKey);
 //        StringTag recTag = StringTag.valueOf(rec);
 //        if (cookTaskMode4.contains(recTag)) {
 //            cookTaskMode4.remove(recTag);

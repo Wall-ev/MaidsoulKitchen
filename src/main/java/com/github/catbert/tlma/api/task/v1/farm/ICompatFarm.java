@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.api.task.v1.farm;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
+import com.github.catbert.tlma.api.task.IDataTask;
 import com.github.catbert.tlma.inventory.container.maid.CompatFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extends ILittleMaidTask {
+public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo, D> extends ILittleMaidTask, IDataTask<D> {
 
 
     IFarmHandlerManager<T>[] getManagerHandlerValues();
@@ -64,21 +65,5 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo> extend
     @Override
     default SoundEvent getAmbientSound(EntityMaid maid) {
         return SoundUtil.environmentSound(maid, InitSounds.MAID_FARM.get(), 0.5f);
-    }
-
-    @Override
-    default MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
-        final int entityId = maid.getId();
-        return new MenuProvider() {
-            @Override
-            public Component getDisplayName() {
-                return Component.literal("Maid Compat Farm Config Container");
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CompatFarmConfigContainer(index, playerInventory, entityId);
-            }
-        };
     }
 }

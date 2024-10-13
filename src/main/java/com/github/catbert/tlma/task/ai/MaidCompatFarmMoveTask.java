@@ -11,10 +11,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler & IHandlerInfo> extends MaidMoveToBlockTask {
-    private final ICompatFarm<T> task;
+    private final ICompatFarm<T, ?> task;
     private final T compatFarmHandler;
 
-    public MaidCompatFarmMoveTask(EntityMaid maid, ICompatFarm<T> task, float movementSpeed) {
+    public MaidCompatFarmMoveTask(EntityMaid maid, ICompatFarm<T, ?> task, float movementSpeed) {
         super(movementSpeed, 2);
         this.task = task;
         this.compatFarmHandler = task.getCompatHandler(maid);

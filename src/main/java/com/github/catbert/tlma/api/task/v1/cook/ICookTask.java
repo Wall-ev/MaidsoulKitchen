@@ -2,10 +2,13 @@ package com.github.catbert.tlma.api.task.v1.cook;
 
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.TaskBookEntryType;
-import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
+import com.github.catbert.tlma.api.task.IDataTask;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer2;
 import com.github.catbert.tlma.task.ai.MaidCookMakeTask;
 import com.github.catbert.tlma.task.ai.MaidCookMoveTask;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask {
+public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask, IDataTask<CookData> {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return new ArrayList<>();
@@ -88,12 +91,12 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Config Container");
+                return Component.literal("Maid Cook Config Container2");
             }
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer(index, playerInventory, entityId);
+                return new CookConfigContainer2(index, playerInventory, entityId);
             }
         };
     }

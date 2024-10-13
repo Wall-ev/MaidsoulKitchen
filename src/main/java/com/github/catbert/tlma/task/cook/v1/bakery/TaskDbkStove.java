@@ -1,12 +1,13 @@
 package com.github.catbert.tlma.task.cook.v1.bakery;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IFuelBe;
-import com.github.catbert.tlma.foundation.utility.Mods;
 import com.github.catbert.tlma.task.cook.handler.v2.MaidRecipesManager;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
 import com.github.catbert.tlma.util.MaidDataUtil;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
 
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dkb_stove");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dkb_stove");
     protected static final int FUEL_SLOT = 4;
 
     @Override
@@ -133,11 +134,16 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
     public ItemStack getIcon() {
         return ObjectRegistry.BRICK_STOVE.get().asItem().getDefaultInstance();
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.DBK_STOVE;
     }
 }

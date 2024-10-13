@@ -5,11 +5,14 @@ import com.github.catbert.tlma.api.TaskBookEntryType;
 import com.github.catbert.tlma.api.task.IAddonFarmTask;
 import com.github.catbert.tlma.api.task.v1.farm.ICompatFarm;
 import com.github.catbert.tlma.api.task.IFakePlayerTask;
-import com.github.catbert.tlma.inventory.container.maid.FruitFarmConfigContainer;
+import com.github.catbert.tlma.entity.data.inner.task.FruitData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
+import com.github.catbert.tlma.inventory.container.maid.FruitFarmConfigContainer2;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFruitMoveTask;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.task.farm.handler.v1.fruit.*;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -28,8 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 
-public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask, IAddonFarmTask {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
+public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFakePlayerTask, IAddonFarmTask {
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
@@ -65,7 +68,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -94,8 +97,13 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler>, IFakePlayerTask
 
             @Override
             public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new FruitFarmConfigContainer(index, playerInventory, entityId);
+                return new FruitFarmConfigContainer2(index, playerInventory, entityId);
             }
         };
+    }
+
+    @Override
+    public TaskDataKey<FruitData> getCookDataKey() {
+        return RegisterData.FRUIT_FARM;
     }
 }

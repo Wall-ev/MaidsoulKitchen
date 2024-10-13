@@ -55,7 +55,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
+        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
         this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
         this.retrieval = MaidTaskDataUtil.getFruitFarmSearchYOffset(maid, task.getUid().toString());
     }

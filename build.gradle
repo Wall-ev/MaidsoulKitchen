@@ -202,7 +202,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
-    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
+//    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
+    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.13.jar')
 
 //    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
 

@@ -51,7 +51,7 @@ public class CompatFarmConfigGui extends MaidTaskConfigGui<CompatFarmConfigConta
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
+        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
         this.farmTaskInfo = MaidTaskDataUtil.getFarmTaskInfo(maid, task.getUid().toString());
     }
 

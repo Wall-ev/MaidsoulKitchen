@@ -22,16 +22,16 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & IHandlerInfo
     private static final int MAX_DELAY_TIME = 120;
     private final float movementSpeed;
     private final int verticalSearchRange;
-    private final ICompatFarm<T> task;
+    private final ICompatFarm<T, ?> task;
     private final T compatFarmHandler;
     protected int verticalSearchStart;
     private int searchStartY = 3;
     private boolean initSearchStartY = false;
-    public MaidCompatFruitMoveTask(EntityMaid maid, ICompatFarm<T> task, float movementSpeed) {
+    public MaidCompatFruitMoveTask(EntityMaid maid, ICompatFarm<T, ?> task, float movementSpeed) {
         this(maid, task, movementSpeed, 2);
     }
 
-    public MaidCompatFruitMoveTask(EntityMaid maid, ICompatFarm<T> task, float movementSpeed, int verticalSearchRange) {
+    public MaidCompatFruitMoveTask(EntityMaid maid, ICompatFarm<T, ?> task, float movementSpeed, int verticalSearchRange) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;

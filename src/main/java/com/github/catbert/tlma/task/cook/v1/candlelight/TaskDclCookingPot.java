@@ -1,9 +1,10 @@
 package com.github.catbert.tlma.task.cook.v1.candlelight;
 
 import com.github.catbert.tlma.TLMAddon;
-import com.github.catbert.tlma.foundation.utility.Mods;
+import com.github.catbert.tlma.entity.data.inner.task.CookData;
+import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 
 public class TaskDclCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
-    public static final ResourceLocation NAME = new ResourceLocation(TLMAddon.MOD_ID, "dcl_cooking_pot");
+    public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dcl_cooking_pot");
 
     @Override
     public boolean isHeated(CookingPotBlockEntity be) {
@@ -54,7 +55,7 @@ public class TaskDclCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
 
     @Override
     public ResourceLocation getUid() {
-        return NAME;
+        return UID;
     }
 
     @Override
@@ -65,5 +66,10 @@ public class TaskDclCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
     @Override
     protected boolean tExtraEndRecipe(CookingPotRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
        return extraRecipe(recipe.getContainer().getItem(), recipe, available, single, canMake, itemTimes, invIngredient);
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return RegisterData.DCL_COOKING_POT;
     }
 }
