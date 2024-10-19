@@ -4,7 +4,6 @@ import com.github.catbert.tlma.client.gui.widget.button.CookBagGuiSideTabButton;
 import com.github.catbert.tlma.inventory.container.item.CookBagAbstractContainer;
 import com.github.catbert.tlma.network.NetworkHandler;
 import com.github.catbert.tlma.network.message.ToggleCookBagGuiSideTabMessage;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.SideTab;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 

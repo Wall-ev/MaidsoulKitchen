@@ -1,6 +1,6 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
+import com.github.catbert.tlma.TLMAddon;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -11,11 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-/**
- * 女仆界面侧边栏按钮
- */
 public class CookBagGuiSideTabButton extends Button implements ITooltipButton {
-    private static final ResourceLocation SIDE = new ResourceLocation(TouhouLittleMaid.MOD_ID, "textures/gui/maid_gui_side.png");
+    private static final ResourceLocation SIDE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/maid_gui_right_side.png");
     private static final int V_OFFSET = 107;
     private final List<Component> tooltips;
     private final int top;
@@ -31,6 +28,8 @@ public class CookBagGuiSideTabButton extends Button implements ITooltipButton {
         RenderSystem.enableDepthTest();
         if (!this.active) {
             graphics.blit(SIDE, this.getX() + 2, this.getY(), 209, top, this.width, this.height, 256, 256);
+        } else {
+            graphics.blit(SIDE, this.getX() + 5, this.getY(), 235, top, this.width, this.height, 256, 256);
         }
         // 193, 111
         graphics.blit(SIDE, this.getX() + 6, this.getY() + 4, 193, top + 4, 16, 16, 256, 256);

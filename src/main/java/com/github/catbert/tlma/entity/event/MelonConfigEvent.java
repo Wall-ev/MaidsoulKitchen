@@ -1,4 +1,4 @@
-package com.github.catbert.tlma.event;
+package com.github.catbert.tlma.entity.event;
 
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;

@@ -4,7 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.config.subconfig.RegisterConfig;
 import com.github.catbert.tlma.config.subconfig.RenderConfig;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
-import com.github.catbert.tlma.event.MelonConfigEvent;
+import com.github.catbert.tlma.entity.event.MelonConfigEvent;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;

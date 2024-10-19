@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 
-import static com.github.catbert.tlma.event.MelonConfigEvent.MELON_STEM_MAP;
+import static com.github.catbert.tlma.entity.event.MelonConfigEvent.MELON_STEM_MAP;
 import static com.github.catbert.tlma.util.BlockUtil.getId;
 
 public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
