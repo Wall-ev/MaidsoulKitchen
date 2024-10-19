@@ -58,7 +58,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                 this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && stack.is(InitItems.COOK_BAG.get());
+                        return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.COOK_BAG.get());
                     }
                 });
             }
@@ -75,7 +75,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                     this.addSlot(new SlotItemHandler(container1, j, 8 + col * 18, yOffset) {
                         @Override
                         public boolean mayPlace(@NotNull ItemStack stack) {
-                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && stack.is(InitItems.COOK_BAG.get());
+                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.COOK_BAG.get());
                         }
                     });
                 }
