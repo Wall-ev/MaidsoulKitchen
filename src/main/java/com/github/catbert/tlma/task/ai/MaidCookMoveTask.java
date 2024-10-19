@@ -22,9 +22,9 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private final float movementSpeed;
     private final int verticalSearchRange;
     private final ICookTask<B, R> task;
-    private MaidRecipesManager<R> maidRecipesManager;
-    protected int verticalSearchStart;
     private final boolean single;
+    protected int verticalSearchStart;
+    private MaidRecipesManager<R> maidRecipesManager;
 
     public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task) {
         this(maid, task, 0.5f, 2, false);
@@ -49,6 +49,11 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         this.setMaxCheckRate(MAX_DELAY_TIME);
     }
 
+    private static void setWalkAndLookTargetMemories(LivingEntity pLivingEntity, BlockPos walkPos, BlockPos lookPos, float pSpeed, int pDistance) {
+        pLivingEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(walkPos, pSpeed, pDistance));
+        pLivingEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(lookPos));
+    }
+
     public MaidRecipesManager<R> getMaidRecipesManager() {
         return maidRecipesManager;
     }
@@ -67,9 +72,9 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     }
 
     private void processRecipeManager(EntityMaid maid) {
-        if (maidRecipesManager == null){
+        if (maidRecipesManager == null) {
             maidRecipesManager = new MaidRecipesManager<>(maid, task, single, true);
-        }else {
+        } else {
             this.maidRecipesManager.checkAndCreateRecipesIngredients(maid);
         }
     }
@@ -80,9 +85,9 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         if (blockEntity == null) {
             return false;
         }
-        if (task.isCookBE(blockEntity)){
+        if (task.isCookBE(blockEntity)) {
             this.processRecipeManager(maid);
-            return task.shouldMoveTo(worldIn, maid, (B)blockEntity, maidRecipesManager);
+            return task.shouldMoveTo(worldIn, maid, (B) blockEntity, maidRecipesManager);
         }
         return false;
     }
@@ -91,15 +96,20 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         return maid.canPathReach(pos);
     }
 
+    private static BlockPos getSearchPos(EntityMaid maid) {
+        return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
+    }
+
     protected final void searchForDestination(ServerLevel worldIn, EntityMaid maid) {
-        BlockPos centrePos = maid.getBrainSearchPos();
+        BlockPos centrePos = getSearchPos(maid);
         int searchRange = (int) maid.getRestrictRadius();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         for (int y = this.verticalSearchStart; y <= this.verticalSearchRange; y = y > 0 ? -y : 1 - y) {
             for (int i = 0; i < searchRange; ++i) {
                 for (int x = 0; x <= i; x = x > 0 ? -x : 1 - x) {
                     for (int z = x < i && x > -i ? i : 0; z <= i; z = z > 0 ? -z : 1 - z) {
-                        mutableBlockPos.setWithOffset(centrePos, x, y - 1, z);
+                        mutableBlockPos.setWithOffset(centrePos, x, y + 1, z);
+
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos)
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
@@ -112,10 +122,5 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
                 }
             }
         }
-    }
-
-    private static void setWalkAndLookTargetMemories(LivingEntity pLivingEntity, BlockPos walkPos, BlockPos lookPos, float pSpeed, int pDistance) {
-        pLivingEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(walkPos, pSpeed, pDistance));
-        pLivingEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(lookPos));
     }
 }
