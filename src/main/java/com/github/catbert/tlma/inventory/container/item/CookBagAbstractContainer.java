@@ -35,34 +35,6 @@ public abstract class CookBagAbstractContainer extends AbstractContainerMenu {
     }
 
     @Override
-    public void clicked(int slotId, int button, ClickType clickTypeIn, Player player) {
-        super.clicked(slotId, button, clickTypeIn, player);
-    }
-
-    @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
-        ItemStack stack1 = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack stack2 = slot.getItem();
-            stack1 = stack2.copy();
-            if (index < 27) {
-                if (!this.moveItemStackTo(stack2, 27, 36, true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.moveItemStackTo(stack2, 0, 27, false)) {
-                return ItemStack.EMPTY;
-            }
-            if (stack2.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
-        }
-        return stack1;
-    }
-
-    @Override
     public boolean stillValid(Player pPlayer) {
         return pPlayer.getMainHandItem().is(InitItems.COOK_BAG.get());
     }
