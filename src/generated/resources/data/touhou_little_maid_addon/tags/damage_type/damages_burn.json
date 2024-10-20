@@ -1,0 +1,10 @@
+{
+  "values": [
+    "minecraft:in_fire",
+    "minecraft:on_fire",
+    {
+      "id": "farmersdelight:stove_burn",
+      "required": false
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.item.bauble;
 
 import com.github.catbert.tlma.api.ILittleMaidBauble;
+import com.github.catbert.tlma.data.ModDamageTypeTags;
 import com.github.catbert.tlma.init.InitEffects;
 import com.github.catbert.tlma.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;
@@ -35,7 +36,7 @@ public class BurnProtectBauble implements ILittleMaidBauble {
         EntityMaid maid = event.getMaid();
         DamageSource source = event.getSource();
         List<ResourceKey<DamageType>> fireDamageTypes = getBurnDamageTypes();
-        if (fireDamageTypes.stream().anyMatch(source::is)) {
+        if (source.is(ModDamageTypeTags.DAMAGES_BURN)) {
             int slot = ItemsUtil.getBaubleSlotInMaid(maid, this);
             if (slot >= 0) {
                 event.setCanceled(true);
@@ -55,7 +56,7 @@ public class BurnProtectBauble implements ILittleMaidBauble {
         EntityMaid maid = event.getMaid();
         DamageSource source = event.getSource();
         List<ResourceKey<DamageType>> burnDamageTypes = getBurnDamageTypes();
-        if (maid.hasEffect(InitEffects.BURN_PROTECT.get()) && burnDamageTypes.stream().anyMatch(source::is)) {
+        if (maid.hasEffect(InitEffects.BURN_PROTECT.get()) && source.is(ModDamageTypeTags.DAMAGES_BURN)) {
             event.setCanceled(true);
         }
     }

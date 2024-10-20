@@ -4,6 +4,13 @@
 
   "effect.touhou_little_maid_addon.burn_protect": "Burn Protect",
 
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.0": "这%s太多了... 我不再喂养它们了！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.1": "这%s太多了吧... 不能再喂养它们了啦！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.2": "这%s也太能吃了把... 不养了不养了,太能吃了！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.0": "The %s is too many... I don't feed them anymore!",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.1": "The %s is too many... I don't feed them anymore!",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.2": "The %s is too many... I don't feed them anymore!",
+
   "config.touhou_little_maid_addon.title": "Touhou Little Maid Addon: Farm And Cook",
   "config.touhou_little_maid_addon.title.tip": "[Addon: Farm And Cook]",
   "config.touhou_little_maid_addon.task": "Task",

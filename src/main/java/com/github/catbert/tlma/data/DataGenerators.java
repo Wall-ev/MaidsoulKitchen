@@ -20,6 +20,6 @@ public class DataGenerators {
         ExistingFileHelper helper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new DamageTypeTags(output, lookupProvider, TLMAddon.MOD_ID, helper));
+        generator.addProvider(event.includeServer(), new ModDamageTypeTags(output, lookupProvider, helper));
     }
 }

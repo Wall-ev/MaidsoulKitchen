@@ -4,6 +4,13 @@
 
   "effect.touhou_little_maid_addon.burn_protect": "抗燃",
 
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.0": "没有%s的食物了... 养不了它们了！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.1": "%s,没有你们食物了... 只能委屈你们,先饿一段时间了！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.2": "这%s也太挑食了... 不养了不养了,都没有食物,养啥啊！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.0": "这%s太多了... 我不再喂养它们了！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.1": "这%s太多了吧... 不能再喂养它们了啦！",
+  "chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.2": "这%s也太能吃了把... 不养了不养了,太能吃了！",
+
   "config.touhou_little_maid_addon.title": "车万女仆拓展：农耕与烹饪",
   "config.touhou_little_maid_addon.title.tip": "[拓展：农耕与烹饪]",
   "config.touhou_little_maid_addon.task": "任务",

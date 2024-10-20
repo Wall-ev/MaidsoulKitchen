@@ -50,9 +50,9 @@ public class MaidFeedAnimalTaskT extends MaidCheckRateTask {
             resourceLocationListHashMap.computeIfAbsent(livingEntity.getType(), k -> Lists.newArrayList()).add((Animal) livingEntity);
         }
 
-        for (List<Animal> value : resourceLocationListHashMap.values()) {
-            if (value.size() < maxAnimalCount - 2) {
-                value.stream().filter(e -> maid.isWithinRestriction(e.blockPosition()))
+        for (List<Animal> animals : resourceLocationListHashMap.values()) {
+            if (animals.size() < maxAnimalCount - 2) {
+                animals.stream().filter(e -> maid.isWithinRestriction(e.blockPosition()))
                         .filter(e -> e.getAge() == 0)
                         .filter(e -> e.canFallInLove())
                         .filter(e -> ItemsUtil.isStackIn(maid.getAvailableInv(false), ((Animal) e)::isFood))
@@ -72,11 +72,15 @@ public class MaidFeedAnimalTaskT extends MaidCheckRateTask {
                         return;
                     }
                     feedEntity = null;
+                    Animal animal = animals.get(0);
+                    EntityType<?> type = animal.getType();
+                    ChatBubbleManger.addInnerChatText(maid, String.format("chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.none_food.%d", maid.getRandom().nextInt(3)));
                 }
             }
+            Animal animal = animals.get(0);
+            EntityType<?> type = animal.getType();
+            ChatBubbleManger.addInnerChatText(maid, String.format("chat_bubble.touhou_little_maid_addon.inner.feed_animal.type.max_number.%d", maid.getRandom().nextInt(3)));
         }
-
-        ChatBubbleManger.addInnerChatText(maid, "chat_bubble.touhou_little_maid.inner.feed_animal.max_number");
     }
 
     private NearestVisibleLivingEntities getEntities(EntityMaid maid) {
