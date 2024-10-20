@@ -148,14 +148,6 @@ public class MenuIntegration {
         }
         ConfigCategory task = root.getOrCreateCategory(entryTitle);
 
-        task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.task.melon_stem_list"), TaskConfig.MELON_STEM_LIST.get())
-                .setDefaultValue(TaskConfig.MELON_STEM_LIST.getDefault())
-                .setTooltip(Component.translatable("config.touhou_little_maid_addon.task.melon_stem_list.tooltip"), addition)
-                .setSaveConsumer(l -> {
-                    TaskConfig.MELON_STEM_LIST.set(l);
-                    MelonConfigEvent.handleConfig();
-                }).build());
-
         task.addEntry(entryBuilder.startStrList(Component.translatable("config.touhou_little_maid_addon.task.melon_and_stem_list"), TaskConfig.MELON_AND_STEM_LIST.get().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
                 .setDefaultValue(TaskConfig.MELON_AND_STEM_LIST.getDefault().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
                 .setTooltip(Component.translatable("config.touhou_little_maid_addon.task.melon_and_stem_list.tooltip"), addition)

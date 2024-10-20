@@ -31,15 +31,12 @@ public final class MelonConfigEvent {
 
     public static void handleConfig() {
         MELON_STEM_MAP.clear();
-        handleMelonStemList(TaskConfig.MELON_STEM_LIST.get(), MELON_STEM_MAP);
+        handleMelonStemList(MELON_STEM_MAP);
         handleMelonAndStemList(TaskConfig.MELON_AND_STEM_LIST.get(), MELON_STEM_MAP);
     }
 
-    private static void handleMelonStemList(List<String> config, Map<String, String> output) {
-        for (String s : config) {
-            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
-            if (block == null) continue;
-
+    private static void handleMelonStemList(Map<String, String> output) {
+        for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (block instanceof AttachedStemBlock attachedStemBlock) {
                 output.put(getId(attachedStemBlock.fruit), getId(attachedStemBlock));
             }

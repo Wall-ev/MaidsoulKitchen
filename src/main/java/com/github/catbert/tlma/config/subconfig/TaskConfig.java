@@ -11,16 +11,12 @@ import static com.github.catbert.tlma.util.BlockUtil.getId;
 
 public class TaskConfig {
 
-    public static ForgeConfigSpec.ConfigValue<List<String>> MELON_STEM_LIST;
     public static ForgeConfigSpec.ConfigValue<List<List<String>>> MELON_AND_STEM_LIST;
     public static ForgeConfigSpec.ConfigValue<Integer> COOK_SELECTED_RECIPES;
     public static ForgeConfigSpec.ConfigValue<Integer> SEARCHY_OFFSET;
 
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("Task");
-
-        builder.comment("These entries configure the melon stem list.", "rule: attached_melon_stem_block_id", "Eg: minecraft:attached_pumpkin_stem minecraft:attached_pumpkin_stem ...");
-        MELON_STEM_LIST = builder.define("MelonStemList", getmelonStemList());
 
         builder.comment("These entries configure the melon stem and melon_block item list.", "rule: [melon_block_id, attached_melon_stem_block_id]", "Eg: [\"minecraft:melon\", \"minecraft:attached_melon_stem\"]");
         MELON_AND_STEM_LIST = builder.define("MelonAndStemList", getmelonAndStemList());
@@ -32,13 +28,6 @@ public class TaskConfig {
         SEARCHY_OFFSET = builder.define("SearchyOffset", 4);
 
         builder.pop();
-    }
-
-    private static List<String> getmelonStemList() {
-        List<String> melonStemList = new ArrayList<>();
-        melonStemList.add(getId(Blocks.ATTACHED_MELON_STEM));
-        melonStemList.add(getId(Blocks.ATTACHED_PUMPKIN_STEM));
-        return melonStemList;
     }
 
     private static List<List<String>> getmelonAndStemList() {
