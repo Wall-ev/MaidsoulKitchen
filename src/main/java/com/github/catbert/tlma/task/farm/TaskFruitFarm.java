@@ -63,7 +63,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
 
     @Override
     public double getCloseEnoughDist() {
-        return 5.0;
+        return 6.0;
     }
 
     @Override

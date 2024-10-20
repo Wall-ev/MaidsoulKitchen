@@ -13,6 +13,10 @@ import java.util.Locale;
 public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainerId, int rightPos, int topPos) {
     private static final int SPACING = 25;
 
+    public static int getTabHeights() {
+        return SPACING * 2;
+    }
+
     public CookBagGuiSideTabButton[] getTabs(CookBagAbstractContainerGui<T> gui) {
         // 任务配置界面按钮
         CookBagGuiSideTabButton taskConfig = genSideTabButton(SideTab.TASK_CONFIG, b -> {

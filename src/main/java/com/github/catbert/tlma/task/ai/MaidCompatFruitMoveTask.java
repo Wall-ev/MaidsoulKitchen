@@ -60,33 +60,42 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & IHandlerInfo
 
     @Override
     protected void start(ServerLevel pLevel, EntityMaid pEntity, long pGameTime) {
+        initData(pEntity);
         this.searchForDestination(pLevel, pEntity);
     }
 
-    @SuppressWarnings("unchecked")
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
+        BlockState cropState = serverLevel.getBlockState(blockPos);
+        return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initData(EntityMaid entityMaid) {
         if (!initSearchStartY) {
             initSearchStartY = true;
             searchStartY = entityMaid.getOrCreateData(((TaskDataKey<FruitData>)task.getCookDataKey()), new FruitData()).searchYOffset();
         }
-        ((IAddonMaid)entityMaid).initFakePlayer$tlma();
-        BlockState cropState = serverLevel.getBlockState(blockPos);
-        return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
+        ((IAddonMaid) entityMaid).initFakePlayer$tlma();
     }
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {
         return maid.canPathReach(pos);
     }
 
+    private static BlockPos getSearchPos(EntityMaid maid) {
+        return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
+    }
+
+    // todo
     protected final void searchForDestination(ServerLevel worldIn, EntityMaid maid) {
-        BlockPos centrePos = maid.getBrainSearchPos();
+        BlockPos centrePos = getSearchPos(maid);
         int searchRange = (int) maid.getRestrictRadius();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        for (int y = this.verticalSearchStart; y <= this.verticalSearchRange; y++) {
+        for (int y = this.verticalSearchStart; y <= this.verticalSearchRange * 2; y++) {
             for (int i = 0; i < searchRange; ++i) {
                 for (int x = 0; x <= i; x = x > 0 ? -x : 1 - x) {
                     for (int z = x < i && x > -i ? i : 0; z <= i; z = z > 0 ? -z : 1 - z) {
-                        mutableBlockPos.setWithOffset(centrePos, x, y - 1, z);
+                        mutableBlockPos.setWithOffset(centrePos, x, y, z);
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos.above(this.searchStartY)) && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
                             setWalkAndLookTargetMemories(maid, mutableBlockPos, mutableBlockPos.above(this.searchStartY), this.movementSpeed, 0);

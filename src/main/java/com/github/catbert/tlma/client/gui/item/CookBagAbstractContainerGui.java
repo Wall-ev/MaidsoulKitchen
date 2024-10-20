@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CookBagAbstractContainerGui<T extends CookBagAbstractContainer> extends AbstractContainerScreen<T> {
@@ -41,9 +41,11 @@ public abstract class CookBagAbstractContainerGui<T extends CookBagAbstractConta
         }
     }
 
-    public List<Rect2i> getExcludedArea() {
-        return Collections.emptyList();
-//        return new CookBagSideTabs<>(menu.containerId, leftPos + 171, topPos + 12).getTabs(this);
+    public List<Rect2i> getExclusionArea() {
+        List<Rect2i> excludedArea = new ArrayList<>();
+        int tabsSize = CookBagSideTabs.getTabHeights();
+        excludedArea.add(new Rect2i(leftPos + 171, topPos + 12, 26, tabsSize));
+        return excludedArea;
     }
 
     @Override
