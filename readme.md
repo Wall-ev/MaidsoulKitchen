@@ -5,6 +5,7 @@
   - Due to the author's personal reasons, the development progress will be extremely slow (maybe the pit will be abandoned...)
   - If you want to play as soon as possible, you can click `Star` and find the latest version of the auto-build on the [Releases](https://github.com/Wall-ev/TouhouLittleMaidAddon/releases) page
   - If you download the auto-build version ,you need to make backups before playing to avoid losing your property.
+  - This project might be abandoned at any time, so if you're up for it (if you can handle this mess - it's really bad...), you can take over this project.
 
 ## Progress
 - [ ] Cook
