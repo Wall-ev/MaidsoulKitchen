@@ -21,12 +21,14 @@ public interface IBeInv<B extends BlockEntity> {
     @NotNull
     ItemStack getStackInSlot(B be, int slot);
 
-    interface ItemHandler<B extends BlockEntity, T extends IItemHandler> extends IBeInv<B> {
+    interface IItemHandlerInv<B extends BlockEntity, T extends IItemHandler> extends IBeInv<B> {
 
         T getItemHandler(B be);
 
         @Override
-        int getSlots(B be);
+        default int getSlots(B be) {
+            return getItemHandler(be).getSlots();
+        }
 
         @Override
         @NotNull
