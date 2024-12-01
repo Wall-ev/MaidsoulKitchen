@@ -32,7 +32,12 @@ import java.util.List;
 
 
 public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFakePlayerTask, IAddonFarmTask {
+    public static final TaskFruitFarm INSTANCE = new TaskFruitFarm();
+
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "fruit_farm");
+
+    private TaskFruitFarm() {
+    }
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
@@ -110,5 +115,8 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
     @Override
     public TaskDataKey<FruitData> getCookDataKey() {
         return RegisterData.FRUIT_FARM;
+    }
+    public static TaskFruitFarm getInstance() {
+        return INSTANCE;
     }
 }

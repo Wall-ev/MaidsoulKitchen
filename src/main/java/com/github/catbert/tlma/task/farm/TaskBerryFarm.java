@@ -10,6 +10,8 @@ import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmMoveTask;
 import com.github.catbert.tlma.task.ai.MaidCompatFarmPlantTask;
+import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskDryingRack;
 import com.github.catbert.tlma.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.catbert.tlma.task.farm.handler.v1.berry.*;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -32,7 +34,12 @@ import java.util.List;
 
 
 public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
+    public static final TaskBerryFarm INSTANCE = new TaskBerryFarm();
+
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "berries_farm");
+
+    private TaskBerryFarm() {
+    }
 
     @Override
     public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
@@ -122,5 +129,9 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
     @Override
     public TaskDataKey<BerryData> getCookDataKey() {
         return RegisterData.BERRY_FARM;
+    }
+
+    public static TaskBerryFarm getInstance() {
+        return INSTANCE;
     }
 }

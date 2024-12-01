@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.bnc;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.mixin.bnc.KegBlockEntityAccessor;
@@ -21,8 +22,11 @@ import java.util.*;
 
 
 public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
-
+    public static final TaskBncKey INSTANCE = new TaskBncKey();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "bnc_key");
+
+    private TaskBncKey() {
+    }
 
     @Override
     public ItemStackHandler getItemStackHandler(KegBlockEntity be) {
@@ -93,4 +97,8 @@ public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.BNC_KEY;
     }
+    public static TaskBncKey getInstance() {
+        return INSTANCE;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.bakery;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
@@ -20,7 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
+    public static final TaskDbkCookingPot INSTANCE = new TaskDbkCookingPot();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dkb_cooking_pot");
+
+    private TaskDbkCookingPot() {
+    }
 
     @Override
     public boolean isHeated(CookingPotBlockEntity be) {
@@ -76,4 +81,9 @@ public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBK_COOKING_POT;
     }
+
+    public static TaskDbkCookingPot getInstance() {
+        return INSTANCE;
+    }
+
 }

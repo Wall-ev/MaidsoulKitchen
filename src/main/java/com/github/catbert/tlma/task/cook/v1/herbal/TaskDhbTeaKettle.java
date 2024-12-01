@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.herbal;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdBaseContainerCook;
@@ -17,7 +18,11 @@ import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 
 
 public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEntity, TeaKettleRecipe> {
+    public static final TaskDhbTeaKettle INSTANCE = new TaskDhbTeaKettle();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dhb_tea_kettle");
+
+    private TaskDhbTeaKettle() {
+    }
 
     @Override
     public boolean isHeated(TeaKettleBlockEntity be) {
@@ -68,4 +73,8 @@ public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEnti
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DHB_TEA_KETTLE;
     }
+    public static TaskDhbTeaKettle getInstance() {
+        return INSTANCE;
+    }
+
 }

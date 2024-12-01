@@ -1,5 +1,6 @@
 package com.github.catbert.tlma.task.cook.v1.kitcarrot;
 
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -12,6 +13,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class TaskAirCompressor extends TaskFdPot<AirCompressorBlockEntity, AirCompressorRecipe> {
+    public static final TaskAirCompressor INSTANCE = new TaskAirCompressor();
+
+    private TaskAirCompressor() {
+    }
+
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return null;
@@ -71,4 +77,9 @@ public class TaskAirCompressor extends TaskFdPot<AirCompressorBlockEntity, AirCo
     public ItemStack getIcon() {
         return null;
     }
+
+    public static TaskAirCompressor getInstance() {
+        return INSTANCE;
+    }
+
 }

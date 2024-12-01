@@ -1,7 +1,9 @@
 package com.github.catbert.tlma.task.other;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.task.ai.MaidFeedAnimalTaskT;
+import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MaidConfig;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidFeedAnimalTask;
@@ -30,9 +32,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class TaskFeedAnimalT implements IAttackTask {
+public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
+    public static final TaskFeedAnimalT INSTANCE = new TaskFeedAnimalT();
+
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "feed_animal");
     private static final int MAX_STOP_ATTACK_DISTANCE = 8;
+
+    private TaskFeedAnimalT() {
+    }
 
     @Override
     public ResourceLocation getUid() {
@@ -113,5 +120,9 @@ public class TaskFeedAnimalT implements IAttackTask {
 
     private boolean farAway(LivingEntity target, EntityMaid maid) {
         return maid.distanceTo(target) > MAX_STOP_ATTACK_DISTANCE;
+    }
+
+    public static TaskFeedAnimalT getInstance() {
+        return INSTANCE;
     }
 }

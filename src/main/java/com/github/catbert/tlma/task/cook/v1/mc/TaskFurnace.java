@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.mc;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.mixin.mc.AbstractFurnaceAccessor;
@@ -34,7 +35,11 @@ import java.util.function.Predicate;
 
 
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
+    public static final TaskFurnace INSTANCE = new TaskFurnace();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "furnace");
+
+    private TaskFurnace() {
+    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
@@ -273,4 +278,9 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.MC_FURNACE;
     }
+
+    public static TaskFurnace getInstance() {
+        return INSTANCE;
+    }
+
 }

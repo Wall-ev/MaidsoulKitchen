@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.beachparty;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdBaseContainerCook;
@@ -18,7 +19,11 @@ import satisfy.beachparty.registry.RecipeRegistry;
 
 
 public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, TikiBarRecipe> {
+    public static final TaskDbpTikiBar INSTANCE = new TaskDbpTikiBar();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dbp_tiki_bar");
+
+    private TaskDbpTikiBar() {
+    }
 
     @Override
     public int getOutputSlot() {
@@ -69,4 +74,9 @@ public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, 
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBP_MINE_FRIDGE;
     }
+
+    public static TaskDbpTikiBar getInstance() {
+        return INSTANCE;
+    }
+
 }

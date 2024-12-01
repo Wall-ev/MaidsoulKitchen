@@ -19,6 +19,7 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue BNC_KEY_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_MOKA_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_TEA_KETTLE_TASK_ENABLED;
+    public static ForgeConfigSpec.BooleanValue YHC_DRYING_RACK_TASK_ENABLED;
 
     public static ForgeConfigSpec.BooleanValue DB_BEER_TASK_ENABLED;
 
@@ -61,7 +62,9 @@ public class RegisterConfig {
         builder.comment("This can make the yhc moka task enabled or not.");
         YHC_MOKA_TASK_ENABLED = builder.define("YHC_MOKA_TaskEnabled", true);
         builder.comment("This can make the yhc tea kettle task enabled or not.");
-        YHC_TEA_KETTLE_TASK_ENABLED = builder.define("YHC_MOKA_TEA_KETTLE_TaskEnabled", true);
+        YHC_TEA_KETTLE_TASK_ENABLED = builder.define("YHC_TEA_KETTLE_TaskEnabled", true);
+        builder.comment("This can make the yhc tea kettle task enabled or not.");
+        YHC_DRYING_RACK_TASK_ENABLED = builder.define("YHC_DRYING_RACK_TaskEnabled", true);
 
         builder.comment("This can make the db beer task enabled or not.");
         DB_BEER_TASK_ENABLED = builder.define("DB_Beer_TaskEnabled", true);

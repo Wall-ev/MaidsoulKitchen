@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.md;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskFdPot;
@@ -22,7 +23,11 @@ import java.util.List;
 
 
 public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
+    public static final TaskMDCopperPot INSTANCE = new TaskMDCopperPot();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "md_copper_pot");
+
+    private TaskMDCopperPot() {
+    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
@@ -102,4 +107,9 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.MD_COPPER_POT;
     }
+
+    public static TaskMDCopperPot getInstance() {
+        return INSTANCE;
+    }
+
 }

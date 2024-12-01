@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.bakery;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.bestate.IFuelBe;
@@ -26,9 +27,12 @@ import net.satisfy.bakery.registry.RecipeTypeRegistry;
 import java.util.List;
 
 public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
-
+    public static final TaskDbkStove INSTANCE = new TaskDbkStove();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dkb_stove");
     protected static final int FUEL_SLOT = 4;
+
+    protected TaskDbkStove() {
+    }
 
     @Override
     public boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, StoveBlockEntity blockEntity, MaidRecipesManager<StoveRecipe> maidRecipesManager) {
@@ -146,4 +150,8 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBK_STOVE;
     }
+    public static TaskDbkStove getInstance() {
+        return INSTANCE;
+    }
+
 }

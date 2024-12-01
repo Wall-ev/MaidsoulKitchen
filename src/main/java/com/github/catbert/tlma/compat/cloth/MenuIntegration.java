@@ -98,6 +98,10 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.yhc_tea_kettle.tooltip"),
                         Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.YHC_TEA_KETTLE_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.yhc_drying_rack"), RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.yhc_drying_rack.tooltip"),
+                        Component.translatable("config.touhou_little_maid_addon.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid_addon.register.db_beer"), RegisterConfig.DB_BEER_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid_addon.register.db_beer.tooltip"),

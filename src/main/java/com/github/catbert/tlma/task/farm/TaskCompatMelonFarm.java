@@ -28,7 +28,12 @@ import static com.github.catbert.tlma.entity.event.MelonConfigEvent.MELON_STEM_M
 import static com.github.catbert.tlma.util.BlockUtil.getId;
 
 public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
+    public static final TaskCompatMelonFarm INSTANCE = new TaskCompatMelonFarm();
+
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "compat_melon");
+
+    private TaskCompatMelonFarm() {
+    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
@@ -115,5 +120,8 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
                 return new CompatMelonConfigContainer(index, playerInventory, entityId);
             }
         };
+    }
+    public static TaskCompatMelonFarm getInstance() {
+        return INSTANCE;
     }
 }

@@ -4,6 +4,7 @@ import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IDrinkTask;
 import com.github.catbert.tlma.task.ai.MaidFeedAndDrinkOwnerTask;
+import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFeedTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
@@ -38,8 +39,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrinkTask {
+    public static final TaskFeedAndDrinkOwner INSTANCE = new TaskFeedAndDrinkOwner();
 
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "feedanddrink");
+
+    private TaskFeedAndDrinkOwner() {
+    }
 
     @Override
     public ItemStack getIcon() {
@@ -195,5 +200,9 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     private boolean isHarmfulEffect(MobEffectInstance effect) {
         return effect.getEffect().getCategory() == MobEffectCategory.HARMFUL;
+    }
+
+    public static TaskFeedAndDrinkOwner getInstance() {
+        return INSTANCE;
     }
 }

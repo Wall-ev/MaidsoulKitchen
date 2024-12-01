@@ -16,6 +16,7 @@ import com.github.catbert.tlma.task.cook.v1.herbal.TaskDhbTeaKettle;
 import com.github.catbert.tlma.task.cook.v1.mc.TaskFurnace;
 import com.github.catbert.tlma.task.cook.v1.md.TaskMDCopperPot;
 import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskDryingRack;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcMoka;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.catbert.tlma.task.farm.TaskBerryFarm;
@@ -32,84 +33,87 @@ public final class RegisterTask {
 
     public static void register(TaskManager manager) {
         if (Mods.MC.isLoaded() && RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED.get()){
-            manager.add(new TaskCompatMelonFarm());
+            manager.add(TaskCompatMelonFarm.getInstance());
         }
         if (Mods.MC.isLoaded() && RegisterConfig.BERRY_FARM_TASK_ENABLED.get()) {
-            manager.add(new TaskBerryFarm());
+            manager.add(TaskBerryFarm.getInstance());
         }
         if (Mods.MC.isLoaded() && RegisterConfig.FRUIT_FARM_TASK_ENABLED.get()) {
-            manager.add(new TaskFruitFarm());
+            manager.add(TaskFruitFarm.getInstance());
         }
 
-        manager.add(new TaskFeedAnimalT());
+        manager.add(TaskFeedAnimalT.getInstance());
 
         if (Mods.SS.isLoaded() && RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED.get()) {
-            manager.add(new TaskSSFarm());
+            manager.add(TaskSSFarm.getInstance());
         }
 
 
         if (Mods.TWT.isLoaded() && RegisterConfig.FEED_AND_DRINK_OWNER_TASK_ENABLED.get()) {
-            manager.add(new TaskFeedAndDrinkOwner());
+            manager.add(TaskFeedAndDrinkOwner.getInstance());
         }
 
 
         if (Mods.MC.isLoaded() && RegisterConfig.FURNACE_TASK_ENABLED.get()) {
-            manager.add(new TaskFurnace());
+            manager.add(TaskFurnace.getInstance());
         }
 
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
-            manager.add(new TaskFDCookPot());
+            manager.add(TaskFDCookPot.getInstance());
         }
         if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
-            manager.add(new TaskMDCopperPot());
+            manager.add(TaskMDCopperPot.getInstance());
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
-            manager.add(new TaskBncKey());
+            manager.add(TaskBncKey.getInstance());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
-            manager.add(new TaskYhcMoka());
+            manager.add(TaskYhcMoka.getInstance());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_TEA_KETTLE_TASK_ENABLED.get()) {
-            manager.add(new TaskYhcTeaKettle());
+            manager.add(TaskYhcTeaKettle.getInstance());
+        }
+        if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED.get()) {
+            manager.add(TaskDryingRack.getInstance());
         }
 
 
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
-            manager.add(new TaskDbBeerBarrel());
+            manager.add(TaskDbBeerBarrel.getInstance());
         }
 
 
         if (Mods.DBK.isLoaded() && RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get()) {
-            manager.add(new TaskDbkCookingPot());
+            manager.add(TaskDbkCookingPot.getInstance());
         }
         if (Mods.DBK.isLoaded() && RegisterConfig.DBK_STOVE_TASK_ENABLED.get()) {
-            manager.add(new TaskDbkStove());
+            manager.add(TaskDbkStove.getInstance());
         }
 
         if (Mods.DBP.isLoaded() && RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get()) {
-            manager.add(new TaskDbpMiniFridge());
+            manager.add(TaskDbpMiniFridge.getInstance());
         }
         if (Mods.DBP.isLoaded() && RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get()) {
-            manager.add(new TaskDbpTikiBar());
+            manager.add(TaskDbpTikiBar.getInstance());
         }
 
         if (Mods.DCL.isLoaded() && RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get()) {
-            manager.add(new TaskDclCookingPan());
+            manager.add(TaskDclCookingPan.getInstance());
         }
         if (Mods.DCL.isLoaded() && RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get()) {
-            manager.add(new TaskDclCookingPot());
+            manager.add(TaskDclCookingPot.getInstance());
         }
 
         if (Mods.DHB.isLoaded() && RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get()) {
-            manager.add(new TaskDhbCauldron());
+            manager.add(TaskDhbCauldron.getInstance());
         }
         if (Mods.DHB.isLoaded() && RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get()) {
-            manager.add(new TaskDhbTeaKettle());
+            manager.add(TaskDhbTeaKettle.getInstance());
         }
 
         if (Mods.DV.isLoaded() && RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get()) {
-            manager.add(new TaskFermentationBarrel());
+            manager.add(TaskFermentationBarrel.getInstance());
         }
     }
 }

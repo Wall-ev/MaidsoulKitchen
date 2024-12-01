@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.fd;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.inventory.container.maid.CookConfigContainer;
@@ -24,6 +25,9 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 
 public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
+    public static final TaskFDCookPot INSTANCE = new TaskFDCookPot();
+    private TaskFDCookPot() {
+    }
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "fd_cooking_pot");
 
     @Override
@@ -85,4 +89,8 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.FD_COOK_POT;
     }
+    public static TaskFDCookPot getInstance() {
+        return INSTANCE;
+    }
+
 }

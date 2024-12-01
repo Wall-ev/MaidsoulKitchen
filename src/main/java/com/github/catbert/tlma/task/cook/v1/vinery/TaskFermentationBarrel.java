@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.task.cook.v1.vinery;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.init.registry.tlm.RegisterData;
 import com.github.catbert.tlma.task.cook.v1.common.TaskLdContainerCook;
@@ -21,7 +22,11 @@ import java.util.Map;
 
 
 public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarrelBlockEntity, FermentationBarrelRecipe> {
+    public static final TaskFermentationBarrel INSTANCE = new TaskFermentationBarrel();
     public static final ResourceLocation UID = new ResourceLocation(TLMAddon.MOD_ID, "dv_fermentation_barrel");
+
+    private TaskFermentationBarrel() {
+    }
 
     @Override
     public boolean isHeated(FermentationBarrelBlockEntity be) {
@@ -73,4 +78,9 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.FERMENTATION_BARREL;
     }
+
+    public static TaskFermentationBarrel getInstance() {
+        return INSTANCE;
+    }
+
 }
