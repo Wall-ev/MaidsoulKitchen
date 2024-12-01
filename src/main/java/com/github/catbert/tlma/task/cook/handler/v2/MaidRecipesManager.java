@@ -87,8 +87,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
-        TLMAddon.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
-        TLMAddon.LOGGER.info(recipesIngredients);
+//        TLMAddon.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
+//        TLMAddon.LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
         int size = recipesIngredients.size();
         Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);

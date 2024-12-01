@@ -8,7 +8,7 @@ public final class ActionUtil {
     }
 
     public static void modRun(Mods mod, Runnable runnable) {
-        if (mod.isLoaded) {
+        if (mod.isLoaded()) {
             runnable.run();
         }
     }

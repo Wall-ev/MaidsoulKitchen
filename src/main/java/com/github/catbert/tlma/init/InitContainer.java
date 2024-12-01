@@ -15,7 +15,6 @@ public final class InitContainer {
     public static final RegistryObject<MenuType<CookConfigContainer>> COOK_CONTAINER = CONTAINER_TYPE.register("cook_config_container", () -> CookConfigContainer.TYPE);
     public static final RegistryObject<MenuType<FruitFarmConfigContainer>> FRUIT_FARM_CONTAINER = CONTAINER_TYPE.register("fruit_farm_config_container", () -> FruitFarmConfigContainer.TYPE);
     public static final RegistryObject<MenuType<BerryFarmConfigContainer>> BERRY_FARM_CONTAINER = CONTAINER_TYPE.register("berry_farm_config_container", () -> BerryFarmConfigContainer.TYPE);
-    public static final RegistryObject<MenuType<NoConfigContainer>> NO_CONFIG_CONTAINER = CONTAINER_TYPE.register("no_config_container", () -> NoConfigContainer.TYPE);
     public static final RegistryObject<MenuType<CompatMelonConfigContainer>> COMPAT_MELON_CONFIG_CONTAINER = CONTAINER_TYPE.register("compat_melon_config_container", () -> CompatMelonConfigContainer.TYPE);
     public static final RegistryObject<MenuType<CookBagContainer>> COOK_BAG_CONTAINER = CONTAINER_TYPE.register("cook_bag_container", () -> CookBagContainer.TYPE);
     public static final RegistryObject<MenuType<CookBagConfigContainer>> COOK_BAG_CONFIG_CONTAINER = CONTAINER_TYPE.register("cook_bag_config_container", () -> CookBagConfigContainer.TYPE);

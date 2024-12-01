@@ -35,14 +35,14 @@ public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void bindMaidBauble(BaubleManager manager) {
-        if (Mods.MC.isLoaded) {
+        if (Mods.MC.isLoaded()) {
             manager.bind(InitItems.BURN_PROTECT_BAUBLE, new BurnProtectBauble());
         }
     }
 
     @Override
     public void addMaidBackpack(BackpackManager manager) {
-        if (Mods.MC.isLoaded) {
+        if (Mods.MC.isLoaded()) {
             manager.add(new OldBigBackpack());
         }
     }
@@ -69,14 +69,14 @@ public final class MaidPlugin implements ILittleMaid {
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionMaidLayer(EntityMaidRenderer renderer, EntityRendererProvider.Context context) {
-        if (Mods.DAPI.isLoaded) {
+        if (Mods.DAPI.isLoaded()) {
             renderer.addLayer(new LayerMaidLDBanner(renderer, context.getModelSet()));
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionGeckoMaidLayer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context context) {
-        if (Mods.DAPI.isLoaded) {
+        if (Mods.DAPI.isLoaded()) {
             renderer.addLayer(new GeckoLayerMaidLDBanner<>(renderer, context.getModelSet()));
         }
     }

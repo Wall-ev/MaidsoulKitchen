@@ -26,7 +26,7 @@ public class VineryFruitHandler extends FruitHandler {
 
     @Override
     public boolean canLoad() {
-        return Mods.DV.isLoaded;
+        return Mods.DV.isLoaded();
     }
 
     @Override

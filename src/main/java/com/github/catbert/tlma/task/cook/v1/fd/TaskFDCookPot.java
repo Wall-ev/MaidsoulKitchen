@@ -82,22 +82,6 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     }
 
     @Override
-    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
-        final int entityId = maid.getId();
-        return new MenuProvider() {
-            @Override
-            public Component getDisplayName() {
-                return Component.literal("Maid Cook Config Container2");
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
-                return new CookConfigContainer(index, playerInventory, entityId);
-            }
-        };
-    }
-
-    @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.FD_COOK_POT;
     }

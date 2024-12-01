@@ -46,13 +46,20 @@ public enum Mods {
 
     SS("sereneseasons"),
 
-    MC("minecraft");
+    MC("minecraft") {
+        @Override
+        public boolean isLoaded() {
+            return true;
+        }
+    };
 
     public final String modId;
-    public final boolean isLoaded;
     Mods(String modId) {
         this.modId = modId;
-        this.isLoaded = ModList.get().isLoaded(modId);
+    }
+
+    public boolean isLoaded() {
+        return ModList.get().isLoaded(modId);
     }
 
     public ResourceLocation create(String path) {
@@ -78,7 +85,7 @@ public enum Mods {
     public static boolean hasLoaded(Mods... mods) {
         ModList modList = ModList.get();
         for (Mods mod : mods)
-            if (mod.isLoaded)
+            if (mod.isLoaded())
                 return true;
         return false;
     }

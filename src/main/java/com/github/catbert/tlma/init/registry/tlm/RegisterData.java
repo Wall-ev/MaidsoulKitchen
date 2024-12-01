@@ -50,67 +50,67 @@ public final class RegisterData {
     public static TaskDataKey<CookData> FERMENTATION_BARREL;
 
     public static void register(TaskDataRegister register) {
-        if (Mods.MC.isLoaded && RegisterConfig.BERRY_FARM_TASK_ENABLED.get()) {
+        if (Mods.MC.isLoaded() && RegisterConfig.BERRY_FARM_TASK_ENABLED.get()) {
             BERRY_FARM = register.register(TaskBerryFarm.UID, BerryData.CODEC);
         }
-        if (Mods.MC.isLoaded && RegisterConfig.FRUIT_FARM_TASK_ENABLED.get()) {
+        if (Mods.MC.isLoaded() && RegisterConfig.FRUIT_FARM_TASK_ENABLED.get()) {
             FRUIT_FARM = register.register(TaskFruitFarm.UID, FruitData.CODEC);
         }
 
 
-        if (Mods.MC.isLoaded && RegisterConfig.FURNACE_TASK_ENABLED.get()) {
+        if (Mods.MC.isLoaded() && RegisterConfig.FURNACE_TASK_ENABLED.get()) {
             MC_FURNACE = register.register(TaskFurnace.UID, CookData.CODEC);
         }
 
 
-        if (Mods.FD.isLoaded && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
+        if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
             FD_COOK_POT = register.register(TaskFDCookPot.UID, CookData.CODEC);
         }
-        if (Mods.MD.isLoaded && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
+        if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
             MD_COPPER_POT = register.register(TaskMDCopperPot.UID, CookData.CODEC);
         }
-        if (Mods.BNCD.isLoaded && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
+        if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             BNC_KEY = register.register(TaskBncKey.UID, CookData.CODEC);
         }
-        if (Mods.YHCD.isLoaded && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
+        if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             YHC_MOKA = register.register(TaskYhcMoka.UID, CookData.CODEC);
         }
 
 
-        if (Mods.DB.isLoaded && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
+        if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             DB_BEER = register.register(TaskDbBeerBarrel.UID, CookData.CODEC);
         }
 
 
-        if (Mods.DBK.isLoaded && RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get()) {
+        if (Mods.DBK.isLoaded() && RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get()) {
             DBK_COOKING_POT = register.register(TaskDbkCookingPot.UID, CookData.CODEC);
         }
-        if (Mods.DBK.isLoaded && RegisterConfig.DBK_STOVE_TASK_ENABLED.get()) {
+        if (Mods.DBK.isLoaded() && RegisterConfig.DBK_STOVE_TASK_ENABLED.get()) {
             DBK_STOVE = register.register(TaskDbkStove.UID, CookData.CODEC);
         }
 
-        if (Mods.DBP.isLoaded && RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get()) {
+        if (Mods.DBP.isLoaded() && RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get()) {
             DBP_MINE_FRIDGE = register.register(TaskDbpMiniFridge.UID, CookData.CODEC);
         }
-        if (Mods.DBP.isLoaded && RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get()) {
+        if (Mods.DBP.isLoaded() && RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get()) {
             DBP_TIKI_BAR = register.register(TaskDbpTikiBar.UID, CookData.CODEC);
         }
 
-        if (Mods.DCL.isLoaded && RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get()) {
+        if (Mods.DCL.isLoaded() && RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get()) {
             DCL_COOKING_PAN = register.register(TaskDclCookingPan.UID, CookData.CODEC);
         }
-        if (Mods.DCL.isLoaded && RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get()) {
+        if (Mods.DCL.isLoaded() && RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get()) {
             DCL_COOKING_POT = register.register(TaskDclCookingPot.UID, CookData.CODEC);
         }
 
-        if (Mods.DHB.isLoaded && RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get()) {
+        if (Mods.DHB.isLoaded() && RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get()) {
             DHB_CAULDRON = register.register(TaskDhbCauldron.UID, CookData.CODEC);
         }
-        if (Mods.DHB.isLoaded && RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get()) {
+        if (Mods.DHB.isLoaded() && RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get()) {
             DHB_TEA_KETTLE = register.register(TaskDhbTeaKettle.UID, CookData.CODEC);
         }
 
-        if (Mods.DV.isLoaded && RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get()) {
+        if (Mods.DV.isLoaded() && RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get()) {
             FERMENTATION_BARREL = register.register(TaskFermentationBarrel.UID, CookData.CODEC);
         }
     }

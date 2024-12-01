@@ -28,7 +28,7 @@ public final class CompatRegistry {
     }
 
     private static void checkModLoad(Mods mod, Runnable runnable) {
-        if (mod.isLoaded) {
+        if (mod.isLoaded()) {
             runnable.run();
         }
     }

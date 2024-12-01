@@ -3,7 +3,6 @@ package com.github.catbert.tlma.task.other;
 import com.github.catbert.tlma.TLMAddon;
 import com.github.catbert.tlma.api.ILittleMaidTask;
 import com.github.catbert.tlma.api.task.IDrinkTask;
-import com.github.catbert.tlma.inventory.container.maid.NoConfigContainer;
 import com.github.catbert.tlma.task.ai.MaidFeedAndDrinkOwnerTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFeedTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -196,19 +195,5 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     private boolean isHarmfulEffect(MobEffectInstance effect) {
         return effect.getEffect().getCategory() == MobEffectCategory.HARMFUL;
-    }
-
-    @Override
-    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
-        final int entityId = maid.getId();
-        return new MenuProvider() {
-            public Component getDisplayName() {
-                return Component.literal("Maid Task No Config Container");
-            }
-
-            public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {
-                return new NoConfigContainer(index, playerInventory, entityId);
-            }
-        };
     }
 }

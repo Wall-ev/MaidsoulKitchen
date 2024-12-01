@@ -1,6 +1,5 @@
 package com.github.catbert.tlma.client.init;
 
-import com.github.catbert.tlma.client.gui.entity.maid.NoConfigGui;
 import com.github.catbert.tlma.client.gui.entity.maid.cook.*;
 import com.github.catbert.tlma.client.gui.entity.maid.farm.*;
 import com.github.catbert.tlma.client.gui.item.CookBagConfigContainerGui;
@@ -21,7 +20,6 @@ public final class InitContainerGui {
         evt.enqueueWork(() -> MenuScreens.register(CookConfigContainer.TYPE, CookConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(BerryFarmConfigContainer.TYPE, BerryFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer.TYPE, FruitFarmConfigGui::new));
-        evt.enqueueWork(() -> MenuScreens.register(NoConfigContainer.TYPE, NoConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatMelonConfigContainer.TYPE, CompatMelonConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CookBagContainer.TYPE, CookBagGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CookBagConfigContainer.TYPE, CookBagConfigContainerGui::new));

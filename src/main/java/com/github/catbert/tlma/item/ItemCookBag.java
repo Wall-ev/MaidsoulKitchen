@@ -25,6 +25,11 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.brewing.IBrewingRecipe;
+import net.minecraftforge.common.capabilities.CapabilityProvider;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -214,7 +219,7 @@ public class ItemCookBag extends Item implements MenuProvider {
             return super.useOn(context);
         }
 
-        if (te instanceof RandomizableContainerBlockEntity rbe && rbe.canOpen(player)) {
+        if ((te instanceof RandomizableContainerBlockEntity rbe && rbe.canOpen(player)) || (te != null && te.getCapability(ForgeCapabilities.ITEM_HANDLER).isPresent())) {
             ItemStack stack = player.getMainHandItem();
             String bindMode = getBindMode(stack);
             if (!bindMode.isEmpty()) {
@@ -232,6 +237,9 @@ public class ItemCookBag extends Item implements MenuProvider {
             NetworkHooks.openScreen((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
             return InteractionResultHolder.success(playerIn.getMainHandItem());
         }
+
+        List<IBrewingRecipe> recipes = BrewingRecipeRegistry.getRecipes();
+
         return super.use(worldIn, playerIn, handIn);
     }
 

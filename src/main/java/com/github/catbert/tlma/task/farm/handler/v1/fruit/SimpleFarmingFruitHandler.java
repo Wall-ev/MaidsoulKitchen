@@ -21,7 +21,7 @@ public class SimpleFarmingFruitHandler extends FruitHandler {
 
     @Override
     public boolean canLoad() {
-        return Mods.SF.isLoaded;
+        return Mods.SF.isLoaded();
     }
 
     @Override

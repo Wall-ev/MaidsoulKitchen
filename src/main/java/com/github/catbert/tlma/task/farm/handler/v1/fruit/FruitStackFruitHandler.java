@@ -24,7 +24,7 @@ public class FruitStackFruitHandler extends FruitHandler{
 
     @Override
     public boolean canLoad() {
-        return Mods.FS.isLoaded;
+        return Mods.FS.isLoaded();
     }
 
     @Override

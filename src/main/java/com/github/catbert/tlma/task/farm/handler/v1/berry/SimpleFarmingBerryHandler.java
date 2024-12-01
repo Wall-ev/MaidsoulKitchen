@@ -22,7 +22,7 @@ public class SimpleFarmingBerryHandler extends BerryHandler{
 
     @Override
     public boolean canLoad() {
-        return Mods.SF.isLoaded;
+        return Mods.SF.isLoaded();
     }
 
     @Override
