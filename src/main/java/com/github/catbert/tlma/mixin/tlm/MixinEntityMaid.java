@@ -27,6 +27,7 @@ public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowA
 
     @Override
     public @NotNull WeakReference<FakePlayer> getFakePlayer$tlma() {
+        this.initFakePlayer$tlma();
         return fakePlayer;
     }
 

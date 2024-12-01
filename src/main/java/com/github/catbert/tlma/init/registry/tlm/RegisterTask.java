@@ -17,6 +17,7 @@ import com.github.catbert.tlma.task.cook.v1.mc.TaskFurnace;
 import com.github.catbert.tlma.task.cook.v1.md.TaskMDCopperPot;
 import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcMoka;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.TaskCompatMelonFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
@@ -68,6 +69,9 @@ public final class RegisterTask {
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             manager.add(new TaskYhcMoka());
+        }
+        if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_TEA_KETTLE_TASK_ENABLED.get()) {
+            manager.add(new TaskYhcTeaKettle());
         }
 
 

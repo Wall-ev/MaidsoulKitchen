@@ -57,6 +57,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         boolean b = recipe.isPresent() && canCook(blockEntity, recipe.get());
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
 //        LOGGER.info("recipe: {} {} {} ", recipe, b, recipesIngredients);
+        //@todo-check
         if (!b && !recipesIngredients.isEmpty() && heated && mealStack.isEmpty()) {
             return true;
         }

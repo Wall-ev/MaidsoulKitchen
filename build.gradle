@@ -198,30 +198,10 @@ repositories {
     }
 }
 
+
+// 联动(烹饪)
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
-//    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.12-hotfix2.jar')
-//    implementation files('lib/touhoulittlemaid-1.20.1-release-1.1.13.jar')
-
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
-
-    // api
-    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-    runtimeOnly fg.deobf("curse.maven:kiwi-303657:${kiwi_file_id}")
-
-    runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770828")
-
-    implementation fg.deobf("curse.maven:storage-drawers-223852:${storage_drawers_file_id}")
-    implementation fg.deobf("curse.maven:toms-storage-378609:5548573")
-    implementation fg.deobf("curse.maven:sophisticated-core-618298:5326245")
-    implementation fg.deobf("curse.maven:sophisticated-storage-619320:5327377")
-
-    implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
-
-    implementation fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
-
+    /** ---------------------------------------农夫乐事--------------------------------------------------------- */
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
     implementation fg.deobf("curse.maven:my-nethers-delight-1003673:${my_nethers_delight_file_id}")
@@ -232,15 +212,7 @@ dependencies {
     }
     implementation fg.deobf("curse.maven:bnc-1-20-port-898078:${bnc_file_id}")
 
-
-    implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
-    implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
-
-    implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
-    implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
-//    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
-
+    /** ---------------------------------------Let's do--------------------------------------------------------- */
     implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
     implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
     implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
@@ -248,6 +220,29 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
     implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
+
+    /** ---------------------------------------其他--------------------------------------------------------- */
+    implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
+    implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
+    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
+}
+
+// 联动(存储)
+dependencies {
+    implementation fg.deobf("curse.maven:storage-drawers-223852:${storage_drawers_file_id}")
+    implementation fg.deobf("curse.maven:toms-storage-378609:5548573")
+    implementation fg.deobf("curse.maven:sophisticated-core-618298:5326245")
+    implementation fg.deobf("curse.maven:sophisticated-storage-619320:5327377")
+}
+
+// 联动(其他)
+dependencies {
+    implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
+    implementation fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
+
+    implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
+    implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
+//    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("curse.maven:l2library-620203:5447286")
@@ -257,10 +252,34 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:libipn-679177:${libipn_id}")
     implementation fg.deobf("curse.maven:inventory-profiles-next-495267:${ipn_id}")
 
-    runtimeOnly fg.deobf("curse.maven:nbtedit-reborn-678133:${nbtedit_reborn_id}")
+    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    implementation fg.deobf("curse.maven:probejs-585406:5227399")
+}
 
+
+
+// 基础配置
+dependencies {
+    // 本体
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // Apply Mixin AP
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
+        jarJar.ranged(it, "[0.4.0,)")
+    }
+}
+
+// 开发工具
+dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:${top_file_id}")
+    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_forge}")
 
     // rei
     compileOnly fg.deobf("curse.maven:architectury-api-419699:${architectury_api_id}")
@@ -274,17 +293,27 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-    implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
-    implementation fg.deobf("curse.maven:the-one-probe-245211:${top_file_id}")
-    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_forge}")
-
-    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
-    implementation fg.deobf("curse.maven:probejs-585406:5227399")
-
-    // Apply Mixin AP
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
+
+// 直属依赖项
+dependencies {
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:${touhou_little_maid_file_id}")
+}
+
+// api
+dependencies {
+    implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+    runtimeOnly fg.deobf("curse.maven:kiwi-303657:${kiwi_file_id}")
+}
+
+// 开发工具
+dependencies {
+    runtimeOnly files('lib/quickmodstart-forge-1.20.1-1.0.0.jar')
+
+    runtimeOnly fg.deobf("curse.maven:appleskin-248787:4770828")
+    runtimeOnly fg.deobf("curse.maven:nbtedit-reborn-678133:${nbtedit_reborn_id}")
+}
+
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.

@@ -20,6 +20,7 @@ import com.github.catbert.tlma.task.cook.v1.mc.TaskFurnace;
 import com.github.catbert.tlma.task.cook.v1.md.TaskMDCopperPot;
 import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcMoka;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.catbert.tlma.task.farm.TaskBerryFarm;
 import com.github.catbert.tlma.task.farm.TaskFruitFarm;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -36,6 +37,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> MD_COPPER_POT;
     public static TaskDataKey<CookData> BNC_KEY;
     public static TaskDataKey<CookData> YHC_MOKA;
+    public static TaskDataKey<CookData> YHC_TEA_KETTLE;
 
     public static TaskDataKey<CookData> DB_BEER;
 
@@ -74,6 +76,9 @@ public final class RegisterData {
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             YHC_MOKA = register.register(TaskYhcMoka.UID, CookData.CODEC);
+        }
+        if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_TEA_KETTLE_TASK_ENABLED.get()) {
+            YHC_TEA_KETTLE = register.register(TaskYhcTeaKettle.UID, CookData.CODEC);
         }
 
 
