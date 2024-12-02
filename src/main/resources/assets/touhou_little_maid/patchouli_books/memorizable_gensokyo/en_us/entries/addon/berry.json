@@ -1,27 +1,27 @@
 {
   "sortnum": 2,
-  "name": "patchouli.touhou_little_maid_addon.book.entries.addon.berry",
+  "name": "patchouli.farmsoulkitchen.book.entries.addon.berry",
   "icon": "minecraft:sweet_berries",
   "category": "touhou_little_maid:addon",
   "pages": [
     {
       "type": "text",
-      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.berry.pages.0.1.text"
+      "text": "patchouli.farmsoulkitchen.book.entries.addon.berry.pages.0.1.text"
     },
     {
       "type": "text",
-      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.cook.pages.0.1.text"
+      "text": "patchouli.farmsoulkitchen.book.entries.addon.cook.pages.0.1.text"
     },
     {
       "type": "image",
       "images": [
-        "touhou_little_maid_addon:textures/book/cook_gui.png"
+        "farmsoulkitchen:textures/book/cook_gui.png"
       ],
-      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.berry.pages.3.1.text"
+      "text": "patchouli.farmsoulkitchen.book.entries.addon.berry.pages.3.1.text"
     },
     {
       "type": "text",
-      "text": "patchouli.touhou_little_maid_addon.book.entries.addon.berry.pages.4.1.text"
+      "text": "patchouli.farmsoulkitchen.book.entries.addon.berry.pages.4.1.text"
     }
   ]
 }

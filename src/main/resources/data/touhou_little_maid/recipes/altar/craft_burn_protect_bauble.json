@@ -4,7 +4,7 @@
     "type": "minecraft:item",
     "nbt": {
       "Item": {
-        "id": "touhou_little_maid_addon:burn_protect_bauble",
+        "id": "farmsoulkitchen:burn_protect_bauble",
         "Count": 1,
         "tag": {
           "Damage": 0

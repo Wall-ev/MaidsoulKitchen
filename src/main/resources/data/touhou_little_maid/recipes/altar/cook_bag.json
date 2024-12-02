@@ -4,7 +4,7 @@
     "type": "minecraft:item",
     "nbt": {
       "Item": {
-        "id": "touhou_little_maid_addon:cook_bag",
+        "id": "farmsoulkitchen:cook_bag",
         "Count": 1
       }
     }

@@ -4,7 +4,7 @@
     "type": "minecraft:item",
     "nbt": {
       "Item": {
-        "id": "touhou_little_maid_addon:old_maid_backpack_big",
+        "id": "farmsoulkitchen:old_maid_backpack_big",
         "Count": 1
       }
     }

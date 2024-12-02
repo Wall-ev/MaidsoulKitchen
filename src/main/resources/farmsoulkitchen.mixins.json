@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.github.wallev.farmsoulkitchen.mixin",
+  "refmap": "farmsoulkitchen.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "server": [
+  ],
+  "mixins": [
+    "bakery.MixinCookingPotBlockEntity",
+    "bakery.MixinStoveBlockEntity",
+    "beachparty.MixinMiniFridgeBlockEntity",
+    "beachparty.MixinTikiBarBlockEntity",
+    "bnc.KegBlockEntityAccessor",
+    "candlelight.MixinCookingPanBlockEntity",
+    "candlelight.MixinCookingPotBlockEntity",
+    "drinkbeer.BeerBarrelBlockAccessor",
+    "fd.MixinCookingPotBlockEntity",
+    "herbal.MixinCauldronBlockEntity",
+    "herbal.MixinTeaKettleBlockEntity",
+    "mc.AbstractFurnaceAccessor",
+    "md.MixinCopperPotBlockEntity",
+    "tlm.MixinEntityMaid",
+    "vinery.MixinFermentationBarrelBlockEntity",
+    "yhc.KettleBlockAccessor",
+    "yhc.MixinBasePotBlockEntity"
+  ]
+}
