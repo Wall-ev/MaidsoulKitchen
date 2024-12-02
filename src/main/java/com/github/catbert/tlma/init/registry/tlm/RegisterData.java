@@ -20,6 +20,7 @@ import com.github.catbert.tlma.task.cook.v1.mc.TaskFurnace;
 import com.github.catbert.tlma.task.cook.v1.md.TaskMDCopperPot;
 import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskDryingRack;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskFermentationTank;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcMoka;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.catbert.tlma.task.farm.TaskBerryFarm;
@@ -40,6 +41,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> YHC_MOKA;
     public static TaskDataKey<CookData> YHC_TEA_KETTLE;
     public static TaskDataKey<CookData> YHC_DRYING_RACK;
+    public static TaskDataKey<CookData> YHC_FERMENTATION_TANK;
 
     public static TaskDataKey<CookData> DB_BEER;
 
@@ -84,6 +86,7 @@ public final class RegisterData {
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED.get()) {
             YHC_DRYING_RACK = register.register(TaskDryingRack.UID, CookData.CODEC);
+            YHC_FERMENTATION_TANK = register.register(TaskFermentationTank.UID, CookData.CODEC);
         }
 
 

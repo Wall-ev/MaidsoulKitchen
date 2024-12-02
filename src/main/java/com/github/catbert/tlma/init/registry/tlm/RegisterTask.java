@@ -17,6 +17,7 @@ import com.github.catbert.tlma.task.cook.v1.mc.TaskFurnace;
 import com.github.catbert.tlma.task.cook.v1.md.TaskMDCopperPot;
 import com.github.catbert.tlma.task.cook.v1.vinery.TaskFermentationBarrel;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskDryingRack;
+import com.github.catbert.tlma.task.cook.v1.yhc.TaskFermentationTank;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcMoka;
 import com.github.catbert.tlma.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.catbert.tlma.task.farm.TaskBerryFarm;
@@ -76,6 +77,7 @@ public final class RegisterTask {
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED.get()) {
             manager.add(TaskDryingRack.getInstance());
+            manager.add(new TaskFermentationTank());
         }
 
 

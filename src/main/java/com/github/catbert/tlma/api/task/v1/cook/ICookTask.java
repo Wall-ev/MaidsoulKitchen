@@ -13,6 +13,8 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -22,6 +24,8 @@ import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -120,5 +124,13 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     @Override
     default CookData getDefaultData() {
         return new CookData();
+    }
+
+    default NonNullList<Ingredient> getIngredients(Recipe<?> recipe) {
+       return recipe.getIngredients();
+    }
+
+    default ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
+        return recipe.getResultItem(pRegistryAccess);
     }
 }

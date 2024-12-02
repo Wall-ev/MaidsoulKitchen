@@ -89,7 +89,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             String search = this.searchBox.getValue().toLowerCase(Locale.US);
             recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level)
                     .stream().filter(recipe -> {
-                        return recipe.getResultItem(registryAccess).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
+                        return ((ICookTask<?, ?>) task).getResultItem((Recipe<?>)recipe, registryAccess).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
                     }).toList();
         } else {
             recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level); // all recipes
@@ -341,7 +341,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 Recipe recipe = this.recipeList.get(index++);
                 int x = startX + (ref.rowWidth() + ref.rowSpacing()) * col;
                 int y = startY + (ref.colHeight() + ref.colSpacing()) * row;
-                RecButton recButton = new RecButton(maid, cookData, recipe, x, y) {
+                RecButton recButton = new RecButton(maid, (ICookTask<?, ?>) task, cookData, recipe, x, y) {
                     @Override
                     public void onClick(double pMouseX, double pMouseY) {
                         arAndSyncRec(getRecipe().getId().toString());

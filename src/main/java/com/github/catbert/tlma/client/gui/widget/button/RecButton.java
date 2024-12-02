@@ -1,6 +1,7 @@
 package com.github.catbert.tlma.client.gui.widget.button;
 
 import com.github.catbert.tlma.TLMAddon;
+import com.github.catbert.tlma.api.task.v1.cook.ICookTask;
 import com.github.catbert.tlma.config.subconfig.TaskConfig;
 import com.github.catbert.tlma.entity.data.inner.task.CookData;
 import com.github.catbert.tlma.inventory.tooltip.AmountTooltip;
@@ -23,17 +24,19 @@ import java.util.Optional;
 public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(TLMAddon.MOD_ID, "textures/gui/cook_guide.png");
     private final EntityMaid maid;
+    private final ICookTask<?, ?> cookTask;
     private final CookData cookData;
     private final Recipe<?> recipe;
     private final ItemStack stack;
     @SuppressWarnings("all")
-    public RecButton(EntityMaid maid, CookData cookData, Recipe<?> recipe, int pX, int pY) {
+    public RecButton(EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData, Recipe<?> recipe, int pX, int pY) {
         super(pX, pY, 20, 20, cookData.recs().contains(recipe.getId().toString()));
         this.initTextureValues(179, 25, 22, 0, TEXTURE);
         this.maid = maid;
+        this.cookTask = cookTask;
         this.recipe = recipe;
         this.cookData = cookData;
-        this.stack = recipe.getResultItem(Minecraft.getInstance().level.registryAccess());
+        this.stack = cookTask.getResultItem(recipe, Minecraft.getInstance().level.registryAccess());
     }
 
     public void toggleState() {
@@ -68,7 +71,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
     @SuppressWarnings("all")
     private void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        renderTooltipWithImage(recipe.getResultItem(mc.level.registryAccess()), mc, pGuiGraphics, pMouseX, pMouseY);
+        renderTooltipWithImage(stack, mc, pGuiGraphics, pMouseX, pMouseY);
     }
 
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
@@ -77,7 +80,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.SELECT.name);
         boolean overSize = cookData.recs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
-        List<Ingredient> ingres = recipe.getIngredients();
+        List<Ingredient> ingres = cookTask.getIngredients(recipe);
         Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);

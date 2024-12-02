@@ -388,7 +388,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     protected Pair<List<Integer>, List<Item>> getAmountIngredient(T recipe, Map<Item, Integer> available) {
-        List<Ingredient> ingredients = recipe.getIngredients();
+        List<Ingredient> ingredients = task.getIngredients(recipe);
         boolean[] canMake = {true};
         boolean[] single = {false};
         List<Item> invIngredient = new ArrayList<>();
