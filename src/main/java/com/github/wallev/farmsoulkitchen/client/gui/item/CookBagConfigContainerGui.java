@@ -3,7 +3,7 @@ package com.github.wallev.farmsoulkitchen.client.gui.item;
 import com.github.wallev.farmsoulkitchen.client.gui.widget.button.CookBagModeButton;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.farmsoulkitchen.network.NetworkHandler;
 import com.github.wallev.farmsoulkitchen.network.message.SetCookBagBindModeMessage;
 import net.minecraft.client.gui.Font;
@@ -21,8 +21,8 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
     protected String bindMode;
 
     public CookBagConfigContainerGui(CookBagConfigContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("gui.farmsoulkitchen.cook_bag.config.title"));
-        this.bindMode = ItemCookBag.getBindMode(menu.cookBag);
+        super(container, inv, Component.translatable("gui.farmsoulkitchen.culinary_hub.config.title"));
+        this.bindMode = ItemCulinaryHub.getBindMode(menu.cookBag);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         int x = leftPos + 6;
         int y = topPos + 20;
         for (BagType value : BagType.values()) {
-            MutableComponent title = Component.translatable("gui.farmsoulkitchen.cook_bag.config.bind_mode." + value.translateKey);
+            MutableComponent title = Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey);
             CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, Math.max(font.width(title) + 8, 100), 20, title, b -> {
             }) {
                 @Override
@@ -65,7 +65,7 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
     }
 
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(this.font, Component.translatable("gui.farmsoulkitchen.cook_bag.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
+        pGuiGraphics.drawString(this.font, Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }

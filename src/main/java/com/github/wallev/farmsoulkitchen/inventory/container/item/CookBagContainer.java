@@ -1,7 +1,7 @@
 package com.github.wallev.farmsoulkitchen.inventory.container.item;
 
 import com.github.wallev.farmsoulkitchen.init.InitItems;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -23,7 +23,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
 
     public CookBagContainer(int id, Inventory inventory, ItemStack cookBag) {
         super(TYPE, id, inventory, cookBag);
-        this.handlers = ItemCookBag.getContainers(cookBag);
+        this.handlers = ItemCulinaryHub.getContainers(cookBag);
         this.addBagTypeSlots(handlers);
     }
 
@@ -43,7 +43,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
     protected void setContainer(int slotId, Map<BagType, ItemStackHandler> handlers) {
         for (BagType value : BagType.values()) {
             if (slotId >= value.startIndex && slotId < value.endIndex) {
-                ItemCookBag.setContainer(cookBag, handlers);
+                ItemCulinaryHub.setContainer(cookBag, handlers);
                 break;
             }
         }
@@ -58,7 +58,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                 this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
                     @Override
                     public boolean mayPlace(@NotNull ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.COOK_BAG.get());
+                        return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.CULINARY_HUB.get());
                     }
                 });
             }
@@ -75,7 +75,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                     this.addSlot(new SlotItemHandler(container1, j, 8 + col * 18, yOffset) {
                         @Override
                         public boolean mayPlace(@NotNull ItemStack stack) {
-                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.COOK_BAG.get());
+                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(InitItems.CULINARY_HUB.get());
                         }
                     });
                 }

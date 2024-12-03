@@ -157,7 +157,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
                 containerStack.shrink(takeAmount);
                 blockEntity.fluids.drain(sakeFluid.type.amount() * takeAmount, IFluidHandler.FluidAction.EXECUTE);
-                ItemHandlerHelper.insertItemStacked(maidInv, sakeFluid.type.item.asStack(takeAmount), false);
+                ItemHandlerHelper.insertItemStacked(maidInv, sakeFluid.type.asStack(takeAmount), false);
 
                 blockEntity.notifyTile();
 
@@ -234,7 +234,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
         SimpleFermentationRecipe fermentationRecipe = (SimpleFermentationRecipe) recipe;
         Fluid fluid = fermentationRecipe.outputFluid.getFluid();
         if (fluid instanceof SakeFluid sakeFluid) {
-            return sakeFluid.type.item.asStack();
+            return sakeFluid.type.asStack(1);
         }
         return Items.AIR.getDefaultInstance();
     }

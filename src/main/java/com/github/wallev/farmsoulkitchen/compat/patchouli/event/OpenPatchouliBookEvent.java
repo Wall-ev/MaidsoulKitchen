@@ -15,8 +15,7 @@ public class OpenPatchouliBookEvent {
 
         if (uid.getNamespace().equals(FarmsoulKitchen.MOD_ID) && event.getTask() instanceof ILittleMaidTask task) {
             ResourceLocation location = new ResourceLocation(TouhouLittleMaid.MOD_ID, "memorizable_gensokyo");
-            String lowerCase = task.getBookEntryType().name;
-            PatchouliAPI.get().openBookEntry(location, new ResourceLocation(TouhouLittleMaid.MOD_ID, "addon/" + lowerCase), 1);
+            PatchouliAPI.get().openBookEntry(location, new ResourceLocation(TouhouLittleMaid.MOD_ID, "farmsoulkitchen/" + task.getBookEntry()), 1);
         }
     }
 

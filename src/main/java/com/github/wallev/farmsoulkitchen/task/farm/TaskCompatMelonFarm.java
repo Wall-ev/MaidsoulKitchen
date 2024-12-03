@@ -125,4 +125,9 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
     public static TaskCompatMelonFarm getInstance() {
         return INSTANCE;
     }
+
+    @Override
+    public String getBookEntry() {
+        return "melon";
+    }
 }

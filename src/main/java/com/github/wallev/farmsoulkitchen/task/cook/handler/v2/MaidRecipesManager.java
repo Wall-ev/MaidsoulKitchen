@@ -4,7 +4,7 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.CookBagInventory;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.ICookInventory;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidInventory;
@@ -154,15 +154,15 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public void mapChestIngredient(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return;
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return;
 
-        List<BlockPos> ingredientPos = ItemCookBag.getBindModePoses(stackInSlot1, BagType.INGREDIENT.name);
+        List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(stackInSlot1, BagType.INGREDIENT.name);
         if (ingredientPos.isEmpty()) return;
 
-        Map<BagType, ItemStackHandler> containers = ItemCookBag.getContainers(stackInSlot1);
+        Map<BagType, ItemStackHandler> containers = ItemCulinaryHub.getContainers(stackInSlot1);
         if (!containers.containsKey(BagType.INGREDIENT)) return;
         ItemStackHandler inventory = containers.get(BagType.INGREDIENT);
-//        ItemStackHandler inventory = ItemCookBag.getContainer(stackInSlot1);
+//        ItemStackHandler inventory = ItemCulinaryHub.getContainer(stackInSlot1);
 
         ServerLevel level = (ServerLevel) maid.level;
 
@@ -224,7 +224,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
         // 更新CookBag的inventory
-        ItemCookBag.setContainer(stackInSlot1, containers);
+        ItemCulinaryHub.setContainer(stackInSlot1, containers);
     }
 
     private void createRecipesIngredients(EntityMaid maid) {
@@ -257,12 +257,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private static void tranCookBag2Chest(EntityMaid maid, BagType bagType) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return;
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return;
 
-        List<BlockPos> ingredientPos = ItemCookBag.getBindModePoses(stackInSlot1, bagType.name);
+        List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(stackInSlot1, bagType.name);
         if (ingredientPos.isEmpty()) return;
 
-        Map<BagType, ItemStackHandler> containers = ItemCookBag.getContainers(stackInSlot1);
+        Map<BagType, ItemStackHandler> containers = ItemCulinaryHub.getContainers(stackInSlot1);
         if (!containers.containsKey(bagType)) return;
         ItemStackHandler itemStackHandler = containers.get(bagType);
 
@@ -282,7 +282,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                 }
             }
         }
-        ItemCookBag.setContainer(stackInSlot1, containers);
+        ItemCulinaryHub.setContainer(stackInSlot1, containers);
     }
 
     private void createIngres(EntityMaid maid) {
@@ -304,7 +304,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public ICookInventory getIngredientInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.COOK_BAG.get()))  {
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get()))  {
             this.setLastInv(this.maidInventory);
         } else {
             this.setLastInv(new CookBagInventory(stackInSlot1));
@@ -470,7 +470,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public IItemHandlerModifiable getOutputInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return maidInv;
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return maidInv;
 
         ICookInventory lastIngredientInv1 = this.getLastInv();
 
@@ -480,7 +480,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public IItemHandlerModifiable getIngreInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.COOK_BAG.get())) return maidInv;
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return maidInv;
 
         ICookInventory lastIngredientInv1 = this.getLastInv();
 

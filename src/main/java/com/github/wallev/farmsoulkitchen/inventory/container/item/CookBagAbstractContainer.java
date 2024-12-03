@@ -35,6 +35,6 @@ public abstract class CookBagAbstractContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return pPlayer.getMainHandItem().is(InitItems.COOK_BAG.get());
+        return pPlayer.getMainHandItem().is(InitItems.CULINARY_HUB.get());
     }
 }

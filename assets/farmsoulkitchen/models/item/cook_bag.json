@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "farmsoulkitchen:item/cook_bag"
+    "layer0": "farmsoulkitchen:item/culinary_hub"
   }
 }

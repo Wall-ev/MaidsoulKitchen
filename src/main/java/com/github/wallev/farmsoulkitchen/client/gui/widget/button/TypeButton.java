@@ -2,6 +2,7 @@ package com.github.wallev.farmsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -27,7 +28,7 @@ public class TypeButton extends NormalTooltipButton {
     }
 
     private void setModeUid(boolean isSelected) {
-        this.modeUid = isSelected ? CookData.Mode.SELECT.name : CookData.Mode.RANDOM.name;
+        this.modeUid = isSelected ? CookData.Mode.RANDOM.name : CookData.Mode.SELECT.name;
     }
 
     @Override
@@ -47,6 +48,8 @@ public class TypeButton extends NormalTooltipButton {
 
     @Override
     public void renderTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
-        graphics.renderComponentTooltip(mc.font, List.of(Component.translatable(String.format("gui.farmsoulkitchen.btn.cook_guide.type.%s.desc", this.modeUid))), mouseX, mouseY);
+        List<Component> translatable = List.of(Component.translatable(String.format("gui.farmsoulkitchen.btn.cook_guide.type.%s.desc.0", this.modeUid)),
+                Component.translatable(String.format("gui.farmsoulkitchen.btn.cook_guide.type.%s.desc.1", this.modeUid)).withStyle(ChatFormatting.GRAY));
+        graphics.renderComponentTooltip(mc.font, translatable, mouseX, mouseY);
     }
 }

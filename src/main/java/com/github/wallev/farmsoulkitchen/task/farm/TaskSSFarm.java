@@ -59,4 +59,9 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
     public static TaskSSFarm getInstance() {
         return INSTANCE;
     }
+
+    @Override
+    public String getBookEntry() {
+        return "sereneseasons_farm";
+    }
 }

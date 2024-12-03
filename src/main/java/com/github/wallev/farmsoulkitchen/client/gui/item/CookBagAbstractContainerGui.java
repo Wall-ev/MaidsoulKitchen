@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CookBagAbstractContainerGui<T extends CookBagAbstractContainer> extends AbstractContainerScreen<T> {
-    protected static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/cook_bag_container.png");
-    protected static final ResourceLocation CONFIG_BACKGROUND = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/cook_bag_config.png");
+    protected static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/culinary_hub_container.png");
+    protected static final ResourceLocation CONFIG_BACKGROUND = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/culinary_hub_config.png");
     protected final Component titleComponent;
 
     public CookBagAbstractContainerGui(T container, Inventory inv, Component titleIn) {

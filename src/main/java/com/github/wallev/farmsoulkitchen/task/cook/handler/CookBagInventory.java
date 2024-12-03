@@ -1,7 +1,7 @@
 package com.github.wallev.farmsoulkitchen.task.cook.handler;
 
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +26,7 @@ public class CookBagInventory implements ICookInventory {
 
     public void refreshInv() {
         clearCacheStackInfo();
-        containers = ItemCookBag.getContainers(stack);
+        containers = ItemCulinaryHub.getContainers(stack);
         ItemStackHandler availableInv = containers.getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
         List<Integer> blackSlots = getBlackSlots();
         for (int i = 0; i < availableInv.getSlots(); i++) {
@@ -104,6 +104,6 @@ public class CookBagInventory implements ICookInventory {
 
     @Override
     public void syncInv() {
-        ItemCookBag.setContainer(stack, containers);
+        ItemCulinaryHub.setContainer(stack, containers);
     }
 }

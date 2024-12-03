@@ -1,5 +1,7 @@
 package com.github.wallev.farmsoulkitchen.task.other;
 
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
+import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidFeedAnimalTaskT;
@@ -11,14 +13,18 @@ import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -107,6 +113,19 @@ public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
         return Lists.newArrayList(Pair.of("can_feed", Predicates.alwaysTrue()), Pair.of("assault_weapon", this::hasAssaultWeapon));
     }
 
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            public Component getDisplayName() {
+                return Component.literal("Maid Task Config Container");
+            }
+
+            public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {
+                return new DefaultMaidTaskConfigContainer(index, playerInventory, entityId);
+            }
+        };
+    }
+
     private NearestVisibleLivingEntities getEntities(EntityMaid maid) {
         return maid.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).orElse(NearestVisibleLivingEntities.empty());
     }
@@ -121,5 +140,10 @@ public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
 
     public static TaskFeedAnimalT getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public String getBookEntry() {
+        return "feed_animal_t";
     }
 }

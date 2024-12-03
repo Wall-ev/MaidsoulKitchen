@@ -9,7 +9,7 @@ import org.anti_ad.mc.ipn.api.IPNIgnore;
 @IPNIgnore
 public class CookBagGui extends CookBagAbstractContainerGui<CookBagContainer> {
     public CookBagGui(CookBagContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("gui.farmsoulkitchen.cook_bag.bag.title"));
+        super(container, inv, Component.translatable("gui.farmsoulkitchen.culinary_hub.bag.title"));
     }
 
     @Override
@@ -26,8 +26,8 @@ public class CookBagGui extends CookBagAbstractContainerGui<CookBagContainer> {
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-        pGuiGraphics.drawString(font, Component.translatable("gui.farmsoulkitchen.cook_bag.bag.ingredient"), inventoryLabelX, 12, 4210752, false);
-        pGuiGraphics.drawString(font, Component.translatable("gui.farmsoulkitchen.cook_bag.bag.other"), inventoryLabelX, 78, 4210752, false);
+        pGuiGraphics.drawString(font, Component.translatable("gui.farmsoulkitchen.culinary_hub.bag.ingredient"), inventoryLabelX, 12, 4210752, false);
+        pGuiGraphics.drawString(font, Component.translatable("gui.farmsoulkitchen.culinary_hub.bag.other"), inventoryLabelX, 78, 4210752, false);
     }
 
     @Override

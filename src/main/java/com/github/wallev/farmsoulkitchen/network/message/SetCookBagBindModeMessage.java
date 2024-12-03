@@ -1,6 +1,6 @@
 package com.github.wallev.farmsoulkitchen.network.message;
 
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -25,7 +25,7 @@ public record SetCookBagBindModeMessage(String mode) {
                 if (sender == null) {
                     return;
                 }
-                ItemCookBag.setBindModeTag(sender.getMainHandItem(), message.mode);
+                ItemCulinaryHub.setBindModeTag(sender.getMainHandItem(), message.mode);
             });
         }
         context.setPacketHandled(true);

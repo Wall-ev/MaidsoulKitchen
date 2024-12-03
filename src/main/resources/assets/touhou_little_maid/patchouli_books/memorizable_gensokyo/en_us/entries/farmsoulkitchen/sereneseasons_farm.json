@@ -1,0 +1,12 @@
+{
+  "sortnum": 2,
+  "name": "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.sereneseasons_farm",
+  "icon": "minecraft:iron_hoe",
+  "category": "touhou_little_maid:farmsoulkitchen",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.sereneseasons_farm.pages.0.1.text"
+    }
+  ]
+}

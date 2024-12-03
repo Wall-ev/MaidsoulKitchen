@@ -3,7 +3,7 @@ package com.github.wallev.farmsoulkitchen.client.event;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -29,12 +29,12 @@ public final class CookBagPosRenderEvent {
                 return;
             }
             ItemStack mainStack = mc.player.getMainHandItem();
-            if (!mainStack.is(InitItems.COOK_BAG.get())) {
+            if (!mainStack.is(InitItems.CULINARY_HUB.get())) {
                 return;
             }
             for (BagType value : BagType.values()) {
                 BagType.ColorA color = value.color;
-                for (BlockPos pos : ItemCookBag.getBindModePoses(mainStack, value.name)) {
+                for (BlockPos pos : ItemCulinaryHub.getBindModePoses(mainStack, value.name)) {
                     Vec3 position = event.getCamera().getPosition().reverse();
                     AABB aabb = new AABB(pos).move(position);
                     VertexConsumer buffer = mc.renderBuffers().bufferSource().getBuffer(RenderType.LINES);

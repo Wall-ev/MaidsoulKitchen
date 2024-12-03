@@ -12,4 +12,7 @@ public interface ILittleMaidTask extends IMaidTask {
         return TaskBookEntryType.OTHER;
     }
 
+    default String getBookEntry() {
+        return this.getBookEntryType().name;
+    }
 }

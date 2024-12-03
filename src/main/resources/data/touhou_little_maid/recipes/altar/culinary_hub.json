@@ -4,7 +4,7 @@
     "type": "minecraft:item",
     "nbt": {
       "Item": {
-        "id": "farmsoulkitchen:cook_bag",
+        "id": "farmsoulkitchen:culinary_hub",
         "Count": 1
       }
     }

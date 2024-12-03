@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public class CookBagGuiSideTabButton extends Button implements ITooltipButton {
-    private static final ResourceLocation SIDE = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/cook_bag_gui_right_side.png");
+    private static final ResourceLocation SIDE = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/culinary_hub_gui_right_side.png");
     private static final int V_OFFSET = 107;
     private final List<Component> tooltips;
     private final int top;

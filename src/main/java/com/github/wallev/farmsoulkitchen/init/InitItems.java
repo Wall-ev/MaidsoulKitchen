@@ -1,7 +1,7 @@
 package com.github.wallev.farmsoulkitchen.init;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemDamageableBauble;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemMaidBackpack;
 import net.minecraft.world.item.Item;
@@ -15,5 +15,5 @@ public final class InitItems {
 
     public static RegistryObject<Item> OLD_MAID_BACKPACK_BIG = ITEMS.register("old_maid_backpack_big", ItemMaidBackpack::new);
     public static RegistryObject<Item> BURN_PROTECT_BAUBLE = ITEMS.register("burn_protect_bauble", () -> new ItemDamageableBauble(128));
-    public static RegistryObject<Item> COOK_BAG = ITEMS.register("cook_bag", ItemCookBag::new);
+    public static RegistryObject<Item> CULINARY_HUB = ITEMS.register("culinary_hub", ItemCulinaryHub::new);
 }

@@ -1,6 +1,6 @@
 package com.github.wallev.farmsoulkitchen.network.message;
 
-import com.github.wallev.farmsoulkitchen.item.ItemCookBag;
+import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -24,7 +24,7 @@ public record ToggleCookBagGuiSideTabMessage(int tabId) {
                 if (sender == null) {
                     return;
                 }
-                ItemCookBag.openCookBagGuiFromSideTab(sender, message.tabId);
+                ItemCulinaryHub.openCookBagGuiFromSideTab(sender, message.tabId);
             });
         }
         context.setPacketHandled(true);
