@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.github.wallev.farmsoulkitchen.entity.event;
+package com.github.wallev.farmsoulkitchen.event;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

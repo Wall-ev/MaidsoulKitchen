@@ -23,6 +23,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
@@ -58,7 +59,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         }
     }
 
-    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType) {
+    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType, boolean requireHasItem) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
         if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return;
@@ -78,21 +79,30 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                 BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
                 if (stack.isEmpty()) break;
 
-                if (blockEntity != null) {
+                if (!SophistorageCompat.insert(stack, blockEntity, requireHasItem) && blockEntity != null) {
                     for (IChestType type : ChestManager.getAllChestTypes()) {
-                        if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
+                        if (!type.isChest(blockEntity)) continue;
+                        if (type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
 
                         blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
                             ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
                             stack.shrink(stack.getCount() - leftStack.getCount());
                         });
+                        makeChanged(blockEntity);
                         break;
                     }
-
                 }
             }
         }
         ItemCulinaryHub.setContainer(stackInSlot1, containers);
+    }
+
+    public static void makeChanged(BlockEntity tile) {
+        tile.setChanged();
+        Level world = tile.getLevel();
+        if (world != null) {
+            world.sendBlockUpdated(tile.getBlockPos(), tile.getBlockState(), tile.getBlockState(), 3);
+        }
     }
 
     public boolean isSingle() {
@@ -210,11 +220,14 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = new HashMap<>();
         Map<Item, List<ItemStack>> ingredientAmount = new HashMap<>();
+
+        Map<ItemStack, Pair<IItemHandler, Integer>> stackContentHandler = new HashMap<>();
+
+
         // 汇集所有箱子的原料
         for (BlockPos ingredientPo : ingredientPos) {
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
-            if (blockEntity != null) {
-
+            if (!SophistorageCompat.storageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null){
                 for (IChestType type : ChestManager.getAllChestTypes()) {
                     if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
                     blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
@@ -223,6 +236,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                             Item item = stackInSlot.getItem();
 
                             if (stackInSlot.isEmpty()) continue;
+
+                            stackContentHandler.put(stackInSlot, Pair.of(beInv, i));
 
                             available.merge(item, stackInSlot.getCount(), Integer::sum);
 
@@ -236,8 +251,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                     });
                     break;
                 }
-
-
             }
         }
         // 获取配方所需的原料的份量
@@ -261,10 +274,18 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                     if (itemStack.isEmpty()) continue;
                     int count = itemStack.getCount();
                     // 减去当前物品的数量还是大于0，证明还没满足，就整体移动
+
+                    Pair<IItemHandler, Integer> iTrackedContentsItemHandlerIntegerPair = stackContentHandler.get(itemStack);
+
+                    IItemHandler first1 = iTrackedContentsItemHandlerIntegerPair.getFirst();
+                    Integer second1 = iTrackedContentsItemHandlerIntegerPair.getSecond();
+
                     if (i1 - count > 0) {
-                        ItemHandlerHelper.insertItemStacked(inventory, itemStack, false);
+                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, itemStack.copy(), false);
+                        first1.extractItem(second1, itemStack.getCount() - itemStack1.getCount(), false);
                     } else {
-                        ItemHandlerHelper.insertItemStacked(inventory, itemStack.split(i1), false);
+                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, itemStack.copy(), false);
+                        first1.extractItem(second1, itemStack.getCount() - itemStack1.getCount(), false);
                         break;
                     }
                     i1 -= count;
@@ -274,8 +295,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 更新所有箱子的状态
         for (BlockPos ingredientPo : ingredientPos) {
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
-            if (blockEntity != null && blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).isPresent()) {
-                blockEntity.setChanged();
+            if (blockEntity != null) {
+                makeChanged(blockEntity);
             }
         }
         // 更新CookBag的inventory
@@ -302,11 +323,11 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     public void tranOutput2Chest(EntityMaid maid) {
-        tranCookBag2Chest(maid, BagType.OUTPUT);
+        tranCookBag2Chest(maid, BagType.OUTPUT, false);
     }
 
     public void tranUnIngre2Chest(EntityMaid maid) {
-        tranCookBag2Chest(maid, BagType.INGREDIENT);
+        tranCookBag2Chest(maid, BagType.INGREDIENT, true);
     }
 
     private void createIngres(EntityMaid maid) {
@@ -344,33 +365,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.lastInv = lastInv;
     }
 
-    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
-        ArrayList<Pair<List<Integer>, List<Item>>> oriPairs = new ArrayList<>(oriList);
-        for (int l = 0; l < times; l++) {
-            for (Pair<List<Integer>, List<Item>> listListPair : oriPairs) {
-                List<Integer> first = listListPair.getFirst();
-                List<Item> second = listListPair.getSecond();
-
-                boolean canRepeat = true;
-                for (int i = 0; i < second.size(); i++) {
-                    Integer availableCount = available.get(second.get(i));
-                    if (availableCount < first.get(i)) {
-                        canRepeat = false;
-                        break;
-                    }
-                }
-
-                if (canRepeat) {
-                    for (int i = 0; i < second.size(); i++) {
-                        Item item = second.get(i);
-                        available.put(item, available.get(item) - first.get(i));
-                    }
-                    oriList.add(listListPair);
-                }
-            }
-        }
-    }
-
 //    private List<Pair<List<Integer>, List<Item>>> repeat(List<Pair<List<Integer>, List<Item>>> oriList) {
 //        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
 //        List<Pair<List<Integer>, List<Item>>> list = new ArrayList<>(oriList);
@@ -397,6 +391,33 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        }
 //        return list;
 //    }
+
+    protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
+        ArrayList<Pair<List<Integer>, List<Item>>> oriPairs = new ArrayList<>(oriList);
+        for (int l = 0; l < times; l++) {
+            for (Pair<List<Integer>, List<Item>> listListPair : oriPairs) {
+                List<Integer> first = listListPair.getFirst();
+                List<Item> second = listListPair.getSecond();
+
+                boolean canRepeat = true;
+                for (int i = 0; i < second.size(); i++) {
+                    Integer availableCount = available.get(second.get(i));
+                    if (availableCount < first.get(i)) {
+                        canRepeat = false;
+                        break;
+                    }
+                }
+
+                if (canRepeat) {
+                    for (int i = 0; i < second.size(); i++) {
+                        Item item = second.get(i);
+                        available.put(item, available.get(item) - first.get(i));
+                    }
+                    oriList.add(listListPair);
+                }
+            }
+        }
+    }
 
     protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
         Map<Item, List<ItemStack>> inventoryStack = this.getIngredientInv(maid).getInventoryStack();

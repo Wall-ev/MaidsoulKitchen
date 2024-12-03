@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.entity.event;
+package com.github.wallev.farmsoulkitchen.event;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;

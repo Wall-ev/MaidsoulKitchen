@@ -4,7 +4,7 @@ import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.farmsoulkitchen.config.subconfig.RenderConfig;
 import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;
-import com.github.wallev.farmsoulkitchen.entity.event.MelonConfigEvent;
+import com.github.wallev.farmsoulkitchen.event.MelonConfigEvent;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;

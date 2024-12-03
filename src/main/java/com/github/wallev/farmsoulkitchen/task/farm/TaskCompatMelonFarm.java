@@ -7,7 +7,7 @@ import com.github.wallev.farmsoulkitchen.inventory.container.maid.CompatMelonCon
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
-import com.github.wallev.farmsoulkitchen.entity.event.MelonConfigEvent;
+import com.github.wallev.farmsoulkitchen.event.MelonConfigEvent;
 import com.github.wallev.farmsoulkitchen.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

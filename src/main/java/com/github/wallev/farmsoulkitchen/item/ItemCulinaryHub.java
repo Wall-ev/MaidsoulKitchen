@@ -7,6 +7,7 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.SophistorageCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,10 +27,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -219,13 +218,22 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             return super.useOn(context);
         }
 
-        for (IChestType allChestType : ChestManager.getAllChestTypes()) {
-            if (allChestType.isChest(te)) {
-                ItemStack stack = player.getMainHandItem();
-                String bindMode = getBindMode(stack);
-                if (!bindMode.isEmpty()) {
-                    actionModePos(stack, bindMode, pos);
-                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+        if (SophistorageCompat.isStorageBe(te)) {
+            ItemStack stack = player.getMainHandItem();
+            String bindMode = getBindMode(stack);
+            if (!bindMode.isEmpty()) {
+                actionModePos(stack, bindMode, pos);
+                return InteractionResult.sidedSuccess(worldIn.isClientSide);
+            }
+        } else {
+            for (IChestType allChestType : ChestManager.getAllChestTypes()) {
+                if (allChestType.isChest(te) && allChestType.canOpenByPlayer(te, player)) {
+                    ItemStack stack = player.getMainHandItem();
+                    String bindMode = getBindMode(stack);
+                    if (!bindMode.isEmpty()) {
+                        actionModePos(stack, bindMode, pos);
+                        return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                    }
                 }
             }
         }
