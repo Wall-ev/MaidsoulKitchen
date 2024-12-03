@@ -18,7 +18,9 @@
         - [x] Key
     - [ ] Youkai's Homecoming
         - [x] Moka Pot
-        - [ ] Kettle 
+        - [x] Kettle 
+        - [x] Fermentation Tank 
+        - [x] Drying Rack 
     - [ ] Cuisine Delight
     - [ ] My Nether's Delight
     - [x] Vinery
