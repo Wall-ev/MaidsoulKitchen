@@ -1,6 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
 
+import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
@@ -54,6 +56,43 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             this.initTaskData(maid);
             this.createRecipesIngredients(maid);
         }
+    }
+
+    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return;
+
+        List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(stackInSlot1, bagType.name);
+        if (ingredientPos.isEmpty()) return;
+
+        Map<BagType, ItemStackHandler> containers = ItemCulinaryHub.getContainers(stackInSlot1);
+        if (!containers.containsKey(bagType)) return;
+        ItemStackHandler itemStackHandler = containers.get(bagType);
+
+        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
+            ItemStack stack = itemStackHandler.getStackInSlot(i);
+            if (stack.isEmpty()) continue;
+
+            for (BlockPos ingredientPo : ingredientPos) {
+                BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
+                if (stack.isEmpty()) break;
+
+                if (blockEntity != null) {
+                    for (IChestType type : ChestManager.getAllChestTypes()) {
+                        if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
+
+                        blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
+                            stack.shrink(stack.getCount() - leftStack.getCount());
+                        });
+                        break;
+                    }
+
+                }
+            }
+        }
+        ItemCulinaryHub.setContainer(stackInSlot1, containers);
     }
 
     public boolean isSingle() {
@@ -175,23 +214,30 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         for (BlockPos ingredientPo : ingredientPos) {
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
             if (blockEntity != null) {
-                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
-                    for (int i = 0; i < beInv.getSlots(); i++) {
-                        ItemStack stackInSlot = beInv.getStackInSlot(i);
-                        Item item = stackInSlot.getItem();
 
-                        if (stackInSlot.isEmpty()) continue;
+                for (IChestType type : ChestManager.getAllChestTypes()) {
+                    if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
+                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                        for (int i = 0; i < beInv.getSlots(); i++) {
+                            ItemStack stackInSlot = beInv.getStackInSlot(i);
+                            Item item = stackInSlot.getItem();
 
-                        available.merge(item, stackInSlot.getCount(), Integer::sum);
+                            if (stackInSlot.isEmpty()) continue;
 
-                        List<ItemStack> itemStacks = ingredientAmount.get(item);
-                        if (itemStacks == null) {
-                            ingredientAmount.put(item, Lists.newArrayList(stackInSlot));
-                        }else {
-                            itemStacks.add(stackInSlot);
+                            available.merge(item, stackInSlot.getCount(), Integer::sum);
+
+                            List<ItemStack> itemStacks = ingredientAmount.get(item);
+                            if (itemStacks == null) {
+                                ingredientAmount.put(item, Lists.newArrayList(stackInSlot));
+                            } else {
+                                itemStacks.add(stackInSlot);
+                            }
                         }
-                    }
-                });
+                    });
+                    break;
+                }
+
+
             }
         }
         // 获取配方所需的原料的份量
@@ -261,37 +307,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     public void tranUnIngre2Chest(EntityMaid maid) {
         tranCookBag2Chest(maid, BagType.INGREDIENT);
-    }
-
-    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType) {
-        ItemStackHandler maidInv = maid.getMaidInv();
-        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return;
-
-        List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(stackInSlot1, bagType.name);
-        if (ingredientPos.isEmpty()) return;
-
-        Map<BagType, ItemStackHandler> containers = ItemCulinaryHub.getContainers(stackInSlot1);
-        if (!containers.containsKey(bagType)) return;
-        ItemStackHandler itemStackHandler = containers.get(bagType);
-
-        for (int i = 0; i < itemStackHandler.getSlots(); i++) {
-            ItemStack stack = itemStackHandler.getStackInSlot(i);
-            if (stack.isEmpty()) continue;
-
-            for (BlockPos ingredientPo : ingredientPos) {
-                BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
-                if (stack.isEmpty()) break;
-
-                if (blockEntity != null) {
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
-                        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
-                        stack.shrink(stack.getCount() - leftStack.getCount());
-                    });
-                }
-            }
-        }
-        ItemCulinaryHub.setContainer(stackInSlot1, containers);
     }
 
     private void createIngres(EntityMaid maid) {
