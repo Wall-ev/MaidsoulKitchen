@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.data;
+package com.github.wallev.farmsoulkitchen.datagen;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import net.minecraft.core.HolderLookup;

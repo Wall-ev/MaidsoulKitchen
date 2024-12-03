@@ -1,5 +1,6 @@
 package com.github.wallev.farmsoulkitchen;
 
+import com.github.wallev.farmsoulkitchen.chest.RandomizableCbeType;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.layer.LayerMaidLDBanner;
 import com.github.wallev.farmsoulkitchen.entity.backpack.OldBigBackpack;
@@ -54,7 +55,7 @@ public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void addChestType(ChestManager manager) {
-
+        manager.add(new RandomizableCbeType());
     }
 
     @Override

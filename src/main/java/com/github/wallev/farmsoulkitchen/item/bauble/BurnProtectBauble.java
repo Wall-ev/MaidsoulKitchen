@@ -1,7 +1,7 @@
 package com.github.wallev.farmsoulkitchen.item.bauble;
 
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidBauble;
-import com.github.wallev.farmsoulkitchen.data.ModDamageTypeTags;
+import com.github.wallev.farmsoulkitchen.datagen.ModDamageTypeTags;
 import com.github.wallev.farmsoulkitchen.init.InitEffects;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidDamageEvent;
