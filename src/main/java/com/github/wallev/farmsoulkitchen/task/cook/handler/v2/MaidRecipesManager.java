@@ -1,5 +1,6 @@
 package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
@@ -8,7 +9,6 @@ import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.CookBagInventory;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.ICookInventory;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidInventory;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -47,6 +47,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.maidInventory = new MaidInventory(maid);
         this.single = single;
         this.task = task;
+
+        this.getIngredientInv(maid);
 
         if (createRecIng) {
             this.initTaskData(maid);
@@ -223,6 +225,13 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                 }
             }
         }
+        // 更新所有箱子的状态
+        for (BlockPos ingredientPo : ingredientPos) {
+            BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
+            if (blockEntity != null && blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).isPresent()) {
+                blockEntity.setChanged();
+            }
+        }
         // 更新CookBag的inventory
         ItemCulinaryHub.setContainer(stackInSlot1, containers);
     }
@@ -304,7 +313,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public ICookInventory getIngredientInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get()))  {
+        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) {
             this.setLastInv(this.maidInventory);
         } else {
             this.setLastInv(new CookBagInventory(stackInSlot1));
@@ -312,12 +321,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return this.getLastInv();
     }
 
-    private void setLastInv(ICookInventory lastInv) {
-        this.lastInv = lastInv;
-    }
-
     public ICookInventory getLastInv() {
         return lastInv;
+    }
+
+    private void setLastInv(ICookInventory lastInv) {
+        this.lastInv = lastInv;
     }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {

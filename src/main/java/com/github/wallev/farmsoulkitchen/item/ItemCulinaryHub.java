@@ -1,5 +1,7 @@
 package com.github.wallev.farmsoulkitchen.item;
 
+import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
+import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -217,12 +219,14 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             return super.useOn(context);
         }
 
-        if ((te instanceof RandomizableContainerBlockEntity rbe && rbe.canOpen(player)) || (te != null && te.getCapability(ForgeCapabilities.ITEM_HANDLER).isPresent())) {
-            ItemStack stack = player.getMainHandItem();
-            String bindMode = getBindMode(stack);
-            if (!bindMode.isEmpty()) {
-                actionModePos(stack, bindMode, pos);
-                return InteractionResult.sidedSuccess(worldIn.isClientSide);
+        for (IChestType allChestType : ChestManager.getAllChestTypes()) {
+            if (allChestType.isChest(te)) {
+                ItemStack stack = player.getMainHandItem();
+                String bindMode = getBindMode(stack);
+                if (!bindMode.isEmpty()) {
+                    actionModePos(stack, bindMode, pos);
+                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                }
             }
         }
 
