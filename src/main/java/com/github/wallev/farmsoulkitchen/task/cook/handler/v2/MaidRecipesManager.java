@@ -328,11 +328,15 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
                     Integer second1 = iTrackedContentsItemHandlerIntegerPair.getSecond();
 
                     if (i1 - count > 0) {
-                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, itemStack.copy(), false);
+                        ItemStack copy = itemStack.copy();
+
+                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, copy, false);
                         first1.extractItem(second1, itemStack.getCount() - itemStack1.getCount(), false);
                     } else {
-                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, itemStack.copy(), false);
-                        first1.extractItem(second1, itemStack.getCount() - itemStack1.getCount(), false);
+                        ItemStack copy = itemStack.copyWithCount(i1);
+
+                        ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, copy, false);
+                        first1.extractItem(second1, i1 - itemStack1.getCount(), false);
                         break;
                     }
                     i1 -= count;
@@ -606,8 +610,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
             if (additionSlot > -1) {
                 ItemStack stackInSlot = maidInv.getStackInSlot(additionSlot);
+                ItemStack copy = stackInSlot.copy();
                 stackInSlot.setCount(0);
-                return stackInSlot.copy();
+                return copy;
 
             }
 
