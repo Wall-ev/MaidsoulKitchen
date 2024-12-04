@@ -13,6 +13,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbCauldron;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbTeaKettle;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskAirCompressor;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskKkBrewingBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.mc.TaskFurnace;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.md.TaskMDCopperPot;
@@ -90,6 +91,9 @@ public final class RegisterTask {
         }
         if (Mods.KK.isLoaded() && RegisterConfig.KK_BREW_BARREL.get()) {
             manager.add(new TaskKkBrewingBarrel());
+        }
+        if (Mods.KK.isLoaded() && RegisterConfig.KK_AIR_COMPRESSOR.get()) {
+            manager.add(new TaskAirCompressor());
         }
 
 

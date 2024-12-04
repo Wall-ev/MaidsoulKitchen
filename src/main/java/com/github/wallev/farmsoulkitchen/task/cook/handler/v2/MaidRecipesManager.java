@@ -472,6 +472,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
         Map<Item, List<ItemStack>> inventoryStack = this.getIngredientInv(maid).getInventoryStack();
+//        return oriList.stream().map(p -> Pair.of(p.getFirst(), p.getSecond().stream().map(inventoryStack::get).toList())).toList();
+
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
                 return inventoryStack.get(item);

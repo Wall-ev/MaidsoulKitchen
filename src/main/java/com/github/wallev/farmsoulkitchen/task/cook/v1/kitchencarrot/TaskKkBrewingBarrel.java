@@ -90,7 +90,9 @@ public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, 
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, BrewingBarrelBlockEntity brewBe, MaidRecipesManager<BrewingBarrelRecipe> recManager) {
         CombinedInvWrapper maidInv = maid.getAvailableInv(true);
 
-        replenishWater(maid, brewBe, maidInv);
+        if (!brewBe.hasEnoughWater()) {
+            replenishWater(maid, brewBe, maidInv);
+        }
 
         if (!this.getResultHandler(brewBe).getStackInSlot(getOutputSlot()).isEmpty()) {
             extractOutputStack(getResultHandler(brewBe), recManager.getOutputInv(maid), brewBe);

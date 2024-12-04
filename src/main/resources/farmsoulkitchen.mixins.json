@@ -20,6 +20,7 @@
     "fd.MixinCookingPotBlockEntity",
     "herbal.MixinCauldronBlockEntity",
     "herbal.MixinTeaKettleBlockEntity",
+    "kitchkarrot.AirCompressorBlockEntityAccessor",
     "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",

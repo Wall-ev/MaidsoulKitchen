@@ -60,6 +60,8 @@
   "config.farmsoulkitchen.register.db_beer.tooltip": "这会启用或禁用喝啤酒啦啤酒桶任务的注册",
   "config.farmsoulkitchen.register.kk_brew_barrel": "胡萝卜厨房酿造桶任务",
   "config.farmsoulkitchen.register.kk_brew_barrel.tooltip": "这会启用或禁用胡萝卜厨房酿造桶任务的注册",
+  "config.farmsoulkitchen.register.kk_air_compressor": "胡萝卜厨房空气压缩机任务",
+  "config.farmsoulkitchen.register.kk_air_compressor.tooltip": "这会启用或禁用胡萝卜厨房空气压缩机任务的注册",
   "config.farmsoulkitchen.register.dbk_cooking_pot": "馥郁烘焙小烹饪锅任务",
   "config.farmsoulkitchen.register.dbk_cooking_pot.tooltip": "这会启用或禁用馥郁烘焙小烹饪锅任务的注册",
   "config.farmsoulkitchen.register.dbk_stove": "馥郁烘焙烤炉任务",
@@ -148,6 +150,8 @@
   "task.farmsoulkitchen.drinkbeer_beerbarrel.desc": "女仆会使用和啤酒啦的啤酒桶酿酒",
   "task.farmsoulkitchen.kk_brew_barrel": "酿造桶",
   "task.farmsoulkitchen.kk_brew_barrel.desc": "女仆会使用胡萝卜厨房的酿造桶酿酒",
+  "task.farmsoulkitchen.kk_air_compressor": "空气压缩机",
+  "task.farmsoulkitchen.kk_air_compressor.desc": "女仆会使用胡萝卜厨房的空气压缩机制作食物",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
 
 
