@@ -5,9 +5,12 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.farmsoulkitchen.network.NetworkHandler;
+import com.github.wallev.farmsoulkitchen.network.message.ClearCookBagBindPosesMessage;
 import com.github.wallev.farmsoulkitchen.network.message.SetCookBagBindModeMessage;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -34,10 +37,15 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
 
     private void addBindModeButtons() {
         int x = leftPos + 6;
-        int y = topPos + 20;
+        int y = topPos + 6;
         for (BagType value : BagType.values()) {
             MutableComponent title = Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey);
-            CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, Math.max(font.width(title) + 8, 100), 20, title, b -> {
+
+            if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
+                title.append(Component.translatable("gui.farmsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
+            }
+
+            CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
             }) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
@@ -55,8 +63,20 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
                 }
             };
 
+            if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
+                cookBagModeButton.active = false;
+            }
+
             this.addRenderableWidget(cookBagModeButton);
         }
+
+        Button clearButton = Button.builder(Component.translatable("gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses").withStyle(ChatFormatting.YELLOW), b -> {
+                    NetworkHandler.sendToServer(new ClearCookBagBindPosesMessage());
+                    onClose();
+                })
+                .bounds(x, y += 22, 100, 20)
+                .build();
+        this.addRenderableWidget(clearButton);
     }
 
     @Override

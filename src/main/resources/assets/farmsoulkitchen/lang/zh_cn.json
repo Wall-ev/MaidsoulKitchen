@@ -232,5 +232,8 @@
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.start_addition": "启动条件",
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.ingredient_addition": "输入原料条件",
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output_addition": "输出条件",
-  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output": "输出"
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output": "输出",
+  "gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses": "清除",
+
+  "gui.farmsoulkitchen.development": "(开发中)"
 }

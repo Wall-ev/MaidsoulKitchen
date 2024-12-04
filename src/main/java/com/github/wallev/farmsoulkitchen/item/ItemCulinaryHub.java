@@ -2,6 +2,7 @@ package com.github.wallev.farmsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
+import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -49,6 +50,19 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     public ItemCulinaryHub() {
         super(new Item.Properties().stacksTo(1));
+    }
+
+    public static void removeModePoses(ItemStack stack) {
+        if (stack.is(InitItems.CULINARY_HUB.get())) {
+            CompoundTag tag = stack.getOrCreateTag();
+            CompoundTag compound = tag.getCompound(BIND_POS_TAG);
+
+            for (BagType value : BagType.values()) {
+                compound.remove(value.name);
+            }
+
+            tag.put(BIND_POS_TAG, compound);
+        }
     }
 
     public static void actionModePos(ItemStack stack, String mode, BlockPos blockPos) {

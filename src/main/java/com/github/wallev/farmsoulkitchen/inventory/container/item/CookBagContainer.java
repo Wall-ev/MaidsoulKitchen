@@ -71,6 +71,11 @@ public class CookBagContainer extends CookBagAbstractContainer {
             int j = 0;
             ItemStackHandler container1 = handlers.getOrDefault(value, new ItemStackHandler(value.size * 9));
             for (int row = 0; row < value.size; ++row, yOffset += 18) {
+
+                if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
+                    continue;
+                }
+
                 for (int col = 0; col < 9; ++col, j++) {
                     this.addSlot(new SlotItemHandler(container1, j, 8 + col * 18, yOffset) {
                         @Override

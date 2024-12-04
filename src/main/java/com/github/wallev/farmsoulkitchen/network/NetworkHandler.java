@@ -35,6 +35,8 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionFruitFarmRuleMessage.class, ActionFruitFarmRuleMessage::encode, ActionFruitFarmRuleMessage::decode, ActionFruitFarmRuleMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, ClearCookBagBindPosesMessage.class, ClearCookBagBindPosesMessage::encode, ClearCookBagBindPosesMessage::decode, ClearCookBagBindPosesMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
 
         // Client
