@@ -44,10 +44,10 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         ItemStack mealStack = getBeInvMealStack(blockEntity, inventory);
         ItemStack container = getFoodContainer(blockEntity);
 //        boolean hasContainerItem = maidRecipesManager.getMaidInventory().getInventoryItem().containsKey(container.getItem());
-        int stackSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(container.getItem()));
+        boolean hasOutputAdditionItem = maidRecipesManager.hasOutputAdditionItem(entityMaid, container);
         // 有待取出物品和对应的容器
 //        LOGGER.info("mealStack: {} {} ", mealStack, stackSlot);
-        if (!mealStack.isEmpty() && stackSlot > -1) {
+        if (!mealStack.isEmpty() && hasOutputAdditionItem) {
             return true;
         }
 
@@ -117,23 +117,19 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         ItemStack outputStack = inventory.getStackInSlot(getOutputSlot());
         ItemStack container = getFoodContainer(blockEntity);
 
-//        ItemStack maidContainerStack = maidRecipesManager.getItemStack(container.getItem());
-
-        int maidContainerStackIndex = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(container.getItem()));
+        ItemStack outputAdditionItem = maidRecipesManager.findOutputAdditionItem(entityMaid, container);
 
         // 取出杯具（相当于盛饭需要碗，但是此时你手上有被子；所以需要先取出杯子，再把碗放到你手上）
-        if (!mealStack.isEmpty() && maidContainerStackIndex > -1) {
+        if (!mealStack.isEmpty() && !outputAdditionItem.isEmpty()) {
             // 取出杯具
             if (!containerInputStack.isEmpty()) {
                 inventory.extractItem(getContainerStackSlot(), containerInputStack.getCount(), false);
-                ItemHandlerHelper.insertItemStacked(availableInv, containerInputStack.copy(), false);
+                ItemHandlerHelper.insertItemStacked(maidRecipesManager.getOutputAdditionInv(entityMaid), containerInputStack.copy(), false);
                 blockEntity.setChanged();
             }
 
             // 放入杯具
-            ItemStack stack = availableInv.getStackInSlot(maidContainerStackIndex);
-            availableInv.extractItem(maidContainerStackIndex, stack.getCount(), false);
-            inventory.insertItem(getContainerStackSlot(), stack.copy(), false);
+            inventory.insertItem(getContainerStackSlot(), outputAdditionItem.copy(), false);
             blockEntity.setChanged();
         }
 

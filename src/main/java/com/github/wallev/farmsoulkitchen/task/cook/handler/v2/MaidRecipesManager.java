@@ -3,6 +3,7 @@ package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
+import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
@@ -23,11 +24,13 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -103,6 +106,49 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         if (world != null) {
             world.sendBlockUpdated(tile.getBlockPos(), tile.getBlockState(), tile.getBlockState(), 3);
         }
+    }
+
+    private static boolean hasAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level, ItemStackHandler availableInv) {
+        for (BlockPos bindModePose : bindModePoses) {
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+                    return ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem())) > -1;
+                }
+
+            }
+
+        }
+        return false;
+    }
+
+    @Nullable
+    private static ItemStack getAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level, ItemStackHandler availableInv) {
+        for (BlockPos bindModePose : bindModePoses) {
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+
+                    int stackSlot = ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem()));
+
+                    if (stackSlot > -1) {
+                        return beInv.extractItem(stackSlot, 64, false).copy();
+                    }
+
+                }
+
+            }
+
+        }
+        return null;
     }
 
     public boolean isSingle() {
@@ -227,9 +273,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 汇集所有箱子的原料
         for (BlockPos ingredientPo : ingredientPos) {
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
-            if (!SophistorageCompat.storageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null){
+            if (!SophistorageCompat.storageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null) {
                 for (IChestType type : ChestManager.getAllChestTypes()) {
-                    if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
+                    if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0)
+                        continue;
                     blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
                         for (int i = 0; i < beInv.getSlots(); i++) {
                             ItemStack stackInSlot = beInv.getStackInSlot(i);
@@ -361,10 +408,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return lastInv;
     }
 
-    private void setLastInv(ICookInventory lastInv) {
-        this.lastInv = lastInv;
-    }
-
 //    private List<Pair<List<Integer>, List<Item>>> repeat(List<Pair<List<Integer>, List<Item>>> oriList) {
 //        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
 //        List<Pair<List<Integer>, List<Item>>> list = new ArrayList<>(oriList);
@@ -391,6 +434,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 //        }
 //        return list;
 //    }
+
+    private void setLastInv(ICookInventory lastInv) {
+        this.lastInv = lastInv;
+    }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
         ArrayList<Pair<List<Integer>, List<Item>>> oriPairs = new ArrayList<>(oriList);
@@ -512,23 +559,76 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.repeatTimes = repeatTimes;
     }
 
-    public IItemHandlerModifiable getOutputInv(EntityMaid maid) {
+    public IItemHandlerModifiable getOutputAdditionInv(EntityMaid maid) {
+        return this.getBagContainerInv(maid, BagType.OUTPUT_ADDITION);
+    }
+
+    public boolean hasOutputAdditionItem(EntityMaid maid, ItemStack findItem) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
-        if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return maidInv;
+        if (stackInSlot1.is(InitItems.CULINARY_HUB.get())) {
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv(maid);
+            int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
-        ICookInventory lastIngredientInv1 = this.getLastInv();
+            if (additionSlot > -1) {
+                return true;
+            } else {
+                Level level = maid.level;
+                List<BlockPos> bindModePoses = ItemCulinaryHub.getBindModePoses(stackInSlot1, BagType.OUTPUT_ADDITION.name);
+                return hasAdditionStackFromHub(findItem, bindModePoses, level, (ItemStackHandler) availableInv);
+            }
 
-        return lastIngredientInv1.getAvailableInv(maid, BagType.OUTPUT);
+        } else {
+            return ItemsUtil.findStackSlot(maidInv, stack -> stack.is(findItem.getItem())) > -1;
+        }
+    }
+
+    public ItemStack findOutputAdditionItem(EntityMaid maid, ItemStack findItem) {
+        ItemStackHandler maidInv = maid.getMaidInv();
+        ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
+        if (stackInSlot1.is(InitItems.CULINARY_HUB.get())) {
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv(maid);
+            int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
+
+            if (additionSlot > -1) {
+                ItemStack itemStack = availableInv.extractItem(additionSlot, 64, false);
+                this.getLastInv().syncInv();
+                return itemStack.copy();
+            } else {
+                Level level = maid.level;
+                List<BlockPos> bindModePoses = ItemCulinaryHub.getBindModePoses(stackInSlot1, BagType.OUTPUT_ADDITION.name);
+                ItemStack beInv = getAdditionStackFromHub(findItem, bindModePoses, level, (ItemStackHandler) availableInv);
+                if (beInv != null) return beInv;
+            }
+
+        } else {
+            int additionSlot = ItemsUtil.findStackSlot(maidInv, stack -> stack.is(findItem.getItem()));
+
+            if (additionSlot > -1) {
+                ItemStack stackInSlot = maidInv.getStackInSlot(additionSlot);
+                stackInSlot.setCount(0);
+                return stackInSlot.copy();
+
+            }
+
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public IItemHandlerModifiable getOutputInv(EntityMaid maid) {
+        return this.getBagContainerInv(maid, BagType.OUTPUT);
     }
 
     public IItemHandlerModifiable getIngreInv(EntityMaid maid) {
+        return this.getBagContainerInv(maid, BagType.INGREDIENT);
+    }
+
+    public IItemHandlerModifiable getBagContainerInv(EntityMaid maid, BagType bagType) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
         if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) return maidInv;
 
-        ICookInventory lastIngredientInv1 = this.getLastInv();
-
-        return lastIngredientInv1.getAvailableInv(maid, BagType.INGREDIENT);
+        return this.getLastInv().getAvailableInv(maid, bagType);
     }
 }
