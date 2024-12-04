@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -21,17 +22,23 @@ public class SophistorageCompat {
 
     public static void insertItem(ItemStack itemStack, StorageBlockEntity storageBlockEntity, boolean requireHasItem) {
         StorageWrapper storageWrapper = storageBlockEntity.getStorageWrapper();
-        InventoryHandler inventoryHandler = storageWrapper.getInventoryHandler();
-        if (requireHasItem) {
-            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inventoryHandler, itemStack.copy(), false);
-            itemStack.shrink(itemStack.getCount() - leftStack.getCount());
-        } else {
+        if (!requireHasItem) {
+            InventoryHandler inventoryHandler = storageWrapper.getInventoryHandler();
+
             ItemStack leftStack = inventoryHandler.insertItem(itemStack.copy(), false);
             itemStack.shrink(itemStack.getCount() - leftStack.getCount());
-        }
 
-        storageBlockEntity.setChanged();
-        WorldHelper.notifyBlockUpdate(storageBlockEntity);
+            storageBlockEntity.setChanged();
+            WorldHelper.notifyBlockUpdate(storageBlockEntity);
+        } else {
+            ITrackedContentsItemHandler inventoryHandler = storageWrapper.getInventoryForInputOutput();
+
+            ItemStack leftStack = inventoryHandler.insertItem(itemStack.copy(), false);
+            itemStack.shrink(itemStack.getCount() - leftStack.getCount());
+
+            storageBlockEntity.setChanged();
+            WorldHelper.notifyBlockUpdate(storageBlockEntity);
+        }
     }
 
     public static void mapItemData(StorageBlockEntity storageBlockEntity, Map<ItemStack, Pair<IItemHandler, Integer>> stackContentHandler, Map<Item, Integer> available, Map<Item, List<ItemStack>> ingredientAmount) {
