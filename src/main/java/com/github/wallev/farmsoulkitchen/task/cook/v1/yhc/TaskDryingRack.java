@@ -44,22 +44,22 @@ public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRa
     }
 
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, DryingRackBlockEntity blockEntity, MaidRecipesManager<DryingRackRecipe> maidRecipesManager) {
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, DryingRackBlockEntity blockEntity, MaidRecipesManager<DryingRackRecipe> recManager) {
         if (!serverLevel.canSeeSky(blockEntity.getBlockPos()) || !serverLevel.isDay() || serverLevel.isRainingAt(blockEntity.getBlockPos())) {
             return false;
         }
-        if (blockEntity.getItems().stream().allMatch(ItemStack::isEmpty) && !maidRecipesManager.getRecipesIngredients().isEmpty()) {
+        if (blockEntity.getItems().stream().allMatch(ItemStack::isEmpty) && !recManager.getRecipesIngredients().isEmpty()) {
             return true;
         }
         return false;
     }
 
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, DryingRackBlockEntity blockEntity, MaidRecipesManager<DryingRackRecipe> maidRecipesManager) {
+    public void processCookMake(ServerLevel serverLevel, EntityMaid maid, DryingRackBlockEntity blockEntity, MaidRecipesManager<DryingRackRecipe> recManager) {
         if (!serverLevel.canSeeSky(blockEntity.getBlockPos()) || !serverLevel.isDay() || serverLevel.isRainingAt(blockEntity.getBlockPos())) {
             return;
         }
-        Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
+        Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
         if (blockEntity.getItems().stream().allMatch(ItemStack::isEmpty) && recipeIngredient != null) {
             ItemStack itemStack = recipeIngredient.getSecond().get(0).get(0);
             Optional<DryingRackRecipe> cookableRecipe = blockEntity.getCookableRecipe(itemStack);
@@ -67,7 +67,7 @@ public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRa
                 for (int i = 0; i < Math.min(4, itemStack.getCount()); i++) {
                     blockEntity.placeFood(itemStack, cookableRecipe.get().getCookingTime());
                 }
-                pickupAction(entityMaid);
+                pickupAction(maid);
             }
         }
     }

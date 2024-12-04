@@ -112,9 +112,9 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
     RecipeType<R> getRecipeType();
 
-    boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager);
+    boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, B blockEntity, MaidRecipesManager<R> recManager);
 
-    void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager);
+    void processCookMake(ServerLevel serverLevel, EntityMaid maid, B blockEntity, MaidRecipesManager<R> recManager);
 
     @Override
     default TaskBookEntryType getBookEntryType() {

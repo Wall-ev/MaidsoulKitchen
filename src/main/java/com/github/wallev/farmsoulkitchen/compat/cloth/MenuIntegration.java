@@ -107,6 +107,10 @@ public class MenuIntegration {
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED::set).build());
 
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.kk_brew_barrel"), RegisterConfig.KK_BREW_BARREL.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.kk_brew_barrel.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.KK_BREW_BARREL::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.db_beer"), RegisterConfig.DB_BEER_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.db_beer.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)

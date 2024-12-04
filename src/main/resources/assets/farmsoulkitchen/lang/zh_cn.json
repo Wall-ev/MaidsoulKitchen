@@ -58,6 +58,8 @@
   "config.farmsoulkitchen.register.yhc_moka.tooltip": "这会启用或禁用妖怪归家摩卡壶任务的注册",
   "config.farmsoulkitchen.register.db_beer": "喝啤酒啦啤酒桶任务",
   "config.farmsoulkitchen.register.db_beer.tooltip": "这会启用或禁用喝啤酒啦啤酒桶任务的注册",
+  "config.farmsoulkitchen.register.kk_brew_barrel": "胡萝卜厨房酿造桶任务",
+  "config.farmsoulkitchen.register.kk_brew_barrel.tooltip": "这会启用或禁用胡萝卜厨房酿造桶任务的注册",
   "config.farmsoulkitchen.register.dbk_cooking_pot": "馥郁烘焙小烹饪锅任务",
   "config.farmsoulkitchen.register.dbk_cooking_pot.tooltip": "这会启用或禁用馥郁烘焙小烹饪锅任务的注册",
   "config.farmsoulkitchen.register.dbk_stove": "馥郁烘焙烤炉任务",
@@ -144,6 +146,8 @@
   "task.farmsoulkitchen.feedanddrink.desc": "女仆会主动投喂周围饥渴的主人",
   "task.farmsoulkitchen.drinkbeer_beerbarrel": "啤酒桶",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.desc": "女仆会使用和啤酒啦的啤酒桶酿酒",
+  "task.farmsoulkitchen.kk_brew_barrel": "酿造桶",
+  "task.farmsoulkitchen.kk_brew_barrel.desc": "女仆会使用胡萝卜厨房的酿造桶酿酒",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
 
 

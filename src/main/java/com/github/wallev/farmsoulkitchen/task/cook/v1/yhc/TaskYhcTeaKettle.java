@@ -109,13 +109,13 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
     }
 
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> maidRecipesManager) {
-        return super.shouldMoveTo(serverLevel, entityMaid, blockEntity, maidRecipesManager) || (needWater(blockEntity) && findMaidHasWaterResource(entityMaid, blockEntity) != -1);
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
+        return super.shouldMoveTo(serverLevel, maid, blockEntity, recManager) || (needWater(blockEntity) && findMaidHasWaterResource(maid, blockEntity) != -1);
     }
 
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> maidRecipesManager) {
-        super.processCookMake(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+    public void processCookMake(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
+        super.processCookMake(serverLevel, maid, blockEntity, recManager);
     }
 
     public boolean needWater(KettleBlockEntity kettleBlockEntity) {

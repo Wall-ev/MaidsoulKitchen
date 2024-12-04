@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.task.cook.v1.kitcarrot;
+package com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot;
 
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;

@@ -58,6 +58,8 @@
   "config.farmsoulkitchen.register.yhc_moka.tooltip": "This can make the yhc moka task enabled or not.",
   "config.farmsoulkitchen.register.db_beer": "Db Beer Task",
   "config.farmsoulkitchen.register.db_beer.tooltip": "This can make the db beer task enabled or not.",
+  "config.farmsoulkitchen.register.kk_brew_barrel": "Kk Brew Barrel Task",
+  "config.farmsoulkitchen.register.kk_brew_barrel.tooltip": "This can make the kk brew barrel task enabled or not.",
   "config.farmsoulkitchen.register.dbk_cooking_pot": "Dbk Cooking Pot",
   "config.farmsoulkitchen.register.dbk_cooking_pot.tooltip": "This can make the dbk cooking pot task enabled or not.",
   "config.farmsoulkitchen.register.dbk_stove": "Dbk Stove",
@@ -144,6 +146,8 @@
   "task.farmsoulkitchen.feedanddrink.desc": "Maid will feed the hunger or thirst owner ",
   "task.farmsoulkitchen.drinkbeer_beerbarrel": "Beer Barrel",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.desc": "Maid can cook food by use the drinkbeer beerbarrel",
+  "task.farmsoulkitchen.kk_brew_barrel": "Brew Barrel",
+  "task.farmsoulkitchen.kk_brew_barrel.desc": "Maid can cook food by use the kitchkarrot brewbarrel",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "Maid favor level >= 1",
 
   "overlay.farmsoulkitchen.book.tips": "The book will change the working mode to the retrieval start height value of the maid of the fruit\nRight-click +1, stealth right-click -1\nThe search range is 2 blocks up from the starting height",

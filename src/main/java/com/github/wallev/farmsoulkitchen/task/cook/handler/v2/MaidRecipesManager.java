@@ -520,8 +520,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         extraEndRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
 
-        if (!canMake[0] || invIngredient.stream().anyMatch(item -> available.get(item) <= 0)) {
-            return Pair.of(new ArrayList<>(), new ArrayList<>());
+//        if (!canMake[0] || invIngredient.stream().anyMatch(item -> available.get(item) <= 0)) {
+        if (!canMake[0] || itemTimes.entrySet().stream().anyMatch(entry -> available.get(entry.getKey()) < entry.getValue())) {
+            return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
 
         int maxCount = 64;

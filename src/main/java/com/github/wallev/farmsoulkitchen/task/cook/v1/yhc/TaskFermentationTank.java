@@ -105,8 +105,8 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
     @SuppressWarnings("all")
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> maidRecipesManager) {
-        CombinedInvWrapper maidInv = entityMaid.getAvailableInv(true);
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> recManager) {
+        CombinedInvWrapper maidInv = maid.getAvailableInv(true);
         Fluid fluid = blockEntity.fluids.getFluidInTank(0).getFluid();
         if (fluid instanceof SakeFluid sakeFluid) {
             Item container = sakeFluid.type.getContainer();
@@ -117,14 +117,14 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
         if (!blockEntity.items.isEmpty()) {
             FermentationDummyContainer cont = new FermentationDummyContainer(blockEntity.items, blockEntity.fluids);
-            Optional<FermentationRecipe<?>> opt = entityMaid.level.getRecipeManager().getRecipeFor((RecipeType) YHBlocks.FERMENT_RT.get(), cont, entityMaid.level);
+            Optional<FermentationRecipe<?>> opt = maid.level.getRecipeManager().getRecipeFor((RecipeType) YHBlocks.FERMENT_RT.get(), cont, maid.level);
             if (opt.isEmpty()) {
                 return true;
             }
         }
 
         if (blockEntity.inProgress() == 0) {
-            if (!blockEntity.items.isEmpty() && !maidRecipesManager.getRecipesIngredients().isEmpty()) {
+            if (!blockEntity.items.isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
                 return true;
             }
         }
@@ -144,8 +144,8 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
     @SuppressWarnings("all")
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> maidRecipesManager) {
-        CombinedInvWrapper maidInv = entityMaid.getAvailableInv(true);
+    public void processCookMake(ServerLevel serverLevel, EntityMaid maid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> recManager) {
+        CombinedInvWrapper maidInv = maid.getAvailableInv(true);
         FluidStack fluidInTank = blockEntity.fluids.getFluidInTank(0);
         Fluid fluid = fluidInTank.getFluid();
         if (fluid instanceof SakeFluid sakeFluid) {
@@ -161,7 +161,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
                 blockEntity.notifyTile();
 
-                pickupAction(entityMaid);
+                pickupAction(maid);
             }
         }
 
@@ -170,7 +170,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
                 ItemStack stackInSlot = maidInv.getStackInSlot(i);
                 LazyOptional<IFluidHandlerItem> opt = stackInSlot.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
                 if (opt.resolve().isPresent()) {
-                    if (interactWithFluidHandler(entityMaid, stackInSlot, serverLevel, blockEntity.getBlockPos(), null)) {
+                    if (interactWithFluidHandler(maid, stackInSlot, serverLevel, blockEntity.getBlockPos(), null)) {
                         blockEntity.notifyTile();
                     }
                 }
@@ -179,15 +179,15 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
         if (!blockEntity.items.isEmpty()) {
             FermentationDummyContainer cont = new FermentationDummyContainer(blockEntity.items, blockEntity.fluids);
-            Optional<FermentationRecipe<?>> opt = entityMaid.level.getRecipeManager().getRecipeFor((RecipeType) YHBlocks.FERMENT_RT.get(), cont, entityMaid.level);
+            Optional<FermentationRecipe<?>> opt = maid.level.getRecipeManager().getRecipeFor((RecipeType) YHBlocks.FERMENT_RT.get(), cont, maid.level);
             if (opt.isEmpty()) {
                 blockEntity.dumpInventory();
             }
         }
 
         if (!blockEntity.fluids.isEmpty() && blockEntity.inProgress() == 0) {
-            if (!maidRecipesManager.getRecipesIngredients().isEmpty()) {
-                Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
+            if (!recManager.getRecipesIngredients().isEmpty()) {
+                Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
 
                 for (List<ItemStack> itemStacks : recipeIngredient.getSecond()) {
                     Optional<ItemStack> first = itemStacks.stream().filter(stack -> !stack.isEmpty()).findFirst();
@@ -206,7 +206,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
                 serverLevel.setBlockAndUpdate(blockEntity.getBlockPos(), blockEntity.getBlockState().setValue(OPEN, false));
 
-                pickupAction(entityMaid);
+                pickupAction(maid);
             }
         }
 

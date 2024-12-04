@@ -8,8 +8,8 @@ public class RenderConfig {
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("Render");
 
-        builder.comment("Maid can render LDBanner.");
-        LD_BANNER_RENDER_ENABLED = builder.define("LDBannerRenderEnabled", true);
+        builder.comment("Maid can render LdBanner.");
+        LD_BANNER_RENDER_ENABLED = builder.define("LdBannerRenderEnabled", true);
 
         builder.pop();
     }

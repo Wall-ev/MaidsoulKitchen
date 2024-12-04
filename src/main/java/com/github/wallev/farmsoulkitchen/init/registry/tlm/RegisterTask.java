@@ -13,6 +13,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbCauldron;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbTeaKettle;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskKkBrewingBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.mc.TaskFurnace;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.md.TaskMDCopperPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.vinery.TaskFermentationBarrel;
@@ -86,6 +87,9 @@ public final class RegisterTask {
 
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             manager.add(TaskDbBeerBarrel.getInstance());
+        }
+        if (Mods.KK.isLoaded() && RegisterConfig.KK_BREW_BARREL.get()) {
+            manager.add(new TaskKkBrewingBarrel());
         }
 
 

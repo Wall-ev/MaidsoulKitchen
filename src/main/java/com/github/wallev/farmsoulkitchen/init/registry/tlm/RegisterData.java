@@ -16,6 +16,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbCauldron;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbTeaKettle;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskKkBrewingBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.mc.TaskFurnace;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.md.TaskMDCopperPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.vinery.TaskFermentationBarrel;
@@ -45,6 +46,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> YHC_FERMENTATION_TANK;
 
     public static TaskDataKey<CookData> DB_BEER;
+    public static TaskDataKey<CookData> KC_BREW_BARREL;
 
     public static TaskDataKey<CookData> DBK_COOKING_POT;
     public static TaskDataKey<CookData> DBK_STOVE;
@@ -98,6 +100,9 @@ public final class RegisterData {
 
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             DB_BEER = register.register(TaskDbBeerBarrel.UID, CookData.CODEC);
+        }
+        if (Mods.KK.isLoaded() && RegisterConfig.KK_BREW_BARREL.get()) {
+            KC_BREW_BARREL = register.register(TaskKkBrewingBarrel.UID, CookData.CODEC);
         }
 
 

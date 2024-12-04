@@ -46,10 +46,10 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     }
 
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> maidRecipesManager) {
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
         ItemStackHandler itemStackHandler = getItemStackHandler(blockEntity);
 
-        return super.shouldMoveTo(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+        return super.shouldMoveTo(serverLevel, maid, blockEntity, recManager);
     }
 
     @SuppressWarnings("all")

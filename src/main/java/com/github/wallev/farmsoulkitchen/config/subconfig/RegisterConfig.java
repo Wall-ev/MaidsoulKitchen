@@ -23,6 +23,7 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue YHC_DRYING_RACK_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_FERMENTATION_TANK_TASK_ENABLED;
 
+    public static ForgeConfigSpec.BooleanValue KK_BREW_BARREL;
     public static ForgeConfigSpec.BooleanValue DB_BEER_TASK_ENABLED;
 
     public static ForgeConfigSpec.BooleanValue DBK_COOKING_POT_TASK_ENABLED;
@@ -58,39 +59,41 @@ public class RegisterConfig {
         FURNACE_TASK_ENABLED = builder.define("FurnaceTaskEnabled", true);
 
         builder.comment("This can make the fd cook pot task enabled or not.");
-        FD_COOK_POT_TASK_ENABLED = builder.define("FDCookPotTaskEnabled", true);
+        FD_COOK_POT_TASK_ENABLED = builder.define("FdCookPotTaskEnabled", true);
         builder.comment("This can make the md cook pot task enabled or not.");
-        MD_COOK_POT_TASK_ENABLED = builder.define("MDCookPotTaskEnabled", true);
+        MD_COOK_POT_TASK_ENABLED = builder.define("MdCookPotTaskEnabled", true);
         builder.comment("This can make the bnc key task enabled or not.");
-        BNC_KEY_TASK_ENABLED = builder.define("BNCKeyTaskEnabled", true);
+        BNC_KEY_TASK_ENABLED = builder.define("BncKeyTaskEnabled", true);
         builder.comment("This can make the yhc moka task enabled or not.");
-        YHC_MOKA_TASK_ENABLED = builder.define("YHC_MOKA_TaskEnabled", true);
+        YHC_MOKA_TASK_ENABLED = builder.define("YhcMokaTaskEnabled", true);
         builder.comment("This can make the yhc tea kettle task enabled or not.");
-        YHC_TEA_KETTLE_TASK_ENABLED = builder.define("YHC_TEA_KETTLE_TaskEnabled", true);
+        YHC_TEA_KETTLE_TASK_ENABLED = builder.define("YhcTeaKettleTaskEnabled", true);
         builder.comment("This can make the yhc tea kettle task enabled or not.");
-        YHC_DRYING_RACK_TASK_ENABLED = builder.define("YHC_DRYING_RACK_TaskEnabled", true);
+        YHC_DRYING_RACK_TASK_ENABLED = builder.define("YhcDryingRackTaskEnabled", true);
         builder.comment("This can make the yhc fermentation tank task enabled or not.");
-        YHC_FERMENTATION_TANK_TASK_ENABLED = builder.define("YHC_FERMANTATION_TANK_TaskEnabled", true);
+        YHC_FERMENTATION_TANK_TASK_ENABLED = builder.define("YhcFermentationTaskEnabled", true);
 
         builder.comment("This can make the db beer task enabled or not.");
-        DB_BEER_TASK_ENABLED = builder.define("DB_Beer_TaskEnabled", true);
+        DB_BEER_TASK_ENABLED = builder.define("DbBeerTaskEnabled", true);
+        builder.comment("This can make the kc brew barrel task enabled or not.");
+        KK_BREW_BARREL = builder.define("KkBrewBarrelTaskEnabled", true);
 
         builder.comment("This can make the dbk cooking pot task enabled or not.");
-        DBK_COOKING_POT_TASK_ENABLED = builder.define("DBK_CookingPotTaskEnabled", true);
+        DBK_COOKING_POT_TASK_ENABLED = builder.define("DbkCookingPotTaskEnabled", true);
         builder.comment("This can make the dbk stove task enabled or not.");
-        DBK_STOVE_TASK_ENABLED = builder.define("DBK_StoveTaskEnabled", true);
+        DBK_STOVE_TASK_ENABLED = builder.define("DbkStoveTaskEnabled", true);
         builder.comment("This can make the dbp mine fridge task enabled or not.");
-        DBP_MINE_FRIDGE_TASK_ENABLED = builder.define("DBP_MineFridgeTaskEnabled", true);
+        DBP_MINE_FRIDGE_TASK_ENABLED = builder.define("DbpMineFridgeTaskEnabled", true);
         builder.comment("This can make the dbp tiki bar task enabled or not.");
-        DBP_TIKI_BAR_TASK_ENABLED = builder.define("DBP_TikiBarTaskEnabled", true);
+        DBP_TIKI_BAR_TASK_ENABLED = builder.define("DbpTikiBarTaskEnabled", true);
         builder.comment("This can make the dcl cooking pan task enabled or not.");
-        DCL_COOKING_PAN_TASK_ENABLED = builder.define("DCL_CookingPanTaskEnabled", true);
+        DCL_COOKING_PAN_TASK_ENABLED = builder.define("DclCookingPanTaskEnabled", true);
         builder.comment("This can make the dcl cooking pot task enabled or not.");
-        DCL_COOKING_POT_TASK_ENABLED = builder.define("DCL_CookingPotTaskEnabled", true);
+        DCL_COOKING_POT_TASK_ENABLED = builder.define("DclCookingPotTaskEnabled", true);
         builder.comment("This can make the dhb cauldron task enabled or not.");
-        DHB_CAULDRON_TASK_ENABLED = builder.define("DHB_CauldronTaskEnabled", true);
+        DHB_CAULDRON_TASK_ENABLED = builder.define("DhcCauldronTaskEnabled", true);
         builder.comment("This can make the dhb tea kettle task enabled or not.");
-        DHB_TEA_KETTLE_TASK_ENABLED = builder.define("DHB_TeaKettleTaskEnabled", true);
+        DHB_TEA_KETTLE_TASK_ENABLED = builder.define("DhcTeaKettleTaskEnabled", true);
         builder.comment("This can make the fermentation barrel task enabled or not.");
         FERMENTATION_BARREL_TASK_ENABLED = builder.define("FermentationBarrelTaskEnabled", true);
 

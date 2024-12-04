@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class TaskBaseContainerCook<B extends BlockEntity, R extends Recipe<? extends Container>> implements ICookTask<B, R>, IBaseContainerPotCook<B, R> {
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
-        return maidShouldMoveTo(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, B blockEntity, MaidRecipesManager<R> recManager) {
+        return maidShouldMoveTo(serverLevel, maid, blockEntity, recManager);
     }
 
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
-        maidCookMake(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+    public void processCookMake(ServerLevel serverLevel, EntityMaid maid, B blockEntity, MaidRecipesManager<R> recManager) {
+        maidCookMake(serverLevel, maid, blockEntity, recManager);
     }
 }
