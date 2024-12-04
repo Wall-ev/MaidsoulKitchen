@@ -28,6 +28,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -72,7 +73,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level.isClientSide) return new ArrayList<>();
+        if (maid.level.isClientSide) return Collections.emptyList();
         MaidCookMoveTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMoveTask = new MaidCookMoveTask<>(maid, this);
         MaidCookMakeTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMakeTask = new MaidCookMakeTask<>(this);
         return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));

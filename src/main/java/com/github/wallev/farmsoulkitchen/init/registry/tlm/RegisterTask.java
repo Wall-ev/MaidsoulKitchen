@@ -11,6 +11,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCooking
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbCauldron;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbTeaKettle;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskAirCompressor;
@@ -65,6 +66,9 @@ public final class RegisterTask {
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(TaskFDCookPot.getInstance());
+        }
+        if (Mods.FD.isLoaded() && RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get()) {
+            manager.add(new TaskFdCuttingBoard());
         }
         if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(TaskMDCopperPot.getInstance());

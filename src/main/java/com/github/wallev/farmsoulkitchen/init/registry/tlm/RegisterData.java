@@ -14,6 +14,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCooking
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbCauldron;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.herbal.TaskDhbTeaKettle;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot.TaskAirCompressor;
@@ -38,6 +39,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> MC_FURNACE;
     // farmer's delight && addon
     public static TaskDataKey<CookData> FD_COOK_POT;
+    public static TaskDataKey<CookData> FD_CUTTING_BOARD;
     public static TaskDataKey<CookData> FR_KETTLE;
     public static TaskDataKey<CookData> MD_COPPER_POT;
     public static TaskDataKey<CookData> BNC_KEY;
@@ -76,6 +78,9 @@ public final class RegisterData {
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
             FD_COOK_POT = register.register(TaskFDCookPot.UID, CookData.CODEC);
+        }
+        if (Mods.FD.isLoaded() && RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get()) {
+            FD_CUTTING_BOARD = register.register(TaskFdCuttingBoard.UID, CookData.CODEC);
         }
         if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
             MD_COPPER_POT = register.register(TaskMDCopperPot.UID, CookData.CODEC);

@@ -33,13 +33,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask, IDataTask<CookData> {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level.isClientSide) return new ArrayList<>();
+        if (maid.level.isClientSide) return Collections.emptyList();
 //        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level.isClientSide);
 
         MaidRecipesManager<R> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);

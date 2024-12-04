@@ -86,6 +86,10 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.fd_cook_pot.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.FD_COOK_POT_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.fd_cutting_board"), RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.fd_cutting_board.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.md_cook_pot"), RegisterConfig.MD_COOK_POT_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.md_cook_pot.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)

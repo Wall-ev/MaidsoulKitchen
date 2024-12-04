@@ -30,6 +30,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -383,7 +384,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
     private void createIngres(EntityMaid maid) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
-        Map<Item, Integer> available = new HashMap<>(getIngredientInv(maid).getInventoryItem());
+        Map<Item, Integer> available = getMaidAvailableInv(maid);
 
         for (T t : this.currentRecs) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
@@ -396,6 +397,12 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         this.recipesIngredients = transform(maid, _make, available);
     }
+
+    @NotNull
+    protected Map<Item, Integer> getMaidAvailableInv(EntityMaid maid) {
+        return new HashMap<>(getIngredientInv(maid).getInventoryItem());
+    }
+
 
     public ICookInventory getIngredientInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
