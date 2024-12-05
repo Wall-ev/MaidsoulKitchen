@@ -43,7 +43,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     private List<String> recipeIds;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
-    private List<T> currentRecs = new ArrayList<>();
+    protected List<T> currentRecs = new ArrayList<>();
     private ICookInventory lastInv;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
@@ -199,7 +199,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        boolean lastInv = isLastInv(maid);
+//        boolean lastInv = isLastInv(maid);
 //        if (lastInv) return;
         createRecipesIngredients(maid);
     }
@@ -382,7 +382,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         tranCookBag2Chest(maid, BagType.INGREDIENT, true);
     }
 
-    private void createIngres(EntityMaid maid) {
+    protected void createIngres(EntityMaid maid) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = getMaidAvailableInv(maid);
 
@@ -395,6 +395,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         repeat(_make, available, this.repeatTimes);
 
+        setRecIngres(maid, _make, available);
+    }
+
+    protected void setRecIngres(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> _make, Map<Item, Integer> available) {
         this.recipesIngredients = transform(maid, _make, available);
     }
 

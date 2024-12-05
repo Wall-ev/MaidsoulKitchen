@@ -27,6 +27,7 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue KK_BREW_BARREL;
     public static ForgeConfigSpec.BooleanValue KK_AIR_COMPRESSOR;
     public static ForgeConfigSpec.BooleanValue DB_BEER_TASK_ENABLED;
+    public static ForgeConfigSpec.BooleanValue CP_CROk_POT_TASK_ENABLED;
 
     public static ForgeConfigSpec.BooleanValue DBK_COOKING_POT_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue DBK_STOVE_TASK_ENABLED;
@@ -77,6 +78,8 @@ public class RegisterConfig {
         builder.comment("This can make the yhc fermentation tank task enabled or not.");
         YHC_FERMENTATION_TANK_TASK_ENABLED = builder.define("YhcFermentationTaskEnabled", true);
 
+        builder.comment("This can make the ck crock pot task enabled or not.");
+        CP_CROk_POT_TASK_ENABLED = builder.define("CkCrockPotTaskEnabled", true);
         builder.comment("This can make the db beer task enabled or not.");
         DB_BEER_TASK_ENABLED = builder.define("DbBeerTaskEnabled", true);
         builder.comment("This can make the kc brew barrel task enabled or not.");

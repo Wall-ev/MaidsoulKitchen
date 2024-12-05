@@ -9,6 +9,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.bnc.TaskBncKey;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPan;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
@@ -90,6 +91,9 @@ public final class RegisterTask {
         }
 
 
+        if (Mods.CP.isLoaded() && RegisterConfig.CP_CROk_POT_TASK_ENABLED.get()) {
+            manager.add(new TaskCrockPot());
+        }
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             manager.add(TaskDbBeerBarrel.getInstance());
         }

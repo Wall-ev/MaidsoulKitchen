@@ -232,6 +232,7 @@ dependencies {
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
     implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
+    implementation fg.deobf("curse.maven:smartpot-1098636:5727794")
 }
 
 // 联动(存储)

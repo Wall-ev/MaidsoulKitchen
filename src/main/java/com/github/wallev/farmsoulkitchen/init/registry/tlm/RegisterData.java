@@ -12,6 +12,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.bnc.TaskBncKey;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPan;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
@@ -48,6 +49,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> YHC_DRYING_RACK;
     public static TaskDataKey<CookData> YHC_FERMENTATION_TANK;
 
+    public static TaskDataKey<CookData> CP_CROCK_POT;
     public static TaskDataKey<CookData> DB_BEER;
     public static TaskDataKey<CookData> KC_BREW_BARREL;
     public static TaskDataKey<CookData> KC_AIR_COMPRESSOR;
@@ -105,6 +107,9 @@ public final class RegisterData {
 //        }
 
 
+        if (Mods.CP.isLoaded() && RegisterConfig.CP_CROk_POT_TASK_ENABLED.get()) {
+            CP_CROCK_POT = register.register(TaskCrockPot.UID, CookData.CODEC);
+        }
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             DB_BEER = register.register(TaskDbBeerBarrel.UID, CookData.CODEC);
         }

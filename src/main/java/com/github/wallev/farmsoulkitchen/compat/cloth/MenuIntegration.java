@@ -123,6 +123,10 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.db_beer.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.DB_BEER_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.cp_crock_pot"), RegisterConfig.CP_CROk_POT_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.cp_crock_pot.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.CP_CROk_POT_TASK_ENABLED::set).build());
 
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbk_cooking_pot"), RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbk_cooking_pot.tooltip"),
