@@ -155,13 +155,16 @@
   "task.farmsoulkitchen.feedanddrink.desc": "女仆会主动投喂周围饥渴的主人",
   "task.farmsoulkitchen.cp_crock_pot": "烹饪锅",
   "task.farmsoulkitchen.cp_crock_pot.desc": "女仆会使用烹饪锅的烹饪锅烹饪食物",
+  "task.farmsoulkitchen.cp_crock_pot.enable_condition.has_enough_favor": "女仆好感度等级大于等于2",
   "task.farmsoulkitchen.drinkbeer_beerbarrel": "啤酒桶",
   "task.farmsoulkitchen.drinkbeer_beerbarrel.desc": "女仆会使用和啤酒啦的啤酒桶酿酒",
+  "task.farmsoulkitchen.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
   "task.farmsoulkitchen.kk_brew_barrel": "酿造桶",
   "task.farmsoulkitchen.kk_brew_barrel.desc": "女仆会使用胡萝卜厨房的酿造桶酿酒",
+  "task.farmsoulkitchen.kk_brew_barrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
   "task.farmsoulkitchen.kk_air_compressor": "空气压缩机",
   "task.farmsoulkitchen.kk_air_compressor.desc": "女仆会使用胡萝卜厨房的空气压缩机制作食物",
-  "task.farmsoulkitchen.drinkbeer_beerbarrel.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
+  "task.farmsoulkitchen.kk_air_compressor.enable_condition.has_enough_favor": "女仆好感度等级大于等于1",
 
 
   "overlay.farmsoulkitchen.book.tips": "书本会改变工作模式为水果的女仆的检索起始高度值\n右击+1,潜行右击-1\n检索范围为起始高度向上延伸2格",
