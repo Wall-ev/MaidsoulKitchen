@@ -23,6 +23,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
@@ -80,7 +81,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
                 if (!itemStack.isEmpty()) {
                     ItemStack offhandItem = maid.getOffhandItem();
                     if (offhandItem != itemStack) {
-                        ItemHandlerHelper.insertItemStacked(availableInv, offhandItem, false);
+                        if (!ItemHandlerHelper.insertItemStacked(availableInv, offhandItem, false).isEmpty()) return;
                     }
 
                     item.accept(itemStack.getItem());
@@ -95,7 +96,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
                 if (!itemStack.isEmpty()) {
                     ItemStack maidMainHandItem = maid.getMainHandItem();
                     if (maidMainHandItem != itemStack) {
-                        ItemHandlerHelper.insertItemStacked(availableInv, maidMainHandItem, false);
+                        if (!ItemHandlerHelper.insertItemStacked(availableInv, maidMainHandItem, false).isEmpty()) return;
                     }
 
                     maid.setItemInHand(InteractionHand.MAIN_HAND, itemStack.copy());
@@ -105,6 +106,25 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
             }
 
         }
+    }
+
+    @Override
+    public MaidRecipesManager<CuttingBoardRecipe> getRecipesManager(EntityMaid maid) {
+        return new MaidRecipesManager<>(maid, this, false) {
+            @Override
+            protected void createIngres(EntityMaid maid) {
+                ItemStackHandler availableInv = maid.getMaidInv();
+                boolean hasAvi = false;
+                for (int i = 0; i < availableInv.getSlots(); i++) {
+                    if (availableInv.getStackInSlot(i).isEmpty()) {
+                        hasAvi = true;
+                        break;
+                    }
+                }
+                if (!hasAvi) return;
+                super.createIngres(maid);
+            }
+        };
     }
 
     @Override
