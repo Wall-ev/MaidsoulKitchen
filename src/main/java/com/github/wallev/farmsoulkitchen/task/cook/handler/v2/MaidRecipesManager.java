@@ -46,6 +46,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
     private ICookInventory lastInv;
+    private int tryTime = 0;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single) {
         this(maid, task, single, false);
@@ -172,8 +173,14 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
+//        FarmsoulKitchen.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
+//        FarmsoulKitchen.LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
-        return recipesIngredients.remove(0);
+        int size = recipesIngredients.size();
+        Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);
+        List<Pair<List<Integer>, List<List<ItemStack>>>> pairs = recipesIngredients.subList(1, size);
+        recipesIngredients = pairs;
+        return integerListPair;
     }
 
     public void checkAndCreateRecipesIngredients(EntityMaid maid) {
@@ -182,7 +189,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
         boolean lastInv = this.isLastInv(maid);
-        if (lastInv) return;
+        if (lastInv && tryTime++ < 10) return;
+        tryTime = 0;
         this.createRecipesIngredients(maid);
     }
 
