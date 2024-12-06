@@ -35,22 +35,23 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MaidRecipesManager<T extends Recipe<? extends Container>> {
+public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     private final MaidInventory maidInventory;
-    private final ICookTask<?, T> task;
+    private final ICookTask<?, R> task;
     private final boolean single;
+    protected final List<R> rec = new ArrayList<>();
+    protected final List<R> currentRecs = new ArrayList<>();
     private String lastTaskRule;
     private List<String> recipeIds;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
-    protected List<T> currentRecs = new ArrayList<>();
     private ICookInventory lastInv;
 
-    public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single) {
+    public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single) {
         this(maid, task, single, false);
     }
 
-    public MaidRecipesManager(EntityMaid maid, ICookTask<?, T> task, boolean single, boolean createRecIng) {
+    public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single, boolean createRecIng) {
         this.maidInventory = new MaidInventory(maid);
         this.single = single;
         this.task = task;
@@ -160,23 +161,10 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return maidInventory;
     }
 
-    private List<T> getRecs(EntityMaid maid) {
-//        List<T> allRecipesFor = this.maidInventory.getMaid().level.getRecipeManager().getAllRecipesFor((RecipeType) recipeType);
-        Level level = this.maidInventory.getMaid().level();
-
-        List<T> allRecipesFor;
-        if (CookData.Mode.SELECT.name.equals(this.lastTaskRule)) {
-            allRecipesFor = task.getRecipes(level).stream()
-                    .filter(r -> recipeIds.contains(r.getId().toString()))
-                    .toList();
-        } else {
-            allRecipesFor = task.getRecipes(level);
-        }
-
-        allRecipesFor = new ArrayList<>(allRecipesFor);
-        allRecipesFor = filterRecipes(allRecipesFor);
-        shuffle(allRecipesFor);
-        return allRecipesFor;
+    private List<R> getRecs(EntityMaid maid) {
+        List<R> list = new ArrayList<>(this.rec);
+        shuffle(list);
+        return list;
     }
 
     public List<Pair<List<Integer>, List<List<ItemStack>>>> getRecipesIngredients() {
@@ -207,11 +195,27 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     @SuppressWarnings("unchecked")
     private void initTaskData(EntityMaid maid) {
         if (lastTaskRule == null || recipeIds == null) {
-            ICookTask<?, T> cookTask = (ICookTask<?, T>) maid.getTask();
+            ICookTask<?, R> cookTask = (ICookTask<?, R>) maid.getTask();
             CookData cookData = cookTask.getTaskData(maid);
             this.lastTaskRule = cookData.mode();
             this.recipeIds = cookData.recs();
+            this.rec.clear();
+
+            List<R> allRecipesFor = getValidRecipesFor(maid.level);
+            this.rec.addAll(allRecipesFor);
         }
+    }
+
+    private List<R> getValidRecipesFor(Level level) {
+        List<R> allRecipesFor;
+        if (CookData.Mode.SELECT.name.equals(this.lastTaskRule)) {
+            allRecipesFor = task.getRecipes(level).stream()
+                    .filter(r -> recipeIds.contains(r.getId().toString()))
+                    .toList();
+        } else {
+            allRecipesFor = task.getRecipes(level);
+        }
+        return allRecipesFor;
     }
 
     private boolean isLastInv(EntityMaid maid) {
@@ -258,7 +262,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return ItemStack.EMPTY;
     }
 
-    protected List<T> filterRecipes(List<T> recipes) {
+    protected List<R> filterRecipes(List<R> recipes) {
         return recipes;
     }
 
@@ -315,8 +319,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
             }
         }
         // 获取配方所需的原料的份量
-        for (T t : this.currentRecs) {
-            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
+        for (R r : this.currentRecs) {
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
             }
@@ -369,22 +373,20 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     }
 
     private void createRecipesIngredients(EntityMaid maid) {
-        if (lastTaskRule == null || recipeIds == null) return;
+        if (lastTaskRule == null || recipeIds == null) {
+            this.initTaskData(maid);
+        }
 
-//        recipesIngredients.clear();
-//        recipesIngredients = new ArrayList<>();
-
-        this.currentRecs = getRecs(maid);
+        this.currentRecs.clear();
+        this.currentRecs.addAll(getRecs(maid));
         // 将CookBag里无用的配方原料放回原料箱子
         this.tranUnIngre2Chest(maid);
         // 获取原料箱子配方原料并置入CookBag
         this.mapChestIngredient(maid);
         this.maidInventory.refreshInv();
-        createIngres(maid);
+        this.createIngres(maid);
         this.currentRecs.clear();
 
-//        LOGGER.info("MaidRecipesMrecipesIngredients = {ImmutableCollections$ListN@44015}  size = 2anager.createRecipesIngredients: " + this.maidInventory.getMaid());
-//        LOGGER.info(this.recipesIngredients);
     }
 
     public void tranOutput2Chest(EntityMaid maid) {
@@ -399,8 +401,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         Map<Item, Integer> available = getMaidAvailableInv(maid);
 
-        for (T t : this.currentRecs) {
-            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(t, available);
+        for (R r : this.currentRecs) {
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
             }
@@ -439,33 +441,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
     public ICookInventory getLastInv() {
         return lastInv;
     }
-
-//    private List<Pair<List<Integer>, List<Item>>> repeat(List<Pair<List<Integer>, List<Item>>> oriList) {
-//        Map<Item, Integer> available = new HashMap<>(this.maidInventory.getInventoryItem());
-//        List<Pair<List<Integer>, List<Item>>> list = new ArrayList<>(oriList);
-//        for (Pair<List<Integer>, List<Item>> listListPair : oriList) {
-//            List<Integer> first = listListPair.getFirst();
-//            List<Item> second = listListPair.getSecond();
-//
-//            boolean canRepeat = true;
-//            for (int i = 0; i < second.size(); i++) {
-//                Integer availableCount = available.get(second.get(i));
-//                if (availableCount < first.get(i)) {
-//                    canRepeat = false;
-//                    break;
-//                }
-//            }
-//
-//            if (canRepeat) {
-//                for (int i = 0; i < second.size(); i++) {
-//                    Item item = second.get(i);
-//                    available.put(item, available.get(item) - first.get(i));
-//                }
-//                list.add(listListPair);
-//            }
-//        }
-//        return list;
-//    }
 
     private void setLastInv(ICookInventory lastInv) {
         this.lastInv = lastInv;
@@ -512,7 +487,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return list1;
     }
 
-    protected Pair<List<Integer>, List<Item>> getAmountIngredient(T recipe, Map<Item, Integer> available) {
+    protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
         List<Ingredient> ingredients = task.getIngredients(recipe);
         boolean[] canMake = {true};
         boolean[] single = {false};
@@ -574,15 +549,15 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         return Pair.of(countList, invIngredient);
     }
 
-    protected boolean extraStartRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+    protected boolean extraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
         return true;
     }
 
-    protected boolean extraEndRecipe(T recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+    protected boolean extraEndRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
         return true;
     }
 
-    private void shuffle(List<T> recipes) {
+    private void shuffle(List<R> recipes) {
         Collections.shuffle(recipes);
     }
 
