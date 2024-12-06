@@ -74,7 +74,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
         if (blockEntity.getStoredItem().isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
 
-            CombinedInvWrapper availableInv = maid.getAvailableInv(false);
+            ItemStackHandler availableInv = maid.getMaidInv();
 
             List<ItemStack> itemStacks = recipeIngredient.getSecond().get(0);
             for (ItemStack itemStack : itemStacks) {
