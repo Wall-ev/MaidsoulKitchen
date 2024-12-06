@@ -172,24 +172,18 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
-//        FarmsoulKitchen.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
-//        FarmsoulKitchen.LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
-        int size = recipesIngredients.size();
-        Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);
-        List<Pair<List<Integer>, List<List<ItemStack>>>> pairs = recipesIngredients.subList(1, size);
-        recipesIngredients = pairs;
-        return integerListPair;
+        return recipesIngredients.remove(0);
     }
 
     public void checkAndCreateRecipesIngredients(EntityMaid maid) {
-        initTaskData(maid);
+        this.initTaskData(maid);
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        boolean lastInv = isLastInv(maid);
+        boolean lastInv = this.isLastInv(maid);
         if (lastInv) return;
-        createRecipesIngredients(maid);
+        this.createRecipesIngredients(maid);
     }
 
     @SuppressWarnings("unchecked")

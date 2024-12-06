@@ -45,18 +45,6 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
     }
 
     @Override
-    public MaidRecipesManager<CookingPotRecipe> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, this, false) {
-            @Override
-            protected List<CookingPotRecipe> filterRecipes(List<CookingPotRecipe> recipes) {
-                return recipes.stream().filter(cookingPotRecipe -> {
-                    return cookingPotRecipe.getIngredients().size() <= 4;
-                }).toList();
-            }
-        };
-    }
-
-    @Override
     public List<CookingPotRecipe> getRecipes(Level level) {
         return super.getRecipes(level).stream().filter(cookingPotRecipe -> {
             return cookingPotRecipe.getIngredients().size() <= 4;

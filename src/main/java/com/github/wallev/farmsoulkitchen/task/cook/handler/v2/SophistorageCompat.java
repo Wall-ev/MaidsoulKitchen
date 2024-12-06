@@ -1,5 +1,6 @@
 package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
 
+import com.github.wallev.farmsoulkitchen.foundation.utility.Mods;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Item;
@@ -47,9 +48,9 @@ public class SophistorageCompat {
 
         for (int i = 0; i < inventoryForInputOutput.getSlots(); i++) {
             ItemStack stackInSlot = inventoryForInputOutput.getStackInSlot(i);
-            Item item = stackInSlot.getItem();
-
             if (stackInSlot.isEmpty()) continue;
+
+            Item item = stackInSlot.getItem();
 
             available.merge(item, stackInSlot.getCount(), Integer::sum);
 
@@ -66,7 +67,7 @@ public class SophistorageCompat {
 
 
     public static boolean storageItemData(BlockEntity blockEntity, Map<ItemStack, Pair<IItemHandler, Integer>> stackContentHandler, Map<Item, Integer> available, Map<Item, List<ItemStack>> ingredientAmount) {
-        if (ModList.get().isLoaded("sophisticatedstorage") && blockEntity instanceof StorageBlockEntity storageBlockEntity) {
+        if (Mods.SOPHISTICATED_STORAGE.isLoaded && blockEntity instanceof StorageBlockEntity storageBlockEntity) {
             mapItemData(storageBlockEntity, stackContentHandler, available, ingredientAmount);
             return true;
         } else {
@@ -75,7 +76,7 @@ public class SophistorageCompat {
     }
 
     public static boolean insert(ItemStack itemStack, BlockEntity blockEntity, boolean requireHasItem) {
-        if (ModList.get().isLoaded("sophisticatedstorage") && blockEntity instanceof StorageBlockEntity storageBlockEntity) {
+        if (Mods.SOPHISTICATED_STORAGE.isLoaded && blockEntity instanceof StorageBlockEntity storageBlockEntity) {
             insertItem(itemStack, storageBlockEntity, requireHasItem);
             return true;
         } else {
@@ -84,6 +85,6 @@ public class SophistorageCompat {
     }
 
     public static boolean isStorageBe(BlockEntity blockEntity) {
-        return ModList.get().isLoaded("sophisticatedstorage") && blockEntity instanceof StorageBlockEntity storageBlockEntity;
+        return Mods.SOPHISTICATED_STORAGE.isLoaded && blockEntity instanceof StorageBlockEntity storageBlockEntity;
     }
 }

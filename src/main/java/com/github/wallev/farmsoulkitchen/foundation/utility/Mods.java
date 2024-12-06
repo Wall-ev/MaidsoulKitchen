@@ -10,6 +10,8 @@ public enum Mods {
     JADE("jade"),
     TOP("theoneprobe"),
 
+    SOPHISTICATED_STORAGE("sophisticatedstorage"),
+
     /*
         Farmer's Delight && Addons
      */
@@ -54,8 +56,10 @@ public enum Mods {
     };
 
     public final String modId;
+    public final boolean isLoaded;
     Mods(String modId) {
         this.modId = modId;
+        this.isLoaded = this.isLoaded();
     }
 
     public boolean isLoaded() {
