@@ -133,233 +133,257 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         }
     }
 
-    private static boolean processAnyRequires(List<RequirementCategoryMinExclusive> anyRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processAnyRequires(int times, List<RequirementCategoryMinExclusive> anyRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (anyRequires.isEmpty()) return true;
+
         for (RequirementCategoryMinExclusive anyRequire : anyRequires) {
-            boolean hasIngredient = false;
-            Set<Item> quireItems = getQuireItemSet(anyRequire);
-            for (Item item : itemSet) {
-                if (quireItems.contains(item)) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
-                    }
-                    hasIngredient = true;
-                    break;
-                }
-            }
-            if (!hasIngredient) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean processMustRequires(List<RequirementMustContainIngredient> mustRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
-        for (RequirementMustContainIngredient mustRequire : mustRequires) {
-            boolean hasIngredient = false;
-            Set<Item> quireItems = getQuireItemSet(mustRequire);
-            int quantity = mustRequire.getQuantity();
-            for (Item item : itemSet) {
-                if (!quireItems.contains(item)) continue;
-                for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
-                    }
-                    if (--quantity == 0) {
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                boolean hasIngredient = false;
+                Set<Item> quireItems = getQuireItemSet(anyRequire);
+                for (Item item : itemSet) {
+                    if (quireItems.contains(item)) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
                         hasIngredient = true;
                         break;
                     }
                 }
-                if (quantity == 0) {
-                    break;
+                if (!hasIngredient) {
+                    return false;
                 }
             }
-            if (!hasIngredient) {
-                return false;
+        }
+
+        return true;
+    }
+
+    private static boolean processMustRequires(int times, List<RequirementMustContainIngredient> mustRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (mustRequires.isEmpty()) return true;
+
+        for (RequirementMustContainIngredient mustRequire : mustRequires) {
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                boolean hasIngredient = false;
+                Set<Item> quireItems = getQuireItemSet(mustRequire);
+                int quantity = mustRequire.getQuantity();
+                for (Item item : itemSet) {
+                    if (!quireItems.contains(item)) continue;
+                    for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
+                        if (--quantity == 0) {
+                            hasIngredient = true;
+                            break;
+                        }
+                    }
+                    if (quantity == 0) {
+                        break;
+                    }
+                }
+                if (!hasIngredient) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    private static boolean processMinRequires(List<RequirementCategoryMin> minRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processMinRequires(int times, List<RequirementCategoryMin> minRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (minRequires.isEmpty()) return true;
+
         float mMinAmount = (float) leftUnlockSlot[0] / minRequires.size();
         for (RequirementCategoryMin minRequire : minRequires) {
-            boolean hasIngredient = false;
-            FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(minRequire.getCategory());
-            Map<Item, Float> itemValues = foodValue.itemValues();
-            float hasValue = 0;
-            for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
-                hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
-            }
-            float min = minRequire.getMin() - hasValue;
-            float singleMin = min / mMinAmount, value = 0;
-            for (Item item : itemSet) {
-                if (!itemValues.containsKey(item)) continue;
-                float itemValue = itemValues.get(item);
-                if (itemValue < singleMin) continue;
-                for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                boolean hasIngredient = false;
+                FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(minRequire.getCategory());
+                Map<Item, Float> itemValues = foodValue.itemValues();
+                float hasValue = 0;
+                for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
+                    hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
+                }
+                float min = minRequire.getMin() - hasValue;
+                float singleMin = min / mMinAmount, value = 0;
+                for (Item item : itemSet) {
+                    if (!itemValues.containsKey(item)) continue;
+                    float itemValue = itemValues.get(item);
+                    if (itemValue < singleMin) continue;
+                    for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
+                        if ((value += itemValue) >= min) {
+                            hasIngredient = true;
+                            break;
+                        }
                     }
-                    if ((value += itemValue) >= min) {
-                        hasIngredient = true;
+                    if (value >= min) {
                         break;
                     }
                 }
-                if (value >= min) {
-                    break;
+                if (!hasIngredient) {
+                    return false;
                 }
-            }
-            if (!hasIngredient) {
-                return false;
             }
         }
         return true;
     }
 
-    private static boolean processMinERequires(List<RequirementCategoryMinExclusive> minERequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processMinERequires(int times, List<RequirementCategoryMinExclusive> minERequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (minERequires.isEmpty()) return true;
+
         float mMinEAmount = (float) leftUnlockSlot[0] / minERequires.size();
         for (RequirementCategoryMinExclusive minERequire : minERequires) {
-            boolean hasIngredient = false;
-            FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(minERequire.getCategory());
-            Map<Item, Float> itemValues = foodValue.itemValues();
-            float hasValue = 0;
-            for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
-                hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
-            }
-            float min = minERequire.getMin() - hasValue;
-            float singleMin = min / mMinEAmount, value = 0;
-            for (Item item : itemSet) {
-                if (!itemValues.containsKey(item)) continue;
-                float itemValue = itemValues.get(item);
-                if (itemValue <= singleMin) continue;
-                for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                boolean hasIngredient = false;
+                FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(minERequire.getCategory());
+                Map<Item, Float> itemValues = foodValue.itemValues();
+                float hasValue = 0;
+                for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
+                    hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
+                }
+                float min = minERequire.getMin() - hasValue;
+                float singleMin = min / mMinEAmount, value = 0;
+                for (Item item : itemSet) {
+                    if (!itemValues.containsKey(item)) continue;
+                    float itemValue = itemValues.get(item);
+                    if (itemValue <= singleMin) continue;
+                    for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
+                        if ((value += itemValue) > min) {
+                            hasIngredient = true;
+                            break;
+                        }
                     }
-                    if ((value += itemValue) > min) {
-                        hasIngredient = true;
+                    if (value > min) {
                         break;
                     }
                 }
-                if (value > min) {
-                    break;
+                if (!hasIngredient) {
+                    return false;
                 }
-            }
-            if (!hasIngredient) {
-                return false;
             }
         }
         return true;
     }
 
-    private static boolean processMaxRequires(List<RequirementCategoryMax> maxRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processMaxRequires(int times, List<RequirementCategoryMax> maxRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (maxRequires.isEmpty()) return true;
+
         float mMaxAmount = (float) leftUnlockSlot[0] / maxRequires.size();
         for (RequirementCategoryMax maxRequire : maxRequires) {
-            FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(maxRequire.getCategory());
-            Map<Item, Float> itemValues = foodValue.itemValues();
-            float hasValue = 0;
-            for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
-                hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
-            }
-            float max = maxRequire.getMax() - hasValue;
-            float singleMin = max / mMaxAmount, value = 0;
-            if (singleMin <= 0) continue;
-            for (Item item : itemSet) {
-                if (!itemValues.containsKey(item)) continue;
-                float itemValue = itemValues.get(item);
-                if (itemValue > singleMin) continue;
-                for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(maxRequire.getCategory());
+                Map<Item, Float> itemValues = foodValue.itemValues();
+                float hasValue = 0;
+                for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
+                    hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
+                }
+                float max = maxRequire.getMax() - hasValue;
+                float singleMin = max / mMaxAmount, value = 0;
+                if (singleMin <= 0) continue;
+                for (Item item : itemSet) {
+                    if (!itemValues.containsKey(item)) continue;
+                    float itemValue = itemValues.get(item);
+                    if (itemValue > singleMin) continue;
+                    for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
+                        if ((value += itemValue) >= max) {
+                            break;
+                        }
                     }
-                    if ((value += itemValue) >= max) {
+                    if (value >= max) {
                         break;
                     }
-                }
-                if (value >= max) {
-                    break;
                 }
             }
         }
         return true;
     }
 
-    private static boolean processMaxERequires(List<RequirementCategoryMaxExclusive> maxERequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processMaxERequires(int times, List<RequirementCategoryMaxExclusive> maxERequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+        if (maxERequires.isEmpty()) return true;
+
         float mMaxEAmount = (float) leftUnlockSlot[0] / maxERequires.size();
         for (RequirementCategoryMaxExclusive maxRequire : maxERequires) {
-            FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(maxRequire.getCategory());
-            Map<Item, Float> itemValues = foodValue.itemValues();
-            float hasValue = 0;
-            for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
-                hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
-            }
-            float max = maxRequire.getMax() - hasValue;
-            float singleMin = max / mMaxEAmount, value = 0;
-            if (singleMin <= 0) break;
-            for (Item item : itemSet) {
-                if (!itemValues.containsKey(item)) continue;
-                float itemValue = itemValues.get(item);
-                if (itemValue >= singleMin) continue;
-                for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
-                    leftUnlockSlot[0]--;
-                    ItemStack stack = item.getDefaultInstance();
-                    invIngredient.add(item);
-                    if (stack.getMaxStackSize() == 1) {
-                        single[0] = true;
-                        itemTimes.put(item, 1);
-                    } else {
-                        itemTimes.merge(item, 1, Integer::sum);
+            for (int i = 0; i < times && leftUnlockSlot[0] != 0; i++) {
+                FoodValue foodValue = REQUIREMENT_FOOD_VALUE_HASH_MAP.get(maxRequire.getCategory());
+                Map<Item, Float> itemValues = foodValue.itemValues();
+                float hasValue = 0;
+                for (Map.Entry<Item, Integer> itemIntegerEntry : itemTimes.entrySet()) {
+                    hasValue += itemValues.getOrDefault(itemIntegerEntry.getKey(), 0f) * itemIntegerEntry.getValue();
+                }
+                float max = maxRequire.getMax() - hasValue;
+                float singleMin = max / mMaxEAmount, value = 0;
+                if (singleMin <= 0) break;
+                for (Item item : itemSet) {
+                    if (!itemValues.containsKey(item)) continue;
+                    float itemValue = itemValues.get(item);
+                    if (itemValue >= singleMin) continue;
+                    for (int integer = 0; integer < available.get(item) - itemTimes.getOrDefault(item, 0); integer++) {
+                        leftUnlockSlot[0]--;
+                        ItemStack stack = item.getDefaultInstance();
+                        invIngredient.add(item);
+                        if (stack.getMaxStackSize() == 1) {
+                            single[0] = true;
+                            itemTimes.put(item, 1);
+                        } else {
+                            itemTimes.merge(item, 1, Integer::sum);
+                        }
+                        if ((value += itemValue) >= max) {
+                            break;
+                        }
                     }
-                    if ((value += itemValue) >= max) {
+                    if (value >= max) {
                         break;
                     }
-                }
-                if (value >= max) {
-                    break;
                 }
             }
         }
         return true;
     }
 
-    private static boolean processEAnyRequires(List<RequirementCategoryMinExclusive> anyRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processEAnyRequires(int times, List<RequirementCategoryMinExclusive> anyRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
         if (anyRequires.isEmpty()) return true;
 
         int anyTime = leftUnlockSlot[0] / anyRequires.size();
         for (RequirementCategoryMinExclusive anyRequire : anyRequires) {
 
-            for (int i = 0; i < anyTime; i++) {
+            for (int i = 0; i < anyTime && leftUnlockSlot[0] != 0; i++) {
                 boolean hasIngredient = false;
 
                 Set<Item> quireItems = getQuireItemSet(anyRequire);
@@ -391,12 +415,12 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         return true;
     }
 
-    private static boolean processEMustRequires(List<RequirementMustContainIngredient> mustRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
+    private static boolean processEMustRequires(int times, List<RequirementMustContainIngredient> mustRequires, Set<Item> itemSet, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, Integer> itemTimes, Map<Item, Integer> available) {
         if (mustRequires.isEmpty()) return true;
 
         int mustSize = leftUnlockSlot[0] / mustRequires.size();
         for (RequirementMustContainIngredient mustRequire : mustRequires) {
-            for (int i = 0; i < mustSize; i++) {
+            for (int i = 0; i < mustSize && leftUnlockSlot[0] != 0; i++) {
                 boolean hasIngredient = false;
 
                 Set<Item> quireItems = getQuireItemSet(mustRequire);
@@ -571,7 +595,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         List<Item> invIngredient = recInfo.invIngredient;
         Map<Item, Integer> itemTimes = recInfo.itemTimes;
 
-        boolean processAnyRequires = processAnyRequires(anyRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processAnyRequires = processAnyRequires(1, anyRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processAnyRequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -579,7 +603,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return getListListPair(available, single, itemTimes, invIngredient);
         }
 
-        boolean processMustRequires = processMustRequires(mustRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processMustRequires = processMustRequires(1, mustRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processMustRequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -587,7 +611,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return getListListPair(available, single, itemTimes, invIngredient);
         }
 
-        boolean processMinRequires = processMinRequires(minRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processMinRequires = processMinRequires(1, minRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processMinRequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -595,7 +619,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return getListListPair(available, single, itemTimes, invIngredient);
         }
 
-        boolean processMinERequires = processMinERequires(minERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processMinERequires = processMinERequires(1, minERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processMinERequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -603,7 +627,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return getListListPair(available, single, itemTimes, invIngredient);
         }
 
-        boolean processMaxRequires = processMaxRequires(maxRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processMaxRequires = processMaxRequires(1, maxRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processMaxRequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -611,7 +635,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return getListListPair(available, single, itemTimes, invIngredient);
         }
 
-        boolean processMaxERequires = processMaxERequires(maxERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+        boolean processMaxERequires = processMaxERequires(1, maxERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
         if (!processMaxERequires) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
@@ -620,7 +644,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         }
 
         if (leftUnlockSlot[0] > 0) {
-            boolean processEAnyRequires = processEAnyRequires(anyRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            boolean processEAnyRequires = processAnyRequires(anyRequires.isEmpty() ? 0 : anyRequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], anyRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
             if (!processEAnyRequires) {
                 return Pair.of(Collections.emptyList(), Collections.emptyList());
             }
@@ -628,8 +652,40 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
                 return getListListPair(available, single, itemTimes, invIngredient);
             }
 
-            boolean processEMustRequires = processEMustRequires(mustRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            boolean processEMustRequires = processMustRequires(mustRequires.isEmpty() ? 0 : mustRequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], mustRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
             if (!processEMustRequires) {
+                return Pair.of(Collections.emptyList(), Collections.emptyList());
+            }
+            if (leftUnlockSlot[0] == 0) {
+                return getListListPair(available, single, itemTimes, invIngredient);
+            }
+
+            boolean processEMinRequires = processMinRequires(minRequires.isEmpty() ? 0 : minRequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], minRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            if (!processEMinRequires) {
+                return Pair.of(Collections.emptyList(), Collections.emptyList());
+            }
+            if (leftUnlockSlot[0] == 0) {
+                return getListListPair(available, single, itemTimes, invIngredient);
+            }
+
+            boolean processEMinERequires = processMinERequires(minERequires.isEmpty() ? 0 : minERequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], minERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            if (!processEMinERequires) {
+                return Pair.of(Collections.emptyList(), Collections.emptyList());
+            }
+            if (leftUnlockSlot[0] == 0) {
+                return getListListPair(available, single, itemTimes, invIngredient);
+            }
+
+            boolean processEMaxRequires = processMaxRequires(maxRequires.isEmpty() ? 0 : maxRequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], maxRequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            if (!processEMaxRequires) {
+                return Pair.of(Collections.emptyList(), Collections.emptyList());
+            }
+            if (leftUnlockSlot[0] == 0) {
+                return getListListPair(available, single, itemTimes, invIngredient);
+            }
+
+            boolean processEMaxERequires = processMaxERequires(maxERequires.isEmpty() ? 0 : maxERequires.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0], maxERequires, itemSet, leftUnlockSlot, single, invIngredient, itemTimes, available);
+            if (!processEMaxERequires) {
                 return Pair.of(Collections.emptyList(), Collections.emptyList());
             }
             if (leftUnlockSlot[0] == 0) {
