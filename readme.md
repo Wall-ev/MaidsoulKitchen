@@ -9,14 +9,14 @@
 
 ## Progress
 - [ ] Cook
-    - [ ] Farmer's Delight
+    - [x] Farmer's Delight
         - [x] Cooking Pot
-        - [ ] Cutting Board
+        - [x] Cutting Board
     - [x] Miner's Delight
         - [x] Copper Pot
     - [x] Brewin' And Chewin'
         - [x] Key
-    - [ ] Youkai's Homecoming
+    - [x] Youkai's Homecoming
         - [x] Moka Pot
         - [x] Kettle 
         - [x] Fermentation Tank 
@@ -39,10 +39,12 @@
         - [x] Cauldron
     - [x] DrinkBeer
         - [x] Beer Barrel
-    - [ ] Crock Pot
-        - [ ] Crock Pot
+    - [x] Crock Pot
+        - [x] Crock Pot
     - [ ] Fruit Stack
-    - [ ] Kitchen Karrot
+    - [x] Kitchen Karrot
+        - [x] Air Compressor
+        - [x] Brewing Barrel
     - [ ] Minecraft
         - [x] Furnace
         - [ ] Brewing Stand
