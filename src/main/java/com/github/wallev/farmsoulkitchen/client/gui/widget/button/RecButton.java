@@ -7,11 +7,13 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -80,10 +82,9 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.SELECT.name);
         boolean overSize = cookData.recs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
-        List<Ingredient> ingres = cookTask.getIngredients(recipe);
-        Optional<TooltipComponent> itemContainerTooltip = ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
+        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
 
-        pGuiGraphics.renderTooltip(mc.font, stackTooltip, itemContainerTooltip, pMouseX, pMouseY);
+        pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, pMouseX, pMouseY);
     }
 
     public Recipe<?> getRecipe() {

@@ -9,6 +9,8 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
+import com.github.wallev.farmsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
@@ -25,6 +27,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -98,6 +101,10 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             }
         }
         return false;
+    }
+
+    private static void categorizeRequirements(List<IRequirement> requirements, RecInfo1 recInfo1) {
+        categorizeRequirements(requirements, recInfo1.getNoRequires(), recInfo1.getMaxRequires(), recInfo1.getMaxERequires(), recInfo1.getAnyRequires(), recInfo1.getMinERequires(), recInfo1.getMinRequires(), recInfo1.getMustRequires(), recInfo1.getMustLessRequires());
     }
 
     private static void categorizeRequirements(List<IRequirement> requirements, List<RequirementCategoryMax> noRequires, List<RequirementCategoryMax> maxRequires, List<RequirementCategoryMaxExclusive> maxERequires, List<RequirementCategoryMinExclusive> anyRequires, List<RequirementCategoryMinExclusive> minERequires, List<RequirementCategoryMin> minRequires, List<RequirementMustContainIngredient> mustRequires, List<RequirementMustContainIngredientLessThan> mustLessRequires) {
@@ -1236,7 +1243,17 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         return RECS.keySet().stream().toList();
     }
 
-    protected static class RecInfo1 {
+    @Override
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+        RecInfo1 recInfo1 = new RecInfo1();
+        List<IRequirement> requirements = ((CrockPotCookingRecipe)recipe).getRequirements();
+        categorizeRequirements(requirements, recInfo1);
+
+        CrockPotTooltip crockPotTooltip = new CrockPotTooltip(recInfo1, REQUIREMENT_INGREDIENTY_MAP, modeRandom, overSize);
+        return Optional.of(crockPotTooltip);
+    }
+
+    public static class RecInfo1 {
         private final List<RequirementCategoryMax> noRequires = new ArrayList<>();
         private final List<RequirementCategoryMax> maxRequires = new ArrayList<>();
         private final List<RequirementCategoryMaxExclusive> maxERequires = new ArrayList<>();
@@ -1303,11 +1320,11 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         }
     }
 
-    protected record MaidRec<R extends Recipe<? extends Container>>(R rec, List<List<Item>> items,
+    public record MaidRec<R extends Recipe<? extends Container>>(R rec, List<List<Item>> items,
                                                                  NonNullList<Ingredient> ingredients,
                                                                  ItemStack result) {
     }
 
-    protected record FoodValue(FoodCategory foodCategory, Map<Item, Float> itemValues) {
+    public record FoodValue(FoodCategory foodCategory, Map<Item, Float> itemValues) {
     }
 }

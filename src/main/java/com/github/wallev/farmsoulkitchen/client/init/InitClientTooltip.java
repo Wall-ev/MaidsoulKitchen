@@ -1,7 +1,11 @@
 package com.github.wallev.farmsoulkitchen.client.init;
 
-import com.github.wallev.farmsoulkitchen.client.tooltip.ClientAmountTooltip;
+import com.github.wallev.farmsoulkitchen.client.tooltip.CrockPotAmountTooltip;
+import com.github.wallev.farmsoulkitchen.client.tooltip.NormalAmountTooltip;
+import com.github.wallev.farmsoulkitchen.config.subconfig.RegisterConfig;
+import com.github.wallev.farmsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
+import com.github.wallev.farmsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -11,6 +15,9 @@ import net.minecraftforge.fml.common.Mod;
 public final class InitClientTooltip {
     @SubscribeEvent
     public static void onRegisterClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
-        event.register(AmountTooltip.class, ClientAmountTooltip::new);
+        event.register(AmountTooltip.class, NormalAmountTooltip::new);
+        if (Mods.CP.isLoaded() && RegisterConfig.CP_CROk_POT_TASK_ENABLED.get()) {
+            event.register(CrockPotTooltip.class, CrockPotAmountTooltip::new);
+        }
     }
 }
