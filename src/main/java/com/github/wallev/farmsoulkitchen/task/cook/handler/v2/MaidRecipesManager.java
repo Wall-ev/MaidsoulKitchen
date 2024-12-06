@@ -55,7 +55,7 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         this.single = single;
         this.task = task;
 
-        this.getIngredientInv(maid);
+        this.initLastInv(maid);
 
         if (createRecIng) {
             this.initTaskData(maid);
@@ -199,8 +199,8 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-//        boolean lastInv = isLastInv(maid);
-//        if (lastInv) return;
+        boolean lastInv = isLastInv(maid);
+        if (lastInv) return;
         createRecipesIngredients(maid);
     }
 
@@ -214,20 +214,33 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         }
     }
 
-    // todo
-    // 有时候不灵，应该是更新了数据存储的方式导致的，
-    // 初始化的时候出问题
     private boolean isLastInv(EntityMaid maid) {
-
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);
-        List<ItemStack> lastInvStack = maidInventory.getLastInvStack();
-        if (availableInv.getSlots() != lastInvStack.size()) return false;
+        ICookInventory lastInv1 = this.getLastInv();
 
-        for (int i = 0; i < availableInv.getSlots(); i++) {
-            ItemStack stackInSlot = availableInv.getStackInSlot(i);
-            ItemStack cacheStack = lastInvStack.get(i);
-            if (!(stackInSlot.is(cacheStack.getItem()) && stackInSlot.getCount() == cacheStack.getCount())) {
-                return false;
+        List<ItemStack> lastInvStack = lastInv1.getLastInvStack();
+
+        ItemStack stackInSlot1 = availableInv.getStackInSlot(4);
+        if (stackInSlot1.is(InitItems.CULINARY_HUB.get())) {
+            ItemStackHandler orDefault = ItemCulinaryHub.getContainers(stackInSlot1).getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
+            if (orDefault.getSlots() != lastInvStack.size()) return false;
+
+            for (int i = 0; i < orDefault.getSlots(); i++) {
+                ItemStack stackInSlot = orDefault.getStackInSlot(i);
+                ItemStack cacheStack = lastInvStack.get(i);
+                if (!(stackInSlot.is(cacheStack.getItem()) && stackInSlot.getCount() == cacheStack.getCount())) {
+                    return false;
+                }
+            }
+        } else {
+            if (availableInv.getSlots() != lastInvStack.size()) return false;
+
+            for (int i = 0; i < availableInv.getSlots(); i++) {
+                ItemStack stackInSlot = availableInv.getStackInSlot(i);
+                ItemStack cacheStack = lastInvStack.get(i);
+                if (!(stackInSlot.is(cacheStack.getItem()) && stackInSlot.getCount() == cacheStack.getCount())) {
+                    return false;
+                }
             }
         }
 
@@ -363,9 +376,9 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
         this.currentRecs = getRecs(maid);
         // 将CookBag里无用的配方原料放回原料箱子
-        tranUnIngre2Chest(maid);
+        this.tranUnIngre2Chest(maid);
         // 获取原料箱子配方原料并置入CookBag
-        mapChestIngredient(maid);
+        this.mapChestIngredient(maid);
         this.maidInventory.refreshInv();
         createIngres(maid);
         this.currentRecs.clear();
@@ -409,6 +422,11 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
 
 
     public ICookInventory getIngredientInv(EntityMaid maid) {
+        this.initLastInv(maid);
+        return this.getLastInv();
+    }
+
+    private void initLastInv(EntityMaid maid) {
         ItemStackHandler maidInv = maid.getMaidInv();
         ItemStack stackInSlot1 = maidInv.getStackInSlot(4);
         if (!stackInSlot1.is(InitItems.CULINARY_HUB.get())) {
@@ -416,7 +434,6 @@ public class MaidRecipesManager<T extends Recipe<? extends Container>> {
         } else {
             this.setLastInv(new CookBagInventory(stackInSlot1));
         }
-        return this.getLastInv();
     }
 
     public ICookInventory getLastInv() {
