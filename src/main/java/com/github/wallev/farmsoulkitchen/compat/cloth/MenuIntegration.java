@@ -195,10 +195,10 @@ public class MenuIntegration {
                 .setTooltip(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes.tooltip"), addition)
                 .setSaveConsumer(TaskConfig.COOK_SELECTED_RECIPES::set).build());
 
-        task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.fruit_search_yoffset"), TaskConfig.SEARCHY_OFFSET.get())
-                .setDefaultValue(TaskConfig.SEARCHY_OFFSET.getDefault())
-                .setTooltip(Component.translatable("config.farmsoulkitchen.task.fruit_search_yoffset.tooltip"), addition)
-                .setSaveConsumer(TaskConfig.SEARCHY_OFFSET::set).build());
+        task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.feed_animal_t"), TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.get())
+                .setDefaultValue(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.getDefault())
+                .setTooltip(Component.translatable("config.farmsoulkitchen.task.feed_animal_t.tooltip"), addition)
+                .setSaveConsumer(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER::set).build());
     }
 
     private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {

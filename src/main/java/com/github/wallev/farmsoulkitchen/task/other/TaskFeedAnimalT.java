@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import static com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER;
+
 public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
 
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "feed_animal_t");
@@ -65,7 +67,7 @@ public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
         BehaviorControl<Mob> attackTargetTask = MeleeAttack.create(20);
 
         return Lists.newArrayList(
-                Pair.of(5, new MaidFeedAnimalTaskT(0.6f, 30)),
+                Pair.of(5, new MaidFeedAnimalTaskT(0.6f, FEED_SINGLE_ANIMAL_MAX_NUMBER.get())),
                 Pair.of(6, supplementedTask),
                 Pair.of(6, findTargetTask),
                 Pair.of(6, moveToTargetTask),
@@ -87,7 +89,7 @@ public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
         }
 
         for (List<Animal> value : resourceLocationListHashMap.values()) {
-            if (value.size() >= (30 - 2)) {
+            if (value.size() >= (FEED_SINGLE_ANIMAL_MAX_NUMBER.get() - 2)) {
                 return value.stream().filter(e -> maid.isWithinRestriction(e.blockPosition()))
                         .filter(e -> !e.isBaby())
                         .filter(e -> ItemsUtil.isStackIn(maid.getAvailableInv(false), ((Animal) e)::isFood))

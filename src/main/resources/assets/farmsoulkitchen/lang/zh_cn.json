@@ -23,6 +23,8 @@
   "config.farmsoulkitchen.task.cook_selected_recipes.tooltip": "烹饪定向配方最大数量值",
   "config.farmsoulkitchen.task.fruit_search_yoffset": "水果农场检索高度值",
   "config.farmsoulkitchen.task.fruit_search_yoffset.tooltip": "改变工作模式为水果的女仆的检索起始高度值",
+  "config.farmsoulkitchen.task.feed_animal_t": "繁殖同种动物的最大数量",
+  "config.farmsoulkitchen.task.feed_animal_t.tooltip": "女仆处于繁殖动物模式时，周围最大可以繁殖的同种动物数量",
   "config.farmsoulkitchen.render": "渲染",
   "config.farmsoulkitchen.render.ld_banner_render": "let's do旗帜",
   "config.farmsoulkitchen.render.ld_banner_render.tooltip": "女仆会渲染Let's do系列的旗帜",

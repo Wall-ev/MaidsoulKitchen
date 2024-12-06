@@ -12,7 +12,7 @@ public class TaskConfig {
 
     public static ForgeConfigSpec.ConfigValue<List<List<String>>> MELON_AND_STEM_LIST;
     public static ForgeConfigSpec.ConfigValue<Integer> COOK_SELECTED_RECIPES;
-    public static ForgeConfigSpec.ConfigValue<Integer> SEARCHY_OFFSET;
+    public static ForgeConfigSpec.ConfigValue<Integer> FEED_SINGLE_ANIMAL_MAX_NUMBER;
 
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("Task");
@@ -21,10 +21,10 @@ public class TaskConfig {
         MELON_AND_STEM_LIST = builder.define("MelonAndStemList", getmelonAndStemList());
 
         builder.comment("These can configure the cook selected recipes max size.");
-        COOK_SELECTED_RECIPES = builder.define("CookSelectedRecipes", 10);
+        COOK_SELECTED_RECIPES = builder.define("CookSelectedRecipes", 30);
 
-        builder.comment("These can configure the fruit task searchy offset.");
-        SEARCHY_OFFSET = builder.define("SearchyOffset", 4);
+        builder.comment("The max number of the different type animal around when the maid breeds animals");
+        FEED_SINGLE_ANIMAL_MAX_NUMBER = builder.defineInRange("FeedSingleAnimalMaxNumber", 20, 6, 65536);
 
         builder.pop();
     }

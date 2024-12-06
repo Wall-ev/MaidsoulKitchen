@@ -23,6 +23,8 @@
   "config.farmsoulkitchen.task.cook_selected_recipes.tooltip": "Cook Selected Recipe Numbs",
   "config.farmsoulkitchen.task.fruit_search_yoffset": "Fruit Task Search YOffset Numbs",
   "config.farmsoulkitchen.task.fruit_search_yoffset.tooltip": "Change the working mode to the retrieval start height value of the maid of the fruit task",
+  "config.farmsoulkitchen.task.feed_animal_t": "Max Number of the same type Animal",
+  "config.farmsoulkitchen.task.feed_animal_t.tooltip": "The max number of the same animal around when the maid breeds animals",
   "config.farmsoulkitchen.render": "Render",
   "config.farmsoulkitchen.render.ld_banner_render": "let's do banner",
   "config.farmsoulkitchen.render.ld_banner_render.tooltip": "Maid can render let's do Banner.",
