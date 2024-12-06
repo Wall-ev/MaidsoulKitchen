@@ -29,11 +29,7 @@ import java.util.*;
 
 
 public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntity, BrewingRecipe> {
-    public static final TaskDbBeerBarrel INSTANCE = new TaskDbBeerBarrel();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "drinkbeer_beerbarrel");
-
-    private TaskDbBeerBarrel() {
-    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
@@ -265,9 +261,6 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DB_BEER;
-    }
-    public static TaskDbBeerBarrel getInstance() {
-        return INSTANCE;
     }
 
 }

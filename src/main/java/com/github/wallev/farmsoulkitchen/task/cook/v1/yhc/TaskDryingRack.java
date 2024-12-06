@@ -22,11 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRackRecipe>, IMaidAction {
-    public static final TaskDryingRack INSTANCE = new TaskDryingRack();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_drying_rack");
-    private TaskDryingRack() {
-
-    }
 
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
@@ -80,9 +76,5 @@ public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRa
     @Override
     public ItemStack getIcon() {
         return YHBlocks.RACK.asStack();
-    }
-
-    public static TaskDryingRack getInstance() {
-        return INSTANCE;
     }
 }

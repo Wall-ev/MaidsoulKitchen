@@ -37,11 +37,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
-    public static final TaskYhcTeaKettle INSTANCE = new TaskYhcTeaKettle();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_tea_kettle");
-
-    private TaskYhcTeaKettle() {
-    }
 
     @Override
     public ItemStackHandler getItemStackHandler(KettleBlockEntity be) {
@@ -182,9 +178,5 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
 //        LOGGER.info("findMaidHasWaterResource.WATER_BUCKET: " + stackSlot);
 
         return stackSlot;
-    }
-
-    public static TaskYhcTeaKettle getInstance() {
-        return INSTANCE;
     }
 }

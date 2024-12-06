@@ -16,15 +16,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 
 public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
-    public static final TaskYhcMoka INSTANCE = new TaskYhcMoka();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_moka_pot");
-
-    private TaskYhcMoka() {
-    }
-
-    public static TaskYhcMoka getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public ItemStackHandler getItemStackHandler(MokaMakerBlockEntity be) {

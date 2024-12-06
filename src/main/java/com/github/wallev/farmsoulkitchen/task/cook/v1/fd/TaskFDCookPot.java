@@ -17,9 +17,6 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 
 public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
-    public static final TaskFDCookPot INSTANCE = new TaskFDCookPot();
-    private TaskFDCookPot() {
-    }
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "fd_cooking_pot");
 
     @Override
@@ -80,9 +77,6 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.FD_COOK_POT;
-    }
-    public static TaskFDCookPot getInstance() {
-        return INSTANCE;
     }
 
 }

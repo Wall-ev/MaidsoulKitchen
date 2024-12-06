@@ -17,11 +17,7 @@ import satisfy.beachparty.registry.RecipeRegistry;
 
 
 public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEntity, MiniFridgeRecipe> {
-    public static final TaskDbpMiniFridge INSTANCE = new TaskDbpMiniFridge();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dbp_mini_fridge");
-
-    private TaskDbpMiniFridge() {
-    }
 
     @Override
     public int getOutputSlot() {
@@ -71,10 +67,6 @@ public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEn
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBP_MINE_FRIDGE;
-    }
-
-    public static TaskDbpMiniFridge getInstance() {
-        return INSTANCE;
     }
 
 }

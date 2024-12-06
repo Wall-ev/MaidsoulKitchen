@@ -21,11 +21,7 @@ import java.util.*;
 
 
 public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
-    public static final TaskBncKey INSTANCE = new TaskBncKey();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "bnc_key");
-
-    private TaskBncKey() {
-    }
 
     @Override
     public ItemStackHandler getItemStackHandler(KegBlockEntity be) {
@@ -95,9 +91,6 @@ public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.BNC_KEY;
-    }
-    public static TaskBncKey getInstance() {
-        return INSTANCE;
     }
 
 }

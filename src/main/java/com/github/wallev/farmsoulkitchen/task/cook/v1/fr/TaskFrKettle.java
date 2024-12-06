@@ -34,16 +34,8 @@ import java.util.Optional;
 
 
 public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
-    public static final TaskFrKettle INSTANCE = new TaskFrKettle();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "fr_kettle");
     private static final Map<KettleRecipe, KettleRecipeWrapper> KETTLE_UNION_RECIPES = new HashMap<>();
-
-    private TaskFrKettle() {
-    }
-
-    public static TaskFrKettle getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {

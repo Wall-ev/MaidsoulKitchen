@@ -21,11 +21,7 @@ import java.util.Map;
 
 
 public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarrelBlockEntity, FermentationBarrelRecipe> {
-    public static final TaskFermentationBarrel INSTANCE = new TaskFermentationBarrel();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dv_fermentation_barrel");
-
-    private TaskFermentationBarrel() {
-    }
 
     @Override
     public boolean isHeated(FermentationBarrelBlockEntity be) {
@@ -76,10 +72,6 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.FERMENTATION_BARREL;
-    }
-
-    public static TaskFermentationBarrel getInstance() {
-        return INSTANCE;
     }
 
 }

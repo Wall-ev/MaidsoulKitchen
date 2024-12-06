@@ -36,13 +36,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
-    public static final TaskFeedAnimalT INSTANCE = new TaskFeedAnimalT();
 
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "feed_animal_t");
     private static final int MAX_STOP_ATTACK_DISTANCE = 8;
-
-    private TaskFeedAnimalT() {
-    }
 
     @Override
     public ResourceLocation getUid() {
@@ -136,10 +132,6 @@ public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
 
     private boolean farAway(LivingEntity target, EntityMaid maid) {
         return maid.distanceTo(target) > MAX_STOP_ATTACK_DISTANCE;
-    }
-
-    public static TaskFeedAnimalT getInstance() {
-        return INSTANCE;
     }
 
     @Override

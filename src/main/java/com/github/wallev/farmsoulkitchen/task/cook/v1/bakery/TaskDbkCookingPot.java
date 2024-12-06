@@ -20,11 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
-    public static final TaskDbkCookingPot INSTANCE = new TaskDbkCookingPot();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dkb_cooking_pot");
-
-    private TaskDbkCookingPot() {
-    }
 
     @Override
     public boolean isHeated(CookingPotBlockEntity be) {
@@ -79,10 +75,6 @@ public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBK_COOKING_POT;
-    }
-
-    public static TaskDbkCookingPot getInstance() {
-        return INSTANCE;
     }
 
 }

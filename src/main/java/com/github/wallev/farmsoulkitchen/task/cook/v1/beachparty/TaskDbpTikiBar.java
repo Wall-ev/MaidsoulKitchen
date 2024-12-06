@@ -18,11 +18,7 @@ import satisfy.beachparty.registry.RecipeRegistry;
 
 
 public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, TikiBarRecipe> {
-    public static final TaskDbpTikiBar INSTANCE = new TaskDbpTikiBar();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dbp_tiki_bar");
-
-    private TaskDbpTikiBar() {
-    }
 
     @Override
     public int getOutputSlot() {
@@ -72,10 +68,6 @@ public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, 
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DBP_MINE_FRIDGE;
-    }
-
-    public static TaskDbpTikiBar getInstance() {
-        return INSTANCE;
     }
 
 }

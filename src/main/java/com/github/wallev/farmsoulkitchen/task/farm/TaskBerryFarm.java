@@ -33,16 +33,7 @@ import java.util.List;
 
 
 public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
-    public static final TaskBerryFarm INSTANCE = new TaskBerryFarm();
-
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "berries_farm");
-
-    private TaskBerryFarm() {
-    }
-
-    public static TaskBerryFarm getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {

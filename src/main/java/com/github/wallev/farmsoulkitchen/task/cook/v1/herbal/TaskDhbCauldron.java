@@ -22,11 +22,7 @@ import java.util.Map;
 
 
 public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, CauldronRecipe> {
-    public static final TaskDhbCauldron INSTANCE = new TaskDhbCauldron();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dhb_cauldron");
-
-    private TaskDhbCauldron() {
-    }
 
     @Override
     public boolean isHeated(CauldronBlockEntity be) {
@@ -76,9 +72,6 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DHB_CAULDRON;
-    }
-    public static TaskDhbCauldron getInstance() {
-        return INSTANCE;
     }
 
 }

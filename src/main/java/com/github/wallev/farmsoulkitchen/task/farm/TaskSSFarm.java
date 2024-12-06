@@ -21,12 +21,7 @@ import java.util.Locale;
 
 
 public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
-    public static final TaskSSFarm INSTANCE = new TaskSSFarm();
-
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "sereneseasons_farm");
-
-    private TaskSSFarm() {
-    }
 
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
@@ -54,10 +49,6 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         return super.createBrainTasks(maid);
-    }
-
-    public static TaskSSFarm getInstance() {
-        return INSTANCE;
     }
 
     @Override

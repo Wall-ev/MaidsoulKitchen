@@ -34,12 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrinkTask {
-    public static final TaskFeedAndDrinkOwner INSTANCE = new TaskFeedAndDrinkOwner();
-
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "feedanddrink");
-
-    private TaskFeedAndDrinkOwner() {
-    }
 
     @Override
     public ItemStack getIcon() {
@@ -195,9 +190,5 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     private boolean isHarmfulEffect(MobEffectInstance effect) {
         return effect.getEffect().getCategory() == MobEffectCategory.HARMFUL;
-    }
-
-    public static TaskFeedAndDrinkOwner getInstance() {
-        return INSTANCE;
     }
 }

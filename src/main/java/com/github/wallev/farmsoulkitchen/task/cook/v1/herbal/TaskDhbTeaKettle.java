@@ -17,11 +17,7 @@ import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 
 
 public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEntity, TeaKettleRecipe> {
-    public static final TaskDhbTeaKettle INSTANCE = new TaskDhbTeaKettle();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dhb_tea_kettle");
-
-    private TaskDhbTeaKettle() {
-    }
 
     @Override
     public boolean isHeated(TeaKettleBlockEntity be) {
@@ -71,9 +67,6 @@ public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEnti
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DHB_TEA_KETTLE;
-    }
-    public static TaskDhbTeaKettle getInstance() {
-        return INSTANCE;
     }
 
 }

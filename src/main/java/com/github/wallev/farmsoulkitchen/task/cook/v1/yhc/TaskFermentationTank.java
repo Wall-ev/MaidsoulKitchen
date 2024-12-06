@@ -50,10 +50,6 @@ import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlo
 import static net.minecraftforge.fluids.FluidUtil.*;
 
 public class TaskFermentationTank implements ICookTask<FermentationTankBlockEntity, FermentationRecipe<?>>, IMaidAction {
-    public static final TaskFermentationTank INSTANCE = new TaskFermentationTank();
-
-    private TaskFermentationTank() {
-    }
 
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_fermentation_tank");
 
@@ -237,9 +233,5 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
             return sakeFluid.type.asStack(1);
         }
         return Items.AIR.getDefaultInstance();
-    }
-
-    public static TaskFermentationTank getInstance() {
-        return INSTANCE;
     }
 }

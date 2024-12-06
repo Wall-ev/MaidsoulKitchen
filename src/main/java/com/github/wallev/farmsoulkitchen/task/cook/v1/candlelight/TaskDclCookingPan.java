@@ -21,11 +21,7 @@ import java.util.Map;
 
 
 public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity, CookingPanRecipe> {
-    public static final TaskDclCookingPan INSTANCE = new TaskDclCookingPan();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dcl_cooking_pan");
-
-    private TaskDclCookingPan() {
-    }
 
     @Override
     public boolean isHeated(CookingPanBlockEntity be) {
@@ -75,10 +71,6 @@ public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.DCL_COOKING_PAN;
-    }
-
-    public static TaskDclCookingPan getInstance() {
-        return INSTANCE;
     }
 
 }

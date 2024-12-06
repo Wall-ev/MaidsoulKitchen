@@ -35,11 +35,7 @@ import java.util.function.Predicate;
 
 
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
-    public static final TaskFurnace INSTANCE = new TaskFurnace();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "furnace");
-
-    private TaskFurnace() {
-    }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
@@ -277,10 +273,6 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.MC_FURNACE;
-    }
-
-    public static TaskFurnace getInstance() {
-        return INSTANCE;
     }
 
 }

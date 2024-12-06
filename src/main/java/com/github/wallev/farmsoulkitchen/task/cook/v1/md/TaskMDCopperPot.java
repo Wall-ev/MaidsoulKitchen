@@ -22,11 +22,7 @@ import java.util.List;
 
 
 public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
-    public static final TaskMDCopperPot INSTANCE = new TaskMDCopperPot();
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "md_copper_pot");
-
-    private TaskMDCopperPot() {
-    }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
@@ -105,10 +101,6 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.MD_COPPER_POT;
-    }
-
-    public static TaskMDCopperPot getInstance() {
-        return INSTANCE;
     }
 
 }
