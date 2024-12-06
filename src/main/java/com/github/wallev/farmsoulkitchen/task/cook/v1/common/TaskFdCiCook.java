@@ -152,7 +152,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
             }
 
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
                 return rmGetAmountIngredient(recipe, available, this.isSingle());
             }
         };

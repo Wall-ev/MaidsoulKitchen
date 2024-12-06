@@ -312,9 +312,13 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                 }
             }
         }
+        List<Item> invIngredient = new ArrayList<>();
+        Map<Item, Integer> itemTimes = new HashMap<>();
         // 获取配方所需的原料的份量
         for (R r : this.currentRecs) {
-            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
+            invIngredient.clear();
+            itemTimes.clear();
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(invIngredient, itemTimes, r, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
             }
@@ -393,10 +397,14 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
     protected void createIngres(EntityMaid maid) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
-        Map<Item, Integer> available = getMaidAvailableInv(maid);
+        Map<Item, Integer> available = this.getMaidAvailableInv(maid);
 
+        List<Item> invIngredient = new ArrayList<>();
+        Map<Item, Integer> itemTimes = new HashMap<>();
         for (R r : this.currentRecs) {
-            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
+            invIngredient.clear();
+            itemTimes.clear();
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(invIngredient, itemTimes, r, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
             }
@@ -481,12 +489,10 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return list1;
     }
 
-    protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
+    protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
         List<Ingredient> ingredients = task.getIngredients(recipe);
         boolean[] canMake = {true};
         boolean[] single = {false};
-        List<Item> invIngredient = new ArrayList<>();
-        Map<Item, Integer> itemTimes = new HashMap<>();
 
         extraStartRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
 

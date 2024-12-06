@@ -61,12 +61,10 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
     public MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();
                 boolean[] canMake = {true};
                 boolean[] single = {false};
-                List<Item> invIngredient = new ArrayList<>();
-                Map<Item, Integer> itemTimes = new HashMap<>();
 
                 boolean hasStartContainer = extraStartRecipe(recipe, available, canMake, single, itemTimes, invIngredient);
                 if (!hasStartContainer) return Pair.of(Collections.EMPTY_LIST, Collections.EMPTY_LIST);

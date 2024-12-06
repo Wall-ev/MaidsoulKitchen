@@ -25,7 +25,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-String version_type = "alpha"
+String version_type = "beta"
 
 base {
     archivesName = "farmsoulkitchen"

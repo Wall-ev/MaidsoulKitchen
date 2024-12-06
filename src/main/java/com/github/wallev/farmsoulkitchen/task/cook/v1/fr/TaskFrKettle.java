@@ -118,8 +118,8 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
             }
 
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(KettleRecipe recipe, Map<Item, Integer> available) {
-                return super.getAmountIngredient(recipe, available);
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, KettleRecipe recipe, Map<Item, Integer> available) {
+                return super.getAmountIngredient(invIngredient, itemTimes, recipe, available);
             }
         };
     }

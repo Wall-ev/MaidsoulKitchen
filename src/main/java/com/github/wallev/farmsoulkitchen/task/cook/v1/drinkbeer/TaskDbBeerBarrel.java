@@ -85,12 +85,10 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     public MaidRecipesManager<BrewingRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false){
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(BrewingRecipe recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, BrewingRecipe recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();
                 boolean[] canMake = {true};
                 boolean[] single = {false};
-                List<Item> invIngredient = new ArrayList<>();
-                Map<Item, Integer> itemTimes = new HashMap<>();
 
                 for (Ingredient ingredient : ingredients) {
                     boolean hasIngredient = false;
