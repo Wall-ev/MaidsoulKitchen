@@ -5,6 +5,7 @@ import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class CookBagInventory implements ICookInventory {
     }
 
     @Override
-    public ItemStackHandler getAvailableInv(EntityMaid maid, BagType bagType) {
+    public IItemHandlerModifiable getAvailableInv(EntityMaid maid, BagType bagType) {
         return containers.get(bagType);
     }
 

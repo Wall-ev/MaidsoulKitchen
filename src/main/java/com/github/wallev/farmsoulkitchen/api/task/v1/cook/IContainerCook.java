@@ -25,8 +25,8 @@ public interface IContainerCook extends IMaidAction {
         ItemStack copy = stackInSlot.copy();
 
         if (stackInSlot.isEmpty()) return;
-        inventory.removeItem(this.getOutputSlot(), stackInSlot.getCount());
-        ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+        inventory.removeItem(this.getOutputSlot(), stackInSlot.getCount() - leftStack.getCount());
         blockEntity.setChanged();
     }
 
@@ -36,8 +36,8 @@ public interface IContainerCook extends IMaidAction {
             ItemStack stackInSlot = inventory.getItem(i);
             ItemStack copy = stackInSlot.copy();
             if (!stackInSlot.isEmpty()) {
-                inventory.removeItem(i, stackInSlot.getCount());
-                ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+                ItemStack leftStack = ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+                inventory.removeItem(i, stackInSlot.getCount() - leftStack.getCount());
             }
         }
         blockEntity.setChanged();
@@ -91,7 +91,6 @@ public interface IContainerCook extends IMaidAction {
         for (ItemStack itemStack : ingredient.get(ingredientIndex)) {
             if (itemStack.isEmpty()) continue;
             int count = itemStack.getCount();
-
             if (count >= amount) {
                 int slotStackCount = inventory.getItem(slotIndex).getCount();
                 inventory.setItem(slotIndex, itemStack.copyWithCount(amount + slotStackCount));

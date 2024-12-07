@@ -4,7 +4,7 @@ import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -85,8 +85,10 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     public MaidRecipesManager<BrewingRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false){
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, BrewingRecipe recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(BrewingRecipe recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();
+                List<Item> invIngredient = new ArrayList<>();
+                Map<Item, Integer> itemTimes = new HashMap<>();
                 boolean[] canMake = {true};
                 boolean[] single = {false};
 
@@ -171,13 +173,13 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
                     available.put(item, available.get(item) - maxCount);
                 }
 
-                return Pair.of(countList, new ArrayList<>(invIngredient));
+                return Pair.of(countList, invIngredient);
             }
 
             @Override
-            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
+            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
 //                repeat(oriList, available);
-                return super.transform(maid, oriList, available);
+                return super.transform(oriList, available);
             }
         };
     }
@@ -211,6 +213,8 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
         extractOutputStack(getContainer(blockEntity), availableInv, blockEntity);
         extractInputStack(getContainer(blockEntity), availableInv, blockEntity);
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+
+        maidRecipesManager.getCookInv().syncInv();
     }
 
     @Override
@@ -219,8 +223,8 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
 
         if (!stackInSlot.isEmpty() && ((BeerBarrelBlockAccessor)blockEntity).statusCode$tlma() == 2) {
             ItemStack copy = stackInSlot.copy();
-            inventory.removeItem(this.getOutputSlot(), stackInSlot.getCount());
-            ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+            inventory.removeItem(this.getOutputSlot(), stackInSlot.getCount() - leftStack.getCount());
             ((BeerBarrelBlockEntity)blockEntity).markDirty();
         }
     }
@@ -249,8 +253,8 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
             ItemStack stackInSlot = inventory.getItem(i);
             ItemStack copy = stackInSlot.copy();
             if (!stackInSlot.isEmpty()) {
-                inventory.removeItem(i, stackInSlot.getCount());
-                ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+                ItemStack leftStack = ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+                inventory.removeItem(i, stackInSlot.getCount() - leftStack.getCount());
                 blockEntity.setChanged();
             }
         }

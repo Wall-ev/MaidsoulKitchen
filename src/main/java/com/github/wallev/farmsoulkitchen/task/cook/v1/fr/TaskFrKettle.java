@@ -3,7 +3,7 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.fr;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -38,10 +38,10 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     private static final Map<KettleRecipe, KettleRecipeWrapper> KETTLE_UNION_RECIPES = new HashMap<>();
 
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
-        ItemStackHandler itemStackHandler = getItemStackHandler(blockEntity);
+    public boolean shouldMoveTo(ServerLevel level, EntityMaid maid, KettleBlockEntity be, MaidRecipesManager<KettleRecipe> manager) {
+        ItemStackHandler itemStackHandler = getItemStackHandler(be);
 
-        return super.shouldMoveTo(serverLevel, maid, blockEntity, recManager);
+        return super.shouldMoveTo(level, maid, be, manager);
     }
 
     @SuppressWarnings("all")
@@ -77,6 +77,11 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     @Override
     public int getInputSize() {
         return 2;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(KettleBlockEntity kettleBlockEntity) {
+        return kettleBlockEntity.getInventory();
     }
 
     @Override
@@ -118,8 +123,8 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
             }
 
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, KettleRecipe recipe, Map<Item, Integer> available) {
-                return super.getAmountIngredient(invIngredient, itemTimes, recipe, available);
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(KettleRecipe recipe, Map<Item, Integer> available) {
+                return super.getAmountIngredient(recipe, available);
             }
         };
     }
@@ -169,7 +174,7 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     }
 
     @Override
-    public void insertInputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+    public void insertInputsStack(ItemStackHandler beInv, IItemHandlerModifiable maidInv, KettleBlockEntity be, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
@@ -177,10 +182,10 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
             for (int i = getInputStartSlot() + 1, j = 0; i < ingredients.size() + getInputStartSlot(); i++, j++) {
                 insertAndShrink(beInv, amounts.get(j), ingredients, j, i);
             }
-            blockEntity.setChanged();
+            be.setChanged();
         }
 
-        KettleBlockEntity kettleBlockEntity = (KettleBlockEntity) blockEntity;
+        KettleBlockEntity kettleBlockEntity = (KettleBlockEntity) be;
         List<ItemStack> itemStacks = ingredients.get(0);
         for (ItemStack itemStack : itemStacks) {
 

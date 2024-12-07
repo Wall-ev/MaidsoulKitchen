@@ -4,6 +4,7 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public interface ICookInventory {
     public Map<Item, Integer> getInventoryItem();
 
     List<ItemStack> getLastInvStack();
-    default ItemStackHandler getAvailableInv(EntityMaid maid, BagType bagType) {
-        return maid.getMaidInv();
+    default IItemHandlerModifiable getAvailableInv(EntityMaid maid, BagType bagType) {
+        return maid.getAvailableInv(true);
     }
 
     default void syncInv() {

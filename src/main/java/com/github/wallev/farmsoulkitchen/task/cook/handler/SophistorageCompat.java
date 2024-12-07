@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
+package com.github.wallev.farmsoulkitchen.task.cook.handler;
 
 import com.github.wallev.farmsoulkitchen.foundation.utility.Mods;
 import com.google.common.collect.Lists;

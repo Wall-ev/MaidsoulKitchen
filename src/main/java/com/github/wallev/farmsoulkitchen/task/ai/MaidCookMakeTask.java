@@ -1,7 +1,7 @@
 package com.github.wallev.farmsoulkitchen.task.ai;
 
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.google.common.collect.ImmutableMap;
@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -49,12 +48,17 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     @Override
     @SuppressWarnings("unchecked")
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
+        if (maid != this.maidRecipesManager.getMaid()) {
+            return;
+        }
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockPos basePos = posWrapper.currentBlockPosition();
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
             if (blockEntity != null && task.isCookBE(blockEntity)) {
-                task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
-                this.maidRecipesManager.tranOutput2Chest(maid);
+                this.task.processCookMake(worldIn, maid, (B) blockEntity, this.maidRecipesManager);
+                this.maidRecipesManager.getCookInv().syncInv();
+                this.maidRecipesManager.tranOutput2Chest();
+                this.maidRecipesManager.getCookInv().syncInv();
             }
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
             maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);

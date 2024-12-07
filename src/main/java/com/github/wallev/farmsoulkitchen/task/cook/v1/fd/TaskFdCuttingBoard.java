@@ -8,7 +8,7 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMoveTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCuttingMakeTask;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.NonNullList;
@@ -24,7 +24,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
@@ -53,7 +52,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
         }
 
         MaidRecipesManager<CuttingBoardRecipe> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
-        MaidCookMoveTask<CuttingBoardBlockEntity, CuttingBoardRecipe> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
+        MaidCookMoveTask<CuttingBoardBlockEntity, CuttingBoardRecipe> maidCookMoveTask = new MaidCookMoveTask<>(this, cookingPotRecipeMaidRecipesManager);
         MaidCuttingMakeTask maidCookMakeTask = new MaidCuttingMakeTask(this, cookingPotRecipeMaidRecipesManager);
         return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
     }
@@ -113,7 +112,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
     public MaidRecipesManager<CuttingBoardRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, EntityMaid maid, boolean setRecipeIngres) {
+            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, boolean setRecipeIngres) {
                 ItemStackHandler availableInv = maid.getMaidInv();
                 boolean hasAvi = false;
                 for (int i = 0; i < availableInv.getSlots(); i++) {
@@ -123,7 +122,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
                     }
                 }
                 if (!hasAvi) return Collections.emptyList();
-                return super.createIngres(available, maid, setRecipeIngres);
+                return super.createIngres(available, setRecipeIngres);
             }
         };
     }

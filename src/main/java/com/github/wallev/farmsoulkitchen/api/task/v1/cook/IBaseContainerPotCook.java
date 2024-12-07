@@ -2,7 +2,7 @@ package com.github.wallev.farmsoulkitchen.api.task.v1.cook;
 
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.bestate.IBaseCookContainerBe;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.bestate.IHeatBe;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +17,6 @@ import java.util.List;
 public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends IBaseCookContainerBe<B, R>, IHeatBe<B>, IContainerCookBe<B>, IContainerCook {
 
     default boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
-        CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
         Container inventory = getContainer(blockEntity);
 //        ItemStack outputStack = inventory.getItem(getOutputSlot());
@@ -66,22 +65,21 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
 
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 
-        maidRecipesManager.getLastInv().syncInv();
+        maidRecipesManager.getCookInv().syncInv();
     }
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         Container inventory = getContainer(blockEntity);
-        CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
 
         // 取出最终物品
-        extractOutputStack(inventory, maidRecipesManager.getOutputInv(entityMaid), blockEntity);
+        extractOutputStack(inventory, maidRecipesManager.getOutputInv(), blockEntity);
 
 
         boolean heated = isHeated(blockEntity);
         // 现在是否可以做饭（厨锅有没有正在做饭）
         boolean b = beInnerCanCook(inventory, blockEntity);
         if (inputCanTake(b, inventory)) {
-            extractInputStack(inventory, maidRecipesManager.getIngreInv(entityMaid), blockEntity);
+            extractInputStack(inventory, maidRecipesManager.getInputInv(), blockEntity);
         }
 
         pickupAction(entityMaid);

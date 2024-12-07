@@ -10,7 +10,7 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.CrockPotTooltip;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.sihenzhang.crockpot.base.FoodCategory;
@@ -43,7 +43,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCookingRecipe>, IHandlerCookBe<CrockPotBlockEntity>, IItemHandlerCook {
+public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCookingRecipe>, IHandlerCookBe<CrockPotBlockEntity>, IItemHandlerCook<CrockPotBlockEntity, CrockPotCookingRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "cp_crock_pot");
     private static final Map<CrockPotCookingRecipe, MaidRec<CrockPotCookingRecipe>> RECS = new HashMap<>();
     private static final Map<FoodCategory, List<Item>> FOOD_CATEGORY_INGREDIENT_MAP = new HashMap<>();
@@ -506,12 +506,14 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, CrockPotBlockEntity blockEntity, MaidRecipesManager<CrockPotCookingRecipe> recManager) {
         extract(serverLevel, maid, blockEntity, recManager);
         insert(serverLevel, maid, blockEntity, recManager);
+
+        recManager.getCookInv().syncInv();
     }
 
     private void extract(ServerLevel serverLevel, EntityMaid maid, CrockPotBlockEntity blockEntity, MaidRecipesManager<CrockPotCookingRecipe> recManager) {
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);
-        IItemHandlerModifiable ingreInv = recManager.getIngreInv(maid);
-        IItemHandlerModifiable outputAdditionInv = recManager.getOutputAdditionInv(maid);
+        IItemHandlerModifiable ingreInv = recManager.getInputInv();
+        IItemHandlerModifiable outputAdditionInv = recManager.getOutputAdditionInv();
         ItemStackHandler beInv = blockEntity.getItemHandler();
         boolean cooking = blockEntity.isCooking();
         boolean b = crockPotRecMatch(serverLevel, blockEntity);
@@ -525,7 +527,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         }
 
         if (!cooking && !b && !canBurn && hasInput(beInv)) {
-            extractInputStack(beInv, ingreInv, blockEntity);
+            extractInputsStack(beInv, ingreInv, blockEntity);
         }
         pickupAction(maid);
 
@@ -548,7 +550,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         boolean cooking = blockEntity.isCooking();
         boolean b = crockPotRecMatch(serverLevel, blockEntity);
         if (!cooking && !b && canBurn && !recManager.getRecipesIngredients().isEmpty()) {
-            insertInputStack(beInv, availableInv, blockEntity, recManager.getRecipeIngredient());
+            insertInputsStack(beInv, availableInv, blockEntity, recManager.getRecipeIngredient());
         }
         pickupAction(maid);
 
@@ -558,7 +560,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
     public MaidRecipesManager<CrockPotCookingRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, EntityMaid maid, boolean setRecipeIngres) {
+            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, boolean setRecipeIngres) {
                 List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
 
                 available.keySet().removeIf(item -> !INVID_ITEMS.contains(item));
@@ -573,7 +575,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
                 }
 
                 if (setRecipeIngres) {
-                    setRecIngres(maid, _make, available);
+                    setRecIngres(_make, available);
                 }
 
                 return _make;
@@ -1164,6 +1166,11 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
     @Override
     public int getInputSize() {
         return 4;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(CrockPotBlockEntity crockPotBlockEntity) {
+        return crockPotBlockEntity.getItemHandler();
     }
 
     @Override

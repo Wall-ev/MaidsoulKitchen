@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.task.cook.v1.bnc;
+package com.github.wallev.farmsoulkitchen.task.cook.bnc;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
@@ -46,6 +46,11 @@ public class TaskBncKey extends TaskFdCiCook<KegBlockEntity, KegRecipe> {
     @Override
     public int getInputSize() {
         return 5;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(KegBlockEntity kegBlockEntity) {
+        return kegBlockEntity.getInventory();
     }
 
     @Override

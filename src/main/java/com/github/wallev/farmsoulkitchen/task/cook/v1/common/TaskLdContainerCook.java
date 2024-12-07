@@ -1,6 +1,6 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.common;
 
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import de.cristelknight.doapi.common.world.ImplementedInventory;
@@ -61,8 +61,10 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
     public MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
                 List<Ingredient> ingredients = recipe.getIngredients();
+                List<Item> invIngredient = new ArrayList<>();
+                Map<Item, Integer> itemTimes = new HashMap<>();
                 boolean[] canMake = {true};
                 boolean[] single = {false};
 
@@ -138,7 +140,7 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
                     }
                 }
 
-                return Pair.of(countList, new ArrayList<>(invIngredient));
+                return Pair.of(countList, invIngredient);
             }
 
             @Override

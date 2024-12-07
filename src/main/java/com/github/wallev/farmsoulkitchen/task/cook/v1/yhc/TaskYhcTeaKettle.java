@@ -5,7 +5,7 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.yhc.KettleBlockAccessor;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.wallev.farmsoulkitchen.util.FakePlayerUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -52,6 +52,11 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
     @Override
     public int getInputSize() {
         return 4;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(KettleBlockEntity kettleBlockEntity) {
+        return kettleBlockEntity.getInventory();
     }
 
     @Override
@@ -105,13 +110,13 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
     }
 
     @Override
-    public boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
-        return super.shouldMoveTo(serverLevel, maid, blockEntity, recManager) || (needWater(blockEntity) && findMaidHasWaterResource(maid, blockEntity) != -1);
+    public boolean shouldMoveTo(ServerLevel level, EntityMaid maid, KettleBlockEntity be, MaidRecipesManager<KettleRecipe> manager) {
+        return super.shouldMoveTo(level, maid, be, manager) || (needWater(be) && findMaidHasWaterResource(maid, be) != -1);
     }
 
     @Override
-    public void processCookMake(ServerLevel serverLevel, EntityMaid maid, KettleBlockEntity blockEntity, MaidRecipesManager<KettleRecipe> recManager) {
-        super.processCookMake(serverLevel, maid, blockEntity, recManager);
+    public void processCookMake(ServerLevel level, EntityMaid maid, KettleBlockEntity be, MaidRecipesManager<KettleRecipe> manager) {
+        super.processCookMake(level, maid, be, manager);
     }
 
     public boolean needWater(KettleBlockEntity kettleBlockEntity) {

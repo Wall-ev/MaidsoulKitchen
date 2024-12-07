@@ -4,7 +4,7 @@ import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.bestate.IFuelBe;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
 import com.github.wallev.farmsoulkitchen.util.MaidDataUtil;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -69,10 +69,11 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
     @Override
     public void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, StoveBlockEntity blockEntity, MaidRecipesManager<StoveRecipe> maidRecipesManager) {
         tryExtractItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
-
+        maidRecipesManager.getCookInv().syncInv();
         if (!fuelItemAction(entityMaid, blockEntity)) return;
 
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
+        maidRecipesManager.getCookInv().syncInv();
     }
 
     protected boolean fuelItemAction(EntityMaid entityMaid, StoveBlockEntity blockEntity) {

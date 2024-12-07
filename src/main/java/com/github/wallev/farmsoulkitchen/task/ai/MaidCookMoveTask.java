@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRa
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -25,15 +25,11 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private final MaidRecipesManager<R> maidRecipesManager;
     protected int verticalSearchStart;
 
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
-        this(maid, task, 0.5f, 2, maidRecipesManager);
+    public MaidCookMoveTask(ICookTask<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
+        this(task, 0.5f, 2, maidRecipesManager);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, MaidRecipesManager<R> maidRecipesManager) {
-        this(maid, task, movementSpeed, 2, maidRecipesManager);
-    }
-
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, int verticalSearchRange, MaidRecipesManager<R> maidRecipesManager) {
+    public MaidCookMoveTask(ICookTask<B, R> task, float movementSpeed, int verticalSearchRange, MaidRecipesManager<R> maidRecipesManager) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
@@ -65,12 +61,14 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 
     @Override
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-//        this.processRecipeManager(maid);
+        if (maid != this.maidRecipesManager.getMaid()) {
+            return;
+        }
         this.searchForDestination(worldIn, maid);
     }
 
-    private void processRecipeManager(EntityMaid maid) {
-        this.maidRecipesManager.checkAndCreateRecipesIngredients(maid);
+    private void processRecipeManager() {
+        this.maidRecipesManager.checkAndCreateRecipesIngredients();
     }
 
     @SuppressWarnings("unchecked")
@@ -79,9 +77,9 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         if (blockEntity == null) {
             return false;
         }
-        if (task.isCookBE(blockEntity)) {
-            this.processRecipeManager(maid);
-            return task.shouldMoveTo(worldIn, maid, (B) blockEntity, maidRecipesManager);
+        if (this.task.isCookBE(blockEntity)) {
+            this.processRecipeManager();
+            return this.task.shouldMoveTo(worldIn, this.maidRecipesManager.getMaid(), (B) blockEntity, maidRecipesManager);
         }
         return false;
     }

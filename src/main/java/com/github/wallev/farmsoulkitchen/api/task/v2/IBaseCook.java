@@ -2,7 +2,7 @@ package com.github.wallev.farmsoulkitchen.api.task.v2;
 
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.action.IMaidAction;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;

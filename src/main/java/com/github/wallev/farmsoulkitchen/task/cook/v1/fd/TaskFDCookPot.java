@@ -40,6 +40,11 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
     }
 
     @Override
+    public ItemStackHandler getBeInv(CookingPotBlockEntity cookingPotBlockEntity) {
+        return cookingPotBlockEntity.getInventory();
+    }
+
+    @Override
     public ResourceLocation getUid() {
         return UID;
     }

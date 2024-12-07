@@ -6,7 +6,7 @@ import com.github.wallev.farmsoulkitchen.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.bakery.TaskDbkStove;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty.TaskDbpMiniFridge;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
-import com.github.wallev.farmsoulkitchen.task.cook.v1.bnc.TaskBncKey;
+import com.github.wallev.farmsoulkitchen.task.cook.bnc.TaskBncKey;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPan;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;

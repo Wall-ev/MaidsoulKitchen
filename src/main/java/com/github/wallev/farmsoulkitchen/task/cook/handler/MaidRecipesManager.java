@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.task.cook.handler.v2;
+package com.github.wallev.farmsoulkitchen.task.cook.handler;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -9,9 +9,6 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.CookBagInventory;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.ICookInventory;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidInventory;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -36,46 +33,51 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class MaidRecipesManager<R extends Recipe<? extends Container>> {
-    private final EntityMaid maid;
     protected final List<R> rec = new ArrayList<>();
     protected final List<R> currentRecs = new ArrayList<>();
-    private final MaidInventory maidInventory;
+    private final EntityMaid maid;
+    private final Level level;
     private final ICookTask<?, R> task;
     private final boolean single;
+    private final ICookInventory cookInv;
+    private final boolean hasCulinaryHub;
     private String lastTaskRule;
     private List<String> recipeIds;
     private int repeatTimes = 0;
     private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
-    private ICookInventory lastInv;
     private int tryTime = 0;
-
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single) {
         this(maid, task, single, true);
     }
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single, boolean createRecIng) {
         this.maid = maid;
-        this.maidInventory = new MaidInventory(maid);
+        this.level = maid.level;
         this.single = single;
         this.task = task;
-
-        this.initLastInv(maid);
+        this.hasCulinaryHub = !this.findCulinaryHub().isEmpty();
+        this.cookInv = this.initCookInv();
 
         if (createRecIng) {
-            this.initTaskData(maid);
-            this.createRecipesIngredients(maid);
+            this.initTaskData();
+            this.createRecipesIngredients();
         }
     }
 
-    public static ItemStack findCulinaryHub(EntityMaid maid) {
-        ItemStack culinaryHubItem = maid.getMaidInv().getStackInSlot(4);
+    private ICookInventory initCookInv() {
+        ItemStack culinaryHub = this.findCulinaryHub();
+        return culinaryHub.isEmpty() ? new MaidInventory(maid) : new CookBagInventory(culinaryHub);
+    }
+
+    public ItemStack findCulinaryHub() {
+        ItemStack culinaryHubItem = this.maid.getMaidInv().getStackInSlot(4);
         if (culinaryHubItem.is(InitItems.CULINARY_HUB.get())) return culinaryHubItem;
         return ItemStack.EMPTY;
     }
 
-    private static void tranCookBag2Chest(EntityMaid maid, BagType bagType, boolean requireHasItem) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
-        if (!culinaryHub.isEmpty()) return;
+    private void tranCookBag2Chest(BagType bagType, boolean requireHasItem) {
+        ItemStack culinaryHub = this.findCulinaryHub();
+        if (culinaryHub.isEmpty()) return;
 
         List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(culinaryHub, bagType.name);
         if (ingredientPos.isEmpty()) return;
@@ -118,58 +120,15 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         }
     }
 
-    private static boolean hasAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level, ItemStackHandler availableInv) {
-        for (BlockPos bindModePose : bindModePoses) {
-            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
-
-            if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
-
-                if (capability.isPresent()) {
-                    IItemHandler beInv = capability.resolve().get();
-                    return ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem())) > -1;
-                }
-
-            }
-
-        }
-        return false;
-    }
-
-    @Nullable
-    private static ItemStack getAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level, ItemStackHandler availableInv) {
-        for (BlockPos bindModePose : bindModePoses) {
-            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
-
-            if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
-
-                if (capability.isPresent()) {
-                    IItemHandler beInv = capability.resolve().get();
-
-                    int stackSlot = ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem()));
-
-                    if (stackSlot > -1) {
-                        return beInv.extractItem(stackSlot, 64, false).copy();
-                    }
-
-                }
-
-            }
-
-        }
-        return null;
+    public EntityMaid getMaid() {
+        return maid;
     }
 
     public boolean isSingle() {
         return single;
     }
 
-    public MaidInventory getMaidInventory() {
-        return maidInventory;
-    }
-
-    private List<R> getRecs(EntityMaid maid) {
+    private List<R> getRecs() {
         List<R> list = new ArrayList<>(this.rec);
         shuffle(list);
         return list;
@@ -180,8 +139,6 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient() {
-//        FarmsoulKitchen.LOGGER.info("MaidRecipesManager.getRecipeIngredient: ");
-//        FarmsoulKitchen.LOGGER.info(recipesIngredients);
         if (recipesIngredients.isEmpty()) return null;
         int size = recipesIngredients.size();
         Pair<List<Integer>, List<List<ItemStack>>> integerListPair = recipesIngredients.get(0);
@@ -190,19 +147,19 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return integerListPair;
     }
 
-    public void checkAndCreateRecipesIngredients(EntityMaid maid) {
-        this.initTaskData(maid);
+    public void checkAndCreateRecipesIngredients() {
+        this.initTaskData();
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return;
         // 是否为上一次的背包以及手上的物品
-        boolean lastInv = this.isLastInv(maid);
+        boolean lastInv = this.isCookInv();
         if (lastInv && tryTime++ < 10) return;
         tryTime = 0;
-        this.createRecipesIngredients(maid);
+        this.createRecipesIngredients();
     }
 
     @SuppressWarnings("unchecked")
-    private void initTaskData(EntityMaid maid) {
+    private void initTaskData() {
         if (lastTaskRule == null || recipeIds == null) {
             ICookTask<?, R> cookTask = (ICookTask<?, R>) maid.getTask();
             CookData cookData = cookTask.getTaskData(maid);
@@ -210,12 +167,12 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             this.recipeIds = cookData.recs();
             this.rec.clear();
 
-            List<R> allRecipesFor = getValidRecipesFor(maid.level);
+            List<R> allRecipesFor = this.getValidRecipesFor();
             this.rec.addAll(allRecipesFor);
         }
     }
 
-    private List<R> getValidRecipesFor(Level level) {
+    private List<R> getValidRecipesFor() {
         List<R> allRecipesFor;
         if (CookData.Mode.SELECT.name.equals(this.lastTaskRule)) {
             allRecipesFor = task.getRecipes(level).stream().filter(r -> recipeIds.contains(r.getId().toString())).toList();
@@ -225,13 +182,12 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return allRecipesFor;
     }
 
-    private boolean isLastInv(EntityMaid maid) {
-        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
-        ICookInventory lastInv1 = this.getLastInv();
+    private boolean isCookInv() {
+        CombinedInvWrapper availableInv = this.maid.getAvailableInv(true);
 
-        List<ItemStack> lastInvStack = lastInv1.getLastInvStack();
+        List<ItemStack> lastInvStack = this.cookInv.getLastInvStack();
 
-        ItemStack culinaryHub = findCulinaryHub(maid);
+        ItemStack culinaryHub = this.findCulinaryHub();
         if (!culinaryHub.isEmpty()) {
             ItemStackHandler orDefault = ItemCulinaryHub.getContainers(culinaryHub).getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
             if (orDefault.getSlots() != lastInvStack.size()) return false;
@@ -258,23 +214,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return true;
     }
 
-    public ItemStack getItemStack(Item item) {
-        Map<Item, List<ItemStack>> inventoryStack = maidInventory.getInventoryStack();
-        List<ItemStack> itemStacks = inventoryStack.get(item);
-        for (ItemStack itemStack : itemStacks) {
-            if (!itemStack.isEmpty()) {
-                return itemStack;
-            }
-        }
-        return ItemStack.EMPTY;
-    }
-
-    protected List<R> filterRecipes(List<R> recipes) {
-        return recipes;
-    }
-
-    public void mapChestIngredient(EntityMaid maid) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
+    public void mapChestIngredient() {
+        ItemStack culinaryHub = findCulinaryHub();
         if (culinaryHub.isEmpty()) return;
 
         List<BlockPos> ingredientPos = ItemCulinaryHub.getBindModePoses(culinaryHub, BagType.INGREDIENT.name);
@@ -323,7 +264,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             }
         }
 
-        List<Pair<List<Integer>, List<Item>>> _make = this.createIngres(available, maid, false);
+        List<Pair<List<Integer>, List<Item>>> _make = this.createIngres(available, false);
         if (_make.isEmpty()) return;
 
         // 转移箱子原料至CookBag
@@ -373,41 +314,41 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         ItemCulinaryHub.setContainer(culinaryHub, containers);
     }
 
-    private void createRecipesIngredients(EntityMaid maid) {
+    private void createRecipesIngredients() {
         if (lastTaskRule == null || recipeIds == null) {
-            this.initTaskData(maid);
+            this.initTaskData();
         }
 
         this.currentRecs.clear();
-        this.currentRecs.addAll(getRecs(maid));
+        this.currentRecs.addAll(this.getRecs());
         // 将CookBag里无用的配方原料放回原料箱子
-        this.tranUnIngre2Chest(maid);
+        this.tranUnIngre2Chest();
         // 获取原料箱子配方原料并置入CookBag
-        this.mapChestIngredient(maid);
-        this.maidInventory.refreshInv();
-        this.createIngres(maid, true);
+        this.mapChestIngredient();
+        this.cookInv.refreshInv();
+        this.createIngres(true);
         this.currentRecs.clear();
 
     }
 
-    public void tranOutput2Chest(EntityMaid maid) {
-        tranCookBag2Chest(maid, BagType.OUTPUT, false);
+    public void tranOutput2Chest() {
+        this.tranCookBag2Chest(BagType.OUTPUT, false);
     }
 
-    public void tranUnIngre2Chest(EntityMaid maid) {
-        tranCookBag2Chest(maid, BagType.INGREDIENT, true);
+    public void tranUnIngre2Chest() {
+        this.tranCookBag2Chest(BagType.INGREDIENT, true);
     }
 
-    private void createIngres(EntityMaid maid, boolean setRecipeIngres) {
-        Map<Item, Integer> maidAvailableInv = this.getMaidAvailableInv(maid);
-        this.createIngres(maidAvailableInv, maid, setRecipeIngres);
+    private void createIngres(boolean setRecipeIngres) {
+        Map<Item, Integer> maidAvailableInv = this.getMaidAvailableInv();
+        this.createIngres(maidAvailableInv, setRecipeIngres);
     }
 
-    protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, EntityMaid maid, boolean setRecipeIngres) {
+    protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, boolean setRecipeIngres) {
         List<Pair<List<Integer>, List<Item>>> _make = getRecIngreMake(available);
 
         if (setRecipeIngres) {
-            setRecIngres(maid, _make, available);
+            setRecIngres(_make, available);
         }
 
         return _make;
@@ -416,12 +357,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     @NotNull
     private List<Pair<List<Integer>, List<Item>>> getRecIngreMake(Map<Item, Integer> available) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
-        List<Item> invIngredient = new ArrayList<>();
-        Map<Item, Integer> itemTimes = new HashMap<>();
         for (R r : this.currentRecs) {
-            invIngredient.clear();
-            itemTimes.clear();
-            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(invIngredient, itemTimes, r, available);
+            Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
             if (!maxCount.getFirst().isEmpty()) {
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
             }
@@ -430,37 +367,18 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return _make;
     }
 
-    protected void setRecIngres(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> _make, Map<Item, Integer> available) {
+    protected void setRecIngres(List<Pair<List<Integer>, List<Item>>> _make, Map<Item, Integer> available) {
         if (_make.isEmpty()) return;
-        this.recipesIngredients = transform(maid, _make, available);
+        this.recipesIngredients = transform(_make, available);
     }
 
     @NotNull
-    protected Map<Item, Integer> getMaidAvailableInv(EntityMaid maid) {
-        return new HashMap<>(getIngredientInv(maid).getInventoryItem());
+    protected Map<Item, Integer> getMaidAvailableInv() {
+        return new HashMap<>(getCookInv().getInventoryItem());
     }
 
-
-    public ICookInventory getIngredientInv(EntityMaid maid) {
-        this.initLastInv(maid);
-        return this.getLastInv();
-    }
-
-    private void initLastInv(EntityMaid maid) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
-        if (!culinaryHub.isEmpty()) {
-            this.setLastInv(new CookBagInventory(culinaryHub));
-        } else {
-            this.setLastInv(this.maidInventory);
-        }
-    }
-
-    public ICookInventory getLastInv() {
-        return lastInv;
-    }
-
-    private void setLastInv(ICookInventory lastInv) {
-        this.lastInv = lastInv;
+    public ICookInventory getCookInv() {
+        return this.cookInv;
     }
 
     protected void repeat(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available, int times) {
@@ -490,8 +408,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         }
     }
 
-    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
-        Map<Item, List<ItemStack>> inventoryStack = this.getIngredientInv(maid).getInventoryStack();
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
+        Map<Item, List<ItemStack>> inventoryStack = this.getCookInv().getInventoryStack();
 //        return oriList.stream().map(p -> Pair.of(p.getFirst(), p.getSecond().stream().map(inventoryStack::get).toList())).toList();
 
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
@@ -504,8 +422,10 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return list1;
     }
 
-    protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
+    protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
         List<Ingredient> ingredients = task.getIngredients(recipe);
+        List<Item> invIngredient = new ArrayList<>();
+        Map<Item, Integer> itemTimes = new HashMap<>();
         boolean[] canMake = {true};
         boolean[] single = {false};
 
@@ -561,7 +481,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             available.put(item, available.get(item) - maxCount);
         }
 
-        return Pair.of(countList, new ArrayList<>(invIngredient));
+        return Pair.of(countList, invIngredient);
     }
 
     protected boolean extraStartRecipe(R recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
@@ -576,56 +496,44 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         Collections.shuffle(recipes);
     }
 
-    public int getRepeatTimes() {
-        return repeatTimes;
-    }
 
-    public void setRepeatTimes(int repeatTimes) {
-        this.repeatTimes = repeatTimes;
-    }
 
-    public IItemHandlerModifiable getOutputAdditionInv(EntityMaid maid) {
-        return this.getBagContainerInv(maid, BagType.OUTPUT_ADDITION);
-    }
 
-    public boolean hasOutputAdditionItem(EntityMaid maid, ItemStack findItem) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
+
+    public boolean hasOutputAdditionItem(ItemStack findItem) {
+        ItemStack culinaryHub = findCulinaryHub();
         if (!culinaryHub.isEmpty()) {
-            IItemHandlerModifiable availableInv = this.getOutputAdditionInv(maid);
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
             if (additionSlot > -1) {
                 return true;
             } else {
-                Level level = maid.level;
                 List<BlockPos> bindModePoses = ItemCulinaryHub.getBindModePoses(culinaryHub, BagType.OUTPUT_ADDITION.name);
-                return hasAdditionStackFromHub(findItem, bindModePoses, level, (ItemStackHandler) availableInv);
+                return hasAdditionStackFromHub(findItem, bindModePoses, level);
             }
-
         } else {
             return ItemsUtil.findStackSlot(maid.getAvailableInv(true), stack -> stack.is(findItem.getItem())) > -1;
         }
     }
 
-    public ItemStack findOutputAdditionItem(EntityMaid maid, ItemStack findItem) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
+    public ItemStack findOutputAdditionItem(ItemStack findItem) {
+        ItemStack culinaryHub = this.findCulinaryHub();
         if (!culinaryHub.isEmpty()) {
-            IItemHandlerModifiable availableInv = this.getOutputAdditionInv(maid);
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
             if (additionSlot > -1) {
                 ItemStack itemStack = availableInv.extractItem(additionSlot, 64, false);
-                this.getLastInv().syncInv();
+                this.cookInv.syncInv();
                 return itemStack.copy();
             } else {
-                Level level = maid.level;
                 List<BlockPos> bindModePoses = ItemCulinaryHub.getBindModePoses(culinaryHub, BagType.OUTPUT_ADDITION.name);
-                ItemStack beInv = getAdditionStackFromHub(findItem, bindModePoses, level, (ItemStackHandler) availableInv);
-                if (beInv != null) return beInv;
+                return getAdditionStackFromHub(findItem, bindModePoses, this.level);
             }
 
         } else {
-            CombinedInvWrapper maidInv = maid.getAvailableInv(true);
+            CombinedInvWrapper maidInv = this.maid.getAvailableInv(true);
             int additionSlot = ItemsUtil.findStackSlot(maidInv, stack -> stack.is(findItem.getItem()));
 
             if (additionSlot > -1) {
@@ -641,20 +549,77 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return ItemStack.EMPTY;
     }
 
-    public IItemHandlerModifiable getOutputInv(EntityMaid maid) {
-        return this.getBagContainerInv(maid, BagType.OUTPUT);
+    private static boolean hasAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level) {
+        for (BlockPos bindModePose : bindModePoses) {
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+                    return ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem())) > -1;
+                }
+
+            }
+
+        }
+        return false;
     }
 
-    public IItemHandlerModifiable getIngreInv(EntityMaid maid) {
-        return this.getBagContainerInv(maid, BagType.INGREDIENT);
+    private static ItemStack getAdditionStackFromHub(ItemStack findItem, List<BlockPos> bindModePoses, Level level) {
+        for (BlockPos bindModePose : bindModePoses) {
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+
+                    int stackSlot = ItemsUtil.findStackSlot(beInv, stack -> stack.is(findItem.getItem()));
+
+                    if (stackSlot > -1) {
+                        ItemStack copy = beInv.extractItem(stackSlot, 64, false).copy();
+                        blockEntity.setChanged();
+                        return copy;
+                    }
+
+                }
+
+            }
+
+        }
+        return ItemStack.EMPTY;
     }
 
-    public IItemHandlerModifiable getBagContainerInv(EntityMaid maid, BagType bagType) {
-        ItemStack culinaryHub = findCulinaryHub(maid);
 
-        if (!culinaryHub.isEmpty()) return maid.getMaidInv();
-        ;
 
-        return this.getLastInv().getAvailableInv(maid, bagType);
+
+
+    public IItemHandlerModifiable getOutputInv() {
+        return this.getBagContainerInv(BagType.OUTPUT);
+    }
+
+    public IItemHandlerModifiable getOutputAdditionInv() {
+        return this.getBagContainerInv(BagType.OUTPUT_ADDITION);
+    }
+
+    public IItemHandlerModifiable getInputInv() {
+        return this.getBagContainerInv(BagType.INGREDIENT);
+    }
+
+    private IItemHandlerModifiable getBagContainerInv(BagType bagType) {
+       return this.getCookInv().getAvailableInv(maid, bagType);
+    }
+
+
+
+
+
+
+    @Nullable
+    public IItemHandlerModifiable getIngredientInv() {
+        return this.getInputInv();
     }
 }

@@ -10,7 +10,7 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.kitchkarrot.AirCompressorBlockEntityAccessor;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity;
 import io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe;
 import io.github.tt432.kitchenkarrot.registries.ModBlocks;
@@ -23,13 +23,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, AirCompressorRecipe>, IHandlerCookBe<AirCompressorBlockEntity>, IItemHandlerCook {
+public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, AirCompressorRecipe>, IHandlerCookBe<AirCompressorBlockEntity>, IItemHandlerCook<AirCompressorBlockEntity, AirCompressorRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "kk_air_compressor");
 
     private static void replenishEnergy(EntityMaid maid, AirCompressorBlockEntity brewBe, CombinedInvWrapper maidInv) {
@@ -90,18 +89,20 @@ public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, Ai
         }
 
         if (!blockEntity.getOutput().getStackInSlot(0).isEmpty()) {
-            extractOutputStack(blockEntity.getOutput(), recManager.getOutputInv(maid), blockEntity);
+            extractOutputStack(blockEntity.getOutput(), recManager.getOutputInv(), blockEntity);
         }
         pickupAction(maid);
 
         if (!accessor.callIsStarted() && hasInput(blockEntity.getInput1())) {
-            extractInputStack(blockEntity.getInput1(), recManager.getIngreInv(maid), blockEntity);
+            extractInputsStack(blockEntity.getInput1(), recManager.getInputInv(), blockEntity);
         }
 
         if (!accessor.callIsStarted() && accessor.callHasEnergy() && !recManager.getRecipesIngredients().isEmpty()) {
-            insertInputStack(blockEntity.getInput1(), maidInv, blockEntity, recManager.getRecipeIngredient());
+            insertInputsStack(blockEntity.getInput1(), maidInv, blockEntity, recManager.getRecipeIngredient());
         }
+
         pickupAction(maid);
+        recManager.getCookInv().syncInv();
     }
 
     @Override
@@ -127,6 +128,11 @@ public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, Ai
     @Override
     public int getInputSize() {
         return 5;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(AirCompressorBlockEntity airCompressorBlockEntity) {
+        return airCompressorBlockEntity.getInput1();
     }
 
     @Override

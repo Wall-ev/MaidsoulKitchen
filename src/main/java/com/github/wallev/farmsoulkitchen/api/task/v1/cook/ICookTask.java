@@ -8,7 +8,7 @@ import com.github.wallev.farmsoulkitchen.inventory.container.maid.CookConfigCont
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMakeTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMoveTask;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
@@ -47,7 +47,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         }
 
         MaidRecipesManager<R> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
-        MaidCookMoveTask<B, R> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
+        MaidCookMoveTask<B, R> maidCookMoveTask = new MaidCookMoveTask<>(this, cookingPotRecipeMaidRecipesManager);
         MaidCookMakeTask<B, R> maidCookMakeTask = new MaidCookMakeTask<>(this, cookingPotRecipeMaidRecipesManager);
         return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
     }
@@ -71,25 +71,13 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         return 3.2;
     }
 
-    /**
-     * 获取任务启用的条件提示文本
-     *
-     * @param maid 女仆对象
-     * @return 条件名（用于自动生成对应的 key）和对应条件布尔值的组合列表
-     */
     default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
         return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
     }
 
-    /**
-     * 默认好感度二级才可以启用任务
-     * 当然得等酒石酸把这个用上去才会生效...
-     */
-    //todo 自定义启用条件，数据包，或者kjs
     @Override
     default boolean isEnable(EntityMaid maid) {
-//        return TaskConfig.COOK_TASK_ENABLE_CONDITION.get() && hasEnoughFavor(maid);
-        return true && hasEnoughFavor(maid);
+        return hasEnoughFavor(maid);
     }
 
     @Override

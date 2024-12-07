@@ -34,6 +34,11 @@ public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
     }
 
     @Override
+    public ItemStackHandler getBeInv(MokaMakerBlockEntity mokaMakerBlockEntity) {
+        return mokaMakerBlockEntity.getInventory();
+    }
+
+    @Override
     public int getMealStackSlot() {
         return MokaMakerBlockEntity.MEAL_DISPLAY_SLOT;
     }

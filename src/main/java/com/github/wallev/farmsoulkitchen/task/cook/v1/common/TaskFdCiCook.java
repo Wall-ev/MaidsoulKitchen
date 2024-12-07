@@ -1,6 +1,6 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.common;
 
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
@@ -17,7 +17,7 @@ import java.util.*;
 public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? extends Container>> extends TaskFdPot<B, R> {
 
     @Override
-    public void insertInputStack(ItemStackHandler beInv, IItemHandlerModifiable availableInv, BlockEntity blockEntity, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
+    public void insertInputsStack(ItemStackHandler beInv, IItemHandlerModifiable maidInv, B be, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
@@ -26,7 +26,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
                 if (ingredients.get(j).isEmpty()) continue;
                 insertAndShrink(beInv, amounts.get(i), ingredients, j, i);
             }
-            blockEntity.setChanged();
+            be.setChanged();
         }
 
         updateIngredient(ingredientPair);
@@ -147,12 +147,12 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
     public MaidRecipesManager<R> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(EntityMaid maid, List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available ) {
-                return rmTransform(this.getIngredientInv(maid).getInventoryStack(), oriList);
+            protected List<Pair<List<Integer>, List<List<ItemStack>>>> transform(List<Pair<List<Integer>, List<Item>>> oriList, Map<Item, Integer> available) {
+                return rmTransform(this.getCookInv().getInventoryStack(), oriList);
             }
 
             @Override
-            protected Pair<List<Integer>, List<Item>> getAmountIngredient(List<Item> invIngredient, Map<Item, Integer> itemTimes, R recipe, Map<Item, Integer> available) {
+            protected Pair<List<Integer>, List<Item>> getAmountIngredient(R recipe, Map<Item, Integer> available) {
                 return rmGetAmountIngredient(recipe, available, this.isSingle());
             }
         };

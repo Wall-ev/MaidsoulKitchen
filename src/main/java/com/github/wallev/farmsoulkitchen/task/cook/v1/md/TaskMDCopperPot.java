@@ -4,9 +4,7 @@ import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
 import com.sammy.minersdelight.setup.MDBlocks;
 import net.minecraft.resources.ResourceLocation;
@@ -59,6 +57,11 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
     @Override
     public int getInputSize() {
         return 4;
+    }
+
+    @Override
+    public ItemStackHandler getBeInv(CopperPotBlockEntity copperPotBlockEntity) {
+        return copperPotBlockEntity.getInventory();
     }
 
     @Override
