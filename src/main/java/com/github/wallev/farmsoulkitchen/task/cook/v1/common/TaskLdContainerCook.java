@@ -138,7 +138,7 @@ public abstract class TaskLdContainerCook<B extends BlockEntity & ImplementedInv
                     }
                 }
 
-                return Pair.of(countList, invIngredient);
+                return Pair.of(countList, new ArrayList<>(invIngredient));
             }
 
             @Override

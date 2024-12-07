@@ -48,8 +48,9 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level.isClientSide) return Collections.emptyList();
-//        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level.isClientSide);
+        if (maid.level.isClientSide) {
+            return Collections.emptyList();
+        }
 
         MaidRecipesManager<CuttingBoardRecipe> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
         MaidCookMoveTask<CuttingBoardBlockEntity, CuttingBoardRecipe> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);
@@ -112,7 +113,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
     public MaidRecipesManager<CuttingBoardRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected void createIngres(EntityMaid maid) {
+            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, EntityMaid maid, boolean setRecipeIngres) {
                 ItemStackHandler availableInv = maid.getMaidInv();
                 boolean hasAvi = false;
                 for (int i = 0; i < availableInv.getSlots(); i++) {
@@ -121,8 +122,8 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
                         break;
                     }
                 }
-                if (!hasAvi) return;
-                super.createIngres(maid);
+                if (!hasAvi) return Collections.emptyList();
+                return super.createIngres(available, maid, setRecipeIngres);
             }
         };
     }

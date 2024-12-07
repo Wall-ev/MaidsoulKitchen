@@ -68,14 +68,6 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     }
 
     @Override
-    public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level.isClientSide) return Collections.emptyList();
-        MaidCookMoveTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMoveTask = new MaidCookMoveTask<>(maid, this);
-        MaidCookMakeTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> maidCookMakeTask = new MaidCookMakeTask<>(this);
-        return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(6, maidCookMakeTask));
-    }
-
-    @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof AbstractFurnaceBlockEntity;
     }

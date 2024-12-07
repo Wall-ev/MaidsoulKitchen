@@ -24,16 +24,10 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     private final ICookTask<B, R> task;
     private final MaidRecipesManager<R> maidRecipesManager;
 
-    public MaidCookMakeTask(ICookTask<B, R> task, @Nullable MaidRecipesManager<R> maidRecipesManager) {
+    public MaidCookMakeTask(ICookTask<B, R> task,MaidRecipesManager<R> maidRecipesManager) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.maidRecipesManager = maidRecipesManager;
-    }
-
-    public MaidCookMakeTask(ICookTask<B, R> task) {
-        super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
-        this.task = task;
-        this.maidRecipesManager = null;
     }
 
     @Override

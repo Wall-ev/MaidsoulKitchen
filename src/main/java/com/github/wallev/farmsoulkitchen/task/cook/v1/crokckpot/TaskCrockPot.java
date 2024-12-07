@@ -9,7 +9,6 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
-import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
 import com.google.gson.JsonElement;
@@ -36,6 +35,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.apache.commons.lang3.EnumUtils;
@@ -82,7 +82,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             available.put(item, available.get(item) - maxCount);
         }
 
-        return Pair.of(countList, invIngredient);
+        return Pair.of(countList, new ArrayList<>(invIngredient));
     }
 
     private boolean crockPotRecMatch(ServerLevel serverLevel, CrockPotBlockEntity blockEntity) {
@@ -510,6 +510,8 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
 
     private void extract(ServerLevel serverLevel, EntityMaid maid, CrockPotBlockEntity blockEntity, MaidRecipesManager<CrockPotCookingRecipe> recManager) {
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        IItemHandlerModifiable ingreInv = recManager.getIngreInv(maid);
+        IItemHandlerModifiable outputAdditionInv = recManager.getOutputAdditionInv(maid);
         ItemStackHandler beInv = blockEntity.getItemHandler();
         boolean cooking = blockEntity.isCooking();
         boolean b = crockPotRecMatch(serverLevel, blockEntity);
@@ -519,11 +521,11 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         boolean canBurn = blockEntity.isBurning() || !beInv.getStackInSlot(4).isEmpty() || findFuel;
 
         if (!beInv.getStackInSlot(getOutputSlot()).isEmpty()) {
-            extractOutputStack(beInv, availableInv, blockEntity);
+            extractOutputStack(beInv, outputAdditionInv, blockEntity);
         }
 
         if (!cooking && !b && !canBurn && hasInput(beInv)) {
-            extractInputStack(beInv, availableInv, blockEntity);
+            extractInputStack(beInv, ingreInv, blockEntity);
         }
         pickupAction(maid);
 
@@ -538,8 +540,8 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
 
         if (beInv.getStackInSlot(4).isEmpty() && findFuel) {
             ItemStack stackInSlot = availableInv.getStackInSlot(stackSlot);
-            beInv.insertItem(4, stackInSlot.copy(), false);
-            stackInSlot.setCount(0);
+            ItemStack insertItem = beInv.insertItem(4, stackInSlot.copy(), false);
+            stackInSlot.shrink(stackInSlot.getCount() - insertItem.getCount());
         }
 
         boolean canBurn = blockEntity.isBurning() || !beInv.getStackInSlot(4).isEmpty();
@@ -556,9 +558,8 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
     public MaidRecipesManager<CrockPotCookingRecipe> getRecipesManager(EntityMaid maid) {
         return new MaidRecipesManager<>(maid, this, false) {
             @Override
-            protected void createIngres(EntityMaid maid) {
+            protected List<Pair<List<Integer>, List<Item>>> createIngres(Map<Item, Integer> available, EntityMaid maid, boolean setRecipeIngres) {
                 List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
-                Map<Item, Integer> available = getMaidAvailableInv(maid);
 
                 available.keySet().removeIf(item -> !INVID_ITEMS.contains(item));
                 RecInfo1 recInfo1 = new RecInfo1();
@@ -571,7 +572,11 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
                     }
                 }
 
-                setRecIngres(maid, _make, available);
+                if (setRecipeIngres) {
+                    setRecIngres(maid, _make, available);
+                }
+
+                return _make;
             }
         };
 

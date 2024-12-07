@@ -1,10 +1,10 @@
 package com.github.wallev.farmsoulkitchen.task.ai;
 
-import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.v2.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -22,36 +22,34 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private final float movementSpeed;
     private final int verticalSearchRange;
     private final ICookTask<B, R> task;
-    private final boolean single;
+    private final MaidRecipesManager<R> maidRecipesManager;
     protected int verticalSearchStart;
-    private MaidRecipesManager<R> maidRecipesManager;
-
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task) {
-        this(maid, task, 0.5f, 2, false);
-    }
 
     public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, MaidRecipesManager<R> maidRecipesManager) {
-        this(maid, task, 0.5f, 2, false);
-        this.maidRecipesManager = maidRecipesManager;
+        this(maid, task, 0.5f, 2, maidRecipesManager);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, boolean single) {
-        this(maid, task, movementSpeed, 2, single);
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, MaidRecipesManager<R> maidRecipesManager) {
+        this(maid, task, movementSpeed, 2, maidRecipesManager);
     }
 
-    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, int verticalSearchRange, boolean single) {
+    public MaidCookMoveTask(EntityMaid maid, ICookTask<B, R> task, float movementSpeed, int verticalSearchRange, MaidRecipesManager<R> maidRecipesManager) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
         this.movementSpeed = movementSpeed;
         this.verticalSearchRange = verticalSearchRange;
-        this.single = single;
         this.setMaxCheckRate(MAX_DELAY_TIME);
+        this.maidRecipesManager = maidRecipesManager;
     }
 
     private static void setWalkAndLookTargetMemories(LivingEntity pLivingEntity, BlockPos walkPos, BlockPos lookPos, float pSpeed, int pDistance) {
         pLivingEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(walkPos, pSpeed, pDistance));
         pLivingEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(lookPos));
+    }
+
+    private static BlockPos getSearchPos(EntityMaid maid) {
+        return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
     }
 
     public MaidRecipesManager<R> getMaidRecipesManager() {
@@ -72,11 +70,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     }
 
     private void processRecipeManager(EntityMaid maid) {
-        if (maidRecipesManager == null) {
-            maidRecipesManager = new MaidRecipesManager<>(maid, task, single, true);
-        } else {
-            this.maidRecipesManager.checkAndCreateRecipesIngredients(maid);
-        }
+        this.maidRecipesManager.checkAndCreateRecipesIngredients(maid);
     }
 
     @SuppressWarnings("unchecked")
@@ -94,10 +88,6 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {
         return maid.canPathReach(pos);
-    }
-
-    private static BlockPos getSearchPos(EntityMaid maid) {
-        return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
     }
 
     protected final void searchForDestination(ServerLevel worldIn, EntityMaid maid) {

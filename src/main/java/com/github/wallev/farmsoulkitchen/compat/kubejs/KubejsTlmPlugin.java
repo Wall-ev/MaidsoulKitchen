@@ -9,6 +9,6 @@ public class KubejsTlmPlugin extends KubeJSPlugin {
 
     @Override
     public void registerRecipeSchemas(RegisterRecipeSchemasEvent event) {
-        event.register(new ResourceLocation("touhou_little_maid:altar_crafting"), AltarJs.SCHEMA);
+//        event.register(new ResourceLocation("touhou_little_maid:altar_crafting"), AltarJs.SCHEMA);
     }
 }

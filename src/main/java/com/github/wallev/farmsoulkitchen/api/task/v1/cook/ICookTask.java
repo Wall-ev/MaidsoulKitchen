@@ -42,8 +42,9 @@ import java.util.function.Predicate;
 public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask, IDataTask<CookData> {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
-        if (maid.level.isClientSide) return Collections.emptyList();
-//        LOGGER.info("create brain tasks: " + maid.level() + " " + maid + " " + maid.level.isClientSide);
+        if (maid.level.isClientSide) {
+            return Collections.emptyList();
+        }
 
         MaidRecipesManager<R> cookingPotRecipeMaidRecipesManager = getRecipesManager(maid);
         MaidCookMoveTask<B, R> maidCookMoveTask = new MaidCookMoveTask<>(maid, this, cookingPotRecipeMaidRecipesManager);

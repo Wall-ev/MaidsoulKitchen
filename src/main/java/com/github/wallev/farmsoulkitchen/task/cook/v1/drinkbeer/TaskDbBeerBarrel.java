@@ -171,7 +171,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
                     available.put(item, available.get(item) - maxCount);
                 }
 
-                return Pair.of(countList, invIngredient);
+                return Pair.of(countList, new ArrayList<>(invIngredient));
             }
 
             @Override

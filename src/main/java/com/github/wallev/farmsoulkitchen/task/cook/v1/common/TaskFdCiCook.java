@@ -140,7 +140,7 @@ public abstract class TaskFdCiCook<B extends BlockEntity, R extends Recipe<? ext
             }
         }
 
-        return Pair.of(countList, invIngredient);
+        return Pair.of(countList, new ArrayList<>(invIngredient));
     }
 
     @Override
