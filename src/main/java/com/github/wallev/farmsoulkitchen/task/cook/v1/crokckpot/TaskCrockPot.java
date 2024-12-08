@@ -495,7 +495,11 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             return true;
         }
 
-        if (!cooking && !b && !canBurn && hasInput(itemHandler)) {
+        if (!cooking && !b && hasInput(itemHandler)) {
+            return true;
+        }
+
+        if (cooking && itemHandler.getStackInSlot(4).isEmpty() && findFuel) {
             return true;
         }
 
@@ -524,10 +528,12 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
 
         if (!beInv.getStackInSlot(getOutputSlot()).isEmpty()) {
             extractOutputStack(beInv, outputInv, blockEntity);
+            blockEntity.setChanged();
         }
 
-        if (!cooking && !b && !canBurn && hasInput(beInv)) {
+        if (!cooking && !b && hasInput(beInv)) {
             extractInputsStack(beInv, ingreInv, blockEntity);
+            blockEntity.setChanged();
         }
         pickupAction(maid);
 
@@ -544,6 +550,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             ItemStack stackInSlot = availableInv.getStackInSlot(stackSlot);
             ItemStack insertItem = beInv.insertItem(4, stackInSlot.copy(), false);
             stackInSlot.shrink(stackInSlot.getCount() - insertItem.getCount());
+            blockEntity.setChanged();
         }
 
         boolean canBurn = blockEntity.isBurning() || !beInv.getStackInSlot(4).isEmpty();
@@ -553,6 +560,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
             if (recipeIngredient.getFirst().isEmpty()) return;
             insertInputsStack(beInv, availableInv, blockEntity, recipeIngredient);
+            blockEntity.setChanged();
         }
         pickupAction(maid);
 

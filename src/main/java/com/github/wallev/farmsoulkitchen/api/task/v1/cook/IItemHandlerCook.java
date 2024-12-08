@@ -126,8 +126,8 @@ public interface IItemHandlerCook<B extends BlockEntity, R extends Recipe<? exte
                 itemStack.shrink(amount - leftInsertedStack.getCount());
                 break;
             } else {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(amount), false);
-                itemStack.shrink(amount - leftInsertedStack.getCount());
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(count), false);
+                itemStack.shrink(count - leftInsertedStack.getCount());
                 amount -= count;
                 if (amount <= 0) {
                     break;
