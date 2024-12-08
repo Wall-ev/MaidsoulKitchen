@@ -3,12 +3,17 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.vinery;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.satisfy.vinery.block.entity.FermentationBarrelBlockEntity;
@@ -18,6 +23,7 @@ import net.satisfy.vinery.registry.RecipeTypesRegistry;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarrelBlockEntity, FermentationBarrelRecipe> {
@@ -74,4 +80,12 @@ public class TaskFermentationBarrel extends TaskLdContainerCook<FermentationBarr
         return RegisterData.FERMENTATION_BARREL;
     }
 
+    @Override
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+        List<Ingredient> ingres = this.getIngredients(recipe);
+        NonNullList<Ingredient> list = NonNullList.create();
+        list.addAll(ingres);
+        list.add(Ingredient.of(ObjectRegistry.WINE_BOTTLE.get()));
+        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(list, modeRandom, overSize));
+    }
 }
