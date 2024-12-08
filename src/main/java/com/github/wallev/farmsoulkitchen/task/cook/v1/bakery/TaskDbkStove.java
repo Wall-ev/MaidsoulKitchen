@@ -45,7 +45,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
         boolean b = beInnerCanCook(inventory, blockEntity);
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
 //        LOGGER.info("recipe: {} {}",  b, recipesIngredients);
-        if (!b && !recipesIngredients.isEmpty() && beHasFuel(blockEntity) || maidHasFuel(availableInv, blockEntity)) {
+        if (!b && !recipesIngredients.isEmpty() && (beHasFuel(blockEntity) || maidHasFuel(availableInv, blockEntity))) {
             return true;
         }
 

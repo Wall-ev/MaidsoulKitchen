@@ -11,6 +11,7 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.kitchkarrot.AirCompressorBlockEntityAccessor;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
+import com.mojang.datafixers.util.Pair;
 import io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity;
 import io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe;
 import io.github.tt432.kitchenkarrot.registries.ModBlocks;
@@ -27,6 +28,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+
+import java.util.List;
 
 public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, AirCompressorRecipe>, IHandlerCookBe<AirCompressorBlockEntity>, IItemHandlerCook<AirCompressorBlockEntity, AirCompressorRecipe> {
     public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "kk_air_compressor");
@@ -98,7 +101,9 @@ public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, Ai
         }
 
         if (!accessor.callIsStarted() && accessor.callHasEnergy() && !recManager.getRecipesIngredients().isEmpty()) {
-            insertInputsStack(blockEntity.getInput1(), maidInv, blockEntity, recManager.getRecipeIngredient());
+            Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
+            if (recipeIngredient.getFirst().isEmpty()) return;
+            insertInputsStack(blockEntity.getInput1(), maidInv, blockEntity, recipeIngredient);
         }
 
         pickupAction(maid);

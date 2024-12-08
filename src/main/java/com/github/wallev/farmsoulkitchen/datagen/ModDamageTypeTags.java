@@ -24,6 +24,8 @@ public class ModDamageTypeTags extends TagsProvider<DamageType> {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        this.tag(DAMAGES_BURN).add(DamageTypes.IN_FIRE).add(DamageTypes.ON_FIRE).addOptional(ModDamageTypes.STOVE_BURN.location());
+        this.tag(DAMAGES_BURN)
+                .add(DamageTypes.IN_FIRE).add(DamageTypes.ON_FIRE).add(DamageTypes.HOT_FLOOR)
+                .addOptional(ModDamageTypes.STOVE_BURN.location());
     }
 }

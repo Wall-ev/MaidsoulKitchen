@@ -38,6 +38,7 @@ import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -106,7 +107,8 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
         Fluid fluid = blockEntity.fluids.getFluidInTank(0).getFluid();
         if (fluid instanceof SakeFluid sakeFluid) {
             Item container = sakeFluid.type.getContainer();
-            if (ItemsUtil.findStackSlot(maidInv, stack -> stack.is(container)) > -1) {
+            int outputAdditionItemCount = recManager.getOutputAdditionItemCount(container.getDefaultInstance());
+            if (outputAdditionItemCount > 0) {
                 return true;
             }
         }
@@ -119,19 +121,21 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
             }
         }
 
-        if (blockEntity.inProgress() == 0) {
-            if (!blockEntity.items.isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
-                return true;
-            }
-        }
-
-        if (blockEntity.fluids.isEmpty()) {
+        boolean hasEnoughWater = !blockEntity.fluids.isEmpty();
+        if (!hasEnoughWater) {
             for (int i = 0; i < maidInv.getSlots(); i++) {
                 ItemStack stackInSlot = maidInv.getStackInSlot(i);
+                if (stackInSlot.isEmpty() || stackInSlot.is(Items.BUCKET)) continue;
                 LazyOptional<IFluidHandlerItem> opt = stackInSlot.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
                 if (opt.resolve().isPresent()) {
                     return true;
                 }
+            }
+        }
+
+        if (hasEnoughWater && blockEntity.inProgress() == 0) {
+            if (blockEntity.items.isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
+                return true;
             }
         }
 
@@ -142,18 +146,20 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
     @Override
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> recManager) {
         CombinedInvWrapper maidInv = maid.getAvailableInv(true);
+
+        IItemHandlerModifiable outputInv = recManager.getOutputInv();
+
         FluidStack fluidInTank = blockEntity.fluids.getFluidInTank(0);
         Fluid fluid = fluidInTank.getFluid();
         if (fluid instanceof SakeFluid sakeFluid) {
             Item container = sakeFluid.type.getContainer();
-            int containerSlot = ItemsUtil.findStackSlot(maidInv, stack -> stack.is(container));
-            if (containerSlot > -1) {
-                ItemStack containerStack = maidInv.getStackInSlot(containerSlot);
-                int takeAmount = Math.min(fluidInTank.getAmount() / sakeFluid.type.amount(), containerStack.getCount());
+            int outputAdditionItemCount = recManager.getOutputAdditionItemCount(container.getDefaultInstance());
+            if (outputAdditionItemCount > 0) {
+                int takeAmount = Math.min(fluidInTank.getAmount() / sakeFluid.type.amount(), outputAdditionItemCount);
 
-                containerStack.shrink(takeAmount);
+                ItemStack leftStack = ItemHandlerHelper.insertItemStacked(outputInv, sakeFluid.type.asStack(takeAmount), false);
+                recManager.shrinkOutputAdditionItem(container.getDefaultInstance(), takeAmount - leftStack.getCount());
                 blockEntity.fluids.drain(sakeFluid.type.amount() * takeAmount, IFluidHandler.FluidAction.EXECUTE);
-                ItemHandlerHelper.insertItemStacked(maidInv, sakeFluid.type.asStack(takeAmount), false);
 
                 blockEntity.notifyTile();
 
@@ -184,6 +190,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
         if (!blockEntity.fluids.isEmpty() && blockEntity.inProgress() == 0) {
             if (!recManager.getRecipesIngredients().isEmpty()) {
                 Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
+                if (recipeIngredient.getFirst().isEmpty()) return;
 
                 for (List<ItemStack> itemStacks : recipeIngredient.getSecond()) {
                     Optional<ItemStack> first = itemStacks.stream().filter(stack -> !stack.isEmpty()).findFirst();

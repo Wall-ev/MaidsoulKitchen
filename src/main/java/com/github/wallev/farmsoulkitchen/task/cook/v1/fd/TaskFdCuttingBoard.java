@@ -73,6 +73,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, CuttingBoardBlockEntity blockEntity, MaidRecipesManager<CuttingBoardRecipe> recManager, Consumer<Item> item) {
         if (blockEntity.getStoredItem().isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
+            if (recipeIngredient.getFirst().isEmpty()) return;
 
             ItemStackHandler availableInv = maid.getMaidInv();
 

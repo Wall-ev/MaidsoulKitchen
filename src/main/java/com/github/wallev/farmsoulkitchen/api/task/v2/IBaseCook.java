@@ -133,7 +133,7 @@ public interface IBaseCook<B extends BlockEntity, R extends Recipe<? extends Con
         extractInputsStack(availableInv, be);
 
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecManager.getRecipeIngredient();
-        if (recipeIngredient == null) return;
+        if (recipeIngredient.getFirst().isEmpty()) return;
         insertInputsStack(availableInv, be, recipeIngredient);
     }
 

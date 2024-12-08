@@ -5,10 +5,13 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.satisfy.bakery.block.entity.CookingPotBlockEntity;
@@ -77,4 +80,13 @@ public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
         return RegisterData.DBK_COOKING_POT;
     }
 
+    @Override
+    public NonNullList<Ingredient> getIngredients(Recipe<?> recipe) {
+//        CookingPotRecipe cookingPotRecipe = (CookingPotRecipe) recipe;
+//        NonNullList<Ingredient> ingredients = cookingPotRecipe.getIngredients();
+//        NonNullList<Ingredient> list = NonNullList.create();
+//        list.add(Ingredient.merge(ingredients));
+//        list.add(Ingredient.of(cookingPotRecipe.getContainer()));
+        return super.getIngredients(recipe);
+    }
 }

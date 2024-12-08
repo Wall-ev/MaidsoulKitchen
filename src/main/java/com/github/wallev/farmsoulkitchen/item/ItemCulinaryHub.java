@@ -97,6 +97,25 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         return Collections.emptyList();
     }
 
+    public static Map<BagType, List<BlockPos>> getBindPoses(ItemStack stack) {
+        if (stack.is(InitItems.CULINARY_HUB.get())) {
+            CompoundTag tag = stack.getTag();
+            if (tag != null && tag.contains(BIND_POS_TAG, Tag.TAG_COMPOUND)) {
+                CompoundTag tag1 = tag.getCompound(BIND_POS_TAG);
+
+                HashMap<BagType, List<BlockPos>> typeListHashMap = new HashMap<>();
+                for (BagType value : BagType.values()) {
+                    ListTag list = tag1.getList(value.name, Tag.TAG_COMPOUND);
+                    List<BlockPos> poses = list.stream().map(tag2 -> NbtUtils.readBlockPos((CompoundTag) tag2)).toList();
+                    typeListHashMap.put(value, poses);
+                }
+
+                return typeListHashMap;
+            }
+        }
+        return Map.of();
+    }
+
     public static String getBindMode(ItemStack stack) {
         if (stack.is(InitItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();

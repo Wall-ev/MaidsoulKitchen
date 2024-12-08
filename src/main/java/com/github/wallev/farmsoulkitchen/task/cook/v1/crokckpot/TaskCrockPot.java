@@ -513,7 +513,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
     private void extract(ServerLevel serverLevel, EntityMaid maid, CrockPotBlockEntity blockEntity, MaidRecipesManager<CrockPotCookingRecipe> recManager) {
         CombinedInvWrapper availableInv = maid.getAvailableInv(true);
         IItemHandlerModifiable ingreInv = recManager.getInputInv();
-        IItemHandlerModifiable outputAdditionInv = recManager.getOutputAdditionInv();
+        IItemHandlerModifiable outputInv = recManager.getOutputInv();
         ItemStackHandler beInv = blockEntity.getItemHandler();
         boolean cooking = blockEntity.isCooking();
         boolean b = crockPotRecMatch(serverLevel, blockEntity);
@@ -523,7 +523,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         boolean canBurn = blockEntity.isBurning() || !beInv.getStackInSlot(4).isEmpty() || findFuel;
 
         if (!beInv.getStackInSlot(getOutputSlot()).isEmpty()) {
-            extractOutputStack(beInv, outputAdditionInv, blockEntity);
+            extractOutputStack(beInv, outputInv, blockEntity);
         }
 
         if (!cooking && !b && !canBurn && hasInput(beInv)) {
@@ -550,7 +550,9 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
         boolean cooking = blockEntity.isCooking();
         boolean b = crockPotRecMatch(serverLevel, blockEntity);
         if (!cooking && !b && canBurn && !recManager.getRecipesIngredients().isEmpty()) {
-            insertInputsStack(beInv, availableInv, blockEntity, recManager.getRecipeIngredient());
+            Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
+            if (recipeIngredient.getFirst().isEmpty()) return;
+            insertInputsStack(beInv, availableInv, blockEntity, recipeIngredient);
         }
         pickupAction(maid);
 

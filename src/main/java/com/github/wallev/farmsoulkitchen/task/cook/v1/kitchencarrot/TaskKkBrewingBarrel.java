@@ -12,6 +12,7 @@ import com.github.wallev.farmsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.util.FakePlayerUtil;
+import com.mojang.datafixers.util.Pair;
 import io.github.tt432.kitchenkarrot.blockentity.BrewingBarrelBlockEntity;
 import io.github.tt432.kitchenkarrot.capability.KKItemStackHandler;
 import io.github.tt432.kitchenkarrot.recipes.recipe.BrewingBarrelRecipe;
@@ -104,7 +105,9 @@ public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, 
         }
 
         if (!brewBe.isStarted() && brewBe.hasEnoughWater() && !recManager.getRecipesIngredients().isEmpty()) {
-            insertInputsStack(getInputHandler(brewBe), maidInv, brewBe, recManager.getRecipeIngredient());
+            Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
+            if (recipeIngredient.getFirst().isEmpty()) return;
+            insertInputsStack(getInputHandler(brewBe), maidInv, brewBe, recipeIngredient);
         }
         pickupAction(maid);
     }

@@ -56,7 +56,7 @@ public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRa
             return;
         }
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
-        if (blockEntity.getItems().stream().allMatch(ItemStack::isEmpty) && recipeIngredient != null) {
+        if (blockEntity.getItems().stream().allMatch(ItemStack::isEmpty) && !recipeIngredient.getFirst().isEmpty()) {
             ItemStack itemStack = recipeIngredient.getSecond().get(0).get(0);
             Optional<DryingRackRecipe> cookableRecipe = blockEntity.getCookableRecipe(itemStack);
             if (cookableRecipe.isPresent()) {

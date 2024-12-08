@@ -58,7 +58,7 @@ public interface INormalCook<B extends BlockEntity, R extends Recipe<? extends C
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
-        if (recipeIngredient == null) return;
+        if (recipeIngredient.getFirst().isEmpty()) return;
 
         insertInputsStack(inventory, availableInv, blockEntity, recipeIngredient);
 

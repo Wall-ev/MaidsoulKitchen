@@ -210,8 +210,8 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     @Override
     public void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, BeerBarrelBlockEntity blockEntity, MaidRecipesManager<BrewingRecipe> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
-        extractOutputStack(getContainer(blockEntity), availableInv, blockEntity);
-        extractInputStack(getContainer(blockEntity), availableInv, blockEntity);
+        extractOutputStack(getContainer(blockEntity), maidRecipesManager.getOutputInv(), blockEntity);
+        extractInputStack(getContainer(blockEntity), maidRecipesManager.getInputInv(), blockEntity);
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 
         maidRecipesManager.getCookInv().syncInv();

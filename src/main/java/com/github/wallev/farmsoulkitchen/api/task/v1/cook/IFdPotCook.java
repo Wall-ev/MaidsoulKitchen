@@ -11,6 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -84,7 +85,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
         ItemStack mealStack = getBeInvMealStack(blockEntity, inventory);
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
-        if (hasInput(inventory) || !mealStack.isEmpty() || recipeIngredient == null) return;
+        if (hasInput(inventory) || !mealStack.isEmpty() || recipeIngredient.getFirst().isEmpty()) return;
 
         this.insertInputsStack(inventory, availableInv, blockEntity, recipeIngredient);
 
@@ -93,7 +94,7 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {
         ItemStackHandler inventory = getItemStackHandler(blockEntity);
-        CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
+        IItemHandlerModifiable outputAdditionInv = maidRecipesManager.getOutputAdditionInv();
 
         ItemStack mealStack = getBeInvMealStack(blockEntity, inventory);
         ItemStack containerInputStack = inventory.getStackInSlot(getContainerStackSlot());
@@ -107,8 +108,8 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
         if (!mealStack.isEmpty() && !outputAdditionItem.isEmpty()) {
             // 取出杯具
             if (!containerInputStack.isEmpty()) {
-                inventory.extractItem(getContainerStackSlot(), containerInputStack.getCount(), false);
-                ItemHandlerHelper.insertItemStacked(maidRecipesManager.getOutputAdditionInv(), containerInputStack.copy(), false);
+                ItemStack leftStack = ItemHandlerHelper.insertItemStacked(outputAdditionInv, containerInputStack.copy(), false);
+                inventory.extractItem(getContainerStackSlot(), containerInputStack.getCount() - leftStack.getCount(), false);
                 blockEntity.setChanged();
             }
 
@@ -133,8 +134,8 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
         //当厨锅没有物品，又有杯具在时，就取出杯具
         if (!hasInput(inventory) && !containerInputStack.isEmpty()) {
-            inventory.extractItem(getContainerStackSlot(), containerInputStack.getCount(), false);
-            ItemHandlerHelper.insertItemStacked(availableInv, containerInputStack.copy(), false);
+            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(outputAdditionInv, containerInputStack.copy(), false);
+            inventory.extractItem(getContainerStackSlot(), containerInputStack.getCount() - leftStack.getCount(), false);
             blockEntity.setChanged();
         }
 

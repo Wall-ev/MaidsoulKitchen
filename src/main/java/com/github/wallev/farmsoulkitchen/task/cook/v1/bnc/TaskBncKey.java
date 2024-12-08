@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen.task.cook.bnc;
+package com.github.wallev.farmsoulkitchen.task.cook.v1.bnc;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;

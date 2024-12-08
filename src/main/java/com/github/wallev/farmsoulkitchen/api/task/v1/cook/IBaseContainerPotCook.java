@@ -90,7 +90,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
         Container inventory = getContainer(blockEntity);
         Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = maidRecipesManager.getRecipeIngredient();
-        if (hasInput(inventory) || recipeIngredient == null) return;
+        if (hasInput(inventory) || recipeIngredient.getFirst().isEmpty()) return;
 
         insertInputStack(inventory, availableInv, blockEntity, recipeIngredient);
 

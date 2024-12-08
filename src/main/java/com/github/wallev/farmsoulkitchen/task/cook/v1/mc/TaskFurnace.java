@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -132,7 +133,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
         return false;
     }
 
-    private Optional<ItemStack> getAnyCookableItem(EntityMaid maid, CombinedInvWrapper availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType,
+    private Optional<ItemStack> getAnyCookableItem(EntityMaid maid, IItemHandlerModifiable availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType,
                                                   Predicate<ItemStack> predicate) {
         for (int i = 0; i < availableInv.getSlots(); ++i) {
             ItemStack slotStack = availableInv.getStackInSlot(i);
@@ -152,7 +153,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     @Override
     public void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, AbstractFurnaceBlockEntity blockEntity, MaidRecipesManager<AbstractCookingRecipe> maidRecipesManager) {
         CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
-        tryExtractItem(blockEntity, entityMaid, availableInv);
+        tryExtractItem(blockEntity, entityMaid, maidRecipesManager.getOutputInv());
 
         if (!tryInsertFuel(availableInv, blockEntity)){
             return;
@@ -162,7 +163,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     }
 
-    private void tryExtractItem(AbstractFurnaceBlockEntity furnace, EntityMaid maid, CombinedInvWrapper availableInv ) {
+    private void tryExtractItem(AbstractFurnaceBlockEntity furnace, EntityMaid maid, IItemHandlerModifiable availableInv ) {
         int[] resultSlots = furnace.getSlotsForFace(Direction.DOWN);
 
         for (int resultSlot : resultSlots) {
