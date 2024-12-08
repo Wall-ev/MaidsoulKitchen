@@ -100,6 +100,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     @Override
     protected void initAdditionWidgets() {
         super.initAdditionWidgets();
+        this.addJeiButton();
         this.addTaskInfoButton();
         this.addSearchTextBox();
         this.addSearchBox();
@@ -217,6 +218,14 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         } else {
             this.searchBox.insertText(text);
         }
+    }
+
+    private void addJeiButton() {
+//        ImageButton jeiButton = new ImageButton(visualZone.startX() + visualZone.width() - 12, visualZone.startY() + 8, 9, 9, 247, 212, 10, TEXTURE, (b) -> {
+//        }) {
+//
+//        };
+//        this.addRenderableWidget(jeiButton);
     }
 
     private void addTaskInfoButton() {
