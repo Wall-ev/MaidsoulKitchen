@@ -67,8 +67,8 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         this.searchForDestination(worldIn, maid);
     }
 
-    private void processRecipeManager() {
-        this.maidRecipesManager.checkAndCreateRecipesIngredients();
+    private boolean processRecipeManager() {
+        return this.maidRecipesManager.checkAndCreateRecipesIngredients();
     }
 
     @SuppressWarnings("unchecked")
@@ -78,7 +78,8 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
             return false;
         }
         if (this.task.isCookBE(blockEntity)) {
-            this.processRecipeManager();
+            boolean processed = this.processRecipeManager();
+            if (!processed) return false;
             return this.task.shouldMoveTo(worldIn, this.maidRecipesManager.getMaid(), (B) blockEntity, maidRecipesManager);
         }
         return false;

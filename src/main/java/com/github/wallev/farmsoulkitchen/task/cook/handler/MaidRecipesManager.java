@@ -12,6 +12,7 @@ import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -158,15 +159,22 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return integerListPair;
     }
 
-    public void checkAndCreateRecipesIngredients() {
+    public boolean checkAndCreateRecipesIngredients() {
+        //预防隙间转移走烹饪中枢
+        if (this.hasCulinaryHub && this.findCulinaryHub().isEmpty() && this.level instanceof ServerLevel serverLevel) {
+            this.recipesIngredients.clear();
+            this.maid.refreshBrain(serverLevel);
+            return false;
+        }
         this.init();
         // 缓存的配方原料没了
-        if (!recipesIngredients.isEmpty()) return;
+        if (!recipesIngredients.isEmpty()) return true;
         // 是否为上一次的背包以及手上的物品
         boolean lastInv = this.isLastCookInv();
-        if (lastInv && tryTime++ < 10) return;
+        if (lastInv && tryTime++ < 10) return true;
         tryTime = 0;
         this.createRecipesIngredients();
+        return true;
     }
 
     @SuppressWarnings("unchecked")
