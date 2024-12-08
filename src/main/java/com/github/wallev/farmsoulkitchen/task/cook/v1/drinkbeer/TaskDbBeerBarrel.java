@@ -3,6 +3,7 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
@@ -13,12 +14,15 @@ import lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity;
 import lekavar.lma.drinkbeer.recipes.BrewingRecipe;
 import lekavar.lma.drinkbeer.registries.BlockRegistry;
 import lekavar.lma.drinkbeer.registries.RecipeRegistry;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -265,4 +269,14 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
         return RegisterData.DB_BEER;
     }
 
+    @Override
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+        BrewingRecipe brewingRecipe = (BrewingRecipe) recipe;
+        ItemStack beerCup = brewingRecipe.getBeerCup();
+        List<Ingredient> ingres = this.getIngredients(recipe);
+        NonNullList<Ingredient> list = NonNullList.create();
+        list.addAll(ingres);
+        list.add(Ingredient.of(beerCup));
+        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(list, modeRandom, overSize));
+    }
 }

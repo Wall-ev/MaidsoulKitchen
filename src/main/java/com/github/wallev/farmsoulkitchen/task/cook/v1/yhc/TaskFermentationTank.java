@@ -8,7 +8,6 @@ import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.google.common.base.Preconditions;
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.youkaishomecoming.content.item.fluid.SakeFluid;
