@@ -7,7 +7,8 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.SophistorageCompat;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.SophistorageCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -250,7 +251,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             return super.useOn(context);
         }
 
-        if (SophistorageCompat.isStorageBe(te)) {
+        if (InventoryCompat.isSopStorageBe(te)) {
             ItemStack stack = player.getMainHandItem();
             String bindMode = getBindMode(stack);
             if (!bindMode.isEmpty()) {

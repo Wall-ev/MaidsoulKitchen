@@ -240,7 +240,7 @@ dependencies {
     implementation fg.deobf("curse.maven:storage-drawers-223852:${storage_drawers_file_id}")
     implementation fg.deobf("curse.maven:toms-storage-378609:5548573")
     implementation fg.deobf("curse.maven:sophisticated-core-618298:5326245")
-    implementation fg.deobf("curse.maven:sophisticated-storage-619320:5327377")
+    compileOnly fg.deobf("curse.maven:sophisticated-storage-619320:5327377")
 }
 
 // 联动(其他)

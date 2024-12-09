@@ -9,6 +9,8 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
+import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.SophistorageCompat;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -110,7 +112,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                 BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
                 if (stack.isEmpty()) break;
 
-                if (!SophistorageCompat.insert(stack, blockEntity, requireHasItem) && blockEntity != null) {
+                if (!InventoryCompat.insertSopBe(stack, blockEntity, requireHasItem) && blockEntity != null) {
                     for (IChestType type : ChestManager.getAllChestTypes()) {
                         if (!type.isChest(blockEntity)) continue;
                         if (type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
@@ -255,7 +257,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             if (isPosZone(ingredientPo)) continue;
 
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
-            if (!SophistorageCompat.storageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null) {
+            if (!InventoryCompat.sopStorageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null) {
                 for (IChestType type : ChestManager.getAllChestTypes()) {
                     if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0)
                         continue;
