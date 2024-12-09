@@ -31,6 +31,7 @@ public enum Mods {
     DBP("beachparty"),
     DCL("candlelight"),
     DBK("bakery"),
+    DFC("farm_and_charm"),
 
 
     SF("simplefarming"),

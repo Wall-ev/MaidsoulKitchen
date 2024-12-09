@@ -26,11 +26,14 @@ public final class RegisterData {
     public static TaskDataKey<CookData> KC_BREW_BARREL;
     public static TaskDataKey<CookData> KC_AIR_COMPRESSOR;
     public static TaskDataKey<CookData> DBK_COOKING_POT;
-    public static TaskDataKey<CookData> DBK_STOVE;
     public static TaskDataKey<CookData> DBP_MINE_FRIDGE;
     public static TaskDataKey<CookData> DBP_TIKI_BAR;
     public static TaskDataKey<CookData> DCL_COOKING_PAN;
     public static TaskDataKey<CookData> DCL_COOKING_POT;
+    public static TaskDataKey<CookData> DCL_STOVE;
+    public static TaskDataKey<CookData> DFC_ROAST;
+    public static TaskDataKey<CookData> DFC_COOKING_POT;
+    public static TaskDataKey<CookData> DFC_STOVE;
     public static TaskDataKey<CookData> DHB_CAULDRON;
     public static TaskDataKey<CookData> DHB_TEA_KETTLE;
     public static TaskDataKey<CookData> FERMENTATION_BARREL;
@@ -59,11 +62,14 @@ public final class RegisterData {
         KC_AIR_COMPRESSOR = register.register(TaskInfo.KK_AIR_COMPRESSOR.uid, CookData.CODEC);
 
         DBK_COOKING_POT = register.register(TaskInfo.DBK_COOKING_POT.uid, CookData.CODEC);
-        DBK_STOVE = register.register(TaskInfo.DBK_STOVE.uid, CookData.CODEC);
         DBP_MINE_FRIDGE = register.register(TaskInfo.DBP_MINE_FRIDGE.uid, CookData.CODEC);
         DBP_TIKI_BAR = register.register(TaskInfo.DBP_TIKI_BAR.uid, CookData.CODEC);
         DCL_COOKING_PAN = register.register(TaskInfo.DCL_COOKING_PAN.uid, CookData.CODEC);
         DCL_COOKING_POT = register.register(TaskInfo.DCL_COOKING_POT.uid, CookData.CODEC);
+        DCL_STOVE = register.register(TaskInfo.DCL_STOVE.uid, CookData.CODEC);
+        DFC_ROAST = register.register(TaskInfo.DFC_ROAST.uid, CookData.CODEC);
+        DFC_COOKING_POT = register.register(TaskInfo.DFC_COOKING_POT.uid, CookData.CODEC);
+        DFC_STOVE = register.register(TaskInfo.DFC_STOVE.uid, CookData.CODEC);
         DHB_CAULDRON = register.register(TaskInfo.DHB_CAULDRON.uid, CookData.CODEC);
         DHB_TEA_KETTLE = register.register(TaskInfo.DHB_TEA_KETTLE.uid, CookData.CODEC);
         FERMENTATION_BARREL = register.register(TaskInfo.FERMENTATION_BARREL.uid, CookData.CODEC);

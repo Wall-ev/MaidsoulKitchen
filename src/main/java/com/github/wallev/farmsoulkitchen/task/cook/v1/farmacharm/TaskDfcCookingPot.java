@@ -1,11 +1,11 @@
-package com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight;
+package com.github.wallev.farmsoulkitchen.task.cook.v1.farmacharm;
 
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -16,9 +16,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.satisfy.candlelight.entity.LargeCookingPotBlockEntity;
-import net.satisfy.candlelight.registry.ObjectRegistry;
+import net.satisfy.farm_and_charm.block.entity.CookingPotBlockEntity;
 import net.satisfy.farm_and_charm.recipe.CookingPotRecipe;
+import net.satisfy.farm_and_charm.registry.ObjectRegistry;
 import net.satisfy.farm_and_charm.registry.RecipeTypeRegistry;
 
 import java.util.List;
@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.Optional;
 
 
-public class TaskDclCookingPot extends TaskLdContainerCook<LargeCookingPotBlockEntity, CookingPotRecipe> {
+public class TaskDfcCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
     @Override
-    public boolean isHeated(LargeCookingPotBlockEntity be) {
+    public boolean isHeated(CookingPotBlockEntity be) {
         return be.isBeingBurned();
     }
 
@@ -43,13 +43,13 @@ public class TaskDclCookingPot extends TaskLdContainerCook<LargeCookingPotBlockE
     }
 
     @Override
-    public Container getContainer(LargeCookingPotBlockEntity be) {
+    public Container getContainer(CookingPotBlockEntity be) {
         return be;
     }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
-        return blockEntity instanceof LargeCookingPotBlockEntity;
+        return blockEntity instanceof CookingPotBlockEntity;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class TaskDclCookingPot extends TaskLdContainerCook<LargeCookingPotBlockE
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.DCL_COOKING_POT.uid;
+        return TaskInfo.DFC_COOKING_POT.uid;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TaskDclCookingPot extends TaskLdContainerCook<LargeCookingPotBlockE
 
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
-        return RegisterData.DCL_COOKING_POT;
+        return RegisterData.DFC_COOKING_POT;
     }
 
     @Override

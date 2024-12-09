@@ -10,7 +10,6 @@ import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.SophistorageCompat;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;

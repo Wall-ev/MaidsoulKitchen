@@ -220,13 +220,20 @@ dependencies {
 //    implementation fg.deobf("curse.maven:coffee-delight-835597:4871782")
 
     /** ---------------------------------------Let's do--------------------------------------------------------- */
-    implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
     implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
     implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
+
+    //1.0
+//    implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
+//    implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
+//    implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
+    //2.0
+    implementation fg.deobf("curse.maven:lets-do-farm-charm-1038103:${farm_charm_file_id}")
+    implementation fg.deobf("curse.maven:lets-do-bakery-farm-charm-compat-1038130:${bakery_farm_charm_file_id}")
+    implementation fg.deobf("curse.maven:lets-do-brewery-farm-charm-compat-1038106:${brewery_farm_charm_file_id}")
+    implementation fg.deobf("curse.maven:lets-do-candlelight-farm-charm-compat-1038117:${candlelight_farm_charm_file_id}")
 
     /** ---------------------------------------其他--------------------------------------------------------- */
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")

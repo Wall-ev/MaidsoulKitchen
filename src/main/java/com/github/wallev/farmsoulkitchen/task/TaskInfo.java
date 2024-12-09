@@ -31,11 +31,14 @@ public enum TaskInfo {
     CP_CROCK_POT("cp_crock_pot"),
 
     DBK_COOKING_POT("dkb_cooking_pot"),
-    DBK_STOVE("dkb_stove"),
     DBP_MINE_FRIDGE("dbp_mini_fridge"),
     DBP_TIKI_BAR("dbp_tiki_bar"),
     DCL_COOKING_PAN("dcl_cooking_pan"),
     DCL_COOKING_POT("dcl_cooking_pot"),
+    DCL_STOVE("dcl_stove"),
+    DFC_ROAST("dfc_roast"),
+    DFC_COOKING_POT("dfc_cooking_pot"),
+    DFC_STOVE("dfc_stove"),
     DHB_CAULDRON("dhb_cauldron"),
     DHB_TEA_KETTLE("dhb_tea_kettle"),
     FERMENTATION_BARREL("dv_fermentation_barrel");

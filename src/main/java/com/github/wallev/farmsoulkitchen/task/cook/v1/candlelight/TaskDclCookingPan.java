@@ -16,17 +16,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.satisfy.candlelight.block.entity.CookingPanBlockEntity;
-import net.satisfy.candlelight.recipe.CookingPanRecipe;
+import net.satisfy.candlelight.entity.CookingPanBlockEntity;
 import net.satisfy.candlelight.registry.ObjectRegistry;
-import net.satisfy.candlelight.registry.RecipeTypeRegistry;
+import net.satisfy.farm_and_charm.recipe.RoasterRecipe;
+import net.satisfy.farm_and_charm.registry.RecipeTypeRegistry;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 
-public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity, CookingPanRecipe> {
+public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity, RoasterRecipe> {
     @Override
     public boolean isHeated(CookingPanBlockEntity be) {
         return be.isBeingBurned();
@@ -53,8 +53,8 @@ public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity
     }
 
     @Override
-    public RecipeType<CookingPanRecipe> getRecipeType() {
-        return RecipeTypeRegistry.COOKING_PAN_RECIPE_TYPE.get();
+    public RecipeType<RoasterRecipe> getRecipeType() {
+        return RecipeTypeRegistry.ROASTER_RECIPE_TYPE.get();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity
     }
 
     @Override
-    protected boolean tExtraEndRecipe(CookingPanRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
+    protected boolean tExtraEndRecipe(RoasterRecipe recipe, Map<Item, Integer> available, boolean[] single, boolean[] canMake, Map<Item, Integer> itemTimes, List<Item> invIngredient) {
        return extraRecipe(recipe.getContainer().getItem(), recipe, available, single, canMake, itemTimes, invIngredient);
     }
 
@@ -79,7 +79,7 @@ public class TaskDclCookingPan extends TaskLdContainerCook<CookingPanBlockEntity
 
     @Override
     public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
-        CookingPanRecipe cookingPotRecipe = (CookingPanRecipe) recipe;
+        RoasterRecipe cookingPotRecipe = (RoasterRecipe) recipe;
         List<Ingredient> ingres = this.getIngredients(recipe);
         NonNullList<Ingredient> list = NonNullList.create();
         list.addAll(ingres);

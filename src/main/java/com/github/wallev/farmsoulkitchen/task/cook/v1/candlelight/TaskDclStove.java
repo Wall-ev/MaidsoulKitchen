@@ -1,8 +1,9 @@
-package com.github.wallev.farmsoulkitchen.task.cook.v1.bakery;
+package com.github.wallev.farmsoulkitchen.task.cook.v1.candlelight;
 
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.task.TaskInfo;
+import com.github.wallev.farmsoulkitchen.task.cook.v1.bakery.IStoveBe;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.bestate.IFuelBe;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
@@ -18,14 +19,14 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.satisfy.bakery.block.entity.StoveBlockEntity;
-import net.satisfy.bakery.recipe.StoveRecipe;
-import net.satisfy.bakery.registry.ObjectRegistry;
-import net.satisfy.bakery.registry.RecipeTypeRegistry;
+import net.satisfy.candlelight.entity.StoveBlockEntity;
+import net.satisfy.candlelight.registry.ObjectRegistry;
+import net.satisfy.farm_and_charm.recipe.StoveRecipe;
+import net.satisfy.farm_and_charm.registry.RecipeTypeRegistry;
 
 import java.util.List;
 
-public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
+public class TaskDclStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
     protected static final int FUEL_SLOT = 4;
 
     @Override
@@ -58,7 +59,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
     }
 
     protected boolean beHasFuel(StoveBlockEntity blockEntity) {
-        return ((IFuelBe)blockEntity).isBurning$tlma() || ((IStoveBe)blockEntity).getTotalBurnTime$tlma(blockEntity.getItem(FUEL_SLOT)) > 0;
+        return ((IFuelBe)blockEntity).isBurning$tlma() || (( IStoveBe)blockEntity).getTotalBurnTime$tlma(blockEntity.getItem(FUEL_SLOT)) > 0;
     }
 
     protected boolean maidHasFuel(CombinedInvWrapper availableInv, StoveBlockEntity blockEntity) {
@@ -133,17 +134,17 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.DBK_STOVE.uid;
+        return TaskInfo.DCL_STOVE.uid;
     }
 
     @Override
     public ItemStack getIcon() {
-        return ObjectRegistry.BRICK_STOVE.get().asItem().getDefaultInstance();
+        return ObjectRegistry.SANDSTONE_STOVE.get().asItem().getDefaultInstance();
     }
 
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
-        return RegisterData.DBK_STOVE;
+        return RegisterData.DCL_STOVE;
     }
 
 }

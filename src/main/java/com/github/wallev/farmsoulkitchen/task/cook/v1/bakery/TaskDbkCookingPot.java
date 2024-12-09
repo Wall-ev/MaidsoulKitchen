@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.satisfy.bakery.block.entity.CookingPotBlockEntity;
+import net.satisfy.bakery.block.entity.SmallCookingPotBlockEntity;
 import net.satisfy.bakery.recipe.CookingPotRecipe;
 import net.satisfy.bakery.registry.RecipeTypeRegistry;
 import net.satisfy.bakery.registry.ObjectRegistry;
@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity, CookingPotRecipe> {
+public class TaskDbkCookingPot extends TaskLdContainerCook<SmallCookingPotBlockEntity, CookingPotRecipe> {
     @Override
-    public boolean isHeated(CookingPotBlockEntity be) {
+    public boolean isHeated(SmallCookingPotBlockEntity be) {
         return be.isBeingBurned();
     }
 
@@ -47,13 +47,13 @@ public class TaskDbkCookingPot extends TaskLdContainerCook<CookingPotBlockEntity
     }
 
     @Override
-    public Container getContainer(CookingPotBlockEntity be) {
+    public Container getContainer(SmallCookingPotBlockEntity be) {
         return be;
     }
 
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
-        return blockEntity instanceof CookingPotBlockEntity;
+        return blockEntity instanceof SmallCookingPotBlockEntity;
     }
 
     @Override

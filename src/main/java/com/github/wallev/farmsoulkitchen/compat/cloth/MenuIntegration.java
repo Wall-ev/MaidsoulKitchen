@@ -132,10 +132,6 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbk_cooking_pot.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.DBK_COOKING_POT_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbk_stove"), RegisterConfig.DBK_STOVE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbk_stove.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DBK_STOVE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbp_mini_fridge"), RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbp_mini_fridge.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
@@ -152,6 +148,22 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dcl_cooking_pot.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.DCL_COOKING_POT_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dcl_stove"), RegisterConfig.DCL_STOVE_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dcl_stove.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.DCL_STOVE_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_roast"), RegisterConfig.DFC_ROAST_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_roast.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_cooking_pot"), RegisterConfig.DFC_COOKING_POT_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_cooking_pot.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.DCL_COOKING_POT_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_stove"), RegisterConfig.DFC_STOVE_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_stove.tooltip"),
+                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.DCL_STOVE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dhb_cauldron"), RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dhb_cauldron.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
