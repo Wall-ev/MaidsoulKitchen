@@ -1,10 +1,10 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.drinkbeer;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -33,8 +33,6 @@ import java.util.*;
 
 
 public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntity, BrewingRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "drinkbeer_beerbarrel");
-
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof BeerBarrelBlockEntity;
@@ -47,7 +45,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DB_BEER.uid;
     }
 
     @Override

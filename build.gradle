@@ -206,7 +206,6 @@ dependencies {
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_file_id}")
     implementation fg.deobf("curse.maven:miners-delight-plus-689630:${miners_delight_plus_file_id}")
     implementation fg.deobf("curse.maven:my-nethers-delight-1003673:${my_nethers_delight_file_id}")
-    implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
     compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")){
         transitive = false
         jarJar.ranged(it, "[MC1.20-1.3.11,)")
@@ -215,6 +214,7 @@ dependencies {
     compileOnly files("lib/l2modularblock-1.1.0.jar")
     compileOnly files("lib/l2library-2.4.25-slim.jar")
     compileOnly files("lib/l2damagetracker-0.3.7.jar")
+    implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
     implementation fg.deobf("curse.maven:bnc-1-20-port-898078:${bnc_file_id}")
     implementation fg.deobf("curse.maven:farmers-respite-551453:5543547")
 //    implementation fg.deobf("curse.maven:coffee-delight-835597:4871782")
@@ -225,14 +225,14 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
-    compileOnly fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
+    implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
     /** ---------------------------------------其他--------------------------------------------------------- */
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-    compileOnly fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
-    compileOnly fg.deobf("curse.maven:smartpot-1098636:5727794")
+    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
+    implementation fg.deobf("curse.maven:smartpot-1098636:5727794")
 }
 
 // 联动(存储)

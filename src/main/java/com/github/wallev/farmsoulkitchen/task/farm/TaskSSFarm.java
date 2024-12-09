@@ -1,10 +1,10 @@
 package com.github.wallev.farmsoulkitchen.task.farm;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
 import com.github.wallev.farmsoulkitchen.api.task.IAddonFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -21,8 +21,6 @@ import java.util.Locale;
 
 
 public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "sereneseasons_farm");
-
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);
@@ -38,7 +36,7 @@ public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddo
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.SERENESEASONS_FARM.uid;
     }
 
     @Override

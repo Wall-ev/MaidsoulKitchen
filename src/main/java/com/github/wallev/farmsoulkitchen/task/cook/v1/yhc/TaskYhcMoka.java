@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.yhc;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import dev.xkmc.youkaishomecoming.content.pot.moka.MokaMakerBlockEntity;
@@ -16,8 +16,6 @@ import net.minecraftforge.items.ItemStackHandler;
 
 
 public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_moka_pot");
-
     @Override
     public ItemStackHandler getItemStackHandler(MokaMakerBlockEntity be) {
         return be.getInventory();
@@ -70,7 +68,7 @@ public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.YHC_MOKA.uid;
     }
 
     @Override

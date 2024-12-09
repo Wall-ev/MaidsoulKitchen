@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.herbal;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +17,6 @@ import satisfy.herbalbrews.registry.RecipeTypeRegistry;
 
 
 public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEntity, TeaKettleRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dhb_tea_kettle");
-
     @Override
     public boolean isHeated(TeaKettleBlockEntity be) {
         return be.isBeingBurned();
@@ -56,7 +54,7 @@ public class TaskDhbTeaKettle extends TaskLdBaseContainerCook<TeaKettleBlockEnti
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DHB_TEA_KETTLE.uid;
     }
 
     @Override

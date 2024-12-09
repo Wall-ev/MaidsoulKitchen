@@ -1,6 +1,5 @@
 package com.github.wallev.farmsoulkitchen.task.farm;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.TaskBookEntryType;
 import com.github.wallev.farmsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.farmsoulkitchen.api.task.v1.farm.ICompatFarm;
@@ -8,6 +7,7 @@ import com.github.wallev.farmsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCompatFruitMoveTask;
 import com.github.wallev.farmsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
@@ -33,8 +33,6 @@ import java.util.List;
 
 
 public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFakePlayerTask, IAddonFarmTask {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "fruit_farm");
-
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return Lists.newArrayList();
@@ -74,7 +72,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FRUIT_FARM.uid;
     }
 
     @Override

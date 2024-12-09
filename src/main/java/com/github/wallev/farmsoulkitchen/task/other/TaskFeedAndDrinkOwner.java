@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.other;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
 import com.github.wallev.farmsoulkitchen.api.task.IDrinkTask;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidFeedAndDrinkOwnerTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IFeedTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -27,6 +27,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,8 +35,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrinkTask {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "feedanddrink");
-
     @Override
     public ItemStack getIcon() {
         return PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER);
@@ -49,7 +48,7 @@ public class TaskFeedAndDrinkOwner implements ILittleMaidTask, IFeedTask, IDrink
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FEED_AND_DRINK_OWNER.uid;
     }
 
     @Override

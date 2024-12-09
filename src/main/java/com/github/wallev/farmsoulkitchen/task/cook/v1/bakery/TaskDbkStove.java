@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.bakery;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.bestate.IFuelBe;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
@@ -26,7 +26,6 @@ import net.satisfy.bakery.registry.RecipeTypeRegistry;
 import java.util.List;
 
 public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dkb_stove");
     protected static final int FUEL_SLOT = 4;
 
     @Override
@@ -134,7 +133,7 @@ public class TaskDbkStove extends TaskLdContainerCook<StoveBlockEntity, StoveRec
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DBK_STOVE.uid;
     }
 
     @Override

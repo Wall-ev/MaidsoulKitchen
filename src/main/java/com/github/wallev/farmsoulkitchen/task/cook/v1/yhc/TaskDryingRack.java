@@ -1,9 +1,9 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.yhc;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRackRecipe>, IMaidAction {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_drying_rack");
-
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.YHC_DRYING_RACK;
@@ -70,7 +68,7 @@ public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRa
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.YHC_DRYING_RACK.uid;
     }
 
     @Override

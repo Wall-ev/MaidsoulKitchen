@@ -3,13 +3,13 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.kitchencarrot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.util.FakePlayerUtil;
 import com.mojang.datafixers.util.Pair;
@@ -42,8 +42,6 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, BrewingBarrelRecipe>, IHandlerCookBe<BrewingBarrelBlockEntity>, IItemHandlerCook<BrewingBarrelBlockEntity, BrewingBarrelRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "kk_brew_barrel");
-
     public static final Map<Item, Integer> FLUID_WATER = Map.of(Items.WATER_BUCKET, 1, ModItems.WATER.get(), 4);
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
@@ -159,7 +157,7 @@ public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, 
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.KK_BREW_BARREL.uid;
     }
 
     @Override

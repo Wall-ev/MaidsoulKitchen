@@ -1,9 +1,9 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.mc;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.mc.AbstractFurnaceAccessor;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -28,8 +28,6 @@ import java.util.function.Predicate;
 
 
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "furnace");
-
     @Override
     public boolean isEnable(EntityMaid maid) {
         return true;
@@ -73,7 +71,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FURNACE.uid;
     }
 
     @Override

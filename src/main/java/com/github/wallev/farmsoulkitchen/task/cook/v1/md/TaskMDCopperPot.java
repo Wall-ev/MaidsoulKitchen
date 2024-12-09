@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.md;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
@@ -20,8 +20,6 @@ import java.util.List;
 
 
 public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "md_copper_pot");
-
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CopperPotBlockEntity;
@@ -34,7 +32,7 @@ public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotR
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.MD_COOK_POT.uid;
     }
 
     @Override

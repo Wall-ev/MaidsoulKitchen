@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +18,6 @@ import satisfy.beachparty.registry.RecipeRegistry;
 
 
 public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, TikiBarRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dbp_tiki_bar");
-
     @Override
     public int getOutputSlot() {
         return 0;
@@ -47,7 +45,7 @@ public class TaskDbpTikiBar extends TaskLdBaseContainerCook<TikiBarBlockEntity, 
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DBP_TIKI_BAR.uid;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +17,6 @@ import satisfy.beachparty.registry.RecipeRegistry;
 
 
 public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEntity, MiniFridgeRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dbp_mini_fridge");
-
     @Override
     public int getOutputSlot() {
         return 0;
@@ -46,7 +44,7 @@ public class TaskDbpMiniFridge extends TaskLdBaseContainerCook<MiniFridgeBlockEn
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DBP_MINE_FRIDGE.uid;
     }
 
     @Override

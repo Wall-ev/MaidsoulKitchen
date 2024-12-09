@@ -1,10 +1,10 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.yhc;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.mixin.yhc.KettleBlockAccessor;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.wallev.farmsoulkitchen.util.FakePlayerUtil;
@@ -37,8 +37,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_tea_kettle");
-
     @Override
     public ItemStackHandler getItemStackHandler(KettleBlockEntity be) {
         return be.getInventory();
@@ -91,7 +89,7 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.YHC_TEA_KETTLE.uid;
     }
 
     @Override

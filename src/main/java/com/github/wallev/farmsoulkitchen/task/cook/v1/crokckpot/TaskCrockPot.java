@@ -3,13 +3,13 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.crokckpot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.CrockPotTooltip;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
@@ -44,7 +44,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCookingRecipe>, IHandlerCookBe<CrockPotBlockEntity>, IItemHandlerCook<CrockPotBlockEntity, CrockPotCookingRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "cp_crock_pot");
     private static final Map<CrockPotCookingRecipe, MaidRec<CrockPotCookingRecipe>> RECS = new HashMap<>();
     private static final Map<FoodCategory, List<Item>> FOOD_CATEGORY_INGREDIENT_MAP = new HashMap<>();
     private static final Map<IRequirement, FoodCategory> REQUIREMENT_FOOD_CATEGORY_MAP = new HashMap<>();
@@ -1150,7 +1149,7 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.CP_CROCK_POT.uid;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.github.wallev.farmsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.farmsoulkitchen.api.task.v1.farm.IHandlerInfo;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.FruitData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.farmsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.api.event.AddJadeInfoEvent;
@@ -29,7 +30,7 @@ public class AddTaskInfoJadeEvent {
         ITooltip tooltip = event.getTooltip();
 
         if (!(maid.getTask() instanceof ICompatFarm<?, ?> farmTask)) return;
-        if (farmTask.getUid().equals(TaskFruitFarm.UID)) {
+        if (farmTask.getUid().equals(TaskInfo.FRUIT_FARM.uid)) {
             // todo: sync
             FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
             int fruitFarmSearchYOffset = fruitData.searchYOffset();

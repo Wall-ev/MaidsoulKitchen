@@ -2,8 +2,8 @@ package com.github.wallev.farmsoulkitchen.task.other;
 
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidFeedAnimalTaskT;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -38,13 +38,11 @@ import java.util.function.Predicate;
 import static com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER;
 
 public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
-
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "feed_animal_t");
     private static final int MAX_STOP_ATTACK_DISTANCE = 8;
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FEED_ANIMAL_T.uid;
     }
 
     @Override

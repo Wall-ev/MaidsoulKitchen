@@ -1,9 +1,9 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.yhc;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -50,9 +50,6 @@ import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlo
 import static net.minecraftforge.fluids.FluidUtil.*;
 
 public class TaskFermentationTank implements ICookTask<FermentationTankBlockEntity, FermentationRecipe<?>>, IMaidAction {
-
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "yhc_fermentation_tank");
-
     public static boolean interactWithFluidHandler(@NotNull EntityMaid maid, ItemStack fluidStack, @NotNull Level level, @NotNull BlockPos pos, @Nullable Direction side) {
         Preconditions.checkNotNull(level);
         Preconditions.checkNotNull(pos);
@@ -216,7 +213,7 @@ public class TaskFermentationTank implements ICookTask<FermentationTankBlockEnti
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.YHC_FERMENTATION_TANK.uid;
     }
 
     @Override

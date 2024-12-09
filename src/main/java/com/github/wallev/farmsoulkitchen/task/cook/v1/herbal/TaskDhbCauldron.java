@@ -1,9 +1,9 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.herbal;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskLdContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.core.NonNullList;
@@ -28,8 +28,6 @@ import java.util.Optional;
 
 
 public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, CauldronRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "dhb_cauldron");
-
     @Override
     public boolean isHeated(CauldronBlockEntity be) {
         return true;
@@ -62,7 +60,7 @@ public class TaskDhbCauldron extends TaskLdContainerCook<CauldronBlockEntity, Ca
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.DHB_CAULDRON.uid;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.github.wallev.farmsoulkitchen.task.cook.v1.fd;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +17,6 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 
 public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "fd_cooking_pot");
-
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CookingPotBlockEntity;
@@ -46,7 +44,7 @@ public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRe
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FD_COOK_POT.uid;
     }
 
     @Override

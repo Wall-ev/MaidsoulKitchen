@@ -1,6 +1,5 @@
 package com.github.wallev.farmsoulkitchen.task.farm;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.TaskBookEntryType;
 import com.github.wallev.farmsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.farmsoulkitchen.api.task.v1.farm.ICompatFarm;
@@ -8,6 +7,7 @@ import com.github.wallev.farmsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
 import com.github.wallev.farmsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.farmsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
@@ -33,8 +33,6 @@ import java.util.List;
 
 
 public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "berries_farm");
-
     @Override
     public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
         return BerryHandlerManager.values();
@@ -86,7 +84,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.BERRY_FARM.uid;
     }
 
     @Override

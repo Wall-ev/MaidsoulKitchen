@@ -1,6 +1,5 @@
 package com.github.wallev.farmsoulkitchen.task.farm;
 
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
 import com.github.wallev.farmsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.farmsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
@@ -8,6 +7,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.wallev.farmsoulkitchen.event.MelonConfigEvent;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,8 +29,6 @@ import net.minecraft.world.level.material.FluidState;
 import static com.github.wallev.farmsoulkitchen.util.BlockUtil.getId;
 
 public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "compat_melon");
-
     @Override
     public boolean isEnable(EntityMaid maid) {
         return true;
@@ -38,7 +36,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, I
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.COMPAT_MELON_FARM.uid;
     }
 
     @Override

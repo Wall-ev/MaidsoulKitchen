@@ -2,10 +2,10 @@ package com.github.wallev.farmsoulkitchen.task.cook.v1.fd;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMoveTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCuttingMakeTask;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -33,8 +33,6 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, CuttingBoardRecipe> {
-    public static final ResourceLocation UID = new ResourceLocation(FarmsoulKitchen.MOD_ID, "fd_cutting_board");
-
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CuttingBoardBlockEntity;
@@ -130,7 +128,7 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return TaskInfo.FD_CUTTING_BOARD.uid;
     }
 
     @Override
