@@ -2,7 +2,7 @@ package com.github.wallev.farmsoulkitchen.entity.data.inner.task;
 
 import java.util.List;
 
-public abstract class FarmData {
+public abstract class FarmData implements ITaskData{
 
     protected List<String> rules;
 

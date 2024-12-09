@@ -225,14 +225,14 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
     implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
-    implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
+    compileOnly fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
     /** ---------------------------------------其他--------------------------------------------------------- */
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
-    implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
-    implementation fg.deobf("curse.maven:smartpot-1098636:5727794")
+    compileOnly fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
+    compileOnly fg.deobf("curse.maven:smartpot-1098636:5727794")
 }
 
 // 联动(存储)

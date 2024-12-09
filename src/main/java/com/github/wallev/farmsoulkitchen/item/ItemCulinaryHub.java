@@ -8,7 +8,6 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstrac
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.SophistorageCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -247,10 +246,22 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         if (hand != InteractionHand.MAIN_HAND) {
             return super.useOn(context);
         }
-        if (player == null) {
+        if (player == null || te == null) {
             return super.useOn(context);
         }
 
+        // TLM
+        for (IChestType allChestType : ChestManager.getAllChestTypes()) {
+            if (allChestType.isChest(te) && allChestType.canOpenByPlayer(te, player)) {
+                ItemStack stack = player.getMainHandItem();
+                String bindMode = getBindMode(stack);
+                if (!bindMode.isEmpty()) {
+                    actionModePos(stack, bindMode, pos);
+                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                }
+            }
+        }
+        // 精妙存储
         if (InventoryCompat.isSopStorageBe(te)) {
             ItemStack stack = player.getMainHandItem();
             String bindMode = getBindMode(stack);
@@ -258,20 +269,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 actionModePos(stack, bindMode, pos);
                 return InteractionResult.sidedSuccess(worldIn.isClientSide);
             }
-        } else {
-            for (IChestType allChestType : ChestManager.getAllChestTypes()) {
-                if (allChestType.isChest(te) && allChestType.canOpenByPlayer(te, player)) {
-                    ItemStack stack = player.getMainHandItem();
-                    String bindMode = getBindMode(stack);
-                    if (!bindMode.isEmpty()) {
-                        actionModePos(stack, bindMode, pos);
-                        return InteractionResult.sidedSuccess(worldIn.isClientSide);
-                    }
-                }
-            }
         }
-
-//        context.get
 
         return super.useOn(context);
     }
@@ -282,9 +280,6 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             NetworkHooks.openScreen((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
             return InteractionResultHolder.success(playerIn.getMainHandItem());
         }
-
-        List<IBrewingRecipe> recipes = BrewingRecipeRegistry.getRecipes();
-
         return super.use(worldIn, playerIn, handIn);
     }
 

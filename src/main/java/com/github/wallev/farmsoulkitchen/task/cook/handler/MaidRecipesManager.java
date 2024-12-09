@@ -110,20 +110,23 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                 if (isPosZone(ingredientPo)) continue;
 
                 BlockEntity blockEntity = maid.level.getBlockEntity(ingredientPo);
+                if (blockEntity == null) continue;
                 if (stack.isEmpty()) break;
 
-                if (!InventoryCompat.insertSopBe(stack, blockEntity, requireHasItem) && blockEntity != null) {
-                    for (IChestType type : ChestManager.getAllChestTypes()) {
-                        if (!type.isChest(blockEntity)) continue;
-                        if (type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
-
-                        blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
-                            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
-                            stack.shrink(stack.getCount() - leftStack.getCount());
-                        });
-                        makeChanged(blockEntity);
-                        break;
-                    }
+                // 原版
+                for (IChestType type : ChestManager.getAllChestTypes()) {
+                    if (!type.isChest(blockEntity)) continue;
+                    if (type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
+                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
+                        stack.shrink(stack.getCount() - leftStack.getCount());
+                    });
+                    makeChanged(blockEntity);
+                    break;
+                }
+                // 精妙存储
+                if (InventoryCompat.insertSopBe(stack, blockEntity, requireHasItem)) {
+                    break;
                 }
             }
         }
@@ -257,31 +260,36 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             if (isPosZone(ingredientPo)) continue;
 
             BlockEntity blockEntity = level.getBlockEntity(ingredientPo);
-            if (!InventoryCompat.sopStorageItemData(blockEntity, stackContentHandler, available, ingredientAmount) && blockEntity != null) {
-                for (IChestType type : ChestManager.getAllChestTypes()) {
-                    if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0)
-                        continue;
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
-                        for (int i = 0; i < beInv.getSlots(); i++) {
-                            ItemStack stackInSlot = beInv.getStackInSlot(i);
-                            Item item = stackInSlot.getItem();
+            if (blockEntity == null) continue;
 
-                            if (stackInSlot.isEmpty()) continue;
+            // 原版
+            for (IChestType type : ChestManager.getAllChestTypes()) {
+                if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0)
+                    continue;
+                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                    for (int i = 0; i < beInv.getSlots(); i++) {
+                        ItemStack stackInSlot = beInv.getStackInSlot(i);
+                        Item item = stackInSlot.getItem();
 
-                            stackContentHandler.put(stackInSlot, Pair.of(beInv, i));
+                        if (stackInSlot.isEmpty()) continue;
 
-                            available.merge(item, stackInSlot.getCount(), Integer::sum);
+                        stackContentHandler.put(stackInSlot, Pair.of(beInv, i));
 
-                            List<ItemStack> itemStacks = ingredientAmount.get(item);
-                            if (itemStacks == null) {
-                                ingredientAmount.put(item, Lists.newArrayList(stackInSlot));
-                            } else {
-                                itemStacks.add(stackInSlot);
-                            }
+                        available.merge(item, stackInSlot.getCount(), Integer::sum);
+
+                        List<ItemStack> itemStacks = ingredientAmount.get(item);
+                        if (itemStacks == null) {
+                            ingredientAmount.put(item, Lists.newArrayList(stackInSlot));
+                        } else {
+                            itemStacks.add(stackInSlot);
                         }
-                    });
-                    break;
-                }
+                    }
+                });
+                break;
+            }
+            // 精妙存储
+            if (InventoryCompat.sopStorageItemData(blockEntity, stackContentHandler, available, ingredientAmount)) {
+                break;
             }
         }
 

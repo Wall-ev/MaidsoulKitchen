@@ -5,6 +5,7 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.farmsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.farmsoulkitchen.task.TaskInfo;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.bakery.TaskDbkStove;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.beachparty.TaskDbpMiniFridge;
