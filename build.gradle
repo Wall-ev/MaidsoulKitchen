@@ -220,9 +220,10 @@ dependencies {
 //    implementation fg.deobf("curse.maven:coffee-delight-835597:4871782")
 
     /** ---------------------------------------Let's do--------------------------------------------------------- */
+    implementation fg.deobf("curse.maven:lets-do-meadow-821483:${meadow_file_id}")
     implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
     implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
-    implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
+    compileOnly fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
     implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
     //1.0
@@ -236,6 +237,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lets-do-candlelight-farm-charm-compat-1038117:${candlelight_farm_charm_file_id}")
 
     /** ---------------------------------------其他--------------------------------------------------------- */
+    implementation fg.deobf("curse.maven:mystias-izakaya-973711:${mystias_izakaya_file_id}")
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
     implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
