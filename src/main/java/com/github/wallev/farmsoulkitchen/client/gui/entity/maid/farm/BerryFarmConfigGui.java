@@ -51,7 +51,11 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task).getManagerHandlerValues()).map(IFarmHandlerManager::getFarmHandler).toList();
+        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task)
+                .getManagerHandlerValues())
+                .map(IFarmHandlerManager::getFarmHandler)
+                .filter(ICompatFarmHandler::canLoad)
+                .toList();
         this.farmTaskInfo = ((TaskBerryFarm) task).getTaskData(maid);
     }
 

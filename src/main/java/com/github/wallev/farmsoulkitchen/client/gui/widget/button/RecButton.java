@@ -1,23 +1,19 @@
 package com.github.wallev.farmsoulkitchen.client.gui.widget.button;
 
+import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
-import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.List;
@@ -30,6 +26,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private final CookData cookData;
     private final Recipe<?> recipe;
     private final ItemStack stack;
+
     @SuppressWarnings("all")
     public RecButton(EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData, Recipe<?> recipe, int pX, int pY) {
         super(pX, pY, 20, 20, cookData.recs().contains(recipe.getId().toString()));
@@ -84,7 +81,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
         Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
 
-        pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, pMouseX, pMouseY);
+        pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
     }
 
     public Recipe<?> getRecipe() {
