@@ -258,4 +258,14 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
         return RegisterData.MC_FURNACE;
     }
 
+    @Override
+    public MaidRecipesManager<AbstractCookingRecipe> getRecipesManager(EntityMaid maid) {
+        return new MaidRecipesManager<>(maid, this, false) {
+
+            @Override
+            protected boolean enableHub() {
+                return false;
+            }
+        };
+    }
 }

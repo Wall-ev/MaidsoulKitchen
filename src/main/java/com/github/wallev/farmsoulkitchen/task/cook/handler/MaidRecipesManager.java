@@ -75,7 +75,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         if (this.cookInv == null || this.bindingPoses == null || (!this.hasCulinaryHub && !this.findCulinaryHub().isEmpty())) {
             this.hasCulinaryHub = !this.findCulinaryHub().isEmpty();
             this.bindingPoses = ItemCulinaryHub.getBindPoses(this.findCulinaryHub());
-            this.cookInv = this.initCookInv();
+            //@todo
+            this.cookInv = this.enableHub() ? this.initCookInv() : new MaidInventory(maid);
 
             return true;
         }
@@ -758,5 +759,10 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     @Nullable
     public IItemHandlerModifiable getIngredientInv() {
         return this.getInputInv();
+    }
+
+    //不与烹饪中枢交互
+    protected boolean enableHub() {
+        return true;
     }
 }

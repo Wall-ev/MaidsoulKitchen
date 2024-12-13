@@ -123,6 +123,11 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
                 if (!hasAvi) return Collections.emptyList();
                 return super.createIngres(available, setRecipeIngres);
             }
+
+            @Override
+            protected boolean enableHub() {
+                return false;
+            }
         };
     }
 

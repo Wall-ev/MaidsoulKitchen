@@ -85,19 +85,19 @@ public class MaidCuttingMakeTask extends Behavior<EntityMaid> {
     @Override
     protected void tick(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.tick(worldIn, maid, pGameTime);
-        if (tick++ % 2 != 0) return;
+        if (tick++ % 5 != 0) return;
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockEntity blockEntity = worldIn.getBlockEntity(posWrapper.currentBlockPosition());
             if (blockEntity instanceof CuttingBoardBlockEntity cuttingBoardBlockEntity) {
                 if (maidHand) {
                     ItemStack tool = maid.getMainHandItem();
                     cuttingBoardBlockEntity.processStoredItemUsingTool(tool, null);
+                    maid.swing(InteractionHand.MAIN_HAND);
                 } else {
                     ItemStack split = maid.getOffhandItem().split(1);
                     cuttingBoardBlockEntity.getInventory().insertItem(0, split, false);
-//                    maid.swing(InteractionHand.OFF_HAND);
+                    maid.swing(InteractionHand.OFF_HAND);
                 }
-                maid.swing(InteractionHand.MAIN_HAND);
 
                 maidHand = !maidHand;
             }
