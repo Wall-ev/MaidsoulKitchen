@@ -227,6 +227,7 @@
   "gui.farmsoulkitchen.btn.cook_guide.info.warn": "Task Warning：",
   "gui.farmsoulkitchen.btn.cook_guide.info.warn.crockpot": "- There are some problems with the recipe analysis of the crockpot task, which will be updated and optimized in the future!",
   "gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace": "- Due to the peculiarity of the furnace, it is not currently possible to interact with the culinary hub, but it will be updated and optimized in the future!",
+  "gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace.1": "- Due to the special nature of the furnace's recipe, it is not currently controlled by the black and white list, and will be updated and optimized in the future!",
   "gui.farmsoulkitchen.btn.cook_guide.info.warn.cuttingboard": "- Due to the particularity of the cutting board task, it is not possible to interact with the culinary hub at present, and it will be updated and optimized in the future!",
   "gui.farmsoulkitchen.widget.cook_guide.task.desc": "Now Task: %s",
   "gui.farmsoulkitchen.widget.cook_guide.task.recipe_type": "RecipeType: %s",

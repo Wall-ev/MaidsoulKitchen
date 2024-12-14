@@ -276,6 +276,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     @Override
     public List<Component> getWarnComponent() {
         return List.of(Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
-                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace"));
+                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace"),
+                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace.1"));
     }
 }
