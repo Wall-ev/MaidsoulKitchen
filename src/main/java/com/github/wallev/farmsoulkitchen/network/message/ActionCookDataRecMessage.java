@@ -12,16 +12,17 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record ActionCookDataRecMessage(int entityId, ResourceLocation dataKey, String rec) {
+public record ActionCookDataRecMessage(int entityId, ResourceLocation dataKey, String rec, String mode) {
 
     public static void encode(ActionCookDataRecMessage message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityId);
         buf.writeResourceLocation(message.dataKey);
         buf.writeUtf(message.rec);
+        buf.writeUtf(message.mode);
     }
 
     public static ActionCookDataRecMessage decode(FriendlyByteBuf buf) {
-        return new ActionCookDataRecMessage(buf.readInt(), buf.readResourceLocation(), buf.readUtf());
+        return new ActionCookDataRecMessage(buf.readInt(), buf.readResourceLocation(), buf.readUtf(), buf.readUtf());
     }
 
     public static void handle(ActionCookDataRecMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
@@ -36,7 +37,7 @@ public record ActionCookDataRecMessage(int entityId, ResourceLocation dataKey, S
                 if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
                     TaskDataKey<CookData> value = TaskDataRegister.getValue(message.dataKey);
                     CookData cookData = maid.getOrCreateData(value, new CookData());
-                    cookData.addOrRemoveRec(message.rec);
+                    cookData.addOrRemoveRec(message.rec, message.mode);
                     maid.setAndSyncData(value, cookData);
                 }
             });

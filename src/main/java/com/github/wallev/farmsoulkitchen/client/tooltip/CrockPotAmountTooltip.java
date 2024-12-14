@@ -25,8 +25,8 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
     private static final ResourceLocation TEXTURE = new ResourceLocation(FarmsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     private final int rowSpacing = 2, colSpacing = 2;
     private final MutableComponent titleTip = Component.translatable("tooltips.farmsoulkitchen.amount.title");
-    private final MutableComponent randomTip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
-    private final MutableComponent overSizeTip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
+//    private final MutableComponent randomTip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
+//    private final MutableComponent overSizeTip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
 
     private final CrockPotTooltip crockPotTooltip;
     private final TaskCrockPot.RecInfo1 recInfo1;
@@ -72,26 +72,32 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
     @Override
     public int getWidth(Font font) {
         int tipMax = font.width(titleTip);
-        if (isRandom) {
-            tipMax = Math.max(tipMax, font.width(randomTip));
+//        if (isRandom) {
+        {
+            MutableComponent tip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(Component.translatable(String.format("gui.farmsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+            tipMax = Math.max(tipMax, font.width(tip));
         }
-        if (isOverSize) {
-            tipMax = Math.max(tipMax, font.width(overSizeTip));
-        }
+//        if (isOverSize) {
+//            tipMax = Math.max(tipMax, font.width(overSizeTip));
+//        }
         return Math.max(tipMax, cols * (64 + colSpacing));
     }
 
     @Override
     public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
 
-        if (isRandom) {
-            guiGraphics.drawString(font, randomTip, pX, pY, ChatFormatting.YELLOW.getColor());
+//        if (isRandom) {
+        {
+            MutableComponent tip = Component.translatable("gui.farmsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(Component.translatable(String.format("gui.farmsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+            guiGraphics.drawString(font, tip, pX, pY, ChatFormatting.YELLOW.getColor());
             pY += 10;
         }
-        if (isOverSize) {
-            guiGraphics.drawString(font, overSizeTip, pX, pY, ChatFormatting.YELLOW.getColor());
-            pY += 10;
-        }
+//        if (isOverSize) {
+//            guiGraphics.drawString(font, overSizeTip, pX, pY, ChatFormatting.YELLOW.getColor());
+//            pY += 10;
+//        }
         guiGraphics.drawString(font, titleTip, pX, pY, ChatFormatting.GRAY.getColor());
         pY += 10;
 

@@ -188,7 +188,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             ICookTask<?, R> cookTask = (ICookTask<?, R>) maid.getTask();
             CookData cookData = cookTask.getTaskData(maid);
             this.lastTaskRule = cookData.mode();
-            this.recipeIds = cookData.recs();
+            this.recipeIds = cookData.getRecs();
             this.rec.clear();
 
             List<R> allRecipesFor = this.getValidRecipesFor();
@@ -202,10 +202,10 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
     private List<R> getValidRecipesFor() {
         List<R> allRecipesFor;
-        if (CookData.Mode.SELECT.name.equals(this.lastTaskRule)) {
+        if (this.lastTaskRule.equals(CookData.Mode.WHITELIST.name)) {
             allRecipesFor = task.getRecipes(level).stream().filter(r -> recipeIds.contains(r.getId().toString())).toList();
         } else {
-            allRecipesFor = task.getRecipes(level);
+            allRecipesFor = task.getRecipes(level).stream().filter(r -> !recipeIds.contains(r.getId().toString())).toList();
         }
         return allRecipesFor;
     }

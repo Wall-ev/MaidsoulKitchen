@@ -4,7 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.ExtraMaidBrainMa
 import com.github.wallev.farmsoulkitchen.chest.RandomizableCbeType;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.layer.LayerMaidLDBanner;
-import com.github.wallev.farmsoulkitchen.entity.backpack.OldBigBackpack;
 import com.github.wallev.farmsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.init.registry.tlm.RegisterData;
@@ -44,9 +43,9 @@ public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void addMaidBackpack(BackpackManager manager) {
-        if (Mods.MC.isLoaded()) {
-            manager.add(new OldBigBackpack());
-        }
+//        if (Mods.MC.isLoaded()) {
+//            manager.add(new OldBigBackpack());
+//        }
     }
 
     @Override

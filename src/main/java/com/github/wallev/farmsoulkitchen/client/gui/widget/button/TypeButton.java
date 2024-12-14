@@ -28,7 +28,7 @@ public class TypeButton extends NormalTooltipButton {
     }
 
     private void setModeUid(boolean isSelected) {
-        this.modeUid = isSelected ? CookData.Mode.RANDOM.name : CookData.Mode.SELECT.name;
+        this.modeUid = isSelected ? CookData.Mode.WHITELIST.name : CookData.Mode.BLACKLIST.name;
     }
 
     @Override

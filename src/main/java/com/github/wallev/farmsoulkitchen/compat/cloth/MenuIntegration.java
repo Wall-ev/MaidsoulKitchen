@@ -201,11 +201,11 @@ public class MenuIntegration {
                     TaskConfig.MELON_AND_STEM_LIST.set(melonAndStemList);
                     MelonConfigEvent.handleConfig();
                 }).build());
-
-        task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes"), TaskConfig.COOK_SELECTED_RECIPES.get())
-                .setDefaultValue(TaskConfig.COOK_SELECTED_RECIPES.getDefault())
-                .setTooltip(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes.tooltip"), addition)
-                .setSaveConsumer(TaskConfig.COOK_SELECTED_RECIPES::set).build());
+//
+//        task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes"), TaskConfig.COOK_SELECTED_RECIPES.get())
+//                .setDefaultValue(TaskConfig.COOK_SELECTED_RECIPES.getDefault())
+//                .setTooltip(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes.tooltip"), addition)
+//                .setSaveConsumer(TaskConfig.COOK_SELECTED_RECIPES::set).build());
 
         task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.feed_animal_t"), TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.get())
                 .setDefaultValue(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.getDefault())

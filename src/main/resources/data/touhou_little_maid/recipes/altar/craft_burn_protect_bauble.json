@@ -21,16 +21,13 @@
       "tag": "forge:dyes/red"
     },
     {
-      "item": "minecraft:diamond"
-    },
-    {
       "item": "minecraft:blaze_powder"
     },
     {
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:blaze_rod"
     },
     {
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:blaze_rod"
     }
   ]
 }

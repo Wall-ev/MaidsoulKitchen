@@ -29,7 +29,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
     @SuppressWarnings("all")
     public RecButton(EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData, Recipe<?> recipe, int pX, int pY) {
-        super(pX, pY, 20, 20, cookData.recs().contains(recipe.getId().toString()));
+        super(pX, pY, 20, 20, cookData.getRecs().contains(recipe.getId().toString()));
         this.initTextureValues(179, 25, 22, 0, TEXTURE);
         this.maid = maid;
         this.cookTask = cookTask;
@@ -51,10 +51,10 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     private void renderShadow(GuiGraphics graphics) {
-        if (cookData.mode().equals(CookData.Mode.SELECT.name)) {
+        if (cookData.mode().equals(CookData.Mode.WHITELIST.name)) {
             graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50F9F9F9);
         } else {
-            graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50000000);
+            graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50000010);
         }
     }
 
@@ -76,10 +76,11 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
 
-        boolean modeRandom = !cookData.mode().equals(CookData.Mode.SELECT.name);
-        boolean overSize = cookData.recs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
+        boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
+//        boolean overSize = cookData.getRecs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
-        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
+//        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
+        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, false);
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
     }
