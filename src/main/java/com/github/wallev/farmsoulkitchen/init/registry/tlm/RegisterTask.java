@@ -61,9 +61,9 @@ public final class RegisterTask {
         }
 
 
-        if (Mods.TWT.isLoaded() && RegisterConfig.FEED_AND_DRINK_OWNER_TASK_ENABLED.get()) {
-            manager.add(new TaskFeedAndDrinkOwner());
-        }
+//        if (Mods.TWT.isLoaded() && RegisterConfig.FEED_AND_DRINK_OWNER_TASK_ENABLED.get()) {
+//            manager.add(new TaskFeedAndDrinkOwner());
+//        }
 
 
         if (Mods.MC.isLoaded() && RegisterConfig.FURNACE_TASK_ENABLED.get()) {

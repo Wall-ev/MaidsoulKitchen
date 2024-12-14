@@ -13,7 +13,7 @@ import java.awt.*;
 
 public abstract class MaidTaskConfigGui<T extends TaskConfigContainer> extends com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.task.MaidTaskConfigGui<T> {
     protected final int titleStartY = 8;
-    protected Zone visualZone;
+    protected Zone visualZone = new Zone(leftPos + 81, topPos + 28, 176, 137);;
     protected int solIndex = 0;
 
     public MaidTaskConfigGui(T screenContainer, Inventory inv, Component titleIn) {
