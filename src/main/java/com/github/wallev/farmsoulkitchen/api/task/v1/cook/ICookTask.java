@@ -1,5 +1,8 @@
 package com.github.wallev.farmsoulkitchen.api.task.v1.cook;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
+import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.farmsoulkitchen.api.ILittleMaidTask;
 import com.github.wallev.farmsoulkitchen.api.TaskBookEntryType;
 import com.github.wallev.farmsoulkitchen.api.task.IDataTask;
@@ -9,14 +12,12 @@ import com.github.wallev.farmsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMakeTask;
 import com.github.wallev.farmsoulkitchen.task.ai.MaidCookMoveTask;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
-import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
@@ -58,7 +59,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     default List<R> getRecipes(Level level) {
-        return level.getRecipeManager().getAllRecipesFor((RecipeType)getRecipeType());
+        return level.getRecipeManager().getAllRecipesFor((RecipeType) getRecipeType());
     }
 
     @Nullable
@@ -119,7 +120,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default NonNullList<Ingredient> getIngredients(Recipe<?> recipe) {
-       return recipe.getIngredients();
+        return recipe.getIngredients();
     }
 
     default ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
@@ -129,5 +130,9 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
         List<Ingredient> ingres = this.getIngredients(recipe);
         return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
+    }
+
+    default List<Component> getWarnComponent() {
+        return Collections.emptyList();
     }
 }

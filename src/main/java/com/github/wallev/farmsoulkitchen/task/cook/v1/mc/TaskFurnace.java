@@ -8,7 +8,9 @@ import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.farmsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -21,8 +23,10 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -66,7 +70,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     @Override
     @SuppressWarnings("unchecked, rawtypes")
     public RecipeType<AbstractCookingRecipe> getRecipeType() {
-        return (RecipeType) RecipeType.SMOKING;
+        return (RecipeType) RecipeType.SMELTING;
     }
 
     @Override
@@ -108,7 +112,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
         for (int slot : blockEntity.getSlotsForFace(Direction.UP)) {
             ItemStack stack = blockEntity.getItem(slot);
             if (!stack.isEmpty()) continue;
-            if (getAnyCookableItem(entityMaid, availableInv, recipeType,
+            if (getAnyCookableItem(entityMaid, entityMaid.getMaidInv(), recipeType,
                     cookable -> blockEntity.canPlaceItemThroughFace(slot, cookable, Direction.UP))
                     .isPresent()) {
                 return true;
@@ -212,7 +216,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             if (!materialSlotStack.isEmpty()) {
                 continue;
             }
-            Optional<ItemStack> material = getCookable(maid, availableInv, ((AbstractFurnaceAccessor)furnace).getRecipeType());
+            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((AbstractFurnaceAccessor)furnace).getRecipeType());
             if (material.isEmpty()) {
                 continue;
             }
@@ -228,7 +232,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
         pickupAction(maid);
     }
 
-    private Optional<ItemStack> getCookable(EntityMaid maid, CombinedInvWrapper availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType) {
+    private Optional<ItemStack> getCookable(EntityMaid maid, ItemStackHandler availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType) {
         for (int i = 0; i < availableInv.getSlots(); ++i) {
             ItemStack slotStack = availableInv.getStackInSlot(i);
             if (getRecipe(maid, slotStack, recipeType).isPresent()) {
@@ -267,5 +271,11 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
                 return false;
             }
         };
+    }
+
+    @Override
+    public List<Component> getWarnComponent() {
+        return List.of(Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
+                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace"));
     }
 }

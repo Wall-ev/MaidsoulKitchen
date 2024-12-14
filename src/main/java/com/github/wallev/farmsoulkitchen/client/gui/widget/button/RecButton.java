@@ -6,10 +6,12 @@ import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
@@ -75,6 +77,11 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
     private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
+
+        if (mc.options.advancedItemTooltips) {
+            stackTooltip.add(CommonComponents.SPACE);
+            stackTooltip.add(Component.literal(String.format("RecipeId: %s", recipe.getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
+        }
 
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
 //        boolean overSize = cookData.getRecs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();

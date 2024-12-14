@@ -11,7 +11,9 @@ import com.github.wallev.farmsoulkitchen.task.ai.MaidCuttingMakeTask;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -152,5 +154,11 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
         NonNullList<Ingredient> ingredients = cuttingBoardRecipe.getIngredients();
         ingredients.add(cuttingBoardRecipe.getTool());
         return ingredients;
+    }
+
+    @Override
+    public List<Component> getWarnComponent() {
+        return List.of(Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
+                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.cuttingboard"));
     }
 }

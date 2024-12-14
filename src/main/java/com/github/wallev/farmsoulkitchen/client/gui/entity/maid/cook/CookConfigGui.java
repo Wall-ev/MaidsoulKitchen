@@ -3,7 +3,6 @@ package com.github.wallev.farmsoulkitchen.client.gui.entity.maid.cook;
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.farmsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
-import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;
 import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.farmsoulkitchen.network.NetworkHandler;
@@ -102,13 +101,15 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     @Override
     protected void initAdditionWidgets() {
         super.initAdditionWidgets();
-        this.addJeiButton();
         this.addTaskInfoButton();
         this.addSearchTextBox();
         this.addSearchBox();
         this.addTypeButton();
         this.addResultInfo();
         this.addScrollButton();
+
+        this.addInfoButton();
+        this.addJeiButton();
     }
 
     @Override
@@ -220,6 +221,13 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         } else {
             this.searchBox.insertText(text);
         }
+    }
+
+    private void addInfoButton() {
+        if (((ICookTask<?, ?>) task).getWarnComponent().isEmpty()) return;
+        TImageButton infoButton = new TImageButton((ICookTask<?, ?>) task, visualZone.startX() + visualZone.width() - 15, visualZone.startY() + 5, 9, 9, 237, 212, 10, TEXTURE, (b) -> {
+        });
+        this.addRenderableWidget(infoButton);
     }
 
     private void addJeiButton() {
@@ -417,7 +425,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private void addScrollButton() {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        ImageButton upButton = new ImageButton(startX, startY, 9, 7, 199, 74, 14, TEXTURE, b -> {
+        Button upButton = new ImageButton(startX, startY, 9, 7, 199, 74, 14, TEXTURE, b -> {
             if (this.solIndex > 0) {
                 this.solIndex--;
                 this.init();

@@ -22,7 +22,9 @@ import com.sihenzhang.crockpot.recipe.FoodValuesDefinition;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;
 import com.sihenzhang.crockpot.recipe.cooking.requirement.*;
 import com.sihenzhang.crockpot.util.MathUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -1272,6 +1274,12 @@ public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCook
 
         CrockPotTooltip crockPotTooltip = new CrockPotTooltip(recInfo1, REQUIREMENT_INGREDIENTY_MAP, modeRandom, overSize);
         return Optional.of(crockPotTooltip);
+    }
+
+    @Override
+    public List<Component> getWarnComponent() {
+        return List.of(Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
+                Component.translatable("gui.farmsoulkitchen.btn.cook_guide.info.warn.crockpot"));
     }
 
     public static class RecInfo1 {

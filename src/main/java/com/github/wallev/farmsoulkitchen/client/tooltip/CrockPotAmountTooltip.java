@@ -66,7 +66,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
 
     @Override
     public int getHeight() {
-        return Minecraft.getInstance().font.lineHeight + 2 + (this.isRandom ? 10 : 0) + (this.isOverSize ? 10 : 0) + rows * (22 + rowSpacing);
+        return Minecraft.getInstance().font.lineHeight + 2 + 10 + rows * (22 + rowSpacing);
     }
 
     @Override

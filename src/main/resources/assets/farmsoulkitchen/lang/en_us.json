@@ -5,9 +5,9 @@
 
   "effect.farmsoulkitchen.burn_protect": "Burn Protect",
 
-  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.0": "这%s太多了... 我不再喂养它们了！",
-  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.1": "这%s太多了吧... 不能再喂养它们了啦！",
-  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.2": "这%s也太能吃了把... 不养了不养了,太能吃了！",
+  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.0": "The %s is too much... I don't feed them anymore!",
+  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.1": "The %s too much, isn't it... You can't feed them anymore!",
+  "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.2": "The %s is too good to eat... If you don't raise it, you can't raise it, it's too edible!",
   "chat_bubble.farmsoulkitchen.inner.feed_animal.type.max_number.0": "The %s is too many... I don't feed them anymore!",
   "chat_bubble.farmsoulkitchen.inner.feed_animal.type.max_number.1": "The %s is too many... I don't feed them anymore!",
   "chat_bubble.farmsoulkitchen.inner.feed_animal.type.max_number.2": "The %s is too many... I don't feed them anymore!",
@@ -224,6 +224,10 @@
   "gui.farmsoulkitchen.btn.cook_guide.warn.now_type": "Now cook mode: ",
   "gui.farmsoulkitchen.btn.cook_guide.warn.not_select": "This cook mode type isn't selected, so can't select",
   "gui.farmsoulkitchen.btn.cook_guide.warn.over_size": "This cook selected recipes is over size : %d, so can't add",
+  "gui.farmsoulkitchen.btn.cook_guide.info.warn": "Task Warning：",
+  "gui.farmsoulkitchen.btn.cook_guide.info.warn.crockpot": "- There are some problems with the recipe analysis of the crockpot task, which will be updated and optimized in the future!",
+  "gui.farmsoulkitchen.btn.cook_guide.info.warn.furnace": "- Due to the peculiarity of the furnace, it is not currently possible to interact with the culinary hub, but it will be updated and optimized in the future!",
+  "gui.farmsoulkitchen.btn.cook_guide.info.warn.cuttingboard": "- Due to the particularity of the cutting board task, it is not possible to interact with the culinary hub at present, and it will be updated and optimized in the future!",
   "gui.farmsoulkitchen.widget.cook_guide.task.desc": "Now Task: %s",
   "gui.farmsoulkitchen.widget.cook_guide.task.recipe_type": "RecipeType: %s",
   "gui.farmsoulkitchen.patchouli_warning.download": "Download Patchouli",

@@ -31,7 +31,7 @@ public class NormalAmountTooltip implements ClientAmountTooltip {
 
     @Override
     public int getHeight() {
-        return 30 + (this.isRandom ? 10 : 0) + (this.isOverSize ? 10 : 0);
+        return 30 + 10;
 //        return 30;
     }
 
