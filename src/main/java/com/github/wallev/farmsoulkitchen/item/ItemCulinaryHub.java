@@ -260,6 +260,13 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             if (allChestType.isChest(te) && allChestType.canOpenByPlayer(te, player)) {
                 ItemStack stack = player.getMainHandItem();
                 String bindMode = getBindMode(stack);
+                List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
+                if (bindModePoses.size() >= 5 && !bindModePoses.contains(pos)) {
+                    if (context.getLevel().isClientSide) {
+                        player.sendSystemMessage(Component.translatable("message.farmsoulkitchen.culinary_hub.bine_type_max"));
+                    }
+                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                }
                 if (!bindMode.isEmpty()) {
                     actionModePos(stack, bindMode, pos);
                     return InteractionResult.sidedSuccess(worldIn.isClientSide);
@@ -270,6 +277,13 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         if (InventoryCompat.isSopStorageBe(te)) {
             ItemStack stack = player.getMainHandItem();
             String bindMode = getBindMode(stack);
+            List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
+            if (bindModePoses.size() >= 5 && !bindModePoses.contains(pos)) {
+                if (context.getLevel().isClientSide) {
+                    player.sendSystemMessage(Component.translatable("message.farmsoulkitchen.culinary_hub.bine_type_max"));
+                }
+                return InteractionResult.sidedSuccess(worldIn.isClientSide);
+            }
             if (!bindMode.isEmpty()) {
                 actionModePos(stack, bindMode, pos);
                 return InteractionResult.sidedSuccess(worldIn.isClientSide);
