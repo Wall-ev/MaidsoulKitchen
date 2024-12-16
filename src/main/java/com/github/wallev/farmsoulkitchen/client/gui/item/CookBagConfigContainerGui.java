@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
 import org.anti_ad.mc.ipn.api.IPNIgnore;
 
 import java.awt.*;
@@ -88,6 +89,15 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         pGuiGraphics.drawString(this.font, Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+
+        int x = leftPos + 6;
+        int y = topPos + 6;
+        int width = 100;
+        int height = 20;
+        pGuiGraphics.renderItem(Items.RED_MUSHROOM.getDefaultInstance(), x + width + 2, y + 2);
+        pGuiGraphics.renderItem(Items.COAL.getDefaultInstance(), x + width + 2, y + (height + 22) + 2);
+        pGuiGraphics.renderItem(Items.BOWL.getDefaultInstance(), x + width + 2, y + (height + 22) * 3  + 2);
+        pGuiGraphics.renderItem(Items.MUSHROOM_STEW.getDefaultInstance(), x + width + 2, y + (height + 22) * 4 + 2);
     }
 
     @Override

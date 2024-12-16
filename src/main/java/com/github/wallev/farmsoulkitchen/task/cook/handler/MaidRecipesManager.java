@@ -167,7 +167,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     public boolean checkAndCreateRecipesIngredients() {
         //预防隙间转移走烹饪中枢
         if (this.hasCulinaryHub && this.findCulinaryHub().isEmpty() && this.level instanceof ServerLevel serverLevel) {
-            this.recipesIngredients.clear();
+            this.recipesIngredients = Collections.emptyList();
             this.maid.refreshBrain(serverLevel);
             return false;
         }
@@ -358,7 +358,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         boolean initTaskData = this.initTaskData();
         boolean initInvData = this.initInvData();
         if (initTaskData || initInvData) {
-            this.recipesIngredients.clear();
+            this.recipesIngredients = Collections.emptyList();
         }
     }
 
