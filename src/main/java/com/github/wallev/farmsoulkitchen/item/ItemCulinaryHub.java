@@ -7,7 +7,6 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -27,8 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -259,15 +256,6 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                     actionModePos(stack, bindMode, pos);
                     return InteractionResult.sidedSuccess(worldIn.isClientSide);
                 }
-            }
-        }
-        // 精妙存储
-        if (InventoryCompat.isSopStorageBe(te)) {
-            ItemStack stack = player.getMainHandItem();
-            String bindMode = getBindMode(stack);
-            if (!bindMode.isEmpty()) {
-                actionModePos(stack, bindMode, pos);
-                return InteractionResult.sidedSuccess(worldIn.isClientSide);
             }
         }
 

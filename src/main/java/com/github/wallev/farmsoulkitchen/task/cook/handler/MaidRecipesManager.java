@@ -9,7 +9,6 @@ import com.github.wallev.farmsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.farmsoulkitchen.init.InitItems;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.item.ItemCulinaryHub;
-import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -122,10 +121,6 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                         stack.shrink(stack.getCount() - leftStack.getCount());
                     });
                     makeChanged(blockEntity);
-                    break;
-                }
-                // 精妙存储
-                if (InventoryCompat.insertSopBe(stack, blockEntity, requireHasItem)) {
                     break;
                 }
             }
@@ -285,10 +280,6 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                         }
                     }
                 });
-                break;
-            }
-            // 精妙存储
-            if (InventoryCompat.sopStorageItemData(blockEntity, stackContentHandler, available, ingredientAmount)) {
                 break;
             }
         }

@@ -2,7 +2,6 @@ package com.github.wallev.farmsoulkitchen.compat.cloth;
 
 import com.github.wallev.farmsoulkitchen.FarmsoulKitchen;
 import com.github.wallev.farmsoulkitchen.config.subconfig.RegisterConfig;
-import com.github.wallev.farmsoulkitchen.config.subconfig.RenderConfig;
 import com.github.wallev.farmsoulkitchen.config.subconfig.TaskConfig;
 import com.github.wallev.farmsoulkitchen.event.MelonConfigEvent;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -36,7 +35,6 @@ public class MenuIntegration {
 
     public static void addConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         taskConfig(root, entryBuilder, tlmEntry);
-        renderConfig(root, entryBuilder, tlmEntry);
         registerConfig(root, entryBuilder, tlmEntry);
     }
 
@@ -127,55 +125,6 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.cp_crock_pot.tooltip"),
                         Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.CP_CROk_POT_TASK_ENABLED::set).build());
-
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbk_cooking_pot"), RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbk_cooking_pot.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DBK_COOKING_POT_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbp_mini_fridge"), RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbp_mini_fridge.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dbp_tiki_bar"), RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dbp_tiki_bar.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dcl_cooking_pan"), RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dcl_cooking_pan.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dcl_cooking_pot"), RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dcl_cooking_pot.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_COOKING_POT_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dcl_stove"), RegisterConfig.DCL_STOVE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dcl_stove.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_STOVE_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_roast"), RegisterConfig.DFC_ROAST_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_roast.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_cooking_pot"), RegisterConfig.DFC_COOKING_POT_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_cooking_pot.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_COOKING_POT_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dfc_stove"), RegisterConfig.DFC_STOVE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dfc_stove.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DCL_STOVE_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dhb_cauldron"), RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dhb_cauldron.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DHB_CAULDRON_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.dhb_tea_kettle"), RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.dhb_tea_kettle.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED::set).build());
-        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.register.fermentation_barrel"), RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.register.fermentation_barrel.tooltip"),
-                        Component.translatable("config.farmsoulkitchen.register.restart_warn.tooltip"), addition)
-                .setSaveConsumer(RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED::set).build());
     }
 
     private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
@@ -201,32 +150,11 @@ public class MenuIntegration {
                     TaskConfig.MELON_AND_STEM_LIST.set(melonAndStemList);
                     MelonConfigEvent.handleConfig();
                 }).build());
-//
-//        task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes"), TaskConfig.COOK_SELECTED_RECIPES.get())
-//                .setDefaultValue(TaskConfig.COOK_SELECTED_RECIPES.getDefault())
-//                .setTooltip(Component.translatable("config.farmsoulkitchen.task.cook_selected_recipes.tooltip"), addition)
-//                .setSaveConsumer(TaskConfig.COOK_SELECTED_RECIPES::set).build());
 
         task.addEntry(entryBuilder.startIntField(Component.translatable("config.farmsoulkitchen.task.feed_animal_t"), TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.get())
                 .setDefaultValue(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.getDefault())
                 .setTooltip(Component.translatable("config.farmsoulkitchen.task.feed_animal_t.tooltip"), addition)
                 .setSaveConsumer(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER::set).build());
-    }
-
-    private static void renderConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
-        MutableComponent entryTitle = Component.translatable("config.farmsoulkitchen.render");
-        MutableComponent addition = Component.literal("");
-        if (tlmEntry) {
-            entryTitle.append(MENU_TITLE_TIP);
-            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
-                    .append(Component.literal("\nModId: " + FarmsoulKitchen.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
-        }
-        ConfigCategory render = root.getOrCreateCategory(entryTitle);
-
-        render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.farmsoulkitchen.render.ld_banner_render"), RenderConfig.LD_BANNER_RENDER_ENABLED.get())
-                .setDefaultValue(true).setTooltip(Component.translatable("config.farmsoulkitchen.render.ld_banner_render.tooltip"), addition)
-                .setSaveConsumer(RenderConfig.LD_BANNER_RENDER_ENABLED::set).build());
-
     }
 
     public static void registerModsPage() {

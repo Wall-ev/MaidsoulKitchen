@@ -29,20 +29,6 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue DB_BEER_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue CP_CROk_POT_TASK_ENABLED;
 
-    public static ForgeConfigSpec.BooleanValue DBK_COOKING_POT_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DBP_MINE_FRIDGE_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DBP_TIKI_BAR_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DCL_COOKING_PAN_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DCL_COOKING_POT_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DCL_STOVE_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DFC_ROAST_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DFC_COOKING_POT_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DFC_STOVE_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DHB_CAULDRON_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue DHB_TEA_KETTLE_TASK_ENABLED;
-    public static ForgeConfigSpec.BooleanValue FERMENTATION_BARREL_TASK_ENABLED;
-
-
     public static void init(ForgeConfigSpec.Builder builder) {
         builder.push("Register");
 
@@ -89,31 +75,6 @@ public class RegisterConfig {
         KK_BREW_BARREL = builder.define("KkBrewBarrelTaskEnabled", true);
         builder.comment("This can make the kc air compressor task enabled or not.");
         KK_AIR_COMPRESSOR = builder.define("KkAirCompressorTaskEnabled", true);
-
-        builder.comment("This can make the dbk cooking pot task enabled or not.");
-        DBK_COOKING_POT_TASK_ENABLED = builder.define("DbkCookingPotTaskEnabled", true);
-        builder.comment("This can make the dbp mine fridge task enabled or not.");
-        DBP_MINE_FRIDGE_TASK_ENABLED = builder.define("DbpMineFridgeTaskEnabled", true);
-        builder.comment("This can make the dbp tiki bar task enabled or not.");
-        DBP_TIKI_BAR_TASK_ENABLED = builder.define("DbpTikiBarTaskEnabled", true);
-        builder.comment("This can make the dcl cooking pan task enabled or not.");
-        DCL_COOKING_PAN_TASK_ENABLED = builder.define("DclCookingPanTaskEnabled", true);
-        builder.comment("This can make the dcl cooking pot task enabled or not.");
-        DCL_COOKING_POT_TASK_ENABLED = builder.define("DclCookingPotTaskEnabled", true);
-        builder.comment("This can make the dcl stove task enabled or not.");
-        DCL_STOVE_TASK_ENABLED = builder.define("DclStoveTaskEnabled", true);
-        builder.comment("This can make the dfc cooking pan task enabled or not.");
-        DFC_ROAST_TASK_ENABLED = builder.define("DfcRoastTaskEnabled", true);
-        builder.comment("This can make the dfc cooking pot task enabled or not.");
-        DFC_COOKING_POT_TASK_ENABLED = builder.define("DfcCookingPotTaskEnabled", true);
-        builder.comment("This can make the dfc stove task enabled or not.");
-        DFC_STOVE_TASK_ENABLED = builder.define("DfcStoveTaskEnabled", true);
-        builder.comment("This can make the dhb cauldron task enabled or not.");
-        DHB_CAULDRON_TASK_ENABLED = builder.define("DhcCauldronTaskEnabled", true);
-        builder.comment("This can make the dhb tea kettle task enabled or not.");
-        DHB_TEA_KETTLE_TASK_ENABLED = builder.define("DhcTeaKettleTaskEnabled", true);
-        builder.comment("This can make the fermentation barrel task enabled or not.");
-        FERMENTATION_BARREL_TASK_ENABLED = builder.define("FermentationBarrelTaskEnabled", true);
 
         builder.pop();
     }
