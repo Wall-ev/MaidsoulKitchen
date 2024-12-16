@@ -3,6 +3,13 @@
   "item.farmsoulkitchen.burn_protect_bauble": "§6Burn Protect Bauble",
   "item.farmsoulkitchen.culinary_hub": "Culinary hub",
 
+
+  "tooltips.farmsoulkitchen.culinary_hub.desc": "§a[Usage]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.0": "Press and hold [SHIFT] to view details",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.1": "- Right-click to open the Gui and select the mode of binding",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.2": "- Shift-right-click the box to bind the box, and Shift again-right-click the box to unbind",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.3": "- Place it in the fifth slot of the first column of the maid's backpack to take effect",
+
   "effect.farmsoulkitchen.burn_protect": "Burn Protect",
 
   "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.0": "The %s is too much... I don't feed them anymore!",
@@ -247,8 +254,8 @@
 
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook": "Cook",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.0.1.text": "Maid can cook by using mod blocks.\n You just need to put recipe ingredient on the maid inventory.",
-  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.1.1.text": "You can use the Cooking Hub to set the location of the cooking ingredients and the food chests\n It needs to be placed in the fourth slot in the first column of the maid's backpack\n If present, it interacts with the Cooking Hub - the bound crate interacts\n Ps:It is even more effective when used with gaps\n- Right-click to open the GUI and select the type you want to bind\n - Stealth, right-click the chest to bind, and right-click again to unbind",
-  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.4.1.text": "This is the settings screen for the maid's cooking task, and you can click on the sidebar to jump to this screen firstn\n- 1.This is a display of the current maid's cooking tasksn\n- 2.Toggle cooking modes: Random and Directional (Random) moden\n  - Random Mode: Completely random, randomly select the matching recipe from all the recipes for cookingn\n  - Directional (Random) Mode: Randomly select matching recipes from selected recipes for cookingn\n- 3.Select the food you want to cookn\n- 4.You can click the up and down buttons to switch between the upper and lower page recipes, or the mouse wheel can also be used",
+  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.1.1.text": "You can use the Cooking Hub to set the location of the cooking ingredients and the food chests\n It needs to be placed in the fifth slot in the first column of the maid's backpack\n If present, it interacts with the Cooking Hub - the bound crate interacts\n Ps:It is even more effective when used with gaps\n- Right-click to open the GUI and select the type you want to bind\n - Stealth, right-click the chest to bind, and right-click again to unbind",
+  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.4.1.text": "This is the settings screen for the maid's cooking task, and you can click on the sidebar to jump to this screen firstn\n- 1.This is a display of the current maid's cooking tasks\n- 2. Toggle Cooking Mode: Blacklist vs. Whitelist Mode\\n - Blacklist Mode: Randomly select the matching recipe from the remaining recipes after removing the selected recipe for cooking\n - Whitelist Mode: Randomly select the matching recipe from the selected recipe for cooking\n- 3.Select the food you want to cook\n- 4.You can click the up and down buttons to switch between the upper and lower page recipes, or the mouse wheel can also be used",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.5.1.text": "Use this bauble to prevent kitchen homicides!",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.berry.pages.0.1.text": "The maid collects berries, which can be configured on the maid task configuration screen",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.fruit": "Fruit",
