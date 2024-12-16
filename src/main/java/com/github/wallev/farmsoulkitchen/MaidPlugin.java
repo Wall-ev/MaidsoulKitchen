@@ -1,6 +1,7 @@
 package com.github.wallev.farmsoulkitchen;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.ExtraMaidBrainManager;
+import com.github.wallev.farmsoulkitchen.chest.FarmDelightCabinet;
 import com.github.wallev.farmsoulkitchen.chest.RandomizableCbeType;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.geckolayer.GeckoLayerMaidLDBanner;
 import com.github.wallev.farmsoulkitchen.client.renderer.entity.layer.LayerMaidLDBanner;
@@ -56,6 +57,9 @@ public final class MaidPlugin implements ILittleMaid {
     @Override
     public void addChestType(ChestManager manager) {
         manager.add(new RandomizableCbeType());
+        if (Mods.FD.isLoaded()) {
+            manager.add(new FarmDelightCabinet());
+        }
     }
 
     @Override
