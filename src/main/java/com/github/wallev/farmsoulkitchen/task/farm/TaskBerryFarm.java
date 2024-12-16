@@ -15,6 +15,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.farmsoulkitchen.task.farm.handler.v1.berry.BerryHandler;
 import com.github.wallev.farmsoulkitchen.task.farm.handler.v1.berry.BerryHandlerManager;
+import com.github.wallev.farmsoulkitchen.util.BlockUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -41,8 +42,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
 //        LOGGER.info("TaskBerriesFarm cropState: " + cropState);
-
-        return handler != null && handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && !blackList.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override

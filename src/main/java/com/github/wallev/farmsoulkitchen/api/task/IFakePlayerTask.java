@@ -14,14 +14,16 @@ import net.minecraftforge.common.util.FakePlayer;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.github.wallev.farmsoulkitchen.FarmsoulKitchen.LOGGER;
 
 // from:https://github.com/Lothrazar/Cyclic/blob/179e693db439a48822e2f47dfd0f86466f02063c/src/main/java/com/lothrazar/cyclic/block/user/TileUser.java#L84
 // 暂时先这样...再改...
 public interface IFakePlayerTask {
-    List<Block> blackList = new ArrayList<>();
+    Set<Block> blackList = new HashSet<>();
 
     default InteractionResult interactUseOnBlock(EntityMaid maid, BlockPos targetPos, InteractionHand hand, @Nullable Direction facing) {
         FakePlayer fakePlayer = ((IAddonMaid) maid).getFakePlayer$tlma().get();

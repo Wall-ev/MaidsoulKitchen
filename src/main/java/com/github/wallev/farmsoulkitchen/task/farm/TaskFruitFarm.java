@@ -49,8 +49,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
 //        LOGGER.info("TaskFruitFarm cropState: " + cropState);
-
-        return handler != null && handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && !blackList.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
