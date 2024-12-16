@@ -83,21 +83,23 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+        int x = leftPos + 6;
+        int y = topPos + 6;
+        int width = 100;
+        guiGraphics.renderItem(Items.RED_MUSHROOM.getDefaultInstance(), x + width + 2, y + 22);
+        guiGraphics.renderItem(Items.BROWN_MUSHROOM.getDefaultInstance(), x + width + 16 + 2, y + 22);
+        guiGraphics.renderItem(Items.COAL.getDefaultInstance(), x + width + 2, y + 44 + 2);
+        guiGraphics.renderItem(Items.WATER_BUCKET.getDefaultInstance(), x + width + 16 + 2, y + 44 + 2);
+        guiGraphics.renderItem(Items.BOWL.getDefaultInstance(), x + width + 2, y + 88 + 2);
+        guiGraphics.renderItem(Items.GLASS_BOTTLE.getDefaultInstance(), x + width + 16 + 2, y + 88 + 2);
+        guiGraphics.renderItem(Items.MUSHROOM_STEW.getDefaultInstance(), x + width + 2, y + 110 + 2);
     }
 
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawString(this.font, Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-
-        int x = leftPos + 6;
-        int y = topPos + 6;
-        int width = 100;
-        int height = 20;
-        pGuiGraphics.renderItem(Items.RED_MUSHROOM.getDefaultInstance(), x + width + 2, y + 2);
-        pGuiGraphics.renderItem(Items.COAL.getDefaultInstance(), x + width + 2, y + (height + 22) + 2);
-        pGuiGraphics.renderItem(Items.BOWL.getDefaultInstance(), x + width + 2, y + (height + 22) * 3  + 2);
-        pGuiGraphics.renderItem(Items.MUSHROOM_STEW.getDefaultInstance(), x + width + 2, y + (height + 22) * 4 + 2);
     }
 
     @Override

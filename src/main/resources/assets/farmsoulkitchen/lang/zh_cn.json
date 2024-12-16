@@ -3,6 +3,12 @@
   "item.farmsoulkitchen.burn_protect_bauble": "§6燃着保护饰品",
   "item.farmsoulkitchen.culinary_hub": "烹饪中枢",
 
+  "tooltips.farmsoulkitchen.culinary_hub.desc": "§a[使用方法]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.0": "按住[SHIFT]查看详情",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.1": "- 右键打开Gui选择绑定的模式",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.2": "- Shift右击箱子绑定箱子，再次Shift右击箱子取消绑定",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.3": "- 放在女仆背包第一栏第五个格子生效",
+
   "effect.farmsoulkitchen.burn_protect": "抗燃",
 
   "chat_bubble.farmsoulkitchen.inner.feed_animal.type.none_food.0": "没有%s的食物了... 养不了它们了！",
@@ -248,8 +254,8 @@
 
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook": "烹饪",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.0.1.text": "女仆会使用模组厨具方块进行烹饪.\n你只需要把配方原料放入到女仆背包.\n下面将会介绍女仆烹饪任务的一些信息,请详细阅读",
-  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.1.1.text": "你可以使用烹饪中枢设置烹饪的原料与食物的箱子的位置\n 需要放到女仆背包第一栏第四个格子\n 如果存在则与烹饪中枢交互——绑定的箱子交互\n Ps:与隙间搭配使用效果更加哦\n- 右键打开GUI选择要绑定的类型\n - 潜行右击箱子以绑定，再次右击取消绑定",
-  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.4.1.text": "这是女仆烹饪任务的设置界面，你可以点击侧边栏第一个跳转到这界面\n- 1.这是显示当前女仆的烹饪任务\n- 2.切换烹饪模式：随机和定向（随机）模式\n  - 随机模式：完全随机,从所有的配方中随机抽取符合的配方进行烹饪\n  - 定向（随机）模式：从选定的配方中随机抽取符合的配方进行烹饪\n- 3.选择要烹饪的食物\n- 4.你可以点击上下按钮来切换上下页配方,或者鼠标滚轮也可以",
+  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.1.1.text": "你可以使用烹饪中枢设置烹饪的原料与食物的箱子的位置\n 需要放到女仆背包第一栏第五个格子\n 如果存在则与烹饪中枢交互——绑定的箱子交互\n Ps:与隙间搭配使用效果更加哦\n- 右键打开GUI选择要绑定的类型\n - 潜行右击箱子以绑定，再次右击取消绑定",
+  "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.4.1.text": "这是女仆烹饪任务的设置界面，你可以点击侧边栏第一个跳转到这界面\n- 1.这是显示当前女仆的烹饪任务\n- 2.切换烹饪模式：黑名单与白名单模式\n  - 黑名单模式：从除去选择的配方后的剩下配方中随机抽取符合的配方进行烹饪\n  - 白名单模式：从选定的配方中随机抽取符合的配方进行烹饪\n- 3.选择要烹饪的食物\n- 4.你可以点击上下按钮来切换上下页配方,或者鼠标滚轮也可以",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.cook.pages.5.1.text": "使用这个饰品可以预防厨房杀人案哦！",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.berry.pages.0.1.text": "女仆会采集浆果，可以女仆任务配置界面配置",
   "patchouli.touhou_little_maid.book.entries.farmsoulkitchen.fruit": "水果",

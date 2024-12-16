@@ -7,11 +7,13 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -23,9 +25,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -280,5 +287,21 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
         return new CookBagConfigContainer(pContainerId, pPlayerInventory, pPlayer.getMainHandItem());
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        if (!Screen.hasShiftDown()) {
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.0"));
+        } else {
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.1"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.2"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.3"));
+        }
     }
 }
