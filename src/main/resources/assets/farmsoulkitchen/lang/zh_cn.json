@@ -197,6 +197,7 @@
   "top.farmsoulkitchen.entity_maid.farm.fruit.search_y_offset": "检索高度: ",
 
   "message.farmsoulkitchen.book.max_yoffset": "检索起始高度的取值范围为-5到5",
+  "message.farmsoulkitchen.culinary_hub.bine_type_max": "当前绑定的类型的箱子最多为5个",
 
   "rule.berry.farmsoulkitchen.berry_minecraft": "原版",
   "rule.berry.farmsoulkitchen.berry_minecraft.desc": "原版",
