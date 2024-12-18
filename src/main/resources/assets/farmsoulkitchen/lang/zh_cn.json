@@ -3,11 +3,14 @@
   "item.farmsoulkitchen.burn_protect_bauble": "§6燃着保护饰品",
   "item.farmsoulkitchen.culinary_hub": "烹饪中枢",
 
-  "tooltips.farmsoulkitchen.culinary_hub.desc": "§a[使用方法]",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.0": "按住[SHIFT]查看详情",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.1": "- 右键打开Gui选择绑定的模式",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.2": "- Shift右击箱子绑定箱子，再次Shift右击箱子取消绑定",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.3": "- 放在女仆背包第一栏第五个格子生效",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage": "[使用方法]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.0": "按住[SHIFT]查看详情",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.1": "- 右键打开Gui选择绑定的模式",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.2": "- Shift右击箱子绑定箱子，再次Shift右击箱子取消绑定",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.3": "- 放在女仆背包第一栏第五个格子生效",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn": "[使用警告]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn.empty": "当前还未绑定任何箱子，这将使[烹饪中枢]发挥不了作用",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn.left": "当前还剩%s类型的箱子未绑定，请继续绑定它们，否则[烹饪中枢]发挥不了全部作用",
 
   "effect.farmsoulkitchen.burn_protect": "抗燃",
 
@@ -197,7 +200,7 @@
   "top.farmsoulkitchen.entity_maid.farm.fruit.search_y_offset": "检索高度: ",
 
   "message.farmsoulkitchen.book.max_yoffset": "检索起始高度的取值范围为-5到5",
-  "message.farmsoulkitchen.culinary_hub.bine_type_max": "当前绑定的类型的箱子最多为5个",
+  "message.farmsoulkitchen.culinary_hub.bine_type_max": "当前绑定的类型的箱子最多为3个",
 
   "rule.berry.farmsoulkitchen.berry_minecraft": "原版",
   "rule.berry.farmsoulkitchen.berry_minecraft.desc": "原版",
@@ -284,6 +287,12 @@
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output_addition": "输出条件",
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output": "输出",
   "gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses": "清除",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.ingredient.tooltip": "这里是用来绑定存放烹饪所需要的原材料的箱子的按钮\n\n比如蘑菇煲的红色蘑菇、白色蘑菇，农夫乐事的米饭、番茄酱所需要的稻米、番茄",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.start_addition.tooltip": "这里是用来绑定存放启动厨具烹饪的前置条件的所需要的物品的箱子的按钮\n\n比如妖怪归家的茶壶需要的水资源（水桶）、烹饪锅的烹饪锅需要的燃料（煤炭）\n\n但目前这些资源的来源还只能是女仆背包，所以和隙间搭配使用效果更佳哦\n\n但记的把生效栏位（第一栏第五格）禁用哦",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.ingredient_addition.tooltip": "...",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output_addition.tooltip": "这里是用来绑定存放取出厨具已经烹饪好的食物所需要的容器的箱子的按钮\n\n比如农夫乐事的厨锅取出蘑菇煲所需要的碗，苹果酒所需要的玻璃瓶",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output.tooltip": "这里是用来绑定存放烹饪好的食物的箱子的按钮\n\n比如烹饪好的蘑菇煲、米饭、苹果酒",
+  "gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip": "一键清除已绑定过的箱子的坐标",
 
   "gui.farmsoulkitchen.development": "(开发中)"
 }

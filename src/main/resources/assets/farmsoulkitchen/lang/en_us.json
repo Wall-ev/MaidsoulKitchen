@@ -4,11 +4,14 @@
   "item.farmsoulkitchen.culinary_hub": "Culinary hub",
 
 
-  "tooltips.farmsoulkitchen.culinary_hub.desc": "§a[Usage]",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.0": "Press and hold [SHIFT] to view details",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.1": "- Right-click to open the Gui and select the mode of binding",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.2": "- Shift-right-click the box to bind the box, and Shift again-right-click the box to unbind",
-  "tooltips.farmsoulkitchen.culinary_hub.desc.3": "- Place it in the fifth slot of the first column of the maid's backpack to take effect",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage": "[Usage]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.0": "Press and hold [SHIFT] to view details",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.1": "- Right-click to open the Gui and select the mode of binding",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.2": "- Shift-right-click the box to bind the box, and Shift again-right-click the box to unbind",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.usage.3": "- Place it in the fifth slot of the first column of the maid's backpack to take effect",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn": "[Warning]",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn.empty": "There are currently no chests bound to it, which will render the [Culinary Hub] useless",
+  "tooltips.farmsoulkitchen.culinary_hub.desc.warn.left": "There are currently %s chests left unbound, please continue to bind them, otherwise [Culinary Hub] will not be fully effective",
 
   "effect.farmsoulkitchen.burn_protect": "Burn Protect",
 
@@ -197,7 +200,7 @@
   "top.farmsoulkitchen.entity_maid.farm.fruit.search_y_offset": "Y_Retrieval: ",
 
   "message.farmsoulkitchen.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
-  "message.farmsoulkitchen.culinary_hub.bine_type_max": "The maximum number of chests of the type currently bound is 5",
+  "message.farmsoulkitchen.culinary_hub.bine_type_max": "The maximum number of chests of the type currently bound is 3",
 
   "rule.berry.farmsoulkitchen.berry_minecraft": "Minecraft",
   "rule.berry.farmsoulkitchen.berry_minecraft.desc": "Minecraft",
@@ -284,6 +287,12 @@
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output_addition": "OUTPUT_ADDITION",
   "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output": "OUTPUT",
   "gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses": "Clear",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.ingredient.tooltip": "Here is the button to bind the box that stores the ingredients needed for cooking\n\nSuch as red mushrooms and white mushrooms in the mushroom pot, rice and tomatoes for Farmer's Delight's rice, tomato sauce",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.start_addition.tooltip": "Here is the button to bind the box that stores the items needed to start the prerequisites for cooking utensils\n\nSuch as the water (bucket) needed for the teakettle for the youkai's home coming, and the fuel (coal) needed for the crockpot for the crockpot\n\nBut at present, the source of these resources can only be the maid's backpack, so it is better to use it with the gap\n\nRemember to disable the effective slot (the fifth block in the first column).",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.ingredient_addition.tooltip": "...",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output_addition.tooltip": "Here is the button to bind the box that stores the containers needed to take out the food that has already been cooked\n\nFor example, the bowl needed to take out the mushroom pot in the Farmer's Delight's cooking pot, and the glass bottle for apple cider",
+  "gui.farmsoulkitchen.culinary_hub.config.bind_mode.output.tooltip": "Here is the button to bind the box for storing cooked food\n\nsuch as the cooked mushroom pot, rice, and cider",
+  "gui.farmsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip": "Clear the coordinates of bound boxes with one click",
 
   "gui.farmsoulkitchen.development": "(Development)"
 }
