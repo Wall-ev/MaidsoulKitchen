@@ -8,6 +8,7 @@ import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagAbstrac
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.farmsoulkitchen.inventory.container.item.CookBagContainer;
 import com.github.wallev.farmsoulkitchen.task.cook.handler.compat.InventoryCompat;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -38,10 +40,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ItemCulinaryHub extends Item implements MenuProvider {
@@ -261,7 +260,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 ItemStack stack = player.getMainHandItem();
                 String bindMode = getBindMode(stack);
                 List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
-                if (bindModePoses.size() >= 5 && !bindModePoses.contains(pos)) {
+                if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
                     if (context.getLevel().isClientSide) {
                         player.sendSystemMessage(Component.translatable("message.farmsoulkitchen.culinary_hub.bine_type_max"));
                     }
@@ -278,7 +277,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             ItemStack stack = player.getMainHandItem();
             String bindMode = getBindMode(stack);
             List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
-            if (bindModePoses.size() >= 5 && !bindModePoses.contains(pos)) {
+            if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
                 if (context.getLevel().isClientSide) {
                     player.sendSystemMessage(Component.translatable("message.farmsoulkitchen.culinary_hub.bine_type_max"));
                 }
@@ -318,14 +317,43 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (!Screen.hasShiftDown()) {
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc"));
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.0"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage.0").withStyle(ChatFormatting.GRAY));
         } else {
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc"));
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.1"));
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.2"));
-            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.3"));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+        }
+
+        Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);
+        List<BagType> leftBindBagTypes = new ArrayList<>();
+        bindPoses.forEach((type, poses) -> {
+            if (poses.isEmpty() && !(type == BagType.INGREDIENT_ADDITION || type == BagType.START_ADDITION)) {
+                leftBindBagTypes.add(type);
+            }
+        });
+        if (bindPoses.isEmpty() || leftBindBagTypes.size() == BagType.values().length - 2) {
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
+        } else if (!leftBindBagTypes.isEmpty()) {
+            MutableComponent leftComponent1 = Component.empty();
+            boolean first = true;
+            for (BagType value : leftBindBagTypes) {
+                if (first) {
+                    leftComponent1.append(Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
+                    first = false;
+                } else {
+                    leftComponent1.append(Component.literal("、").append(Component.translatable("gui.farmsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
+                }
+            }
+            MutableComponent leftComponent = Component.literal("[").append(leftComponent1).append(Component.literal("]").withStyle(ChatFormatting.GRAY));
+
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable("tooltips.farmsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
         }
     }
 }
