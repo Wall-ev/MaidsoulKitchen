@@ -1,0 +1,32 @@
+{
+  "sortnum": 1,
+  "name": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook",
+  "icon": "minecraft:cooked_beef",
+  "category": "touhou_little_maid:maidsoulkitchen",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook.pages.0.1.text"
+    },
+    {
+      "type": "spotlight",
+      "item": "maidsoulkitchen:culinary_hub",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook.pages.1.1.text"
+    },
+    {
+      "type": "image",
+      "images": [
+        "maidsoulkitchen:textures/book/cook_gui.png"
+      ]
+    },
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook.pages.4.1.text"
+    },
+    {
+      "type": "spotlight",
+      "item": "maidsoulkitchen:burn_protect_bauble",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook.pages.5.1.text"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "sortnum": 99,
+  "name": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.other",
+  "icon": "minecraft:bread",
+  "category": "touhou_little_maid:maidsoulkitchen",
+  "pages": [
+    {
+      "type": "link",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.other.pages.0.1.text",
+      "url": "https://github.com/Wall-ev/MaidsoulKitchen/issues",
+      "link_text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.other.pages.0.text.link_text"
+    }
+  ]
+}
