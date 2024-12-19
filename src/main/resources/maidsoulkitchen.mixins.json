@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.github.wallev.maidsoulkitchen.mixin",
+  "plugin": "com.github.wallev.maidsoulkitchen.mixin.MixinPlugin",
+  "refmap": "maidsoulkitchen.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "tlm.MixinAbstractMaidContainerGui"
+  ],
+  "server": [
+  ],
+  "mixins": [
+    "bakery.MixinSmallCookingPotBlockEntity",
+    "beachparty.MixinMiniFridgeBlockEntity",
+    "beachparty.MixinTikiBarBlockEntity",
+    "bnc.KegBlockEntityAccessor",
+    "candlelight.MixinCookingPanBlockEntity",
+    "candlelight.MixinLargeCookingPotBlockEntity",
+    "candlelight.MixinStoveBlockEntity",
+    "drinkbeer.BeerBarrelBlockAccessor",
+    "farmacharm.MixinCookingPotBlockEntity",
+    "farmacharm.MixinRoastBlockEntity",
+    "farmacharm.MixinStoveBlockEntity",
+    "fd.MixinCookingPotBlockEntity",
+    "herbal.MixinCauldronBlockEntity",
+    "herbal.MixinTeaKettleBlockEntity",
+    "kitchkarrot.AirCompressorBlockEntityAccessor",
+    "mc.AbstractFurnaceAccessor",
+    "md.MixinCopperPotBlockEntity",
+    "tlm.MixinEntityMaid",
+    "vinery.MixinFermentationBarrelBlockEntity",
+    "yhc.KettleBlockAccessor",
+    "yhc.MixinBasePotBlockEntity"
+  ]
+}

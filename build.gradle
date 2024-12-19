@@ -28,7 +28,7 @@ apply plugin: 'org.spongepowered.mixin'
 String version_type = "beta"
 
 base {
-    archivesName = "farmsoulkitchen"
+    archivesName = "maidsoulkitchen"
     version = "${minecraft_version}-${version_type}-v${mod_version}"
     group = mod_group_id
 }
