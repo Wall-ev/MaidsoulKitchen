@@ -1,18 +1,17 @@
 package com.github.wallev.maidsoulkitchen.init.registry.tlm;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.bakery.TaskDbkCookingPot;
-//import com.github.wallev.maidsoulkitchen.task.cook.v1.bakery.TaskDclStove;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpMiniFridge;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKey;
-//import com.github.wallev.maidsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPan;
-//import com.github.wallev.maidsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPan;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.candlelight.TaskDclCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.candlelight.TaskDclStove;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.cuisine.TaskCuisineSkillet;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmacharm.TaskDfcCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmacharm.TaskDfcRoast;
@@ -35,14 +34,13 @@ import com.github.wallev.maidsoulkitchen.task.farm.TaskCompatMelonFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskSSFarm;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
-import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
 public final class RegisterTask {
     private RegisterTask() {
     }
 
     public static void register(TaskManager manager) {
-        if (Mods.MC.isLoaded() && RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED.get()){
+        if (Mods.MC.isLoaded() && RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED.get()) {
             manager.add(new TaskCompatMelonFarm());
         }
         if (Mods.MC.isLoaded() && RegisterConfig.BERRY_FARM_TASK_ENABLED.get()) {
@@ -94,6 +92,7 @@ public final class RegisterTask {
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_FERMENTATION_TANK_TASK_ENABLED.get()) {
             manager.add(new TaskFermentationTank());
         }
+        manager.add(new TaskCuisineSkillet());
 
 
         if (Mods.CP.isLoaded() && RegisterConfig.CP_CROk_POT_TASK_ENABLED.get()) {

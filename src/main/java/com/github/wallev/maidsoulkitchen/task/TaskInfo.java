@@ -24,6 +24,7 @@ public enum TaskInfo {
     YHC_TEA_KETTLE("yhc_tea_kettle"),
     YHC_DRYING_RACK("yhc_drying_rack"),
     YHC_FERMENTATION_TANK("yhc_fermentation_tank"),
+    CUISINE_SKILLET("cuisine_skillet"),
 
     KK_BREW_BARREL("kk_brew_barrel"),
     KK_AIR_COMPRESSOR("kk_air_compressor"),

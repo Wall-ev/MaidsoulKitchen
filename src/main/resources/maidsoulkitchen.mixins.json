@@ -29,6 +29,7 @@
     "mc.AbstractFurnaceAccessor",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
+    "tlm.MixinMaidRunOne",
     "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.KettleBlockAccessor",
     "yhc.MixinBasePotBlockEntity"

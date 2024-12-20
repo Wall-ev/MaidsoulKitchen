@@ -217,6 +217,8 @@ dependencies {
     implementation fg.deobf("curse.maven:youkais-homecoming-957437:${ykhc_file_id}")
     implementation fg.deobf("curse.maven:bnc-1-20-port-898078:${bnc_file_id}")
     implementation fg.deobf("curse.maven:farmers-respite-551453:5543547")
+    implementation fg.deobf("maven.modrinth:cuisine-delight:8N27V2V5")
+    implementation fg.deobf("curse.maven:barbeques-delight-1007788:5848042")
 //    implementation fg.deobf("curse.maven:coffee-delight-835597:4871782")
 
     /** ---------------------------------------Let's do--------------------------------------------------------- */
