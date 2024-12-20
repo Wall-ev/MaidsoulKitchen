@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.ai;
 
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
@@ -38,6 +39,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
                 Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
                 if (walkTarget.isEmpty() || !walkTarget.get().getTarget().currentPosition().equals(targetV3d)) {
                     brain.eraseMemory(InitEntities.TARGET_POS.get());
+                    brain.eraseMemory(MkEntities.WORK_POS.get());
                 }
                 return false;
             }
@@ -60,6 +62,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
                 this.maidRecipesManager.tranOutput2Chest();
                 this.maidRecipesManager.getCookInv().syncInv();
             }
+            maid.getBrain().eraseMemory(MkEntities.WORK_POS.get());
             maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
             maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
         });

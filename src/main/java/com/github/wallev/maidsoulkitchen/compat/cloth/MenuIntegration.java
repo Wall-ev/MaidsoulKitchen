@@ -88,6 +88,10 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.fd_cutting_board.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.cd_cuisine_skillet"), RegisterConfig.CD_CUISINE_SKILLET_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.cd_cuisine_skillet.tooltip"),
+                        Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.CD_CUISINE_SKILLET_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.md_cook_pot"), RegisterConfig.MD_COOK_POT_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.md_cook_pot.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)

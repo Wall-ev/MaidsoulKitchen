@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.brewinandchewin.TaskBncKeg;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.cuisine.TaskCdCuisineSkillet;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersrespite.TaskFrKettle;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCookPot;
@@ -55,6 +56,9 @@ public final class RegisterTask {
         }
         if (Mods.FD.isLoaded() && RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get()) {
             manager.add(new TaskFdCuttingBoard());
+        }
+        if (Mods.CD.isLoaded() && RegisterConfig.CD_CUISINE_SKILLET_TASK_ENABLED.get()) {
+            manager.add(new TaskCdCuisineSkillet());
         }
         if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(new TaskMdCopperPot());

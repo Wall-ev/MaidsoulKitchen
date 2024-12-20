@@ -17,6 +17,7 @@ public class RegisterConfig {
 
     public static ForgeConfigSpec.BooleanValue FD_COOK_POT_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue FD_CUTTING_BOARD_TASK_ENABLED;
+    public static ForgeConfigSpec.BooleanValue CD_CUISINE_SKILLET_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue MD_COOK_POT_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue BNC_KEY_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue FR_KETTLE_TASK_ENABLED;
@@ -55,6 +56,8 @@ public class RegisterConfig {
         FD_COOK_POT_TASK_ENABLED = builder.define("FdCookPotTaskEnabled", true);
         builder.comment("This can make the fd cutting board task enabled or not.");
         FD_CUTTING_BOARD_TASK_ENABLED = builder.define("FdCuttingBoardTaskEnabled", true);
+        builder.comment("This can make the cd cuisine skillet task enabled or not.");
+        CD_CUISINE_SKILLET_TASK_ENABLED = builder.define("CdCuisineSkilletTaskEnabled", true);
         builder.comment("This can make the md cook pot task enabled or not.");
         MD_COOK_POT_TASK_ENABLED = builder.define("MdCookPotTaskEnabled", true);
         builder.comment("This can make the bnc key task enabled or not.");

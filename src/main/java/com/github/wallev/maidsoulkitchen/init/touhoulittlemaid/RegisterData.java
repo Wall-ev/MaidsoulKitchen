@@ -21,6 +21,7 @@ public final class RegisterData {
     public static TaskDataKey<CookData> YHC_TEA_KETTLE;
     public static TaskDataKey<CookData> YHC_DRYING_RACK;
     public static TaskDataKey<CookData> YHC_FERMENTATION_TANK;
+    public static TaskDataKey<CookData> CUISINE_SKILLET;
     public static TaskDataKey<CookData> CP_CROCK_POT;
     public static TaskDataKey<CookData> DB_BEER;
     public static TaskDataKey<CookData> KC_BREW_BARREL;
@@ -36,6 +37,7 @@ public final class RegisterData {
 
         FD_COOK_POT = register.register(TaskInfo.FD_COOK_POT.uid, CookData.CODEC);
         FD_CUTTING_BOARD = register.register(TaskInfo.FD_CUTTING_BOARD.uid, CookData.CODEC);
+        CUISINE_SKILLET = register.register(TaskInfo.CD_CUISINE_SKILLET.uid, CookData.CODEC);
         MD_COPPER_POT = register.register(TaskInfo.MD_COOK_POT.uid, CookData.CODEC);
         BNC_KEY = register.register(TaskInfo.BNC_KEY.uid, CookData.CODEC);
         FR_KETTLE = register.register(TaskInfo.FR_KETTLE.uid, CookData.CODEC);

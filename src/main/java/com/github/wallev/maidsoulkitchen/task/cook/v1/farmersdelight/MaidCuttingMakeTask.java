@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.task.ai;
+package com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
