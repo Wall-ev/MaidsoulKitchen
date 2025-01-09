@@ -66,7 +66,7 @@ public abstract class ICookRecSerializer<R extends Recipe<? extends Container>> 
         cookRecData.clear();
     }
 
-    public record CookRec<R extends Recipe<? extends Container>>(R recipe, List<List<Item>> ingredients, List<Item> result) {
+    public record CookRec<R extends Recipe<? extends Container>>(R recipe, List<List<Item>> ingredients, List<Item> result, boolean inSingle) {
     }
 
     public record CookRecInfo<R extends Recipe<? extends Container>>(R recipe, List<Item> ingredients, Item result) {
