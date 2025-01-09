@@ -1,5 +1,6 @@
-package com.github.wallev.maidsoulkitchen.task.cook.handler.v2;
+package com.github.wallev.maidsoulkitchen.handler;
 
+import com.github.wallev.maidsoulkitchen.handler.rec.CookRec;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
@@ -9,7 +10,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import java.util.*;
 
 @SuppressWarnings("deprecation")
-public abstract class AbstractCookRecSerializer<R extends Recipe<? extends Container>> {
+public abstract class AbstractCookRecRuleSerializer<R extends Recipe<? extends Container>> {
     /**
      * 获取当前所有符合的原料
      *
@@ -71,10 +72,10 @@ public abstract class AbstractCookRecSerializer<R extends Recipe<? extends Conta
      * @param available 容器中现有的原料
      * @return 符合的原料
      */
-    public List<Pair<Item, Integer>> getAmountIngredient2(ICookRecSerializer.CookRec<R> cookRec, Map<Item, Integer> available) {
+    public List<Pair<Item, Integer>> getAmountIngredient2(CookRec<R> cookRec, Map<Item, Integer> available) {
         List<Item> invIngredient = new ArrayList<>();
         Map<Item, Integer> itemTimes = new HashMap<>();
-        boolean[] single = {cookRec.inSingle()};
+        boolean[] single = {cookRec.isSingle()};
 
         boolean queryInvIngres = processInvIngres(cookRec, available, invIngredient, itemTimes, single);
 
@@ -87,8 +88,8 @@ public abstract class AbstractCookRecSerializer<R extends Recipe<? extends Conta
         return queryInvRecIngres(available, invIngredient, maxCount);
     }
 
-    protected Pair<List<Integer>, List<Item>> getAmountIngredient(ICookRecSerializer.CookRec<R> cookRec, Map<Item, Integer> available) {
-        List<List<Item>> recIngres = cookRec.ingredients();
+    protected Pair<List<Integer>, List<Item>> getAmountIngredient(CookRec<R> cookRec, Map<Item, Integer> available) {
+        List<List<Item>> recIngres = cookRec.getIngres();
         Set<Item> itemSet = available.keySet();
 
         List<Item> invIngredient = new ArrayList<>();
@@ -123,8 +124,8 @@ public abstract class AbstractCookRecSerializer<R extends Recipe<? extends Conta
      * @param itemTimes     每一个原料所需要的份量
      * @return 最终容器中时候含有符合配方的原料
      */
-    public boolean processInvIngres(ICookRecSerializer.CookRec<R> cookRec, Map<Item, Integer> available, List<Item> invIngredient, Map<Item, Integer> itemTimes, boolean[] single) {
-        List<List<Item>> recIngres = cookRec.ingredients();
+    public boolean processInvIngres(CookRec<R> cookRec, Map<Item, Integer> available, List<Item> invIngredient, Map<Item, Integer> itemTimes, boolean[] single) {
+        List<List<Item>> recIngres = cookRec.getIngres();
         Set<Item> itemSet = available.keySet();
         return processInvIngres(recIngres, itemSet, invIngredient, itemTimes, single);
     }
