@@ -47,7 +47,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> {
     private int tickAll = 0;
     private int tickMax = 0;
     private int tickSpace = Integer.MAX_VALUE;
-    private List<Pair<Integer, ItemStack>> processTickStacks = new ArrayList<>();
+    private final List<Pair<Integer, ItemStack>> processTickStacks = new ArrayList<>();
     private ItemStack plateItem = ItemStack.EMPTY;
     private boolean end = false;
 
