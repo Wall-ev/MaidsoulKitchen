@@ -6,35 +6,12 @@ import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.List;
 
-public class CookRec<R extends Recipe<? extends Container>> {
-    protected final R rec;
-    protected final List<List<Item>> ingres;
-    protected final List<Item> result;
-    protected final boolean single;
+public class CookRec<R extends Recipe<? extends Container>> extends AbstractCookRec<R> {
     public CookRec(R rec, List<List<Item>> ingres, List<Item> result, boolean single) {
-        this.rec = rec;
-        this.ingres = ingres;
-        this.result = result;
-        this.single = single;
+        super(rec, ingres, result, single);
     }
 
     public CookRec(R rec, List<List<Item>> ingres, List<Item> result) {
-        this(rec, ingres, result, false);
-    }
-
-    public R getRec() {
-        return rec;
-    }
-
-    public List<List<Item>> getIngres() {
-        return ingres;
-    }
-
-    public List<Item> getResult() {
-        return result;
-    }
-
-    public boolean isSingle() {
-        return single;
+        super(rec, ingres, result);
     }
 }

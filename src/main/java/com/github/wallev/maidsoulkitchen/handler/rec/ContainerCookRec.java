@@ -6,7 +6,7 @@ import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.List;
 
-public class ContainerCookRec<R extends Recipe<? extends Container>> extends CookRec<R>{
+public class ContainerCookRec<R extends Recipe<? extends Container>> extends AbstractCookRec<R>{
     protected final Item container;
 
     public ContainerCookRec(R rec, List<List<Item>> ingres, List<Item> result, boolean single, Item container) {

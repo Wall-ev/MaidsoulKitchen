@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.handler.serializer.rule;
 
-import com.github.wallev.maidsoulkitchen.handler.rec.CookRec;
+import com.github.wallev.maidsoulkitchen.handler.rec.AbstractCookRec;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -20,7 +20,7 @@ public abstract class AbstractCookRecSerializer<R extends Recipe<? extends Conta
     protected final RecipeType<R> recipeType;
     protected final List<R> cookRecs = Lists.newArrayList();
     protected final Set<Item> validIngres = Sets.newHashSet();
-    protected final Map<R, CookRec<R>> cookRecData = Maps.newHashMap();
+    protected final Map<R, AbstractCookRec<R>> cookRecData = Maps.newHashMap();
 
     public AbstractCookRecSerializer(RecipeType<R> recipeType) {
         this.recipeType = recipeType;
