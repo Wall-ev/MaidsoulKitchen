@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.handler.serializer;
 
 import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.brewinandchewin.BrewinandchewinRecipeSerializer;
+import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.crockpot.CrockPotRecipeSerializer;
+import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.drinkbeer.DrinkBeerRecipeSerializer;
 import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.farmersdelight.FarmersDelightRecipeSerializer;
 import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.minecraft.MinecraftRecipeSerializer;
 import com.github.wallev.maidsoulkitchen.handler.serializer.recipe.minersdelight.MinersDelightRecipeSerializer;
@@ -22,11 +24,13 @@ public final class CookRecipeSerializerManager {
     private static final Map<RecipeType<?>, AbstractCookRecSerializer<?>> COOK_REC_SERIALIZERS_MAP = Maps.newHashMap();
 
     public static void register() {
-        MinecraftRecipeSerializer.register();
-        FarmersDelightRecipeSerializer.register();
-        BrewinandchewinRecipeSerializer.register();
-        MinersDelightRecipeSerializer.register();
-        YoukaisHomecomingRecipeSerializer.register();
+        MinecraftRecipeSerializer.registerRecipeInitializer();
+        FarmersDelightRecipeSerializer.registerRecipeInitializer();
+        BrewinandchewinRecipeSerializer.registerRecipeInitializer();
+        MinersDelightRecipeSerializer.registerRecipeInitializer();
+        YoukaisHomecomingRecipeSerializer.registerRecipeInitializer();
+        CrockPotRecipeSerializer.registerRecipeInitializer();
+        DrinkBeerRecipeSerializer.registerRecipeInitializer();
     }
 
     public static void registerCookRecSerializer(AbstractCookRecSerializer<?> serializer) {

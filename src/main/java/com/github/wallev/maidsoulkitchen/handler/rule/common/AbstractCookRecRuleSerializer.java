@@ -1,16 +1,29 @@
-package com.github.wallev.maidsoulkitchen.handler.rule;
+package com.github.wallev.maidsoulkitchen.handler.rule.common;
 
 import com.github.wallev.maidsoulkitchen.handler.rec.AbstractCookRec;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 @SuppressWarnings("deprecation")
 public abstract class AbstractCookRecRuleSerializer<R extends Recipe<? extends Container>, CR extends AbstractCookRec<R>> {
+    protected final RecipeType<R> recipeType;
+
+    public AbstractCookRecRuleSerializer(RecipeType<R> recipeType) {
+        this.recipeType = recipeType;
+    }
+
+    public RecipeType<R> getRecipeType() {
+        return recipeType;
+    }
+
     /**
      * 获取当前所有符合的原料
      *
@@ -19,7 +32,7 @@ public abstract class AbstractCookRecRuleSerializer<R extends Recipe<? extends C
      * @param maxCount      最大份量
      * @return 符合的原料
      */
-    protected static List<Pair<Item, Integer>> queryInvRecIngres(Map<Item, Integer> available, List<Item> invIngredient, int maxCount) {
+    protected List<Pair<Item, Integer>> queryInvRecIngres(Map<Item, Integer> available, List<Item> invIngredient, int maxCount) {
         List<Pair<Item, Integer>> results = Lists.newArrayList();
         for (Item item : invIngredient) {
             results.add(Pair.of(item, maxCount));
@@ -73,12 +86,22 @@ public abstract class AbstractCookRecRuleSerializer<R extends Recipe<? extends C
      * @return 符合的原料
      */
     public List<Pair<Item, Integer>> getAmountIngredient2(CR cookRec, Map<Item, Integer> available) {
+        HashMap<Item, Integer> retainAvailable = Maps.newHashMap(available);
+        retainAvailable.keySet().retainAll(cookRec.getValidItems());
+        if (retainAvailable.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         List<Item> invIngredient = new ArrayList<>();
         Map<Item, Integer> itemTimes = new HashMap<>();
         boolean[] single = {cookRec.isSingle()};
 
-        boolean queryInvIngres = processInvIngres(cookRec, available, invIngredient, itemTimes, single);
+        boolean queryInvIngres = processInvIngres(cookRec, retainAvailable, invIngredient, itemTimes, single);
 
+        return createIngres(retainAvailable, queryInvIngres, itemTimes, single, invIngredient);
+    }
+
+    protected List<Pair<Item, Integer>> createIngres(Map<Item, Integer> available, boolean queryInvIngres, Map<Item, Integer> itemTimes, boolean[] single, List<Item> invIngredient) {
         if (!queryInvIngres || !hasEnoughIngres(available, itemTimes)) {
             return Collections.emptyList();
         }

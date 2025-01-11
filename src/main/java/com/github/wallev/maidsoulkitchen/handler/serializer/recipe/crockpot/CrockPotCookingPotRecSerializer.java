@@ -1,18 +1,18 @@
 package com.github.wallev.maidsoulkitchen.handler.serializer.recipe.crockpot;
 
-import com.github.wallev.maidsoulkitchen.handler.rec.CookRec;
+import com.github.wallev.maidsoulkitchen.handler.rec.CrockPotCookingRec;
 import com.github.wallev.maidsoulkitchen.handler.serializer.rule.AbstractCookRecSerializer;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Pair;
 import com.sihenzhang.crockpot.base.FoodCategory;
 import com.sihenzhang.crockpot.base.FoodValues;
 import com.sihenzhang.crockpot.recipe.CrockPotRecipes;
 import com.sihenzhang.crockpot.recipe.FoodValuesDefinition;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;
-import com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement;
-import com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredient;
-import com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredientLessThan;
+import com.sihenzhang.crockpot.recipe.cooking.requirement.*;
+import com.sihenzhang.crockpot.util.MathUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,6 @@ import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.EnumUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CrockPotCookingPotRecSerializer extends AbstractCookRecSerializer<CrockPotCookingRecipe> {
     private static final Map<CrockPotCookingRecipe, TaskCrockPot.MaidRec<CrockPotCookingRecipe>> RECS = new HashMap<>();
@@ -34,7 +33,7 @@ public class CrockPotCookingPotRecSerializer extends AbstractCookRecSerializer<C
         super(CrockPotRecipes.CROCK_POT_COOKING_RECIPE_TYPE.get());
     }
 
-    // @todo 未完成
+//    @todo optimize
     @Override
     protected void initialize(Level level) {
         this.initRecipes(level);
@@ -89,28 +88,56 @@ public class CrockPotCookingPotRecSerializer extends AbstractCookRecSerializer<C
             for (Item item : items) {
                 FoodValues foodValues = FoodValuesDefinition.getFoodValues(item.getDefaultInstance(), level);
                 itemFloatHashMap.put(item, foodValues.get(foodCategory));
-
-                this.validIngres.add(item);
             }
+            this.validIngres.addAll(items);
             REQUIREMENT_FOOD_VALUE_HASH_MAP.put(foodCategory, new TaskCrockPot.FoodValue(foodCategory, itemFloatHashMap));
         });
 
 
         for (CrockPotCookingRecipe rec : this.cookRecs) {
-            List<Ingredient> ingredients = getIngredients(rec);
             List<Item> resultItem = Lists.newArrayList(getResultItem(rec, level).getItem());
-            List<List<Item>> ingreItems = ingredients.stream()
-                    .map(ingredient -> {
-                        List<Item> itemSet = Arrays.stream(ingredient.getItems())
-                                .map(ItemStack::getItem)
-                                .collect(Collectors.toList());
-                        this.validIngres.addAll(itemSet);
-                        return itemSet;
-                    })
-                    .collect(Collectors.toList());
-            CookRec<CrockPotCookingRecipe> cookRec = new CookRec<>(rec, ingreItems, resultItem);
-            this.cookRecData.put(rec, cookRec);
+            CrockPotCookingRec crockPotCookingRec = new CrockPotCookingRec(rec, Collections.emptyList(), resultItem);
+            this.categorizeRequirements(crockPotCookingRec);
+            this.cookRecData.put(rec, crockPotCookingRec);
         }
+    }
+
+
+    /**
+     * 计算当前配方所包含的类型
+     */
+    private void categorizeRequirements(CrockPotCookingRec crockPotCookingRec) {
+        for (IRequirement requirement : crockPotCookingRec.getRec().getRequirements()) {
+            if (requirement instanceof RequirementCategoryMax requirementCategoryMax) {
+                if (MathUtils.fuzzyIsZero(requirementCategoryMax.getMax())) {
+                    crockPotCookingRec.addNoRequirements(Pair.of(requirementCategoryMax, getQuireItemSet(requirementCategoryMax)));
+                } else {
+                    crockPotCookingRec.addMaxRequirements(Pair.of(requirementCategoryMax, getQuireItemSet(requirementCategoryMax)));
+                }
+            } else if (requirement instanceof RequirementCategoryMinExclusive requirementCategoryMinExclusive) {
+                if (MathUtils.fuzzyIsZero(requirementCategoryMinExclusive.getMin())) {
+                    crockPotCookingRec.addAnyRequirements(Pair.of(requirementCategoryMinExclusive, getQuireItemSet(requirementCategoryMinExclusive)));
+                } else {
+                    crockPotCookingRec.addMinERequirements(Pair.of(requirementCategoryMinExclusive, getQuireItemSet(requirementCategoryMinExclusive)));
+                }
+            } else if (requirement instanceof RequirementCategoryMin requirementCategoryMin) {
+                crockPotCookingRec.addMinRequirements(Pair.of(requirementCategoryMin, getQuireItemSet(requirementCategoryMin)));
+            } else if (requirement instanceof RequirementCategoryMaxExclusive requirementCategoryMaxE) {
+                crockPotCookingRec.addMaxERequirements(Pair.of(requirementCategoryMaxE, getQuireItemSet(requirementCategoryMaxE)));
+            } else if (requirement instanceof RequirementMustContainIngredient requirementMustContainIngredient) {
+                crockPotCookingRec.addMustRequirements(Pair.of(requirementMustContainIngredient, getQuireItemSet(requirementMustContainIngredient)));
+            } else if (requirement instanceof RequirementMustContainIngredientLessThan requirementMustContainIngredientLessThan) {
+                crockPotCookingRec.addMustLessRequirements(Pair.of(requirementMustContainIngredientLessThan, getQuireItemSet(requirementMustContainIngredientLessThan)));
+            }
+        }
+    }
+
+    private static Set<Item> getQuireItemSet(IRequirement requirement) {
+        return new HashSet<>(getQuireItems(requirement));
+    }
+
+    private static List<Item> getQuireItems(IRequirement requirement) {
+        return REQUIREMENT_INGREDIENTY_MAP.get(requirement);
     }
 
     /**
