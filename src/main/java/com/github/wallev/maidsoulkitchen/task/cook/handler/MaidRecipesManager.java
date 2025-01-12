@@ -765,4 +765,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     protected boolean enableHub() {
         return true;
     }
+
+    public void setChanged() {
+        this.getCookInv().syncInv();
+    }
 }
