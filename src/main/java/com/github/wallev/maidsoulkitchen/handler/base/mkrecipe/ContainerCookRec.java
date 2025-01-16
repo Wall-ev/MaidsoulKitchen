@@ -19,7 +19,7 @@ public class ContainerCookRec<R extends Recipe<? extends Container>> extends Abs
         this.container = container;
     }
 
-    public Item getContainer() {
+    public Item getOutputContainer() {
         return container;
     }
 }

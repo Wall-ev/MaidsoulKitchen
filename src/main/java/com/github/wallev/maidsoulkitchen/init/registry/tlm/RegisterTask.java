@@ -29,10 +29,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskDryingRack;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskFermentationTank;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcMoka;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcTeaKettle;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskCompatMelonFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskSSFarm;
+import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
 
 public final class RegisterTask {
@@ -55,6 +52,10 @@ public final class RegisterTask {
 
         if (Mods.SS.isLoaded() && RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED.get()) {
             manager.add(new TaskSSFarm());
+        }
+
+        if (Mods.ES.isLoaded() && RegisterConfig.ECLIPTICSEASONS_FARM_TASK_ENABLED.get()) {
+            manager.add(new TaskESFarm());
         }
 
 

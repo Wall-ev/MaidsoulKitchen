@@ -22,7 +22,7 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     // @final
     protected int inputStartSlot;
     // @final
-    protected int resultSlot;
+    protected int outputSlot;
 
     public AbstractMaidCookBe(EntityMaid maid, MaidRecipesManager<R> recipesManager, B cookBe) {
         this.maid = maid;
@@ -70,6 +70,7 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
      */
     public void setChanged() {
         this.cookBe.setChanged();
+        this.getRecipesManager().setChanged();
     }
 
 
@@ -88,15 +89,19 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     /**
      * 厨具内部的输出（完全烹饪好的食物）的格子是否有物资在里头
      */
-    public boolean hasResult() {
-        return !this.getStackInSlot(resultSlot).isEmpty();
+    public boolean hasOutput() {
+        return !this.getStackInSlot(outputSlot).isEmpty();
     }
 
     /**
      * 厨具内部的物资是否能够烹饪（即物资是否符合某个配方的原材料）
      * <br>不包括外部条件和内部条件（比如要加水，加燃料等；厨具的下面的方块提供温度）
+     * <br>注意：要烹饪的厨具应当要实现这个接口（包括但不限于Mixin）
      */
-    public abstract void innerCanCook();
+    @SuppressWarnings("unchecked")
+    public boolean innerCanCook() {
+        return ((ICookBeAccessor<B, R>) this.cookBe).canCook();
+    }
 
 
     /**
@@ -112,7 +117,6 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     public IItemHandlerModifiable getOutputInv() {
         return recipesManager.getOutputInv();
     }
-
 
 
     /**
@@ -161,7 +165,11 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     /**
      * 获取结果槽
      */
-    public int getResultSlot() {
-        return resultSlot;
+    public int getOutputSlot() {
+        return outputSlot;
+    }
+
+    public ItemStack getOutputStack() {
+        return this.getStackInSlot(outputSlot);
     }
 }

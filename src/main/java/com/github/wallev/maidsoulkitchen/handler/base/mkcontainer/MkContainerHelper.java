@@ -16,15 +16,7 @@ public class MkContainerHelper {
      * 从厨具的输出格子中提取出烹饪好的食物
      */
     public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> void extractOutputStack(MCB maidCookBe) {
-        int resultSlot = maidCookBe.getResultSlot();
-        ItemStack stackInSlot = maidCookBe.getStackInSlot(resultSlot);
-        ItemStack copy = stackInSlot.copy();
-
-        if (stackInSlot.isEmpty()) return;
-        IItemHandlerModifiable outputInv = maidCookBe.getOutputInv();
-        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(outputInv, copy, false);
-        maidCookBe.extractItem(resultSlot, stackInSlot.getCount() - leftStack.getCount(), false);
-        maidCookBe.setChanged();
+        extractStackInSlot(maidCookBe, maidCookBe.getOutputSlot());
     }
 
     /**
@@ -52,12 +44,12 @@ public class MkContainerHelper {
      *
      * @param ingredientPair 原料
      */
-    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> void insertInputsStack(MCB maidCookBe, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair, int inputStartSlot) {
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> void insertInputsStack(MCB maidCookBe, Pair<List<Integer>, List<List<ItemStack>>> ingredientPair) {
         List<Integer> amounts = ingredientPair.getFirst();
         List<List<ItemStack>> ingredients = ingredientPair.getSecond();
 
         if (hasEnoughIngredient(amounts, ingredients)) {
-            for (int i = inputStartSlot, j = 0; i < ingredients.size() + inputStartSlot; i++, j++) {
+            for (int i = maidCookBe.inputStartSlot, j = 0; i < maidCookBe.inputStartSlot + ingredients.size(); i++, j++) {
                 insertAndShrink(maidCookBe, amounts.get(j), ingredients, j, i);
             }
             maidCookBe.setChanged();
@@ -97,9 +89,20 @@ public class MkContainerHelper {
      *
      * @return 是否有原料
      */
-    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> boolean hasInputs(MCB maidCookBe, int inputSlotSize, int inputStartSlot) {
-        for (int i = inputStartSlot; i <inputStartSlot + inputSlotSize; i++) {
-            if (!maidCookBe.getStackInSlot(i).isEmpty()) {
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> void insertItemInSlot(MCB maidCookBe, int slot, ItemStack itemStack) {
+        ItemStack copy = itemStack.copy();
+        ItemStack leftStack = maidCookBe.insertItem(slot, copy, false);
+        itemStack.shrink(itemStack.getCount() - leftStack.getCount());
+    }
+
+    /**
+     * 检查厨具是否有原料
+     *
+     * @return 是否有原料
+     */
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> boolean hasInputs(MCB maidCookBe) {
+        for (int i = maidCookBe.inputStartSlot; i < maidCookBe.inputStartSlot + maidCookBe.inputSlotSize; i++) {
+            if (hasItemInSlot(maidCookBe, i)) {
                 return true;
             }
         }
@@ -107,7 +110,37 @@ public class MkContainerHelper {
         return false;
     }
 
+    /**
+     * 检查厨具是否有已经烹饪好的食物（能直接取出，不需要餐具之类的才能取出）
+     *
+     * @return 是否有原料
+     */
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> boolean hasOutput(MCB maidCookBe) {
+        return hasItemInSlot(maidCookBe, maidCookBe.getOutputSlot());
+    }
 
+    /**
+     * 检查厨具某个格子是否存在物品（能直接取出，不需要餐具之类的才能取出）
+     *
+     * @return 是否有原料
+     */
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> boolean hasItemInSlot(MCB maidCookBe, int slot) {
+        return !maidCookBe.getStackInSlot(slot).isEmpty();
+    }
+
+    /**
+     * 从给定的厨具的格子中提取出烹饪好的食物
+     */
+    public static <MCB extends AbstractMaidCookBe<B, R>, B extends BlockEntity, R extends Recipe<? extends Container>> void extractStackInSlot(MCB maidCookBe, int slot) {
+        ItemStack stackInSlot = maidCookBe.getStackInSlot(slot);
+        ItemStack copy = stackInSlot.copy();
+
+        if (stackInSlot.isEmpty()) return;
+        IItemHandlerModifiable outputInv = maidCookBe.getOutputInv();
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(outputInv, copy, false);
+        maidCookBe.extractItem(slot, stackInSlot.getCount() - leftStack.getCount(), false);
+        maidCookBe.setChanged();
+    }
 
 
 

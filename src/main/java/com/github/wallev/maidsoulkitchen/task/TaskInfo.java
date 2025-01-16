@@ -11,6 +11,8 @@ public enum TaskInfo {
 
     SERENESEASONS_FARM("sereneseasons_farm"),
 
+    ECLIPTICSSEASONS_FARM("eclipticseasons_farm"),
+
     FEED_AND_DRINK_OWNER("feedanddrink"),
 
     FURNACE("furnace"),
