@@ -1,5 +1,7 @@
 package com.github.wallev.maidsoulkitchen.handler.base.container;
 
+import cpw.mods.util.Lazy;
+
 public enum ContainerSerializerType {
     TAKE_OUTPUT(new TakeOutputSerializer<>()),
     TAKE_INPUTS(new TakeInputsSerializer<>()),
@@ -7,6 +9,7 @@ public enum ContainerSerializerType {
     INSERT_INGREDIENTS(new InsertIngredientsSerializer<>()),
     INSERT_MEAL_CONTAINER(new InsertMealContainerSerializer<>()),
     ;
+    public static final Lazy<ContainerSerializerType[]> VALUES = Lazy.of(values());
 
     private final AbstractCookBlockEntitySerializer<?, ?, ?> serializer;
 

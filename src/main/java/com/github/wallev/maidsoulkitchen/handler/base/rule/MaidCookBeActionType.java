@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.handler.base.container.AbstractCookBloc
 import com.github.wallev.maidsoulkitchen.handler.base.container.ContainerSerializerType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import cpw.mods.util.Lazy;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public enum MaidCookBeActionType {
             ContainerSerializerType.TAKE_INPUTS, ContainerSerializerType.INSERT_INGREDIENTS),
     ;
 
-    public static final MaidCookBeActionType[] values = createValues();
+    public static final Lazy<MaidCookBeActionType[]> VALUES = Lazy.of(values());
     private final List<AbstractCookBlockEntitySerializer<?, ?, ?>> serializerRules;
 
     MaidCookBeActionType(List<AbstractCookBlockEntitySerializer<?, ?, ?>> serializerRules) {
@@ -40,10 +41,6 @@ public enum MaidCookBeActionType {
             rules.add(serializerType.getSerializer());
         }
         return rules;
-    }
-
-    private static MaidCookBeActionType[] createValues() {
-        return new MaidCookBeActionType[]{DEFAULT, CONTAINER};
     }
 
     public List<AbstractCookBlockEntitySerializer<?, ?, ?>> getSerializerRules() {
