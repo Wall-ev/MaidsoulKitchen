@@ -12,7 +12,8 @@ public class InsertMealContainerSerializer<MCB extends AbstractMaidCookBe<B, R> 
         B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookBlockEntitySerializer<MCB, B, R> {
     @Override
     public boolean canDoMaidCookBe(MCB maidCookBe) {
-        return maidCookBe.getRecipesManager().hasOutputAdditionItem(maidCookBe.getMealContainerItem());
+        return this.hasMealStack(maidCookBe) && !this.isMealContainerItem(maidCookBe)
+                && maidCookBe.getRecipesManager().hasOutputAdditionItem(maidCookBe.getMealContainerItem());
     }
 
     @Override
@@ -21,5 +22,14 @@ public class InsertMealContainerSerializer<MCB extends AbstractMaidCookBe<B, R> 
         if (!outputAdditionItem.isEmpty()) {
             MkContainerHelper.insertItemInSlot(maidCookBe, maidCookBe.getOutputContainerSlot(), outputAdditionItem);
         }
+    }
+
+    protected boolean hasMealStack(MCB maidCookBe) {
+        return maidCookBe.getOutputMealStack().isEmpty();
+    }
+
+    protected boolean isMealContainerItem(MCB maidCookBe) {
+        ItemStack mealContainerItem = maidCookBe.getMealContainerItem();
+        return maidCookBe.getOutputContainerStack().is(mealContainerItem.getItem());
     }
 }
