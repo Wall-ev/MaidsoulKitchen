@@ -1,4 +1,15 @@
-# [农耕与烹饪：车万女仆拓展](./readme.zh.md) | Farm And Cook: Touhou Little Maid Addon
+<h1 align="center">
+ <a href="./readme.zh.md">
+      <span>农耕与烹饪：车万女仆拓展</span>
+ </a>
+ <span>|</span>
+ <span>Maidsoul Kitchen</span>
+ <br>
+	<a href="https://www.curseforge.com/minecraft/mc-mods/maidsoul-kitchen/files"><img src="https://cf.way2muchnoise.eu/versions/1162577(c70039).svg" alt="Supported Versions"></a>
+	<a href="https://github.com/Wall-ev/MaidsoulKitchen/blob/1.20.1-dev/LICENSE"><img src="https://img.shields.io/github/license/Wall-ev/MaidsoulKitchen?style=flat&color=900c3f" alt="License"></a>  
+	<a href="https://www.curseforge.com/minecraft/mc-mods/maidsoul-kitchen"><img src="http://cf.way2muchnoise.eu/maidsoul-kitchen.svg" alt="CF"></a>
+    <a href="https://modrinth.com/mod/maidsoul-kitchen"><img src="https://img.shields.io/modrinth/dt/maidsoul-kitchen?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
+</h1>
  A [touhoulittlemaid](https://github.com/TartaricAcid/TouhouLittleMaid) addon mod, is designed to teach maids how to use other mods for cooking and farming.
 
 ## Notice
