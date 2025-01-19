@@ -10,6 +10,7 @@
 	<a href="https://www.curseforge.com/minecraft/mc-mods/maidsoul-kitchen"><img src="http://cf.way2muchnoise.eu/maidsoul-kitchen.svg" alt="CF"></a>
     <a href="https://modrinth.com/mod/maidsoul-kitchen"><img src="https://img.shields.io/modrinth/dt/maidsoul-kitchen?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
 </h1>
+
  A [touhoulittlemaid](https://github.com/TartaricAcid/TouhouLittleMaid) addon mod, is designed to teach maids how to use other mods for cooking and farming.
 
 ## Notice
