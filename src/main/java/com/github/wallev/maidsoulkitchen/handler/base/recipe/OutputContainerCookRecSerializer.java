@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class OutputContainerCookRecSerializer<R extends Recipe<? extends Container>> extends AbstractCookRecSerializer<R> {
+public abstract class OutputContainerCookRecSerializer<R extends Recipe<? extends Container>> extends AbstractCookRecInitializer<R> {
     protected final Set<Item> validContainers = Sets.newHashSet();
     public OutputContainerCookRecSerializer(RecipeType<R> recipeType) {
         super(recipeType);
@@ -25,7 +25,7 @@ public abstract class OutputContainerCookRecSerializer<R extends Recipe<? extend
     @Override
     protected void initialize(Level level) {
         this.initRecipes(level);
-        for (R rec : this.cookRecs) {
+        for (R rec : this.recs) {
             List<Ingredient> ingredients = getIngredients(rec);
             List<Item> resultItem = Lists.newArrayList(getResultItem(rec, level).getItem());
             List<List<Item>> ingreItems = ingredients.stream()
@@ -40,6 +40,7 @@ public abstract class OutputContainerCookRecSerializer<R extends Recipe<? extend
             Item container = getContainer(rec).getItem();
             this.validContainers.add(container);
             ContainerCookRec<R> cookRec = new ContainerCookRec<>(rec, ingreItems, resultItem, container);
+            this.cookRecs.add(cookRec);
             this.cookRecData.put(rec, cookRec);
         }
     }

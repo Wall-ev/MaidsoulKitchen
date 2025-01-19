@@ -24,10 +24,9 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     // @final
     protected int outputSlot;
 
-    public AbstractMaidCookBe(EntityMaid maid, MaidRecipesManager<R> recipesManager, B cookBe) {
+    public AbstractMaidCookBe(EntityMaid maid, MaidRecipesManager<R> recipesManager) {
         this.maid = maid;
         this.recipesManager = recipesManager;
-        this.cookBe = cookBe;
         this.initialSlots();
     }
 

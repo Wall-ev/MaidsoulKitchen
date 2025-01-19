@@ -1,13 +1,11 @@
 package com.github.wallev.maidsoulkitchen.init;
 
+import com.github.tartaricacid.touhoulittlemaid.client.gui.mod.ClothConfigScreen;
 import com.github.wallev.maidsoulkitchen.compat.cloth.ClothCompat;
 import com.github.wallev.maidsoulkitchen.compat.jade.JadeCompat;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.PatchouliCompat;
 import com.github.wallev.maidsoulkitchen.compat.top.TopCompat;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
-import com.github.tartaricacid.touhoulittlemaid.client.gui.mod.ClothConfigScreen;
-import com.github.wallev.maidsoulkitchen.handler.serializer.CookRecIngredientSerializerManager;
-import com.github.wallev.maidsoulkitchen.handler.serializer.CookRecRecipeSerializerManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,9 +16,6 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public final class CompatRegistry {
     @SubscribeEvent
     public static void onEnqueue(final InterModEnqueueEvent event) {
-        event.enqueueWork(CookRecRecipeSerializerManager::register);
-        event.enqueueWork(CookRecIngredientSerializerManager::register);
-
         event.enqueueWork(() -> checkModLoad(Mods.CLOTH_CONFIG, ClothCompat::init));
         event.enqueueWork(() -> checkModLoad(Mods.PATCHOULI, PatchouliCompat::init));
         event.enqueueWork(() -> checkModLoad(Mods.JADE, JadeCompat::init));

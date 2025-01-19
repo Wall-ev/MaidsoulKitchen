@@ -1,10 +1,12 @@
 package com.github.wallev.maidsoulkitchen;
 
 import com.github.wallev.maidsoulkitchen.config.GeneralConfig;
+import com.github.wallev.maidsoulkitchen.handler.api.IMaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.init.MkContainer;
 import com.github.wallev.maidsoulkitchen.init.MkEffects;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.MkMemories;
+import com.google.common.collect.Lists;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -13,10 +15,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 @Mod(MaidsoulKitchen.MOD_ID)
 public final class MaidsoulKitchen {
     public static final String MOD_ID = "maidsoulkitchen";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+    public static List<IMaidsoulKitchen> EXTENSIONS = Lists.newArrayList();
 
     public MaidsoulKitchen() {
         initRegister();

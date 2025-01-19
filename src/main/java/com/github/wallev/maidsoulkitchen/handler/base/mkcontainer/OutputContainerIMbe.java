@@ -12,8 +12,8 @@ public abstract class OutputContainerIMbe<B extends BlockEntity, R extends Recip
     private int outputContainerSlot;
     // @final
     private int outputMealSlot;
-    public OutputContainerIMbe(EntityMaid maid, MaidRecipesManager<R> recipesManager, B cookBe) {
-        super(maid, recipesManager, cookBe);
+    public OutputContainerIMbe(EntityMaid maid, MaidRecipesManager<R> recipesManager) {
+        super(maid, recipesManager);
     }
 
     public int getOutputMealSlot() {
