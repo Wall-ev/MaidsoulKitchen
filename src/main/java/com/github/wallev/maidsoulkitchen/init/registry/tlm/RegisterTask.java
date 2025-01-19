@@ -30,6 +30,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskFermentationTank;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcMoka;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcTeaKettle;
 import com.github.wallev.maidsoulkitchen.task.farm.*;
+import com.github.wallev.maidsoulkitchen.task.other.TaskPdfFallingTree;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
 
 public final class RegisterTask {
@@ -67,6 +68,8 @@ public final class RegisterTask {
         if (Mods.MC.isLoaded() && RegisterConfig.FURNACE_TASK_ENABLED.get()) {
             manager.add(new TaskFurnace());
         }
+
+        manager.add(new TaskPdfFallingTree());
 
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {

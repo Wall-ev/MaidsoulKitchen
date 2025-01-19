@@ -261,6 +261,9 @@ dependencies {
 
     implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
 
+    implementation fg.deobf("maven.modrinth:pandalib:Hs1ReP4A")
+    implementation fg.deobf("maven.modrinth:pandas-falling-trees:BTha8GrF")
+
     implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
 //    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
@@ -299,7 +302,7 @@ dependencies {
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
-    implementation fg.deobf("curse.maven:the-one-probe-245211:${top_file_id}")
+    compileOnly fg.deobf("curse.maven:the-one-probe-245211:${top_file_id}")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_forge}")
 
     // rei

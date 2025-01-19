@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.inventory.container.item;
 
-import com.github.wallev.maidsoulkitchen.init.InitItems;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -35,6 +35,6 @@ public abstract class CookBagAbstractContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return pPlayer.getMainHandItem().is(InitItems.CULINARY_HUB.get());
+        return pPlayer.getMainHandItem().is(MkItems.CULINARY_HUB.get());
     }
 }

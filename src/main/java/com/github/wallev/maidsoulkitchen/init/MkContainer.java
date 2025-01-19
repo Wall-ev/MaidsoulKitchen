@@ -12,7 +12,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public final class InitContainer {
+public final class MkContainer {
     public static final DeferredRegister<MenuType<?>> CONTAINER_TYPE = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MaidsoulKitchen.MOD_ID);
 
     public static final RegistryObject<MenuType<CookConfigContainer>> COOK_CONTAINER = CONTAINER_TYPE.register("cook_config_container", () -> CookConfigContainer.TYPE);
