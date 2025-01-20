@@ -14,6 +14,6 @@ public interface ICookBeAccessor<B extends BlockEntity, R extends Recipe<? exten
      *
      * @return 是否可以烹饪
      */
-    boolean canCook();
+    boolean canCook$msk();
 
 }

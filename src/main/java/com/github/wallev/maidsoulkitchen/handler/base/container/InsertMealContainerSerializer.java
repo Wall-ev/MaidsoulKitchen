@@ -12,7 +12,7 @@ public class InsertMealContainerSerializer<MCB extends AbstractMaidCookBe<B, R> 
         B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookBlockEntitySerializer<MCB, B, R> {
     @Override
     public boolean canDoMaidCookBe(MCB maidCookBe) {
-        return this.hasMealStack(maidCookBe) && !this.isMealContainerItem(maidCookBe)
+        return !this.hasMealStack(maidCookBe) && !this.isMealContainerItem(maidCookBe)
                 && maidCookBe.getRecipesManager().hasOutputAdditionItem(maidCookBe.getMealContainerItem());
     }
 

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.handler.initializer;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.handler.api.IMaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.handler.base.recipe.AbstractCookRecInitializer;
 import com.github.wallev.maidsoulkitchen.handler.initializer.brewinandchewin.BrewinandchewinRecipeInitializer;
 import com.github.wallev.maidsoulkitchen.handler.initializer.crockpot.CrockPotRecipeInitializer;
 import com.github.wallev.maidsoulkitchen.handler.initializer.drinkbeer.DrinkBeerRecipeInitializer;
@@ -9,7 +10,6 @@ import com.github.wallev.maidsoulkitchen.handler.initializer.farmersdelight.Farm
 import com.github.wallev.maidsoulkitchen.handler.initializer.minecraft.MinecraftRecipeInitializer;
 import com.github.wallev.maidsoulkitchen.handler.initializer.minersdelight.MinersDelightRecipeInitializer;
 import com.github.wallev.maidsoulkitchen.handler.initializer.youkaishomecoming.YoukaisHomecomingRecipeInitializer;
-import com.github.wallev.maidsoulkitchen.handler.base.recipe.AbstractCookRecInitializer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -26,6 +26,7 @@ public final class CookRecRecipeInitializerManager {
 
     private static List<? extends AbstractCookRecInitializer<?>> COOK_REC_SERIALIZERS;
     private static Map<RecipeType<?>, AbstractCookRecInitializer<?>> COOK_REC_SERIALIZERS_MAP;
+
     private CookRecRecipeInitializerManager() {
         COOK_REC_SERIALIZERS = Lists.newArrayList();
         COOK_REC_SERIALIZERS_MAP = Maps.newHashMap();
@@ -39,7 +40,7 @@ public final class CookRecRecipeInitializerManager {
         BrewinandchewinRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
         MinersDelightRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
         YoukaisHomecomingRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
-        CrockPotRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
+//        CrockPotRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
         DrinkBeerRecipeInitializer.registerRecipeInitializer(cookRecRecipeInitializerManager);
 
         for (IMaidsoulKitchen maidsoulKitchen : MaidsoulKitchen.EXTENSIONS) {
@@ -50,15 +51,12 @@ public final class CookRecRecipeInitializerManager {
         COOK_REC_SERIALIZERS_MAP = ImmutableMap.copyOf(COOK_REC_SERIALIZERS_MAP);
     }
 
-    public void registerCookRecInitializer(AbstractCookRecInitializer<?> serializer) {
-        RecipeType<?> recipeType = serializer.getRecipeType();
-        COOK_REC_SERIALIZERS_MAP.put(recipeType, serializer);
-    }
-
     public static void initializerData(Level level) {
-        for (AbstractCookRecInitializer<?> cookRecSerializer : COOK_REC_SERIALIZERS) {
+        for (AbstractCookRecInitializer<?> cookRecSerializer : COOK_REC_SERIALIZERS_MAP.values()) {
             cookRecSerializer.init(level);
         }
+
+        int a = 1;
     }
 
     public static List<? extends AbstractCookRecInitializer<?>> getInitializer() {
@@ -72,5 +70,10 @@ public final class CookRecRecipeInitializerManager {
     @SuppressWarnings("unchecked")
     public static <R extends Recipe<? extends Container>, S extends AbstractCookRecInitializer<R>> S getInitializer(RecipeType<R> recipeType) {
         return (S) COOK_REC_SERIALIZERS_MAP.get(recipeType);
+    }
+
+    public void registerCookRecInitializer(AbstractCookRecInitializer<?> serializer) {
+        RecipeType<?> recipeType = serializer.getRecipeType();
+        COOK_REC_SERIALIZERS_MAP.put(recipeType, serializer);
     }
 }

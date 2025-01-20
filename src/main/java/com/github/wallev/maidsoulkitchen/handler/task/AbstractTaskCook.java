@@ -10,6 +10,7 @@ import com.github.wallev.maidsoulkitchen.handler.initializer.CookContainerSerial
 import com.github.wallev.maidsoulkitchen.handler.task.ai.MaidCookMakeTask;
 import com.github.wallev.maidsoulkitchen.handler.task.ai.MaidCookMoveTask;
 import com.github.wallev.maidsoulkitchen.handler.task.handler.MaidRecipesManager;
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -47,7 +48,7 @@ public abstract class AbstractTaskCook<MCB extends AbstractMaidCookBe<B, R>, B e
         MCB maidCookBe = this.createMaidCookBe(maid, maidRecipesManager);
         MaidCookMoveTask<MCB, B, R> maidCookMoveTask = this.createMaidCookMoveTask(maidRecipesManager, maidCookBe);
         MaidCookMakeTask<MCB, B, R> maidCookMakeTask = this.createMaidCookMakeTask(maidRecipesManager, maidCookBe);
-        return List.of(Pair.of(5, maidCookMoveTask), Pair.of(5, maidCookMakeTask));
+        return Lists.newArrayList(Pair.of(5, maidCookMoveTask), Pair.of(5, maidCookMakeTask));
     }
 
     /**
@@ -129,7 +130,11 @@ public abstract class AbstractTaskCook<MCB extends AbstractMaidCookBe<B, R>, B e
      * @param maidCookBe  烹饪相关信息
      */
     public void processCookMake(ServerLevel serverLevel, MCB maidCookBe) {
-        SERIALIZER_RULES.forEach(serializerRule -> ((AbstractCookBlockEntitySerializer<MCB, B, R>) serializerRule).doMaidCookBe(maidCookBe));
+        for (AbstractCookBlockEntitySerializer<?, ?, ?> serializerRule : SERIALIZER_RULES) {
+            if (((AbstractCookBlockEntitySerializer<MCB, B, R>) serializerRule).canDoMaidCookBe(maidCookBe)) {
+                ((AbstractCookBlockEntitySerializer<MCB, B, R>) serializerRule).doMaidCookBe(maidCookBe);
+            }
+        }
     }
 
     /**

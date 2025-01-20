@@ -11,26 +11,15 @@
   "server": [
   ],
   "mixins": [
-//    "bakery.MixinSmallCookingPotBlockEntity",
-//    "beachparty.MixinMiniFridgeBlockEntity",
-//    "beachparty.MixinTikiBarBlockEntity",
     "bnc.KegBlockEntityAccessor",
-//    "candlelight.MixinCookingPanBlockEntity",
-//    "candlelight.MixinLargeCookingPotBlockEntity",
-//    "candlelight.MixinStoveBlockEntity",
-//    "drinkbeer.BeerBarrelBlockAccessor",
-//    "farmacharm.MixinCookingPotBlockEntity",
-//    "farmacharm.MixinRoastBlockEntity",
-//    "farmacharm.MixinStoveBlockEntity",
     "fd.MixinCookingPotBlockEntity",
-//    "herbal.MixinCauldronBlockEntity",
-//    "herbal.MixinTeaKettleBlockEntity",
+    "fd.MixinCookingPotBlockEntityV2",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "mc.AbstractFurnaceAccessor",
+    "mc.MixinMinecraftServer",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
     "tlm.MixinMaidRunOne",
-//    "vinery.MixinFermentationBarrelBlockEntity",
     "yhc.KettleBlockAccessor",
     "yhc.MixinBasePotBlockEntity"
   ]

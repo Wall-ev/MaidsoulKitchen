@@ -14,7 +14,6 @@ public enum MaidCookBeActionType {
             ContainerSerializerType.TAKE_INPUTS, ContainerSerializerType.INSERT_INGREDIENTS),
     ;
 
-    public static final Lazy<MaidCookBeActionType[]> VALUES = Lazy.of(values());
     private final List<AbstractCookBlockEntitySerializer<?, ?, ?>> serializerRules;
 
     MaidCookBeActionType(List<AbstractCookBlockEntitySerializer<?, ?, ?>> serializerRules) {

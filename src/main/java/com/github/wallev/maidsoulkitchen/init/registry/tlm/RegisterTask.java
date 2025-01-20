@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.init.registry.tlm;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.handler.task.TaskFdCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpMiniFridge;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
@@ -74,6 +75,7 @@ public final class RegisterTask {
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(new TaskFDCookPot());
+            manager.add(new TaskFdCookingPot());
         }
         if (Mods.FD.isLoaded() && RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get()) {
             manager.add(new TaskFdCuttingBoard());

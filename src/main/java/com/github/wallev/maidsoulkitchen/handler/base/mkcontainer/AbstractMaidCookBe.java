@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.handler.base.mkcontainer;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
+import com.github.wallev.maidsoulkitchen.handler.task.handler.MaidRecipesManager;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -15,7 +15,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
  */
 public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe<? extends Container>> {
     protected final EntityMaid maid;
-    protected final MaidRecipesManager<R> recipesManager;
+    protected final MaidRecipesManager<?, B, R> recipesManager;
     protected B cookBe;
     // @final
     protected int inputSlotSize;
@@ -24,7 +24,7 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     // @final
     protected int outputSlot;
 
-    public AbstractMaidCookBe(EntityMaid maid, MaidRecipesManager<R> recipesManager) {
+    public AbstractMaidCookBe(EntityMaid maid, MaidRecipesManager<?, B, R> recipesManager) {
         this.maid = maid;
         this.recipesManager = recipesManager;
         this.initialSlots();
@@ -99,7 +99,7 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
      */
     @SuppressWarnings("unchecked")
     public boolean innerCanCook() {
-        return ((ICookBeAccessor<B, R>) this.cookBe).canCook();
+        return ((ICookBeAccessor<B, R>) this.cookBe).canCook$msk();
     }
 
 
@@ -128,7 +128,7 @@ public abstract class AbstractMaidCookBe<B extends BlockEntity, R extends Recipe
     /**
      * 获取配方管理器
      */
-    public MaidRecipesManager<R> getRecipesManager() {
+    public MaidRecipesManager<?, B, R> getRecipesManager() {
         return recipesManager;
     }
 
