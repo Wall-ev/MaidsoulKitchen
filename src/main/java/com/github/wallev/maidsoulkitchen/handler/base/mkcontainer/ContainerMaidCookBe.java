@@ -20,7 +20,7 @@ public abstract class ContainerMaidCookBe<B extends BlockEntity, R extends Recip
     @Override
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
         this.getCookBeInv().setItem(slot, stack);
-        return stack;
+        return ItemStack.EMPTY;
     }
 
     @Override

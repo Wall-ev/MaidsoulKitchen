@@ -3,7 +3,9 @@ package com.github.wallev.maidsoulkitchen.init.registry.tlm;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
-import com.github.wallev.maidsoulkitchen.handler.task.TaskFdCookingPot;
+import com.github.wallev.maidsoulkitchen.handler.task.TaskBncKeyV2;
+import com.github.wallev.maidsoulkitchen.handler.task.TaskDbBeerBarrelV2;
+import com.github.wallev.maidsoulkitchen.handler.task.TaskFdCookingPotV2;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.bakery.TaskDbkCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpMiniFridge;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.beachparty.TaskDbpTikiBar;
@@ -70,12 +72,12 @@ public final class RegisterTask {
             manager.add(new TaskFurnace());
         }
 
-        manager.add(new TaskPdfFallingTree());
+//        manager.add(new TaskPdfFallingTree());
 
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(new TaskFDCookPot());
-            manager.add(new TaskFdCookingPot());
+            manager.add(new TaskFdCookingPotV2());
         }
         if (Mods.FD.isLoaded() && RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED.get()) {
             manager.add(new TaskFdCuttingBoard());
@@ -85,6 +87,7 @@ public final class RegisterTask {
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             manager.add(new TaskBncKey());
+            manager.add(new TaskBncKeyV2());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             manager.add(new TaskYhcMoka());
@@ -106,6 +109,7 @@ public final class RegisterTask {
         }
         if (Mods.DB.isLoaded() && RegisterConfig.DB_BEER_TASK_ENABLED.get()) {
             manager.add(new TaskDbBeerBarrel());
+            manager.add(new TaskDbBeerBarrelV2());
         }
         if (Mods.KK.isLoaded() && RegisterConfig.KK_BREW_BARREL.get()) {
             manager.add(new TaskKkBrewingBarrel());

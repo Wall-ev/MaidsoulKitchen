@@ -12,6 +12,8 @@
   ],
   "mixins": [
     "bnc.KegBlockEntityAccessor",
+    "bnc.MixinKegBlockEntityV2",
+    "drinkbeer.MixinBeerBarrelBlockEntityV2",
     "fd.MixinCookingPotBlockEntity",
     "fd.MixinCookingPotBlockEntityV2",
     "kitchkarrot.AirCompressorBlockEntityAccessor",

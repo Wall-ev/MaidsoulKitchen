@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -34,6 +35,12 @@ public abstract class AbstractCookRecIngredientSerializer<R extends Recipe<? ext
     protected List<Pair<Item, Integer>> queryInvRecIngres(Map<Item, Integer> available, List<Item> invIngredient, int maxCount) {
         List<Pair<Item, Integer>> results = Lists.newArrayList();
         for (Item item : invIngredient) {
+
+            if (item == null) {
+                results.add(Pair.of(null, 0));
+                continue;
+            }
+
             results.add(Pair.of(item, maxCount));
             available.put(item, available.get(item) - maxCount);
         }
@@ -165,6 +172,12 @@ public abstract class AbstractCookRecIngredientSerializer<R extends Recipe<? ext
      */
     protected boolean processInvIngres(List<List<Item>> recIngres, Set<Item> itemSet, List<Item> invIngredient, Map<Item, Integer> itemTimes, boolean[] single) {
         for (List<Item> recIngre : recIngres) {
+
+            if (recIngre.isEmpty()) {
+                invIngredient.add(null);
+                continue;
+            }
+
             boolean hasIngredient = false;
             for (Item item : itemSet) {
                 if (recIngre.contains(item)) {

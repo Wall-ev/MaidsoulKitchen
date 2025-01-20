@@ -141,7 +141,7 @@ public class MaidRecipesManager<MCB extends AbstractMaidCookBe<B, R>, B extends 
 
     private List<AbstractCookRec<R>> getRecs() {
         List<AbstractCookRec<R>> list = new ArrayList<>(this.recs);
-        shuffle(list);
+//        shuffle(list);
         return list;
     }
 
@@ -169,8 +169,8 @@ public class MaidRecipesManager<MCB extends AbstractMaidCookBe<B, R>, B extends 
         // 缓存的配方原料没了
         if (!recipesIngredients.isEmpty()) return true;
         // 是否为上一次的背包以及手上的物品
-        boolean lastInv = this.isLastCookInv();
-        if (lastInv && tryTime++ < 10) return true;
+//        boolean lastInv = this.isLastCookInv();
+//        if (lastInv && tryTime++ < 10) return true;
         tryTime = 0;
         this.createRecipesIngredients();
         return true;
@@ -434,9 +434,15 @@ public class MaidRecipesManager<MCB extends AbstractMaidCookBe<B, R>, B extends 
             List<Integer> integerList = new ArrayList<>();
             List<List<ItemStack>> itemStackList = new ArrayList<>();
             for (Pair<Item, Integer> pair : pairs) {
-                integerList.add(pair.getSecond());
-                List<ItemStack> itemStacks = inventoryStack.get(pair.getFirst());
-                itemStackList.add(itemStacks);
+                Item first = pair.getFirst();
+                if (first == null) {
+                    integerList.add(0);
+                    itemStackList.add(Collections.emptyList());
+                } else {
+                    integerList.add(pair.getSecond());
+                    List<ItemStack> itemStacks = inventoryStack.get(first);
+                    itemStackList.add(itemStacks);
+                }
             }
             list1.add(Pair.of(integerList, itemStackList));
         }

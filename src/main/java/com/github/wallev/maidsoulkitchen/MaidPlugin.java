@@ -1,4 +1,4 @@
-package com.github.wallev.farmsoulkitchen;
+package com.github.wallev.maidsoulkitchen;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.ai.IExtraMaidBrain;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.ExtraMaidBrainManager;

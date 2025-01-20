@@ -61,10 +61,10 @@ public abstract class AbstractTaskCook<MCB extends AbstractMaidCookBe<B, R>, B e
     /**
      * 判断当前方块实体是否是当前任务所对应的厨具方块
      *
-     * @param cookBe 方块实体
+     * @param blockEntity 方块实体
      * @return 是否是当前任务所对应的方块实体
      */
-    public abstract boolean isCookBE(BlockEntity cookBe);
+    public abstract boolean isCookBE(BlockEntity blockEntity);
 
     /**
      * 创建烹饪相关信息，应当同#createBrainTasks的时候一起创建
