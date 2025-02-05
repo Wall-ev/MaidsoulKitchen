@@ -4,6 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 
 public interface IRecipeExperinceAward {
 
-    void awardExperience$tlma(EntityMaid maid);
+    void tlmk$awardExperience(EntityMaid maid);
 
 }

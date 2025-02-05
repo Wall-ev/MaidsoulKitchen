@@ -21,6 +21,7 @@ public enum Mods {
     CD("cuisinedelight"),
     YHCD("youkaishomecoming"),
     BNCD("brewinandchewin"),
+    FRD("farmersrespite"),
 
     /*
         Let's DO

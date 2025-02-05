@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = AbstractMaidContainerGui.class, remap = false)
-public abstract class MixinAbstractMaidContainerGui<T extends AbstractMaidContainer> extends AbstractContainerScreen<T> {
+public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContainer> extends AbstractContainerScreen<T> {
 
     @Shadow @Final protected EntityMaid maid;
 
-    public MixinAbstractMaidContainerGui(T pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public AbstractMaidContainerGuiMixin(T pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 

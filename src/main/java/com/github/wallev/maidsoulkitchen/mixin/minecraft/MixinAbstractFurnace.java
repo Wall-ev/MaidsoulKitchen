@@ -29,12 +29,12 @@ public abstract class MixinAbstractFurnace implements IAbstractFurnaceAccessor, 
     @Shadow
     public abstract List<Recipe<?>> getRecipesToAwardAndPopExperience(ServerLevel pLevel, Vec3 pPopVec);
 
-    public RecipeType<? extends AbstractCookingRecipe> getRecipeType$tlma() {
+    public RecipeType<? extends AbstractCookingRecipe> tlmk$getRecipeType() {
         return this.recipeType;
     }
 
     @Override
-    public void awardExperience$tlma(EntityMaid maid) {
+    public void tlmk$awardExperience(EntityMaid maid) {
         this.getRecipesToAwardAndPopExperience((ServerLevel) maid.level(), maid.position());
         this.recipesUsed.clear();
     }

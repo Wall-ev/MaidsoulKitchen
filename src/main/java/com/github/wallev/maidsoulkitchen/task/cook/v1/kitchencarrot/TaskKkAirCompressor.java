@@ -31,7 +31,7 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.List;
 
-public class TaskAirCompressor implements ICookTask<AirCompressorBlockEntity, AirCompressorRecipe>, IHandlerCookBe<AirCompressorBlockEntity>, IItemHandlerCook<AirCompressorBlockEntity, AirCompressorRecipe> {
+public class TaskKkAirCompressor implements ICookTask<AirCompressorBlockEntity, AirCompressorRecipe>, IHandlerCookBe<AirCompressorBlockEntity>, IItemHandlerCook<AirCompressorBlockEntity, AirCompressorRecipe> {
     private static void replenishEnergy(EntityMaid maid, AirCompressorBlockEntity brewBe, CombinedInvWrapper maidInv) {
         int energyItemSlot = ItemsUtil.findStackSlot(maidInv, stack -> stack.is(Items.REDSTONE));
         if (energyItemSlot > -1) {

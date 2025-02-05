@@ -49,7 +49,7 @@ import java.util.Optional;
 import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlock.OPEN;
 import static net.minecraftforge.fluids.FluidUtil.*;
 
-public class TaskFermentationTank implements ICookTask<FermentationTankBlockEntity, FermentationRecipe<?>>, IMaidAction {
+public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockEntity, FermentationRecipe<?>>, IMaidAction {
     public static boolean interactWithFluidHandler(@NotNull EntityMaid maid, ItemStack fluidStack, @NotNull Level level, @NotNull BlockPos pos, @Nullable Direction side) {
         Preconditions.checkNotNull(level);
         Preconditions.checkNotNull(pos);

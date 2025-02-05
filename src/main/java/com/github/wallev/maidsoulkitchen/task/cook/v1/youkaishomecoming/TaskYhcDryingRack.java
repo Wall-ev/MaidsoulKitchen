@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.List;
 import java.util.Optional;
 
-public class TaskDryingRack implements ICookTask<DryingRackBlockEntity, DryingRackRecipe>, IMaidAction {
+public class TaskYhcDryingRack implements ICookTask<DryingRackBlockEntity, DryingRackRecipe>, IMaidAction {
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return RegisterData.YHC_DRYING_RACK;

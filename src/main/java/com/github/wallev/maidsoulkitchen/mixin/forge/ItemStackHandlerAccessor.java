@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface ItemStackHandlerAccessor {
 
     @Invoker("onContentsChanged")
-    void onContentsChanged$tlma(int slot);
+    void tlmk$onContentsChanged(int slot);
 
 }

@@ -39,19 +39,14 @@ public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperi
 
     @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
 
-    /**
-     * 烹饪的厨具内部是否可以烹饪（仅仅是与配方原料相关的判断，不包括外部条件，比如农夫乐事的需要Heated状态）
-     *
-     * @return 是否可以烹饪
-     */
     @Override
-    public boolean innerCanCook$tlma() {
+    public boolean tlmk$innerCanCook() {
         Optional<KegFermentingRecipe> matchingRecipe = this.getMatchingRecipe(recipeWrapper);
         return matchingRecipe.isPresent() && this.canFerment(matchingRecipe.get(), (KegBlockEntity) (Object) this);
     }
 
     @Override
-    public void awardExperience$tlma(EntityMaid maid) {
+    public void tlmk$awardExperience(EntityMaid maid) {
         this.getUsedRecipesAndPopExperience(maid.level, maid.position());
         this.usedRecipeTracker.clear();
     }

@@ -16,12 +16,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.lang.ref.WeakReference;
 
 @Mixin(value = EntityMaid.class, remap = false)
-public abstract class MixinEntityMaid extends TamableAnimal implements CrossbowAttackMob, IMaid, IAddonMaid {
+public abstract class EntityMaidMixin extends TamableAnimal implements CrossbowAttackMob, IMaid, IAddonMaid {
 
     @SuppressWarnings("all")
     private WeakReference<FakePlayer> fakePlayer;
 
-    protected MixinEntityMaid(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
+    protected EntityMaidMixin(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 

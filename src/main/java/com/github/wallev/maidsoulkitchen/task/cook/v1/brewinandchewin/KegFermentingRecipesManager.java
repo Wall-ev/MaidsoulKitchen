@@ -16,7 +16,7 @@ import static umpaz.brewinandchewin.common.block.entity.KegBlockEntity.isValidTe
 
 public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentingRecipe> {
     private Map<Integer, List<Integer>> temperateListIngredients;
-    public KegFermentingRecipesManager(EntityMaid maid, TaskBncKey task) {
+    public KegFermentingRecipesManager(EntityMaid maid, TaskBncKeg task) {
         super(maid, task, false);
 
         temperateListIngredients = new HashMap<>();
@@ -83,7 +83,7 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
 
     @Override
     protected Pair<List<Integer>, List<Item>> getAmountIngredient(KegFermentingRecipe recipe, Map<Item, Integer> available) {
-        TaskBncKey.MaidKegRecipe maidKettleRecipe = TaskBncKey.KEG_RECIPE_INGREDIENTS.get(recipe);
+        TaskBncKeg.MaidKegRecipe maidKettleRecipe = TaskBncKeg.KEG_RECIPE_INGREDIENTS.get(recipe);
         List<Item> invIngredient = new ArrayList<>();
         Map<Item, Integer> itemTimes = new HashMap<>();
         boolean[] single = {false};

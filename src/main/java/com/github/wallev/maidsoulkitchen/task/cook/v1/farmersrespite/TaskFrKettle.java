@@ -61,7 +61,7 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
             return true;
         }
 
-        boolean innerCanCook = kettleBlockEntity.isHeated() && ((ICbeAccessor) kettleBlockEntity).innerCanCook$tlma();
+        boolean innerCanCook = kettleBlockEntity.isHeated() && ((ICbeAccessor) kettleBlockEntity).tlmk$innerCanCook();
 
         // 存在输出流体，待容器取出
         Fluid outputFluid = kettleBlockEntity.getOutput().getFluid();
@@ -129,7 +129,7 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
             kettleBlockEntity.setChanged();
         }
 
-        boolean innerCanCook = kettleBlockEntity.isHeated() && ((ICbeAccessor) kettleBlockEntity).innerCanCook$tlma();
+        boolean innerCanCook = kettleBlockEntity.isHeated() && ((ICbeAccessor) kettleBlockEntity).tlmk$innerCanCook();
 
         // 存在输出流体，待容器取出
         Fluid outputFluid = kettleBlockEntity.getOutput().getFluid();

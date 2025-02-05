@@ -31,17 +31,17 @@ public abstract class MixinCookingPotBlockEntity implements IFdCbeAccessor<Cooki
     @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
 
     @Override
-    public Optional<CookingPotRecipe> getMatchingRecipe$tlma(RecipeWrapper inventoryWrapper) {
+    public Optional<CookingPotRecipe> tlmk$getMatchingRecipe(RecipeWrapper inventoryWrapper) {
         return getMatchingRecipe(inventoryWrapper);
     }
 
     @Override
-    public boolean canCook$tlma(CookingPotRecipe recipe) {
+    public boolean tlmk$canCook(CookingPotRecipe recipe) {
         return canCook(recipe);
     }
 
     @Override
-    public void awardExperience$tlma(EntityMaid maid) {
+    public void tlmk$awardExperience(EntityMaid maid) {
         this.getUsedRecipesAndPopExperience(maid.level(), maid.position());
         this.usedRecipeTracker.clear();
     }

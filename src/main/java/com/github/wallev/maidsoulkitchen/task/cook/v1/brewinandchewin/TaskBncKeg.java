@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 
 import static umpaz.brewinandchewin.common.block.entity.KegBlockEntity.isValidTemp;
 
-public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe> {
+public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe> {
     // 配方所需的流体对应的itemStacks和原材料
     protected static final Map<KegFermentingRecipe, MaidKegRecipe> KEG_RECIPE_INGREDIENTS = new HashMap<>();
     // 流体容器
@@ -72,7 +72,7 @@ public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe
             return true;
         }
 
-        boolean innerCanCook = ((ICbeAccessor) kegBlockEntity).innerCanCook$tlma();
+        boolean innerCanCook = ((ICbeAccessor) kegBlockEntity).tlmk$innerCanCook();
 
         // 存在输出流体，待容器取出
         Fluid outputFluid = kegBlockEntity.getOutput().getFluid();
@@ -141,7 +141,7 @@ public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe
             kegBlockEntity.setChanged();
         }
 
-        boolean innerCanCook = ((ICbeAccessor) kegBlockEntity).innerCanCook$tlma();
+        boolean innerCanCook = ((ICbeAccessor) kegBlockEntity).tlmk$innerCanCook();
 
         // 存在输出流体，待容器取出
         Fluid outputFluid = kegBlockEntity.getOutput().getFluid();
@@ -291,8 +291,6 @@ public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
     @Override
     public List<KegFermentingRecipe> getRecipes(Level level) {
-        KEG_RECIPE_INGREDIENTS.clear();
-
         if (KEG_RECIPE_INGREDIENTS.isEmpty()) {
             FLUID_CONTAINERS.clear();
 
@@ -417,7 +415,7 @@ public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe
             @Override
             protected List<KegFermentingRecipe> getFilterRecipes(List<KegFermentingRecipe> rec) {
                 Set<Integer> temperates = searchAndCreateTemperate((ServerLevel) maid.level, maid);
-                return super.getFilterRecipes(rec).stream()
+                return rec.stream()
                         .filter(kegFermentingRecipe -> {
                             for (Integer temperate : temperates) {
                                 if (isValidTemp(temperate, kegFermentingRecipe.getTemperature())) {
@@ -459,7 +457,7 @@ public class TaskBncKey implements ICookTask<KegBlockEntity, KegFermentingRecipe
                         mutableBlockPos.setWithOffset(centrePos, x, y + 1, z);
                         if (maid.isWithinRestriction(mutableBlockPos)) {
                             BlockEntity blockEntity = worldIn.getBlockEntity(mutableBlockPos);
-                            if (blockEntity instanceof KegBlockEntity kegBlockEntity && !((ICbeAccessor) kegBlockEntity).innerCanCook$tlma()) {
+                            if (blockEntity instanceof KegBlockEntity kegBlockEntity && !((ICbeAccessor) kegBlockEntity).tlmk$innerCanCook()) {
                                 worldBlockEntityTemperates.add(kegBlockEntity.getTemperature());
                             }
                         }

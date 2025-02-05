@@ -45,7 +45,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class TaskCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCookingRecipe>, IHandlerCookBe<CrockPotBlockEntity>, IItemHandlerCook<CrockPotBlockEntity, CrockPotCookingRecipe> {
+public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCookingRecipe>, IHandlerCookBe<CrockPotBlockEntity>, IItemHandlerCook<CrockPotBlockEntity, CrockPotCookingRecipe> {
     private static final Map<CrockPotCookingRecipe, MaidRec<CrockPotCookingRecipe>> RECS = new HashMap<>();
     private static final Map<FoodCategory, List<Item>> FOOD_CATEGORY_INGREDIENT_MAP = new HashMap<>();
     private static final Map<IRequirement, FoodCategory> REQUIREMENT_FOOD_CATEGORY_MAP = new HashMap<>();

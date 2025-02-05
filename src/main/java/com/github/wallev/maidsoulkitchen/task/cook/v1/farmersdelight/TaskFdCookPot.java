@@ -16,7 +16,7 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 
-public class TaskFDCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
+public class TaskFdCookPot extends TaskFdPot<CookingPotBlockEntity, CookingPotRecipe> {
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CookingPotBlockEntity;

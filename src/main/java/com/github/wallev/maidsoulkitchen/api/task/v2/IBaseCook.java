@@ -94,8 +94,8 @@ public interface IBaseCook<B extends BlockEntity, R extends Recipe<? extends Con
     @SuppressWarnings("unchecked")
     default <T extends IBeInv<B>> boolean beInnerCanCook(B be, T inventoryHandler) {
         RecipeWrapper recipeWrapper = new RecipeWrapper((IItemHandlerModifiable) inventoryHandler);
-        Optional<R> matchingRecipe = ((IFdCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
-        return matchingRecipe.isPresent() && ((IFdCbeAccessor<R>) be).canCook$tlma(matchingRecipe.get());
+        Optional<R> matchingRecipe = ((IFdCbeAccessor<R>) be).tlmk$getMatchingRecipe(recipeWrapper);
+        return matchingRecipe.isPresent() && ((IFdCbeAccessor<R>) be).tlmk$canCook(matchingRecipe.get());
     }
 
 //    @SuppressWarnings("unchecked")

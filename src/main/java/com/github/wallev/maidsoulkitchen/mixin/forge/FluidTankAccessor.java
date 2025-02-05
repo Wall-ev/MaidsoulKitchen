@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface FluidTankAccessor {
 
     @Invoker("onContentsChanged")
-    void onContentChanged$tlma();
+    void tlmk$onContentChanged();
 
 }

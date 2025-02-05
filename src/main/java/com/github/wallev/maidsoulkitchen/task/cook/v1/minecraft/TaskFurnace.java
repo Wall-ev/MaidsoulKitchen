@@ -108,7 +108,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             return false;
         }
 
-        RecipeType<? extends AbstractCookingRecipe> recipeType = ((IAbstractFurnaceAccessor) blockEntity).getRecipeType$tlma();
+        RecipeType<? extends AbstractCookingRecipe> recipeType = ((IAbstractFurnaceAccessor) blockEntity).tlmk$getRecipeType();
         for (int slot : blockEntity.getSlotsForFace(Direction.UP)) {
             ItemStack stack = blockEntity.getItem(slot);
             if (!stack.isEmpty()) continue;
@@ -216,7 +216,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             if (!materialSlotStack.isEmpty()) {
                 continue;
             }
-            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((IAbstractFurnaceAccessor)furnace).getRecipeType$tlma());
+            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((IAbstractFurnaceAccessor)furnace).tlmk$getRecipeType());
             if (material.isEmpty()) {
                 continue;
             }

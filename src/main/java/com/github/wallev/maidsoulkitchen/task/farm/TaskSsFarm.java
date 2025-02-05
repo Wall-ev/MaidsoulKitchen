@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class TaskSSFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
+public class TaskSsFarm extends TaskNormalFarm implements ILittleMaidTask, IAddonFarmTask {
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);

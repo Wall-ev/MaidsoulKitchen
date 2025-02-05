@@ -19,7 +19,7 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 import java.util.List;
 
 
-public class TaskMDCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
+public class TaskMdCopperPot extends TaskFdPot<CopperPotBlockEntity, CookingPotRecipe> {
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {
         return blockEntity instanceof CopperPotBlockEntity;

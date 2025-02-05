@@ -43,13 +43,13 @@ public abstract class MixinKettleBlockEntity extends SyncedBlockEntity implement
     @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
 
     @Override
-    public boolean innerCanCook$tlma() {
+    public boolean tlmk$innerCanCook() {
         Optional<KettleRecipe> recipe = this.getMatchingRecipe(new RecipeWrapper(this.getInventory()));
         return recipe.isPresent() && this.canBrew(recipe.get(), (KettleBlockEntity) (Object) this);
     }
 
     @Override
-    public void awardExperience$tlma(EntityMaid maid) {
+    public void tlmk$awardExperience(EntityMaid maid) {
         this.getUsedRecipesAndPopExperience(maid.level, maid.position());
         this.usedRecipeTracker.clear();
     }

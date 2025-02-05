@@ -18,15 +18,15 @@ public class MaidFermentingMoveTask extends MaidCheckRateTask {
     private static final int MAX_DELAY_TIME = 120;
     private final float movementSpeed;
     private final int verticalSearchRange;
-    private final TaskBncKey task;
+    private final TaskBncKeg task;
     private final KegFermentingRecipesManager maidRecipesManager;
     protected int verticalSearchStart;
 
-    public MaidFermentingMoveTask(TaskBncKey task, KegFermentingRecipesManager maidRecipesManager) {
+    public MaidFermentingMoveTask(TaskBncKeg task, KegFermentingRecipesManager maidRecipesManager) {
         this(task, 0.5f, 2, maidRecipesManager);
     }
 
-    public MaidFermentingMoveTask(TaskBncKey task, float movementSpeed, int verticalSearchRange, KegFermentingRecipesManager maidRecipesManager) {
+    public MaidFermentingMoveTask(TaskBncKeg task, float movementSpeed, int verticalSearchRange, KegFermentingRecipesManager maidRecipesManager) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
