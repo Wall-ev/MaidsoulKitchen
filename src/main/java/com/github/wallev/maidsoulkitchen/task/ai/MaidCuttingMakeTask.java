@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.ai;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCuttingBoard;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;

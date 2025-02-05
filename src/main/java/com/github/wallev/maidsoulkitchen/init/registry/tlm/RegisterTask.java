@@ -3,21 +3,20 @@ package com.github.wallev.maidsoulkitchen.init.registry.tlm;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 //import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKey;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKeyOffice;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKeyOfficeV2;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.brewinandchewin.TaskBncKey;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersrespite.TaskFrKettle;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.fd.TaskFDCookPot;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.fd.TaskFdCuttingBoard;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFDCookPot;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCuttingBoard;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.kitchencarrot.TaskAirCompressor;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.kitchencarrot.TaskKkBrewingBarrel;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.mc.TaskFurnace;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.md.TaskMDCopperPot;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskDryingRack;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskFermentationTank;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcMoka;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.yhc.TaskYhcTeaKettle;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.minecraft.TaskFurnace;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.minersdelight.TaskMDCopperPot;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskDryingRack;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskFermentationTank;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcMoka;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcTeaKettle;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskCompatMelonFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
@@ -52,7 +51,7 @@ public final class RegisterTask {
             manager.add(new TaskFurnace());
         }
         manager.add(new TaskFrKettle());
-        manager.add(new TaskBncKeyOfficeV2());
+        manager.add(new TaskBncKey());
 
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
