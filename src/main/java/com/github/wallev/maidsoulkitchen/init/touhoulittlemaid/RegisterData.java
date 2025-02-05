@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.init.registry.tlm;
+package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;

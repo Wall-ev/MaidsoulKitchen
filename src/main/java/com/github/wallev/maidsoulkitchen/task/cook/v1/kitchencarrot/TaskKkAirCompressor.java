@@ -7,7 +7,7 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.mixin.kitchkarrot.AirCompressorBlockEntityAccessor;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;

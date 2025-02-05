@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
-import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.mixin.youkaishomecoming.KettleBlockAccessor;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;

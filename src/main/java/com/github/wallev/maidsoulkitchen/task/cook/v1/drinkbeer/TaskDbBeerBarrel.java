@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.maidsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;

@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.init.registry.tlm;
+package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
