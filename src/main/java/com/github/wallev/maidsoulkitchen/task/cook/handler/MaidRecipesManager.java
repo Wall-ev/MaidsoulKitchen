@@ -35,18 +35,18 @@ import java.util.function.Predicate;
 public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     protected final List<R> rec = new ArrayList<>();
     protected final List<R> currentRecs = new ArrayList<>();
-    private final EntityMaid maid;
-    private final Level level;
-    private final ICookTask<?, R> task;
-    private final boolean single;
-    private ICookInventory cookInv;
-    private boolean hasCulinaryHub;
-    private Map<BagType, List<BlockPos>> bindingPoses;
-    private String lastTaskRule;
-    private List<String> recipeIds;
-    private int repeatTimes = 0;
-    private List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
-    private int tryTime = 0;
+    protected final EntityMaid maid;
+    protected final Level level;
+    protected final ICookTask<?, R> task;
+    protected final boolean single;
+    protected ICookInventory cookInv;
+    protected boolean hasCulinaryHub;
+    protected Map<BagType, List<BlockPos>> bindingPoses;
+    protected String lastTaskRule;
+    protected List<String> recipeIds;
+    protected int repeatTimes = 0;
+    protected List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = new ArrayList<>();
+    protected int tryTime = 0;
 
     public MaidRecipesManager(EntityMaid maid, ICookTask<?, R> task, boolean single) {
         this(maid, task, single, true);
@@ -58,9 +58,9 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         this.single = single;
         this.task = task;
 
-        if (createRecIng) {
-            this.createRecipesIngredients();
-        }
+//        if (createRecIng) {
+//            this.createRecipesIngredients();
+//        }
     }
 
     public static void makeChanged(BlockEntity tile) {
@@ -76,7 +76,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             this.hasCulinaryHub = !this.findCulinaryHub().isEmpty();
             this.bindingPoses = ItemCulinaryHub.getBindPoses(this.findCulinaryHub());
             //@todo
-            this.cookInv = this.enableHub() ? this.initCookInv() : new MaidInventory(maid);
+            this.cookInv = this.enableHub() ? this.initCookInv() : new MaidInventory(maid, false);
 
             return true;
         }
@@ -85,7 +85,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
     private ICookInventory initCookInv() {
         ItemStack culinaryHub = this.findCulinaryHub();
-        return culinaryHub.isEmpty() ? new MaidInventory(maid) : new CookBagInventory(culinaryHub);
+        return culinaryHub.isEmpty() ? new MaidInventory(maid, false) : new CookBagInventory(culinaryHub);
     }
 
     public ItemStack findCulinaryHub() {
@@ -142,9 +142,13 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     private List<R> getRecs() {
-        List<R> list = new ArrayList<>(this.rec);
+        List<R> list = this.getFilterRecipes(this.rec);
         shuffle(list);
         return list;
+    }
+
+    protected List<R> getFilterRecipes(List<R> rec) {
+        return new ArrayList<>(rec);
     }
 
     public List<Pair<List<Integer>, List<List<ItemStack>>>> getRecipesIngredients() {
@@ -393,7 +397,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     @NotNull
-    private List<Pair<List<Integer>, List<Item>>> getRecIngreMake(Map<Item, Integer> available) {
+    protected List<Pair<List<Integer>, List<Item>>> getRecIngreMake(Map<Item, Integer> available) {
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
         for (R r : this.currentRecs) {
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
@@ -407,7 +411,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
     protected void setRecIngres(List<Pair<List<Integer>, List<Item>>> _make, Map<Item, Integer> available) {
         if (_make.isEmpty()) return;
-        this.recipesIngredients = transform(_make, available);
+        this.recipesIngredients = new ArrayList<>(transform(_make, available));
     }
 
     @NotNull
@@ -452,8 +456,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
         List<Pair<List<Integer>, List<List<ItemStack>>>> list1 = oriList.stream().map(p -> {
             List<List<ItemStack>> list = p.getSecond().stream().map(item -> {
-                return inventoryStack.get(item);
-//                return inventoryStack.getOrDefault(item, new ArrayList<>());
+//                return inventoryStack.get(item);
+                return inventoryStack.getOrDefault(item, new ArrayList<>());
             }).toList();
             return Pair.of(p.getFirst(), list);
         }).toList();
@@ -787,7 +791,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
                     if (stackSlot > -1) {
                         beInv.extractItem(stackSlot, count, false).copy();
-                        return ;
+                        return;
                     }
 
                 }

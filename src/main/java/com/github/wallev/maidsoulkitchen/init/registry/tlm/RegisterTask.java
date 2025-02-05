@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 //import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKey;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKeyOffice;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.bnc.TaskBncKeyOfficeV2;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer.TaskDbBeerBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersrespite.TaskFrKettle;
@@ -51,6 +52,7 @@ public final class RegisterTask {
             manager.add(new TaskFurnace());
         }
         manager.add(new TaskFrKettle());
+        manager.add(new TaskBncKeyOfficeV2());
 
 
         if (Mods.FD.isLoaded() && RegisterConfig.FD_COOK_POT_TASK_ENABLED.get()) {
@@ -64,7 +66,7 @@ public final class RegisterTask {
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
 //            manager.add(new TaskBncKey());
-            manager.add(new TaskBncKeyOffice());
+//            manager.add(new TaskBncKeyOffice());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             manager.add(new TaskYhcMoka());

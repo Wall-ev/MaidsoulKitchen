@@ -10,6 +10,7 @@
   "server": [
   ],
   "mixins": [
+    "bnc.KegBlockEntityMixin",
     "bnc.KegBlockEntityOfficeAccessor",
     "drinkbeer.BeerBarrelBlockAccessor",
     "farmersrespite.MixinKettleBlockEntity",

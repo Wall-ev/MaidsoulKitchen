@@ -17,8 +17,14 @@ public class MaidInventory implements ICookInventory{
     private final List<ItemStack> lastInvStack = new ArrayList<>();
 
     public MaidInventory(EntityMaid maid) {
+        this(maid, true);
+    }
+
+    public MaidInventory(EntityMaid maid, boolean refresh) {
         this.maid = maid;
-        this.refreshInv();
+        if (refresh) {
+            this.refreshInv();
+        }
     }
 
     public void refreshInv() {
