@@ -1,11 +1,11 @@
 package com.github.wallev.maidsoulkitchen.mixin.farmersrespite;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.ICbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IRecipeExperinceAward;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(value = KettleBlockEntity.class, remap = false)
-public abstract class MixinKettleBlockEntity extends SyncedBlockEntity implements ICbeAccessor, IRecipeExperinceAward {
-    public MixinKettleBlockEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+public abstract class KettleBlockEntityMixin extends SyncedBlockEntity implements ICbeAccessor, IRecipeExperinceAward {
+    public KettleBlockEntityMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
 
@@ -49,8 +49,8 @@ public abstract class MixinKettleBlockEntity extends SyncedBlockEntity implement
     }
 
     @Override
-    public void tlmk$awardExperience(EntityMaid maid) {
-        this.getUsedRecipesAndPopExperience(maid.level, maid.position());
+    public void tlmk$awardExperience(Entity entity) {
+        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
     }
 }

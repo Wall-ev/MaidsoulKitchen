@@ -1,10 +1,10 @@
 package com.github.wallev.maidsoulkitchen.mixin.brewinandchewin;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.ICbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IRecipeExperinceAward;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -46,8 +46,8 @@ public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperi
     }
 
     @Override
-    public void tlmk$awardExperience(EntityMaid maid) {
-        this.getUsedRecipesAndPopExperience(maid.level, maid.position());
+    public void tlmk$awardExperience(Entity entity) {
+        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
     }
 }
