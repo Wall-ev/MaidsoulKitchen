@@ -227,7 +227,6 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
         int stackSlot = ItemsUtil.findStackSlot(availableInv, itemStack -> {
             return waterSourceList.stream().anyMatch(ingredient -> ingredient.is(itemStack.getItem()));
         });
-//        LOGGER.info("findMaidHasWaterResource.WATER_BUCKET: " + stackSlot);
 
         return stackSlot;
     }

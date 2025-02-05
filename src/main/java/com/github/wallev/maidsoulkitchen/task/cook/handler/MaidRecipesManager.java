@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     protected final List<R> rec = new ArrayList<>();
@@ -580,6 +581,101 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         }
 
         return 0;
+    }
+
+    public boolean hasOutputAdditionItem(Predicate<ItemStack> findItem) {
+        if (this.hasCulinaryHub) {
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
+            int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> findItem.test(stack));
+
+            if (additionSlot > -1) {
+                return true;
+            } else {
+                List<BlockPos> bindModePoses = getBindingTypePoses(BagType.OUTPUT_ADDITION);
+                return hasAdditionStackFromHub(findItem, bindModePoses, level);
+            }
+        } else {
+            return ItemsUtil.findStackSlot(maid.getAvailableInv(true), stack -> findItem.test(stack)) > -1;
+        }
+    }
+
+    private boolean hasAdditionStackFromHub(Predicate<ItemStack> findItem, List<BlockPos> bindModePoses, Level level) {
+        for (BlockPos bindModePose : bindModePoses) {
+            if (isPosZone(bindModePose)) continue;
+
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+                    return ItemsUtil.findStackSlot(beInv, stack -> findItem.test(stack)) > -1;
+                }
+
+            }
+
+        }
+        return false;
+    }
+
+    public ItemStack findOutputAdditionItem(Predicate<ItemStack> findItem) {
+        if (hasCulinaryHub) {
+            IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
+            int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> findItem.test(stack));
+
+            if (additionSlot > -1) {
+                ItemStack itemStack = availableInv.extractItem(additionSlot, 64, false);
+                this.cookInv.syncInv();
+                return itemStack.copy();
+            } else {
+                List<BlockPos> bindModePoses = getBindingTypePoses(BagType.OUTPUT_ADDITION);
+                return getAdditionStackFromHub(findItem, bindModePoses, this.level);
+            }
+
+        } else {
+            CombinedInvWrapper maidInv = this.maid.getAvailableInv(true);
+            int additionSlot = ItemsUtil.findStackSlot(maidInv, stack -> findItem.test(stack));
+
+            if (additionSlot > -1) {
+                ItemStack stackInSlot = maidInv.getStackInSlot(additionSlot);
+                ItemStack copy = stackInSlot.copy();
+                stackInSlot.setCount(0);
+                return copy;
+
+            }
+
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    private ItemStack getAdditionStackFromHub(Predicate<ItemStack> findItem, List<BlockPos> bindModePoses, Level level) {
+        for (BlockPos bindModePose : bindModePoses) {
+            if (isPosZone(bindModePose)) continue;
+
+            BlockEntity blockEntity = level.getBlockEntity(bindModePose);
+
+            if (blockEntity != null) {
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+
+                if (capability.isPresent()) {
+                    IItemHandler beInv = capability.resolve().get();
+
+                    int stackSlot = ItemsUtil.findStackSlot(beInv, stack -> findItem.test(stack));
+
+                    if (stackSlot > -1) {
+                        ItemStack copy = beInv.extractItem(stackSlot, 64, false).copy();
+                        blockEntity.setChanged();
+                        return copy;
+                    }
+
+                }
+
+            }
+
+        }
+        return ItemStack.EMPTY;
     }
 
     public boolean hasOutputAdditionItem(ItemStack findItem) {

@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.task.cook.v1.fr;
+package com.github.wallev.maidsoulkitchen.task.cook.v1.farmersrespite;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
@@ -8,16 +8,21 @@ import com.github.wallev.maidsoulkitchen.task.cook.v1.common.TaskFdPot;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -31,9 +36,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
-public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
+public class TaskFrKettle1 extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
+    private static final Map<KettleRecipe, List<Ingredient>> KEY_RECIPES = new HashMap<>();
+    private static final Map<KettleRecipe, Ingredient> KEY_RECIPES_FLUID = new HashMap<>();
+    private static final Map<Fluid, List<ItemStack>> FLUID_CONTAINERS = new HashMap<>();
+
     private static final Map<KettleRecipe, KettleRecipeWrapper> KETTLE_UNION_RECIPES = new HashMap<>();
 
     @Override
@@ -46,16 +56,96 @@ public class TaskFrKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     @SuppressWarnings("all")
     @Override
     public List<KettleRecipe> getRecipes(Level level) {
-        if (KETTLE_UNION_RECIPES.isEmpty()) {
-            List<KettlePouringRecipe> pours = level.getRecipeManager().getAllRecipesFor((RecipeType) FRRecipeTypes.KETTLE_POURING.get());
-            List<KettleRecipe> recipes = super.getRecipes(level);
+        List<KettleRecipe> KettleRecipes = super.getRecipes(level);
+
+        if (KEY_RECIPES.isEmpty()) {
+            Map<Fluid, Stream<ItemStack>> FLUID_CONTAINER = new HashMap<>();
+
+            assert Minecraft.getInstance().level != null;
+            List<KettlePouringRecipe> kegPouringRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(FRRecipeTypes.KETTLE_POURING.get());
+
+            for (KettleRecipe KettleRecipe : KettleRecipes) {
+                FluidStack fluidIngredientIn = KettleRecipe.getFluidIn();
+                if (fluidIngredientIn != null && !fluidIngredientIn.isEmpty()) {
+                    Stream<ItemStack> fluidItems = FLUID_CONTAINER.computeIfAbsent(fluidIngredientIn.getFluid(), fluid -> {
+                        List<KettlePouringRecipe> matchKegPouringRecipes = kegPouringRecipes.stream().filter(pouringRecipe -> pouringRecipe.getFluid().isSame(fluid)).toList();
+
+                        List<ItemStack> containerStacks = matchKegPouringRecipes.stream().map(kegPouringRecipe -> {
+                            ItemStack container = kegPouringRecipe.getContainer();
+                            int amount = kegPouringRecipe.getAmount();
+                            int amountTotal = fluidIngredientIn.getAmount();
+                            container.setCount(amountTotal / amount);
+                            return container;
+                        }).toList();
+                        FLUID_CONTAINERS.put(fluidIngredientIn.getFluid(), containerStacks);
+
+                        return matchKegPouringRecipes.stream().map(kegPouringRecipe -> {
+                            ItemStack output = kegPouringRecipe.getOutput();
+                            int amount = kegPouringRecipe.getAmount();
+                            int amountTotal = fluidIngredientIn.getAmount();
+                            output.setCount(amountTotal / amount);
+                            return output;
+                        });
+                    });
+
+
+
+                    NonNullList<Ingredient> ingres = NonNullList.create();
+                    ingres.addAll(KettleRecipe.getIngredients());
+                    Ingredient inputFluidIngredient = Ingredient.of(fluidItems);
+                    ingres.add(0, inputFluidIngredient);
+
+                    KEY_RECIPES_FLUID.put(KettleRecipe, inputFluidIngredient);
+                    KEY_RECIPES.put(KettleRecipe, ingres);
+                } else {
+                    NonNullList<Ingredient> ingres = NonNullList.create();
+                    ingres.addAll(KettleRecipe.getIngredients());
+                    Ingredient inputFluidIngredient = Ingredient.EMPTY;
+                    ingres.add(inputFluidIngredient);
+
+                    KEY_RECIPES_FLUID.put(KettleRecipe, inputFluidIngredient);
+                    KEY_RECIPES.put(KettleRecipe, ingres);
+                }
+
+                FluidStack fluidIngredientOut = KettleRecipe.getFluidOut();
+                if (fluidIngredientOut != null && !fluidIngredientOut.isEmpty()) {
+                    Stream<ItemStack> fluidItems = FLUID_CONTAINER.computeIfAbsent(fluidIngredientOut.getFluid(), fluid -> {
+                        List<KettlePouringRecipe> matchKegPouringRecipes = kegPouringRecipes.stream().filter(pouringRecipe -> pouringRecipe.getFluid().isSame(fluid)).toList();
+
+                        List<ItemStack> containerStacks = matchKegPouringRecipes.stream().map(kegPouringRecipe -> {
+                            ItemStack container = kegPouringRecipe.getContainer();
+                            int amount = kegPouringRecipe.getAmount();
+                            int amountTotal = fluidIngredientOut.getAmount();
+                            container.setCount(amountTotal / amount);
+                            return container;
+                        }).toList();
+                        FLUID_CONTAINERS.put(fluidIngredientOut.getFluid(), containerStacks);
+
+                        return matchKegPouringRecipes.stream().map(kegPouringRecipe -> {
+                            ItemStack output = kegPouringRecipe.getOutput();
+                            int amount = kegPouringRecipe.getAmount();
+                            int amountTotal = fluidIngredientOut.getAmount();
+                            output.setCount(amountTotal / amount);
+                            return output;
+                        });
+                    });
+
+                    Ingredient outputFluidIngredient = Ingredient.of(fluidItems);
+                    KEY_RECIPES_FLUID.put(KettleRecipe, outputFluidIngredient);
+                }
+            }
+
+
             int i = 0;
-            for (KettleRecipe recipe : recipes) {
+            for (KettleRecipe recipe : KettleRecipes) {
+                List<KettlePouringRecipe> pours = level.getRecipeManager().getAllRecipesFor((RecipeType) FRRecipeTypes.KETTLE_POURING.get());
+                List<KettleRecipe> recipes = super.getRecipes(level);
                 KETTLE_UNION_RECIPES.put(recipe, new KettleRecipeWrapper(pours.get(i).getOutput(), pours.get(i).getContainer(), pours.get(i).getContainer()));
                 i++;
             }
         }
-        return KETTLE_UNION_RECIPES.keySet().stream().toList();
+
+        return KettleRecipes;
     }
 
     @Override

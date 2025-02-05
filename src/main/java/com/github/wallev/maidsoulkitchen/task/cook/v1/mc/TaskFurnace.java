@@ -2,12 +2,12 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.mc;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
-import com.github.wallev.maidsoulkitchen.mixin.mc.AbstractFurnaceAccessor;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IAbstractFurnaceAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -25,6 +25,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.anti_ad.a.b.a.a.a.I;
 
 import java.util.List;
 import java.util.Optional;
@@ -108,7 +109,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             return false;
         }
 
-        RecipeType<? extends AbstractCookingRecipe> recipeType = ((AbstractFurnaceAccessor) blockEntity).getRecipeType();
+        RecipeType<? extends AbstractCookingRecipe> recipeType = ((IAbstractFurnaceAccessor) blockEntity).getRecipeType$tlma();
         for (int slot : blockEntity.getSlotsForFace(Direction.UP)) {
             ItemStack stack = blockEntity.getItem(slot);
             if (!stack.isEmpty()) continue;
@@ -216,7 +217,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             if (!materialSlotStack.isEmpty()) {
                 continue;
             }
-            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((AbstractFurnaceAccessor)furnace).getRecipeType());
+            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((IAbstractFurnaceAccessor)furnace).getRecipeType$tlma());
             if (material.isEmpty()) {
                 continue;
             }

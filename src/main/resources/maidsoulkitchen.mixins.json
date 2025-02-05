@@ -10,11 +10,14 @@
   "server": [
   ],
   "mixins": [
-    "bnc.KegBlockEntityAccessor",
+    "bnc.KegBlockEntityOfficeAccessor",
     "drinkbeer.BeerBarrelBlockAccessor",
+    "farmersrespite.MixinKettleBlockEntity",
     "fd.MixinCookingPotBlockEntity",
+    "forge.FluidTankAccessor",
+    "forge.ItemStackHandlerAccessor",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
-    "mc.AbstractFurnaceAccessor",
+    "mc.MixinAbstractFurnace",
     "md.MixinCopperPotBlockEntity",
     "tlm.MixinEntityMaid",
     "yhc.KettleBlockAccessor",
