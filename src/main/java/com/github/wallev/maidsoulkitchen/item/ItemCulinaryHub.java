@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
-import com.github.wallev.maidsoulkitchen.init.InitItems;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
@@ -51,7 +51,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static void removeModePoses(ItemStack stack) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getOrCreateTag();
             CompoundTag compound = tag.getCompound(BIND_POS_TAG);
 
@@ -64,7 +64,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static void actionModePos(ItemStack stack, String mode, BlockPos blockPos) {
-        if (stack.is(InitItems.CULINARY_HUB.get()) && !mode.isEmpty()) {
+        if (stack.is(MkItems.CULINARY_HUB.get()) && !mode.isEmpty()) {
             CompoundTag tag = stack.getOrCreateTag();
             CompoundTag compound = tag.getCompound(BIND_POS_TAG);
             ListTag list = compound.getList(mode, Tag.TAG_COMPOUND);
@@ -86,7 +86,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static List<BlockPos> getBindModePoses(ItemStack stack, String mode) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();
             if (tag != null && tag.contains(BIND_POS_TAG, Tag.TAG_COMPOUND)) {
                 CompoundTag tag1 = tag.getCompound(BIND_POS_TAG);
@@ -98,7 +98,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static Map<BagType, List<BlockPos>> getBindPoses(ItemStack stack) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();
             if (tag != null && tag.contains(BIND_POS_TAG, Tag.TAG_COMPOUND)) {
                 CompoundTag tag1 = tag.getCompound(BIND_POS_TAG);
@@ -117,7 +117,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static String getBindMode(ItemStack stack) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();
             if (tag != null) {
                 return tag.getString(BIND_MODE_TAG);
@@ -127,7 +127,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static void setBindModeTag(ItemStack stack, String mode) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getOrCreateTag();
             tag.putString(BIND_MODE_TAG, mode);
         }
@@ -143,7 +143,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     public static Map<BagType, ItemStackHandler> getContainers(ItemStack stack) {
         Map<BagType, ItemStackHandler> bagTypeItemStackHandlerHashMap = new HashMap<>();
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();
             if (tag == null || !tag.contains(CONTAINER_TAG, Tag.TAG_COMPOUND)) {
                 for (BagType value : BagType.values()) {
@@ -165,7 +165,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static void setContainer(ItemStack stack, Map<BagType, ItemStackHandler> handlers) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag orCreateTag = stack.getOrCreateTag();
             CompoundTag compound = orCreateTag.getCompound(CONTAINER_TAG);
             handlers.forEach((bagType, itemStackHandler) -> {
@@ -177,7 +177,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     public static ItemStackHandler getContainer(ItemStack stack) {
         ItemStackHandler handler = new ItemStackHandler(COOK_BAG_SIZE);
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             CompoundTag tag = stack.getTag();
             if (tag != null && tag.contains(CONTAINER_TAG, Tag.TAG_COMPOUND)) {
                 handler.deserializeNBT(tag.getCompound(CONTAINER_TAG));
@@ -187,7 +187,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static void setContainer(ItemStack stack, ItemStackHandler itemStackHandler) {
-        if (stack.is(InitItems.CULINARY_HUB.get())) {
+        if (stack.is(MkItems.CULINARY_HUB.get())) {
             stack.getOrCreateTag().put(CONTAINER_TAG, itemStackHandler.serializeNBT());
         }
     }

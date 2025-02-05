@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.event;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.init.InitItems;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -29,7 +29,7 @@ public final class CookBagPosRenderEvent {
                 return;
             }
             ItemStack mainStack = mc.player.getMainHandItem();
-            if (!mainStack.is(InitItems.CULINARY_HUB.get())) {
+            if (!mainStack.is(MkItems.CULINARY_HUB.get())) {
                 return;
             }
             for (BagType value : BagType.values()) {

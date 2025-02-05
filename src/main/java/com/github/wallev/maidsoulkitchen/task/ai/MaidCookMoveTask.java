@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRa
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,9 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private static void setWalkAndLookTargetMemories(LivingEntity pLivingEntity, BlockPos walkPos, BlockPos lookPos, float pSpeed, int pDistance) {
         pLivingEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(walkPos, pSpeed, pDistance));
         pLivingEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(lookPos));
+        
+        pLivingEntity.getBrain().setMemory(InitEntities.TARGET_POS.get(), new BlockPosTracker(lookPos));
+        pLivingEntity.getBrain().setMemory(MkEntities.WORK_POS.get(), new BlockPosTracker(lookPos));
     }
 
     private static BlockPos getSearchPos(EntityMaid maid) {
@@ -103,7 +107,6 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
                             setWalkAndLookTargetMemories(maid, mutableBlockPos, mutableBlockPos, this.movementSpeed, 0);
-                            maid.getBrain().setMemory(InitEntities.TARGET_POS.get(), new BlockPosTracker(mutableBlockPos));
                             this.setNextCheckTickCount(5);
                             return;
                         }
