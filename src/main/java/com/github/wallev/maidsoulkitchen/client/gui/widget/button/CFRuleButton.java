@@ -24,8 +24,9 @@ public class CFRuleButton extends Button implements ITooltipButton {
     private final List<ItemStack> blockItems = new ArrayList<>();
     private final ResultInfo ref = new ResultInfo(1, 9, 8, 8, 2, 2);
     protected boolean isSelected;
+    private final List<Component> tooltips;
 
-    public CFRuleButton(IHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY) {
+    public CFRuleButton(IHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY, List<Component> tooltips) {
         super(pX, pY, 152, 24, Component.empty(), b -> {}, Supplier::get);
         this.handlerInfo = handlerInfo;
         this.handler = handler;
@@ -39,6 +40,8 @@ public class CFRuleButton extends Button implements ITooltipButton {
                 i++;
             }
         }
+
+        this.tooltips = tooltips;
     }
 
     @Override
@@ -90,6 +93,8 @@ public class CFRuleButton extends Button implements ITooltipButton {
         int index = checkCoordinate2(mouseX, mouseY, this.getX() + 24, this.getY() + 13);
         if (index != -1 && index < blockItems.size()) {
             graphics.renderTooltip(mc.font, blockItems.get(index), mouseX, mouseY);
+        } else {
+            graphics.renderComponentTooltip(mc.font, this.tooltips, mouseX, mouseY);
         }
     }
 

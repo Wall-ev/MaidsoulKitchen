@@ -83,28 +83,12 @@ public abstract class BerryHandler implements ICompatFarmHandler, IHandlerInfo {
     }
 
     public final void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-
         ActionState actionState = processCanHarvest(maid, cropPos, cropState);
         if (actionState == ActionState.DENY) {
-            return;
         } else if (actionState == ActionState.ALLOW) {
             this.processHarvest(maid, cropPos, cropState);
         } else if (nextHandler != null) {
             nextHandler.harvest(maid, cropPos, cropState);
         }
-
-//        ActionState actionState = processHarvest(maid, cropPos, cropState);
-//        if (actionState == ActionState.DENY) {
-//            return;
-//        } else if (actionState == ActionState.ALLOW) {
-//            this.processHarvest(maid, cropPos, cropState);
-//            return;
-//        } else if (nextHandler != null) {
-//            nextHandler.processHarvest(maid, cropPos, cropState);
-//        }
-
-//        if (!processHarvest(maid, cropPos, cropState) && nextHandler != null) {
-//            nextHandler.harvest(maid, cropPos, cropState);
-//        }
     }
 }

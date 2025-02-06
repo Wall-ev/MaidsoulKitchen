@@ -14,10 +14,12 @@ import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionBerryFarmRuleMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -52,7 +54,7 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     protected void initAdditionData() {
         super.initAdditionData();
         this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task)
-                .getManagerHandlerValues())
+                        .getManagerHandlerValues())
                 .map(IFarmHandlerManager::getFarmHandler)
                 .filter(ICompatFarmHandler::canLoad)
                 .toList();
@@ -103,7 +105,7 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
             if (!handler.canLoad()) continue;
             String handlerUid = ((IHandlerInfo) handler).getUid().toString();
             boolean contains = farmTaskInfo.rules().contains(handlerUid);
-            CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY) {
+            CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY, this.getTaskTooltips((IHandlerInfo) handler)) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
@@ -153,5 +155,22 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
 
     private float getCurrentScroll() {
         return Mth.clamp((float) (solIndex * (1.0 / ((this.handlers.size() - 1) / limitSize))), 0, 1);
+    }
+
+    private List<Component> getTaskTooltips(IHandlerInfo iHandlerInfo) {
+        List<Component> desc = iHandlerInfo.getDescription(maid);
+        if (!desc.isEmpty()) {
+            desc.add(0, Component.translatable("task.touhou_little_maid.desc.title").withStyle(ChatFormatting.GOLD));
+        }
+        List<Component> conditionDescription = iHandlerInfo.getConditionDescription(maid);
+        if (!conditionDescription.isEmpty()) {
+            desc.add(Component.literal("\u0020"));
+            desc.add(Component.translatable("task.touhou_little_maid.desc.condition").withStyle(ChatFormatting.GOLD));
+        }
+        for (Component line : conditionDescription) {
+            MutableComponent prefix = Component.literal("-\u0020");
+            desc.add(prefix.append(line));
+        }
+        return desc;
     }
 }
