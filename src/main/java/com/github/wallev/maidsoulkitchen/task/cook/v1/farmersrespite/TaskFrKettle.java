@@ -10,9 +10,12 @@ import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.ICbeAccessor;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -160,7 +163,6 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
         }
 
 //         容器内部没有符合烹饪的原材料&&容器内部存在余下的材料
-//         容器内部没有符合烹饪的原材料&&仓库存在可以烹饪的原材料
         boolean hasInput = false;
         if (!innerCanCook) {
             for (int i = 0; i < 2; i++) {
@@ -177,7 +179,9 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
 
             kettleBlockEntity.setChanged();
         }
+        pickupAction(maid);
 
+//         容器内部没有符合烹饪的原材料&&仓库存在可以烹饪的原材料
         if (!innerCanCook && !hasInput && kettleBlockEntity.getFluidTank().isEmpty() && !recManager.getRecipesIngredients().isEmpty()) {
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient();
             if (hasEnoughIngredient(recipeIngredient.getFirst(), recipeIngredient.getSecond())) {
@@ -212,6 +216,8 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
 
                 this.insertInputsStack(inventory, inputInv, kettleBlockEntity, recipeIngredient);
                 kettleBlockEntity.setChanged();
+
+                pickupAction(maid);
             }
         }
     }
@@ -221,6 +227,8 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
 
         int i = 0;
         for (List<ItemStack> ingredient : ingredients) {
+            if (ingredient.isEmpty()) continue;
+
             int actualCount = amounts.get(i++);
             for (ItemStack itemStack : ingredient) {
                 actualCount -= itemStack.getCount();
@@ -270,8 +278,6 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
 
     @Override
     public List<KettleRecipe> getRecipes(Level level) {
-        KEY_RECIPE_INGREDIENTS.clear();
-
         if (KEY_RECIPE_INGREDIENTS.isEmpty()) {
             FLUID_CONTAINERS.clear();
 
@@ -430,8 +436,26 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
     }
 
     @Override
+    public NonNullList<Ingredient> getIngredients(Recipe<?> recipe) {
+        NonNullList<Ingredient> ingredinetNonNullList = NonNullList.create();
+
+        MaidKettleRecipe maidKettleRecipe = KEY_RECIPE_INGREDIENTS.get((KettleRecipe) recipe);
+        if (!maidKettleRecipe.inFluids.isEmpty()) {
+            ingredinetNonNullList.add(Ingredient.of(maidKettleRecipe.inFluids.stream()));
+        }
+        ingredinetNonNullList.addAll(maidKettleRecipe.inItems());
+
+        return ingredinetNonNullList;
+    }
+
+    @Override
     public ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
         return KEY_RECIPE_INGREDIENTS.get((KettleRecipe) recipe).output();
+    }
+
+    protected void pickupAction(EntityMaid maid) {
+        maid.swing(InteractionHand.MAIN_HAND);
+        maid.playSound(SoundEvents.ITEM_PICKUP, 1.0F, maid.getRandom().nextFloat() * 0.1F + 1.0F);
     }
 
     public record MaidKettleRecipe(List<ItemStack> inFluids, List<Ingredient> inItems, ItemStack output) {

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.brewinandchewin;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
@@ -9,16 +10,21 @@ import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMakeTask;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.ICbeAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersrespite.TaskFrKettle;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,6 +44,7 @@ import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 import umpaz.brewinandchewin.common.crafting.KegPouringRecipe;
 import umpaz.brewinandchewin.common.registry.BnCBlocks;
 import umpaz.brewinandchewin.common.registry.BnCRecipeTypes;
+import umpaz.farmersrespite.common.crafting.KettleRecipe;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -164,7 +171,6 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
         }
 
 //         容器内部没有符合烹饪的原材料&&容器内部存在余下的材料
-//         容器内部没有符合烹饪的原材料&&仓库存在可以烹饪的原材料
         boolean hasInput = false;
         if (!innerCanCook) {
             for (int i = 0; i < inventory.getSlots(); i++) {
@@ -181,9 +187,16 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
             kegBlockEntity.setChanged();
         }
+        pickupAction(maid);
 
+//         容器内部没有符合烹饪的原材料&&仓库存在可以烹饪的原材料
         if (!innerCanCook && !hasInput && kegBlockEntity.getFluidTank().isEmpty() && kegFermentingRecipesManager.hasRecipeIngredientsWithTemp(kegBlockEntity.getTemperature())) {
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = kegFermentingRecipesManager.getRecipeIngredient(kegBlockEntity.getTemperature());
+            MaidsoulKitchen.LOGGER.info("recipeIngredient: ");
+            MaidsoulKitchen.LOGGER.info(recipeIngredient);
+            MaidsoulKitchen.LOGGER.info("recipeIngredients: ");
+            MaidsoulKitchen.LOGGER.info(kegFermentingRecipesManager.getRecipesIngredients());
+
             if (hasEnoughIngredient(recipeIngredient.getFirst(), recipeIngredient.getSecond())) {
 
                 int amount = recipeIngredient.getFirst().get(0);
@@ -221,6 +234,8 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
                 this.insertInputsStack(inventory, inputInv, kegBlockEntity, recipeIngredient);
                 kegBlockEntity.setChanged();
+
+                pickupAction(maid);
             }
         }
     }
@@ -295,8 +310,6 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
     @Override
     public List<KegFermentingRecipe> getRecipes(Level level) {
-        KEG_RECIPE_INGREDIENTS.clear();
-
         if (KEG_RECIPE_INGREDIENTS.isEmpty()) {
             FLUID_CONTAINERS.clear();
 
@@ -458,6 +471,19 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
         return RegisterData.BNC_KEY;
     }
 
+    @Override
+    public NonNullList<Ingredient> getIngredients(Recipe<?> recipe) {
+        NonNullList<Ingredient> ingredinetNonNullList = NonNullList.create();
+
+        MaidKegRecipe maidKegRecipe = KEG_RECIPE_INGREDIENTS.get((KegFermentingRecipe) recipe);
+        if (!maidKegRecipe.inFluids.isEmpty()) {
+            ingredinetNonNullList.add(Ingredient.of(maidKegRecipe.inFluids.stream()));
+        }
+        ingredinetNonNullList.addAll(maidKegRecipe.inItems());
+
+        return ingredinetNonNullList;
+    }
+
     protected Set<Integer> searchAndCreateTemperate(ServerLevel worldIn, EntityMaid maid) {
         Set<Integer> worldBlockEntityTemperates = new HashSet<>();
 
@@ -480,6 +506,11 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
             }
         }
         return worldBlockEntityTemperates;
+    }
+
+    protected void pickupAction(EntityMaid maid) {
+        maid.swing(InteractionHand.MAIN_HAND);
+        maid.playSound(SoundEvents.ITEM_PICKUP, 1.0F, maid.getRandom().nextFloat() * 0.1F + 1.0F);
     }
 
     public record MaidKegRecipe(List<ItemStack> inFluids, List<Ingredient> inItems) {

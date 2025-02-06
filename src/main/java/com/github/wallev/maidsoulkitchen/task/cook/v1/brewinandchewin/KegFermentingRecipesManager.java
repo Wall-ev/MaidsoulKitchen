@@ -16,6 +16,7 @@ import static umpaz.brewinandchewin.common.block.entity.KegBlockEntity.isValidTe
 
 public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentingRecipe> {
     private Map<Integer, List<Integer>> temperateListIngredients;
+
     public KegFermentingRecipesManager(EntityMaid maid, TaskBncKeg task) {
         super(maid, task, false);
 
@@ -52,7 +53,16 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
 
         int remove = orDefault.remove(0);
         if (orDefault.isEmpty()) temperateListIngredients.remove(temp);
-        return recipesIngredients.remove(remove);
+
+
+        if (temperateListIngredients.isEmpty()) {
+            Pair<List<Integer>, List<List<ItemStack>>> ingredients = recipesIngredients.get(remove);
+            recipesIngredients.clear();
+            return ingredients;
+        } else {
+            return recipesIngredients.get(remove);
+        }
+
     }
 
     @NotNull
@@ -169,14 +179,13 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
         if (!maidKettleRecipe.inFluids().isEmpty()) {
             countList.add(0, fluidItemAmount);
             available.put(fluidItem, available.get(fluidItem) - fluidItemAmount);
-
-            for (Item item : invIngredient.stream().skip(1).toList()) {
-                countList.add(maxCount);
-                available.put(item, available.get(item) - maxCount);
-            }
         } else {
             countList.add(0, 0);
             invIngredient.add(0, ItemStack.EMPTY.getItem());
+        }
+        for (Item item : invIngredient.stream().skip(1).toList()) {
+            countList.add(maxCount);
+            available.put(item, available.get(item) - maxCount);
         }
 
         return Pair.of(countList, invIngredient);

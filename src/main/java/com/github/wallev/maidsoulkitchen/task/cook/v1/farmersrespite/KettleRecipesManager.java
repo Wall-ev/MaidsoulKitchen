@@ -24,6 +24,8 @@ public class KettleRecipesManager extends MaidRecipesManager<KettleRecipe> {
 
         // 流体
         boolean hasFluidItem = false;
+        int fluidItemAmount = 0;
+        Item fluidItem = ItemStack.EMPTY.getItem();
         for (ItemStack ingredient : maidKettleRecipe.inFluids()) {
             boolean hasIngredient = false;
             for (Item item : available.keySet()) {
@@ -38,6 +40,10 @@ public class KettleRecipesManager extends MaidRecipesManager<KettleRecipe> {
                         itemTimes.merge(item, 1, Integer::sum);
                     }
 
+                    fluidItemAmount = ingredient.getCount();
+                    fluidItem = item;
+                    single[0] = true;
+
                     break;
                 }
             }
@@ -47,7 +53,7 @@ public class KettleRecipesManager extends MaidRecipesManager<KettleRecipe> {
                 break;
             }
         }
-        if (!hasFluidItem) {
+        if (!maidKettleRecipe.inFluids().isEmpty() && !hasFluidItem) {
             return Pair.of(Collections.emptyList(), Collections.emptyList());
         }
 
@@ -94,7 +100,14 @@ public class KettleRecipesManager extends MaidRecipesManager<KettleRecipe> {
 
         // 计算每个物品的数量
         List<Integer> countList = new ArrayList<>();
-        for (Item item : invIngredient) {
+        if (!maidKettleRecipe.inFluids().isEmpty()) {
+            countList.add(0, fluidItemAmount);
+            available.put(fluidItem, available.get(fluidItem) - fluidItemAmount);
+        } else {
+            countList.add(0, 0);
+            invIngredient.add(0, ItemStack.EMPTY.getItem());
+        }
+        for (Item item : invIngredient.stream().skip(1).toList()) {
             countList.add(maxCount);
             available.put(item, available.get(item) - maxCount);
         }
