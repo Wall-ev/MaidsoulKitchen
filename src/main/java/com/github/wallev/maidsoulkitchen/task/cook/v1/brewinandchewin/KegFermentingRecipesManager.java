@@ -170,7 +170,7 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
             countList.add(0, fluidItemAmount);
             available.put(fluidItem, available.get(fluidItem) - fluidItemAmount);
 
-            for (Item item : invIngredient.stream().skip(0).toList()) {
+            for (Item item : invIngredient.stream().skip(1).toList()) {
                 countList.add(maxCount);
                 available.put(item, available.get(item) - maxCount);
             }

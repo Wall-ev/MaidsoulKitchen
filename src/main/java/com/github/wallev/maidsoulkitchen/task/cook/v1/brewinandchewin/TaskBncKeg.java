@@ -11,6 +11,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.ICbeAccessor;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -31,6 +32,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import umpaz.brewinandchewin.client.utility.BnCFluidItemDisplays;
 import umpaz.brewinandchewin.common.block.entity.KegBlockEntity;
 import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 import umpaz.brewinandchewin.common.crafting.KegPouringRecipe;
@@ -191,6 +193,8 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
                     if (count >= amount) {
                         List<ItemStack> extracted = kegBlockEntity.extractInWorld(kegBlockEntity, itemStack.copyWithCount(amount), amount, false);
+                        if (extracted.isEmpty()) return;
+
                         itemStack.shrink(amount);
                         for (ItemStack stack : extracted) {
                             ItemStack leftInsertedStack = ItemHandlerHelper.insertItemStacked(inputInv, stack, false);
@@ -291,6 +295,8 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 
     @Override
     public List<KegFermentingRecipe> getRecipes(Level level) {
+        KEG_RECIPE_INGREDIENTS.clear();
+
         if (KEG_RECIPE_INGREDIENTS.isEmpty()) {
             FLUID_CONTAINERS.clear();
 
@@ -400,6 +406,9 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
                                 }
                             }
                         });
+                    } else {
+                        ItemStack otherFluidItem = BnCFluidItemDisplays.getFluidItemDisplay(level.registryAccess(), fluidIn);
+                        fluidItems.add(otherFluidItem.copy());
                     }
 
                     MaidKegRecipe maidKegFermentingRecipe = new MaidKegRecipe(fluidItems, kegFermentingRecipe.getIngredients());
