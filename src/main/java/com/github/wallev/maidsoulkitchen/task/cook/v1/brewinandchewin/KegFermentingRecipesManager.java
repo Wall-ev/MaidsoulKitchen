@@ -16,6 +16,8 @@ import static umpaz.brewinandchewin.common.block.entity.KegBlockEntity.isValidTe
 
 public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentingRecipe> {
     private Map<Integer, List<Integer>> temperateListIngredients;
+    // 额外尝试标志位，因为酿酒有温度要求，是可实时变化的。
+    private int extraTryTime = 0;
 
     public KegFermentingRecipesManager(EntityMaid maid, TaskBncKeg task) {
         super(maid, task, false);
@@ -28,15 +30,21 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
     }
 
     public boolean hasRecipeIngredientsWithTemp(int temp) {
-        for (Integer integer : temperateListIngredients.keySet()) {
-            if (isValidTemp(temp, integer)) {
-                return true;
+        if (!temperateListIngredients.isEmpty()) {
+            for (Integer integer : temperateListIngredients.keySet()) {
+                if (isValidTemp(temp, integer)) {
+                    extraTryTime = 0;
+                    return true;
+                }
+            }
+
+            if (extraTryTime++ > 20) {
+                temperateListIngredients.clear();
+                return false;
             }
         }
 
         return false;
-
-//        return !temperateListIngredients.getOrDefault(temp, Collections.emptyList()).isEmpty();
     }
 
     public Pair<List<Integer>, List<List<ItemStack>>> getRecipeIngredient(int temp) {
