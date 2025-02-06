@@ -10,6 +10,7 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue COMPAT_MELON_FARM_TASK_ENABLED;
 
     public static ForgeConfigSpec.BooleanValue SERENESEASONS_FARM_TASK_ENABLED;
+    public static ForgeConfigSpec.BooleanValue ECLIPTICSEASONS_FARM_TASK_ENABLED;
 
     public static ForgeConfigSpec.BooleanValue FEED_AND_DRINK_OWNER_TASK_ENABLED;
 
@@ -45,6 +46,9 @@ public class RegisterConfig {
 
         builder.comment("This can make the sereneseasons farm task enabled or not.");
         SERENESEASONS_FARM_TASK_ENABLED = builder.define("SereneSeasonsTaskEnabled", true);
+        builder.comment("This can make the eclipticseasons farm task enabled or not.");
+        ECLIPTICSEASONS_FARM_TASK_ENABLED = builder.define("EclipticSeasonsTaskEnabled", true);
+
 
         builder.comment("This can make the feed and drink owner task enabled or not.");
         FEED_AND_DRINK_OWNER_TASK_ENABLED = builder.define("FeedAndDrinkOwnerTaskEnabled", true);

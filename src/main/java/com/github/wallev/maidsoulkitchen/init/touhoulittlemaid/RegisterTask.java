@@ -17,10 +17,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcD
 import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcFermentationTank;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcMoka;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.youkaishomecoming.TaskYhcTeaKettle;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskCompatMelonFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.TaskSsFarm;
+import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
@@ -44,6 +41,9 @@ public final class RegisterTask {
 
         if (Mods.SS.isLoaded() && RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED.get()) {
             manager.add(new TaskSsFarm());
+        }
+        if (Mods.ES.isLoaded() && RegisterConfig.ECLIPTICSEASONS_FARM_TASK_ENABLED.get()) {
+            manager.add(new TaskEsFarm());
         }
 
 

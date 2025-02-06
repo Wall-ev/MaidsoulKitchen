@@ -49,6 +49,7 @@ public enum Mods {
     TWT("thirst"),
 
     SS("sereneseasons"),
+    ES("eclipticseasons"),
 
     MC("minecraft") {
         @Override
