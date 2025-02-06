@@ -59,11 +59,11 @@ public final class RegisterTask {
         if (Mods.MD.isLoaded() && RegisterConfig.MD_COOK_POT_TASK_ENABLED.get()) {
             manager.add(new TaskMdCopperPot());
         }
+        if (Mods.FRD.isLoaded() && RegisterConfig.FR_KETTLE_TASK_ENABLED.get()) {
+            manager.add(new TaskFrKettle());
+        }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             manager.add(new TaskBncKeg());
-        }
-        if (Mods.FRD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
-            manager.add(new TaskFrKettle());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             manager.add(new TaskYhcMoka());

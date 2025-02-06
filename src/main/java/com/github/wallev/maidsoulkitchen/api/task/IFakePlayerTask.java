@@ -23,8 +23,8 @@ import static com.github.wallev.maidsoulkitchen.MaidsoulKitchen.LOGGER;
 public interface IFakePlayerTask {
     Set<Block> blackList = new HashSet<>();
 
-    default InteractionResult interactUseOnBlock(EntityMaid maid, BlockPos targetPos, InteractionHand hand, @Nullable Direction facing) {
-        FakePlayer fakePlayer = ((IAddonMaid) maid).getFakePlayer$tlma().get();
+    static InteractionResult interactUseOnBlock(EntityMaid maid, BlockPos targetPos, InteractionHand hand, @Nullable Direction facing) {
+        FakePlayer fakePlayer = ((IAddonMaid) maid).tlmk$getFakePlayer().get();
         Direction placementOn = (facing == null) ? fakePlayer.getMotionDirection() : facing;
         BlockHitResult blockraytraceresult = new BlockHitResult(
                 fakePlayer.getLookAngle(), placementOn,
@@ -34,7 +34,7 @@ public interface IFakePlayerTask {
         return fakePlayer.gameMode.useItemOn(fakePlayer, maid.level(), itemInHand, hand, blockraytraceresult);
     }
 
-    default void maidRightClick(EntityMaid maid, BlockPos targetPos, InteractionHand hand) {
+    static void maidRightClick(EntityMaid maid, BlockPos targetPos, InteractionHand hand) {
         try {
 //            LOGGER.info("FakePlayerUtil.interactUseOnBlock ");
             InteractionResult interactionResult = interactUseOnBlock(maid, targetPos, hand, null);
@@ -51,7 +51,7 @@ public interface IFakePlayerTask {
         }
     }
 
-    default void maidRightClick(EntityMaid maid, BlockPos targetPos) {
+    static void maidRightClick(EntityMaid maid, BlockPos targetPos) {
         maidRightClick(maid, targetPos, InteractionHand.MAIN_HAND);
     }
 

@@ -14,9 +14,14 @@ public class CompatBerryHandler extends BerryHandler implements ICompatHandler {
     public static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "berry_compat");
 
     @Override
-    public boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+    public ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("CompatBerryHandler handleCanHarvest ");
-        return ICompatHandler.super.process(maid, cropPos, cropState);
+        return ICompatHandler.super.process(maid, cropPos, cropState) ? ActionState.ALLOW : ActionState.DEFAULT;
+    }
+
+    @Override
+    protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+        return this.harvestWithoutTool(maid, cropPos, cropState);
     }
 
     @Override

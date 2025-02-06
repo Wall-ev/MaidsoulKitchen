@@ -115,7 +115,7 @@ public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, 
         if (fluidItemSlot > -1) {
 
             ItemStack waterStack = maid.getAvailableInv(true).getStackInSlot(fluidItemSlot);
-            WeakReference<FakePlayer> fakePlayer$tlma = ((IAddonMaid) maid).getFakePlayer$tlma();
+            WeakReference<FakePlayer> fakePlayer$tlma = ((IAddonMaid) maid).tlmk$getFakePlayer();
             FakePlayer fakePlayer = fakePlayer$tlma.get();
             if (fakePlayer != null) {
 

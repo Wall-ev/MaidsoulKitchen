@@ -92,6 +92,10 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.md_cook_pot.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.MD_COOK_POT_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.fr_kettle"), RegisterConfig.FR_KETTLE_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.fr_kettle.tooltip"),
+                        Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.FR_KETTLE_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.bnc_key"), RegisterConfig.BNC_KEY_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.bnc_key.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)

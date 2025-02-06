@@ -31,6 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
+import static com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid.BLACK_LIST;
+
 
 public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFakePlayerTask, IAddonFarmTask {
     @Override
@@ -49,14 +51,14 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
 //        LOGGER.info("TaskFruitFarm cropState: " + cropState);
-        return handler != null && !blackList.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
 //        LOGGER.info("TaskFruitFarm start harvestWithoutDestroy " + cropState);
 
-        this.maidRightClick(maid, cropPos);
+        IFakePlayerTask.maidRightClick(maid, cropPos);
     }
 
     @Override

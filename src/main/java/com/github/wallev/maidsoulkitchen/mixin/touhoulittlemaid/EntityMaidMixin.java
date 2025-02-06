@@ -26,13 +26,13 @@ public abstract class EntityMaidMixin extends TamableAnimal implements CrossbowA
     }
 
     @Override
-    public @NotNull WeakReference<FakePlayer> getFakePlayer$tlma() {
-        this.initFakePlayer$tlma();
+    public @NotNull WeakReference<FakePlayer> tlmk$getFakePlayer() {
+        this.tlmk$initFakePlayer();
         return fakePlayer;
     }
 
     @Override
-    public void initFakePlayer$tlma() {
+    public void tlmk$initFakePlayer() {
         if (fakePlayer == null) {
             this.fakePlayer = FakePlayerUtil.setupBeforeTrigger((ServerLevel) level(), this.getName().getString(), this);
         }

@@ -14,9 +14,14 @@ public class VanillaBerryHandler extends BerryHandler{
     public static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "berry_minecraft");
 
     @Override
-    protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+    protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("VanillaBerryHandler handleCanHarvest");
-        return cropState.getBlock() instanceof SweetBerryBushBlock && cropState.getValue(SweetBerryBushBlock.AGE) >= SweetBerryBushBlock.MAX_AGE;
+        return cropState.getBlock() instanceof SweetBerryBushBlock && cropState.getValue(SweetBerryBushBlock.AGE) >= SweetBerryBushBlock.MAX_AGE ? ActionState.ALLOW : ActionState.DEFAULT;
+    }
+
+    @Override
+    protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+        return this.harvestWithoutTool(maid, cropPos, cropState);
     }
 
     @Override

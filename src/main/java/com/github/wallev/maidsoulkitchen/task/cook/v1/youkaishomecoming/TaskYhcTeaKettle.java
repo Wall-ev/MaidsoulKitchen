@@ -181,7 +181,7 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
             int stackSlot = findMaidHasWaterResource(entityMaid, blockEntity);
             if (stackSlot != -1) {
                 ItemStack waterStack = entityMaid.getAvailableInv(true).getStackInSlot(stackSlot);
-                WeakReference<FakePlayer> fakePlayer$tlma = ((IAddonMaid) entityMaid).getFakePlayer$tlma();
+                WeakReference<FakePlayer> fakePlayer$tlma = ((IAddonMaid) entityMaid).tlmk$getFakePlayer();
                 FakePlayer fakePlayer = fakePlayer$tlma.get();
                 if (fakePlayer != null) {
                     fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, waterStack.split(1));

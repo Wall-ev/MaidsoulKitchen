@@ -35,4 +35,10 @@ public interface ICompatFarmHandler {
             return this.head;
         }
     }
+
+    enum ActionState {
+        DENY,
+        ALLOW,
+        DEFAULT;
+    }
 }

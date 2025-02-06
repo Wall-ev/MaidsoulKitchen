@@ -19,6 +19,7 @@ public class RegisterConfig {
     public static ForgeConfigSpec.BooleanValue FD_CUTTING_BOARD_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue MD_COOK_POT_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue BNC_KEY_TASK_ENABLED;
+    public static ForgeConfigSpec.BooleanValue FR_KETTLE_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_MOKA_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_TEA_KETTLE_TASK_ENABLED;
     public static ForgeConfigSpec.BooleanValue YHC_DRYING_RACK_TASK_ENABLED;
@@ -58,6 +59,8 @@ public class RegisterConfig {
         MD_COOK_POT_TASK_ENABLED = builder.define("MdCookPotTaskEnabled", true);
         builder.comment("This can make the bnc key task enabled or not.");
         BNC_KEY_TASK_ENABLED = builder.define("BncKeyTaskEnabled", true);
+        builder.comment("This can make the fr kettle task enabled or not.");
+        FR_KETTLE_TASK_ENABLED = builder.define("FrKettleTaskEnabled", true);
         builder.comment("This can make the yhc moka task enabled or not.");
         YHC_MOKA_TASK_ENABLED = builder.define("YhcMokaTaskEnabled", true);
         builder.comment("This can make the yhc tea kettle task enabled or not.");
