@@ -294,83 +294,113 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
         if (KEG_RECIPE_INGREDIENTS.isEmpty()) {
             FLUID_CONTAINERS.clear();
 
-            Map<Fluid, List<Pair<ItemStack, FluidStack>>> registriesFluidItems = new HashMap<>();
+            Map<Fluid, List<Pair<ItemStack, Integer>>> fluidItems1 = new HashMap<>();
+            Map<Fluid, List<ItemStack>> fluidContainers1 = new HashMap<>();
+            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
+                if (fluid instanceof EmptyFluid) continue;
+
+                ItemStack container = fluid.getBucket().getDefaultInstance().getCraftingRemainingItem();
+                if (!container.isEmpty()) {
+                    if (fluidContainers1.containsKey(fluid)) {
+                        List<ItemStack> itemStacks = fluidContainers1.getOrDefault(fluid, Collections.emptyList());
+                        if (itemStacks.stream().noneMatch(itemStack1 -> itemStack1.is(container.getItem()))) {
+                            itemStacks.add(container);
+                        }
+                    } else {
+                        fluidContainers1.put(fluid, Lists.newArrayList(container));
+                    }
+                }
+            }
             for (Item item : ForgeRegistries.ITEMS.getValues()) {
-                ItemStack defaultInstance = item.getDefaultInstance();
+                ItemStack defaultInstance = item.getDefaultInstance().copy();
                 IFluidHandlerItem iFluidHandlerItem = defaultInstance.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
-                if (iFluidHandlerItem != null && iFluidHandlerItem instanceof FluidBucketWrapper fluidBucketWrapper && !fluidBucketWrapper.getFluid().isEmpty()) {
-                    Fluid fluid = fluidBucketWrapper.getFluid().getFluid();
+                if (iFluidHandlerItem != null && iFluidHandlerItem instanceof FluidBucketWrapper fluidBucketWrapper) {
+                    FluidStack fluidStack = fluidBucketWrapper.getFluid();
+                    Fluid rawFluid = fluidStack.getRawFluid();
 
-                    registriesFluidItems.merge(fluid, Lists.newArrayList(Pair.of(defaultInstance, fluidBucketWrapper.getFluid())), (a1, a2) -> {
-                        a1.addAll(a2);
-                        return a1;
-                    });
+                    if (!fluidStack.isEmpty() && !(rawFluid instanceof EmptyFluid)) {
 
-                    ItemStack container = fluid.getBucket().getDefaultInstance().getCraftingRemainingItem();
-                    if (!container.isEmpty()) {
-                        FLUID_CONTAINERS.putIfAbsent(fluid, Lists.newArrayList(container));
+                        if (fluidItems1.containsKey(rawFluid)) {
+                            List<Pair<ItemStack, Integer>> fluidItems2 = fluidItems1.getOrDefault(rawFluid, Collections.emptyList());
+                            if (fluidItems2.stream().noneMatch(pair1 -> pair1.getFirst().is(defaultInstance.getItem()))) {
+                                fluidItems1.get(rawFluid).add(Pair.of(defaultInstance, fluidStack.getAmount()));
+                            }
+                        } else {
+                            fluidItems1.put(rawFluid, Lists.newArrayList(Pair.of(defaultInstance, fluidStack.getAmount())));
+                        }
+
+                        ItemStack container = fluidBucketWrapper.getContainer().getCraftingRemainingItem();
+                        if (!container.isEmpty()) {
+                            if (fluidContainers1.containsKey(rawFluid)) {
+                                List<ItemStack> itemStacks = fluidContainers1.getOrDefault(rawFluid, Collections.emptyList());
+                                if (itemStacks.stream().noneMatch(itemStack1 -> itemStack1.is(container.getItem()))) {
+                                    itemStacks.add(container);
+                                }
+                            } else {
+                                fluidContainers1.put(rawFluid, Lists.newArrayList(container));
+                            }
+                        }
                     }
                 }
             }
 
-            Map<Fluid, List<ItemStack>> fluidItemStacks = new HashMap<>();
-            List<KegFermentingRecipe> KegFermentingRecipes = level.getRecipeManager().getAllRecipesFor(BnCRecipeTypes.FERMENTING.get());
             List<KegPouringRecipe> kegPouringRecipes = level.getRecipeManager().getAllRecipesFor(BnCRecipeTypes.KEG_POURING.get());
+            List<KegFermentingRecipe> KegFermentingRecipes = level.getRecipeManager().getAllRecipesFor(BnCRecipeTypes.FERMENTING.get());
+            for (KegPouringRecipe kegPouringRecipe : kegPouringRecipes) {
+                Fluid rawFluid = kegPouringRecipe.getRawFluid();
+                if (rawFluid instanceof EmptyFluid) {
+                    continue;
+                }
 
+                ItemStack itemStack = kegPouringRecipe.getOutput().copy();
+                if (!itemStack.isEmpty()) {
+                    if (fluidItems1.containsKey(rawFluid)) {
+                        List<Pair<ItemStack, Integer>> itemStacks = fluidItems1.getOrDefault(rawFluid, Collections.emptyList());
+                        if (itemStacks.stream().noneMatch(itemStack1 -> itemStack1.getFirst().is(itemStack.getItem()))) {
+                            itemStacks.add(Pair.of(itemStack, kegPouringRecipe.getAmount()));
+                        }
+                    } else {
+                        fluidItems1.put(rawFluid, Lists.newArrayList(Pair.of(itemStack, kegPouringRecipe.getAmount())));
+                    }
+                }
+
+                ItemStack container = kegPouringRecipe.getContainer().copyWithCount(1);
+                if (!container.isEmpty()) {
+                    if (fluidContainers1.containsKey(rawFluid)) {
+                        List<ItemStack> itemStacks = fluidContainers1.getOrDefault(rawFluid, Collections.emptyList());
+                        if (itemStacks.stream().noneMatch(itemStack1 -> itemStack1.is(container.getItem()))) {
+                            itemStacks.add(container);
+                        }
+
+                    } else {
+                        fluidContainers1.put(rawFluid, Lists.newArrayList(container));
+                    }
+                }
+            }
+            FLUID_CONTAINERS.putAll(fluidContainers1);
 
             for (KegFermentingRecipe kegFermentingRecipe : KegFermentingRecipes) {
                 // 输入的流体
                 FluidStack fluidIn = kegFermentingRecipe.getFluidIngredient();
                 if (fluidIn != null && !fluidIn.isEmpty()) {
-                    // 输入的流体容器
-                    if (!FLUID_CONTAINERS.containsKey(fluidIn.getFluid())) {
-                        List<KegPouringRecipe> matchKegPouringRecipes = kegPouringRecipes.stream()
-                                .filter(pouringRecipe -> pouringRecipe.getRawFluid().isSame(fluidIn.getFluid()))
-                                .toList();
-                        List<ItemStack> list = matchKegPouringRecipes.stream()
-                                .map(KegPouringRecipe::getContainer)
-                                .filter(itemStack -> !itemStack.isEmpty())
-                                .toList();
-
-                        if (!list.isEmpty()) {
-                            FLUID_CONTAINERS.put(fluidIn.getFluid(), Lists.newArrayList(list));
-                        }
-
-                    }
-
-                    // 输入的流体所对应的ItemStack
-                    List<ItemStack> fluidItems = fluidItemStacks.computeIfAbsent(fluidIn.getFluid(), fluid -> {
-                        return kegPouringRecipes.stream()
-                                .filter(pouringRecipe -> pouringRecipe.getRawFluid().isSame(fluid))
-                                .map(kegPouringRecipe -> {
-                                    ItemStack outputFluidItem = kegPouringRecipe.getOutput();
-                                    int amount = kegPouringRecipe.getAmount();
-                                    int amountTotal = fluidIn.getAmount();
-                                    outputFluidItem.setCount(amountTotal / amount);
-                                    return outputFluidItem;
-                                }).toList();
-                    });
-                    if (registriesFluidItems.containsKey(fluidIn.getFluid())) {
-                        List<ItemStack> fluidItems9 = new ArrayList<>(fluidItems);
-                        registriesFluidItems.forEach((fluid, itemStacks) -> {
+                    List<ItemStack> fluidItems = new ArrayList<>();
+                    if (fluidItems1.keySet().stream().anyMatch(fluid -> fluid.isSame(fluidIn.getFluid()))) {
+                        fluidItems1.forEach((fluid, itemStacks) -> {
                             if (fluid.isSame(fluidIn.getFluid())) {
-                                for (Pair<ItemStack, FluidStack> fluidStackPair : itemStacks) {
-                                    ItemStack outputFluidItem = fluidStackPair.getFirst();
-                                    int amount = fluidStackPair.getSecond().getAmount();
+                                for (Pair<ItemStack, Integer> fluidStackPair : itemStacks) {
+                                    ItemStack outputFluidItem = fluidStackPair.getFirst().copy();
+                                    int amount = fluidStackPair.getSecond();
                                     int amountTotal = fluidIn.getAmount();
-                                    outputFluidItem.setCount(amountTotal / amount);
+                                    outputFluidItem.setCount(Math.max(1, amountTotal / amount));
 
-                                    if (!fluidItems9.contains(outputFluidItem)) {
-                                        fluidItems9.add(outputFluidItem);
+                                    if (fluidItems.stream().noneMatch(itemStack -> itemStack.is(outputFluidItem.getItem()) && itemStack.getCount() == outputFluidItem.getCount())) {
+                                        fluidItems.add(outputFluidItem);
                                     }
 
                                 }
                             }
                         });
-
-                        fluidItems = fluidItems9;
                     }
-
 
                     MaidKegRecipe maidKegFermentingRecipe = new MaidKegRecipe(fluidItems, kegFermentingRecipe.getIngredients());
                     KEG_RECIPE_INGREDIENTS.put(kegFermentingRecipe, maidKegFermentingRecipe);
@@ -378,33 +408,8 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
                     MaidKegRecipe maidKegFermentingRecipe = new MaidKegRecipe(Collections.emptyList(), kegFermentingRecipe.getIngredients());
                     KEG_RECIPE_INGREDIENTS.put(kegFermentingRecipe, maidKegFermentingRecipe);
                 }
-
-                // 输出的流体容器
-                Fluid fluidOut = kegFermentingRecipe.getResultFluid();
-                if (fluidOut != null && !(fluidOut instanceof EmptyFluid) && !FLUID_CONTAINERS.containsKey(fluidOut)) {
-                    List<KegPouringRecipe> matchKegPouringRecipes = kegPouringRecipes.stream()
-                            .filter(pouringRecipe -> pouringRecipe.getRawFluid().isSame(fluidOut))
-                            .toList();
-
-                    List<ItemStack> list = matchKegPouringRecipes.stream()
-                            .map(KegPouringRecipe::getContainer)
-                            .filter(container -> !container.isEmpty())
-                            .toList();
-                    FLUID_CONTAINERS.put(fluidOut, Lists.newArrayList(list));
-                }
             }
 
-            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
-                if (fluid instanceof EmptyFluid) continue;
-
-                ItemStack container = fluid.getBucket().getDefaultInstance().getCraftingRemainingItem();
-                if (container.isEmpty()) continue;
-
-                FLUID_CONTAINERS.merge(fluid, Lists.newArrayList(container), (itemStacks, itemStacks2) -> {
-                    itemStacks.addAll(itemStacks2);
-                    return itemStacks;
-                });
-            }
         }
         return KEG_RECIPE_INGREDIENTS.keySet().stream().toList();
     }

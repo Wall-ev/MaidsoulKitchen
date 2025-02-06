@@ -90,6 +90,8 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
 
         // 流体
         boolean hasFluidItem = false;
+        int fluidItemAmount = 0;
+        Item fluidItem = ItemStack.EMPTY.getItem();
         for (ItemStack ingredient : maidKettleRecipe.inFluids()) {
             boolean hasIngredient = false;
             for (Item item : available.keySet()) {
@@ -103,6 +105,10 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
                     } else {
                         itemTimes.merge(item, 1, Integer::sum);
                     }
+
+                    fluidItemAmount = ingredient.getCount();
+                    fluidItem = item;
+                    single[0] = true;
 
                     break;
                 }
@@ -160,11 +166,15 @@ public class KegFermentingRecipesManager extends MaidRecipesManager<KegFermentin
 
         // 计算每个物品的数量
         List<Integer> countList = new ArrayList<>();
-        for (Item item : invIngredient) {
-            countList.add(maxCount);
-            available.put(item, available.get(item) - maxCount);
-        }
-        if (maidKettleRecipe.inFluids().isEmpty()) {
+        if (!maidKettleRecipe.inFluids().isEmpty()) {
+            countList.add(0, fluidItemAmount);
+            available.put(fluidItem, available.get(fluidItem) - fluidItemAmount);
+
+            for (Item item : invIngredient.stream().skip(0).toList()) {
+                countList.add(maxCount);
+                available.put(item, available.get(item) - maxCount);
+            }
+        } else {
             countList.add(0, 0);
             invIngredient.add(0, ItemStack.EMPTY.getItem());
         }
