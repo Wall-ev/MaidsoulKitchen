@@ -24,6 +24,8 @@ public enum TaskInfo {
     BNC_KEY("bnc_key"),
     FR_KETTLE("fr_kettle"),
     YHC_MOKA("yhc_moka_pot"),
+    BD_BASIN("bd_basin"),
+    BD_GRILL("bd_grill"),
     YHC_TEA_KETTLE("yhc_tea_kettle"),
     YHC_DRYING_RACK("yhc_drying_rack"),
     YHC_FERMENTATION_TANK("yhc_fermentation_tank"),

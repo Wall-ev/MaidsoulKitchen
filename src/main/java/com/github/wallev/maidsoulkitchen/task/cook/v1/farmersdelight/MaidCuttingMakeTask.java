@@ -85,7 +85,6 @@ public class MaidCuttingMakeTask extends Behavior<EntityMaid> {
 
     @Override
     protected void tick(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-        super.tick(worldIn, maid, pGameTime);
         if (tick++ % 5 != 0) return;
         maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
             BlockEntity blockEntity = worldIn.getBlockEntity(posWrapper.currentBlockPosition());

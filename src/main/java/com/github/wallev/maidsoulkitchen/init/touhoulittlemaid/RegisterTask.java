@@ -2,6 +2,8 @@ package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.barbequesdelight.TaskBdBasin;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.barbequesdelight.TaskBdGrill;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.brewinandchewin.TaskBncKeg;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.cuisine.TaskCdCuisineSkillet;
@@ -68,6 +70,12 @@ public final class RegisterTask {
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             manager.add(new TaskBncKeg());
+        }
+        if (Mods.CD.isLoaded() && RegisterConfig.BD_BASIN_TASK_ENABLED.get()) {
+            manager.add(new TaskBdBasin());
+        }
+        if (Mods.CD.isLoaded() && RegisterConfig.BD_GRILL_TASK_ENABLED.get()) {
+            manager.add(new TaskBdGrill());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {
             manager.add(new TaskYhcMoka());

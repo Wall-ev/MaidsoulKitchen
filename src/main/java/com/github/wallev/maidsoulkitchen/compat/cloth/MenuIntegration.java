@@ -108,6 +108,14 @@ public class MenuIntegration {
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.bnc_key.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
                 .setSaveConsumer(RegisterConfig.BNC_KEY_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.bd_basin"), RegisterConfig.BD_BASIN_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.bd_basin.tooltip"),
+                        Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.BD_BASIN_TASK_ENABLED::set).build());
+        register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.bd_grill"), RegisterConfig.BD_GRILL_TASK_ENABLED.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.bd_grill.tooltip"),
+                        Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
+                .setSaveConsumer(RegisterConfig.BD_GRILL_TASK_ENABLED::set).build());
         register.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.maidsoulkitchen.register.yhc_moka"), RegisterConfig.YHC_MOKA_TASK_ENABLED.get())
                 .setDefaultValue(true).setTooltip(Component.translatable("config.maidsoulkitchen.register.yhc_moka.tooltip"),
                         Component.translatable("config.maidsoulkitchen.register.restart_warn.tooltip"), addition)
