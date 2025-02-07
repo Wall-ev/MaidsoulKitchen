@@ -71,10 +71,10 @@ public final class RegisterTask {
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             manager.add(new TaskBncKeg());
         }
-        if (Mods.CD.isLoaded() && RegisterConfig.BD_BASIN_TASK_ENABLED.get()) {
+        if (Mods.BD.isLoaded() && RegisterConfig.BD_BASIN_TASK_ENABLED.get()) {
             manager.add(new TaskBdBasin());
         }
-        if (Mods.CD.isLoaded() && RegisterConfig.BD_GRILL_TASK_ENABLED.get()) {
+        if (Mods.BD.isLoaded() && RegisterConfig.BD_GRILL_TASK_ENABLED.get()) {
             manager.add(new TaskBdGrill());
         }
         if (Mods.YHCD.isLoaded() && RegisterConfig.YHC_MOKA_TASK_ENABLED.get()) {

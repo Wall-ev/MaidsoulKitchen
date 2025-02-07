@@ -19,6 +19,7 @@ public enum Mods {
     MD("miners_delight"),
     MND("mynethersdelight"),
     CD("cuisinedelight"),
+    BD("barbequesdelight"),
     YHCD("youkaishomecoming"),
     BNCD("brewinandchewin"),
     FRD("farmersrespite"),
