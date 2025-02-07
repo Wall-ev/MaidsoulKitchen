@@ -192,11 +192,6 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
 //         容器内部没有符合烹饪的原材料&&仓库存在可以烹饪的原材料
         if (!innerCanCook && !hasInput && kegBlockEntity.getFluidTank().isEmpty() && kegFermentingRecipesManager.hasRecipeIngredientsWithTemp(kegBlockEntity.getTemperature())) {
             Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = kegFermentingRecipesManager.getRecipeIngredient(kegBlockEntity.getTemperature());
-            MaidsoulKitchen.LOGGER.info("recipeIngredient: ");
-            MaidsoulKitchen.LOGGER.info(recipeIngredient);
-            MaidsoulKitchen.LOGGER.info("recipeIngredients: ");
-            MaidsoulKitchen.LOGGER.info(kegFermentingRecipesManager.getRecipesIngredients());
-
             if (hasEnoughIngredient(recipeIngredient.getFirst(), recipeIngredient.getSecond())) {
 
                 int amount = recipeIngredient.getFirst().get(0);

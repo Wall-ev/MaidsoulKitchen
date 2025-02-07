@@ -75,3 +75,9 @@ description='''${mod_description}'''
     versionRange="[2.2.3,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="brewinandchewin"
+    mandatory=false
+    versionRange="[3.0.0,)"
+    ordering="NONE"
+    side="BOTH"
