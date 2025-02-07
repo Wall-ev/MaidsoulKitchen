@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.event;
+package com.github.wallev.maidsoulkitchen.api.event;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;

@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.v1.minecraft;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;

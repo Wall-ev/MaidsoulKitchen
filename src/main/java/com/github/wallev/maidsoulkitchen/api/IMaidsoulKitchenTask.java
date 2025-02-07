@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.api;
 
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.mojang.datafixers.util.Pair;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,7 +33,8 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
     @Override
     default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
         MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        if (MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent)) {
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (!maidMkTaskEnableEvent.isEnable()) {
             return maidMkTaskEnableEvent.getEnableConditionDesc();
         }
 
