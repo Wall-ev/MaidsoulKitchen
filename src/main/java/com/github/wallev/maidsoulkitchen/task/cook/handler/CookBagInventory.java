@@ -22,12 +22,16 @@ public class CookBagInventory implements ICookInventory {
 
     public CookBagInventory(ItemStack stack) {
         this.stack = stack;
-        this.refreshInv();
+        this.initHubContainerData();
+    }
+
+    private void initHubContainerData() {
+        containers = ItemCulinaryHub.getContainers(stack);
     }
 
     public void refreshInv() {
         clearCacheStackInfo();
-        containers = ItemCulinaryHub.getContainers(stack);
+        this.initHubContainerData();
         ItemStackHandler availableInv = containers.getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
         List<Integer> blackSlots = getBlackSlots();
         for (int i = 0; i < availableInv.getSlots(); i++) {
