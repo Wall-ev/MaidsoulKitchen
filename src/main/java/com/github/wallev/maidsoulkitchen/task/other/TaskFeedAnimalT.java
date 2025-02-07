@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.other;
 
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.DefaultMaidTaskConfigContainer;
-import com.github.wallev.maidsoulkitchen.api.ILittleMaidTask;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidFeedAnimalTaskT;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
@@ -37,7 +37,7 @@ import java.util.function.Predicate;
 
 import static com.github.wallev.maidsoulkitchen.config.subconfig.TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER;
 
-public class TaskFeedAnimalT implements IAttackTask, ILittleMaidTask {
+public class TaskFeedAnimalT implements IAttackTask, IMaidsoulKitchenTask {
     private static final int MAX_STOP_ATTACK_DISTANCE = 8;
 
     @Override

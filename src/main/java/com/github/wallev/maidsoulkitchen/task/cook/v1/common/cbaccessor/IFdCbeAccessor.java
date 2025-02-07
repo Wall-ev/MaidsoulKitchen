@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface IFdCbeAccessor<R extends Recipe<? extends Container>> {
 
-    Optional<R> getMatchingRecipe$tlma(RecipeWrapper inventoryWrapper);
+    Optional<R> tlmk$getMatchingRecipe(RecipeWrapper inventoryWrapper);
 
-    boolean canCook$tlma(R recipe);
+    boolean tlmk$canCook(R recipe);
 
 }

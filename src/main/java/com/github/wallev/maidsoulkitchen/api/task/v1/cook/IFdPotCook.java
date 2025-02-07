@@ -146,12 +146,12 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
     @Override
     @SuppressWarnings("unchecked")
     default Optional<R> getMatchingRecipe(B be, RecipeWrapper recipeWrapper) {
-        return ((IFdCbeAccessor<R>) be).getMatchingRecipe$tlma(recipeWrapper);
+        return ((IFdCbeAccessor<R>) be).tlmk$getMatchingRecipe(recipeWrapper);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     default boolean canCook(B be, R recipe) {
-        return ((IFdCbeAccessor<R>) be).canCook$tlma(recipe);
+        return ((IFdCbeAccessor<R>) be).tlmk$canCook(recipe);
     }
 }

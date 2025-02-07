@@ -12,11 +12,11 @@ import javax.annotation.Nullable;
 public interface BeerBarrelBlockAccessor {
 
     @Accessor("statusCode")
-    int statusCode$tlma();
+    int tlmk$statusCode();
 
     @Invoker("canBrew")
-    boolean canBrew$tlma(@Nullable BrewingRecipe recipe);
+    boolean tlmk$canBrew(@Nullable BrewingRecipe recipe);
 
     @Invoker("hasEnoughEmptyCap")
-    boolean hasEnoughEmptyCap$tlma(BrewingRecipe recipe);
+    boolean tlmk$hasEnoughEmptyCap(BrewingRecipe recipe);
 }

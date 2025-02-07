@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.v1.drinkbeer;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.maidsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -65,7 +65,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
 //        return be1.canBrew$tlma(recipe) && be1.hasEnoughEmptyCap$tlma(recipe);
 //        return be1.statusCode$tlma() == 0 && be1.canBrew$tlma(recipe) && be1.hasEnoughEmptyCap$tlma(recipe);
 
-        return be1.statusCode$tlma() == 1;
+        return be1.tlmk$statusCode() == 1;
     }
 
     @Override
@@ -198,7 +198,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
         }
 
         // 啤酒桶现在在酿酒吗
-        boolean b = ((BeerBarrelBlockAccessor)blockEntity).statusCode$tlma() == 1;
+        boolean b = ((BeerBarrelBlockAccessor)blockEntity).tlmk$statusCode() == 1;
         List<Pair<List<Integer>, List<List<ItemStack>>>> recipesIngredients = maidRecipesManager.getRecipesIngredients();
         // 可放入原料进行酿酒(啤酒桶可酿酒:statusCode$tlma==2||statusCode$tlma==0和有原料)
         if (!b && !recipesIngredients.isEmpty()) {
@@ -223,7 +223,7 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     public void extractOutputStack(Container inventory, IItemHandlerModifiable availableInv, BlockEntity blockEntity) {
         ItemStack stackInSlot = inventory.getItem(this.getOutputSlot());
 
-        if (!stackInSlot.isEmpty() && ((BeerBarrelBlockAccessor)blockEntity).statusCode$tlma() == 2) {
+        if (!stackInSlot.isEmpty() && ((BeerBarrelBlockAccessor)blockEntity).tlmk$statusCode() == 2) {
             ItemStack copy = stackInSlot.copy();
             ItemStack leftStack = ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
             inventory.removeItem(this.getOutputSlot(), stackInSlot.getCount() - leftStack.getCount());
@@ -235,12 +235,12 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     public boolean canTakeOutput(Container inventory, BeerBarrelBlockEntity beerBarrelBlockEntity) {
         ItemStack outputStack = inventory.getItem(this.getOutputSlot());
 
-        return !outputStack.isEmpty() && ((BeerBarrelBlockAccessor)beerBarrelBlockEntity).statusCode$tlma() == 2;
+        return !outputStack.isEmpty() && ((BeerBarrelBlockAccessor)beerBarrelBlockEntity).tlmk$statusCode() == 2;
     }
 
     @Override
     public void tryInsertItem(ServerLevel serverLevel, EntityMaid entityMaid, BeerBarrelBlockEntity blockEntity, MaidRecipesManager<BrewingRecipe> maidRecipesManager) {
-        if (((BeerBarrelBlockAccessor)blockEntity).statusCode$tlma() != 0) return;
+        if (((BeerBarrelBlockAccessor)blockEntity).tlmk$statusCode() != 0) return;
         super.tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
     }
 

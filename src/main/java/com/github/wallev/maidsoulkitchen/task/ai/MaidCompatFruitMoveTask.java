@@ -75,7 +75,7 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & IHandlerInfo
             initSearchStartY = true;
             searchStartY = entityMaid.getOrCreateData(((TaskDataKey<FruitData>)task.getCookDataKey()), new FruitData()).searchYOffset();
         }
-        ((IAddonMaid) entityMaid).initFakePlayer$tlma();
+        ((IAddonMaid) entityMaid).tlmk$initFakePlayer();
     }
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {

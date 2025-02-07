@@ -31,7 +31,7 @@ public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler & IHandlerInfo>
 
     @Override
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
-        ((IAddonMaid)entityMaid).initFakePlayer$tlma();
+        ((IAddonMaid)entityMaid).tlmk$initFakePlayer();
         BlockState cropState = serverLevel.getBlockState(blockPos);
         return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
     }

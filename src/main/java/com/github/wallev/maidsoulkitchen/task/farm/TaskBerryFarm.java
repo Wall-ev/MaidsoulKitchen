@@ -5,7 +5,8 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
-import com.github.wallev.maidsoulkitchen.init.registry.tlm.RegisterData;
+import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmMoveTask;
@@ -28,8 +29,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
+
+import static com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid.BLACK_LIST;
 
 
 public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
@@ -40,14 +44,14 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
-//        LOGGER.info("TaskBerriesFarm cropState: " + cropState);
-        return handler != null && !blackList.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
+        return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
-//        LOGGER.info("TaskBerriesFarm start harvestWithoutDestroy " + cropState);
-        this.maidRightClick(maid, cropPos);
+        if (handler != null && !BLACK_LIST.contains(cropState.getBlock())) {
+            handler.harvest(maid, cropPos, cropState);
+        }
     }
 
     @Override
@@ -93,7 +97,9 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return true;
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override

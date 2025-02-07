@@ -15,9 +15,14 @@ public class SimpleFarmingBerryHandler extends BerryHandler{
     public static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "berry_simple_farming");
 
     @Override
-    protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+    protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("SimpleFarmingBerryHandler handleCanHarvest");
-        return cropState.getBlock() instanceof BerryBushBlock && cropState.getValue(BerryBushBlock.AGE) >= BerryBushBlock.MAX_AGE;
+        return cropState.getBlock() instanceof BerryBushBlock && cropState.getValue(BerryBushBlock.AGE) >= BerryBushBlock.MAX_AGE ? ActionState.ALLOW : ActionState.DEFAULT;
+    }
+
+    @Override
+    protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+        return this.harvestWithoutTool(maid, cropPos, cropState);
     }
 
     @Override

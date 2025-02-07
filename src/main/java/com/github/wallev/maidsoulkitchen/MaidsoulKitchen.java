@@ -1,9 +1,10 @@
 package com.github.wallev.maidsoulkitchen;
 
 import com.github.wallev.maidsoulkitchen.config.GeneralConfig;
-import com.github.wallev.maidsoulkitchen.init.InitContainer;
-import com.github.wallev.maidsoulkitchen.init.InitEffects;
-import com.github.wallev.maidsoulkitchen.init.InitItems;
+import com.github.wallev.maidsoulkitchen.init.MkContainer;
+import com.github.wallev.maidsoulkitchen.init.MkEffects;
+import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -24,9 +25,10 @@ public final class MaidsoulKitchen {
 
     private static void initRegister() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        InitItems.ITEMS.register(modEventBus);
-        InitEffects.EFFECTS.register(modEventBus);
-        InitContainer.CONTAINER_TYPE.register(modEventBus);
+        MkItems.ITEMS.register(modEventBus);
+        MkEffects.EFFECTS.register(modEventBus);
+        MkContainer.CONTAINER_TYPE.register(modEventBus);
+        MkEntities.MEMORY_MODULE_TYPES.register(modEventBus);
     }
 
     private static void initConfigureRegister() {

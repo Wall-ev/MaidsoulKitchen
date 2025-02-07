@@ -19,8 +19,10 @@ public enum Mods {
     MD("miners_delight"),
     MND("mynethersdelight"),
     CD("cuisinedelight"),
+    BD("barbequesdelight"),
     YHCD("youkaishomecoming"),
     BNCD("brewinandchewin"),
+    FRD("farmersrespite"),
 
     /*
         Let's DO
@@ -48,6 +50,7 @@ public enum Mods {
     TWT("thirst"),
 
     SS("sereneseasons"),
+    ES("eclipticseasons"),
 
     MC("minecraft") {
         @Override

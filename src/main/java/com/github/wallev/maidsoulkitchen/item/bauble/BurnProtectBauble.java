@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.item.bauble;
 
 import com.github.wallev.maidsoulkitchen.api.ILittleMaidBauble;
 import com.github.wallev.maidsoulkitchen.datagen.ModDamageTypeTags;
-import com.github.wallev.maidsoulkitchen.init.InitEffects;
+import com.github.wallev.maidsoulkitchen.init.MkEffects;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidDamageEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityExtinguishingAgent;
@@ -33,7 +33,7 @@ public class BurnProtectBauble implements ILittleMaidBauble {
                 ItemStack stack = maid.getMaidBauble().getStackInSlot(slot);
                 stack.hurtAndBreak(1, maid, m -> maid.sendItemBreakMessage(stack));
                 maid.getMaidBauble().setStackInSlot(slot, stack);
-                maid.addEffect(new MobEffectInstance(InitEffects.BURN_PROTECT.get(), 300));
+                maid.addEffect(new MobEffectInstance(MkEffects.BURN_PROTECT.get(), 300));
                 if (!maid.level.isClientSide) {
                     maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level(), maid.position()));
                 }
@@ -45,7 +45,7 @@ public class BurnProtectBauble implements ILittleMaidBauble {
     public void onBurnDamage(MaidAttackEvent event) {
         EntityMaid maid = event.getMaid();
         DamageSource source = event.getSource();
-        if (maid.hasEffect(InitEffects.BURN_PROTECT.get()) && source.is(ModDamageTypeTags.DAMAGES_BURN)) {
+        if (maid.hasEffect(MkEffects.BURN_PROTECT.get()) && source.is(ModDamageTypeTags.DAMAGES_BURN)) {
             event.setCanceled(true);
         }
     }

@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.farm;
 
-import com.github.wallev.maidsoulkitchen.api.ILittleMaidTask;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmMoveTask;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo, D extends FarmData> extends ILittleMaidTask, IDataTask<D> {
+public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo, D extends FarmData> extends IMaidsoulKitchenTask, IDataTask<D> {
 
 
     IFarmHandlerManager<T>[] getManagerHandlerValues();

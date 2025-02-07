@@ -3,10 +3,11 @@ package com.github.wallev.maidsoulkitchen.api.task.v1.cook;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
-import com.github.wallev.maidsoulkitchen.api.ILittleMaidTask;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMakeTask;
@@ -32,6 +33,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -39,7 +41,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends ILittleMaidTask, IDataTask<CookData> {
+public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends IMaidsoulKitchenTask, IDataTask<CookData> {
 
     default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) {
@@ -72,11 +74,23 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (!maidMkTaskEnableEvent.isEnable()) {
+            return maidMkTaskEnableEvent.getEnableConditionDesc();
+        }
+
         return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
     }
 
     @Override
     default boolean isEnable(EntityMaid maid) {
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (!maidMkTaskEnableEvent.isEnable()) {
+            return false;
+        }
+
         return hasEnoughFavor(maid);
     }
 

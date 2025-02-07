@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
 import com.sihenzhang.crockpot.base.FoodCategory;
 import com.sihenzhang.crockpot.recipe.cooking.requirement.*;
 import com.sihenzhang.crockpot.util.MathUtils;
@@ -28,7 +28,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
 //    private final MutableComponent overSizeTip = Component.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
 
     private final CrockPotTooltip crockPotTooltip;
-    private final TaskCrockPot.RecInfo1 recInfo1;
+    private final TaskCpCrockPot.RecInfo1 recInfo1;
     private final Map<IRequirement, List<Item>> requirementListMap;
     private final Boolean isRandom;
     private final boolean isOverSize;

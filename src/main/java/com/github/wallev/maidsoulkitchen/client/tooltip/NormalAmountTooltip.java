@@ -74,7 +74,11 @@ public class NormalAmountTooltip implements ClientAmountTooltip {
 
             int xOffset = pX + i++ * 20;
 
-            guiGraphics.renderItem(stackItems[0], xOffset, pY);
+            ItemStack itemStack = stackItems[0];
+            guiGraphics.renderItem(itemStack, xOffset, pY);
+            if (itemStack.getCount() > 1) {
+                guiGraphics.renderItemDecorations(font, itemStack, xOffset, pY);
+            }
 
             if (stackItems.length > 1) {
                 guiGraphics.blit(TEXTURE, xOffset, pY + 13, 0, 253, 3, 3);
