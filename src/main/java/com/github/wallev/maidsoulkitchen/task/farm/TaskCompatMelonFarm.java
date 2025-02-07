@@ -1,7 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
-import com.github.wallev.maidsoulkitchen.api.ILittleMaidTask;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
+import com.github.wallev.maidsoulkitchen.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
@@ -25,13 +26,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.common.MinecraftForge;
 
 import static com.github.wallev.maidsoulkitchen.util.BlockUtil.getId;
 
-public class TaskCompatMelonFarm extends TaskMelon implements ILittleMaidTask, IAddonFarmTask {
+public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask, IAddonFarmTask {
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return true;
+        return !MinecraftForge.EVENT_BUS.post(new MaidMkTaskEnableEvent(maid, this));
     }
 
     @Override

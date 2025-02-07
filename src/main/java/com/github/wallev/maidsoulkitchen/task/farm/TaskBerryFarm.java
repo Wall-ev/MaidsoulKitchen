@@ -5,6 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
+import com.github.wallev.maidsoulkitchen.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -28,6 +29,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
@@ -42,14 +44,11 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
-//        LOGGER.info("TaskBerriesFarm cropState: " + cropState);
         return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
-//        LOGGER.info("TaskBerriesFarm start harvestWithoutDestroy " + cropState);
-//        IFakePlayerTask.maidRightClick(maid, cropPos);
         if (handler != null && !BLACK_LIST.contains(cropState.getBlock())) {
             handler.harvest(maid, cropPos, cropState);
         }
@@ -98,7 +97,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return true;
+        return !MinecraftForge.EVENT_BUS.post(new MaidMkTaskEnableEvent(maid, this));
     }
 
     @Override
