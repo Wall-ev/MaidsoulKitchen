@@ -74,12 +74,23 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        if (MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent)) {
+            return maidMkTaskEnableEvent.getEnableConditionDesc();
+        }
+
         return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
     }
 
     @Override
     default boolean isEnable(EntityMaid maid) {
-        return hasEnoughFavor(maid) && !MinecraftForge.EVENT_BUS.post(new MaidMkTaskEnableEvent(maid, this));
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (!maidMkTaskEnableEvent.isEnable()) {
+            return false;
+        }
+
+        return hasEnoughFavor(maid);
     }
 
     @Override

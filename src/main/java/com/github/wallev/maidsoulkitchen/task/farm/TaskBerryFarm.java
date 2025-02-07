@@ -97,7 +97,9 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return !MinecraftForge.EVENT_BUS.post(new MaidMkTaskEnableEvent(maid, this));
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override

@@ -36,7 +36,9 @@ import java.util.function.Predicate;
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return !MinecraftForge.EVENT_BUS.post(new MaidMkTaskEnableEvent(maid, this));
+        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
+        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override
