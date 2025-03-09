@@ -224,28 +224,28 @@ dependencies {
 //    implementation fg.deobf("curse.maven:coffee-delight-835597:4871782")
 
     /** ---------------------------------------Let's do--------------------------------------------------------- */
-    implementation fg.deobf("curse.maven:lets-do-meadow-821483:${meadow_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
-    implementation fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
-    implementation fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-meadow-821483:${meadow_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-herbal-brews-951221:${herbal_brews_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-beachparty-858691:${beachparty_file_id}")
+    compileOnly fg.deobf("curse.maven:vinery-704465:${vinery_file_id}")
+    compileOnly fg.deobf("curse.maven:do-api-864599:${do_api_file_id}")
 
     //1.0
 //    implementation fg.deobf("curse.maven:lets-do-brewery-971636:${brewery_file_id}")
 //    implementation fg.deobf("curse.maven:lets-do-bakery-886559:${bakery_file_id}")
 //    implementation fg.deobf("curse.maven:lets-do-candlelight-846962:${candlelight_file_id}")
     //2.0
-    implementation fg.deobf("curse.maven:lets-do-farm-charm-1038103:${farm_charm_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-bakery-farm-charm-compat-1038130:${bakery_farm_charm_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-brewery-farm-charm-compat-1038106:${brewery_farm_charm_file_id}")
-    implementation fg.deobf("curse.maven:lets-do-candlelight-farm-charm-compat-1038117:${candlelight_farm_charm_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-farm-charm-1038103:${farm_charm_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-bakery-farm-charm-compat-1038130:${bakery_farm_charm_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-brewery-farm-charm-compat-1038106:${brewery_farm_charm_file_id}")
+    compileOnly fg.deobf("curse.maven:lets-do-candlelight-farm-charm-compat-1038117:${candlelight_farm_charm_file_id}")
 
     /** ---------------------------------------其他--------------------------------------------------------- */
-    implementation fg.deobf("curse.maven:mystias-izakaya-973711:${mystias_izakaya_file_id}")
+    compileOnly fg.deobf("curse.maven:mystias-izakaya-973711:${mystias_izakaya_file_id}")
     implementation fg.deobf("curse.maven:kitchen-karrot-880555:${kitchen_karrot_file_id}")
     implementation fg.deobf("curse.maven:drink-beer-refill-729120:${drink_beer_refill_file_id}")
     implementation fg.deobf("curse.maven:crock-pot-404523:${crock_pot_file_id}")
-    implementation fg.deobf("curse.maven:smartpot-1098636:5727794")
+    compileOnly fg.deobf("curse.maven:smartpot-1098636:5727794")
 }
 
 // 联动(存储)
@@ -258,12 +258,12 @@ dependencies {
 
 // 联动(其他)
 dependencies {
-    implementation fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
+    compileOnly fg.deobf("curse.maven:serene-seasons-291874:${serene_seasons_file_id}")
     compileOnly fg.deobf("curse.maven:thirst-was-taken-679270:${thirst_was_taken_file_id}")
 
-    implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
+    compileOnly fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
 
-    implementation files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
+    compileOnly files("lib/fruit-stack-900231-4807247_mapped_parchment_2023.09.03-1.20.1.jar")
     implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
 //    implementation fg.deobf("curse.maven:hexerei-548599:${hexerei_file_id}")
 
@@ -273,11 +273,11 @@ dependencies {
 
     runtimeOnly "curse.maven:kotlin-for-forge-351264:${kotlin_id}"
     runtimeOnly fg.deobf("curse.maven:libipn-679177:${libipn_id}")
-    implementation fg.deobf("curse.maven:inventory-profiles-next-495267:${ipn_id}")
+    compileOnly fg.deobf("curse.maven:inventory-profiles-next-495267:${ipn_id}")
 
-    implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
-    implementation fg.deobf("curse.maven:probejs-585406:5227399")
+    compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+    compileOnly fg.deobf("curse.maven:probejs-585406:5227399")
 }
 
 

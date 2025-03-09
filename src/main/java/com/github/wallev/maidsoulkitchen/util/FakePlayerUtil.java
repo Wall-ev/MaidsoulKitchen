@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.util;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -105,5 +107,26 @@ public final class FakePlayerUtil {
 //        fakePlayer1.setPose(Pose.CROUCHING);
 
         return result;
+    }
+
+    public static ItemStack interactUseOnBlock(EntityMaid maid, BlockPos targetPos, ItemStack itemStack){
+        if (!(maid instanceof IAddonMaid iAddonMaid)) {
+            return ItemStack.EMPTY;
+        }
+
+        WeakReference<FakePlayer> fakePlayer = iAddonMaid.tlmk$getFakePlayer();
+        if (fakePlayer.get() == null) {
+            return ItemStack.EMPTY;
+        }
+        FakePlayer fakePlayer1 = fakePlayer.get();
+        Direction placementOn = fakePlayer1.getMotionDirection();
+        BlockHitResult blockraytraceresult = new BlockHitResult(fakePlayer1.getLookAngle(), placementOn, targetPos, true);
+        fakePlayer1.setItemInHand(InteractionHand.MAIN_HAND, itemStack);
+        fakePlayer1.gameMode.useItemOn(fakePlayer1, maid.level, itemStack, InteractionHand.MAIN_HAND, blockraytraceresult);
+
+        ItemStack useEndItemStack = fakePlayer1.getMainHandItem().copy();
+        fakePlayer1.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+
+        return useEndItemStack;
     }
 }
