@@ -210,6 +210,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, FermentationTankBlockEntity blockEntity, MaidRecipesManager<FermentationRecipe<?>> recManager) {
         CombinedInvWrapper maidInv = maid.getAvailableInv(true);
         IItemHandlerModifiable inputInv = recManager.getInputInv();
+        IItemHandlerModifiable outputAdditionInv = recManager.getOutputAdditionInv();
         IItemHandlerModifiable outputInv = recManager.getOutputInv();
 
         boolean extracted = false;
@@ -240,14 +241,14 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
 
                 if (!interactedItem.isEmpty()) {
                     if (!ItemStack.isSameItem(interactItem, interactedItem)) {
-                        ItemStack leftItem = ItemHandlerHelper.insertItemStacked(inputInv, interactedItem, false);
+                        ItemStack leftItem = ItemHandlerHelper.insertItemStacked(outputInv, interactedItem, false);
                         fluidContainer.shrink(1);
                         if (!leftItem.isEmpty()) {
                             maid.spawnAtLocation(leftItem);
                         }
                     }
                 } else if (fluid instanceof SakeFluid sakeFluid) {
-                    ItemStack leftItem = ItemHandlerHelper.insertItemStacked(inputInv, sakeFluid.type.asStack(1), false);
+                    ItemStack leftItem = ItemHandlerHelper.insertItemStacked(outputInv, sakeFluid.type.asStack(1), false);
                     fluidContainer.shrink(1);
                     if (!leftItem.isEmpty()) {
                         maid.spawnAtLocation(leftItem);
@@ -260,7 +261,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
             }
 
             // 将剩下的容器放回背包
-            ItemStack leftItem = ItemHandlerHelper.insertItemStacked(inputInv, fluidContainer, false);
+            ItemStack leftItem = ItemHandlerHelper.insertItemStacked(outputAdditionInv, fluidContainer, false);
             if (!leftItem.isEmpty()) {
                 maid.spawnAtLocation(leftItem);
             }
