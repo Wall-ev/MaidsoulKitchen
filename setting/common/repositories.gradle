@@ -1,0 +1,58 @@
+/**
+ * 仓库，用于依赖的下载
+ */
+repositories {
+    // Local
+    flatDir {
+        dir 'libs'
+    }
+    // Modrinth Maven
+    maven {
+        name = "Modrinth Maven"
+        url = "https://api.modrinth.com/maven"
+    }
+    // Curse Maven
+    maven {
+        name = "Curse Maven"
+        url "https://cursemaven.com"
+    }
+    // EMI
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    // Patchouli
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    // JEI
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    // Architectury API
+    maven {
+        name = "Architectury"
+        url = "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+    // KubeJs and Rhino
+    maven {
+        url = "https://maven.saps.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
+    // Cloth Config
+    maven {
+        url "https://maven.shedaniel.me/"
+    }
+    // Curios
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
+}

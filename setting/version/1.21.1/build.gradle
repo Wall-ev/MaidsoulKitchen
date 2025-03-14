@@ -1,30 +1,17 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
-// 插件配置
+// 调用的 gradle 插件
 plugins {
+    id 'java-library'
+
+    // 用于 eclipse 或者 idea 的插件
     id 'eclipse'
     id 'idea'
-    id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    // This should be below the net.minecraftforge.gradle plugin
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    // Mixin Plugin
-    id 'org.spongepowered.mixin' version '0.7.+'
+
+    // NeoForged 开发插件
+    id 'net.neoforged.moddev' version '2.0.78'
 }
 
 // 加载配置
-def minecraft_version= "1.20.1"
+def minecraft_version= "1.21.1"
 loadProperties(minecraft_version)
 loadGradle(minecraft_version)
 
@@ -41,10 +28,17 @@ base {
     group = mod_group_id
 }
 
-// MC 配置
-minecraft {
-    mappings channel: mapping_channel, version: mapping_version
+neoForge {
+    // NeoForge 版本信息
+    version = neo_version
 
+    // 反混淆表
+    parchment {
+        mappingsVersion = parchment_mappings_version
+        minecraftVersion = parchment_minecraft_version
+    }
+
+    // 运行部分
     copyIdeResources = true
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -162,7 +156,7 @@ tasks.named('wrapper', Wrapper).configure {
 // 基础配置
 dependencies {
     // 本体
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+//    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
