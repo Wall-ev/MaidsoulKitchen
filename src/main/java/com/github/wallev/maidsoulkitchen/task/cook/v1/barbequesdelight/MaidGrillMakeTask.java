@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.barbequesdelight;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
@@ -103,7 +104,7 @@ public class MaidGrillMakeTask extends Behavior<EntityMaid> implements VBehavior
                         if (!grillStacks.isEmpty()) {
                             ItemStack grillStack = grillStacks.get(0);
 
-                            if (!grillStack.isEmpty() && itemEntry.addItem(grillBlockEntity, grillStack.copyWithCount(1))) {
+                            if (!grillStack.isEmpty() && itemEntry.addItem(grillBlockEntity, VItemStackHelper.copyWithCount(grillStack, 1))) {
                                 maid.swing(InteractionHand.MAIN_HAND);
                                 grillBlockEntity.inventoryChanged();
                                 grillStack.shrink(1);

@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMakeTask;
@@ -196,7 +197,7 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
                     int count = itemStack.getCount();
 
                     if (count >= amount) {
-                        List<ItemStack> extracted = kegBlockEntity.extractInWorld(kegBlockEntity, itemStack.copyWithCount(amount), amount, false);
+                        List<ItemStack> extracted = kegBlockEntity.extractInWorld(kegBlockEntity, VItemStackHelper.copyWithCount(itemStack, amount), amount, false);
                         if (extracted.isEmpty()) return;
 
                         itemStack.shrink(amount);
@@ -208,7 +209,7 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
                         }
                         break;
                     } else {
-                        List<ItemStack> extracted = kegBlockEntity.extractInWorld(kegBlockEntity, itemStack.copyWithCount(count), count, false);
+                        List<ItemStack> extracted = kegBlockEntity.extractInWorld(kegBlockEntity, VItemStackHelper.copyWithCount(itemStack, count), count, false);
                         itemStack.shrink(count);
                         for (ItemStack stack : extracted) {
                             ItemStack leftInsertedStack = ItemHandlerHelper.insertItemStacked(inputInv, stack, false);
@@ -273,11 +274,11 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
             int count = itemStack.getCount();
 
             if (count >= amount) {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(amount), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, amount), false);
                 itemStack.shrink(amount - leftInsertedStack.getCount());
                 break;
             } else {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(count), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count), false);
                 itemStack.shrink(count - leftInsertedStack.getCount());
                 amount -= count;
                 if (amount <= 0) {
@@ -374,7 +375,7 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
                     }
                 }
 
-                ItemStack container = kegPouringRecipe.getContainer().copyWithCount(1);
+                ItemStack container = VItemStackHelper.copyWithCount(kegPouringRecipe.getContainer(), 1);
                 if (!container.isEmpty()) {
                     if (fluidContainers1.containsKey(rawFluid)) {
                         List<ItemStack> itemStacks = fluidContainers1.getOrDefault(rawFluid, Collections.emptyList());

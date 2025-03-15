@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -193,17 +194,18 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
 
                     if (count >= amount) {
                         for (int i = 0; i < amount; i++) {
-                            ItemStack fluidExtract = kettleBlockEntity.fluidExtract(kettleBlockEntity, itemStack.copyWithCount(1), ItemStack.EMPTY);
+                            
+                            ItemStack fluidExtract = kettleBlockEntity.fluidExtract(kettleBlockEntity, VItemStackHelper.copyWithCount(itemStack, 1), ItemStack.EMPTY);
                             ItemStack leftInsertedStack = ItemHandlerHelper.insertItemStacked(inputInv, fluidExtract, false);
                             itemStack.shrink(1 - leftInsertedStack.getCount());
                         }
 
-                        ItemStack leftInsertedStack = inventory.insertItem(KettleBlockEntity.CONTAINER_SLOT, itemStack.copyWithCount(amount), false);
+                        ItemStack leftInsertedStack = inventory.insertItem(KettleBlockEntity.CONTAINER_SLOT, VItemStackHelper.copyWithCount(itemStack, amount), false);
                         itemStack.shrink(amount - leftInsertedStack.getCount());
                         break;
                     } else {
                         for (int i = 0; i < count; i++) {
-                            ItemStack fluidExtract = kettleBlockEntity.fluidExtract(kettleBlockEntity, itemStack.copyWithCount(1), ItemStack.EMPTY);
+                            ItemStack fluidExtract = kettleBlockEntity.fluidExtract(kettleBlockEntity, VItemStackHelper.copyWithCount(itemStack, 1), ItemStack.EMPTY);
                             ItemStack leftInsertedStack = ItemHandlerHelper.insertItemStacked(inputInv, fluidExtract, false);
                             itemStack.shrink(1 - leftInsertedStack.getCount());
                         }
@@ -262,11 +264,11 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
             int count = itemStack.getCount();
 
             if (count >= amount) {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(amount), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, amount), false);
                 itemStack.shrink(amount - leftInsertedStack.getCount());
                 break;
             } else {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(count), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count), false);
                 itemStack.shrink(count - leftInsertedStack.getCount());
                 amount -= count;
                 if (amount <= 0) {
@@ -351,7 +353,7 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
                     }
                 }
 
-                ItemStack container = kettlePouringRecipe.getContainer().copyWithCount(1);
+                ItemStack container = VItemStackHelper.copyWithCount(kettlePouringRecipe.getContainer(), 1);
                 if (!container.isEmpty()) {
                     if (fluidContainers1.containsKey(rawFluid)) {
                         List<ItemStack> itemStacks = fluidContainers1.getOrDefault(rawFluid, Collections.emptyList());

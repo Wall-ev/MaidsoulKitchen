@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -236,7 +237,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
 
             // 取出流体
             while (!fluidInTank.isEmpty() && !fluidContainer.isEmpty()) {
-                ItemStack interactItem = fluidContainer.copyWithCount(1);
+                ItemStack interactItem = VItemStackHelper.copyWithCount(fluidContainer, 1);
                 ItemStack interactedItem = FakePlayerUtil.interactUseOnBlock(maid, blockEntity.getBlockPos(), interactItem.copy());
 
                 if (!interactedItem.isEmpty()) {
@@ -297,7 +298,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
                 List<ItemStack> fluidItems = recipeIngredient.getSecond().get(0);
                 for (int times = 0; times < recipeIngredient.getFirst().get(0); ) {
                     for (ItemStack fluidItem : fluidItems) {
-                        ItemStack interactItem = fluidItem.copyWithCount(1);
+                        ItemStack interactItem = VItemStackHelper.copyWithCount(fluidItem, 1);
                         ItemStack interactedStack = FakePlayerUtil.interactUseOnBlock(maid, blockEntity.getBlockPos(), interactItem.copy());
                         if (!ItemStack.isSameItem(interactItem, interactedStack)) {
                             fluidItem.shrink(1);

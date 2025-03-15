@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.api.task.v2;
 
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -224,13 +225,13 @@ public interface IBaseCook<B extends BlockEntity, R extends Recipe<? extends Con
             int count = itemStack.getCount();
 
             if (count >= shinkNum) {
-                insertStack2BeAction(be, itemStack.copyWithCount(shinkNum), slotIndex);
+                insertStack2BeAction(be, VItemStackHelper.copyWithCount(itemStack, shinkNum), slotIndex);
 //                inventory.insertItem(slotIndex, itemStack.copyWithCount(shinkNum), false);
                 itemStack.shrink(shinkNum);
                 break;
             } else {
-                insertStack2BeAction(be, itemStack.copyWithCount(count), slotIndex);
-//                inventory.insertItem(slotIndex, itemStack.copyWithCount(count), false);
+                insertStack2BeAction(be, VItemStackHelper.copyWithCount(itemStack, count), slotIndex);
+//                inventory.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count), false);
                 itemStack.shrink(count);
                 shinkNum -= count;
                 if (shinkNum <= 0) {

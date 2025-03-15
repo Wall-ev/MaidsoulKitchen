@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
@@ -319,7 +320,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                         ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, copy, false);
                         first1.extractItem(second1, itemStack.getCount() - itemStack1.getCount(), false);
                     } else {
-                        ItemStack copy = itemStack.copyWithCount(i1);
+                        ItemStack copy = VItemStackHelper.copyWithCount(itemStack, i1);
 
                         ItemStack itemStack1 = ItemHandlerHelper.insertItemStacked(inventory, copy, false);
                         first1.extractItem(second1, i1 - itemStack1.getCount(), false);

@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.cook;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.mojang.datafixers.util.Pair;
@@ -122,11 +123,11 @@ public interface IItemHandlerCook<B extends BlockEntity, R extends Recipe<? exte
             int count = itemStack.getCount();
 
             if (count >= amount) {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(amount), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, amount), false);
                 itemStack.shrink(amount - leftInsertedStack.getCount());
                 break;
             } else {
-                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, itemStack.copyWithCount(count), false);
+                ItemStack leftInsertedStack = beInv.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count), false);
                 itemStack.shrink(count - leftInsertedStack.getCount());
                 amount -= count;
                 if (amount <= 0) {
