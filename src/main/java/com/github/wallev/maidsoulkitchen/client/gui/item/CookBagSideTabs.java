@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagGuiSideTabButton;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ToggleCookBagGuiSideTabMessage;
@@ -43,6 +44,6 @@ public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainer
         String descLangKey = String.format("gui.touhou_little_maid.button.%s.desc", name);
 
         return new CookBagGuiSideTabButton(rightPos, topPos + sideTab.getIndex() * SPACING, sideTab.getIndex() * SPACING, onPressIn,
-                List.of(Component.translatable(titleLangKey), Component.translatable(descLangKey)));
+                List.of(VComponent.translatable(titleLangKey), VComponent.translatable(descLangKey)));
     }
 }

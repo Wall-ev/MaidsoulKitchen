@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.Collections;
 import java.util.List;
 
 public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, IAddonFarmTask {
@@ -50,6 +52,11 @@ public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         return super.createBrainTasks(maid);
+    }
+
+    @Override
+    public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
+        return Collections.emptyList();
     }
 
     @Override

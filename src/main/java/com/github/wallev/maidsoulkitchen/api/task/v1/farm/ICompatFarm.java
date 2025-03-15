@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.api.task.v1.farm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
@@ -14,7 +15,6 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
@@ -46,7 +46,8 @@ public interface ICompatFarm<T extends ICompatFarmHandler & IHandlerInfo, D exte
 
     void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
 
-    default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
+    @Override
+    default List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         MaidCompatFarmMoveTask<T> maidFarmMoveTask = new MaidCompatFarmMoveTask<>(maid, this, 0.6F);
         MaidCompatFarmPlantTask<T> maidFarmPlantTask = new MaidCompatFarmPlantTask<>(maid, this, maidFarmMoveTask.getCompatFarmHandler());
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));

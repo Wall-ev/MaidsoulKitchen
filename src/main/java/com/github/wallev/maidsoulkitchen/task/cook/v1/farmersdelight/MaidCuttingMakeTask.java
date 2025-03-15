@@ -2,9 +2,9 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCuttingBoard;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +22,7 @@ import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 
 import java.util.Optional;
 
-public class MaidCuttingMakeTask extends Behavior<EntityMaid> {
+public class MaidCuttingMakeTask extends Behavior<EntityMaid> implements VBehaviorControl {
     private final TaskFdCuttingBoard task;
     private final MaidRecipesManager<CuttingBoardRecipe> maidRecipesManager;
     private boolean maidHand = false;

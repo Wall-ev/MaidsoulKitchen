@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.barbequesdelight;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
@@ -24,7 +25,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaidGrillMakeTask extends Behavior<EntityMaid> {
+public class MaidGrillMakeTask extends Behavior<EntityMaid> implements VBehaviorControl {
     private final TaskBdGrill task;
     private final MaidRecipesManager<GrillingRecipe<?>> maidRecipesManager;
     private final List<ItemStack> grillStacks = new ArrayList<>();

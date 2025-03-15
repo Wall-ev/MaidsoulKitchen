@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -258,7 +259,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
                 if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
                     if (context.getLevel().isClientSide) {
-                        player.sendSystemMessage(Component.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
+                        player.sendSystemMessage(VComponent.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
                     }
                     return InteractionResult.sidedSuccess(worldIn.isClientSide);
                 }
@@ -297,14 +298,14 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (!Screen.hasShiftDown()) {
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.0").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.0").withStyle(ChatFormatting.GRAY));
         } else {
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
         }
 
         Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);
@@ -316,24 +317,24 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         });
         if (bindPoses.isEmpty() || leftBindBagTypes.size() == BagType.values().length - 2) {
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
         } else if (!leftBindBagTypes.isEmpty()) {
             MutableComponent leftComponent1 = Component.empty();
             boolean first = true;
             for (BagType value : leftBindBagTypes) {
                 if (first) {
-                    leftComponent1.append(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
+                    leftComponent1.append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
                     first = false;
                 } else {
-                    leftComponent1.append(Component.literal("、").append(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
+                    leftComponent1.append(Component.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
                 }
             }
             MutableComponent leftComponent = Component.literal("[").append(leftComponent1).append(Component.literal("]").withStyle(ChatFormatting.GRAY));
 
             tooltip.add(Component.empty());
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
         }
     }
 }

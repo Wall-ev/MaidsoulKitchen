@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.farm;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.task.farm.FarmType;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
@@ -29,12 +30,12 @@ public interface IHandlerInfo {
     //todo
     //默认读取模组tab的翻译名,其次为本模组的翻译名
     default MutableComponent getName() {
-        return Component.translatable(String.format("rule.%s.%s.%s", getFarmType().name().toLowerCase(Locale.ENGLISH), getUid().getNamespace(), getUid().getPath()));
+        return VComponent.translatable(String.format("rule.%s.%s.%s", getFarmType().name().toLowerCase(Locale.ENGLISH), getUid().getNamespace(), getUid().getPath()));
     }
 
     default List<Component> getDescription(EntityMaid maid) {
         String key = String.format("rule.%s.%s.%s.desc", getFarmType().name().toLowerCase(Locale.ENGLISH), getUid().getNamespace(), getUid().getPath());
-        return Lists.newArrayList(Component.translatable(key).withStyle(ChatFormatting.GRAY));
+        return Lists.newArrayList(VComponent.translatable(key).withStyle(ChatFormatting.GRAY));
     }
 
     default List<Component> getConditionDescription(EntityMaid maid) {

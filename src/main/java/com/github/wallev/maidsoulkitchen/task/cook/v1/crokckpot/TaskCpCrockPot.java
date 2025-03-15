@@ -7,6 +7,8 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.IHandlerCookBe;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.IItemHandlerCook;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -1278,8 +1280,8 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
 
     @Override
     public List<Component> getWarnComponent() {
-        return List.of(Component.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
-                Component.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.crockpot"));
+        return List.of(VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
+                VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.crockpot"));
     }
 
     public static class RecInfo1 {

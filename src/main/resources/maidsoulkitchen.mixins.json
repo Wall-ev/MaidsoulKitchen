@@ -18,10 +18,11 @@
     "forge.ItemStackHandlerAccessor",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "minecraft.AbstractFurnaceMixin",
+    "minecraft.ver.BehaviorControlAccessor",
     "minersdelight.CopperPotBlockEntityMixin",
-    "touhoulittlemaid.MaidRunOneMixin",
     "touhoulittlemaid.EntityMaidMixin",
-    "youkaishomecoming.KettleBlockAccessor",
-    "youkaishomecoming.BasePotBlockEntityMixin"
+    "touhoulittlemaid.MaidRunOneMixin",
+    "youkaishomecoming.BasePotBlockEntityMixin",
+    "youkaishomecoming.KettleBlockAccessor"
   ]
 }

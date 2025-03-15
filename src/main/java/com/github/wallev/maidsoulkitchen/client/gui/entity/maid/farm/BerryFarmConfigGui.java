@@ -9,6 +9,7 @@ import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionBerryFarmRuleMessage;
@@ -46,7 +47,7 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     private BerryData farmTaskInfo;
 
     public BerryFarmConfigGui(BerryFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
-        super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(Component.translatable("gui.maidsoulkitchen.farm_config_screen.title")));
+        super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(VComponent.translatable("gui.maidsoulkitchen.farm_config_screen.title")));
     }
 
     @SuppressWarnings("unchecked")
@@ -160,12 +161,12 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     private List<Component> getTaskTooltips(IHandlerInfo iHandlerInfo) {
         List<Component> desc = iHandlerInfo.getDescription(maid);
         if (!desc.isEmpty()) {
-            desc.add(0, Component.translatable("task.touhou_little_maid.desc.title").withStyle(ChatFormatting.GOLD));
+            desc.add(0, VComponent.translatable("task.touhou_little_maid.desc.title").withStyle(ChatFormatting.GOLD));
         }
         List<Component> conditionDescription = iHandlerInfo.getConditionDescription(maid);
         if (!conditionDescription.isEmpty()) {
             desc.add(Component.literal("\u0020"));
-            desc.add(Component.translatable("task.touhou_little_maid.desc.condition").withStyle(ChatFormatting.GOLD));
+            desc.add(VComponent.translatable("task.touhou_little_maid.desc.condition").withStyle(ChatFormatting.GOLD));
         }
         for (Component line : conditionDescription) {
             MutableComponent prefix = Component.literal("-\u0020");

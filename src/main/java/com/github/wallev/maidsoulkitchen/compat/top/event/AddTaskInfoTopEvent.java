@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
@@ -38,7 +39,7 @@ public class AddTaskInfoTopEvent {
             FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
             int fruitFarmSearchYOffset = fruitData.searchYOffset();
             probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
-                    .text(Component.translatable("top.maidsoulkitchen.entity_maid.farm.fruit.search_y_offset")
+                    .text(VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.fruit.search_y_offset")
                             .append(Component.literal("" + fruitFarmSearchYOffset)));
         }
 
@@ -50,7 +51,7 @@ public class AddTaskInfoTopEvent {
             IHandlerInfo farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();
             if (!farmTaskRulesList.contains(uid.toString())) continue;
-            MutableComponent translatable = Component.translatable("top.maidsoulkitchen.entity_maid.farm.rule");
+            MutableComponent translatable = VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.rule");
             if (first) {
                 first = false;
                 probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))

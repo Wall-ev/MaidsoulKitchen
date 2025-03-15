@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.client.gui.item;
 
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -9,7 +10,7 @@ import org.anti_ad.mc.ipn.api.IPNIgnore;
 @IPNIgnore
 public class CookBagGui extends CookBagAbstractContainerGui<CookBagContainer> {
     public CookBagGui(CookBagContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("gui.maidsoulkitchen.culinary_hub.bag.title"));
+        super(container, inv, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.bag.title"));
     }
 
     @Override
@@ -26,8 +27,8 @@ public class CookBagGui extends CookBagAbstractContainerGui<CookBagContainer> {
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-        pGuiGraphics.drawString(font, Component.translatable("gui.maidsoulkitchen.culinary_hub.bag.ingredient"), inventoryLabelX, 12, 4210752, false);
-        pGuiGraphics.drawString(font, Component.translatable("gui.maidsoulkitchen.culinary_hub.bag.other"), inventoryLabelX, 78, 4210752, false);
+        pGuiGraphics.drawString(font, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.bag.ingredient"), inventoryLabelX, 12, 4210752, false);
+        pGuiGraphics.drawString(font, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.bag.other"), inventoryLabelX, 78, 4210752, false);
     }
 
     @Override

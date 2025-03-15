@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
@@ -41,7 +42,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaidCuisineMakeTask extends Behavior<EntityMaid> {
+public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehaviorControl {
     private final TaskCdCuisineSkillet task;
     private final MaidRecipesManager<BaseCuisineRecipe<?>> maidRecipesManager;
     private int tickAll = 0;

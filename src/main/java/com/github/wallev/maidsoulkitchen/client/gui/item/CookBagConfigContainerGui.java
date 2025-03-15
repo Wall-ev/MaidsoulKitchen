@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagModeButton;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
@@ -36,7 +37,7 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
     protected String bindMode;
 
     public CookBagConfigContainerGui(CookBagConfigContainer container, Inventory inv, Component titleIn) {
-        super(container, inv, Component.translatable("gui.maidsoulkitchen.culinary_hub.config.title"));
+        super(container, inv, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.title"));
         this.bindMode = ItemCulinaryHub.getBindMode(menu.cookBag);
     }
 
@@ -52,14 +53,14 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         int x = leftPos + 6;
         int y = topPos + 6;
         for (BagType value : BagType.values()) {
-            MutableComponent title = Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey);
+            MutableComponent title = VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey);
 
             if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
-                title.append(Component.translatable("gui.maidsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
+                title.append(VComponent.translatable("gui.maidsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
             }
 
             CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
-            }, Tooltip.create(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip"))) {
+            }, Tooltip.create(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip"))) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     super.onClick(pMouseX, pMouseY);
@@ -83,12 +84,12 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
             this.addRenderableWidget(cookBagModeButton);
         }
 
-        Button clearButton = Button.builder(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses").withStyle(ChatFormatting.YELLOW), b -> {
+        Button clearButton = Button.builder(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses").withStyle(ChatFormatting.YELLOW), b -> {
                     NetworkHandler.sendToServer(new ClearCookBagBindPosesMessage());
                     onClose();
                 })
                 .bounds(x, y += 22, 100, 20)
-                .tooltip(Tooltip.create(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip")))
+                .tooltip(Tooltip.create(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip")))
                 .build();
         this.addRenderableWidget(clearButton);
     }
@@ -98,13 +99,13 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         int y = topPos + 5;
         ImageButton infoButton = new ImageButton(x - 15, y, 9, 9, 237 - 10, 212, 10, TEXTURE, (b) -> {
         });
-        MutableComponent mutableComponent = Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN);
+        MutableComponent mutableComponent = VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN);
         mutableComponent.append(CommonComponents.NEW_LINE);
-        mutableComponent.append(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
+        mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
         mutableComponent.append(CommonComponents.NEW_LINE);
-        mutableComponent.append(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
+        mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
         mutableComponent.append(CommonComponents.NEW_LINE);
-        mutableComponent.append(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+        mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
         infoButton.setTooltip(Tooltip.create(mutableComponent));
         this.addRenderableWidget(infoButton);
 
@@ -116,9 +117,9 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
             }
         });
         if (bindPoses.isEmpty() || leftBindBagTypes.size() == BagType.values().length - 2) {
-            MutableComponent mutableComponent1 = Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW);
+            MutableComponent mutableComponent1 = VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW);
             mutableComponent1.append(CommonComponents.NEW_LINE);
-            mutableComponent1.append(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
+            mutableComponent1.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
 
             ImageButton warnButton = new ImageButton(x - 15 - 10, y, 9, 9, 237, 212, 10, TEXTURE, (b) -> {
             });
@@ -129,17 +130,17 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
             boolean first = true;
             for (BagType value : leftBindBagTypes) {
                 if (first) {
-                    leftComponent1.append(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
+                    leftComponent1.append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
                     first = false;
                 } else {
-                    leftComponent1.append(Component.literal("、").append(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
+                    leftComponent1.append(Component.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
                 }
             }
             MutableComponent leftComponent = Component.literal("[").append(leftComponent1).append(Component.literal("]").withStyle(ChatFormatting.GRAY));
 
-            MutableComponent mutableComponent1 = Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW);
+            MutableComponent mutableComponent1 = VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW);
             mutableComponent1.append(CommonComponents.NEW_LINE);
-            mutableComponent1.append(Component.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
+            mutableComponent1.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
 
             ImageButton warnButton = new ImageButton(x - 15 - 10, y, 9, 9, 237, 212, 10, TEXTURE, (b) -> {
             });
@@ -165,7 +166,7 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
     }
 
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(this.font, Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
+        pGuiGraphics.drawString(this.font, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode"), this.titleLabelX, this.titleLabelY + 12, 4210752, false);
         pGuiGraphics.drawString(this.font, this.titleComponent, this.titleLabelX, this.titleLabelY, 4210752, false);
         pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }

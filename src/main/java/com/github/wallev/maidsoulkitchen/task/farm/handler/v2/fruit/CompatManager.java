@@ -1,11 +1,12 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.v2.fruit;
 
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 public enum CompatManager {
 
-    SIMPLE_FARMING(Component.translatable("ss"), new SimpleFarmingFruitHandler()),
+    SIMPLE_FARMING(VComponent.translatable("ss"), new SimpleFarmingFruitHandler()),
     ;
 
     private final MutableComponent ss;

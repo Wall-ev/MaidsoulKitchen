@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,13 +44,13 @@ public class TypeButton extends NormalTooltipButton {
 
     @Override
     public Component getMessage() {
-        return Component.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.modeUid));
+        return VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.modeUid));
     }
 
     @Override
     public void renderTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
-        List<Component> translatable = List.of(Component.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.0", this.modeUid)),
-                Component.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.1", this.modeUid)).withStyle(ChatFormatting.GRAY));
+        List<Component> translatable = List.of(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.0", this.modeUid)),
+                VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.1", this.modeUid)).withStyle(ChatFormatting.GRAY));
         graphics.renderComponentTooltip(mc.font, translatable, mouseX, mouseY);
     }
 }

@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.entity.maid;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.TitleInfoButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.TaskConfigContainer;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -34,7 +35,7 @@ public abstract class MaidTaskConfigGui<T extends TaskConfigContainer> extends c
 
     protected void renderNoConfigTip(GuiGraphics graphics) {
         int color = Color.YELLOW.getRGB();
-        MutableComponent translatable = Component.translatable("gui.maidsoulkitchen.config.no_config").withStyle(ChatFormatting.ITALIC);
+        MutableComponent translatable = VComponent.translatable("gui.maidsoulkitchen.config.no_config").withStyle(ChatFormatting.ITALIC);
         int startX = ((visualZone.width() - font.width(translatable)) / 2) + visualZone.startX();
         int startY = ((visualZone.height() - font.lineHeight ) / 2) + visualZone.startY();
         graphics.drawString(font, translatable, startX, startY, color, false);

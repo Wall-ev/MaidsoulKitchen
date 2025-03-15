@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionCookDataRecMessage;
@@ -60,7 +61,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private boolean initCookData = true;
 
     public CookConfigGui(CookConfigContainer screenContainer, Inventory inv, Component titleIn) {
-        super(screenContainer, inv, Component.translatable("gui.maidsoulkitchen.cook_setting_screen.title"));
+        super(screenContainer, inv, VComponent.translatable("gui.maidsoulkitchen.cook_setting_screen.title"));
     }
 
     @Override
@@ -448,7 +449,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         int startY = visualZone.startY() + searchTextDisplay.startY();
         searchBox.render(graphics, pMouseX, pMouseY, pPartialTick);
         if (searchBox.isVisible() && searchBox.getValue().isEmpty() && !searchBox.isFocused()) {
-            graphics.drawString(font, Component.translatable("gui.maidsoulkitchen.search").withStyle(ChatFormatting.ITALIC), startX + 3, startY + 5, 0XF5F5F5);
+            graphics.drawString(font, VComponent.translatable("gui.maidsoulkitchen.search").withStyle(ChatFormatting.ITALIC), startX + 3, startY + 5, 0XF5F5F5);
         }
     }
 

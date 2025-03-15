@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
 import com.sihenzhang.crockpot.base.FoodCategory;
@@ -23,9 +24,9 @@ import java.util.Map;
 public class CrockPotAmountTooltip implements ClientAmountTooltip{
     private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     private final int rowSpacing = 2, colSpacing = 2;
-    private final MutableComponent titleTip = Component.translatable("tooltips.maidsoulkitchen.amount.title");
-//    private final MutableComponent randomTip = Component.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
-//    private final MutableComponent overSizeTip = Component.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
+    private final MutableComponent titleTip = VComponent.translatable("tooltips.maidsoulkitchen.amount.title");
+//    private final MutableComponent randomTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
+//    private final MutableComponent overSizeTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
 
     private final CrockPotTooltip crockPotTooltip;
     private final TaskCpCrockPot.RecInfo1 recInfo1;
@@ -73,8 +74,8 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
         int tipMax = font.width(titleTip);
 //        if (isRandom) {
         {
-            MutableComponent tip = Component.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
-                    .append(Component.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+            MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
             tipMax = Math.max(tipMax, font.width(tip));
         }
 //        if (isOverSize) {
@@ -88,8 +89,8 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
 
 //        if (isRandom) {
         {
-            MutableComponent tip = Component.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
-                    .append(Component.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+            MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
             guiGraphics.drawString(font, tip, pX, pY, ChatFormatting.YELLOW.getColor());
             pY += 10;
         }
@@ -109,7 +110,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(noRequire.getMax()) ? Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.no") : Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.le", noRequire.getMax());
+            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(noRequire.getMax()) ? VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.no") : VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.le", noRequire.getMax());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -120,7 +121,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(anyRequire.getMin()) ? Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.any") : Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.gt", anyRequire.getMin());
+            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(anyRequire.getMin()) ? VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.any") : VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.gt", anyRequire.getMin());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -135,7 +136,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             if (items.length > 1) {
                 guiGraphics.blit(TEXTURE, xOffset + 3, yOffset + 3 + 13, 0, 253, 3, 3);
             }
-            MutableComponent mutableComponent = Component.translatable(mustRequire.getQuantity() >= 4 ? "integration.crockpot.jei.crock_pot_cooking.requirement.eq" : "integration.crockpot.jei.crock_pot_cooking.requirement.ge", mustRequire.getQuantity());
+            MutableComponent mutableComponent = VComponent.translatable(mustRequire.getQuantity() >= 4 ? "integration.crockpot.jei.crock_pot_cooking.requirement.eq" : "integration.crockpot.jei.crock_pot_cooking.requirement.ge", mustRequire.getQuantity());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -147,7 +148,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.ge", noRequire.getMin());
+            MutableComponent mutableComponent = VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.ge", noRequire.getMin());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -158,7 +159,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(minRequire.getMin()) ? Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.any") : Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.gt", minRequire.getMin());
+            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(minRequire.getMin()) ? VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.any") : VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.gt", minRequire.getMin());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -170,7 +171,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(maxRequire.getMax()) ? Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.no") : Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.le", maxRequire.getMax());
+            MutableComponent mutableComponent = MathUtils.fuzzyIsZero(maxRequire.getMax()) ? VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.no") : VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.le", maxRequire.getMax());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -181,7 +182,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             int yOffset = pY + (i / cols) * (22 + rowSpacing);
             guiGraphics.blit(TEXTURE, xOffset, yOffset, 192, 234, 64, 22);
             guiGraphics.renderItem(itemStack, xOffset + 3, yOffset + 3);
-            MutableComponent mutableComponent = Component.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.lt", maxERequire.getMax());
+            MutableComponent mutableComponent = VComponent.translatable("integration.crockpot.jei.crock_pot_cooking.requirement.lt", maxERequire.getMax());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }
@@ -198,7 +199,7 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
                 guiGraphics.blit(TEXTURE, xOffset + 3, yOffset + 3 + 13, 0, 253, 3, 3);
             }
             guiGraphics.renderItem(itemStack, xOffset, yOffset);
-            MutableComponent mutableComponent = Component.translatable(mustLessTenRequire.getQuantity() >= 4 ? "integration.crockpot.jei.crock_pot_cooking.requirement.eq" : "integration.crockpot.jei.crock_pot_cooking.requirement.le", mustLessTenRequire.getQuantity());
+            MutableComponent mutableComponent = VComponent.translatable(mustLessTenRequire.getQuantity() >= 4 ? "integration.crockpot.jei.crock_pot_cooking.requirement.eq" : "integration.crockpot.jei.crock_pot_cooking.requirement.le", mustLessTenRequire.getQuantity());
             guiGraphics.drawString(font, mutableComponent, xOffset + 3 + 16 + 2, yOffset + 8, ChatFormatting.BLACK.getColor(), false);
             i++;
         }

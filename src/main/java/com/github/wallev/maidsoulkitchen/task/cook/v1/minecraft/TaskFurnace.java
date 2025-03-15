@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.minecraft;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -279,8 +280,8 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
 
     @Override
     public List<Component> getWarnComponent() {
-        return List.of(Component.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
-                Component.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.furnace"),
-                Component.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.furnace.1"));
+        return List.of(VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
+                VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.furnace"),
+                VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.furnace.1"));
     }
 }

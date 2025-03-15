@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm;
 
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.NavCompatMelonConfigButton;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -33,7 +34,7 @@ public class CompatMelonConfigGui extends MaidTaskConfigGui<CompatMelonConfigCon
 
     private void addNavCompatMelonConfigButton() {
 
-        MutableComponent translatable = Component.translatable("gui.maidsoulkitchen.config.global_config").withStyle(ChatFormatting.ITALIC);
+        MutableComponent translatable = VComponent.translatable("gui.maidsoulkitchen.config.global_config").withStyle(ChatFormatting.ITALIC);
         int startX = ((visualZone.width() - font.width(translatable)) / 2) + visualZone.startX();
         int startY = ((visualZone.height() - font.lineHeight) / 2) + visualZone.startY();
         int width = font.width(translatable);

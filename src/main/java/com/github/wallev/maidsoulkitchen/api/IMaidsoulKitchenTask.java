@@ -3,12 +3,16 @@ package com.github.wallev.maidsoulkitchen.api;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+@SuppressWarnings("all")
 public interface IMaidsoulKitchenTask extends IMaidTask {
 
     default TaskBookEntryType getBookEntryType() {
@@ -39,5 +43,25 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
         }
 
         return IMaidTask.super.getEnableConditionDesc(maid);
+    }
+
+    @Override
+    default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
+        return (List) this.vCreateBrainTasks(maid);
+    }
+
+    List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid);
+
+    @Override
+    default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createRideBrainTasks(EntityMaid maid) {
+        List<Pair<Integer, VBehaviorControl>> rideBrainTasks = vCreateRideBrainTasks(maid);
+        if (!rideBrainTasks.isEmpty()) {
+            return (List) rideBrainTasks;
+        }
+        return IMaidTask.super.createRideBrainTasks(maid);
+    }
+
+    default List<Pair<Integer, VBehaviorControl>> vCreateRideBrainTasks(EntityMaid entityMaid) {
+        return Collections.emptyList();
     }
 }

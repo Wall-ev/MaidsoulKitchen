@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
+import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -50,13 +51,13 @@ public class TaskInfoButton extends NormalTooltipButton {
 
     public static List<Component> getDesc(IMaidTask task) {
         List<Component> components = new ArrayList<>();
-        components.add(Component.translatable("gui.maidsoulkitchen.widget.cook_guide.task.desc", task.getName()));
+        components.add(VComponent.translatable("gui.maidsoulkitchen.widget.cook_guide.task.desc", task.getName()));
         if (task instanceof ICookTask<?, ?> maidTask) {
             RecipeType<?> recipeType = maidTask.getRecipeType();
             String typeString = recipeType.toString();
 
             components.add(CommonComponents.SPACE);
-            components.add(Component.translatable("gui.maidsoulkitchen.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
+            components.add(VComponent.translatable("gui.maidsoulkitchen.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
         }
         return components;
     }
