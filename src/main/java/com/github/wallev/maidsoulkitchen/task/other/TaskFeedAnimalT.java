@@ -8,7 +8,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.Default
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.handler.behavior.*;
+import com.github.wallev.maidsoulkitchen.handler.*;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidFeedAnimalTaskT;
 import com.google.common.base.Predicates;

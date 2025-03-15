@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.v1.minecraft;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
@@ -154,7 +154,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     }
 
     private Optional<? extends AbstractCookingRecipe> getRecipe(EntityMaid maid, ItemStack stack, RecipeType<? extends AbstractCookingRecipe> recipeType) {
-        return maid.level.getRecipeManager().getRecipeFor(recipeType, new SimpleContainer(stack), maid.level());
+        return maid.level.getRecipeManager().getRecipeFor(recipeType, new SimpleContainer(stack), maid.level);
     }
 
     @Override

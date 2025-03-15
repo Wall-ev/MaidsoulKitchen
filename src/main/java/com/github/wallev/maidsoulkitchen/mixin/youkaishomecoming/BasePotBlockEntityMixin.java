@@ -44,7 +44,7 @@ public abstract class BasePotBlockEntityMixin implements IFdCbeAccessor<BasePotR
 
     @Override
     public void tlmk$awardExperience(Entity entity) {
-        this.getUsedRecipesAndPopExperience(entity.level(), entity.position());
+        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
     }
 }

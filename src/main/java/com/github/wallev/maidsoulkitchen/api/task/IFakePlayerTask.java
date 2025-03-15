@@ -31,7 +31,7 @@ public interface IFakePlayerTask {
                 targetPos, true);
         //processRightClick
         ItemStack itemInHand = fakePlayer.getItemInHand(hand);
-        return fakePlayer.gameMode.useItemOn(fakePlayer, maid.level(), itemInHand, hand, blockraytraceresult);
+        return fakePlayer.gameMode.useItemOn(fakePlayer, maid.level, itemInHand, hand, blockraytraceresult);
     }
 
     static void maidRightClick(EntityMaid maid, BlockPos targetPos, InteractionHand hand) {

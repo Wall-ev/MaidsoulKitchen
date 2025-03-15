@@ -35,7 +35,7 @@ public class BurnProtectBauble implements ILittleMaidBauble {
                 maid.getMaidBauble().setStackInSlot(slot, stack);
                 maid.addEffect(new MobEffectInstance(MkEffects.BURN_PROTECT.get(), 300));
                 if (!maid.level.isClientSide) {
-                    maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level(), maid.position()));
+                    maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level, maid.position()));
                 }
             }
         }

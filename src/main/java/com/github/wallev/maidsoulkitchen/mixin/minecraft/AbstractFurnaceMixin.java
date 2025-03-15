@@ -35,7 +35,7 @@ public abstract class AbstractFurnaceMixin implements IAbstractFurnaceAccessor, 
 
     @Override
     public void tlmk$awardExperience(Entity entity) {
-        this.getRecipesToAwardAndPopExperience((ServerLevel) entity.level(), entity.position());
+        this.getRecipesToAwardAndPopExperience((ServerLevel) entity.level, entity.position());
         this.recipesUsed.clear();
     }
 }

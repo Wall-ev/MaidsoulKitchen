@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -29,7 +29,7 @@ public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, 
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);
         if (plantB) {
-            String lowerCase = SeasonHelper.getSeasonState(maid.level()).getSeason().name().toLowerCase(Locale.ENGLISH);
+            String lowerCase = SeasonHelper.getSeasonState(maid.level).getSeason().name().toLowerCase(Locale.ENGLISH);
             TagKey<Item> itemTagKey = ItemTags.create(new ResourceLocation("sereneseasons:" + lowerCase + "_crops"));
             return seed.getTags().anyMatch(itemTagKey::equals) ||
                     seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));

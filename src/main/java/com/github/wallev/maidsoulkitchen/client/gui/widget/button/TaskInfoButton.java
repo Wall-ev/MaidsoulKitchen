@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

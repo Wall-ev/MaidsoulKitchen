@@ -42,7 +42,7 @@ public abstract class CookingPotBlockEntityMixin implements IFdCbeAccessor<Cooki
 
     @Override
     public void tlmk$awardExperience(Entity entity) {
-        this.getUsedRecipesAndPopExperience(entity.level(), entity.position());
+        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
     }
 }

@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.client.gui.item;
 
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

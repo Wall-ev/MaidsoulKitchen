@@ -186,7 +186,7 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
                 if (fakePlayer != null) {
                     fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, waterStack.split(1));
                     try {
-                        InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, entityMaid.level(), blockEntity.getBlockPos(), InteractionHand.MAIN_HAND, null);
+                        InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, entityMaid.level, blockEntity.getBlockPos(), InteractionHand.MAIN_HAND, null);
 
                         if (interactionResult != InteractionResult.PASS) {
                             ItemStack itemInHand = fakePlayer.getItemInHand(InteractionHand.MAIN_HAND);

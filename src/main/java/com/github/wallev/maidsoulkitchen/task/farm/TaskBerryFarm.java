@@ -8,7 +8,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
-import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;

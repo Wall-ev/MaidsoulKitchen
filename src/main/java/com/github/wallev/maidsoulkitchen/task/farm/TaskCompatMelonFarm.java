@@ -3,7 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VEnchantmentHelper;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
@@ -77,7 +78,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
         Block block = cropState.getBlock();
         if (MelonConfigEvent.MELON_STEM_MAP.containsKey(BlockUtil.getId(block))) {
             ItemStack mainHandItem = maid.getMainHandItem();
-            if (EnchantmentHelper.hasSilkTouch(mainHandItem)) {
+            if (VEnchantmentHelper.hasSilkTouch(mainHandItem)) {
                 if (this.destroyBlockByHandItem(maid, cropPos)) {
                     mainHandItem.hurtAndBreak(1, maid, (e) -> {
                         e.broadcastBreakEvent(InteractionHand.MAIN_HAND);

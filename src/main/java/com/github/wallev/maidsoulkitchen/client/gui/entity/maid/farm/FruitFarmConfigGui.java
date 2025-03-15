@@ -9,7 +9,7 @@ import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionFruitFarmRuleMessage;

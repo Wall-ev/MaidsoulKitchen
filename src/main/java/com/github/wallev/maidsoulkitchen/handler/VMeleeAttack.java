@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.handler.behavior;
+package com.github.wallev.maidsoulkitchen.handler;
 
 import net.minecraft.world.entity.ai.behavior.MeleeAttack;
 

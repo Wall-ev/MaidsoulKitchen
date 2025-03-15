@@ -4,7 +4,7 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;

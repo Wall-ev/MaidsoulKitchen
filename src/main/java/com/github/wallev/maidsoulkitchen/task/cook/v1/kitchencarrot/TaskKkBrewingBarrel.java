@@ -123,7 +123,7 @@ public class TaskKkBrewingBarrel implements ICookTask<BrewingBarrelBlockEntity, 
                 for (int i = 0; i < time; i++) {
                     fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, waterStack.split(1));
                     try {
-                        InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level(), brewBe.getBlockPos(), InteractionHand.MAIN_HAND, null);
+                        InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level, brewBe.getBlockPos(), InteractionHand.MAIN_HAND, null);
 
                         if (interactionResult != InteractionResult.PASS) {
                             ItemStack itemInHand = fakePlayer.getItemInHand(InteractionHand.MAIN_HAND);

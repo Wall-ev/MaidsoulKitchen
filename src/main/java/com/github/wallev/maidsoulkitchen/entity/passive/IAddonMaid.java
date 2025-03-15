@@ -27,7 +27,7 @@ public interface IAddonMaid {
         if (fakePlayer != null) {
             try {
                 fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, itemStack);
-                InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level(), blockPos, InteractionHand.MAIN_HAND, null);
+                InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level, blockPos, InteractionHand.MAIN_HAND, null);
 
                 if (interactionResult == InteractionResult.PASS) {
                     BlockState blockState = maid.level.getBlockState(blockPos);
@@ -61,7 +61,7 @@ public interface IAddonMaid {
         FakePlayer fakePlayer = fakePlayer$tlma.get();
         if (fakePlayer != null) {
             try {
-                InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level(), blockPos, InteractionHand.MAIN_HAND, null);
+                InteractionResult interactionResult = FakePlayerUtil.interactUseOnBlock(fakePlayer$tlma, maid.level, blockPos, InteractionHand.MAIN_HAND, null);
 
                 if (interactionResult == InteractionResult.PASS) {
                     BlockState blockState = maid.level.getBlockState(blockPos);

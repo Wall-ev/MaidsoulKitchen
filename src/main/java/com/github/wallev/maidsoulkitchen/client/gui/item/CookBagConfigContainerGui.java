@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagModeButton;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;

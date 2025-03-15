@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.v1.berry.farmersresp
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.berry.BerryHandler;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;

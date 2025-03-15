@@ -43,7 +43,7 @@ public abstract class CopperPotBlockEntityMixin implements IFdCbeAccessor<Cookin
 
     @Override
     public void tlmk$awardExperience(Entity entity) {
-        this.getUsedRecipesAndPopExperience(entity.level(), entity.position());
+        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
     }
 }

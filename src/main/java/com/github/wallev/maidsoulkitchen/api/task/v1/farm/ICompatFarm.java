@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.api.task.v1.farm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
-import com.github.wallev.maidsoulkitchen.handler.behavior.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;

@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;

@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package com.github.wallev.maidsoulkitchen.handler.component;
+package com.github.wallev.maidsoulkitchen.handler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

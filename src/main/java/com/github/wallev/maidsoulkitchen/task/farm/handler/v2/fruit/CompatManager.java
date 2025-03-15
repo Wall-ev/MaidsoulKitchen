@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.v2.fruit;
 
-import com.github.wallev.maidsoulkitchen.handler.component.VComponent;
-import net.minecraft.network.chat.Component;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import net.minecraft.network.chat.MutableComponent;
 
 public enum CompatManager {
