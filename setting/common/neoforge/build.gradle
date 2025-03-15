@@ -8,6 +8,9 @@ plugins {
 
     // NeoForged 开发插件
     id 'net.neoforged.moddev' version '2.0.78'
+
+    // shadow 插件
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
 // 加载配置
