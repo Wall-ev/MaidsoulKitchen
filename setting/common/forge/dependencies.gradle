@@ -95,9 +95,9 @@ dependencies {
     if (!kotlin_for_forge_version.isEmpty())
         runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
     if (!libipn_version.isEmpty())
-        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}")
+        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}-${mod_loader},${minecraft_version}")
     if (!inventory_profiles_next_version.isEmpty())
-        compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}")
+        compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}-${mod_loader},${minecraft_version}")
 
     if (!kubejs_version.isEmpty())
         compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
@@ -146,8 +146,8 @@ dependencies {
 
 // api
 dependencies {
-    if (!architectury_version.isEmpty())
-        implementation fg.deobf("dev.architectury:architectury-${mod_loader}:${architectury_version}")
+//    if (!architectury_version.isEmpty())
+//        implementation fg.deobf("dev.architectury:architectury-${mod_loader}:${architectury_version}")
     if (!kiwi_version.isEmpty())
         runtimeOnly fg.deobf("maven.modrinth:kiwi:${kiwi_version}-${mod_loader},${minecraft_version}")
 }

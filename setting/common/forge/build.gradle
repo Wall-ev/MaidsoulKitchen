@@ -15,7 +15,6 @@ buildscript {
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     // This should be below the net.minecraftforge.gradle plugin
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
@@ -24,11 +23,13 @@ plugins {
 }
 
 // 加载配置
-def minecraft_version= "1.19.2"
+// [,1.21)
+def minecraft_version= "xxx"
 loadProperties(minecraft_version)
 loadGradle(minecraft_version)
 
 // Java版本
+// [,17]
 java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 
 // 版本类型: beta alpha release
@@ -136,19 +137,6 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
 // 指定编码显式为 UTF
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
@@ -200,8 +188,8 @@ dependencies {
 
 // util
 def loadGradle(String minecraft_version) {
-    apply from: "/setting/common/repositories.gradle"
-    apply from: "/setting/common/dependencies.gradle"
+    apply from: "/setting/common/forge/repositories.gradle"
+    apply from: "/setting/common/forge/dependencies.gradle"
     apply from: "/setting/version/${minecraft_version}/dependencies.gradle"
 }
 
