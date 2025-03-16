@@ -5,7 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Collections;
@@ -46,14 +46,14 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
     }
 
     @Override
-    default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
+    default List<Pair<Integer, Behavior<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         return (List) this.vCreateBrainTasks(maid);
     }
 
     List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid);
 
     @Override
-    default List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createRideBrainTasks(EntityMaid maid) {
+    default List<Pair<Integer, Behavior<? super EntityMaid>>> createRideBrainTasks(EntityMaid maid) {
         List<Pair<Integer, VBehaviorControl>> rideBrainTasks = vCreateRideBrainTasks(maid);
         if (!rideBrainTasks.isEmpty()) {
             return (List) rideBrainTasks;

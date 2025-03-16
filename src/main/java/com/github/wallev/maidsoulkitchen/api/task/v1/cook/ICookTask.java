@@ -9,6 +9,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMakeTask;
@@ -100,7 +101,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Config Container2");
+                return VComponent.literal("Maid Cook Config Container2");
             }
 
             @Override
@@ -137,7 +138,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
-        return recipe.getResultItem(pRegistryAccess);
+        return recipe.getResultItem();
     }
 
     default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {

@@ -21,8 +21,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -118,7 +118,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                 for (IChestType type : ChestManager.getAllChestTypes()) {
                     if (!type.isChest(blockEntity)) continue;
                     if (type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0) continue;
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                    blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(beInv -> {
                         ItemStack leftStack = ItemHandlerHelper.insertItemStacked(beInv, stack.copy(), false);
                         stack.shrink(stack.getCount() - leftStack.getCount());
                     });
@@ -267,7 +267,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             for (IChestType type : ChestManager.getAllChestTypes()) {
                 if (!type.isChest(blockEntity) || type.getOpenCount(maid.level, ingredientPo, blockEntity) > 0)
                     continue;
-                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null).ifPresent(beInv -> {
+                blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(beInv -> {
                     for (int i = 0; i < beInv.getSlots(); i++) {
                         ItemStack stackInSlot = beInv.getStackInSlot(i);
                         Item item = stackInSlot.getItem();
@@ -611,7 +611,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();
@@ -662,7 +662,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();
@@ -737,7 +737,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();
@@ -757,7 +757,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();
@@ -783,7 +783,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();
@@ -810,7 +810,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             BlockEntity blockEntity = level.getBlockEntity(bindModePose);
 
             if (blockEntity != null) {
-                LazyOptional<IItemHandler> capability = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, null);
+                LazyOptional<IItemHandler> capability = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
                 if (capability.isPresent()) {
                     IItemHandler beInv = capability.resolve().get();

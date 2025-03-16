@@ -21,6 +21,7 @@ import com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity;
 import com.sihenzhang.crockpot.recipe.CrockPotRecipes;
 import com.sihenzhang.crockpot.recipe.FoodValuesDefinition;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;
+import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipeInput;
 import com.sihenzhang.crockpot.recipe.cooking.requirement.*;
 import com.sihenzhang.crockpot.util.MathUtils;
 import net.minecraft.ChatFormatting;
@@ -95,11 +96,11 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
             }
         }
 
-        CrockPotCookingRecipe.Wrapper recipeWrapper = blockEntity.getRecipeWrapper();
-        if (recipeWrapper != null) {
-            Optional<CrockPotCookingRecipe> recipeFor = CrockPotCookingRecipe.getRecipeFor(recipeWrapper, serverLevel);
-            if (recipeFor.isPresent()) {
-                return recipeFor.get().getId().getPath().equals("crock_pot_cooking/wet_goop");
+        CrockPotCookingRecipeInput recipeInput = blockEntity.getRecipeInput();
+        if (recipeInput != null) {
+            CrockPotCookingRecipe recipeFor = CrockPotCookingRecipe.getRecipeFor(recipeInput, serverLevel.random, serverLevel.getRecipeManager());
+            if (recipeFor != null) {
+                return recipeFor.getId().getPath().equals("crock_pot_cooking/wet_goop");
             }
         }
         return false;
@@ -1157,7 +1158,7 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
 
     @Override
     public ItemStack getIcon() {
-        return CrockPotBlocks.CROCK_POT.get().asItem().getDefaultInstance();
+        return CrockPotBlocks.BASIC_CROCK_POT.get().asItem().getDefaultInstance();
     }
 
     @Override
@@ -1203,7 +1204,7 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
             REQUIREMENT_FOOD_CATEGORY_MAP.clear();
 
             for (FoodCategory value : FoodCategory.values()) {
-                List<Item> items = FoodValuesDefinition.getMatchedItems(value, level).stream().map(ItemStack::getItem).toList();
+                List<Item> items = FoodValuesDefinition.getMatchedItems(value, level.getRecipeManager()).stream().toList();
                 FOOD_CATEGORY_INGREDIENT_MAP.put(value, items);
             }
 
@@ -1252,7 +1253,7 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
             FOOD_CATEGORY_INGREDIENT_MAP.forEach((foodCategory, items) -> {
                 HashMap<Item, Float> itemFloatHashMap = new HashMap<>();
                 for (Item item : items) {
-                    FoodValues foodValues = FoodValuesDefinition.getFoodValues(item.getDefaultInstance(), level);
+                    FoodValues foodValues = FoodValuesDefinition.getFoodValues(item, level.getRecipeManager());
                     itemFloatHashMap.put(item, foodValues.get(foodCategory));
 
                     INVID_ITEMS.add(item);
