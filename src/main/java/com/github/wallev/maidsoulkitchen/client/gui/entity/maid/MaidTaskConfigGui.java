@@ -4,8 +4,8 @@ import com.github.wallev.maidsoulkitchen.client.gui.widget.button.TitleInfoButto
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.TaskConfigContainer;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,12 +33,12 @@ public abstract class MaidTaskConfigGui<T extends TaskConfigContainer> extends c
         this.addRenderableWidget(titleInfoButton);
     }
 
-    protected void renderNoConfigTip(GuiGraphics graphics) {
+    protected void renderNoConfigTip(PoseStack poseStack) {
         int color = Color.YELLOW.getRGB();
         MutableComponent translatable = VComponent.translatable("gui.maidsoulkitchen.config.no_config").withStyle(ChatFormatting.ITALIC);
         int startX = ((visualZone.width() - font.width(translatable)) / 2) + visualZone.startX();
         int startY = ((visualZone.height() - font.lineHeight ) / 2) + visualZone.startY();
-        graphics.drawString(font, translatable, startX, startY, color, false);
-        graphics.fill(startX, startY + font.lineHeight + 1, startX + font.width(translatable), startY + font.lineHeight + 2, color);
+        font.draw(poseStack, translatable, startX, startY, color);
+        fill(poseStack, startX, startY + font.lineHeight + 1, startX + font.width(translatable), startY + font.lineHeight + 2, color);
     }
 }

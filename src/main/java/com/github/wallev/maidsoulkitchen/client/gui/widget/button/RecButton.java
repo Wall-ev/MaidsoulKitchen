@@ -5,12 +5,12 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
@@ -45,50 +45,52 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     @Override
-    public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        pGuiGraphics.renderItem(stack, this.getX() + 2, this.getY() + 2);
-        this.renderShadow(pGuiGraphics);
+    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float pPartialTick) {
+        super.renderButton(poseStack, mouseX, mouseY, pPartialTick);
+        Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, x + 2, y + 2);
+        this.renderShadow(poseStack);
     }
 
-    private void renderShadow(GuiGraphics graphics) {
+    private void renderShadow(PoseStack poseStack) {
         if (cookData.mode().equals(CookData.Mode.WHITELIST.name)) {
-            graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50F9F9F9);
+            fill(poseStack, x, y, x + 20, y + 20, 0x50F9F9F9);
         } else {
-            graphics.fill(this.getX(), this.getY(), this.getX() + 20, this.getY() + 20, 0x50000010);
+            fill(poseStack, x, y, x + 20, y + 20, 0x50000010);
         }
     }
 
     @Override
     public boolean isTooltipHovered() {
-        return this.isHovered();
+        return this.isHovered;
     }
 
     @Override
-    public void renderTooltip(GuiGraphics guiGraphics, Minecraft minecraft, int pMouseX, int pMouseY) {
-        this.renderItemStackTooltips(minecraft, guiGraphics, pMouseX, pMouseY);
+    public void renderTooltip(PoseStack poseStack, Minecraft minecraft, int pMouseX, int pMouseY) {
+        this.renderItemStackTooltips(minecraft, poseStack, pMouseX, pMouseY);
     }
 
     @SuppressWarnings("all")
-    private void renderItemStackTooltips(Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        renderTooltipWithImage(stack, mc, pGuiGraphics, pMouseX, pMouseY);
+    private void renderItemStackTooltips(Minecraft mc, PoseStack poseStack, int pMouseX, int pMouseY) {
+        renderTooltipWithImage(stack, mc, poseStack, pMouseX, pMouseY);
     }
 
-    private void renderTooltipWithImage(ItemStack stack, Minecraft mc, GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        List<Component> stackTooltip = Screen.getTooltipFromItem(mc, stack);
+    private void renderTooltipWithImage(ItemStack stack, Minecraft mc, PoseStack poseStack, int pMouseX, int pMouseY) {
+        Screen screen = mc.screen;
+        if (screen == null) {
+            return;
+        }
+
+        List<Component> stackTooltip = screen.getTooltipFromItem(stack);
 
         if (mc.options.advancedItemTooltips) {
-            stackTooltip.add(CommonComponents.SPACE);
-            stackTooltip.add(Component.literal(String.format("RecipeId: %s", recipe.getId().toString())).withStyle(ChatFormatting.DARK_GRAY));
+            stackTooltip.add(VComponent.literal(" "));
+            stackTooltip.add(Component.literal(String.format("RecipeId: %s", recipe.getId())).withStyle(ChatFormatting.DARK_GRAY));
         }
 
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
-//        boolean overSize = cookData.getRecs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
-
-//        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
         Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, false);
 
-        pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
+        screen.renderTooltip(poseStack, stackTooltip, recClientAmountTooltip, pMouseX, pMouseY, stack);
     }
 
     public Recipe<?> getRecipe() {

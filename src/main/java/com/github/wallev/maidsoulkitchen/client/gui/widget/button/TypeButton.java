@@ -3,9 +3,12 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -33,24 +36,36 @@ public class TypeButton extends NormalTooltipButton {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        pGuiGraphics.blit(TEXTURE, getX(), getY(), 0, 232, 18, 18);
+    protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, x, y, 0, 232, 18, 18, 256, 256);
         if (isSelected) {
-            pGuiGraphics.blit(TEXTURE, getX() + 1, getY() + 1, 16, 197, 16, 16);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, x + 1, y + 1, 16, 197, 16, 16, 256, 256);
         }else {
-            pGuiGraphics.blit(TEXTURE, getX() + 1, getY() + 1, 16, 181, 16, 16);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, x + 1, y + 1, 16, 181, 16, 16, 256, 256);
         }
     }
 
     @Override
     public Component getMessage() {
-        return VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.modeUid));
+        return Component.empty();
+//        return VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.modeUid));
     }
 
     @Override
-    public void renderTooltip(GuiGraphics graphics, Minecraft mc, int mouseX, int mouseY) {
+    public void renderTooltip(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
+        Screen screen = minecraft.screen;
+        if (screen == null) {
+            return;
+        }
         List<Component> translatable = List.of(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.0", this.modeUid)),
                 VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s.desc.1", this.modeUid)).withStyle(ChatFormatting.GRAY));
-        graphics.renderComponentTooltip(mc.font, translatable, mouseX, mouseY);
+        screen.renderComponentTooltip(poseStack, translatable, mouseX, mouseY);
     }
 }

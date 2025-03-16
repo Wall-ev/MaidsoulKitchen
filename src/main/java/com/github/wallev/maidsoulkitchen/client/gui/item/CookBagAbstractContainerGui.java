@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagGuiSideTabButton;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -49,19 +49,21 @@ public abstract class CookBagAbstractContainerGui<T extends CookBagAbstractConta
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, partialTick);
+        this.renderTooltip(poseStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTicks, int x, int y) {
-        this.drawSideTabGui(graphics, partialTicks, x, y);
+    protected void renderBg(PoseStack poseStack, float partialTicks, int x, int y) {
+        this.drawSideTabGui(poseStack, partialTicks, x, y);
     }
 
     // 绘制侧边栏底部贴图
-    private void drawSideTabGui(GuiGraphics graphics, float partialTicks, int x, int y) {
-//        graphics.blit(SIDE, leftPos + 176, topPos + 12, 235, 107, 21, 47);
+    private void drawSideTabGui(PoseStack poseStack, float partialTicks, int x, int y) {
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderTexture(0, SIDE);
+//        blit(SIDE, leftPos + 176, topPos + 12, 235, 107, 21, 47);
     }
 }
