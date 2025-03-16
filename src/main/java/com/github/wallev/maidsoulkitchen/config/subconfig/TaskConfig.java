@@ -29,7 +29,7 @@ public class TaskConfig {
         builder.pop();
     }
 
-    private static List<List<String>> getmelonAndStemList() {
+    public static List<List<String>> getmelonAndStemList() {
         List<List<String>> melonStemList = new ArrayList<>();
         melonStemList.add(Arrays.asList("simplefarming:cantaloupe", "simplefarming:attached_cantaloupe_stem"));
         melonStemList.add(Arrays.asList("simplefarming:honeydew", "simplefarming:attached_honeydew_stem"));

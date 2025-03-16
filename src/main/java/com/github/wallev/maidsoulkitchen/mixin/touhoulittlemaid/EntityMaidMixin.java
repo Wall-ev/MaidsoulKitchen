@@ -34,7 +34,7 @@ public abstract class EntityMaidMixin extends TamableAnimal implements CrossbowA
     @Override
     public void tlmk$initFakePlayer() {
         if (fakePlayer == null) {
-            this.fakePlayer = FakePlayerUtil.setupBeforeTrigger((ServerLevel) level(), this.getName().getString(), this);
+            this.fakePlayer = FakePlayerUtil.setupBeforeTrigger((ServerLevel) level, this.getName().getString(), this);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,7 @@ public class CFRuleButton extends Button implements ITooltipButton {
     private final List<Component> tooltips;
 
     public CFRuleButton(IHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY, List<Component> tooltips) {
-        super(pX, pY, 152, 24, Component.empty(), b -> {});
+        super(pX, pY, 152, 24, VComponent.empty(), b -> {});
         this.handlerInfo = handlerInfo;
         this.handler = handler;
         this.isSelected = isSelected;

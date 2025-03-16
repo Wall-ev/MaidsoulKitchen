@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.handler;
+package com.github.wallev.maidsoulkitchen.handler.util;
 
 import net.minecraft.world.item.ItemStack;
 

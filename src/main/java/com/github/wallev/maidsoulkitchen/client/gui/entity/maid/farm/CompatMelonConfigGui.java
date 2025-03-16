@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 public class CompatMelonConfigGui extends MaidTaskConfigGui<CompatMelonConfigContainer> {
 
     public CompatMelonConfigGui(CompatMelonConfigContainer compatMelonConfigContainer, Inventory inv, Component titleIn) {
-        super(compatMelonConfigContainer, inv, Component.empty());
+        super(compatMelonConfigContainer, inv, VComponent.empty());
     }
 
     @Override

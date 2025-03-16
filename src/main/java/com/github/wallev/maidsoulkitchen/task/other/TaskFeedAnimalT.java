@@ -116,7 +116,7 @@ public class TaskFeedAnimalT implements IAttackTask, IMaidsoulKitchenTask {
         final int entityId = maid.getId();
         return new MenuProvider() {
             public Component getDisplayName() {
-                return Component.literal("Maid Task Config Container");
+                return VComponent.literal("Maid Task Config Container");
             }
 
             public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {

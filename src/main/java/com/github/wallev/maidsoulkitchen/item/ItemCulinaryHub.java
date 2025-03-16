@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.item;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.maidsoulkitchen.handler.VMessageHelper;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -40,6 +41,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.github.tartaricacid.touhoulittlemaid.item.MaidGroup.MAIN_TAB;
+
 public class ItemCulinaryHub extends Item implements MenuProvider {
     private static final int COOK_BAG_SIZE = getCookBagSize();
     private static final String CONTAINER_TAG = "CulinaryHubContainer";
@@ -48,7 +51,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     private static final int BIND_SIZE = 3;
 
     public ItemCulinaryHub() {
-        super(new Item.Properties().stacksTo(1));
+        super(new Item.Properties().stacksTo(1).tab(MAIN_TAB));
     }
 
     public static void removeModePoses(ItemStack stack) {
@@ -195,7 +198,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     public static boolean openCookBagGuiFromSideTab(Player player, int tabIndex) {
         if (player instanceof ServerPlayer) {
-            NetworkHooks.openScreen((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeItem(player.getMainHandItem()));
+            NetworkHooks.openGui((ServerPlayer) player, getGuiProviderFromSideTab(tabIndex), (buffer) -> buffer.writeItem(player.getMainHandItem()));
         }
         return true;
     }
@@ -212,7 +215,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Container");
+                return VComponent.literal("Maid Cook Container");
             }
 
             @Override
@@ -226,7 +229,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Cook Config Container");
+                return VComponent.literal("Maid Cook Config Container");
             }
 
             @Override
@@ -259,7 +262,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
                 if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
                     if (context.getLevel().isClientSide) {
-                        player.sendSystemMessage(VComponent.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
+                        VMessageHelper.sendSystemMessage(player, VComponent.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
                     }
                     return InteractionResult.sidedSuccess(worldIn.isClientSide);
                 }
@@ -276,7 +279,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         if (handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer) {
-            NetworkHooks.openScreen((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
+            NetworkHooks.openGui((ServerPlayer) playerIn, this, (buffer) -> buffer.writeItem(playerIn.getMainHandItem()));
             return InteractionResultHolder.success(playerIn.getMainHandItem());
         }
         return super.use(worldIn, playerIn, handIn);
@@ -284,7 +287,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Cook Bag Container");
+        return VComponent.literal("Cook Bag Container");
     }
 
     @Nullable
@@ -297,11 +300,11 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (!Screen.hasShiftDown()) {
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.0").withStyle(ChatFormatting.GRAY));
         } else {
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
@@ -316,23 +319,23 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             }
         });
         if (bindPoses.isEmpty() || leftBindBagTypes.size() == BagType.values().length - 2) {
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty").withStyle(ChatFormatting.GRAY));
         } else if (!leftBindBagTypes.isEmpty()) {
-            MutableComponent leftComponent1 = Component.empty();
+            MutableComponent leftComponent1 = VComponent.empty();
             boolean first = true;
             for (BagType value : leftBindBagTypes) {
                 if (first) {
                     leftComponent1.append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
                     first = false;
                 } else {
-                    leftComponent1.append(Component.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
+                    leftComponent1.append(VComponent.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
                 }
             }
-            MutableComponent leftComponent = Component.literal("[").append(leftComponent1).append(Component.literal("]").withStyle(ChatFormatting.GRAY));
+            MutableComponent leftComponent = VComponent.literal("[").append(leftComponent1).append(VComponent.literal("]").withStyle(ChatFormatting.GRAY));
 
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn.left", leftComponent).withStyle(ChatFormatting.GRAY));
         }

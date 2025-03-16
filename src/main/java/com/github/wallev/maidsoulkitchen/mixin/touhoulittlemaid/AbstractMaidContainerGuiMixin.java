@@ -8,7 +8,7 @@ import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
 import com.github.tartaricacid.touhoulittlemaid.network.message.RefreshMaidBrainMessage;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -44,12 +44,12 @@ public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContai
     }
 
     @Inject(at = @At("TAIL"), method = "renderLabels")
-    private void tlmk$renderHubSlotHighlight(GuiGraphics graphics, int x, int y, CallbackInfo ci) {
+    private void renderHubSlotHighlight(PoseStack poseStack, int x, int y, CallbackInfo ci) {
         if (this.menu.getCarried().is(MkItems.CULINARY_HUB.get()) && this.menu.slots.size() >= 55) {
             final int hubSlotIndex = 55;
             final int color = new Color(44, 255, 44, 96).getRGB();
             Slot hubSlot = this.getMenu().getSlot(hubSlotIndex);
-            renderSlotHighlight(graphics, hubSlot.x, hubSlot.y, 0, color);
+            renderSlotHighlight(poseStack, hubSlot.x, hubSlot.y, 0, color);
         }
     }
 }

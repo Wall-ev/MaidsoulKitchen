@@ -250,7 +250,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         String textCache = searchBox == null ? "" : searchBox.getValue();
         boolean visible = searchBox != null && searchBox.isVisible();
         boolean focus = searchBox != null && searchBox.isFocused();
-        searchBox = new EditBox(getMinecraft().font, startX, startY, searchTextDisplay.width(), searchTextDisplay.height(), Component.empty()) {
+        searchBox = new EditBox(getMinecraft().font, startX, startY, searchTextDisplay.width(), searchTextDisplay.height(), VComponent.empty()) {
 
             @Override
             public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float pPartialTick) {
@@ -290,11 +290,6 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         StateSwitchingButton typeButton = new StateSwitchingButton(finalStartX, startY, searchBoxDisplay.width(), searchBoxDisplay.height(), searchBox.isVisible()) {
             @Override
             public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-            }
-
-            @Override
-            public void setFocused(boolean pFocused) {
-                super.setFocused(pFocused);
             }
 
             @Override

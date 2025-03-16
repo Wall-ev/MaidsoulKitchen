@@ -5,12 +5,13 @@ import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromAttackTargetIfTar
 
 import java.util.function.Function;
 
+@SuppressWarnings("all")
 public class VSetWalkTargetFromAttackTargetIfTargetOutOfReach {
     public static VBehaviorControl create(float speedModifier) {
-        return (VBehaviorControl) SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(speedModifier);
+        return (VBehaviorControl) new SetWalkTargetFromAttackTargetIfTargetOutOfReach(speedModifier);
     }
 
     public static VBehaviorControl create(Function<LivingEntity, Float> speedModifier) {
-        return (VBehaviorControl) SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(speedModifier);
+        return (VBehaviorControl) new SetWalkTargetFromAttackTargetIfTargetOutOfReach(speedModifier);
     }
 }

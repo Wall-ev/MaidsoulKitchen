@@ -21,7 +21,7 @@ public class TypeButton extends NormalTooltipButton {
     protected String modeUid;
 
     public TypeButton(int pX, int pY, int pWidth, int pHeight, boolean isSelected) {
-        super(pX, pY, pWidth, pHeight, Component.empty(), Collections.emptyList(), (b) -> {});
+        super(pX, pY, pWidth, pHeight, VComponent.empty(), Collections.emptyList(), (b) -> {});
         this.isSelected = isSelected;
         this.setModeUid(isSelected);
     }
@@ -54,7 +54,7 @@ public class TypeButton extends NormalTooltipButton {
 
     @Override
     public Component getMessage() {
-        return Component.empty();
+        return VComponent.empty();
 //        return VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.modeUid));
     }
 

@@ -122,7 +122,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         blit(poseStack, x, y, 0 ,236, 22, 20);
         // 暂时先这样... todo
         if (this.farmTaskInfo.searchYOffset() >= 0) {
-            width += font.width(Component.literal("-"));
+            width += font.width(VComponent.literal("-"));
             for (int i = 0; i < width; i++) {
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, TEXTURE);
@@ -240,11 +240,11 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         }
         List<Component> conditionDescription = iHandlerInfo.getConditionDescription(maid);
         if (!conditionDescription.isEmpty()) {
-            desc.add(Component.literal("\u0020"));
+            desc.add(VComponent.literal("\u0020"));
             desc.add(VComponent.translatable("task.touhou_little_maid.desc.condition").withStyle(ChatFormatting.GOLD));
         }
         for (Component line : conditionDescription) {
-            MutableComponent prefix = Component.literal("-\u0020");
+            MutableComponent prefix = VComponent.literal("-\u0020");
             desc.add(prefix.append(line));
         }
         return desc;

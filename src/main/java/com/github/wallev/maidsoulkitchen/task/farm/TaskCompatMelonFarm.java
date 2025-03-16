@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.handler.VEnchantmentHelper;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -19,11 +20,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,7 +44,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
     }
 
     @Override
-    public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
+    public List<Pair<Integer, Behavior<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
         return super.createBrainTasks(maid);
     }
 
@@ -115,7 +115,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
             }
             boolean setResult = level.setBlock(blockPos, fluidState.createLegacyBlock(), Block.UPDATE_ALL);
             if (setResult) {
-                level.gameEvent(GameEvent.BLOCK_DESTROY, blockPos, GameEvent.Context.of(maid, blockState));
+                level.gameEvent(maid, GameEvent.BLOCK_DESTROY, blockPos);
             }
             return setResult;
         }
@@ -126,7 +126,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
         final int entityId = maid.getId();
         return new MenuProvider() {
             public Component getDisplayName() {
-                return Component.literal("Maid Task Config Container");
+                return VComponent.literal("Maid Task Config Container");
             }
 
             public AbstractMaidContainer createMenu(int index, Inventory playerInventory, Player player) {

@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.cook;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
+import com.github.wallev.maidsoulkitchen.handler.util.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.mojang.datafixers.util.Pair;

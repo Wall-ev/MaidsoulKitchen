@@ -84,7 +84,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
         if (mc.options.advancedItemTooltips) {
             stackTooltip.add(VComponent.literal(" "));
-            stackTooltip.add(Component.literal(String.format("RecipeId: %s", recipe.getId())).withStyle(ChatFormatting.DARK_GRAY));
+            stackTooltip.add(VComponent.literal(String.format("RecipeId: %s", recipe.getId())).withStyle(ChatFormatting.DARK_GRAY));
         }
 
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);

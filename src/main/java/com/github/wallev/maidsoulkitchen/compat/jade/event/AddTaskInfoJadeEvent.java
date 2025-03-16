@@ -10,14 +10,13 @@ import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.api.event.AddJadeInfoEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.config.IPluginConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class AddTaskInfoJadeEvent {
             // todo: sync
             FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
             int fruitFarmSearchYOffset = fruitData.searchYOffset();
-            tooltip.add(VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.fruit.search_y_offset").append(Component.literal("" + fruitFarmSearchYOffset)));
+            tooltip.add(VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.fruit.search_y_offset").append(VComponent.literal("" + fruitFarmSearchYOffset)));
         }
 
         boolean first = true;
@@ -53,7 +52,7 @@ public class AddTaskInfoJadeEvent {
             } else {
                 Font font = Minecraft.getInstance().font;
                 int time = font.width(translatable) / font.width(" ");
-                tooltip.add(Component.literal(" ".repeat(time)).append(farmHandler.getName()));
+                tooltip.add(VComponent.literal(" ".repeat(time)).append(farmHandler.getName()));
             }
         }
     }

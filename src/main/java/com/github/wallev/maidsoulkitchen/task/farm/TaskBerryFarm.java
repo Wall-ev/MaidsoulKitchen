@@ -9,6 +9,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -113,7 +114,7 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Berry Farm Config Container");
+                return VComponent.literal("Maid Berry Farm Config Container");
             }
 
             @Override

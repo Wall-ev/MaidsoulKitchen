@@ -11,7 +11,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.fml.ModLoadingContext;
 
 import java.util.ArrayList;
@@ -41,11 +41,11 @@ public class MenuIntegration {
 
     private static void registerConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = VComponent.translatable("config.maidsoulkitchen.register");
-        MutableComponent addition = Component.literal("");
+        MutableComponent addition = VComponent.literal("");
         if (tlmEntry) {
             entryTitle.append(MENU_TITLE_TIP);
-            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
-                    .append(Component.literal("\nModId: " + MaidsoulKitchen.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
+            addition.append(VComponent.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
+                    .append(VComponent.literal("\nModId: " + MaidsoulKitchen.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
         }
         ConfigCategory register = root.getOrCreateCategory(entryTitle);
 
@@ -150,16 +150,16 @@ public class MenuIntegration {
 
     private static void taskConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder, boolean tlmEntry) {
         MutableComponent entryTitle = VComponent.translatable("config.maidsoulkitchen.task");
-        MutableComponent addition = Component.literal("");
+        MutableComponent addition = VComponent.literal("");
         if (tlmEntry) {
             entryTitle.append(MENU_TITLE_TIP);
-            addition.append(Component.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
-                    .append(Component.literal("\nModId: " + MaidsoulKitchen.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
+            addition.append(VComponent.literal("\n" + MOD_TIP).withStyle(ChatFormatting.BLUE))
+                    .append(VComponent.literal("\nModId: " + MaidsoulKitchen.MOD_ID).withStyle(ChatFormatting.DARK_GRAY));
         }
         ConfigCategory task = root.getOrCreateCategory(entryTitle);
 
         task.addEntry(entryBuilder.startStrList(VComponent.translatable("config.maidsoulkitchen.task.melon_and_stem_list"), TaskConfig.MELON_AND_STEM_LIST.get().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
-                .setDefaultValue(TaskConfig.MELON_AND_STEM_LIST.getDefault().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
+                .setDefaultValue(TaskConfig.getmelonAndStemList().stream().map(s -> s.get(0) + "," + s.get(1)).toList())
                 .setTooltip(VComponent.translatable("config.maidsoulkitchen.task.melon_and_stem_list.tooltip"), addition)
                 .setSaveConsumer(l -> {
                     List<List<String>> melonAndStemList = new ArrayList<>();
@@ -173,13 +173,13 @@ public class MenuIntegration {
                 }).build());
 
         task.addEntry(entryBuilder.startIntField(VComponent.translatable("config.maidsoulkitchen.task.feed_animal_t"), TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.get())
-                .setDefaultValue(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER.getDefault())
+                .setDefaultValue(20)
                 .setTooltip(VComponent.translatable("config.maidsoulkitchen.task.feed_animal_t.tooltip"), addition)
                 .setSaveConsumer(TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER::set).build());
     }
 
     public static void registerModsPage() {
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> getConfigBuilder().setParentScreen(parent).build()));
+        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
+                new ConfigGuiHandler.ConfigGuiFactory((client, parent) -> getConfigBuilder().setParentScreen(parent).build()));
     }
 }

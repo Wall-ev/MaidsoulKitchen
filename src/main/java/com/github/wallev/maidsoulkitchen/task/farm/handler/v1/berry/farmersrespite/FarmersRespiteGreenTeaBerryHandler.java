@@ -1,13 +1,13 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.v1.berry.farmersrespite;
 
+import com.farmersrespite.common.block.TeaBushBlock;
+import com.farmersrespite.core.registry.FRItems;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import umpaz.farmersrespite.common.block.TeaBushBlock;
-import umpaz.farmersrespite.common.registry.FRItems;
 
 public class FarmersRespiteGreenTeaBerryHandler extends FarmersRespiteTeaBerryHandler {
     public static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "berry_farmersrespite_greentea");

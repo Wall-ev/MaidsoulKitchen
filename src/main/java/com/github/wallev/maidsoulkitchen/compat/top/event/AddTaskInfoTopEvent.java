@@ -40,7 +40,7 @@ public class AddTaskInfoTopEvent {
             int fruitFarmSearchYOffset = fruitData.searchYOffset();
             probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text(VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.fruit.search_y_offset")
-                            .append(Component.literal("" + fruitFarmSearchYOffset)));
+                            .append(VComponent.literal("" + fruitFarmSearchYOffset)));
         }
 
         boolean first = true;
@@ -60,7 +60,7 @@ public class AddTaskInfoTopEvent {
                 Font font = Minecraft.getInstance().font;
                 int time = font.width(translatable) / font.width(" ");
                 probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
-                        .text(Component.literal(" ".repeat(time)).append(farmHandler.getName()));
+                        .text(VComponent.literal(" ".repeat(time)).append(farmHandler.getName()));
             }
         }
     }

@@ -154,17 +154,17 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
             warnButton.setMessage(mutableComponent1);
             this.addRenderableWidget(warnButton);
         } else if (!leftBindBagTypes.isEmpty()) {
-            MutableComponent leftComponent1 = Component.empty();
+            MutableComponent leftComponent1 = VComponent.empty();
             boolean first = true;
             for (BagType value : leftBindBagTypes) {
                 if (first) {
                     leftComponent1.append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY));
                     first = false;
                 } else {
-                    leftComponent1.append(Component.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
+                    leftComponent1.append(VComponent.literal("、").append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey).withStyle(ChatFormatting.GRAY)));
                 }
             }
-            MutableComponent leftComponent = Component.literal("[").append(leftComponent1).append(Component.literal("]").withStyle(ChatFormatting.GRAY));
+            MutableComponent leftComponent = VComponent.literal("[").append(leftComponent1).append(VComponent.literal("]").withStyle(ChatFormatting.GRAY));
 
             MutableComponent mutableComponent1 = VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.warn").withStyle(ChatFormatting.YELLOW);
             mutableComponent1.append(CommonComponents.NEW_LINE);

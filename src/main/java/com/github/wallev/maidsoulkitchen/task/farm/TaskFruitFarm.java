@@ -7,6 +7,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -101,7 +102,7 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
         return new MenuProvider() {
             @Override
             public Component getDisplayName() {
-                return Component.literal("Maid Fruit Farm Config Container");
+                return VComponent.literal("Maid Fruit Farm Config Container");
             }
 
             @Override

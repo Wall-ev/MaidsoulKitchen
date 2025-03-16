@@ -173,11 +173,11 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
         }
         List<Component> conditionDescription = iHandlerInfo.getConditionDescription(maid);
         if (!conditionDescription.isEmpty()) {
-            desc.add(Component.literal("\u0020"));
+            desc.add(VComponent.literal("\u0020"));
             desc.add(VComponent.translatable("task.touhou_little_maid.desc.condition").withStyle(ChatFormatting.GOLD));
         }
         for (Component line : conditionDescription) {
-            MutableComponent prefix = Component.literal("-\u0020");
+            MutableComponent prefix = VComponent.literal("-\u0020");
             desc.add(prefix.append(line));
         }
         return desc;
