@@ -26,7 +26,7 @@ dependencies {
     if (!brewin_and_chewin_version.isEmpty())
         implementation fg.deobf("maven.modrinth:brewin-and-chewin:${brewin_and_chewin_version}-${mod_loader},${minecraft_version}")
     if (!farmers_respite_file_id.isEmpty())
-        implementation fg.deobf("curse.maven:farmers-respite-551453:${farmers_respite_file_id}")
+        compileOnly fg.deobf("curse.maven:farmers-respite-551453:${farmers_respite_file_id}")
     if (!vintage_delight_version.isEmpty())
         implementation fg.deobf("maven.modrinth:vintage-delight:${vintage_delight_version}-${mod_loader},${minecraft_version}")
     if (!cuisine_delight_version.isEmpty())
@@ -157,7 +157,8 @@ dependencies {
     if (!appleskin_version.isEmpty())
         runtimeOnly fg.deobf("maven.modrinth:appleskin:${appleskin_version}-${mod_loader},${minecraft_version}")
     if (!nbtedit_reborn_version.isEmpty())
-        runtimeOnly fg.deobf("maven.modrinth:nbtedit-reborn:${nbtedit_reborn_version}-${mod_loader},${minecraft_version}")
+        int a = 1;
+//        runtimeOnly fg.deobf("maven.modrinth:nbtedit-reborn:${nbtedit_reborn_version}-${mod_loader},${minecraft_version}")
 }
 
 

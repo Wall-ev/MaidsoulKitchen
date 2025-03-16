@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public abstract class VComponent implements Component {
 
+    public static final Component SPACE = literal(" ");
+
     public static Component nullToEmpty(@Nullable String text) {
         return text != null ? literal(text) : CommonComponents.EMPTY;
     }
@@ -20,19 +22,11 @@ public abstract class VComponent implements Component {
     }
 
     public static MutableComponent translatable(String key) {
-        return MutableComponent.create(new TranslatableContents(key, null, TranslatableContents.NO_ARGS));
+        return MutableComponent.create(new TranslatableContents(key));
     }
 
     public static MutableComponent translatable(String key, Object... arg) {
-        return MutableComponent.create(new TranslatableContents(key, null, arg));
-    }
-
-    public static MutableComponent translatableWithFallback(String key, @Nullable String fallBack) {
-        return MutableComponent.create(new TranslatableContents(key, fallBack, TranslatableContents.NO_ARGS));
-    }
-
-    public static MutableComponent translatableWithFallback(String key, @Nullable String fallBack, Object... arg) {
-        return MutableComponent.create(new TranslatableContents(key, fallBack, arg));
+        return MutableComponent.create(new TranslatableContents(key, arg));
     }
 
     public static MutableComponent empty() {

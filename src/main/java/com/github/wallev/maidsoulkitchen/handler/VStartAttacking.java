@@ -8,11 +8,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@SuppressWarnings("all")
 public class VStartAttacking {
     public static <E extends Mob> VBehaviorControl create(Predicate<E> pCanAttack, Function<E, Optional<? extends LivingEntity>> pTargetFinder) {
-        return (VBehaviorControl) StartAttacking.create(pCanAttack, pTargetFinder);
+        return (VBehaviorControl) new StartAttacking<>(pCanAttack, pTargetFinder);
     }
     public static <E extends Mob> VBehaviorControl create(Function<E, Optional<? extends LivingEntity>> pTargetFinder) {
-        return (VBehaviorControl) StartAttacking.create(pTargetFinder);
+        return (VBehaviorControl) new StartAttacking<>(pTargetFinder);
     }
 }

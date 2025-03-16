@@ -3,8 +3,6 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.v1.fruit;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import dev.enemeez.simplefarming.common.block.FruitLeavesBlock;
-import dev.enemeez.simplefarming.common.registries.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +14,7 @@ public class SimpleFarmingFruitHandler extends FruitHandler {
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("SimpleFarmingFruitHandler handleCanHarvest ");
-        return cropState.getBlock() instanceof FruitLeavesBlock && cropState.getValue(FruitLeavesBlock.AGE) == FruitLeavesBlock.MAX_AGE;
+        return false;
     }
 
     @Override
@@ -26,12 +24,12 @@ public class SimpleFarmingFruitHandler extends FruitHandler {
 
     @Override
     public boolean isFarmBlock(Block block) {
-        return block instanceof FruitLeavesBlock;
+        return false;
     }
 
     @Override
     public ItemStack getIcon() {
-        return ModItems.CHERRIES.get().getDefaultInstance();
+        return ItemStack.EMPTY;
     }
 
     @Override

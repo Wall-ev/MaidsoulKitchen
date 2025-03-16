@@ -137,7 +137,7 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     default ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
-        return recipe.getResultItem(pRegistryAccess);
+        return recipe.getResultItem();
     }
 
     default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {

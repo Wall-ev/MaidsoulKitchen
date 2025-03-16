@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
+import com.github.tartaricacid.touhoulittlemaid.item.MaidGroup;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
@@ -48,7 +49,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     private static final int BIND_SIZE = 3;
 
     public ItemCulinaryHub() {
-        super(new Item.Properties().stacksTo(1));
+        super(new Item.Properties().stacksTo(1).tab(MaidGroup.MAIN_TAB));
     }
 
     public static void removeModePoses(ItemStack stack) {

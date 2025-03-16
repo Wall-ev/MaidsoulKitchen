@@ -10,7 +10,7 @@
   "server": [
   ],
   "mixins": [
-    "brewinandchewin.KegBlockEntityMixin",
+    "brewinandchewin.KegBlockEntityAccessor",
     "drinkbeer.BeerBarrelBlockAccessor",
     "farmersdelight.CookingPotBlockEntityMixin",
     "farmersrespite.KettleBlockEntityMixin",
@@ -21,8 +21,6 @@
     "minecraft.ver.BehaviorControlAccessor",
     "minersdelight.CopperPotBlockEntityMixin",
     "touhoulittlemaid.EntityMaidMixin",
-    "touhoulittlemaid.MaidRunOneMixin",
-    "youkaishomecoming.BasePotBlockEntityMixin",
-    "youkaishomecoming.KettleBlockAccessor"
+    "touhoulittlemaid.MaidRunOneMixin"
   ]
 }

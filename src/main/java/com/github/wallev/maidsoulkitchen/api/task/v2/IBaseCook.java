@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.api.task.v2;
 
-import com.github.wallev.maidsoulkitchen.handler.VItemStackHelper;
+import com.github.wallev.maidsoulkitchen.handler.util.VItemStackHelper;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
 import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
