@@ -16,10 +16,12 @@ import com.github.wallev.maidsoulkitchen.network.message.ActionFruitFarmRuleMess
 import com.github.wallev.maidsoulkitchen.network.message.SetFruitFarmSearchYOffsetMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -103,34 +105,44 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     }
 
     @Override
-    protected void renderAddition(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.renderAddition(graphics, mouseX, mouseY, partialTicks);
-        this.renderRetrieval(graphics);
-        this.drawScrollInfoBar(graphics);
+    protected void renderAddition(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        super.renderAddition(poseStack, mouseX, mouseY, partialTicks);
+        this.renderRetrieval(poseStack);
+        this.drawScrollInfoBar(poseStack);
     }
 
-    private void renderRetrieval(GuiGraphics graphics) {
+    private void renderRetrieval(PoseStack poseStack) {
         MutableComponent literal = VComponent.translatable("gui.maidsoulkitchen.fruit_farm_configer_screen.farm.fruit.search_y_offset", this.farmTaskInfo.searchYOffset());
         // 暂时先这样... todo
         int width = font.width(literal);
         int x = visualZone.startX() + 6;
         int y = visualZone.startY() + 22;
-        graphics.blit(TEXTURE, x, y, 0 ,236, 22, 20);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, x, y, 0 ,236, 22, 20);
         // 暂时先这样... todo
         if (this.farmTaskInfo.searchYOffset() >= 0) {
             width += font.width(Component.literal("-"));
             for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderTexture(0, TEXTURE);
+                blit(poseStack, x + 22 + i, y, 22 ,236, 1, 20);
             }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76,236, 8, 20);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, x + 22 + width, y, 76,236, 8, 20);
         }else {
             for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderTexture(0, TEXTURE);
+                blit(poseStack, x + 22 + i, y, 22 ,236, 1, 20);
             }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76 ,236, 8, 20);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, x + 22 + width, y, 76 ,236, 8, 20);
         }
-        graphics.renderItem(task.getIcon(), x + 2, y + 2);
-        graphics.drawString(font, literal, x + 22, y + 7, Color.WHITE.getRGB(), false);
+        getMinecraft().getItemRenderer().renderGuiItem(task.getIcon(), x + 2, y + 2);
+        font.draw(poseStack, literal, x + 22, y + 7, Color.WHITE.getRGB());
     }
 
     @Override
@@ -197,21 +209,23 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         this.addRenderableWidget(downButton);
     }
 
-    private void drawScrollInfoBar(GuiGraphics graphics) {
+    private void drawScrollInfoBar(PoseStack poseStack) {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 2);
-        graphics.blit(TEXTURE, startX, startY + 8 + 2, 247, 10, 9, 62);
-        graphics.blit(TEXTURE, startX, startY + 8 + 2 + 62, 247, 100, 9, 2);
-        drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, startX, startY + 8, 247, 8, 9, 2);
+        blit(poseStack, startX, startY + 8 + 2, 247, 10, 9, 62);
+        blit(poseStack, startX, startY + 8 + 2 + 62, 247, 100, 9, 2);
+        drawScrollIndicator(poseStack, startX + 1, startY + 8 + 1);
     }
 
     // 95 - 29 = 66;
-    private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
+    private void drawScrollIndicator(PoseStack poseStack, int startX, int startY) {
         if ((this.handlers.size() - 1) / limitSize >= 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((67 - 12) * getCurrentScroll()), 228, 0, 7, 9);
+            blit(poseStack, startX, startY + (int) ((67 - 12) * getCurrentScroll()), 228, 0, 7, 9);
         } else {
-            graphics.blit(TEXTURE, startX, startY, 235, 0, 7, 9);
+            blit(poseStack, startX, startY, 235, 0, 7, 9);
         }
     }
 

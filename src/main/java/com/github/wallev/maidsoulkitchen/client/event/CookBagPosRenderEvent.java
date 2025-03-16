@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 public final class CookBagPosRenderEvent {
     @SubscribeEvent
     public static void onRender(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS) {
             Minecraft mc = Minecraft.getInstance();
             if (mc.player == null) {
                 return;

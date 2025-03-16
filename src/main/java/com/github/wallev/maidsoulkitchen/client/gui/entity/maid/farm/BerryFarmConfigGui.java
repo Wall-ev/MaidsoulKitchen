@@ -15,10 +15,12 @@ import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionBerryFarmRuleMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -70,9 +72,9 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     }
 
     @Override
-    protected void renderAddition(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.renderAddition(graphics, mouseX, mouseY, partialTicks);
-        this.drawScrollInfoBar(graphics);
+    protected void renderAddition(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        super.renderAddition(poseStack, mouseX, mouseY, partialTicks);
+        this.drawScrollInfoBar(poseStack);
     }
 
     @Override
@@ -139,18 +141,24 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
         this.addRenderableWidget(downButton);
     }
 
-    private void drawScrollInfoBar(GuiGraphics graphics) {
+    private void drawScrollInfoBar(PoseStack poseStack) {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        graphics.blit(TEXTURE, startX, startY + 8, 247, 8, 9, 95);
-        drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, startX, startY + 8, 247, 8, 9, 95);
+        drawScrollIndicator(poseStack, startX + 1, startY + 8 + 1);
     }
 
-    private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
+    private void drawScrollIndicator(PoseStack poseStack, int startX, int startY) {
         if ((this.handlers.size() - 1) / limitSize >= 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((95 - 12) * getCurrentScroll()), 228, 0, 7, 9);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, startX, startY + (int) ((95 - 12) * getCurrentScroll()), 228, 0, 7, 9);
         } else {
-            graphics.blit(TEXTURE, startX, startY, 235, 0, 7, 9);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, startX, startY, 235, 0, 7, 9);
         }
     }
 

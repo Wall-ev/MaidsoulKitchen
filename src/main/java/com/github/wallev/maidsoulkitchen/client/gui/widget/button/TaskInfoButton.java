@@ -4,11 +4,12 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -30,18 +31,24 @@ public class TaskInfoButton extends NormalTooltipButton {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float pPartialTick) {
         Minecraft mc = Minecraft.getInstance();
-        pGuiGraphics.blit(TEXTURE, this.getX(), this.getY(), 179, 2, this.width, this.height);
-        pGuiGraphics.renderItem(task.getIcon(), this.getX() + 2, this.getY() + 2);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, x, y, 179, 2, this.width, this.height);
+        mc.getItemRenderer().renderGuiItem(task.getIcon(), x + 2, y + 2);
         List<FormattedCharSequence> splitTexts = mc.font.split(task.getName(), 42);
         if (!splitTexts.isEmpty()) {
-            pGuiGraphics.drawString(mc.font, splitTexts.get(0), this.getX() + 22, this.getY() + 5, 0xffffff, false);
+            mc.font.draw(poseStack, splitTexts.get(0), x + 22, y + 5, 0xffffff);
+        }
+
+        if (this.isHoveredOrFocused()) {
+            this.renderToolTip(poseStack, mouseX, mouseY);
         }
     }
 
-    protected void renderScrollingTaskString(GuiGraphics pGuiGraphics, Font pFont, int x, int y, int pWidth, int pColor) {
-        renderScrollingString(pGuiGraphics, pFont, this.getMessage(), x, y, x + pWidth, y + pFont.lineHeight, pColor);
+    protected void renderScrollingTaskString(PoseStack poseStack, Font pFont, int x, int y, int pWidth, int pColor) {
+        pFont.draw(poseStack, this.getMessage(), x, y, pColor);
     }
 
     @Override
@@ -56,7 +63,7 @@ public class TaskInfoButton extends NormalTooltipButton {
             RecipeType<?> recipeType = maidTask.getRecipeType();
             String typeString = recipeType.toString();
 
-            components.add(CommonComponents.SPACE);
+            components.add(VComponent.SPACE);
             components.add(VComponent.translatable("gui.maidsoulkitchen.widget.cook_guide.task.recipe_type", typeString).withStyle(ChatFormatting.DARK_GRAY));
         }
         return components;

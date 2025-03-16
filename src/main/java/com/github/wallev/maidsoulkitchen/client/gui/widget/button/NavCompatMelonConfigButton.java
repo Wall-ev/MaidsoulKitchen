@@ -3,15 +3,14 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.mod.ClothConfigScreen;
 import com.github.tartaricacid.touhoulittlemaid.compat.cloth.ClothConfigCompat;
 import com.github.tartaricacid.touhoulittlemaid.init.registry.CompatRegistry;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.ModList;
 
 import java.awt.*;
-import java.util.function.Supplier;
 
 public class NavCompatMelonConfigButton extends Button {
     public NavCompatMelonConfigButton(int pX, int pY, int pWidth, int pHeight, Component pMessage) {
@@ -21,14 +20,16 @@ public class NavCompatMelonConfigButton extends Button {
             } else {
                 ClothConfigScreen.open();
             }
-        }, Supplier::get);
+        });
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
+        super.renderBg(poseStack, minecraft, mouseX, mouseY);
+
         Font font = Minecraft.getInstance().font;
         int color = isHovered ? Color.BLUE.getRGB() : Color.YELLOW.getRGB();
-        pGuiGraphics.drawString(font, getMessage(), getX(), getY(), color, false);
-        pGuiGraphics.fill(getX(), getY() + font.lineHeight + 1, getX() + font.width(getMessage()), getY() + font.lineHeight + 2, color);
+        font.draw(poseStack, getMessage(), x, y, color);
+        fill(poseStack, x, y + font.lineHeight + 1, x + font.width(getMessage()), y + font.lineHeight + 2, color);
     }
 }

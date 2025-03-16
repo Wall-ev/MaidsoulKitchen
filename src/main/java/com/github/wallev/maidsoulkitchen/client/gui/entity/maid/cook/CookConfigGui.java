@@ -3,21 +3,23 @@ package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.cook;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
+import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.handler.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionCookDataRecMessage;
 import com.github.wallev.maidsoulkitchen.network.message.SetCookDataModeMessage;
-import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.StateSwitchingButton;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -91,7 +93,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             String search = this.searchBox.getValue().toLowerCase(Locale.US);
             recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level)
                     .stream().filter(recipe -> {
-                        return ((ICookTask<?, ?>) task).getResultItem((Recipe<?>)recipe, registryAccess).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
+                        return ((ICookTask<?, ?>) task).getResultItem((Recipe<?>) recipe, registryAccess).getDisplayName().getString().toLowerCase(Locale.US).contains(search);
                     }).toList();
         } else {
             recipes = (List<Recipe>) ((ICookTask<?, ?>) task).getRecipes(level); // all recipes
@@ -114,26 +116,21 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(graphics, mouseX, mouseY, partialTicks);
+    protected void renderAddition(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderSearchSearchText(poseStack, mouseX, mouseY, partialTicks);
+        this.renderSearchBox(poseStack);
+        this.drawSplitZoneCard(poseStack);
+        this.drawScrollInfoBar(poseStack);
     }
 
     @Override
-    protected void renderAddition(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderSearchSearchText(graphics, mouseX, mouseY, partialTicks);
-        this.renderSearchBox(graphics);
-        this.drawSplitZoneCard(graphics);
-        this.drawScrollInfoBar(graphics);
+    protected void renderTooltip(PoseStack poseStack, int x, int y) {
+        super.renderTooltip(poseStack, x, y);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics graphics, int x, int y) {
-        super.renderTooltip(graphics, x, y);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        super.renderBg(pGuiGraphics, pPartialTick, pMouseX, pMouseY);
+    protected void renderBg(PoseStack poseStack, float pPartialTick, int pMouseX, int pMouseY) {
+        super.renderBg(poseStack, pPartialTick, pMouseX, pMouseY);
     }
 
     @Override
@@ -254,22 +251,15 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         boolean visible = searchBox != null && searchBox.isVisible();
         boolean focus = searchBox != null && searchBox.isFocused();
         searchBox = new EditBox(getMinecraft().font, startX, startY, searchTextDisplay.width(), searchTextDisplay.height(), Component.empty()) {
+
             @Override
-            public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float pPartialTick) {
                 if (this.isVisible()) {
-                    pGuiGraphics.blit(TEXTURE, startX - searchBoxDisplay.width(), startY, 40, 232, 59, 18);
-                    super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                    RenderSystem.setShaderTexture(0, TEXTURE);
+                    blit(poseStack, startX - searchBoxDisplay.width(), startY, 40, 232, 59, 18);
                 }
-            }
-
-            @Override
-            public int getY() {
-                return super.getY() + 5;
-            }
-
-            @Override
-            public int getX() {
-                return super.getX() + 3;
+                super.renderButton(poseStack, mouseX, mouseY, pPartialTick);
             }
 
             @Override
@@ -277,6 +267,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 return this.visible && pMouseX >= (double) startX && pMouseX < (double) (startX + this.width) && pMouseY >= (double) startY && pMouseY < (double) (startY + this.height);
             }
         };
+        searchBox.x += 5;
+        searchBox.y += 5;
         searchBox.setVisible(visible);
         searchBox.setFocused(focus);
         searchBox.setValue(textCache);
@@ -297,7 +289,12 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
 
         StateSwitchingButton typeButton = new StateSwitchingButton(finalStartX, startY, searchBoxDisplay.width(), searchBoxDisplay.height(), searchBox.isVisible()) {
             @Override
-            public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+            }
+
+            @Override
+            public void setFocused(boolean pFocused) {
+                super.setFocused(pFocused);
             }
 
             @Override
@@ -305,13 +302,13 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 this.isStateTriggered = !isStateTriggered;
 
                 if (isStateTriggered) {
-                    this.setX(finalStartX - searchTextDisplay.width());
+                    this.x = finalStartX - searchTextDisplay.width();
                     searchBox.setVisible(true);
                     searchBox.setFocused(true);
                     searchBox.moveCursorToEnd();
                     init();
                 } else {
-                    this.setX(finalStartX);
+                    this.x = finalStartX;
                     searchBox.setVisible(false);
                     searchBox.setFocused(false);
                     searchBox.setValue("");
@@ -442,18 +439,18 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         this.addRenderableWidget(downButton);
     }
 
-    private void renderSearchSearchText(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+    private void renderSearchSearchText(PoseStack poseStack, int pMouseX, int pMouseY, float pPartialTick) {
         if (searchBox == null) return;
 
         int startX = width - leftPos - (-searchTextDisplay.startX()) - searchTextDisplay.width() - 1;
         int startY = visualZone.startY() + searchTextDisplay.startY();
-        searchBox.render(graphics, pMouseX, pMouseY, pPartialTick);
+        searchBox.render(poseStack, pMouseX, pMouseY, pPartialTick);
         if (searchBox.isVisible() && searchBox.getValue().isEmpty() && !searchBox.isFocused()) {
-            graphics.drawString(font, VComponent.translatable("gui.maidsoulkitchen.search").withStyle(ChatFormatting.ITALIC), startX + 3, startY + 5, 0XF5F5F5);
+            font.draw(poseStack, VComponent.translatable("gui.maidsoulkitchen.search").withStyle(ChatFormatting.ITALIC), startX + 3, startY + 5, 0XF5F5F5);
         }
     }
 
-    private void renderSearchBox(GuiGraphics graphics) {
+    private void renderSearchBox(PoseStack poseStack) {
         if (searchBox == null) return;
 
         int startX = width - leftPos - (-searchBoxDisplay.startX()) - searchBoxDisplay.width() - 1;
@@ -462,30 +459,39 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         if (searchBox.isVisible()) {
             startX -= searchTextDisplay.width();
         } else {
-            graphics.blit(TEXTURE, startX, startY, 0, 232, 18, 18);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, startX, startY, 0, 232, 18, 18);
         }
-
-        graphics.blit(TEXTURE, startX + 1, startY + 1, 0, 181, 16, 16);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, startX + 1, startY + 1, 0, 181, 16, 16);
     }
 
-    private void drawSplitZoneCard(GuiGraphics graphics) {
+    private void drawSplitZoneCard(PoseStack poseStack) {
         int startX = width - leftPos - (-typeDisplay.startX()) - typeDisplay.width() - 2;
         int startY = visualZone.startY() + typeDisplay.startY();
-        graphics.fill(startX - 1, startY, startX, startY + typeDisplay.width(), Color.BLACK.getRGB());
+        fill(poseStack, startX - 1, startY, startX, startY + typeDisplay.width(), Color.BLACK.getRGB());
     }
 
-    private void drawScrollInfoBar(GuiGraphics graphics) {
+    private void drawScrollInfoBar(PoseStack poseStack) {
         int startX = visualZone.startX() + scrollDisplay.startX();
         int startY = visualZone.startY() + scrollDisplay.startY();
-        graphics.blit(TEXTURE, startX, startY + 8, 189, 64, 9, 70);
-        drawScrollIndicator(graphics, startX + 1, startY + 8 + 1);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        blit(poseStack, startX, startY + 8, 189, 64, 9, 70);
+        drawScrollIndicator(poseStack, startX + 1, startY + 8 + 1);
     }
 
-    private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
+    private void drawScrollIndicator(PoseStack poseStack, int startX, int startY) {
         if ((this.recipeList.size() - 1) / (ref.col() * ref.row()) >= 1) {
-            graphics.blit(TEXTURE, startX, startY + (int) ((70 - 2 - 9) * getCurrentScroll()), 199, 64, 7, 9);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, startX, startY + (int) ((70 - 2 - 9) * getCurrentScroll()), 199, 64, 7, 9);
         } else {
-            graphics.blit(TEXTURE, startX, startY, 206, 64, 7, 9);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            blit(poseStack, startX, startY, 206, 64, 7, 9);
         }
     }
 
