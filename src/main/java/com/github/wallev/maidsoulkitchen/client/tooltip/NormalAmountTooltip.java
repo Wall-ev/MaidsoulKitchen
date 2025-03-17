@@ -53,21 +53,19 @@ public class NormalAmountTooltip implements ClientAmountTooltip {
     }
 
     @Override
-    public void renderText(Font pFont, int pX, int pY, Matrix4f pMatrix4f, MultiBufferSource.BufferSource pBufferSource) {
-    }
-
-    @Override
     public void renderImage(Font font, int pX, int pY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
         poseStack.pushPose();
         poseStack.translate(0, 0, blitOffset);
-        MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
-            .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
-        font.draw(poseStack, tip, pX, pY, Color.YELLOW.getRGB());
-        pY += 10;
-        font.draw(poseStack, titleTip, pX, pY, Color.GRAY.getRGB());
+        {
+            MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+            font.draw(poseStack, tip, pX, pY, Color.YELLOW.getRGB());
+            pY += 10;
+            font.draw(poseStack, titleTip, pX, pY, Color.GRAY.getRGB());
+            pY += 10;
+        }
 
         int i = 0;
-        pY += 10;
         for (Ingredient ingre : this.ingres) {
             ItemStack[] stackItems = ingre.getItems();
             if (stackItems.length == 0) {
@@ -86,7 +84,7 @@ public class NormalAmountTooltip implements ClientAmountTooltip {
             if (stackItems.length > 1) {
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, TEXTURE);
-                blit(poseStack, xOffset, pY + 13, 0, 253, 3, 3, 256, 256, 256, 256);
+                blit(poseStack, xOffset, pY + 13, 0, 253, 3, 3, 256, 256);
             }
         }
 
