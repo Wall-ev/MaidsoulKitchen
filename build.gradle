@@ -110,8 +110,10 @@ tasks.named('processResources', ProcessResources).configure {
             mod_name: mod_name,
             mod_license: mod_license,
             mod_version: mod_version,
+            mod_credits: mod_credits,
             mod_authors: mod_authors,
             mod_description: mod_description,
+            mod_issue_tracker_url: mod_issue_tracker_url
     ]
     inputs.properties replaceProperties
 
@@ -209,7 +211,7 @@ def loadCustomProperties(String path) {
     }
 }
 
-def printProjectInfo() {
+def printProjectInfo(Project project) {
     String[] projectInfo = ['minecraft_version', 'minecraft_version_range', 'forge_version', 'forge_version_range', 'loader_version', 'loader_version_range', 'mapping_channel', 'mapping_version']
     println "> Minecraft Version"
     for (final def info in projectInfo) {
@@ -219,7 +221,7 @@ def printProjectInfo() {
     }
 }
 
-def printProperties() {
+def printProperties(Project project) {
     println "> Custom Properties"
     project.properties.each { key, value ->
         println ">- ${key} = ${value}"
