@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.item.bauble;
 
-import com.github.wallev.maidsoulkitchen.api.ILittleMaidBauble;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenBauble;
 import com.github.wallev.maidsoulkitchen.datagen.ModDamageTypeTags;
 import com.github.wallev.maidsoulkitchen.init.MkEffects;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;
@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 
-public class BurnProtectBauble implements ILittleMaidBauble {
+public class BurnProtectBauble implements IMaidsoulKitchenBauble {
 
     public BurnProtectBauble() {
         MinecraftForge.EVENT_BUS.register(this);

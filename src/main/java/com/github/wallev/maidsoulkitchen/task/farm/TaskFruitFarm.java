@@ -1,22 +1,21 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
-import com.github.wallev.maidsoulkitchen.api.TaskBookEntryType;
-import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
-import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
+import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
+import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmPlantTask;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFruitMoveTask;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFarmPlantTask;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFruitMoveTask;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.fruit.FruitHandler;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.fruit.FruitHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandler;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -33,10 +32,10 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
-import static com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid.BLACK_LIST;
+import static com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid.BLACK_LIST;
 
 
-public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFakePlayerTask, IAddonFarmTask {
+public class TaskFruitFarm implements ICompatFarmTask<FruitHandler, FruitData> {
     @Override
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return Lists.newArrayList();
@@ -52,15 +51,12 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
 
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
-//        LOGGER.info("TaskFruitFarm cropState: " + cropState);
         return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);
     }
 
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, FruitHandler handler) {
-//        LOGGER.info("TaskFruitFarm start harvestWithoutDestroy " + cropState);
-
-        IFakePlayerTask.maidRightClick(maid, cropPos);
+        IMaidsoulKitchenMaid.maidRightClick(maid, cropPos);
     }
 
     @Override
@@ -113,6 +109,6 @@ public class TaskFruitFarm implements ICompatFarm<FruitHandler, FruitData>, IFak
 
     @Override
     public TaskDataKey<FruitData> getCookDataKey() {
-        return RegisterData.FRUIT_FARM;
+        return DataRegister.FRUIT_FARM;
     }
 }

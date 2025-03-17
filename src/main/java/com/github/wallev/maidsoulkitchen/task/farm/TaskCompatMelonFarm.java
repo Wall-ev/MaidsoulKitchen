@@ -1,10 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.handler.VEnchantmentHelper;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
@@ -12,6 +10,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaid
 import com.github.wallev.maidsoulkitchen.event.MelonConfigEvent;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.BlockUtil;
+import com.github.wallev.verhelper.server.item.VEnchantmentHelper;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +22,6 @@ import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +33,7 @@ import net.minecraftforge.common.MinecraftForge;
 import java.util.Collections;
 import java.util.List;
 
-public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask, IAddonFarmTask {
+public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask {
     @Override
     public boolean isEnable(EntityMaid maid) {
         MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);

@@ -2,13 +2,14 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagModeButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ClearCookBagBindPosesMessage;
 import com.github.wallev.maidsoulkitchen.network.message.SetCookBagBindModeMessage;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,7 +33,7 @@ import java.util.Objects;
 
 @IPNIgnore
 public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookBagConfigContainer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
 
     protected String bindMode;
 

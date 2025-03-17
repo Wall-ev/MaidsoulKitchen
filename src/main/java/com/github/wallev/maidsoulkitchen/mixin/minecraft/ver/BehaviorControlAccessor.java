@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.mixin.minecraft.ver;
 
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import org.spongepowered.asm.mixin.Mixin;
 

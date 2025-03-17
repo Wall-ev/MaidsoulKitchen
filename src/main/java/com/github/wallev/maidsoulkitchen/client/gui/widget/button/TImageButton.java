@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
-import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;

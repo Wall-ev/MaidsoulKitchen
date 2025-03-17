@@ -1,12 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.touhoulittlemaid;
 
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.AbstractMaidContainerGui;
-import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.backpack.IBackpackContainerScreen;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
-import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
-import com.github.tartaricacid.touhoulittlemaid.network.message.RefreshMaidBrainMessage;
-import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -31,16 +27,6 @@ public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContai
 
     public AbstractMaidContainerGuiMixin(T pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-    }
-
-    @Override
-    public void onClose() {
-        if (((AbstractMaidContainerGui<?>) (Object) (this)) instanceof IBackpackContainerScreen && this.maid.getTask() instanceof ICookTask<?, ?>) {
-            if (this.maid != null) {
-                NetworkHandler.CHANNEL.sendToServer(new RefreshMaidBrainMessage(maid.getId()));
-            }
-        }
-        super.onClose();
     }
 
     @Inject(at = @At("TAIL"), method = "renderLabels")

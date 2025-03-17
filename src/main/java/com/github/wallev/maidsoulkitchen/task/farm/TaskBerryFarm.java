@@ -2,21 +2,19 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.api.TaskBookEntryType;
+import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
-import com.github.wallev.maidsoulkitchen.api.task.IFakePlayerTask;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.RegisterData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmMoveTask;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCompatFarmPlantTask;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.berry.BerryHandler;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.berry.BerryHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFarmMoveTask;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFarmPlantTask;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandler;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandlerManager;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -33,10 +31,10 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
-import static com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid.BLACK_LIST;
+import static com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid.BLACK_LIST;
 
 
-public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFakePlayerTask, IAddonFarmTask {
+public class TaskBerryFarm implements ICompatFarmTask<BerryHandler, BerryData> {
     @Override
     public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
         return BerryHandlerManager.values();
@@ -125,6 +123,6 @@ public class TaskBerryFarm implements ICompatFarm<BerryHandler, BerryData>, IFak
 
     @Override
     public TaskDataKey<BerryData> getCookDataKey() {
-        return RegisterData.BERRY_FARM;
+        return DataRegister.BERRY_FARM;
     }
 }

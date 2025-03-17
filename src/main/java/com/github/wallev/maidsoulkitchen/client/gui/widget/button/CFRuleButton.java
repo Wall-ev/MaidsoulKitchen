@@ -1,9 +1,10 @@
 package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarmHandler;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -18,15 +19,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class CFRuleButton extends Button implements ITooltipButton {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
-    protected final IHandlerInfo handlerInfo;
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
+    protected final ICompatHandlerInfo handlerInfo;
     protected final ICompatFarmHandler handler;
     private final List<ItemStack> blockItems = new ArrayList<>();
     private final ResultInfo ref = new ResultInfo(1, 9, 8, 8, 2, 2);
     protected boolean isSelected;
     private final List<Component> tooltips;
 
-    public CFRuleButton(IHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY, List<Component> tooltips) {
+    public CFRuleButton(ICompatHandlerInfo handlerInfo, ICompatFarmHandler handler, boolean isSelected, int pX, int pY, List<Component> tooltips) {
         super(pX, pY, 152, 24, Component.empty(), b -> {}, Supplier::get);
         this.handlerInfo = handlerInfo;
         this.handler = handler;

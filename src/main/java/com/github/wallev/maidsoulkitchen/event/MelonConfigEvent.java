@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.event;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.config.subconfig.TaskConfig;
-import net.minecraft.resources.ResourceLocation;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.world.level.block.AttachedStemBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,8 +50,8 @@ public final class MelonConfigEvent {
             String melonId = strings.get(0);
             String stemId = strings.get(1);
 
-            Block melonBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(melonId));
-            Block stemBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(stemId));
+            Block melonBlock = ForgeRegistries.BLOCKS.getValue(VResourceLocation.create(melonId));
+            Block stemBlock = ForgeRegistries.BLOCKS.getValue(VResourceLocation.create(stemId));
             if (melonBlock == null || stemBlock == null) continue;
 
             output.put(melonId, stemId);

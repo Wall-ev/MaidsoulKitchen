@@ -1,13 +1,13 @@
 package com.github.wallev.maidsoulkitchen.compat.top.event;
 
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.api.event.AddTopInfoEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -33,7 +33,7 @@ public class AddTaskInfoTopEvent {
         ProbeMode probeMode = event.getProbeMode();
         EntityMaid maid = event.getMaid();
 
-        if (!(maid.getTask() instanceof ICompatFarm<?, ?> farmTask)) return;
+        if (!(maid.getTask() instanceof ICompatFarmTask<?, ?> farmTask)) return;
         if (farmTask.getUid().equals(TaskInfo.FRUIT_FARM.uid)) {
             // todo: sync
             FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
@@ -48,7 +48,7 @@ public class AddTaskInfoTopEvent {
         List<String> farmTaskRulesList = farmData.rules();
 
         for (IFarmHandlerManager<?> handler : farmTask.getManagerHandlerValues()) {
-            IHandlerInfo farmHandler = handler.getFarmHandler();
+            ICompatHandlerInfo farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();
             if (!farmTaskRulesList.contains(uid.toString())) continue;
             MutableComponent translatable = VComponent.translatable("top.maidsoulkitchen.entity_maid.farm.rule");

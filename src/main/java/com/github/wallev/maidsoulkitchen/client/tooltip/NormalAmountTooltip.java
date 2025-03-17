@@ -1,8 +1,9 @@
 package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +15,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 public class NormalAmountTooltip implements ClientAmountTooltip {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     private final MutableComponent titleTip = VComponent.translatable("tooltips.maidsoulkitchen.amount.title");
     private final MutableComponent randomTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);
 //    private final MutableComponent overSizeTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);

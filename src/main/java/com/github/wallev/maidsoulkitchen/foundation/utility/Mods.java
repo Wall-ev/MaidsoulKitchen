@@ -1,7 +1,14 @@
 package com.github.wallev.maidsoulkitchen.foundation.utility;
 
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
+
+import java.util.Optional;
 
 public enum Mods {
     PATCHOULI("patchouli"),
@@ -20,8 +27,9 @@ public enum Mods {
     MND("mynethersdelight"),
     CD("cuisinedelight"),
     BD("barbequesdelight"),
-    YHCD("youkaishomecoming"),
-    BNCD("brewinandchewin"),
+    YHCD("youkaishomecoming", "[2.2.3, )"),
+    BNCD("brewinandchewin", "[3.0.0, )"),
+    BNCD_LEGECY("brewinandchewin_legecy", "[, 3.0.0)"),
     FRD("farmersrespite"),
 
     /*
@@ -34,7 +42,6 @@ public enum Mods {
     DCL("candlelight"),
     DBK("bakery"),
     DFC("farm_and_charm"),
-
 
     SF("simplefarming"),
     FS("fruitstack"),
@@ -54,24 +61,50 @@ public enum Mods {
 
     MC("minecraft") {
         @Override
-        public boolean isLoaded() {
+        public boolean isInstalled() {
             return true;
         }
     };
 
     public final String modId;
     public final boolean isLoaded;
+
     Mods(String modId) {
         this.modId = modId;
-        this.isLoaded = this.isLoaded();
+        this.isLoaded = this.isInstalled();
     }
 
-    public boolean isLoaded() {
+    Mods(String modId, String versionRange) {
+        this.modId = modId;
+        this.isLoaded = this.isInstalled(versionRange);
+    }
+
+    protected boolean isInstalled() {
         return ModList.get().isLoaded(modId);
     }
 
     public ResourceLocation create(String path) {
-        return new ResourceLocation(modId, path);
+        return VResourceLocation.create(modId, path);
+    }
+
+    // [x.x.x, )
+    protected boolean isInstalled(String spec) {
+        try {
+            VersionRange versionRange = VersionRange.createFromVersionSpec(spec);
+            Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(this.modId);
+            if (modContainer.isPresent()) {
+                if (versionRange.containsVersion(modContainer.get().getModInfo().getVersion())) {
+                    return true;
+                } else {
+                    // 开发环境下，version 是空的，所以需要额外判断
+                    return !FMLEnvironment.production;
+                }
+            }
+        } catch (InvalidVersionSpecificationException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
     }
 
     public static boolean allLoaded(String... modIds) {
@@ -93,9 +126,11 @@ public enum Mods {
     public static boolean hasLoaded(Mods... mods) {
         ModList modList = ModList.get();
         for (Mods mod : mods)
-            if (mod.isLoaded())
+            if (mod.isInstalled())
                 return true;
         return false;
     }
 
+    public static void load() {
+    }
 }

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.network;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.network.message.*;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public final class NetworkHandler {
     private static final String VERSION = "1.0.0";
 
-    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MaidsoulKitchen.MOD_ID, "network"),
+    private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(VResourceLocation.create(MaidsoulKitchen.MOD_ID, "network"),
             () -> VERSION, it -> it.equals(VERSION), it -> it.equals(VERSION));
 
     public static void init() {

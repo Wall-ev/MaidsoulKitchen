@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagGuiSideTabButton;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CookBagAbstractContainerGui<T extends CookBagAbstractContainer> extends AbstractContainerScreen<T> {
-    protected static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_container.png");
-    protected static final ResourceLocation CONFIG_BACKGROUND = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_config.png");
+    protected static final ResourceLocation CONTAINER_BACKGROUND = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_container.png");
+    protected static final ResourceLocation CONFIG_BACKGROUND = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_config.png");
     protected final Component titleComponent;
 
     public CookBagAbstractContainerGui(T container, Inventory inv, Component titleIn) {

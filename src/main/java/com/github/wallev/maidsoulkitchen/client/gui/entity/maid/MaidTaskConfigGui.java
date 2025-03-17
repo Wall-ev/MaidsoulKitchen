@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.entity.maid;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.TitleInfoButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.TaskConfigContainer;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

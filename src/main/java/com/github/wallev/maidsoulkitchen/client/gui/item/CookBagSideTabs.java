@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagGuiSideTabButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ToggleCookBagGuiSideTabMessage;

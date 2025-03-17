@@ -11,12 +11,12 @@ import vectorwing.farmersdelight.common.block.entity.CabinetBlockEntity;
 public class FarmDelightCabinet implements IChestType {
     @Override
     public boolean isChest(BlockEntity blockEntity) {
-        return Mods.FD.isLoaded() && blockEntity instanceof CabinetBlockEntity;
+        return Mods.FD.isLoaded && blockEntity instanceof CabinetBlockEntity;
     }
 
     @Override
     public boolean canOpenByPlayer(BlockEntity blockEntity, Player player) {
-        return Mods.FD.isLoaded() && blockEntity instanceof CabinetBlockEntity cabinetBlockEntity && cabinetBlockEntity.canOpen(player);
+        return Mods.FD.isLoaded && blockEntity instanceof CabinetBlockEntity cabinetBlockEntity && cabinetBlockEntity.canOpen(player);
     }
 
     @Override

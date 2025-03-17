@@ -3,9 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo;
@@ -24,7 +23,7 @@ import net.minecraftforge.common.MinecraftForge;
 import java.util.Collections;
 import java.util.List;
 
-public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, IAddonFarmTask {
+public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);

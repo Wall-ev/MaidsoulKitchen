@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
 public enum TaskInfo {
@@ -47,12 +48,10 @@ public enum TaskInfo {
     DHB_CAULDRON("dhb_cauldron"),
     DHB_TEA_KETTLE("dhb_tea_kettle"),
     FERMENTATION_BARREL("dv_fermentation_barrel");
+
     public final ResourceLocation uid;
 
-    TaskInfo(ResourceLocation uid) {
-        this.uid = uid;
-    }
     TaskInfo(String uid) {
-        this.uid = new ResourceLocation(MaidsoulKitchen.MOD_ID, uid);
+        this.uid = VResourceLocation.create(MaidsoulKitchen.MOD_ID, uid);
     }
 }

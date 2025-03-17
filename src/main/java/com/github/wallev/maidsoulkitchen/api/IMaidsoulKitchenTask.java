@@ -2,8 +2,9 @@ package com.github.wallev.maidsoulkitchen.api;
 
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraftforge.common.MinecraftForge;

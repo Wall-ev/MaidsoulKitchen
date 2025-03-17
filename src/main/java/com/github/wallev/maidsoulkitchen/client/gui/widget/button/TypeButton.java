@@ -2,7 +2,8 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TypeButton extends NormalTooltipButton {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     protected boolean isSelected;
     protected String modeUid;
 

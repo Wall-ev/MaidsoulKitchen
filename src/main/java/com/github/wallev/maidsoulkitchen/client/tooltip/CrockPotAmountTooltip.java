@@ -1,9 +1,10 @@
 package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.TaskCpCrockPot;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.sihenzhang.crockpot.base.FoodCategory;
 import com.sihenzhang.crockpot.recipe.cooking.requirement.*;
 import com.sihenzhang.crockpot.util.MathUtils;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CrockPotAmountTooltip implements ClientAmountTooltip{
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     private final int rowSpacing = 2, colSpacing = 2;
     private final MutableComponent titleTip = VComponent.translatable("tooltips.maidsoulkitchen.amount.title");
 //    private final MutableComponent randomTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.not_select").withStyle(ChatFormatting.YELLOW);

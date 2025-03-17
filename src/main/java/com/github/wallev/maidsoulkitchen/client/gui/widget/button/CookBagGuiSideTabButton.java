@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public class CookBagGuiSideTabButton extends Button implements ITooltipButton {
-    private static final ResourceLocation SIDE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_gui_right_side.png");
+    private static final ResourceLocation SIDE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_gui_right_side.png");
     private static final int V_OFFSET = 107;
     private final List<Component> tooltips;
     private final int top;

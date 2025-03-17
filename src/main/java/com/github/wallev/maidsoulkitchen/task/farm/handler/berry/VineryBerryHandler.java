@@ -1,0 +1,48 @@
+package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.satisfy.vinery.block.grape.GrapeBush;
+import net.satisfy.vinery.block.grape.GrapeVineBlock;
+import net.satisfy.vinery.registry.ObjectRegistry;
+
+public class VineryBerryHandler extends BerryHandler{
+    public static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "berry_vinery");
+
+    @Override
+    public boolean canLoad() {
+        return Mods.DV.isLoaded;
+    }
+
+    @Override
+    public boolean isFarmBlock(Block block) {
+        return (block instanceof GrapeBush || block instanceof GrapeVineBlock);
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return ObjectRegistry.RED_GRAPE_BUSH.get().asItem().getDefaultInstance();
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return UID;
+    }
+
+    @Override
+    protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+        Block block = cropState.getBlock();
+        return ((block instanceof GrapeBush || block instanceof GrapeVineBlock) && cropState.getValue(GrapeBush.AGE) >= 3) ? ActionState.ALLOW : ActionState.DEFAULT;
+    }
+
+    @Override
+    protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+        return this.harvestWithoutTool(maid, cropPos, cropState);
+    }
+}

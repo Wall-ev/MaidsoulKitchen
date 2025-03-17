@@ -1,15 +1,16 @@
 package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.cook;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionCookDataRecMessage;
 import com.github.wallev.maidsoulkitchen.network.message.SetCookDataModeMessage;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -43,7 +44,7 @@ import java.util.Objects;
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
 public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     protected final Zone taskDisplay = new Zone(6, 20, 70, 20);
     // 需要特殊处理
     protected final Zone typeDisplay = new Zone(-4, 22, 18, 18);

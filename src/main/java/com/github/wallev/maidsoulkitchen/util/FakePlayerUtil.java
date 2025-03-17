@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.util;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
+import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -110,7 +110,7 @@ public final class FakePlayerUtil {
     }
 
     public static ItemStack interactUseOnBlock(EntityMaid maid, BlockPos targetPos, ItemStack itemStack){
-        if (!(maid instanceof IAddonMaid iAddonMaid)) {
+        if (!(maid instanceof IMaidsoulKitchenMaid iAddonMaid)) {
             return ItemStack.EMPTY;
         }
 

@@ -1,9 +1,10 @@
 package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -19,7 +20,7 @@ import java.util.List;
 
 // 防止覆盖tooltip的部分区域
 public class TaskInfoButton extends NormalTooltipButton {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
 
     private IMaidTask task;
 

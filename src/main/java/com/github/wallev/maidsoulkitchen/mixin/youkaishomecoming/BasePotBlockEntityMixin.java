@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.mixin.youkaishomecoming;
 
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IRecipeExperinceAward;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IFdCbeAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotRecipe;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;

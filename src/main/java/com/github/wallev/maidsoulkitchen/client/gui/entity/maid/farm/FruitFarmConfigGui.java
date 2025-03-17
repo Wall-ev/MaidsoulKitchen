@@ -1,21 +1,22 @@
 package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarm;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarmHandler;
-import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionFruitFarmRuleMessage;
 import com.github.wallev.maidsoulkitchen.network.message.SetFruitFarmSearchYOffsetMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.IFarmHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -40,7 +41,7 @@ import java.util.List;
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
 public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContainer> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
+    private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
     protected final Zone scrollDisplay = new Zone(161, 47, 9, 110);
     protected final Zone ruleDisplay = new Zone(6, 47, 152, 110);
     protected final ResultInfo ref = new ResultInfo(3, 1, 152, 24, 0, 5);
@@ -57,7 +58,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarm<?, ?>) task)
+        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarmTask<?, ?>) task)
                 .getManagerHandlerValues())
                 .map(IFarmHandlerManager::getFarmHandler)
                 .filter(ICompatFarmHandler::canLoad)
@@ -162,9 +163,9 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         for (int i = index; i < Math.min(handlers.size(), index + limitSize); i++) {
             ICompatFarmHandler handler = handlers.get(i);
             if (!handler.canLoad()) continue;
-            String handlerUid = ((IHandlerInfo) handler).getUid().toString();
+            String handlerUid = ((ICompatHandlerInfo) handler).getUid().toString();
             boolean contains = farmTaskInfo.rules().contains(handlerUid);
-            CFRuleButton cfRuleButton = new CFRuleButton((IHandlerInfo) handler, handler, contains, startX, startY, this.getTaskTooltips((IHandlerInfo) handler)) {
+            CFRuleButton cfRuleButton = new CFRuleButton((ICompatHandlerInfo) handler, handler, contains, startX, startY, this.getTaskTooltips((ICompatHandlerInfo) handler)) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
@@ -219,7 +220,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         return Mth.clamp((float) (solIndex * (1.0 / ((this.handlers.size() - 1) / limitSize))), 0, 1);
     }
 
-    private List<Component> getTaskTooltips(IHandlerInfo iHandlerInfo) {
+    private List<Component> getTaskTooltips(ICompatHandlerInfo iHandlerInfo) {
         List<Component> desc = iHandlerInfo.getDescription(maid);
         if (!desc.isEmpty()) {
             desc.add(0, VComponent.translatable("task.touhou_little_maid.desc.title").withStyle(ChatFormatting.GOLD));

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.compat.jei;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.item.CookBagAbstractContainerGui;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @JeiPlugin
 public class MaidJeiPlugin implements IModPlugin {
-    private static final ResourceLocation UID = new ResourceLocation(MaidsoulKitchen.MOD_ID, "jei");
+    private static final ResourceLocation UID = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "jei");
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {

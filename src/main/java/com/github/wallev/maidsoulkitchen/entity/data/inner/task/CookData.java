@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-public class CookData implements ITaskData {
+public class CookData {
     public static final Codec<List<String>> LIST_CODEC = Codec.STRING.listOf().xmap(Lists::newArrayList, Function.identity());
     public static final Codec<CookData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("Mode").forGetter(CookData::mode),

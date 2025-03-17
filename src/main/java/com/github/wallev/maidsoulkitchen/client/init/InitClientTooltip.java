@@ -15,7 +15,7 @@ public final class InitClientTooltip {
     @SubscribeEvent
     public static void onRegisterClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
         event.register(AmountTooltip.class, NormalAmountTooltip::new);
-        if (Mods.CP.isLoaded()) {
+        if (Mods.CP.isLoaded) {
             event.register(CrockPotTooltip.class, CrockPotAmountTooltip::new);
         }
     }
