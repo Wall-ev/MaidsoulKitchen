@@ -136,6 +136,8 @@ public class TaskBncKeg implements ICookTask<KegBlockEntity, KegFermentingRecipe
             output.shrink(outputCopy.getCount() - leftItemStack.getCount());
 
             kegBlockEntity.setChanged();
+
+            ICookTask.awardExperience(kegBlockEntity, maid);
         }
 
         // 存在容器

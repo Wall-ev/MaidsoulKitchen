@@ -1269,12 +1269,12 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
     }
 
     @Override
-    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData) {
         RecInfo1 recInfo1 = new RecInfo1();
         List<IRequirement> requirements = ((CrockPotCookingRecipe)recipe).getRequirements();
         categorizeRequirements(requirements, recInfo1);
 
-        CrockPotTooltip crockPotTooltip = new CrockPotTooltip(recInfo1, REQUIREMENT_INGREDIENTY_MAP, modeRandom, overSize);
+        CrockPotTooltip crockPotTooltip = new CrockPotTooltip(recipe.getId().toString(), recInfo1, REQUIREMENT_INGREDIENTY_MAP, modeIsBlacklist, overSize, cookData);
         return Optional.of(crockPotTooltip);
     }
 

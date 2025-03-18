@@ -37,10 +37,10 @@ public enum Mods {
      */
     DAPI("doapi"),
     DHB("herbalbrews"),
-    DV("vinery"),
+    DV("vinery", "[, 1.4.28]"),
     DBP("beachparty"),
-    DCL("candlelight"),
-    DBK("bakery"),
+    DCL("candlelight", "[2.0.0, ]"),
+    DBK("bakery", "[2.0.0, ]"),
     DFC("farm_and_charm"),
 
     SF("simplefarming"),

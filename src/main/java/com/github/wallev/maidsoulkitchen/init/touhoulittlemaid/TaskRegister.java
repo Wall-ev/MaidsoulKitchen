@@ -1,39 +1,27 @@
 package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
-import com.github.wallev.maidsoulkitchen.task.cook.bakery.TaskDbkCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.TaskBdBasin;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.TaskBdGrill;
-import com.github.wallev.maidsoulkitchen.task.cook.beachparty.TaskDbpMiniFridge;
-import com.github.wallev.maidsoulkitchen.task.cook.beachparty.TaskDbpTikiBar;
 import com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.TaskBncKeg;
-import com.github.wallev.maidsoulkitchen.task.cook.candlelight.TaskDclCookingPan;
-import com.github.wallev.maidsoulkitchen.task.cook.candlelight.TaskDclCookingPot;
-import com.github.wallev.maidsoulkitchen.task.cook.candlelight.TaskDclStove;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.TaskCpCrockPot;
 import com.github.wallev.maidsoulkitchen.task.cook.cuisine.TaskCdCuisineSkillet;
 import com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.TaskDbBeerBarrel;
-import com.github.wallev.maidsoulkitchen.task.cook.farmacharm.TaskDfcCookingPot;
-import com.github.wallev.maidsoulkitchen.task.cook.farmacharm.TaskDfcRoast;
-import com.github.wallev.maidsoulkitchen.task.cook.farmacharm.TaskDfcStove;
-import com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.TaskFrKettle;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCookPot;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCuttingBoard;
-import com.github.wallev.maidsoulkitchen.task.cook.herbalbrews.TaskDhbCauldron;
-import com.github.wallev.maidsoulkitchen.task.cook.herbalbrews.TaskDhbTeaKettle;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.TaskFrKettle;
 import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.TaskKkAirCompressor;
 import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.TaskKkBrewingBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.minecraft.TaskFurnace;
 import com.github.wallev.maidsoulkitchen.task.cook.minersdelight.TaskMdCopperPot;
-import com.github.wallev.maidsoulkitchen.task.cook.vinery.TaskFermentationBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.TaskYhcDryingRack;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.TaskYhcFermentationTank;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.TaskYhcMoka;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.TaskYhcTeaKettle;
 import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
-import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 
 public final class TaskRegister {
     private TaskRegister() {
@@ -114,48 +102,6 @@ public final class TaskRegister {
         }
         if (Mods.KK.isLoaded && RegisterConfig.KK_AIR_COMPRESSOR.get()) {
             task.add(new TaskKkAirCompressor());
-        }
-
-        if (Mods.DBK.isLoaded && RegisterConfig.DBK_COOKING_POT_TASK_ENABLED.get()) {
-            task.add(new TaskDbkCookingPot());
-        }
-
-        if (Mods.DBP.isLoaded && RegisterConfig.DBP_MINE_FRIDGE_TASK_ENABLED.get()) {
-            task.add(new TaskDbpMiniFridge());
-        }
-        if (Mods.DBP.isLoaded && RegisterConfig.DBP_TIKI_BAR_TASK_ENABLED.get()) {
-            task.add(new TaskDbpTikiBar());
-        }
-
-        if (Mods.DCL.isLoaded && RegisterConfig.DCL_COOKING_PAN_TASK_ENABLED.get()) {
-            task.add(new TaskDclCookingPan());
-        }
-        if (Mods.DCL.isLoaded && RegisterConfig.DCL_COOKING_POT_TASK_ENABLED.get()) {
-            task.add(new TaskDclCookingPot());
-        }
-        if (Mods.DCL.isLoaded && RegisterConfig.DCL_STOVE_TASK_ENABLED.get()) {
-            task.add(new TaskDclStove());
-        }
-
-        if (Mods.DFC.isLoaded && RegisterConfig.DFC_ROAST_TASK_ENABLED.get()) {
-            task.add(new TaskDfcRoast());
-        }
-        if (Mods.DFC.isLoaded && RegisterConfig.DFC_COOKING_POT_TASK_ENABLED.get()) {
-            task.add(new TaskDfcCookingPot());
-        }
-        if (Mods.DFC.isLoaded && RegisterConfig.DFC_STOVE_TASK_ENABLED.get()) {
-            task.add(new TaskDfcStove());
-        }
-
-        if (Mods.DHB.isLoaded && RegisterConfig.DHB_CAULDRON_TASK_ENABLED.get()) {
-            task.add(new TaskDhbCauldron());
-        }
-        if (Mods.DHB.isLoaded && RegisterConfig.DHB_TEA_KETTLE_TASK_ENABLED.get()) {
-            task.add(new TaskDhbTeaKettle());
-        }
-
-        if (Mods.DV.isLoaded && RegisterConfig.FERMENTATION_BARREL_TASK_ENABLED.get()) {
-            task.add(new TaskFermentationBarrel());
         }
     }
 }

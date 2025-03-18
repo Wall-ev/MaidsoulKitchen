@@ -37,7 +37,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
         this.cookTask = cookTask;
         this.recipe = recipe;
         this.cookData = cookData;
-        this.stack = cookTask.getResultItem(recipe, Minecraft.getInstance().level.registryAccess());
+        this.stack = cookTask.getResultItem(recipe, maid.level.registryAccess());
     }
 
     public void toggleState() {
@@ -87,7 +87,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 //        boolean overSize = cookData.getRecs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
 
 //        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
-        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, false);
+        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, false, cookData);
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
     }

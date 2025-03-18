@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.TaskCpCrockPot;
@@ -29,18 +30,22 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
 //    private final MutableComponent overSizeTip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.over_size", TaskConfig.COOK_SELECTED_RECIPES.get()).withStyle(ChatFormatting.YELLOW);
 
     private final CrockPotTooltip crockPotTooltip;
+    private final String recipeId;
     private final TaskCpCrockPot.RecInfo1 recInfo1;
     private final Map<IRequirement, List<Item>> requirementListMap;
-    private final Boolean isRandom;
+    private final Boolean isBlacklist;
+    private final CookData cookData;
     private final boolean isOverSize;
     private final int rows, cols;
 
     public CrockPotAmountTooltip(CrockPotTooltip crockPotTooltip) {
         this.crockPotTooltip = crockPotTooltip;
+        this.recipeId = crockPotTooltip.recipeId();
         this.recInfo1 = crockPotTooltip.recInfo1();
         this.requirementListMap = crockPotTooltip.requirementListMap();
-        this.isRandom = crockPotTooltip.isRandom();
+        this.isBlacklist = crockPotTooltip.isRandom();
         this.isOverSize = crockPotTooltip.isOverSize();
+        this.cookData = crockPotTooltip.cookData();
 
         int count = recInfo1.getNoRequires().size()
                     + recInfo1.getAnyRequires().size()
@@ -66,38 +71,33 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
 
     @Override
     public int getHeight() {
-        return Minecraft.getInstance().font.lineHeight + 2 + 10 + rows * (22 + rowSpacing);
+        return Minecraft.getInstance().font.lineHeight + 2 + 10 + 10 + rows * (22 + rowSpacing);
     }
 
     @Override
     public int getWidth(Font font) {
         int tipMax = font.width(titleTip);
-//        if (isRandom) {
         {
             MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
-                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isBlacklist ? "blacklist" : "whitelist")));
             tipMax = Math.max(tipMax, font.width(tip));
         }
-//        if (isOverSize) {
-//            tipMax = Math.max(tipMax, font.width(overSizeTip));
-//        }
         return Math.max(tipMax, cols * (64 + colSpacing));
     }
 
     @Override
     public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
-
-//        if (isRandom) {
         {
-            MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
-                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isRandom ? "blacklist" : "whitelist")));
-            guiGraphics.drawString(font, tip, pX, pY, ChatFormatting.YELLOW.getColor());
+            MutableComponent cookType = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isBlacklist ? "blacklist" : "whitelist")));
+            guiGraphics.drawString(font, cookType, pX, pY, ChatFormatting.YELLOW.getColor());
+            pY += 10;
+            MutableComponent canCook = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.can_cook")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.can_cook.%s", this.canCook() ? "true" : "false")).withStyle(this.canCook() ? ChatFormatting.GREEN : ChatFormatting.RED));
+            guiGraphics.drawString(font, canCook, pX, pY, ChatFormatting.YELLOW.getColor());
             pY += 10;
         }
-//        if (isOverSize) {
-//            guiGraphics.drawString(font, overSizeTip, pX, pY, ChatFormatting.YELLOW.getColor());
-//            pY += 10;
-//        }
+
         guiGraphics.drawString(font, titleTip, pX, pY, ChatFormatting.GRAY.getColor());
         pY += 10;
 
@@ -205,5 +205,13 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
         }
          
 
+    }
+
+    private boolean canCook() {
+        if (isBlacklist) {
+            return !cookData.blacklistRecs().contains(recipeId);
+        } else {
+            return cookData.whitelistRecs().contains(recipeId);
+        }
     }
 }

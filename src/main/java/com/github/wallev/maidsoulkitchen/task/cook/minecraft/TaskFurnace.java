@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.minecraft;
 
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
@@ -174,6 +175,7 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     private void tryExtractItem(AbstractFurnaceBlockEntity furnace, EntityMaid maid, IItemHandlerModifiable availableInv ) {
         int[] resultSlots = furnace.getSlotsForFace(Direction.DOWN);
 
+        boolean hasResult = false;
         for (int resultSlot : resultSlots) {
             ItemStack resultStack = furnace.getItem(resultSlot);
             if (resultStack.isEmpty()) {
@@ -186,8 +188,11 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
             furnace.setItem(resultSlot, ItemStack.EMPTY);
             ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
 
-            // to-do
-            // 给女仆经验
+            hasResult = true;
+        }
+
+        if (hasResult) {
+            ICookTask.awardExperience(furnace, maid);
         }
 
         IMaidsoulKitchenMaid.pickupAction(maid);

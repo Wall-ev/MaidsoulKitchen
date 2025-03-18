@@ -297,15 +297,21 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (!Screen.hasShiftDown()) {
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.0").withStyle(ChatFormatting.GRAY));
         } else {
-            tooltip.add(Component.empty());
+            tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+        }
+
+        {
+            tooltip.add(VComponent.empty());
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function").withStyle(ChatFormatting.GREEN));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.1").withStyle(ChatFormatting.GRAY));
         }
 
         Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);

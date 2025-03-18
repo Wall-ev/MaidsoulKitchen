@@ -8,6 +8,7 @@ import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
@@ -140,12 +141,18 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         return recipe.getResultItem(pRegistryAccess);
     }
 
-    default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+    default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData) {
         List<Ingredient> ingres = this.getIngredients(recipe);
-        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
+        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(recipe.getId().toString(), ingres, modeIsBlacklist, overSize, cookData));
     }
 
     default List<Component> getWarnComponent() {
         return Collections.emptyList();
+    }
+
+    static void awardExperience(BlockEntity blockEntity, EntityMaid maid) {
+        if (blockEntity instanceof IRecipeExperinceAward iRecipeExperinceAward) {
+            iRecipeExperinceAward.tlmk$awardExperience(maid);
+        }
     }
 }

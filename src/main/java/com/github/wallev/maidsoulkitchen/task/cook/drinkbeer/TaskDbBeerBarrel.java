@@ -268,13 +268,13 @@ public class TaskDbBeerBarrel extends TaskBaseContainerCook<BeerBarrelBlockEntit
     }
 
     @Override
-    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData) {
         BrewingRecipe brewingRecipe = (BrewingRecipe) recipe;
         ItemStack beerCup = brewingRecipe.getBeerCup();
         List<Ingredient> ingres = this.getIngredients(recipe);
         NonNullList<Ingredient> list = NonNullList.create();
         list.addAll(ingres);
         list.add(Ingredient.of(beerCup));
-        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(list, modeRandom, overSize));
+        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(recipe.getId().toString(), list, modeIsBlacklist, overSize, cookData));
     }
 }

@@ -124,6 +124,8 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
             output.shrink(outputCopy.getCount() - leftItemStack.getCount());
 
             kettleBlockEntity.setChanged();
+
+            ICookTask.awardExperience(kettleBlockEntity, maid);
         }
 
         // 存在容器

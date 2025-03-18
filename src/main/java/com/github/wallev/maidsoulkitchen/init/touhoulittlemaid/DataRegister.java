@@ -27,19 +27,6 @@ public final class DataRegister {
     public static TaskDataKey<CookData> DB_BEER;
     public static TaskDataKey<CookData> KC_BREW_BARREL;
     public static TaskDataKey<CookData> KC_AIR_COMPRESSOR;
-
-    public static TaskDataKey<CookData> DBK_COOKING_POT;
-    public static TaskDataKey<CookData> DBP_MINE_FRIDGE;
-    public static TaskDataKey<CookData> DBP_TIKI_BAR;
-    public static TaskDataKey<CookData> DCL_COOKING_PAN;
-    public static TaskDataKey<CookData> DCL_COOKING_POT;
-    public static TaskDataKey<CookData> DCL_STOVE;
-    public static TaskDataKey<CookData> DFC_ROAST;
-    public static TaskDataKey<CookData> DFC_COOKING_POT;
-    public static TaskDataKey<CookData> DFC_STOVE;
-    public static TaskDataKey<CookData> DHB_CAULDRON;
-    public static TaskDataKey<CookData> DHB_TEA_KETTLE;
-    public static TaskDataKey<CookData> FERMENTATION_BARREL;
     private DataRegister() {
     }
 
@@ -66,18 +53,5 @@ public final class DataRegister {
         DB_BEER = data.register(TaskInfo.DB_BEER.uid, CookData.CODEC);
         KC_BREW_BARREL = data.register(TaskInfo.KK_BREW_BARREL.uid, CookData.CODEC);
         KC_AIR_COMPRESSOR = data.register(TaskInfo.KK_AIR_COMPRESSOR.uid, CookData.CODEC);
-
-        DBK_COOKING_POT = data.register(TaskInfo.DBK_COOKING_POT.uid, CookData.CODEC);
-        DBP_MINE_FRIDGE = data.register(TaskInfo.DBP_MINE_FRIDGE.uid, CookData.CODEC);
-        DBP_TIKI_BAR = data.register(TaskInfo.DBP_TIKI_BAR.uid, CookData.CODEC);
-        DCL_COOKING_PAN = data.register(TaskInfo.DCL_COOKING_PAN.uid, CookData.CODEC);
-        DCL_COOKING_POT = data.register(TaskInfo.DCL_COOKING_POT.uid, CookData.CODEC);
-        DCL_STOVE = data.register(TaskInfo.DCL_STOVE.uid, CookData.CODEC);
-        DFC_ROAST = data.register(TaskInfo.DFC_ROAST.uid, CookData.CODEC);
-        DFC_COOKING_POT = data.register(TaskInfo.DFC_COOKING_POT.uid, CookData.CODEC);
-        DFC_STOVE = data.register(TaskInfo.DFC_STOVE.uid, CookData.CODEC);
-        DHB_CAULDRON = data.register(TaskInfo.DHB_CAULDRON.uid, CookData.CODEC);
-        DHB_TEA_KETTLE = data.register(TaskInfo.DHB_TEA_KETTLE.uid, CookData.CODEC);
-        FERMENTATION_BARREL = data.register(TaskInfo.FERMENTATION_BARREL.uid, CookData.CODEC);
     }
 }

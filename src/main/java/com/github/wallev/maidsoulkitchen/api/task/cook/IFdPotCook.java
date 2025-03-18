@@ -105,6 +105,8 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
         ItemStack outputAdditionItem = maidRecipesManager.findOutputAdditionItem(container);
 
+        boolean hasResult = !outputStack.isEmpty();
+
         // 取出杯具（相当于盛饭需要碗，但是此时你手上有被子；所以需要先取出杯子，再把碗放到你手上）
         if (!mealStack.isEmpty() && !outputAdditionItem.isEmpty()) {
             // 取出杯具
@@ -122,7 +124,9 @@ public interface IFdPotCook<B extends BlockEntity, R extends Recipe<? extends Co
 
         // 取出最终物品
         extractOutputStack(inventory, maidRecipesManager.getOutputInv(), blockEntity);
-
+        if (hasResult) {
+            ICookTask.awardExperience(blockEntity, entityMaid);
+        }
 
         boolean heated = isHeated(blockEntity);
         Optional<R> recipe = getMatchingRecipe(blockEntity, new RecipeWrapper(inventory));
