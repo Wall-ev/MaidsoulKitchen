@@ -29,7 +29,7 @@ public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContai
         super(pMenu, pPlayerInventory, pTitle);
     }
 
-    @Inject(at = @At("TAIL"), method = "renderLabels")
+    @Inject(at = @At("TAIL"), method = "renderLabels", remap = true)
     private void tlmk$renderHubSlotHighlight(GuiGraphics graphics, int x, int y, CallbackInfo ci) {
         if (this.menu.getCarried().is(MkItems.CULINARY_HUB.get()) && this.menu.slots.size() >= 55) {
             final int hubSlotIndex = 55;

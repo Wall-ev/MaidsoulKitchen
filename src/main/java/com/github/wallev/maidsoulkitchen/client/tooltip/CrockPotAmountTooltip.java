@@ -78,9 +78,12 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
     public int getWidth(Font font) {
         int tipMax = font.width(titleTip);
         {
-            MutableComponent tip = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+            MutableComponent type = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
                     .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", this.isBlacklist ? "blacklist" : "whitelist")));
-            tipMax = Math.max(tipMax, font.width(tip));
+            tipMax = Math.max(tipMax, font.width(type));
+            MutableComponent canCook = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.can_cook")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.can_cook.%s", this.canCook() ? "true" : "false")));
+            tipMax = Math.max(tipMax, font.width(canCook));
         }
         return Math.max(tipMax, cols * (64 + colSpacing));
     }
@@ -93,7 +96,8 @@ public class CrockPotAmountTooltip implements ClientAmountTooltip{
             guiGraphics.drawString(font, cookType, pX, pY, ChatFormatting.YELLOW.getColor());
             pY += 10;
             MutableComponent canCook = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.can_cook")
-                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.can_cook.%s", this.canCook() ? "true" : "false")).withStyle(this.canCook() ? ChatFormatting.GREEN : ChatFormatting.RED));
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.can_cook.%s", this.canCook() ? "true" : "false")))
+                    .withStyle(this.canCook() ? ChatFormatting.GREEN : ChatFormatting.RED);
             guiGraphics.drawString(font, canCook, pX, pY, ChatFormatting.YELLOW.getColor());
             pY += 10;
         }
