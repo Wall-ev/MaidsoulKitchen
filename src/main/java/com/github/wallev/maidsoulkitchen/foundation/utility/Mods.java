@@ -27,9 +27,9 @@ public enum Mods {
     MND("mynethersdelight"),
     CD("cuisinedelight"),
     BD("barbequesdelight"),
-    YHCD("youkaishomecoming", "[2.2.3, )"),
-    BNCD("brewinandchewin", "[3.0.0, )"),
-    BNCD_LEGECY("brewinandchewin_legecy", "[, 3.0.0)"),
+    YHCD("youkaishomecoming", "[2.2.3,)"),
+    BNCD("brewinandchewin", "[3.0.0,)"),
+    BNCD_LEGECY("brewinandchewin_legecy", "[,3.0.0)"),
     FRD("farmersrespite"),
 
     /*
@@ -37,10 +37,10 @@ public enum Mods {
      */
     DAPI("doapi"),
     DHB("herbalbrews"),
-    DV("vinery", "[, 1.4.28]"),
+    DV("vinery", "[,1.4.28]"),
     DBP("beachparty"),
-    DCL("candlelight", "[2.0.0, ]"),
-    DBK("bakery", "[2.0.0, ]"),
+    DCL("candlelight", "[2.0.0,]"),
+    DBK("bakery", "[2.0.0,]"),
     DFC("farm_and_charm"),
 
     SF("simplefarming"),
