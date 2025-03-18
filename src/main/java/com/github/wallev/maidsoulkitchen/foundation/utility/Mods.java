@@ -29,7 +29,7 @@ public enum Mods {
     BD("barbequesdelight"),
     YHCD("youkaishomecoming", "[2.2.3,)"),
     BNCD("brewinandchewin", "[3.0.0,)"),
-    BNCD_LEGECY("brewinandchewin_legecy", "[,3.0.0)"),
+    BNCD_LEGACY("brewinandchewin_legacy", "[,3.0.0)"),
     FRD("farmersrespite"),
 
     /*
