@@ -1,11 +1,20 @@
 # [农耕与烹饪：车万女仆拓展](./readme.zh.md) | Farm And Cook: Touhou Little Maid Addon
  A [touhoulittlemaid](https://github.com/TartaricAcid/TouhouLittleMaid) addon mod, is designed to teach maids how to use other mods for cooking and farming.
 
+## Warning
+Currently, the project still has many problems: poor branch management, code has become a mountain of shit, issue management, etc...</p>
+Please forgive and understand; the project should be refactored one by one in half a year, under normal circumstances...
+
 ## Notice
   - Due to the author's personal reasons, the development progress will be extremely slow (maybe the pit will be abandoned...)
   - If you want to play as soon as possible, you can click `Star` and find the latest version of the auto-build on the [Releases](https://github.com/Wall-ev/TouhouLittleMaidAddon/releases) page
   - If you download the auto-build version ,you need to make backups before playing to avoid losing your property.
   - This project might be abandoned at any time, so if you're up for it (if you can handle this mess - it's really bad...), you can take over this project.
+
+## Creidt
+ [`TartaricAcid`](https://github.com/TartaricAcid): Including but not limited to technical support</p>
+ [`Pajinyi`](https://space.bilibili.com/9322946): Support on assets</p>
+ [`lezizijiang2`](https://github.com/lezizijiang2): Porting of 1.21.1
 
 ## Progress
 - [ ] Cook
