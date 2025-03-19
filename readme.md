@@ -11,7 +11,7 @@ Please forgive and understand; the project should be refactored one by one in ha
   - If you download the auto-build version ,you need to make backups before playing to avoid losing your property.
   - This project might be abandoned at any time, so if you're up for it (if you can handle this mess - it's really bad...), you can take over this project.
 
-## Creidt
+## Credits
  [`TartaricAcid`](https://github.com/TartaricAcid): Including but not limited to technical support</p>
  [`Pajinyi`](https://space.bilibili.com/9322946): Support on assets</p>
  [`lezizijiang2`](https://github.com/lezizijiang2): Porting of 1.21.1
