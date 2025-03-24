@@ -41,11 +41,11 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ItemCulinaryHub extends Item implements MenuProvider {
+    public static final int BIND_SIZE = 3;
     private static final int COOK_BAG_SIZE = getCookBagSize();
     private static final String CONTAINER_TAG = "CulinaryHubContainer";
     private static final String BIND_MODE_TAG = "CulinaryHubBindMode";
     private static final String BIND_POS_TAG = "CulinaryHubBindPos";
-    private static final int BIND_SIZE = 3;
 
     public ItemCulinaryHub() {
         super(new Item.Properties().stacksTo(1));
@@ -257,7 +257,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 ItemStack stack = player.getMainHandItem();
                 String bindMode = getBindMode(stack);
                 List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
-                if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
+                if (bindModePoses.size() >= BIND_SIZE && !bindModePoses.contains(pos)) {
                     if (context.getLevel().isClientSide) {
                         player.sendSystemMessage(VComponent.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
                     }
@@ -312,6 +312,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             tooltip.add(VComponent.empty());
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function").withStyle(ChatFormatting.GREEN));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.1").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.2").withStyle(ChatFormatting.GRAY));
         }
 
         Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);

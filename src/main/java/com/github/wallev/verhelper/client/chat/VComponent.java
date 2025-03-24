@@ -1,12 +1,14 @@
 package com.github.wallev.verhelper.client.chat;
 
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import javax.annotation.Nullable;
 
 public abstract class VComponent implements Component {
-    public static final Component EMPTY = empty();
+    public static final Component EMPTY = CommonComponents.EMPTY;
+    public static final Component NEW_LINE = CommonComponents.NEW_LINE;
 
     private VComponent() {
     }

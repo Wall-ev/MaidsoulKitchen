@@ -84,9 +84,6 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
         }
 
         boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
-//        boolean overSize = cookData.getRecs().size() >= TaskConfig.COOK_SELECTED_RECIPES.get();
-
-//        Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, overSize);
         Optional<TooltipComponent> recClientAmountTooltip = cookTask.getRecClientAmountTooltip(recipe, modeRandom, false, cookData);
 
         pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);

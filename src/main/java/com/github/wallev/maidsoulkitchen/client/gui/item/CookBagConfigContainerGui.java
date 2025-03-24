@@ -26,10 +26,10 @@ import net.minecraft.world.item.Items;
 import org.anti_ad.mc.ipn.api.IPNIgnore;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import static com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub.BIND_SIZE;
 
 @IPNIgnore
 public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookBagConfigContainer> {
@@ -60,8 +60,13 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
                 title.append(VComponent.translatable("gui.maidsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
             }
 
+            Map<BagType, java.util.List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(this.menu.cookBag);
+            int bindSize = bindPoses.getOrDefault(value, Collections.emptyList()).size();
+
             CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
-            }, Tooltip.create(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip"))) {
+            }, Tooltip.create(VComponent.empty().append(title.append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY)))
+                            .append(VComponent.NEW_LINE)
+                            .append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip")))) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     super.onClick(pMouseX, pMouseY);
@@ -101,11 +106,11 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         ImageButton infoButton = new ImageButton(x - 15, y, 9, 9, 237 - 10, 212, 10, TEXTURE, (b) -> {
         });
         MutableComponent mutableComponent = VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage").withStyle(ChatFormatting.GREEN);
-        mutableComponent.append(CommonComponents.NEW_LINE);
+        mutableComponent.append(VComponent.NEW_LINE);
         mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
-        mutableComponent.append(CommonComponents.NEW_LINE);
+        mutableComponent.append(VComponent.NEW_LINE);
         mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
-        mutableComponent.append(CommonComponents.NEW_LINE);
+        mutableComponent.append(VComponent.NEW_LINE);
         mutableComponent.append(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
         infoButton.setTooltip(Tooltip.create(mutableComponent));
         this.addRenderableWidget(infoButton);
