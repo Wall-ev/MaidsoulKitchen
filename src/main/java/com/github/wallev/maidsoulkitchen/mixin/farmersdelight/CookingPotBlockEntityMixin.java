@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.mixin.farmersdelight;
 
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IRecipeExperinceAward;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IFdCbeAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;

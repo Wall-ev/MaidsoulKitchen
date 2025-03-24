@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.cook;
 
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.bestate.IBaseCookItemHandlerBe;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.bestate.IHeatBe;
-import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IFdCbeAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.bestate.IBaseCookItemHandlerBe;
+import com.github.wallev.maidsoulkitchen.task.cook.common.bestate.IHeatBe;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;

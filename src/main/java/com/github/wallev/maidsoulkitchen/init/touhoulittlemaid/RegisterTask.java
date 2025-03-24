@@ -2,14 +2,14 @@ package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.brewinandchewin.TaskBncKeg;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.crokckpot.TaskCpCrockPot;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCookPot;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.farmersdelight.TaskFdCuttingBoard;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.kitchencarrot.TaskKkAirCompressor;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.kitchencarrot.TaskKkBrewingBarrel;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.minecraft.TaskFurnace;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.minersdelight.TaskMdCopperPot;
+import com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.TaskBncKeg;
+import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.TaskCpCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCookPot;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCuttingBoard;
+import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.TaskKkAirCompressor;
+import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.TaskKkBrewingBarrel;
+import com.github.wallev.maidsoulkitchen.task.cook.minecraft.TaskFurnace;
+import com.github.wallev.maidsoulkitchen.task.cook.minersdelight.TaskMdCopperPot;
 import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
@@ -59,7 +59,7 @@ public final class RegisterTask {
 //            manager.add(new TaskFrKettle());
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
-            manager.add(new TaskBncKeg());
+//            manager.add(new TaskBncKeg());
         }
         if (Mods.BD.isLoaded() && RegisterConfig.BD_BASIN_TASK_ENABLED.get()) {
         }

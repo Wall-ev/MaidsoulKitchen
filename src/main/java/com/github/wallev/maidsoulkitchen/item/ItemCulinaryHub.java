@@ -2,8 +2,8 @@ package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
-import com.github.wallev.maidsoulkitchen.handler.VMessageHelper;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.verhelper.client.chat.VMessageHelper;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -309,6 +309,12 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+        }
+
+        {
+            tooltip.add(VComponent.empty());
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function").withStyle(ChatFormatting.GREEN));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.1").withStyle(ChatFormatting.GRAY));
         }
 
         Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);

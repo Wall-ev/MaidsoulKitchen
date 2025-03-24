@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.farm;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.task.farm.FarmType;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;

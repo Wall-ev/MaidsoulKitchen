@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.widget.button;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

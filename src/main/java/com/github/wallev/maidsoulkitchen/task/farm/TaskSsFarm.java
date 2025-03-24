@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;

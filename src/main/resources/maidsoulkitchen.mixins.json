@@ -5,6 +5,7 @@
   "refmap": "maidsoulkitchen.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "minecraft.AbstractContainerScreenMixin",
     "touhoulittlemaid.AbstractMaidContainerGuiMixin"
   ],
   "server": [
@@ -13,8 +14,6 @@
     "brewinandchewin.KegBlockEntityAccessor",
     "farmersdelight.CookingPotBlockEntityMixin",
     "farmersrespite.KettleBlockEntityMixin",
-    "forge.FluidTankAccessor",
-    "forge.ItemStackHandlerAccessor",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "minecraft.AbstractFurnaceMixin",
     "minecraft.ver.BehaviorControlAccessor",

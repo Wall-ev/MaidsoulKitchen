@@ -33,17 +33,7 @@ public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContai
         super(pMenu, pPlayerInventory, pTitle);
     }
 
-    @Override
-    public void onClose() {
-        if (((AbstractMaidContainerGui<?>) (Object) (this)) instanceof IBackpackContainerScreen && this.maid.getTask() instanceof ICookTask<?, ?>) {
-            if (this.maid != null) {
-                NetworkHandler.CHANNEL.sendToServer(new RefreshMaidBrainMessage(maid.getId()));
-            }
-        }
-        super.onClose();
-    }
-
-    @Inject(at = @At("TAIL"), method = "renderLabels")
+    @Inject(at = @At("TAIL"), method = "renderLabels", remap = true)
     private void renderHubSlotHighlight(PoseStack poseStack, int x, int y, CallbackInfo ci) {
         if (this.menu.getCarried().is(MkItems.CULINARY_HUB.get()) && this.menu.slots.size() >= 55) {
             final int hubSlotIndex = 55;

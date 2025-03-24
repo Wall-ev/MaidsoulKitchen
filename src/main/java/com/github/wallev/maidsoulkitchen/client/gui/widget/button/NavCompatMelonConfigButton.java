@@ -24,9 +24,15 @@ public class NavCompatMelonConfigButton extends Button {
     }
 
     @Override
-    protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
-        super.renderBg(poseStack, minecraft, mouseX, mouseY);
+    public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBg(pPoseStack, Minecraft.getInstance(), pMouseX, pMouseY);
+        if (this.isHoveredOrFocused()) {
+            this.renderToolTip(pPoseStack, pMouseX, pMouseY);
+        }
+    }
 
+    @Override
+    protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
         Font font = Minecraft.getInstance().font;
         int color = isHovered ? Color.BLUE.getRGB() : Color.YELLOW.getRGB();
         font.draw(poseStack, getMessage(), x, y, color);

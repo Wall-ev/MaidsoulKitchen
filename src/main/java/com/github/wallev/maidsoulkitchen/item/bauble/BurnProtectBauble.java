@@ -26,27 +26,27 @@ public class BurnProtectBauble implements ILittleMaidBauble {
     public void onLivingDamage(MaidDamageEvent event) {
         EntityMaid maid = event.getMaid();
         DamageSource source = event.getSource();
-//        if (source.is(ModDamageTypeTags.DAMAGES_BURN)) {
-//            int slot = ItemsUtil.getBaubleSlotInMaid(maid, this);
-//            if (slot >= 0) {
-//                event.setCanceled(true);
-//                ItemStack stack = maid.getMaidBauble().getStackInSlot(slot);
-//                stack.hurtAndBreak(1, maid, m -> maid.sendItemBreakMessage(stack));
-//                maid.getMaidBauble().setStackInSlot(slot, stack);
-//                maid.addEffect(new MobEffectInstance(MkEffects.BURN_PROTECT.get(), 300));
-//                if (!maid.level.isClientSide) {
-//                    maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level, maid.position()));
-//                }
-//            }
-//        }
+        if (source.isFire()) {
+            int slot = ItemsUtil.getBaubleSlotInMaid(maid, this);
+            if (slot >= 0) {
+                event.setCanceled(true);
+                ItemStack stack = maid.getMaidBauble().getStackInSlot(slot);
+                stack.hurtAndBreak(1, maid, m -> maid.sendItemBreakMessage(stack));
+                maid.getMaidBauble().setStackInSlot(slot, stack);
+                maid.addEffect(new MobEffectInstance(MkEffects.BURN_PROTECT.get(), 300));
+                if (!maid.level.isClientSide) {
+                    maid.level.addFreshEntity(new EntityExtinguishingAgent(maid.level, maid.position()));
+                }
+            }
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onBurnDamage(MaidAttackEvent event) {
-//        EntityMaid maid = event.getMaid();
-//        DamageSource source = event.getSource();
-//        if (maid.hasEffect(MkEffects.BURN_PROTECT.get()) && source.is(ModDamageTypeTags.DAMAGES_BURN)) {
-//            event.setCanceled(true);
-//        }
+        EntityMaid maid = event.getMaid();
+        DamageSource source = event.getSource();
+        if (maid.hasEffect(MkEffects.BURN_PROTECT.get()) && source.isFire()) {
+            event.setCanceled(true);
+        }
     }
 }

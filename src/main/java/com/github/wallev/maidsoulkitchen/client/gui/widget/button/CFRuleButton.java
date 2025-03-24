@@ -4,7 +4,7 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.IHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CFRuleButton extends Button implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
@@ -98,7 +99,14 @@ public class CFRuleButton extends Button implements ITooltipButton {
     @Override
     public void renderTooltip(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
         if (isHovered) {
-            this.renderToolTip(poseStack, mouseX, mouseY);
+            this.renderTooltip(poseStack, tooltips, mouseX, mouseY);
+        }
+    }
+
+    private void renderTooltip(PoseStack poseStack, List<Component> components, int mouseX, int mouseY) {
+        Screen screen = Minecraft.getInstance().screen;
+        if (screen != null) {
+            screen.renderTooltip(poseStack, components, Optional.empty(), mouseX, mouseY);;
         }
     }
 

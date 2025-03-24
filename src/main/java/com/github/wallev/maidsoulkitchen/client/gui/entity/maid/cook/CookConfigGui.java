@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.network.message.ActionCookDataRecMessage;

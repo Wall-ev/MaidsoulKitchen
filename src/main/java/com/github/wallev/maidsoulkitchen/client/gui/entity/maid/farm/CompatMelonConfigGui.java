@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm;
 
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.NavCompatMelonConfigButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

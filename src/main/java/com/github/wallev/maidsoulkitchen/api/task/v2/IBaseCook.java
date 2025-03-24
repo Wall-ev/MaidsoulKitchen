@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.api.task.v2;
 
-import com.github.wallev.maidsoulkitchen.handler.util.VItemStackHelper;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.cbaccessor.IFdCbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
-import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
+import com.github.wallev.verhelper.server.item.VItemStack;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IFdCbeAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.action.IMaidAction;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
@@ -225,12 +225,12 @@ public interface IBaseCook<B extends BlockEntity, R extends Recipe<? extends Con
             int count = itemStack.getCount();
 
             if (count >= shinkNum) {
-                insertStack2BeAction(be, VItemStackHelper.copyWithCount(itemStack, shinkNum), slotIndex);
+                insertStack2BeAction(be, VItemStack.copyWithCount(itemStack, shinkNum), slotIndex);
 //                inventory.insertItem(slotIndex, itemStack.copyWithCount(shinkNum), false);
                 itemStack.shrink(shinkNum);
                 break;
             } else {
-                insertStack2BeAction(be, VItemStackHelper.copyWithCount(itemStack, count), slotIndex);
+                insertStack2BeAction(be, VItemStack.copyWithCount(itemStack, count), slotIndex);
 //                inventory.insertItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count), false);
                 itemStack.shrink(count);
                 shinkNum -= count;

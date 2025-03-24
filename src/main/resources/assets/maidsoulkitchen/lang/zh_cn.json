@@ -8,9 +8,13 @@
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.1": "- 右键打开Gui选择绑定的模式",
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.2": "- Shift右击箱子绑定箱子，再次Shift右击箱子取消绑定",
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.3": "- 放在女仆背包第一栏第五个格子生效",
+  "tooltips.maidsoulkitchen.culinary_hub.desc.function": "[功能]",
+  "tooltips.maidsoulkitchen.culinary_hub.desc.function.1": "允许女仆在烹饪时直接与其他箱子互动",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn": "[使用警告]",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty": "当前还未绑定任何箱子，这将使[烹饪中枢]发挥不了作用",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn.left": "当前还剩%s类型的箱子未绑定，请继续绑定它们，否则[烹饪中枢]发挥不了全部作用",
+  "tooltips.maidsoulkitchen.burn_protect_bauble.desc.function": "[功能]",
+  "tooltips.maidsoulkitchen.burn_protect_bauble.desc.function.1": "防止女仆在烹饪时被烫伤",
 
   "effect.maidsoulkitchen.burn_protect": "抗燃",
 
@@ -268,6 +272,9 @@
   "gui.maidsoulkitchen.btn.cook_guide.warn.now_type": "当前烹饪模式: ",
   "gui.maidsoulkitchen.btn.cook_guide.warn.not_select": "当前烹饪模式不是定向模式，无法选择",
   "gui.maidsoulkitchen.btn.cook_guide.warn.over_size": "当前烹饪定向配方数已经超额：%d, 无法添加",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook" : "当前食物是否可烹饪：",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook.true" : "是",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook.false" : "否",
   "gui.maidsoulkitchen.btn.cook_guide.info.warn": "任务警告：",
   "gui.maidsoulkitchen.btn.cook_guide.info.warn.crockpot": "- 由于烹饪锅的特殊性，配方解析有一些问题，会在后续的更新优化！",
   "gui.maidsoulkitchen.btn.cook_guide.info.warn.furnace": "- 由于熔炉的特殊性，所以当前还不能与烹饪中枢交互，会在后续的更新优化！",

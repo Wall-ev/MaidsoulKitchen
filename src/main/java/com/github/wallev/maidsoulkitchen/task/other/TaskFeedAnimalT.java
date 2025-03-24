@@ -8,9 +8,10 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.Default
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.handler.*;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidFeedAnimalTaskT;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidFeedAnimalTaskT;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.verhelper.server.ai.*;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;

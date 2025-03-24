@@ -9,9 +9,13 @@
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.1": "- Right-click to open the Gui and select the mode of binding",
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.2": "- Shift-right-click the box to bind the box, and Shift again-right-click the box to unbind",
   "tooltips.maidsoulkitchen.culinary_hub.desc.usage.3": "- Place it in the fifth slot of the first column of the maid's backpack to take effect",
+  "tooltips.maidsoulkitchen.culinary_hub.desc.function": "[Function]",
+  "tooltips.maidsoulkitchen.culinary_hub.desc.function.1": "Allows maids to interact directly with other chests while cooking",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn": "[Warning]",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn.empty": "There are currently no chests bound to it, which will render the [Culinary Hub] useless",
   "tooltips.maidsoulkitchen.culinary_hub.desc.warn.left": "There are currently %s chests left unbound, please continue to bind them, otherwise [Culinary Hub] will not be fully effective",
+  "tooltips.maidsoulkitchen.burn_protect_bauble.desc.function": "[Function]",
+  "tooltips.maidsoulkitchen.burn_protect_bauble.desc.function.1": "Prevents the maid from burning when cooking",
 
   "effect.maidsoulkitchen.burn_protect": "Burn Protect",
 
@@ -266,6 +270,9 @@
   "gui.maidsoulkitchen.btn.cook_guide.type.whitelist.desc.1": "- The maid will randomly cook from all recipes removed from the blacklist",
   "gui.maidsoulkitchen.btn.cook_guide.type.blacklist.desc.0": "Change maid cook mode: Whitelist",
   "gui.maidsoulkitchen.btn.cook_guide.type.blacklist.desc.1": "- The maid will cook randomly from the selected recipe",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook" : "The food is cookable: ",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook.true" : "Yes",
+  "gui.maidsoulkitchen.btn.cook_guide.can_cook.false" : "No",
   "gui.maidsoulkitchen.btn.cook_guide.warn.now_type": "Now cook mode: ",
   "gui.maidsoulkitchen.btn.cook_guide.warn.not_select": "This cook mode type isn't selected, so can't select",
   "gui.maidsoulkitchen.btn.cook_guide.warn.over_size": "This cook selected recipes is over size : %d, so can't add",
