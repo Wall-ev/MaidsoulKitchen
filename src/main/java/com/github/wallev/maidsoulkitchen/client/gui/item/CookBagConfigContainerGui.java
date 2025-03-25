@@ -29,10 +29,10 @@ import net.minecraft.world.item.Items;
 import org.anti_ad.mc.ipn.api.IPNIgnore;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import static com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub.BIND_SIZE;
 
 @IPNIgnore
 public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookBagConfigContainer> {
@@ -63,8 +63,15 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
                 title.append(VComponent.translatable("gui.maidsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
             }
 
+            Map<BagType, java.util.List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(this.menu.cookBag);
+            int bindSize = bindPoses.getOrDefault(value, Collections.emptyList()).size();
+            title.append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY));
+
             CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
-            }, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip")) {
+            }, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey)
+                    .append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY))
+                    .append(CommonComponents.NEW_LINE)
+                    .append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip"))) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     super.onClick(pMouseX, pMouseY);
