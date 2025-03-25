@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.api.task.v1.cook;
 
-import com.github.wallev.maidsoulkitchen.handler.util.VItemStackHelper;
-import com.github.wallev.maidsoulkitchen.task.cook.v1.common.action.IMaidAction;
+import com.github.wallev.verhelper.server.item.VItemStack;
+import com.github.wallev.maidsoulkitchen.task.cook.common.action.IMaidAction;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -94,12 +94,12 @@ public interface IContainerCook extends IMaidAction {
             int count = itemStack.getCount();
             if (count >= amount) {
                 int slotStackCount = inventory.getItem(slotIndex).getCount();
-                inventory.setItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, amount + slotStackCount));
+                inventory.setItem(slotIndex, VItemStack.copyWithCount(itemStack, amount + slotStackCount));
                 itemStack.shrink(amount);
                 break;
             } else {
                 int slotStackCount = inventory.getItem(slotIndex).getCount();
-                inventory.setItem(slotIndex, VItemStackHelper.copyWithCount(itemStack, count + slotStackCount));
+                inventory.setItem(slotIndex, VItemStack.copyWithCount(itemStack, count + slotStackCount));
                 itemStack.shrink(count);
                 amount -= count;
                 if (amount <= 0) {

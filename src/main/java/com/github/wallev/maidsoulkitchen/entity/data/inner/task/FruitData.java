@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.entity.data.inner.task;
 
-import com.github.wallev.maidsoulkitchen.task.farm.handler.v1.fruit.FruitHandlerManager;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

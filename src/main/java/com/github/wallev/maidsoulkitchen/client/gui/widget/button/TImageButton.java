@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Optional;
+
 public class TImageButton extends net.minecraft.client.gui.components.ImageButton implements ITooltipButton {
     private final ICookTask<?, ?> cookTask;
     public TImageButton(ICookTask<?, ?> cookTask, int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, OnPress pOnPress) {
@@ -20,6 +22,6 @@ public class TImageButton extends net.minecraft.client.gui.components.ImageButto
 
     @Override
     public void renderTooltip(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
-        this.renderToolTip(poseStack, mouseX, mouseY);
+        minecraft.screen.renderTooltip(poseStack, cookTask.getWarnComponent(), Optional.empty(), mouseX, mouseY);
     }
 }

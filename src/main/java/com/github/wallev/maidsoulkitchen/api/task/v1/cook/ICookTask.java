@@ -8,12 +8,12 @@ import com.github.wallev.maidsoulkitchen.api.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.handler.VBehaviorControl;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMakeTask;
-import com.github.wallev.maidsoulkitchen.task.ai.MaidCookMoveTask;
-import com.github.wallev.maidsoulkitchen.task.cook.handler.MaidRecipesManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMakeTask;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMoveTask;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.NonNullList;
@@ -140,9 +140,9 @@ public interface ICookTask<B extends BlockEntity, R extends Recipe<? extends Con
         return recipe.getResultItem();
     }
 
-    default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize) {
+    default Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeRandom, boolean overSize, CookData cookData) {
         List<Ingredient> ingres = this.getIngredients(recipe);
-        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(ingres, modeRandom, overSize));
+        return ingres.isEmpty() ? Optional.empty() : Optional.of(new AmountTooltip(recipe.getId().toString(), ingres, modeRandom, overSize, cookData));
     }
 
     default List<Component> getWarnComponent() {

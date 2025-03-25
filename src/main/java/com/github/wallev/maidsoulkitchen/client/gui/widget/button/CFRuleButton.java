@@ -18,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CFRuleButton extends Button implements ITooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
@@ -96,8 +97,9 @@ public class CFRuleButton extends Button implements ITooltipButton {
 
     @Override
     public void renderTooltip(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY) {
-        if (isHovered) {
-            this.renderToolTip(poseStack, mouseX, mouseY);
+        Screen screen = minecraft.screen;
+        if (screen != null) {
+            screen.renderTooltip(poseStack, tooltips, Optional.empty(), mouseX, mouseY);
         }
     }
 

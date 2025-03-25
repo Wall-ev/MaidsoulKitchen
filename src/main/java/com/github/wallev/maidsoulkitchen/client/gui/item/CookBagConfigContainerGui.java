@@ -2,9 +2,9 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagModeButton;
-import com.github.wallev.maidsoulkitchen.handler.VButton;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
-import com.github.wallev.maidsoulkitchen.handler.util.VGuiRendererHelper;
+import com.github.wallev.verhelper.client.chat.VButton;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.verhelper.client.chat.VGuiRendererHelper;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
@@ -15,7 +15,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.renderer.GameRenderer;
@@ -30,10 +29,10 @@ import net.minecraft.world.item.Items;
 import org.anti_ad.mc.ipn.api.IPNIgnore;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import static com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub.BIND_SIZE;
 
 @IPNIgnore
 public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookBagConfigContainer> {
@@ -63,9 +62,14 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
             if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
                 title.append(VComponent.translatable("gui.maidsoulkitchen.development")).withStyle(ChatFormatting.YELLOW);
             }
+            Map<BagType, java.util.List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(this.menu.cookBag);
+            int bindSize = bindPoses.getOrDefault(value, Collections.emptyList()).size();
 
-            CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
-            }, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip")) {
+            CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title.append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY)), b -> {
+            }, VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey)
+                    .append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY))
+                    .append(CommonComponents.NEW_LINE)
+                    .append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip"))) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     super.onClick(pMouseX, pMouseY);

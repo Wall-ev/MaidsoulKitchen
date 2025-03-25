@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.item;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.item.MaidGroup;
-import com.github.wallev.maidsoulkitchen.handler.VComponent;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
@@ -46,7 +46,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     private static final String CONTAINER_TAG = "CulinaryHubContainer";
     private static final String BIND_MODE_TAG = "CulinaryHubBindMode";
     private static final String BIND_POS_TAG = "CulinaryHubBindPos";
-    private static final int BIND_SIZE = 3;
+    public static final int BIND_SIZE = 3;
 
     public ItemCulinaryHub() {
         super(new Item.Properties().stacksTo(1).tab(MaidGroup.MAIN_TAB));
@@ -258,7 +258,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
                 ItemStack stack = player.getMainHandItem();
                 String bindMode = getBindMode(stack);
                 List<BlockPos> bindModePoses = getBindModePoses(stack, bindMode);
-                if (bindModePoses.size() >= 3 && !bindModePoses.contains(pos)) {
+                if (bindModePoses.size() >= BIND_SIZE && !bindModePoses.contains(pos)) {
                     if (context.getLevel().isClientSide) {
                         player.sendSystemMessage(VComponent.translatable("message.maidsoulkitchen.culinary_hub.bine_type_max"));
                     }
@@ -307,6 +307,13 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.1").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.2").withStyle(ChatFormatting.GRAY));
             tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.usage.3").withStyle(ChatFormatting.GRAY));
+        }
+
+        {
+            tooltip.add(VComponent.empty());
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function").withStyle(ChatFormatting.GREEN));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.1").withStyle(ChatFormatting.GRAY));
+            tooltip.add(VComponent.translatable("tooltips.maidsoulkitchen.culinary_hub.desc.function.2").withStyle(ChatFormatting.GRAY));
         }
 
         Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(stack);
