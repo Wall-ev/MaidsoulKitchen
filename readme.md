@@ -15,7 +15,7 @@
 
 ## Warning
 Currently, the project still has many problems: poor branch management, code has become a mountain of shit, issue management, etc...</p>
-Please forgive and understand; the project should be refactored one by one in half a year, under normal circumstances...
+Please forgive and understand; the project should be refactored one by one in half a year, under normal circumstances([`2.0-dev`](https://github.com/Wall-ev/MaidsoulKitchen/tree/1.20.1-2.0-dev))...
 
 ## Notice
   - Due to the author's personal reasons, the development progress will be extremely slow (maybe the pit will be abandoned...)
