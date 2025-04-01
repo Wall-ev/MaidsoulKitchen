@@ -14,7 +14,6 @@
     "brewinandchewin.KegBlockEntityAccessor",
     "drinkbeer.BeerBarrelBlockAccessor",
     "farmersdelight.CookingPotBlockEntityMixin",
-    "farmersrespite.KettleBlockEntityMixin",
     "forge.FluidTankAccessor",
     "forge.ItemStackHandlerAccessor",
     "kitchkarrot.AirCompressorBlockEntityAccessor",

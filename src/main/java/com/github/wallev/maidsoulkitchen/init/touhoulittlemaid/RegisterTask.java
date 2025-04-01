@@ -3,9 +3,7 @@ package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.TaskBncKey;
-//import com.github.wallev.maidsoulkitchen.task.cook.v1.cuisine.TaskCdCuisineSkillet;
 import com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.TaskDbBeerBarrel;
-import com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.TaskFrKettle;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCookPot;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.TaskFdCuttingBoard;
 import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.TaskKkAirCompressor;
@@ -59,7 +57,6 @@ public final class RegisterTask {
             manager.add(new TaskMdCopperPot());
         }
         if (Mods.FRD.isLoaded() && RegisterConfig.FR_KETTLE_TASK_ENABLED.get()) {
-            manager.add(new TaskFrKettle());
         }
         if (Mods.BNCD.isLoaded() && RegisterConfig.BNC_KEY_TASK_ENABLED.get()) {
             manager.add(new TaskBncKey());
