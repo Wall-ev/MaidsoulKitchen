@@ -65,7 +65,7 @@ public interface IBaseContainerPotCook<B extends BlockEntity, R extends Recipe<?
 
         tryInsertItem(serverLevel, entityMaid, blockEntity, maidRecipesManager);
 
-        maidRecipesManager.getCookInv().syncInv();
+        maidRecipesManager.syncInv();
     }
 
     default void tryExtractItem(ServerLevel serverLevel, EntityMaid entityMaid, B blockEntity, MaidRecipesManager<R> maidRecipesManager) {

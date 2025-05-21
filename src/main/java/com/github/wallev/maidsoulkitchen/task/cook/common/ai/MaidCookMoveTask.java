@@ -3,21 +3,20 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.ai;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends MaidCheckRateTask implements VBehaviorControl {
     private static final int MAX_DELAY_TIME = 120;
@@ -39,14 +38,6 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         this.verticalSearchRange = verticalSearchRange;
         this.setMaxCheckRate(MAX_DELAY_TIME);
         this.maidRecipesManager = maidRecipesManager;
-    }
-
-    private static void setWalkAndLookTargetMemories(LivingEntity pLivingEntity, BlockPos walkPos, BlockPos lookPos, float pSpeed, int pDistance) {
-        pLivingEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(walkPos, pSpeed, pDistance));
-        pLivingEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(lookPos));
-        
-        pLivingEntity.getBrain().setMemory(InitEntities.TARGET_POS.get(), new BlockPosTracker(lookPos));
-        pLivingEntity.getBrain().setMemory(MkEntities.WORK_POS.get(), new BlockPosTracker(lookPos));
     }
 
     private static BlockPos getSearchPos(EntityMaid maid) {
@@ -107,7 +98,8 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos)
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
-                            setWalkAndLookTargetMemories(maid, mutableBlockPos, mutableBlockPos, this.movementSpeed, 0);
+                            MemoryUtil.rememberWorkPos(maid, mutableBlockPos.immutable(), this.movementSpeed, 0);
+//                            debugInfo(maid, mutableBlockPos);
                             this.setNextCheckTickCount(5);
                             return;
                         }
@@ -115,5 +107,10 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
                 }
             }
         }
+    }
+
+    private void debugInfo(EntityMaid maid, BlockPos pos) {
+        BlockState blockState = maid.level.getBlockState(pos);
+        MaidsoulKitchen.LOGGER.debug("{} MoveTo {} {}", maid, pos, blockState);
     }
 }

@@ -160,5 +160,10 @@ dependencies {
         runtimeOnly fg.deobf("maven.modrinth:nbtedit-reborn:${nbtedit_reborn_version}-${mod_loader},${minecraft_version}")
 }
 
+dependencies {
+    if (!pneumaticcraft_repressurized_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:pneumaticcraft-repressurized:${pneumaticcraft_repressurized_version}-${mod_loader},${minecraft_version}")
+}
+
 
 

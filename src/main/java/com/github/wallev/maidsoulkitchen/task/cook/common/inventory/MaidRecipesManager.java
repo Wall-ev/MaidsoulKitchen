@@ -96,7 +96,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     private void tranCookBag2Chest(BagType bagType, boolean requireHasItem) {
-        if (!this.hasCulinaryHub) return;
+        if (!this.canHub()) return;
 
         List<BlockPos> ingredientPos = getBindingTypePoses(bagType);
         if (ingredientPos.isEmpty()) return;
@@ -127,7 +127,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
                 }
             }
         }
-        this.getCookInv().syncInv();
+        this.syncInv();
     }
 
     private List<BlockPos> getBindingTypePoses(BagType bagType) {
@@ -244,7 +244,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public void mapChestIngredient() {
-        if (!hasCulinaryHub) return;
+        if (!this.canHub()) return;
 
         List<BlockPos> ingredientPos = getBindingTypePoses(BagType.INGREDIENT);
         if (ingredientPos.isEmpty()) return;
@@ -340,7 +340,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
             }
         }
         // 更新CookBag的inventory
-        this.getCookInv().syncInv();
+        this.syncInv();
     }
 
     private boolean isPosZone(BlockPos ingredientPo) {
@@ -420,7 +420,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return new HashMap<>(getCookInv().getInventoryItem());
     }
 
-    public ICookInventory getCookInv() {
+    protected ICookInventory getCookInv() {
         return this.cookInv;
     }
 
@@ -540,7 +540,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public void shrinkOutputAdditionItem(ItemStack findItem, int count) {
-        if (hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
@@ -564,7 +564,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public int getOutputAdditionItemCount(ItemStack findItem) {
-        if (hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
@@ -589,7 +589,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public boolean hasOutputAdditionItem(Predicate<ItemStack> findItem) {
-        if (this.hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> findItem.test(stack));
 
@@ -625,7 +625,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public ItemStack findOutputAdditionItem(Predicate<ItemStack> findItem) {
-        if (hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> findItem.test(stack));
 
@@ -684,7 +684,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public boolean hasOutputAdditionItem(ItemStack findItem) {
-        if (this.hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
@@ -700,7 +700,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     public ItemStack findOutputAdditionItem(ItemStack findItem) {
-        if (hasCulinaryHub) {
+        if (this.canHub()) {
             IItemHandlerModifiable availableInv = this.getOutputAdditionInv();
             int additionSlot = ItemsUtil.findStackSlot(availableInv, stack -> stack.is(findItem.getItem()));
 
@@ -851,6 +851,20 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     @Nullable
     public IItemHandlerModifiable getIngredientInv() {
         return this.getInputInv();
+    }
+
+    // fixme: 不应该这么做，临时解决，等待版本重构
+    // bug: 不知为啥，有时并没有初始化，但还是会跳过初始化调用 cookInv.syncInv();
+    public void syncInv() {
+        ICookInventory cookInv = this.getCookInv();
+        if (cookInv != null) {
+            cookInv.syncInv();
+        }
+    }
+
+    // fixme: 不应该这么做，临时解决，等待版本重构
+    private boolean canHub() {
+        return enableHub() && hasCulinaryHub;
     }
 
     //不与烹饪中枢交互

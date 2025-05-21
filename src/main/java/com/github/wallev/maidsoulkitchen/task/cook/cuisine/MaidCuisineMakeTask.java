@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.cuisine;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
@@ -24,7 +24,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -53,7 +52,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
     private boolean end = false;
 
     public MaidCuisineMakeTask(TaskCdCuisineSkillet task, MaidRecipesManager<BaseCuisineRecipe<?>> maidRecipesManager) {
-        super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT), 1200);
+        super(ImmutableMap.of(MkEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT), 1200);
         this.task = task;
         this.maidRecipesManager = maidRecipesManager;
     }
@@ -84,7 +83,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid maid) {
         Brain<EntityMaid> brain = maid.getBrain();
-        return brain.getMemory(InitEntities.TARGET_POS.get()).map(targetPos -> {
+        return brain.getMemory(MkEntities.WORK_POS.get()).map(targetPos -> {
             Vec3 targetV3d = targetPos.currentPosition();
             if (maid.distanceToSqr(targetV3d) > Math.pow(task.getCloseEnoughDist(), 2)) {
                 return false;
@@ -95,13 +94,13 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
 
     @Override
     protected boolean canStillUse(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-        return maid.getBrain().hasMemoryValue(InitEntities.TARGET_POS.get()) && !end;
+        return maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get()) && !end;
     }
 
     @Override
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.start(worldIn, maid, pGameTime);
-        maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
+        MemoryUtil.getWorkPos(maid).ifPresent(posWrapper -> {
             BlockEntity blockEntity = worldIn.getBlockEntity(posWrapper.currentBlockPosition());
             if (blockEntity instanceof CuisineSkilletBlockEntity cuisineSkilletBlockEntity) {
                 CombinedInvWrapper maidAvailableInv = maid.getAvailableInv(true);
@@ -151,7 +150,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
                     }
                 }
 
-                this.maidRecipesManager.getCookInv().syncInv();
+                this.maidRecipesManager.syncInv();
             }
         });
     }
@@ -160,7 +159,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
     protected void tick(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         tickAll++;
         super.tick(worldIn, maid, pGameTime);
-        maid.getBrain().getMemory(InitEntities.TARGET_POS.get()).ifPresent(posWrapper -> {
+        MemoryUtil.getWorkPos(maid).ifPresent(posWrapper -> {
             BlockEntity blockEntity = worldIn.getBlockEntity(posWrapper.currentBlockPosition());
             if (blockEntity instanceof CuisineSkilletBlockEntity cuisineSkilletBlockEntity) {
 
@@ -213,9 +212,7 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
     @Override
     protected void stop(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.stop(worldIn, maid, pGameTime);
-        maid.getBrain().eraseMemory(MkEntities.WORK_POS.get());
-        maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
-        maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+        MemoryUtil.eraseWorkPos(maid);
         this.tickAll = 0;
         this.tickMax = 0;
         this.tickSpace = Integer.MAX_VALUE;

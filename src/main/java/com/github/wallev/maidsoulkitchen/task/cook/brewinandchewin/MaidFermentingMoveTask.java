@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRateTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
@@ -103,8 +104,7 @@ public class MaidFermentingMoveTask extends MaidCheckRateTask implements VBehavi
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos)
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
-                            setWalkAndLookTargetMemories(maid, mutableBlockPos, mutableBlockPos, this.movementSpeed, 0);
-                            maid.getBrain().setMemory(InitEntities.TARGET_POS.get(), new BlockPosTracker(mutableBlockPos));
+                            MemoryUtil.rememberWorkPos(maid, mutableBlockPos.immutable(), this.movementSpeed, 0);
                             this.setNextCheckTickCount(5);
                             return;
                         }

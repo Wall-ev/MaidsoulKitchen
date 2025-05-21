@@ -514,7 +514,7 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
         extract(serverLevel, maid, blockEntity, recManager);
         insert(serverLevel, maid, blockEntity, recManager);
 
-        recManager.getCookInv().syncInv();
+        recManager.syncInv();
     }
 
     private void extract(ServerLevel serverLevel, EntityMaid maid, CrockPotBlockEntity blockEntity, MaidRecipesManager<CrockPotCookingRecipe> recManager) {

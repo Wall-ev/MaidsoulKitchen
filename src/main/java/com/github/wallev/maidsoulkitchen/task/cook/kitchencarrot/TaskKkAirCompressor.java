@@ -106,7 +106,7 @@ public class TaskKkAirCompressor implements ICookTask<AirCompressorBlockEntity, 
         }
 
         IMaidsoulKitchenMaid.pickupAction(maid);
-        recManager.getCookInv().syncInv();
+        recManager.syncInv();
     }
 
     @Override

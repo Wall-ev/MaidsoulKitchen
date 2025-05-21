@@ -20,7 +20,6 @@
     "minecraft.ver.BehaviorControlAccessor",
     "minersdelight.CopperPotBlockEntityMixin",
     "touhoulittlemaid.EntityMaidMixin",
-    "touhoulittlemaid.MaidRunOneMixin",
     "youkaishomecoming.BasePotBlockEntityMixin",
     "youkaishomecoming.KettleBlockAccessor"
   ]
