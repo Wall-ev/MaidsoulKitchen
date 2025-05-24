@@ -1,0 +1,243 @@
+
+["Hunger values"]
+	#Range: > 0
+	"pizza (default = 10)" = 10
+	#Range: > 0
+	"tofu (default = 6)" = 6
+	#Range: > 0
+	"pea_pod (default = 2)" = 2
+	#Range: > 0
+	"beef_curry (default = 18)" = 18
+	#Range: > 0
+	"onion (default = 3)" = 3
+	#Range: > 0
+	"peanut_butter_cookie (default = 4)" = 2
+	#Range: > 0
+	"raw_bacon (default = 2)" = 2
+	#Range: > 0
+	"fish_and_chips (default = 9)" = 9
+	#Range: > 0
+	"baked_sweet_potato (default = 6)" = 6
+	#Range: > 0
+	"pbj (default = 8)" = 8
+	#Range: > 0
+	"cassava_cake (default = 5)" = 5
+	#Range: > 0
+	"fish_fillet (default = 8)" = 8
+	#Range: > 0
+	"chicken_parmesan (default = 15)" = 15
+	#Range: > 0
+	"spinach_quinoa_quiche (default = 10)" = 10
+	#Range: > 0
+	"zucchini_bread (default = 6)" = 6
+	#Range: > 0
+	"sorghum (default = 4)" = 4
+	#Range: > 0
+	"italian_beef (default = 18)" = 18
+	#Range: > 0
+	"sweet_potato_quinoa_cakes (default = 6)" = 6
+	#Range: > 0
+	"oatmeal (default = 3)" = 3
+	#Range: > 0
+	"spaghetti (default = 10)" = 10
+	#Range: > 0
+	"cheese_burger (default = 21)" = 21
+	#Range: > 0
+	"sandwich (default = 16)" = 16
+	#Range: > 0
+	"candy (default = 5)" = 5
+	#Range: > 0
+	"blt (default = 14)" = 14
+	#Range: > 0
+	"peanut_butter_pie (default = 3)" = 3
+	#Range: > 0
+	"radish (default = 1)" = 1
+	#Range: > 0
+	"broccoli (default = 3)" = 3
+	#Range: > 0
+	"soybean (default = 2)" = 2
+	#Range: > 0
+	"turnip (default = 2)" = 2
+	#Range: > 0
+	"caesar_salad (default = 11)" = 11
+	#Range: > 0
+	"turnip_beetroot_gratin (default = 10)" = 10
+	#Range: > 0
+	"eggplant_parmesan (default = 16)" = 16
+	#Range: > 0
+	"salad_greens (default = 2)" = 2
+	#Range: > 0
+	"banana_bread (default = 7)" = 7
+	#Range: > 0
+	"fruit (default = 4)" = 4
+	#Range: > 0
+	"raw_chicken_wings (default = 1)" = 1
+	#Range: > 0
+	"pumpkin_soup (default = 6)" = 6
+	#Range: > 0
+	"onion_soup (default = 6)" = 6
+	#Range: > 0
+	"berry_pie (default = 4)" = 4
+	#Range: > 0
+	"olives (default = 2)" = 2
+	#Range: > 0
+	"mushroom_barley (default = 4)" = 4
+	#Range: > 0
+	"chocolate (default = 3)" = 3
+	#Range: > 0
+	"gourd_slice (default = 2)" = 2
+	#Range: > 0
+	"pepper (default = 2)" = 2
+	#Range: > 0
+	"salad (default = 12)" = 12
+	#Range: > 0
+	"sushi (default = 8)" = 8
+	#Range: > 0
+	"carrot_soup (default = 6)" = 6
+	#Range: > 0
+	"mac_and_cheese (default = 10)" = 10
+	#Range: > 0
+	"eggplant (default = 3)" = 3
+	#Range: > 0
+	"marshmallow (default = 3)" = 3
+	#Range: > 0
+	"fruit_salad (default = 8)" = 8
+	#Range: > 0
+	"veggie_burger (default = 16)" = 16
+	#Range: > 0
+	"fried_calamari (default = 5)" = 5
+	#Range: > 0
+	"quinoa_salad (default = 5)" = 5
+	#Range: > 0
+	"mutton_curry (default = 16)" = 16
+	#Range: > 0
+	"pasta (default = 10)" = 10
+	#Range: > 0
+	"cooked_bacon (default = 4)" = 4
+	#Range: > 0
+	"borscht (default = 6)" = 6
+	#Range: > 0
+	"seeds (default = 1)" = 1
+	#Range: > 0
+	"chicory_gratin (default = 9)" = 9
+	#Range: > 0
+	"corn_bread (default = 7)" = 7
+	#Range: > 0
+	"potato_knish (default = 8)" = 8
+	#Range: > 0
+	"sorghum_porridge (default = 8)" = 8
+	#Range: > 0
+	"corn (default = 6)" = 6
+	#Range: > 0
+	"sweet_potato (default = 2)" = 2
+	#Range: > 0
+	"chicken_curry (default = 16)" = 16
+	#Range: > 0
+	"squash_casserole (default = 9)" = 9
+	#Range: > 0
+	"hotdog (default = 9)" = 9
+	#Range: > 0
+	"raisins (default = 8)" = 8
+	#Range: > 0
+	"raw_calamari (default = 2)" = 2
+	#Range: > 0
+	"cucumber_soup (default = 6)" = 6
+	#Range: > 0
+	"candy_cane (default = 4)" = 4
+	#Range: > 0
+	"pea_soup (default = 4)" = 4
+	#Range: > 0
+	"ice_cream_sundae (default = 7)" = 7
+	#Range: > 0
+	"fruit_pie (default = 6)" = 6
+	#Range: > 0
+	"stuffed_corn_zucchini (default = 14)" = 14
+	#Range: > 0
+	"peanut (default = 1)" = 1
+	#Range: > 0
+	"cooked_egg (default = 5)" = 5
+	#Range: > 0
+	"zucchini (default = 3)" = 3
+	#Range: > 0
+	"pork_curry (default = 18)" = 18
+	#Range: > 0
+	"squash_soup (default = 12)" = 12
+	#Range: > 0
+	"cheese_slice (default = 3)" = 3
+	#Range: > 0
+	"pulled_pork_sandwich (default = 18)" = 18
+	#Range: > 0
+	"pickle (default = 5)" = 5
+	#Range: > 0
+	"jaffa_cake (default = 8)" = 8
+	#Range: > 0
+	"ginger (default = 2)" = 2
+	#Range: > 0
+	"olive_tomato_salad (default = 5)" = 5
+	#Range: > 0
+	"broccoli_cheese_soup (default = 6)" = 6
+	#Range: > 0
+	"egg_sandwich (default = 14)" = 14
+	#Range: > 0
+	"pickled_beetroot (default = 3)" = 3
+	#Range: > 0
+	"fried_rice (default = 9)" = 9
+	#Range: > 0
+	"vegetable_medley (default = 6)" = 6
+	#Range: > 0
+	"corn_salad (default = 9)" = 9
+	#Range: > 0
+	"lasagna (default = 24)" = 24
+	#Range: > 0
+	"cassava (default = 3)" = 3
+	#Range: > 0
+	"raw_sausage (default = 2)" = 2
+	#Range: > 0
+	"cooked_sausage (default = 4)" = 4
+	#Range: > 0
+	"beef_and_broccoli (default = 14)" = 14
+	#Range: > 0
+	"squid_ink_pasta (default = 12)" = 12
+	#Range: > 0
+	"rice_bowl (default = 3)" = 3
+	#Range: > 0
+	"tomato_soup (default = 6)" = 6
+	#Range: > 0
+	"fish_sandwich (default = 15)" = 15
+	#Range: > 0
+	"pad_thai (default = 18)" = 18
+	#Range: > 0
+	"radish_soup (default = 6)" = 6
+	#Range: > 0
+	"trail_mix (default = 12)" = 12
+	#Range: > 0
+	"golden_habanero (default = 2)" = 2
+	#Range: > 0
+	"popcorn (default = 1)" = 1
+	#Range: > 0
+	"pancakes (default = 4)" = 4
+	#Range: > 0
+	"cucumber (default = 3)" = 3
+	#Range: > 0
+	"berry (default = 2)" = 2
+	#Range: > 0
+	"tomato (default = 3)" = 3
+	#Range: > 0
+	"vegetable_curry (default = 12)" = 12
+	#Range: > 0
+	"cooked_chicken_wings (default = 3)" = 3
+	#Range: > 0
+	"tofu_scramble (default = 12)" = 12
+	#Range: > 0
+	"sorghum_bread (default = 7)" = 7
+	#Range: > 0
+	"chicken_noodle_soup (default = 13)" = 13
+	#Range: > 0
+	"chili (default = 13)" = 13
+	#Range: > 0
+	"spinach_mushroom_quiche (default = 10)" = 10
+	#Range: > 0
+	"hamburger (default = 18)" = 18
+	#Range: > 0
+	"sausage_barley (default = 10)" = 10
+

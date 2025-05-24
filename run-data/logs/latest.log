@@ -1,0 +1,243 @@
+[255月2025 13:35:17.359] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, D:\Users\addor\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.1.3, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, maidsoulkitchen, --all, --output, G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\src\generated\resources, --existing, G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\src\main\resources, --mixin.config, maidsoulkitchen.mixins.json]
+[255月2025 13:35:17.363] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.14 by JetBrains s.r.o.; OS Windows 10 arch amd64 version 10.0
+[255月2025 13:35:17.470] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\run-data\config\fml.toml is not correct. Correcting
+[255月2025 13:35:17.471] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+[255月2025 13:35:17.471] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSquir] was corrected from null to false
+[255月2025 13:35:17.483] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
+[255月2025 13:35:17.524] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/D:/Users/addor/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23129!/ Service=ModLauncher Env=CLIENT
+[255月2025 13:35:17.802] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file D:\Users\addor\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.1.3\9775dc3f284cdb3e0d33b372c328c6ef88e434b0\javafmllanguage-1.20.1-47.1.3.jar is missing mods.toml file
+[255月2025 13:35:17.806] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file D:\Users\addor\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.1.3\d785f4087ec3be094fd5aed801f5366ca958a81b\lowcodelanguage-1.20.1-47.1.3.jar is missing mods.toml file
+[255月2025 13:35:17.808] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file D:\Users\addor\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.1.3\be60c45f3578cdf944a669c6ea16fd91bec50f2e\mclanguage-1.20.1-47.1.3.jar is missing mods.toml file
+[255月2025 13:35:17.811] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file D:\Users\addor\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.1.3\1aadc0201d8e97b107d9978c7fe066bb54bbb9dc\fmlcore-1.20.1-47.1.3.jar is missing mods.toml file
+[255月2025 13:35:18.486] [main/WARN] [net.minecraftforge.jarjar.selection.JarSelector/]: Attempted to select two dependency jars from JarJar which have the same identification: Mod File:  and Mod File: . Using Mod File: 
+[255月2025 13:35:18.487] [main/WARN] [net.minecraftforge.jarjar.selection.JarSelector/]: Attempted to select a dependency jar for JarJar which was passed in as source: mixinextras. Using Mod File: D:\Users\addor\.gradle\caches\modules-2\files-2.1\io.github.llamalad7\mixinextras-forge\0.4.0\95567f46545b29722b1ad56aa218b842bc47b726\mixinextras-forge-0.4.0.jar
+[255月2025 13:35:18.488] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: Found 14 dependencies adding them to mods collection
+[255月2025 13:35:21.793] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[255月2025 13:35:21.836] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, D:\Users\addor\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, maidsoulkitchen, --all, --output, G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\src\generated\resources, --existing, G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\src\main\resources]
+[255月2025 13:35:21.916] [main/WARN] [mixin/]: Reference map 'maidsoulkitchen.refmap.json' for maidsoulkitchen.mixins.json could not be read. If this is a development environment you can ignore this message
+[255月2025 13:35:22.273] [main/INFO] [mixin/]: Remapping refMap kiwi.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.275] [main/INFO] [mixin/]: Remapping refMap youkaishomecoming.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.277] [main/INFO] [mixin/]: Remapping refMap mixins.pneumaticcraft.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.278] [main/INFO] [mixin/]: Remapping refMap crockpot.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.279] [main/INFO] [mixin/]: Remapping refMap quickmodstart.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.280] [main/INFO] [mixin/]: Remapping refMap l2damagetracker.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.280] [main/INFO] [mixin/]: Remapping refMap farmersdelight.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.281] [main/INFO] [mixin/]: Remapping refMap vintagedelight.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.282] [main/INFO] [mixin/]: Remapping refMap kitchenkarrot.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.283] [main/INFO] [mixin/]: Remapping refMap jade.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.284] [main/INFO] [mixin/]: Remapping refMap l2harvester.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.290] [main/INFO] [mixin/]: Remapping refMap brewinandchewin.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.291] [main/INFO] [mixin/]: Remapping refMap touhou_little_maid.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.294] [main/WARN] [mixin/]: Reference map 'farmersrespite.refmap.json' for farmersrespite.mixins.json could not be read. If this is a development environment you can ignore this message
+[255月2025 13:35:22.295] [main/INFO] [mixin/]: Remapping refMap curios.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.296] [main/INFO] [mixin/]: Remapping refMap patchouli.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.298] [main/WARN] [mixin/]: Reference map 'mynethersdelight.refmap.json' for mynethersdelight.mixins.json could not be read. If this is a development environment you can ignore this message
+[255月2025 13:35:22.299] [main/INFO] [mixin/]: Remapping refMap barbequesdelight.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.300] [main/INFO] [mixin/]: Remapping refMap miners_delight.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.301] [main/INFO] [mixin/]: Remapping refMap architectury-forge-refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.302] [main/INFO] [mixin/]: Remapping refMap architectury-common-refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.332] [main/INFO] [mixin/]: Remapping refMap l2library.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.334] [main/WARN] [mixin/]: Reference map 'cuisinedelight.refmap.json' for cuisinedelight.mixins.json could not be read. If this is a development environment you can ignore this message
+[255月2025 13:35:22.335] [main/INFO] [mixin/]: Remapping refMap drinkbeer.refmap.json using G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\build\createSrgToMcp\output.srg
+[255月2025 13:35:22.874] [main/WARN] [mixin/]: Error loading class: betteradvancements/util/CriterionGrid (java.lang.ClassNotFoundException: betteradvancements.util.CriterionGrid)
+[255月2025 13:35:22.951] [main/WARN] [mixin/]: Error loading class: com/github/alexmodguy/alexscaves/AlexsCaves (java.lang.ClassNotFoundException: com.github.alexmodguy.alexscaves.AlexsCaves)
+[255月2025 13:35:22.951] [main/WARN] [mixin/]: @Mixin target com.github.alexmodguy.alexscaves.AlexsCaves was not found quickmodstart.mixins.json:alexcaves.AlexsCavesMixin
+[255月2025 13:35:22.954] [main/WARN] [mixin/]: Error loading class: com/github/alexthe666/citadel/web/WebHelper (java.lang.ClassNotFoundException: com.github.alexthe666.citadel.web.WebHelper)
+[255月2025 13:35:22.954] [main/WARN] [mixin/]: @Mixin target com.github.alexthe666.citadel.web.WebHelper was not found quickmodstart.mixins.json:citadel.WebHelpMixin
+[255月2025 13:35:22.955] [main/WARN] [mixin/]: Error loading class: org/violetmoon/quark/base/handler/ContributorRewardHandler (java.lang.ClassNotFoundException: org.violetmoon.quark.base.handler.ContributorRewardHandler)
+[255月2025 13:35:22.955] [main/WARN] [mixin/]: @Mixin target org.violetmoon.quark.base.handler.ContributorRewardHandler was not found quickmodstart.mixins.json:quark.ContributorRewardHandlerMixin
+[255月2025 13:35:22.957] [main/WARN] [mixin/]: Error loading class: net/mehvahdjukaar/supplementaries/common/utils/Credits (java.lang.ClassNotFoundException: net.mehvahdjukaar.supplementaries.common.utils.Credits)
+[255月2025 13:35:22.958] [main/WARN] [mixin/]: @Mixin target net.mehvahdjukaar.supplementaries.common.utils.Credits was not found quickmodstart.mixins.json:supplementaries.CreditsMixin
+[255月2025 13:35:22.960] [main/WARN] [mixin/]: Error loading class: xaero/common/misc/Internet (java.lang.ClassNotFoundException: xaero.common.misc.Internet)
+[255月2025 13:35:22.960] [main/WARN] [mixin/]: @Mixin target xaero.common.misc.Internet was not found quickmodstart.mixins.json:xaerominimap.CheckModVersionMixin
+[255月2025 13:35:22.963] [main/WARN] [mixin/]: Error loading class: xaero/common/patreon/Patreon (java.lang.ClassNotFoundException: xaero.common.patreon.Patreon)
+[255月2025 13:35:22.964] [main/WARN] [mixin/]: @Mixin target xaero.common.patreon.Patreon was not found quickmodstart.mixins.json:xaerominimap.CheckPatreonMixin
+[255月2025 13:35:22.966] [main/WARN] [mixin/]: Error loading class: xaero/map/misc/Internet (java.lang.ClassNotFoundException: xaero.map.misc.Internet)
+[255月2025 13:35:22.966] [main/WARN] [mixin/]: @Mixin target xaero.map.misc.Internet was not found quickmodstart.mixins.json:xaeroworldmap.CheckModVersionMixin
+[255月2025 13:35:22.967] [main/WARN] [mixin/]: Error loading class: xaero/map/patreon/Patreon (java.lang.ClassNotFoundException: xaero.map.patreon.Patreon)
+[255月2025 13:35:22.967] [main/WARN] [mixin/]: @Mixin target xaero.map.patreon.Patreon was not found quickmodstart.mixins.json:xaeroworldmap.CheckPatreonMixin
+[255月2025 13:35:23.030] [main/WARN] [mixin/]: Error loading class: com/simibubi/create/content/contraptions/actors/harvester/HarvesterMovementBehaviour (java.lang.ClassNotFoundException: com.simibubi.create.content.contraptions.actors.harvester.HarvesterMovementBehaviour)
+[255月2025 13:35:23.695] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [maidsoulkitchen]
+[255月2025 13:35:23.758] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.4.0).
+[255月2025 13:35:27.989] [modloading-worker-0/INFO] [snownee.kiwi.Kiwi/INIT]: Processing 2 KiwiModule annotations
+[255月2025 13:35:28.127] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\run-data\config\simplefarming.toml is not correct. Correcting
+[255月2025 13:35:28.128] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values was corrected from null to its default, SimpleCommentedConfig:{}. 
+[255月2025 13:35:28.128] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.berry (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.128] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fruit (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.128] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.gourd_slice (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cassava (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.corn (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cucumber (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.eggplant (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.ginger (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.129] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.onion (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.130] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.peanut (default = 1) was corrected from null to its default, 1. 
+[255月2025 13:35:28.130] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pepper (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.130] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pea_pod (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.130] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.radish (default = 1) was corrected from null to its default, 1. 
+[255月2025 13:35:28.131] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.soybean (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.131] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sorghum (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.131] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.salad_greens (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.131] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.tomato (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.132] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.turnip (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.132] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sweet_potato (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.132] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.seeds (default = 1) was corrected from null to its default, 1. 
+[255月2025 13:35:28.132] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.zucchini (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.133] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.broccoli (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.133] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.olives (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.133] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.golden_habanero (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.berry_pie (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fruit_pie (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.baked_sweet_potato (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.banana_bread (default = 7) was corrected from null to its default, 7. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.blt (default = 14) was corrected from null to its default, 14. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.caesar_salad (default = 11) was corrected from null to its default, 11. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cassava_cake (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cheese_slice (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cheese_burger (default = 21) was corrected from null to its default, 21. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chicken_parmesan (default = 15) was corrected from null to its default, 15. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chili (default = 13) was corrected from null to its default, 13. 
+[255月2025 13:35:28.134] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chocolate (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cooked_bacon (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cooked_chicken_wings (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cooked_egg (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cooked_sausage (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.corn_salad (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.corn_bread (default = 7) was corrected from null to its default, 7. 
+[255月2025 13:35:28.135] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.cucumber_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.136] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.egg_sandwich (default = 14) was corrected from null to its default, 14. 
+[255月2025 13:35:28.136] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.eggplant_parmesan (default = 16) was corrected from null to its default, 16. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fish_fillet (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fish_sandwich (default = 15) was corrected from null to its default, 15. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fried_calamari (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fruit_salad (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.hamburger (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.hotdog (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.jaffa_cake (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.lasagna (default = 24) was corrected from null to its default, 24. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.mac_and_cheese (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.oatmeal (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.onion_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pancakes (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pasta (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.137] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pickle (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pickled_beetroot (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pizza (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.popcorn (default = 1) was corrected from null to its default, 1. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pulled_pork_sandwich (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.radish_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.raw_bacon (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.raw_calamari (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.raw_chicken_wings (default = 1) was corrected from null to its default, 1. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.raw_sausage (default = 2) was corrected from null to its default, 2. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.rice_bowl (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.salad (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sandwich (default = 16) was corrected from null to its default, 16. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.spaghetti (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.spinach_mushroom_quiche (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.squash_casserole (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.139] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sushi (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.140] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.tofu (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.140] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.tomato_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.141] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.vegetable_medley (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.141] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.veggie_burger (default = 16) was corrected from null to its default, 16. 
+[255月2025 13:35:28.141] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.tofu_scramble (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.141] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.raisins (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.141] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chicken_noodle_soup (default = 13) was corrected from null to its default, 13. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.quinoa_salad (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.squash_soup (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.spinach_quinoa_quiche (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.beef_curry (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chicken_curry (default = 16) was corrected from null to its default, 16. 
+[255月2025 13:35:28.142] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.mutton_curry (default = 16) was corrected from null to its default, 16. 
+[255月2025 13:35:28.147] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pork_curry (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.vegetable_curry (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.peanut_butter_pie (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sorghum_bread (default = 7) was corrected from null to its default, 7. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sorghum_porridge (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.italian_beef (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.peanut_butter_cookie (default = 4) was corrected from null to its default, 2. 
+[255月2025 13:35:28.149] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pbj (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.150] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.trail_mix (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.150] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.carrot_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.150] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pumpkin_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.150] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pea_soup (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.150] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fried_rice (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sweet_potato_quinoa_cakes (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.sausage_barley (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.mushroom_barley (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.beef_and_broccoli (default = 14) was corrected from null to its default, 14. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.broccoli_cheese_soup (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.stuffed_corn_zucchini (default = 14) was corrected from null to its default, 14. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.zucchini_bread (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.olive_tomato_salad (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.candy (default = 5) was corrected from null to its default, 5. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.borscht (default = 6) was corrected from null to its default, 6. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.squid_ink_pasta (default = 12) was corrected from null to its default, 12. 
+[255月2025 13:35:28.151] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.fish_and_chips (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.marshmallow (default = 3) was corrected from null to its default, 3. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.pad_thai (default = 18) was corrected from null to its default, 18. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.potato_knish (default = 8) was corrected from null to its default, 8. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.chicory_gratin (default = 9) was corrected from null to its default, 9. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.turnip_beetroot_gratin (default = 10) was corrected from null to its default, 10. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.ice_cream_sundae (default = 7) was corrected from null to its default, 7. 
+[255月2025 13:35:28.152] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key Hunger values.candy_cane (default = 4) was corrected from null to its default, 4. 
+[255月2025 13:35:28.218] [modloading-worker-0/INFO] [dev.enemeez.simplefarming.common.SimpleFarming/]: Simple Farming setup complete!
+[255月2025 13:35:28.302] [modloading-worker-0/INFO] [thedarkcolour.kotlinforforge.test.KotlinForForge/]: Kotlin For Forge Enabled!
+[255月2025 13:35:28.441] [modloading-worker-0/INFO] [In-game NBTEdit Reborn/]: Loading NBTEdit ver: 5.0.3
+[255月2025 13:35:28.534] [modloading-worker-0/INFO] [In-game NBTEdit Reborn/]: NBTEdit loaded!
+[255月2025 13:35:28.558] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.1.3, for MC 1.20.1 with MCP 20230612.114412
+[255月2025 13:35:28.558] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.1.3 Initialized
+[255月2025 13:35:28.583] [modloading-worker-0/INFO] [libIPN/]: [libIPN] libIPN - init in Kotlin
+[255月2025 13:35:28.598] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file G:\mc-mods\maidsoulkitchen\MaidsoulKitchen-1.20.1\run-data\config\appleskin-client.toml is not correct. Correcting
+[255月2025 13:35:28.601] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client was corrected from null to its default, SimpleCommentedConfig:{}. 
+[255月2025 13:35:28.601] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodValuesInTooltip was corrected from null to its default, true. 
+[255月2025 13:35:28.601] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodValuesInTooltipAlways was corrected from null to its default, true. 
+[255月2025 13:35:28.601] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showSaturationHudOverlay was corrected from null to its default, true. 
+[255月2025 13:35:28.601] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodValuesHudOverlay was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodValuesHudOverlayWhenOffhand was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodExhaustionHudUnderlay was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodStatsInDebugOverlay was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showFoodHealthHudOverlay was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.showVanillaAnimationsOverlay was corrected from null to its default, true. 
+[255月2025 13:35:28.602] [modloading-worker-0/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key client.maxHudOverlayFlashAlpha was corrected from null to its default, 0.65. 
+[255月2025 13:35:28.985] [modloading-worker-0/INFO] [dev.architectury.networking.forge.NetworkManagerImpl/]: Registering S2C receiver with id architectury:sync_ids
+[255月2025 13:35:28.986] [modloading-worker-0/INFO] [dev.architectury.networking.forge.NetworkManagerImpl/]: Registering C2S receiver with id architectury:sync_ids
+[255月2025 13:35:28.988] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager...
+[255月2025 13:35:29.001] [modloading-worker-0/INFO] [mezz.jei.library.load.PluginCaller/]: Sending ConfigManager took 10.35 ms
+[255月2025 13:35:29.164] [modloading-worker-0/ERROR] [touhou_little_maid/]: Failed to save available sites file
+java.io.FileNotFoundException: config\touhou_little_maid\available_sites.yml (系统找不到指定的路径。)
+	at java.io.FileOutputStream.open0(Native Method) ~[?:?]
+	at java.io.FileOutputStream.open(FileOutputStream.java:293) ~[?:?]
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:235) ~[?:?]
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:184) ~[?:?]
+	at java.io.FileWriter.<init>(FileWriter.java:176) ~[?:?]
+	at com.github.tartaricacid.touhoulittlemaid.ai.manager.setting.AvailableSites.saveSites(AvailableSites.java:93) ~[touhou-little-maid-1.2.2-hotfix-forge,1.20.1_mapped_parchment_2023.09.03-1.20.1.jar%23199!/:1.2.2]
+	at com.github.tartaricacid.touhoulittlemaid.ai.manager.setting.AvailableSites.readSites(AvailableSites.java:84) ~[touhou-little-maid-1.2.2-hotfix-forge,1.20.1_mapped_parchment_2023.09.03-1.20.1.jar%23199!/:1.2.2]
+	at com.github.tartaricacid.touhoulittlemaid.config.subconfig.AIConfig.init(AIConfig.java:19) ~[touhou-little-maid-1.2.2-hotfix-forge,1.20.1_mapped_parchment_2023.09.03-1.20.1.jar%23199!/:1.2.2]
+	at com.github.tartaricacid.touhoulittlemaid.config.GeneralConfig.init(GeneralConfig.java:14) ~[touhou-little-maid-1.2.2-hotfix-forge,1.20.1_mapped_parchment_2023.09.03-1.20.1.jar%23199!/:1.2.2]
+	at com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid.<init>(TouhouLittleMaid.java:29) ~[touhou-little-maid-1.2.2-hotfix-forge,1.20.1_mapped_parchment_2023.09.03-1.20.1.jar%23199!/:1.2.2]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.constructMod(FMLModContainer.java:68) ~[javafmllanguage-1.20.1-47.1.3.jar%23192!/:?]
+	at net.minecraftforge.fml.ModContainer.lambda$buildTransitionHandler$10(ModContainer.java:123) ~[fmlcore-1.20.1-47.1.3.jar%23195!/:?]
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[?:?]
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1796) ~[?:?]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:373) ~[?:?]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182) ~[?:?]
+	at java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655) ~[?:?]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622) ~[?:?]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165) ~[?:?]
+[255月2025 13:35:29.507] [modloading-worker-0/INFO] [pneumaticcraft/]: Thirdparty integration activated for [theoneprobe,jei,curios,patchouli]
+[255月2025 13:35:29.578] [main/INFO] [snownee.kiwi.Kiwi/INIT]: Module [kiwi:contributors] initialized
+[255月2025 13:35:29.579] [main/INFO] [snownee.kiwi.Kiwi/INIT]: Module [kiwi:data] initialized
+[255月2025 13:35:29.581] [main/INFO] [snownee.kiwi.Kiwi/INIT]:     recipe_serializer: 3
+[255月2025 13:35:31.864] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/G:/mc-mods/maidsoulkitchen/MaidsoulKitchen-1.20.1/build/fg_cache/net/minecraftforge/forge/1.20.1-47.1.3_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.1.3_mapped_parchment_2023.09.03-1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[255月2025 13:35:31.865] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/G:/mc-mods/maidsoulkitchen/MaidsoulKitchen-1.20.1/build/fg_cache/net/minecraftforge/forge/1.20.1-47.1.3_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.1.3_mapped_parchment_2023.09.03-1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[255月2025 13:35:32.049] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:damage_type mod id maidsoulkitchen
+[255月2025 13:35:32.105] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:damage_type mod id maidsoulkitchen finished after 56 ms
+[255月2025 13:35:32.105] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 56 ms
+[255月2025 13:35:32.108] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 3, old count: 0, new count: 2, removed stale: 2, written: 1
