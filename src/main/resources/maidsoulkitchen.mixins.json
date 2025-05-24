@@ -16,7 +16,7 @@
     "farmersdelight.CookingPotBlockEntityMixin",
     "farmersrespite.KettleBlockEntityMixin",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
-    "minecraft.AbstractFurnaceMixin",
+    "minecraft.AbstractFurnaceBlockEntityMixin",
     "minecraft.ver.BehaviorControlAccessor",
     "minersdelight.CopperPotBlockEntityMixin",
     "touhoulittlemaid.EntityMaidMixin",

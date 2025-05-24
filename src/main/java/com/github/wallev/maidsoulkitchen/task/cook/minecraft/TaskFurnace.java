@@ -1,42 +1,47 @@
 package com.github.wallev.maidsoulkitchen.task.cook.minecraft;
 
-import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
-import com.github.wallev.maidsoulkitchen.task.cook.common.TaskBaseContainerCook;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
+import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.cook.common.TaskBaseContainerCook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IAbstractFurnaceAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 
+/**
+ * todo
+ * 临时解决，等待版本重构
+ */
 public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
+
     @Override
     public boolean isEnable(EntityMaid maid) {
         MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
@@ -90,182 +95,134 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
         return Items.FURNACE.getDefaultInstance();
     }
 
-    // 为了兼容熔炉类的（熔炉、烟熏炉、高炉）
-    // 就直接实时获取配方原料了，而且也因为就一个输入口（燃料不算），运算起来也还行
-    // 之前写的，先这样把，找个时间再看看...
     @Override
-    public boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, AbstractFurnaceBlockEntity blockEntity, MaidRecipesManager<AbstractCookingRecipe> maidRecipesManager) {
-        CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
+    public List<AbstractCookingRecipe> getRecipes(Level level) {
+        HashSet<RecipeType<? extends AbstractCookingRecipe>> recipeTypes = new HashSet<>();
+        recipeTypes.add(RecipeType.SMOKING);
+        recipeTypes.add(RecipeType.SMELTING);
+        recipeTypes.add(RecipeType.BLASTING);
 
-        int[] resultSlots = blockEntity.getSlotsForFace(Direction.DOWN);
+        List<AbstractCookingRecipe> recs = new ArrayList<>();
+        for (RecipeType<? extends AbstractCookingRecipe> canRecipeType : recipeTypes) {
+            List<? extends AbstractCookingRecipe> recipesFor = level.getRecipeManager().getAllRecipesFor(canRecipeType);
+            recs.addAll(recipesFor);
+        }
+        return recs;
+    }
 
-        for (int resultSlot : resultSlots) {
-            ItemStack resultStack = blockEntity.getItem(resultSlot);
-            if (resultStack.isEmpty()) {
-                continue;
-            }
-            if (!blockEntity.canTakeItemThroughFace(resultSlot, resultStack, Direction.DOWN)) {
-                continue;
-            }
+    @Override
+    public boolean maidShouldMoveTo(ServerLevel serverLevel, EntityMaid maid, AbstractFurnaceBlockEntity furnace, MaidRecipesManager<AbstractCookingRecipe> maidRecManager) {
+        IAbstractFurnaceAccessor furnaceAccessor = (IAbstractFurnaceAccessor) furnace;
+        AbstractCookingRecipesManager recManager = (AbstractCookingRecipesManager) maidRecManager;
+
+        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        boolean cooking = furnaceAccessor.tlmk$isLit() && furnaceAccessor.tlmk$innerCanCook();
+        boolean b = furnaceRecMatch(serverLevel, furnace);
+        boolean findFuel = ItemsUtil.findStackSlot(availableInv, itemStack -> ForgeHooks.getBurnTime(itemStack, null) > 0) > -1;
+
+        boolean canBurn = furnaceAccessor.tlmk$isLit() || !furnace.getItem(1).isEmpty() || findFuel;
+
+        if (!furnace.getItem(getOutputSlot()).isEmpty()) {
             return true;
         }
 
-        boolean hasFuel = hasFuel(blockEntity) || getFuel(availableInv).isPresent();
-        if (!hasFuel) {
-            return false;
+        if (!cooking && !b && canBurn && recManager.hasRecipeIngredientsWithTemp(furnaceAccessor.tlmk$getRecipeType())) {
+            return true;
         }
 
-        RecipeType<? extends AbstractCookingRecipe> recipeType = ((IAbstractFurnaceAccessor) blockEntity).tlmk$getRecipeType();
-        for (int slot : blockEntity.getSlotsForFace(Direction.UP)) {
-            ItemStack stack = blockEntity.getItem(slot);
-            if (!stack.isEmpty()) continue;
-            if (getAnyCookableItem(entityMaid, entityMaid.getMaidInv(), recipeType,
-                    cookable -> blockEntity.canPlaceItemThroughFace(slot, cookable, Direction.UP))
-                    .isPresent()) {
-                return true;
-            }
-
+        if (!cooking && !b && hasInput(furnace)) {
+            return true;
         }
 
+        if (cooking && furnace.getItem(1).isEmpty() && findFuel) {
+            return true;
+        }
+
+        ItemStack fuel = furnace.getItem(1);
+        if (!furnaceAccessor.tlmk$innerCanCook() && !b && !furnace.getItem(1).isEmpty()) {
+            return ItemHandlerHelper.insertItemStacked(availableInv, fuel, true).isEmpty();
+        }
 
         return false;
     }
 
-    private boolean hasFuel(AbstractFurnaceBlockEntity furnace) {
-        int[] fuelSlots = furnace.getSlotsForFace(Direction.NORTH);
-        for (int fuelSlot : fuelSlots) {
-            ItemStack fuelSlotStack = furnace.getItem(fuelSlot);
-            if (!fuelSlotStack.isEmpty()) {
-                return true;
-            }
-        }
+    private boolean furnaceRecMatch(ServerLevel serverLevel, AbstractFurnaceBlockEntity blockEntity) {
         return false;
-    }
-
-    private Optional<ItemStack> getAnyCookableItem(EntityMaid maid, IItemHandlerModifiable availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType,
-                                                  Predicate<ItemStack> predicate) {
-        for (int i = 0; i < availableInv.getSlots(); ++i) {
-            ItemStack slotStack = availableInv.getStackInSlot(i);
-            if (!slotStack.isEmpty()
-                    && getRecipe(maid, slotStack, recipeType).isPresent()
-                    && predicate.test(slotStack)) {
-                return Optional.of(slotStack);
-            }
-        }
-        return Optional.empty();
-    }
-
-    private Optional<? extends AbstractCookingRecipe> getRecipe(EntityMaid maid, ItemStack stack, RecipeType<? extends AbstractCookingRecipe> recipeType) {
-        return maid.level.getRecipeManager().getRecipeFor(recipeType, new SimpleContainer(stack), maid.level);
     }
 
     @Override
-    public void maidCookMake(ServerLevel serverLevel, EntityMaid entityMaid, AbstractFurnaceBlockEntity blockEntity, MaidRecipesManager<AbstractCookingRecipe> maidRecipesManager) {
-        CombinedInvWrapper availableInv = entityMaid.getAvailableInv(true);
-        tryExtractItem(blockEntity, entityMaid, maidRecipesManager.getOutputInv());
+    public void maidCookMake(ServerLevel serverLevel, EntityMaid maid, AbstractFurnaceBlockEntity blockEntity, MaidRecipesManager<AbstractCookingRecipe> maidRecipesManager) {
+        AbstractCookingRecipesManager recManager = (AbstractCookingRecipesManager) maidRecipesManager;
 
-        if (!tryInsertFuel(availableInv, blockEntity)){
-            return;
-        }
+        extract(serverLevel, maid, blockEntity, recManager);
+        insert(serverLevel, maid, blockEntity, recManager);
 
-        tryInsertCookable(entityMaid, availableInv, blockEntity);
-
+        recManager.syncInv();
     }
 
-    private void tryExtractItem(AbstractFurnaceBlockEntity furnace, EntityMaid maid, IItemHandlerModifiable availableInv ) {
-        int[] resultSlots = furnace.getSlotsForFace(Direction.DOWN);
+    private void extract(ServerLevel serverLevel, EntityMaid maid, AbstractFurnaceBlockEntity furnace, AbstractCookingRecipesManager recManager) {
+        IAbstractFurnaceAccessor furnaceAccessor = (IAbstractFurnaceAccessor) furnace;
 
-        boolean hasResult = false;
-        for (int resultSlot : resultSlots) {
-            ItemStack resultStack = furnace.getItem(resultSlot);
-            if (resultStack.isEmpty()) {
-                continue;
-            }
-            if (!furnace.canTakeItemThroughFace(resultSlot, resultStack, Direction.DOWN)) {
-                continue;
-            }
-            ItemStack copy = resultStack.copy();
-            furnace.setItem(resultSlot, ItemStack.EMPTY);
-            ItemHandlerHelper.insertItemStacked(availableInv, copy, false);
+        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        AbstractFurnaceBlockEntity beInv = furnace;
 
-            hasResult = true;
-        }
+        IItemHandlerModifiable ingreInv = recManager.getInputInv();
+        IItemHandlerModifiable outputInv = recManager.getOutputInv();
+        boolean cooking = furnaceAccessor.tlmk$isLit() && furnaceAccessor.tlmk$innerCanCook();
+        boolean b = furnaceRecMatch(serverLevel, furnace);
 
-        if (hasResult) {
-            ICookTask.awardExperience(furnace, maid);
-        }
+        boolean findFuel = ItemsUtil.findStackSlot(availableInv, itemStack -> ForgeHooks.getBurnTime(itemStack, null) > 0) > -1;
 
-        IMaidsoulKitchenMaid.pickupAction(maid);
-    }
+        boolean canBurn = furnaceAccessor.tlmk$isLit() || !beInv.getItem(1).isEmpty() || findFuel;
 
-    private boolean tryInsertFuel(CombinedInvWrapper availableInv, AbstractFurnaceBlockEntity furnace) {
-        int[] fuelSlots = furnace.getSlotsForFace(Direction.NORTH);
-        for (int fuelSlot : fuelSlots) {
-            ItemStack fuelSlotStack = furnace.getItem(fuelSlot);
-            if (!fuelSlotStack.isEmpty()) {
-                continue;
-            }
-            Optional<ItemStack> fuel = getFuel(availableInv);
-            if (fuel.isEmpty()) {
-                return false;
-            }
-            if (!furnace.canPlaceItemThroughFace(fuelSlot, fuel.get(), Direction.NORTH)) {
-                continue;
-            }
-            furnace.setItem(fuelSlot, fuel.get().copy());
-            fuel.get().setCount(0);
+        if (!beInv.getItem(getOutputSlot()).isEmpty()) {
+            extractOutputStack(beInv, outputInv, furnace);
             furnace.setChanged();
-            break;
         }
-        return true;
-    }
 
-    private void tryInsertCookable(EntityMaid maid, CombinedInvWrapper availableInv, AbstractFurnaceBlockEntity furnace) {
-        int[] materialSlots = furnace.getSlotsForFace(Direction.UP);
-        for (int materialSlot : materialSlots) {
-            ItemStack materialSlotStack = furnace.getItem(materialSlot);
-            if (!materialSlotStack.isEmpty()) {
-                continue;
-            }
-            Optional<ItemStack> material = getCookable(maid, maid.getMaidInv(), ((IAbstractFurnaceAccessor)furnace).tlmk$getRecipeType());
-            if (material.isEmpty()) {
-                continue;
-            }
-            if (!furnace.canPlaceItemThroughFace(materialSlot, material.get(), Direction.UP)) {
-                continue;
-            }
-            furnace.setItem(materialSlot, material.get().copy());
-            material.get().setCount(0);
+        if (!cooking && !b && hasInput(beInv)) {
+            extractInputStack(beInv, ingreInv, furnace);
             furnace.setChanged();
-            break;
         }
-
         IMaidsoulKitchenMaid.pickupAction(maid);
+
     }
 
-    private Optional<ItemStack> getCookable(EntityMaid maid, ItemStackHandler availableInv, RecipeType<? extends AbstractCookingRecipe> recipeType) {
-        for (int i = 0; i < availableInv.getSlots(); ++i) {
-            ItemStack slotStack = availableInv.getStackInSlot(i);
-            if (getRecipe(maid, slotStack, recipeType).isPresent()) {
-                return Optional.of(slotStack);
+    private void insert(ServerLevel serverLevel, EntityMaid maid, AbstractFurnaceBlockEntity furnace, AbstractCookingRecipesManager recManager) {
+        IAbstractFurnaceAccessor furnaceAccessor = (IAbstractFurnaceAccessor) furnace;
+
+        CombinedInvWrapper availableInv = maid.getAvailableInv(true);
+        AbstractFurnaceBlockEntity beInv = furnace;
+
+        int stackSlot = ItemsUtil.findStackSlot(availableInv, itemStack -> ForgeHooks.getBurnTime(itemStack, null) > 0);
+        boolean findFuel = stackSlot > -1;
+
+
+        if (beInv.getItem(1).isEmpty() && findFuel) {
+            ItemStack stackInSlot = availableInv.getStackInSlot(stackSlot);
+            insertAndShrink(furnace, stackInSlot.getCount(), List.of(List.of(stackInSlot)), 0, 1);
+            furnace.setChanged();
+        }
+
+        boolean canBurn = furnaceAccessor.tlmk$isLit() || !beInv.getItem(1).isEmpty();
+        boolean cooking = furnaceAccessor.tlmk$isLit() && furnaceAccessor.tlmk$innerCanCook();
+        boolean b = furnaceRecMatch(serverLevel, furnace);
+        if (!cooking && !b && canBurn && recManager.hasRecipeIngredientsWithTemp(furnaceAccessor.tlmk$getRecipeType())) {
+            Pair<List<Integer>, List<List<ItemStack>>> recipeIngredient = recManager.getRecipeIngredient(furnaceAccessor.tlmk$getRecipeType());
+            if (recipeIngredient.getFirst().isEmpty()) return;
+            insertInputStack(beInv, availableInv, furnace, recipeIngredient);
+            furnace.setChanged();
+        }
+
+        ItemStack fuel = furnace.getItem(1);
+        if (!furnaceAccessor.tlmk$innerCanCook() && !b && !fuel.isEmpty()) {
+            if (ItemHandlerHelper.insertItemStacked(availableInv, fuel, true).isEmpty()) {
+                ItemHandlerHelper.insertItemStacked(availableInv, furnace.removeItem(1, fuel.getCount()), false);
+                furnace.setChanged();
             }
         }
-        return Optional.empty();
-    }
+        IMaidsoulKitchenMaid.pickupAction(maid);
 
-    private Optional<ItemStack> getFuel(CombinedInvWrapper availableInv ) {
-        for(int i = 0; i < availableInv.getSlots(); ++i) {
-            ItemStack stack = availableInv.getStackInSlot(i);
-            if (stack.isEmpty()) continue;
-            if (isFuel(stack)) {
-                return Optional.of(stack);
-            }
-        }
-        return Optional.empty();
-    }
-
-    private boolean isFuel(ItemStack stack) {
-        return AbstractFurnaceBlockEntity.isFuel(stack);
     }
 
     @Override
@@ -274,14 +231,8 @@ public class TaskFurnace extends TaskBaseContainerCook<AbstractFurnaceBlockEntit
     }
 
     @Override
-    public MaidRecipesManager<AbstractCookingRecipe> getRecipesManager(EntityMaid maid) {
-        return new MaidRecipesManager<>(maid, this, false) {
-
-            @Override
-            protected boolean enableHub() {
-                return false;
-            }
-        };
+    public AbstractCookingRecipesManager getRecipesManager(EntityMaid maid) {
+        return new AbstractCookingRecipesManager(maid, this);
     }
 
     @Override

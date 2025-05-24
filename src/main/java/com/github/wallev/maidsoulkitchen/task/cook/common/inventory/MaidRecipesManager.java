@@ -142,7 +142,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return single;
     }
 
-    private List<R> getRecs() {
+    protected List<R> getRecs() {
         List<R> list = this.getFilterRecipes(this.rec);
         shuffle(list);
         return list;
@@ -535,7 +535,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         return true;
     }
 
-    private void shuffle(List<R> recipes) {
+    protected void shuffle(List<R> recipes) {
         Collections.shuffle(recipes);
     }
 
