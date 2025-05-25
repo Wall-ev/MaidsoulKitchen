@@ -1,0 +1,41 @@
+name: Bug反馈
+description: Bug反馈
+title: "[Bug] "
+labels: ["bug"]
+assignees:
+ - Azumic
+body:
+ - type: markdown
+   attributes:
+    value: |
+      感谢您花时间填写此错误报告！
+ - type: textarea
+   id: version
+   attributes:
+    label: 模组版本
+    description: '你正在使用的模组版本，例如：\n
+      maidsoulkitchen: 1.20.1-beta-v0.1.3\n
+      touhoulittlemaid: 1.20.1-release-1.2.2\n
+      youkaishomecoming: 1.20.1-2.3.13(附加模组，与之作用出问题的模组)'
+    value:
+   validations:
+    required: true
+ - type: textarea
+   id: what-happened
+   attributes:
+    label: 发生了什么？
+    description: 你是怎么触发的，请描述下复现方式
+    value: |
+     1.
+     2.
+     3.
+   validations:
+    required: true
+ - type: textarea
+   id: logs
+   attributes:
+    label: 相关日志输出
+    description: 请复制并粘贴任何相关的日志输出(这会自动格式化为代码，因此不需要反引号), 或者直接上传相关日志.
+    render: shell
+   validations:
+    required: false
