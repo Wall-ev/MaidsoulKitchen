@@ -12,9 +12,9 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesM
 import com.github.wallev.maidsoulkitchen.util.FakePlayerUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import dev.xkmc.youkaishomecoming.content.item.fluid.IYHSake;
+import dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder;
 import dev.xkmc.youkaishomecoming.content.item.fluid.SakeBottleItem;
-import dev.xkmc.youkaishomecoming.content.item.fluid.SakeFluid;
+import dev.xkmc.youkaishomecoming.content.item.fluid.YHFluid;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.*;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.core.NonNullList;
@@ -178,7 +178,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
         if (!fluidInTank.isEmpty() && beRecipe.isEmpty()) {
             boolean hasFluidContainer;
 
-            if (fluid instanceof SakeFluid sakeFluid) {
+            if (fluid instanceof YHFluid sakeFluid) {
                 ItemStack outputFluidContainers = sakeFluid.type.getContainer().getDefaultInstance();
                 hasFluidContainer = recManager.hasOutputAdditionItem(itemStack -> itemStack.is(outputFluidContainers.getItem()));
             } else {
@@ -227,7 +227,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
             ItemStack fluidContainer;
 
             // 获取流体容器
-            if (fluid instanceof SakeFluid sakeFluid) {
+            if (fluid instanceof YHFluid sakeFluid) {
                 ItemStack outputFluidContainers = sakeFluid.type.getContainer().getDefaultInstance();
                 fluidContainer = recManager.findOutputAdditionItem(itemStack -> itemStack.is(outputFluidContainers.getItem()));
             } else {
@@ -248,7 +248,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
                             maid.spawnAtLocation(leftItem);
                         }
                     }
-                } else if (fluid instanceof SakeFluid sakeFluid) {
+                } else if (fluid instanceof YHFluid sakeFluid) {
                     ItemStack leftItem = ItemHandlerHelper.insertItemStacked(outputInv, sakeFluid.type.asStack(1), false);
                     fluidContainer.shrink(1);
                     if (!leftItem.isEmpty()) {
@@ -376,9 +376,10 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
             }
             for (Item item : ForgeRegistries.ITEMS.getValues()) {
                 if (item instanceof SakeBottleItem sakeBottleItem) {
-                    SakeFluid sakeFluid = sakeBottleItem.getFluid();
-                    IYHSake iyhSake = sakeFluid.type;
-                    Fluid rawFluid = sakeFluid.getSource();
+                    YHFluid fluid = sakeBottleItem.getFluid();
+
+                    IYHFluidHolder iyhSake = fluid.type;
+                    Fluid rawFluid = fluid.getSource();
 
                     if (fluidItems1.containsKey(rawFluid)) {
                         List<Pair<ItemStack, Integer>> fluidItems2 = fluidItems1.getOrDefault(rawFluid, Collections.emptyList());
@@ -493,7 +494,7 @@ public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockE
     public ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
         SimpleFermentationRecipe fermentationRecipe = (SimpleFermentationRecipe) recipe;
         Fluid fluid = fermentationRecipe.outputFluid.getFluid();
-        if (fluid instanceof SakeFluid sakeFluid) {
+        if (fluid instanceof YHFluid sakeFluid) {
             return sakeFluid.type.asStack(1);
         }
         return Items.AIR.getDefaultInstance();
