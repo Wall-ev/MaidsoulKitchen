@@ -345,7 +345,7 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
 
     private boolean isPosZone(BlockPos ingredientPo) {
         float maxDistance = maid.getRestrictRadius();
-        if (maid.distanceToSqr(ingredientPo.getX(), ingredientPo.getY(), ingredientPo.getZ()) > (maxDistance * maxDistance)) {
+        if (maid.distanceToSqr(ingredientPo.getX(), ingredientPo.getY(), ingredientPo.getZ()) * 2 > (maxDistance * maxDistance)) {
             return true;
         }
         return false;

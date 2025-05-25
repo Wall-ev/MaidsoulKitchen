@@ -61,6 +61,7 @@ public class MaidGrillMakeTask extends Behavior<EntityMaid> implements VBehavior
                     grillStacks.addAll(recipeIngredient.getSecond().get(0));
                 }
 
+                this.maidRecipesManager.tranOutput2Chest();
                 this.maidRecipesManager.syncInv();
             }
         });
@@ -117,7 +118,6 @@ public class MaidGrillMakeTask extends Behavior<EntityMaid> implements VBehavior
 
                 if (nothing) {
                     this.stop(worldIn, maid, pGameTime);
-                    this.maidRecipesManager.syncInv();
                     return;
                 }
 
@@ -128,6 +128,8 @@ public class MaidGrillMakeTask extends Behavior<EntityMaid> implements VBehavior
     @Override
     protected void stop(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.stop(worldIn, maid, pGameTime);
+        this.maidRecipesManager.tranOutput2Chest();
+        this.maidRecipesManager.syncInv();
         MemoryUtil.eraseWorkPos(maid);
         grillStacks.clear();
     }

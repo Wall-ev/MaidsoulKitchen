@@ -120,6 +120,7 @@ public class MaidCuttingMakeTask extends Behavior<EntityMaid> implements VBehavi
     @Override
     protected void stop(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.stop(worldIn, maid, pGameTime);
+        this.maidRecipesManager.tranOutput2Chest();
         this.maidRecipesManager.syncInv();
         MemoryUtil.eraseWorkPos(maid);
         this.processItem = null;

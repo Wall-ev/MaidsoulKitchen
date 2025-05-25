@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.Brain;
@@ -107,20 +108,20 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
                 int plateSlot = ItemsUtil.findStackSlot(maidAvailableInv, itemStack -> itemStack.is(CDItems.PLATE.get()));
                 if (plateSlot > -1) {
                     plateItem = maidAvailableInv.getStackInSlot(plateSlot);
-//                    if (!foodExistAndTake(worldIn, maid, cuisineSkilletBlockEntity)) {
-//                        this.stop(worldIn, maid, pGameTime);
-//                        this.maidRecipesManager.syncInv();
-//                        cuisineSkilletBlockEntity.sync();
-//                        return;
-//                    }
+                    if (!foodExistAndTake(worldIn, maid, cuisineSkilletBlockEntity)) {
+                        this.stop(worldIn, maid, pGameTime);
+                        this.maidRecipesManager.syncInv();
+                        cuisineSkilletBlockEntity.sync();
+                        return;
+                    }
                 }
 
-//                if (plateItem == null || plateItem.getCount() < 1 || this.maidRecipesManager.getRecipesIngredients().isEmpty()) {
-//                    this.stop(worldIn, maid, pGameTime);
-//                    this.maidRecipesManager.syncInv();
-//                    cuisineSkilletBlockEntity.sync();
-//                    return;
-//                }
+                if (plateItem == null || plateItem.getCount() < 1 || this.maidRecipesManager.getRecipesIngredients().isEmpty()) {
+                    this.stop(worldIn, maid, pGameTime);
+                    this.maidRecipesManager.syncInv();
+                    cuisineSkilletBlockEntity.sync();
+                    return;
+                }
 
                 ItemStack mainHandItem = maid.getMainHandItem();
                 if (!mainHandItem.is(CDItems.SPATULA.get())) {
@@ -165,36 +166,36 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
         });
     }
 
-//    private boolean foodExistAndTake(ServerLevel worldIn, EntityMaid maid, CuisineSkilletBlockEntity cuisineSkilletBlockEntity) {
-//        CookingData cookingData = cuisineSkilletBlockEntity.cookingData;
-//        List<CookingData.CookingEntry> contents = cookingData.contents;
-//        if (!contents.isEmpty()) {
-//            for (CookingData.CookingEntry entry : contents) {
-//                ItemStack food = entry.getItem();
-//                IngredientConfig.IngredientEntry config = IngredientConfig.get().getEntry(food);
-//                if (config != null) {
-//                    float cook_needle = Mth.clamp(entry.getDuration(cookingData, 0) / 400.0F, 0.0F, 1.0F);
-//                    if (cook_needle < 1) {
-//                        return false;
-//                    }
-//                }
-//            }
-//
-//            CookedFoodData food = new CookedFoodData(cookingData);
-//            ItemStack foodStack = BaseCuisineRecipe.findBestMatch(worldIn, food);
-//            plateItem.shrink(1);
-//            ItemHandlerHelper.insertItemStacked(maidRecipesManager.getOutputInv(), foodStack, false);
-//
-//            cuisineSkilletBlockEntity.cookingData = new CookingData();
-//            cuisineSkilletBlockEntity.sync();
-//
-//            maid.swing(InteractionHand.MAIN_HAND);
-//
-//            return true;
-//        }
-//
-//        return true;
-//    }
+    private boolean foodExistAndTake(ServerLevel worldIn, EntityMaid maid, CuisineSkilletBlockEntity cuisineSkilletBlockEntity) {
+        CookingData cookingData = cuisineSkilletBlockEntity.cookingData;
+        List<CookingData.CookingEntry> contents = cookingData.contents;
+        if (!contents.isEmpty()) {
+            for (CookingData.CookingEntry entry : contents) {
+                ItemStack food = entry.getItem();
+                IngredientConfig.IngredientEntry config = IngredientConfig.get().getEntry(food);
+                if (config != null) {
+                    float cook_needle = Mth.clamp(task.getDuration(cookingData, entry, maid) / 400.0F, 0.0F, 1.0F);
+                    if (cook_needle < 1) {
+                        return false;
+                    }
+                }
+            }
+
+            CookedFoodData food = new CookedFoodData(cookingData);
+            ItemStack foodStack = BaseCuisineRecipe.findBestMatch(worldIn, food);
+            plateItem.shrink(1);
+            ItemHandlerHelper.insertItemStacked(maidRecipesManager.getOutputInv(), foodStack, false);
+
+            cuisineSkilletBlockEntity.cookingData = new CookingData();
+            cuisineSkilletBlockEntity.sync();
+
+            maid.swing(InteractionHand.MAIN_HAND);
+
+            return true;
+        }
+
+        return true;
+    }
 
     @Override
     protected void tick(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
@@ -252,6 +253,8 @@ public class MaidCuisineMakeTask extends Behavior<EntityMaid> implements VBehavi
     protected void stop(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
         super.stop(worldIn, maid, pGameTime);
         MemoryUtil.eraseWorkPos(maid);
+        this.maidRecipesManager.tranOutput2Chest();
+        this.maidRecipesManager.syncInv();
         this.tickAll = 0;
         this.tickMax = 0;
         this.tickSpace = Integer.MAX_VALUE;

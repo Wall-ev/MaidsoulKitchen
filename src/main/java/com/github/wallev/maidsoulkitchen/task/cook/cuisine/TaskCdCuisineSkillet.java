@@ -5,6 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.mixin.cuisinedelight.CookingDataAccessor;
+import com.github.wallev.maidsoulkitchen.mixin.cuisinedelight.CookingEntryAccessor;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -56,49 +58,49 @@ public class TaskCdCuisineSkillet implements ICookTask<CuisineSkilletBlockEntity
                 && !recManager.getRecipesIngredients().isEmpty()) {
             return true;
         }
+
+        if (canExtractFood(serverLevel, maid, blockEntity, recManager)) {
+            return true;
+        }
+
         return false;
     }
-//
-//    public boolean canExtractFood(ServerLevel serverLevel, EntityMaid maid, CuisineSkilletBlockEntity blockEntity, MaidRecipesManager<BaseCuisineRecipe<?>> recManager) {
-//        CombinedInvWrapper maidAvailableInv = maid.getAvailableInv(true);
-//        CookingData cookingData = blockEntity.cookingData;
-//        List<CookingData.CookingEntry> contents = cookingData.contents;
-//        if (!contents.isEmpty() && ItemsUtil.findStackSlot(maidAvailableInv, stack -> stack.is(CDItems.PLATE.get())) > -1) {
-//
-//            for (CookingData.CookingEntry content : contents) {
-//                Stage stage = content.getStage(cookingData);
-//                if (stage == Stage.COOKED) {
-//
-//                }
-//            }
-//
-//            CookingData cookingDataCopy = new CookingData();
-//            cookingDataCopy.setSpeed(cookingData);
-//
-//            boolean isCook = false;
-//            for(CookingData.CookingEntry entry : contents) {
-//                ItemStack food = entry.getItem();
-//                IngredientConfig.IngredientEntry config = IngredientConfig.get().getEntry(food);
-//                if (config != null) {
-////                    level.getGameTime()
-//
-//                    float cook_needle = Mth.clamp(entry.getDuration(cookingData, 0) / 400.0F, 0.0F, 1.0F);
-//                    if (cook_needle < 1) {
-//                        isCook = true;
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            return !isCook;
-//        }
-//
-//        return false;
-//    }
-//
-//    public float getDuration(CookingData data, float partialTick) {
-//        return (partialTick + (float)data.lastActionTime - (float)data.startTime) * data.speed;
-//    }
+
+    public boolean canExtractFood(ServerLevel serverLevel, EntityMaid maid, CuisineSkilletBlockEntity blockEntity, MaidRecipesManager<BaseCuisineRecipe<?>> recManager) {
+        CombinedInvWrapper maidAvailableInv = maid.getAvailableInv(true);
+        CookingData cookingData = blockEntity.cookingData;
+        List<CookingData.CookingEntry> contents = cookingData.contents;
+        if (!contents.isEmpty() && ItemsUtil.findStackSlot(maidAvailableInv, stack -> stack.is(CDItems.PLATE.get())) > -1) {
+
+            for (CookingData.CookingEntry content : contents) {
+                Stage stage = content.getStage(cookingData);
+                if (stage == Stage.COOKED) {
+
+                }
+            }
+
+            boolean isCook = false;
+            for(CookingData.CookingEntry entry : contents) {
+                ItemStack food = entry.getItem();
+                IngredientConfig.IngredientEntry config = IngredientConfig.get().getEntry(food);
+                if (config != null) {
+                    float cook_needle = Mth.clamp(this.getDuration(cookingData, entry, maid) / 400.0F, 0.0F, 1.0F);
+                    if (cook_needle < 1) {
+                        isCook = true;
+                        break;
+                    }
+                }
+            }
+
+            return !isCook;
+        }
+
+        return false;
+    }
+
+    public float getDuration(CookingData data, CookingData.CookingEntry cookingEntry, EntityMaid maid) {
+        return (maid.level.getGameTime() - ((CookingEntryAccessor)cookingEntry).tlmk$getStartTime()) * ((CookingDataAccessor)data).tlmk$getSpeed();
+    }
 
     @Override
     public void processCookMake(ServerLevel serverLevel, EntityMaid maid, CuisineSkilletBlockEntity blockEntity, MaidRecipesManager<BaseCuisineRecipe<?>> recManager) {
