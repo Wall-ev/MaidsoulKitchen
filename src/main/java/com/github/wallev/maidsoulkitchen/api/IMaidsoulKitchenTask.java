@@ -27,9 +27,9 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
     @Override
     default boolean isEnable(EntityMaid maid) {
         MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        if (!maidMkTaskEnableEvent.isEnable()) {
-            return false;
+        boolean eventPosted = MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (eventPosted) {
+            return maidMkTaskEnableEvent.isEnable();
         }
 
         return IMaidTask.super.isEnable(maid);
@@ -38,8 +38,8 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
     @Override
     default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
         MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        if (!maidMkTaskEnableEvent.isEnable()) {
+        boolean eventPosted = MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
+        if (eventPosted) {
             return maidMkTaskEnableEvent.getEnableConditionDesc();
         }
 

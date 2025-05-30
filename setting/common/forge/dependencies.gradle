@@ -80,6 +80,8 @@ dependencies {
         implementation fg.deobf("maven.modrinth:sophisticated-core:${sophisticated_core_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_storage_version.isEmpty())
         implementation fg.deobf("maven.modrinth:sophisticated-storage:${sophisticated_storage_version}-${mod_loader},${minecraft_version}")
+    if (!ae2_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:ae2:${ae2_version}-${mod_loader},${minecraft_version}")
 }
 
 // 联动(其他)
@@ -161,8 +163,8 @@ dependencies {
 }
 
 dependencies {
-    if (!pneumaticcraft_repressurized_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:pneumaticcraft-repressurized:${pneumaticcraft_repressurized_version}-${mod_loader},${minecraft_version}")
+//    if (!pneumaticcraft_repressurized_version.isEmpty())
+//        implementation fg.deobf("maven.modrinth:pneumaticcraft-repressurized:${pneumaticcraft_repressurized_version}-${mod_loader},${minecraft_version}")
 }
 
 

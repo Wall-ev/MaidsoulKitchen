@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -28,18 +27,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask {
-    @Override
-    public boolean isEnable(EntityMaid maid) {
-        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        return maidMkTaskEnableEvent.isEnable();
-    }
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {

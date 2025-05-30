@@ -295,7 +295,7 @@
   "gui.maidsoulkitchen.config.global_config": "全局配置该任务.",
   "gui.maidsoulkitchen.search" : "搜索...",
 
-  "tooltips.maidsoulkitchen.amount.title": "制作一份的原料:",
+  "tooltips.maidsoulkitchen.amount.title": "涉及到的原材料:",
 
   "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook": "烹饪",
   "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.cook.pages.0.1.text": "女仆会使用模组厨具方块进行烹饪.$(br)你只需要把配方原料放入到女仆背包.$(br)下面将会介绍女仆烹饪任务的一些信息,请详细阅读",
@@ -335,5 +335,19 @@
   "gui.maidsoulkitchen.culinary_hub.config.bind_mode.output.tooltip": "这里是用来绑定存放烹饪好的食物的箱子的按钮\n\n比如烹饪好的蘑菇煲、米饭、苹果酒",
   "gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip": "一键清除已绑定过的箱子的坐标",
 
-  "gui.maidsoulkitchen.development": "(开发中)"
+  "gui.maidsoulkitchen.development": "(开发中)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type": "来源%d: ",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.main_hand": "主手",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.off_hand": "副手",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.maid_backpack": "背包",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.hub_start_addition": "烹饪中枢(启动条件)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.hub_ingredient": "烹饪中枢(输入原料)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.hub_ingredient_addition": "烹饪中枢(输入原料条件)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.hub_output_addition": "烹饪中枢(输出条件)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.hub_output": "烹饪中枢(输出)",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_source_type.pickup": "拾取 => 主手、副手、背包",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.mandatory": "必须",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.maybe": "可能",
+  "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.output": "成品",
+  "gui.maidsoulkitchen.btn.cook_guide.output_to": "输出至%d: "
 }

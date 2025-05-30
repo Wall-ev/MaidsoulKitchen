@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -27,6 +28,8 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -38,10 +41,7 @@ import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, CuttingBoardRecipe> {
@@ -104,14 +104,6 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
         }
 
         return ItemStack.EMPTY;
-    }
-
-    public static class InvItem {
-
-    }
-
-    public static void swapItem() {
-
     }
 
     public ItemStack swapItem(InteractionHand hand, ItemStack itemStack, EntityMaid maid, IItemHandler inv) {
@@ -211,8 +203,18 @@ public class TaskFdCuttingBoard implements ICookTask<CuttingBoardBlockEntity, Cu
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public List<Component> getWarnComponent() {
         return List.of(VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
                 VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.cuttingboard"));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public RecipeDataTooltip.TooltipRecIngredient getTooltipRecResultIngredient(Recipe<?> recipe, EntityMaid maid) {
+        List<List<RecipeDataTooltip.IngredientSourceType>> result = new ArrayList<>();
+        result.add(List.of(RecipeDataTooltip.IngredientSourceType.PICKUP));
+        int resultRuleMatchIndex = 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecResultIngredient = new RecipeDataTooltip.TooltipRecIngredient(List.of(Ingredient.of(this.getResultItem(recipe, maid.level.registryAccess()))), result, RecipeDataTooltip.IngredientType.OUTPUT, resultRuleMatchIndex);
+        return tooltipRecResultIngredient;
     }
 }

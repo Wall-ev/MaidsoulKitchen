@@ -3,9 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,13 +37,6 @@ public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
     @Override
     public ResourceLocation getUid() {
         return TaskInfo.ECLIPTICSSEASONS_FARM.uid;
-    }
-
-    @Override
-    public boolean isEnable(EntityMaid maid) {
-        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override

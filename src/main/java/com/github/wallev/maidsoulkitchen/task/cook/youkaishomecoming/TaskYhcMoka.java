@@ -1,18 +1,23 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming;
 
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.TaskFdPot;
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import dev.xkmc.youkaishomecoming.content.pot.moka.MokaMakerBlockEntity;
 import dev.xkmc.youkaishomecoming.content.pot.moka.MokaRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
+
+import java.util.List;
 
 
 public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
@@ -79,5 +84,16 @@ public class TaskYhcMoka extends TaskFdPot<MokaMakerBlockEntity, MokaRecipe> {
     @Override
     public TaskDataKey<CookData> getCookDataKey() {
         return DataRegister.YHC_MOKA;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public List<Ingredient> getContainers(MokaRecipe rec) {
+        ItemStack outputContainer = rec.getOutputContainer();
+        if (outputContainer.isEmpty()) {
+            return List.of();
+        }
+
+        return List.of(Ingredient.of(outputContainer));
     }
 }

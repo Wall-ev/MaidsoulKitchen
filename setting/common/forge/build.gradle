@@ -54,6 +54,9 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            // 彩色日志
+            property 'terminal.jline', 'true'
+
 
             mods {
                 "${mod_id}" {

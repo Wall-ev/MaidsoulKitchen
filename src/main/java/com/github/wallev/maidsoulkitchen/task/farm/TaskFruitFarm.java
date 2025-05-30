@@ -1,21 +1,20 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFarmPlantTask;
-import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCompatFruitMoveTask;
+import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
+import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFruitMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandler;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -28,7 +27,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
@@ -77,13 +75,6 @@ public class TaskFruitFarm implements ICompatFarmTask<FruitHandler, FruitData> {
     @Override
     public ItemStack getIcon() {
         return Items.APPLE.getDefaultInstance();
-    }
-
-    @Override
-    public boolean isEnable(EntityMaid maid) {
-        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override

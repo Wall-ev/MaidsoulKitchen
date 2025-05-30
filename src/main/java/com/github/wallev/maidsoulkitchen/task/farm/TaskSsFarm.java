@@ -1,12 +1,11 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 import sereneseasons.api.season.SeasonHelper;
 
 import java.util.Collections;
@@ -41,13 +39,6 @@ public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
     @Override
     public ResourceLocation getUid() {
         return TaskInfo.SERENESEASONS_FARM.uid;
-    }
-
-    @Override
-    public boolean isEnable(EntityMaid maid) {
-        MaidMkTaskEnableEvent maidMkTaskEnableEvent = new MaidMkTaskEnableEvent(maid, this);
-        MinecraftForge.EVENT_BUS.post(maidMkTaskEnableEvent);
-        return maidMkTaskEnableEvent.isEnable();
     }
 
     @Override

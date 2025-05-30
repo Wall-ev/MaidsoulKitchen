@@ -38,6 +38,8 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -1269,7 +1271,8 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
     }
 
     @Override
-    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData) {
+    @OnlyIn(Dist.CLIENT)
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData, EntityMaid maid) {
         RecInfo1 recInfo1 = new RecInfo1();
         List<IRequirement> requirements = ((CrockPotCookingRecipe)recipe).getRequirements();
         categorizeRequirements(requirements, recInfo1);
@@ -1279,6 +1282,7 @@ public class TaskCpCrockPot implements ICookTask<CrockPotBlockEntity, CrockPotCo
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public List<Component> getWarnComponent() {
         return List.of(VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn").withStyle(ChatFormatting.YELLOW),
                 VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.info.warn.crockpot"));

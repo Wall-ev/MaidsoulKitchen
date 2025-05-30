@@ -25,6 +25,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -118,6 +120,16 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
     @Override
     public void processCookMake(ServerLevel level, EntityMaid maid, KettleBlockEntity be, MaidRecipesManager<KettleRecipe> manager) {
         super.processCookMake(level, maid, be, manager);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public List<Ingredient> getContainers(KettleRecipe rec) {
+        ItemStack outputContainer = rec.getOutputContainer();
+        if (outputContainer.isEmpty()) {
+            return List.of();
+        }
+        return List.of(Ingredient.of(outputContainer));
     }
 
     @Override

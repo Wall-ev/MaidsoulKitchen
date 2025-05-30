@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming;
 
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
@@ -15,9 +16,14 @@ import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +80,14 @@ public class TaskYhcDryingRack implements ICookTask<DryingRackBlockEntity, Dryin
     @Override
     public ItemStack getIcon() {
         return YHBlocks.RACK.asStack();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public RecipeDataTooltip.TooltipRecIngredient getTooltipRecResultIngredient(Recipe<?> recipe, EntityMaid maid) {
+        List<List<RecipeDataTooltip.IngredientSourceType>> result = new ArrayList<>();
+        result.add(List.of(RecipeDataTooltip.IngredientSourceType.PICKUP));
+        int resultRuleMatchIndex = 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecResultIngredient = new RecipeDataTooltip.TooltipRecIngredient(List.of(Ingredient.of(this.getResultItem(recipe, maid.level.registryAccess()))), result, RecipeDataTooltip.IngredientType.OUTPUT, resultRuleMatchIndex);
+        return tooltipRecResultIngredient;
     }
 }

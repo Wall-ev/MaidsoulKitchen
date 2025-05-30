@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.client.init;
 
 import com.github.wallev.maidsoulkitchen.client.tooltip.CrockPotAmountTooltip;
 import com.github.wallev.maidsoulkitchen.client.tooltip.NormalAmountTooltip;
+import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
@@ -15,6 +16,7 @@ public final class InitClientTooltip {
     @SubscribeEvent
     public static void onRegisterClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
         event.register(AmountTooltip.class, NormalAmountTooltip::new);
+        event.register(RecipeDataTooltip.TooltipRecipeData.class, RecipeDataTooltip::new);
         if (Mods.CP.isLoaded) {
             event.register(CrockPotTooltip.class, CrockPotAmountTooltip::new);
         }

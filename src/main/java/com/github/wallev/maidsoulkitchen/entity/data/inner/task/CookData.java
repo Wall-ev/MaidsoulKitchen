@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 
 public class CookData {
@@ -103,13 +104,15 @@ public class CookData {
     }
 
     public List<String> getRecs() {
-        if (this.mode.equals(Mode.WHITELIST.name)) {
+        if (this.isWhitelistMode()) {
             return this.whitelistRecs;
-        } else if (this.mode.equals(Mode.BLACKLIST.name)) {
-            return this.blacklistRecs;
         } else {
-            return Collections.emptyList();
+            return this.blacklistRecs;
         }
+    }
+
+    public boolean isWhitelistMode() {
+        return Mode.byName(this.mode()).isWhitelistMode();
     }
 
     public enum Mode {
@@ -120,6 +123,18 @@ public class CookData {
 
         Mode(String name) {
             this.name = name;
+        }
+
+        public boolean isWhitelistMode() {
+            return this == WHITELIST;
+        }
+
+        public static boolean isWhitelistMode(String name) {
+            return byName(name).isWhitelistMode();
+        }
+
+        public static Mode byName(String name) {
+            return Mode.valueOf(name.toUpperCase(Locale.ENGLISH));
         }
     }
 }

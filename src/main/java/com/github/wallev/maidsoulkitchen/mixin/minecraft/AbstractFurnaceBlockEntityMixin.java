@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 
 @Mixin(value = AbstractFurnaceBlockEntity.class)
-public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlockEntity implements IAbstractFurnaceAccessor{
+public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlockEntity implements IAbstractFurnaceAccessor {
     @Shadow
     @Final
     private Object2IntOpenHashMap<ResourceLocation> recipesUsed;

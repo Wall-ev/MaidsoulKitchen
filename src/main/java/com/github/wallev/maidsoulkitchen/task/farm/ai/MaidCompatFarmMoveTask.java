@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.task.cook.common.ai;
+package com.github.wallev.maidsoulkitchen.task.farm.ai;
 
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;

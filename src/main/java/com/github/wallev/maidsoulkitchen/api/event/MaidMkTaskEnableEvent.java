@@ -3,12 +3,14 @@ package com.github.wallev.maidsoulkitchen.api.event;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.mojang.datafixers.util.Pair;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+@Cancelable
 public class MaidMkTaskEnableEvent extends Event {
     private final EntityMaid maid;
     private final IMaidsoulKitchenTask maidsoulKitchenTask;

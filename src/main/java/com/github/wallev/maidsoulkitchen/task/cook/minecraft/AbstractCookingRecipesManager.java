@@ -1,12 +1,10 @@
 package com.github.wallev.maidsoulkitchen.task.cook.minecraft;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IAbstractFurnaceAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.ICbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -16,21 +14,18 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class AbstractCookingRecipesManager extends MaidRecipesManager<AbstractCookingRecipe> {
-    private final Map<RecipeType<AbstractCookingRecipe>, List<AbstractCookingRecipe>> typeRecMap = new HashMap<>();
-
-    private Map<RecipeType<AbstractCookingRecipe>, List<Integer>> recipeTypeListIngredients;
+    private final Map<RecipeType<AbstractCookingRecipe>, List<Integer>> recipeTypeListIngredients = new HashMap<>();
     // 额外尝试标志位，因为酿酒有温度要求，是可实时变化的。
     private int extraTryTime = 0;
 
     public AbstractCookingRecipesManager(EntityMaid maid, TaskFurnace task) {
         super(maid, task, false);
-
-        recipeTypeListIngredients = new HashMap<>();
     }
 
     public boolean hasRecipeIngredients() {
@@ -86,9 +81,6 @@ public class AbstractCookingRecipesManager extends MaidRecipesManager<AbstractCo
 
     @NotNull
     protected List<Pair<List<Integer>, List<Item>>> getRecIngreMake(Map<Item, Integer> available) {
-        if (recipeTypeListIngredients == null) {
-            recipeTypeListIngredients = new HashMap<>();
-        }
         Set<RecipeType<? extends AbstractCookingRecipe>> canRecipeTypes = searchAndCreateTemperate((ServerLevel) maid.level, maid);
 
         List<Pair<List<Integer>, List<Item>>> _make = new ArrayList<>();
@@ -100,9 +92,9 @@ public class AbstractCookingRecipesManager extends MaidRecipesManager<AbstractCo
 
             Pair<List<Integer>, List<Item>> maxCount = this.getAmountIngredient(r, available);
             if (!maxCount.getFirst().isEmpty()) {
+                RecipeType<?> type = r.getType();
                 _make.add(Pair.of(maxCount.getFirst(), maxCount.getSecond()));
 
-                RecipeType<?> type = r.getType();
                 if (recipeTypeListIngredients.containsKey(type)) {
                     recipeTypeListIngredients.get(type).add(index);
                 } else {
@@ -113,6 +105,11 @@ public class AbstractCookingRecipesManager extends MaidRecipesManager<AbstractCo
         }
         repeat(_make, available, this.repeatTimes);
         return _make;
+    }
+
+    @Override
+    public IItemHandlerModifiable getInputInv() {
+        return super.getInputInv();
     }
 
     protected Set<RecipeType<? extends AbstractCookingRecipe>> searchAndCreateTemperate(ServerLevel worldIn, EntityMaid maid) {

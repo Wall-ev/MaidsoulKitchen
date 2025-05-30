@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.verhelper.server.item.VItemStack;
@@ -13,6 +14,7 @@ import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -344,8 +346,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
     }
 
     private boolean isPosZone(BlockPos ingredientPo) {
-        float maxDistance = maid.getRestrictRadius();
-        if (maid.distanceToSqr(ingredientPo.getX(), ingredientPo.getY(), ingredientPo.getZ()) * 2 > (maxDistance * maxDistance)) {
+        float maxDistance = maid.getRestrictRadius() * 2;
+        if (maid.distanceToSqr(ingredientPo.getX(), ingredientPo.getY(), ingredientPo.getZ()) > (maxDistance * maxDistance)) {
             return true;
         }
         return false;
@@ -859,6 +861,8 @@ public class MaidRecipesManager<R extends Recipe<? extends Container>> {
         ICookInventory cookInv = this.getCookInv();
         if (cookInv != null) {
             cookInv.syncInv();
+        } else {
+            MaidsoulKitchen.LOGGER.error("CookInv is null!");
         }
     }
 

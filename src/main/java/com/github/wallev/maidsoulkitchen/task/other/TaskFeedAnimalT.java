@@ -9,7 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidFeedAnimalTaskT;
+import com.github.wallev.maidsoulkitchen.task.other.ai.MaidFeedAnimalTaskT;
 import com.github.wallev.verhelper.server.ai.*;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
@@ -32,11 +32,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static com.github.wallev.maidsoulkitchen.config.subconfig.TaskConfig.FEED_SINGLE_ANIMAL_MAX_NUMBER;
 
@@ -77,19 +78,15 @@ public class TaskFeedAnimalT implements IAttackTask, IMaidsoulKitchenTask {
     }
 
     private Optional<? extends LivingEntity> findFirstValidAttackTarget(EntityMaid maid) {
+        maid.getLookControl().setLookAt(maid.getRestrictCenter().getCenter());
+        Map<EntityType<?>, List<Animal>> typeAnimals = maid.getBrain().getMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES)
+                .orElse(Collections.emptyList()).stream()
+                .filter(e -> maid.isWithinRestriction(e.blockPosition()))
+                .filter(e -> e instanceof Animal && e.isAlive())
+                .map(Animal.class::cast)
+                .collect(Collectors.groupingBy(Entity::getType));
 
-        List<LivingEntity> list = this.getEntities(maid)
-                .find(e -> maid.isWithinRestriction(e.blockPosition()))
-                .filter(livingEntity -> livingEntity instanceof Animal)
-                .filter(Entity::isAlive)
-                .toList();
-
-        Map<EntityType<?>, List<Animal>> resourceLocationListHashMap = new HashMap<>();
-        for (LivingEntity livingEntity : list) {
-            resourceLocationListHashMap.computeIfAbsent(livingEntity.getType(), k -> Lists.newArrayList()).add((Animal) livingEntity);
-        }
-
-        for (List<Animal> value : resourceLocationListHashMap.values()) {
+        for (List<Animal> value : typeAnimals.values()) {
             if (value.size() >= (FEED_SINGLE_ANIMAL_MAX_NUMBER.get() - 2)) {
                 return value.stream().filter(e -> maid.isWithinRestriction(e.blockPosition()))
                         .filter(e -> !e.isBaby())

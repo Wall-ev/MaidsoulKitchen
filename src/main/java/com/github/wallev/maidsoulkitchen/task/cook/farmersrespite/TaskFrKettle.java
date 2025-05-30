@@ -3,8 +3,10 @@ package com.github.wallev.maidsoulkitchen.task.cook.farmersrespite;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.verhelper.server.item.VItemStack;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
@@ -18,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -27,6 +30,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.EmptyFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
@@ -35,6 +40,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 import umpaz.farmersrespite.common.block.entity.KettleBlockEntity;
 import umpaz.farmersrespite.common.crafting.KettlePouringRecipe;
 import umpaz.farmersrespite.common.crafting.KettleRecipe;
@@ -456,6 +462,36 @@ public class TaskFrKettle implements ICookTask<KettleBlockEntity, KettleRecipe> 
     @Override
     public ItemStack getResultItem(Recipe<?> recipe, RegistryAccess pRegistryAccess) {
         return KEY_RECIPE_INGREDIENTS.get((KettleRecipe) recipe).output();
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
+    public Optional<TooltipComponent> getRecClientAmountTooltip(Recipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData, EntityMaid maid) {
+        List<Ingredient> ingres = this.getIngredients(recipe);
+
+        List<List<RecipeDataTooltip.IngredientSourceType>> source = new ArrayList<>();
+        source.add(List.of(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        source.add(List.of(RecipeDataTooltip.IngredientSourceType.HUB_INGREDIENT));
+        int ruleMatchIndex = maid.getMaidInv().getStackInSlot(4).is(MkItems.CULINARY_HUB.get()) ? 1 : 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecIngredient = new RecipeDataTooltip.TooltipRecIngredient(ingres, source, RecipeDataTooltip.IngredientType.MANDATORY, ruleMatchIndex);
+
+        List<Ingredient> outputContainers = FLUID_CONTAINERS.getOrDefault(((KettleRecipe) recipe).getFluidOut().getFluid(), Collections.emptyList())
+                .stream().map(Ingredient::of).toList();
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecResultIngredient = getTooltipRecResultIngredient(recipe, maid);
+
+        if (outputContainers.isEmpty()) {
+            RecipeDataTooltip.TooltipRecipeData tooltipRecipeData = new RecipeDataTooltip.TooltipRecipeData(cookData, recipe.getId().toString(), List.of(tooltipRecIngredient), tooltipRecResultIngredient, modeIsBlacklist, overSize);
+            return Optional.of(tooltipRecipeData);
+        }
+
+        List<List<RecipeDataTooltip.IngredientSourceType>> containerSources = new ArrayList<>();
+        containerSources.add(Lists.newArrayList(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        containerSources.add(Lists.newArrayList(RecipeDataTooltip.IngredientSourceType.HUB_OUTPUT_ADDITION));
+        int containerRuleMatchIndex = maid.getMaidInv().getStackInSlot(4).is(MkItems.CULINARY_HUB.get()) ? 1 : 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecContainerSources = new RecipeDataTooltip.TooltipRecIngredient(outputContainers, containerSources, RecipeDataTooltip.IngredientType.MAYBE, containerRuleMatchIndex);
+
+        RecipeDataTooltip.TooltipRecipeData tooltipRecipeData = new RecipeDataTooltip.TooltipRecipeData(cookData, recipe.getId().toString(), List.of(tooltipRecIngredient, tooltipRecContainerSources), tooltipRecResultIngredient, modeIsBlacklist, overSize);
+        return Optional.of(tooltipRecipeData);
     }
 
     protected void pickupAction(EntityMaid maid) {
