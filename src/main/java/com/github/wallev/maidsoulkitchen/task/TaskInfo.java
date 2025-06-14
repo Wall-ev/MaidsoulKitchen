@@ -1,57 +1,100 @@
 package com.github.wallev.maidsoulkitchen.task;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
+import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.basin.TaskBbqBasin;
+import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill.TaskBbqGrill;
+import com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.keg.TaskBncKeg;
+import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.TaskCpCrockPot;
+import com.github.wallev.maidsoulkitchen.task.cook.cuisine.cuisine.TaskCdCuisine;
+import com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel.TaskDbBeerBarrel;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cookingpot.TaskFdCookingPot;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cuttingboard.TaskFdCuttingBoard;
+import com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.kettle.TaskFrKettle;
+import com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard.TaskKcChoppingBoard;
+import com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery.TaskKcPot;
+import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.aircompressor.TaskKkAirCompressor;
+import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.brewing.TaskKkBrewingBarrel;
+import com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace.TaskFurnace;
+import com.github.wallev.maidsoulkitchen.task.cook.minersdelight.cooking.TaskMdCopperPot;
+import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.dryingrack.TaskYhcDryingRack;
+import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment.TaskYhcFermentationTank;
+import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle.TaskYhcKettle;
+import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.moka.TaskYhcMoka;
+import com.github.wallev.maidsoulkitchen.task.farm.*;
+import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.function.Supplier;
 
 public enum TaskInfo {
-    BERRY_FARM("berries_farm"),
-    FRUIT_FARM("fruit_farm"),
-    FEED_ANIMAL_T("feed_animal_t"),
-    COMPAT_MELON_FARM("compat_melon"),
+    COMPAT_MELON_FARM("compat_melon", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+    BERRY_FARM("berries_farm", Mods.MC, RegisterConfig.BERRY_FARM_TASK_ENABLED, TaskBerryFarm::new),
+    FRUIT_FARM("fruit_farm", Mods.MC, RegisterConfig.FRUIT_FARM_TASK_ENABLED, TaskFruitFarm::new),
 
-    SERENESEASONS_FARM("sereneseasons_farm"),
+    FEED_ANIMAL_T("feed_animal_t", Mods.MC, RegisterConfig.FEED_ANIMAL_T_TASK_ENABLED, TaskFeedAnimalT::new),
 
-    ECLIPTICSSEASONS_FARM("eclipticseasons_farm"),
+    SERENESEASONS_FARM("sereneseasons_farm", Mods.SS, RegisterConfig.SERENESEASONS_FARM_TASK_ENABLED, TaskSsFarm::new),
 
-    FEED_AND_DRINK_OWNER("feedanddrink"),
+    ECLIPTICSSEASONS_FARM("eclipticseasons_farm", Mods.ES, RegisterConfig.ECLIPTICSEASONS_FARM_TASK_ENABLED, TaskEsFarm::new),
 
-    FURNACE("furnace"),
+    FURNACE("furnace", Mods.MC, RegisterConfig.FURNACE_TASK_ENABLED, TaskFurnace::new),
 
-    FD_COOK_POT("fd_cooking_pot"),
-    FD_CUTTING_BOARD("fd_cutting_board"),
-    CD_CUISINE_SKILLET("cd_cuisine_skillet"),
-    MD_COOK_POT("md_copper_pot"),
-    BNC_KEY("bnc_key"),
-    FR_KETTLE("fr_kettle"),
-    YHC_MOKA("yhc_moka_pot"),
-    BD_BASIN("bd_basin"),
-    BD_GRILL("bd_grill"),
-    YHC_TEA_KETTLE("yhc_tea_kettle"),
-    YHC_DRYING_RACK("yhc_drying_rack"),
-    YHC_FERMENTATION_TANK("yhc_fermentation_tank"),
+    KC_POT("kc_pot", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskKcPot::new),
+    KC_CHOPPING_BOARD("kc_chopping_board", Mods.KC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskKcChoppingBoard::new),
 
-    KK_BREW_BARREL("kk_brew_barrel"),
-    KK_AIR_COMPRESSOR("kk_air_compressor"),
-    DB_BEER("drinkbeer_beerbarrel"),
-    CP_CROCK_POT("cp_crock_pot"),
+    FD_COOK_POT("fd_cooking_pot", Mods.FD, RegisterConfig.FD_COOK_POT_TASK_ENABLED, TaskFdCookingPot::new),
+    FD_CUTTING_BOARD("fd_cutting_board", Mods.FD, RegisterConfig.FD_CUTTING_BOARD_TASK_ENABLED, TaskFdCuttingBoard::new),
 
-    DBK_COOKING_POT("dkb_cooking_pot"),
-    DBP_MINE_FRIDGE("dbp_mini_fridge"),
-    DBP_TIKI_BAR("dbp_tiki_bar"),
-    DCL_COOKING_PAN("dcl_cooking_pan"),
-    DCL_COOKING_POT("dcl_cooking_pot"),
-    DCL_STOVE("dcl_stove"),
-    DFC_ROAST("dfc_roast"),
-    DFC_COOKING_POT("dfc_cooking_pot"),
-    DFC_STOVE("dfc_stove"),
-    DHB_CAULDRON("dhb_cauldron"),
-    DHB_TEA_KETTLE("dhb_tea_kettle"),
-    FERMENTATION_BARREL("dv_fermentation_barrel");
+    CD_CUISINE_SKILLET("cd_cuisine_skillet", Mods.CD, RegisterConfig.CD_CUISINE_SKILLET_TASK_ENABLED, TaskCdCuisine::new),
 
+    MD_COOK_POT("md_copper_pot", Mods.MD, RegisterConfig.MD_COOK_POT_TASK_ENABLED, TaskMdCopperPot::new),
+
+    BNC_KEY("bnc_key", Mods.BNCD, RegisterConfig.BNC_KEY_TASK_ENABLED, TaskBncKeg::new),
+
+    FR_KETTLE("fr_kettle", Mods.FRD, RegisterConfig.FR_KETTLE_TASK_ENABLED, TaskFrKettle::new),
+
+    BD_BASIN("bd_basin", Mods.BD, RegisterConfig.BD_BASIN_TASK_ENABLED, TaskBbqBasin::new),
+    BD_GRILL("bd_grill", Mods.BD, RegisterConfig.BD_GRILL_TASK_ENABLED, TaskBbqGrill::new),
+
+    YHC_MOKA("yhc_moka_pot", Mods.YHCD, RegisterConfig.YHC_MOKA_TASK_ENABLED, TaskYhcMoka::new),
+    YHC_TEA_KETTLE("yhc_tea_kettle", Mods.YHCD, RegisterConfig.YHC_TEA_KETTLE_TASK_ENABLED, TaskYhcKettle::new),
+    YHC_DRYING_RACK("yhc_drying_rack", Mods.YHCD, RegisterConfig.YHC_DRYING_RACK_TASK_ENABLED, TaskYhcDryingRack::new),
+    YHC_FERMENTATION_TANK("yhc_fermentation_tank", Mods.YHCD, RegisterConfig.YHC_FERMENTATION_TANK_TASK_ENABLED, TaskYhcFermentationTank::new),
+
+    KK_BREW_BARREL("kk_brew_barrel", Mods.KK, RegisterConfig.KK_BREW_BARREL, TaskKkBrewingBarrel::new),
+    KK_AIR_COMPRESSOR("kk_air_compressor", Mods.KK, RegisterConfig.KK_AIR_COMPRESSOR, TaskKkAirCompressor::new),
+
+    DB_BEER("drinkbeer_beerbarrel", Mods.DB, RegisterConfig.DB_BEER_TASK_ENABLED, TaskDbBeerBarrel::new),
+    CP_CROCK_POT("cp_crock_pot", Mods.CP, RegisterConfig.CP_CROk_POT_TASK_ENABLED, TaskCpCrockPot::new),
+
+//    DBK_COOKING_POT("dkb_cooking_pot", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DBP_MINE_FRIDGE("dbp_mini_fridge", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DBP_TIKI_BAR("dbp_tiki_bar", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DCL_COOKING_PAN("dcl_cooking_pan", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DCL_COOKING_POT("dcl_cooking_pot",, Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DCL_STOVE("dcl_stove", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DFC_ROAST("dfc_roast", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DFC_COOKING_POT("dfc_cooking_pot", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DFC_STOVE("dfc_stove", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DHB_CAULDRON("dhb_cauldron", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    DHB_TEA_KETTLE("dhb_tea_kettle", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+//    FERMENTATION_BARREL("dv_fermentation_barrel", Mods.MC, RegisterConfig.COMPAT_MELON_FARM_TASK_ENABLED, TaskCompatMelonFarm::new),
+
+    ;
     public final ResourceLocation uid;
 
-    TaskInfo(String uid) {
+    TaskInfo(String uid, Mods bindMod, ForgeConfigSpec.BooleanValue bindConfig, Supplier<IMaidsoulKitchenTask> bindTask) {
         this.uid = VResourceLocation.create(MaidsoulKitchen.MOD_ID, uid);
+        IMaidsoulKitchenTask.putTask(() -> {
+            return bindMod.isInstalled() && bindConfig.get();
+        }, bindTask);
+    }
+
+    public static void init() {
     }
 }

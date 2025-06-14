@@ -1,0 +1,358 @@
+package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
+import com.github.wallev.maidsoulkitchen.util.MathUtil;
+import com.google.common.collect.Lists;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
+
+public class RecSerializerManager<R extends Recipe<? extends Container>> {
+    public static final LinkedList<MaidRec> EMPTY_LIST = new LinkedList<>();
+
+    protected final RecipeType<R> recipeType;
+    protected final RecipeInfoProvider<R> recipeInfoProvider;
+    // @Final
+    protected List<MKRecipe<R>> recipes;
+
+    protected List<ItemStack> fuels;
+
+    protected RecSerializerManager(RecipeType<R> recipeType) {
+        this.recipeType = recipeType;
+        this.recipeInfoProvider = this.createRecipeInfoProvider();
+    }
+
+    protected RecipeInfoProvider<R> createRecipeInfoProvider() {
+        return RecipeInfoProvider.getInstance();
+    }
+
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, Integer> successAdd, Predicate<MKRecipe<R>> rIsValid) {
+        LinkedList<MaidRec> maidRecs = new LinkedList<>();
+
+        int index = 0;
+        for (MKRecipe<R> r : recs) {
+            if (!rIsValid.test(r)) {
+                continue;
+            }
+
+            MaidRec maidRec = this.createMaidRec(r, available);
+            if (!maidRec.isEmpty()) {
+                maidRecs.add(maidRec);
+                successAdd.accept(r, index++);
+            }
+        }
+
+        return maidRecs;
+    }
+
+    @SuppressWarnings("all")
+    protected MaidRec createMaidRec(MKRecipe<R> r, Map<ItemDefinition, Long> available) {
+        List<Item> invIngredient = new ArrayList<>();
+        Map<Item, ItemAmount> itemTimes = new HashMap<>();
+        boolean[] single = {false};
+
+        return recProcess(r, available, invIngredient, single, itemTimes);
+    }
+
+    protected MaidRec recProcess(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+        boolean processRecIngres = processRecIngres(r, available, invIngredient, single, itemTimes);
+        if (!processRecIngres) {
+            return MaidRec.EMPTY;
+        }
+
+        return createCookRec(r, available, single, invIngredient, itemTimes);
+    }
+
+    protected boolean processRecIngres(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+        for (RecIngredient ingredient : r.inItems()) {
+            boolean hasIngredient = false;
+            for (Map.Entry<ItemDefinition, Long> entry : available.entrySet()) {
+                ItemDefinition key = entry.getKey();
+                Long value = entry.getValue();
+                Item item = key.item();
+
+                ItemStack stack = key.toStack(value);
+                int test = ingredient.test(stack);
+                if (test > 0) {
+                    invIngredient.add(item);
+                    hasIngredient = true;
+
+                    int amount;
+                    if (stack.getMaxStackSize() == 1) {
+                        single[0] = true;
+                        ItemAmount itemAmount = new ItemAmount(test);
+                        itemTimes.put(item, itemAmount);
+                        amount = itemAmount.needCount();
+                    } else {
+                        ItemAmount itemAmount = itemTimes.computeIfAbsent(item, k -> new ItemAmount(test, 0));
+                        itemAmount.addCount();
+                        amount = itemAmount.needCount();
+                    }
+
+                    if (value < amount) {
+                        return false;
+                    } else {
+                        break;
+                    }
+
+                }
+            }
+
+            if (!hasIngredient) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected MaidRec createCookRec(MKRecipe<R> r, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+        ItemStack result = r.output();
+        List<MaidItem> maidItems = new ArrayList<>();
+        int recAmount = getMaxAmount(available, single, itemTimes);
+        for (Item item : invIngredient) {
+            int minAmount = itemTimes.get(item).getAmount();
+
+            int count = recAmount * minAmount;
+            maidItems.add(new MaidItem(item, count));
+            ItemDefinition itemDefinition = ItemDefinition.of(item);
+            available.put(itemDefinition, available.get(itemDefinition) - count);
+        }
+
+        return new MaidRec(r.rec(), result, recAmount, maidItems);
+    }
+
+    protected MaidRec createCookRec(MKRecipe<R> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+        ItemStack result = r.output();
+        List<MaidItem> maidItems = new ArrayList<>();
+        int recAmount = getMaxAmount(available, single, itemTimes);
+        for (Item item : invIngredient) {
+            int minAmount = itemTimes.get(item).getAmount();
+
+            int count = recAmount * minAmount;
+            maidItems.add(new MaidItem(item, count));
+            ItemDefinition itemDefinition = ItemDefinition.of(item);
+            available.put(itemDefinition, available.get(itemDefinition) - count);
+        }
+
+        return new MaidRec(r.rec(), result, recAmount, tool, maidItems);
+    }
+
+    protected int getMaxAmount(Map<ItemDefinition, Long> available, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+        int maxCount = 64;
+        if (single[0]) {
+            maxCount = 1;
+        } else {
+            for (Item item : itemTimes.keySet()) {
+                // 最大份量为 64 份；
+                // getStack(item).getMaxStackSize()：该种物品的最大堆叠数量，比如 鸡蛋为16个，那么他的最大份量就只能是16份；
+                // available.get(item)：该种物品在背包中的数量；
+                maxCount = MathUtil.min(maxCount, getStack(item).getMaxStackSize(), (int) (available.get(ItemDefinition.of(item)) / itemTimes.get(item).needCount()));
+            }
+        }
+        return maxCount;
+    }
+
+    protected final ItemStack getStack(Item item) {
+        return ItemStackUtil.getItemStack(item);
+    }
+
+    public final List<MKRecipe<R>> getRecipes(Level level) {
+        if (this.recipes == null) {
+            this.initRecs(level);
+        }
+
+        return this.recipes;
+    }
+
+    protected void initRecs(Level level) {
+        this.recipes = createDefaultRecs(level);
+    }
+
+    protected void initFuels() {
+        this.fuels = Collections.emptyList();
+    }
+
+    protected final List<R> getRecsFromRm(Level level) {
+        return this.getRecsFromRm(level, this.recipeType);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected final List<R> getRecsFromRm(Level level, RecipeType recipeType) {
+        return level.getRecipeManager().getAllRecipesFor(recipeType);
+    }
+
+    protected final List<MKRecipe<R>> createDefaultRecs(Level level) {
+        return createTypeRecs(level, recipeType);
+    }
+
+    protected final List<MKRecipe<R>> createTypeRecs(Level level, RecipeType<?> recipeType) {
+        return this.getRecsFromRm(level, recipeType).stream()
+                .map(this::createMKRecipe)
+                .toList();
+    }
+
+    protected MKRecipe<R> createMKRecipe(R r) {
+        List<RecIngredient> ingredients = recipeInfoProvider.getIngredients(this, r);
+        ItemStack output = recipeInfoProvider.getOutput(this, r);
+        ItemStack container = recipeInfoProvider.getContainer(this, r);
+        return new MKRecipe<>(r, ingredients, output, container);
+    }
+
+    protected MKRecipe<R> createMKRecipe(R r, List<ItemStack> inFluids) {
+        List<RecIngredient> ingredients = recipeInfoProvider.getIngredients(this, r);
+        ItemStack output = recipeInfoProvider.getOutput(this, r);
+        ItemStack container = recipeInfoProvider.getContainer(this, r);
+        return new MKRecipe<>(r, inFluids, ingredients, output, container);
+    }
+
+    public RecipeType<R> getRecipeType() {
+        return recipeType;
+    }
+
+    public boolean isItem(List<ItemStack> itemStacks, Item item) {
+        return ItemStackUtil.isItem(itemStacks, item);
+    }
+
+    public boolean isItem(List<ItemStack> itemStacks, ItemStack itemStack) {
+        return isItem(itemStacks, itemStack.getItem());
+    }
+
+    public FluidRecSerializerManager<R> toFluid() {
+        return to();
+    }
+
+    @SuppressWarnings("unchecked")
+    public <RSM extends RecSerializerManager<R>> RSM to() {
+        return (RSM) this;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public Optional<TooltipComponent> getRecClientAmountTooltip(MKRecipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData, EntityMaid maid) {
+        List<RecipeDataTooltip.TooltipRecIngredient> tooltips = new ArrayList<>();
+        List<ItemStack> inFluids = recipe.inFluids();
+        List<RecIngredient> ingredients = recipe.inItems();
+        if (!ingredients.isEmpty() || !inFluids.isEmpty()) {
+            List<Ingredient> ingredientAll = new ArrayList<>();
+            if (!inFluids.isEmpty()) {
+                ingredientAll.add(Ingredient.of(inFluids.stream()));
+            }
+
+            if (!ingredients.isEmpty()) {
+                List<Ingredient> ingredients1 = ingredients.stream()
+                        .map(r -> r.ingredient)
+                        .toList();
+                ingredientAll.addAll(ingredients1);
+            }
+
+            tooltips.add(this.getTooltipReIngreIngredient(ingredientAll, maid));
+        }
+        ItemStack container = recipe.container();
+        if (!container.isEmpty()) {
+            tooltips.add(this.getTooltipRecOutputContainerIngredient(List.of(Ingredient.of(container)), maid));
+        }
+        List<ItemStack> fuels = this.getFuels();
+        if (!fuels.isEmpty()) {
+            tooltips.add(this.getTooltipRecFuelIngredient(List.of(Ingredient.of(fuels.stream())), maid));
+        }
+
+        RecipeDataTooltip.TooltipRecipeData tooltipRecipeData = new RecipeDataTooltip.TooltipRecipeData(cookData, recipe.id().toString(), tooltips, this.getTooltipRecResultIngredient(recipe, maid), modeIsBlacklist, overSize);
+        return Optional.of(tooltipRecipeData);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected RecipeDataTooltip.TooltipRecIngredient getTooltipReIngreIngredient(List<Ingredient> ingredientList, EntityMaid maid) {
+        List<List<RecipeDataTooltip.IngredientSourceType>> list = new ArrayList<>();
+        list.add(List.of(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        list.add(List.of(RecipeDataTooltip.IngredientSourceType.HUB_INGREDIENT));
+        int resultRuleMatchIndex = ItemCulinaryHub.hasItem(maid) ? 1 : 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecResultIngredient = new RecipeDataTooltip.TooltipRecIngredient(ingredientList, list, RecipeDataTooltip.IngredientType.MANDATORY, resultRuleMatchIndex);
+        return tooltipRecResultIngredient;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected RecipeDataTooltip.TooltipRecIngredient getTooltipRecResultIngredient(MKRecipe<?> recipe, EntityMaid maid) {
+        ItemStack resultClient = recipe.output();
+        List<List<RecipeDataTooltip.IngredientSourceType>> list = new ArrayList<>();
+        list.add(List.of(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        list.add(List.of(RecipeDataTooltip.IngredientSourceType.HUB_OUTPUT));
+        int resultRuleMatchIndex = ItemCulinaryHub.hasItem(maid) ? 1 : 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecResultIngredient = new RecipeDataTooltip.TooltipRecIngredient(List.of(Ingredient.of(resultClient)), list, RecipeDataTooltip.IngredientType.OUTPUT, resultRuleMatchIndex);
+        return tooltipRecResultIngredient;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected RecipeDataTooltip.TooltipRecIngredient getTooltipRecOutputContainerIngredient(List<Ingredient> outputContainers, EntityMaid maid) {
+        List<List<RecipeDataTooltip.IngredientSourceType>> list = new ArrayList<>();
+        list.add(Lists.newArrayList(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        list.add(Lists.newArrayList(RecipeDataTooltip.IngredientSourceType.HUB_OUTPUT_ADDITION));
+        int containerRuleMatchIndex = maid.getMaidInv().getStackInSlot(4).is(MkItems.CULINARY_HUB.get()) ? 1 : 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecContainerSources = new RecipeDataTooltip.TooltipRecIngredient(outputContainers, list, RecipeDataTooltip.IngredientType.MAYBE, containerRuleMatchIndex);
+        return tooltipRecContainerSources;
+    }
+
+    public List<ItemStack> getFuels() {
+        if (this.fuels == null) {
+            this.initFuels();
+        }
+
+        return this.fuels;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected RecipeDataTooltip.TooltipRecIngredient getTooltipRecFuelIngredient(List<Ingredient> fuels, EntityMaid maid) {
+        List<List<RecipeDataTooltip.IngredientSourceType>> list = new ArrayList<>();
+        list.add(Lists.newArrayList(RecipeDataTooltip.IngredientSourceType.MAIN_HAND, RecipeDataTooltip.IngredientSourceType.OFF_HAND, RecipeDataTooltip.IngredientSourceType.MAID_BACKPACK));
+        int containerRuleMatchIndex = 0;
+        RecipeDataTooltip.TooltipRecIngredient tooltipRecContainerSources = new RecipeDataTooltip.TooltipRecIngredient(fuels, list, RecipeDataTooltip.IngredientType.MAYBE, containerRuleMatchIndex);
+        return tooltipRecContainerSources;
+    }
+
+    public final List<ItemStack> createDefaultFuels() {
+        return ItemStackUtil.getDefaultFuels();
+    }
+
+    /**
+     * 配方信息基础模板，仅供普通型的配方，含有<strong>流体</strong>类型的配方不适用！
+     */
+    public static class RecipeInfoProvider<R extends Recipe<? extends Container>> {
+        @SuppressWarnings("rawtypes")
+        private static final RecipeInfoProvider INSTANCE = new RecipeInfoProvider<>();
+
+        @SuppressWarnings("unchecked")
+        public static <R extends Recipe<? extends Container>> RecipeInfoProvider<R> getInstance() {
+            return (RecipeInfoProvider<R>) INSTANCE;
+        }
+
+        public List<RecIngredient> getIngredients(RecSerializerManager<R> rsm, R rec) {
+            return RecIngredient.to(rec.getIngredients());
+        }
+
+        public ItemStack getOutput(RecSerializerManager<R> rsm, R rec) {
+            return rec.getResultItem(RegistryAccess.EMPTY);
+        }
+
+        public ItemStack getContainer(RecSerializerManager<R> rsm, R rec) {
+            return ItemStack.EMPTY;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
@@ -42,6 +43,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ItemCulinaryHub extends Item implements MenuProvider {
     public static final int BIND_SIZE = 3;
+    private static final int INV_SLOT = 4;
     private static final int COOK_BAG_SIZE = getCookBagSize();
     private static final String CONTAINER_TAG = "CulinaryHubContainer";
     private static final String BIND_MODE_TAG = "CulinaryHubBindMode";
@@ -49,6 +51,15 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
 
     public ItemCulinaryHub() {
         super(new Item.Properties().stacksTo(1));
+    }
+
+    public static boolean hasItem(EntityMaid maid) {
+        return getItem(maid).isEmpty();
+    }
+
+    public static ItemStack getItem(EntityMaid maid) {
+        ItemStack stack = maid.getMaidInv().getStackInSlot(INV_SLOT);
+        return stack.is(MkItems.CULINARY_HUB.get()) ? stack : ItemStack.EMPTY;
     }
 
     public static void removeModePoses(ItemStack stack) {

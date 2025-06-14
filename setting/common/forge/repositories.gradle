@@ -4,8 +4,23 @@
 repositories {
     // Local
     flatDir {
-        dir 'libs'
+        name = "implibs"
+        dir "libs/${minecraft_version}/implementation"
     }
+    flatDir {
+        name = "comlibs"
+        dir "libs/${minecraft_version}/compileOnly"
+    }
+    flatDir {
+        name = "runlibs"
+        dir "libs/${minecraft_version}/runtimeOnly"
+    }
+    flatDir {
+        name = "tlmlibs"
+        dir "libs/${minecraft_version}/touhoulittlemaid"
+    }
+
+
     // Modrinth Maven
     maven {
         name = "Modrinth Maven"

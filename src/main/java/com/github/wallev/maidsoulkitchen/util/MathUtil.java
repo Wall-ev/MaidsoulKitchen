@@ -11,4 +11,14 @@ public class MathUtil {
         }
         return max;
     }
+
+    public static int min(int... values) {
+        int max = values[0];
+        for (int value : values) {
+            if (value < max) {
+                max = value;
+            }
+        }
+        return max;
+    }
 }

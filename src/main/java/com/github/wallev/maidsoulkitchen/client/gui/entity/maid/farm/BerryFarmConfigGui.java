@@ -1,20 +1,19 @@
 package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
-import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
-import com.github.wallev.maidsoulkitchen.network.message.ActionBerryFarmRuleMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskBerryFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -112,7 +111,7 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
                     farmTaskInfo.addOrRemoveRule(this.handlerInfo.getUid().toString());
-                    NetworkHandler.sendToServer(new ActionBerryFarmRuleMessage(maid.getId(), ((TaskBerryFarm) task).getCookDataKey().getKey(), this.handlerInfo.getUid().toString()));
+                    NetworkHandler.C2S.actionBerryFarmRule(maid.getId(), ((TaskBerryFarm) task).getCookDataKey().getKey(), this.handlerInfo.getUid().toString());
                 }
             };
             this.addRenderableWidget(cfRuleButton);

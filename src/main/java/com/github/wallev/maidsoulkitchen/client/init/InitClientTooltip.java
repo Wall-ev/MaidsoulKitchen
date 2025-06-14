@@ -1,11 +1,11 @@
 package com.github.wallev.maidsoulkitchen.client.init;
 
-import com.github.wallev.maidsoulkitchen.client.tooltip.CrockPotAmountTooltip;
+//import com.github.wallev.maidsoulkitchen.client.tooltip.CrockPotAmountTooltip;
 import com.github.wallev.maidsoulkitchen.client.tooltip.NormalAmountTooltip;
 import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
-import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
+//import com.github.wallev.maidsoulkitchen.inventory.tooltip.CrockPotTooltip;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +18,7 @@ public final class InitClientTooltip {
         event.register(AmountTooltip.class, NormalAmountTooltip::new);
         event.register(RecipeDataTooltip.TooltipRecipeData.class, RecipeDataTooltip::new);
         if (Mods.CP.isLoaded) {
-            event.register(CrockPotTooltip.class, CrockPotAmountTooltip::new);
+//            event.register(CrockPotTooltip.class, CrockPotAmountTooltip::new);
         }
     }
 }

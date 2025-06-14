@@ -1,21 +1,19 @@
 package com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
-import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
-import com.github.wallev.maidsoulkitchen.network.message.ActionFruitFarmRuleMessage;
-import com.github.wallev.maidsoulkitchen.network.message.SetFruitFarmSearchYOffsetMessage;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -59,7 +57,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     protected void initAdditionData() {
         super.initAdditionData();
         this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarmTask<?, ?>) task)
-                .getManagerHandlerValues())
+                        .getManagerHandlerValues())
                 .map(IFarmHandlerManager::getFarmHandler)
                 .filter(ICompatFarmHandler::canLoad)
                 .toList();
@@ -90,14 +88,14 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
                 return;
             }
             this.farmTaskInfo.increaseYOffset();
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset()));
+            NetworkHandler.C2S.setFruitFarmSearchYOffset(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset());
         });
         Button downButton = new ImageButton(startX + 17, startY, 17, 18, 80 + 17, 238, 0, TEXTURE, b -> {
             if (this.farmTaskInfo.searchYOffset() <= -5) {
                 return;
             }
             this.farmTaskInfo.decreaseYOffset();
-            NetworkHandler.sendToServer(new SetFruitFarmSearchYOffsetMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset()));
+            NetworkHandler.C2S.setFruitFarmSearchYOffset(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.farmTaskInfo.searchYOffset());
         });
         this.addRenderableWidget(addButton);
         this.addRenderableWidget(downButton);
@@ -116,19 +114,19 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         int width = font.width(literal);
         int x = visualZone.startX() + 6;
         int y = visualZone.startY() + 22;
-        graphics.blit(TEXTURE, x, y, 0 ,236, 22, 20);
+        graphics.blit(TEXTURE, x, y, 0, 236, 22, 20);
         // 暂时先这样... todo
         if (this.farmTaskInfo.searchYOffset() >= 0) {
             width += font.width(Component.literal("-"));
             for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
+                graphics.blit(TEXTURE, x + 22 + i, y, 22, 236, 1, 20);
             }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76,236, 8, 20);
-        }else {
+            graphics.blit(TEXTURE, x + 22 + width, y, 76, 236, 8, 20);
+        } else {
             for (int i = 0; i < width; i++) {
-                graphics.blit(TEXTURE, x + 22 + i, y, 22 ,236, 1, 20);
+                graphics.blit(TEXTURE, x + 22 + i, y, 22, 236, 1, 20);
             }
-            graphics.blit(TEXTURE, x + 22 + width, y, 76 ,236, 8, 20);
+            graphics.blit(TEXTURE, x + 22 + width, y, 76, 236, 8, 20);
         }
         graphics.renderItem(task.getIcon(), x + 2, y + 2);
         graphics.drawString(font, literal, x + 22, y + 7, Color.WHITE.getRGB(), false);
@@ -170,7 +168,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
                 public void onClick(double pMouseX, double pMouseY) {
                     this.isSelected = !this.isSelected;
                     farmTaskInfo.addOrRemoveRule(this.handlerInfo.getUid().toString());
-                    NetworkHandler.sendToServer(new ActionFruitFarmRuleMessage(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.handlerInfo.getUid().toString()));
+                    NetworkHandler.C2S.actionFruitFarmRule(maid.getId(), fruitFarm.getCookDataKey().getKey(), this.handlerInfo.getUid().toString());
                 }
             };
             this.addRenderableWidget(cfRuleButton);

@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.SwappedInvData;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 
 public final class DataRegister {
@@ -27,6 +28,11 @@ public final class DataRegister {
     public static TaskDataKey<CookData> DB_BEER;
     public static TaskDataKey<CookData> KC_BREW_BARREL;
     public static TaskDataKey<CookData> KC_AIR_COMPRESSOR;
+
+    public static TaskDataKey<CookData> KC_POT;
+    public static TaskDataKey<CookData> KC_CHOPPING_BOARD;
+
+    public static TaskDataKey<SwappedInvData> SWAPPED_INV;
     private DataRegister() {
     }
 
@@ -53,5 +59,11 @@ public final class DataRegister {
         DB_BEER = data.register(TaskInfo.DB_BEER.uid, CookData.CODEC);
         KC_BREW_BARREL = data.register(TaskInfo.KK_BREW_BARREL.uid, CookData.CODEC);
         KC_AIR_COMPRESSOR = data.register(TaskInfo.KK_AIR_COMPRESSOR.uid, CookData.CODEC);
+
+        KC_POT = data.register(TaskInfo.KC_POT.uid, CookData.CODEC);
+        KC_CHOPPING_BOARD = data.register(TaskInfo.KC_CHOPPING_BOARD.uid, CookData.CODEC);
+
+
+        SWAPPED_INV = data.register(SwappedInvData.KEY, SwappedInvData.CODEC);
     }
 }

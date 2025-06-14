@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -32,6 +32,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask {
+
+    public TaskCompatMelonFarm() {
+    }
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {

@@ -1,0 +1,56 @@
+package com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace;
+
+import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.FuelCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+
+public class TaskFurnace extends ICookTask<AbstractFurnaceBlockEntity, AbstractCookingRecipe> {
+
+    @Override
+    protected CookBeBase<AbstractFurnaceBlockEntity> createCookBe(EntityMaid maid) {
+        return new FurnaceCookBe(maid);
+    }
+
+    @Override
+    protected AbstractCookRule<AbstractFurnaceBlockEntity, AbstractCookingRecipe> createCookRule() {
+        return FuelCookRule.getInstance();
+    }
+
+    @Override
+    protected RecSerializerManager<AbstractCookingRecipe> createRecSerializerManager() {
+        return AbstractCookingRecSerializerManager.getInstance();
+    }
+
+    @Override
+    protected MaidRecipesManager2<AbstractCookingRecipe> createRecipesManager(EntityMaid maid, CookBeBase<AbstractFurnaceBlockEntity> cookBe) {
+        return new MaidFurnaceRecipesManager(recSerializerManager, maid, this, cookBe);
+    }
+
+    @Override
+    public TaskDataKey<CookData> getCookDataKey() {
+        return DataRegister.MC_FURNACE;
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return TaskInfo.FURNACE.uid;
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return Items.FURNACE.getDefaultInstance();
+    }
+}

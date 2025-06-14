@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.task.farm.ai;
 
-import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
@@ -76,7 +75,6 @@ public class MaidCompatFruitMoveTask<T extends ICompatFarmHandler & ICompatHandl
             initSearchStartY = true;
             searchStartY = entityMaid.getOrCreateData(((TaskDataKey<FruitData>)task.getCookDataKey()), new FruitData()).searchYOffset();
         }
-        ((IMaidsoulKitchenMaid) entityMaid).tlmk$initFakePlayer();
     }
 
     protected boolean checkPathReach(EntityMaid maid, BlockPos pos) {

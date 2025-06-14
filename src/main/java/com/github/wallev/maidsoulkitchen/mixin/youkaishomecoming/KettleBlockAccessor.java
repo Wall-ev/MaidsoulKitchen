@@ -10,7 +10,10 @@ import java.util.Map;
 
 @Mixin(value = KettleBlock.class, remap = false)
 public interface KettleBlockAccessor {
-    @Accessor
-    Lazy<Map<Ingredient, Integer>> getMAP();
+
+    @Accessor("MAP")
+    static Lazy<Map<Ingredient, Integer>> waters() {
+        throw new AssertionError();
+    }
 
 }

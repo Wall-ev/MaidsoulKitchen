@@ -20,6 +20,7 @@ import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,6 +28,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @LittleMaidExtension
 public final class MaidPlugin implements ILittleMaid {
+
+    public MaidPlugin() {
+        TaskInfo.init();
+    }
 
     @Override
     public void addMaidTask(TaskManager manager) {

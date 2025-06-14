@@ -17,11 +17,13 @@
     "drinkbeer.BeerBarrelBlockAccessor",
     "farmersdelight.CookingPotBlockEntityMixin",
     "farmersrespite.KettleBlockEntityMixin",
+    "forge.IItemHandlerMixin",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
+    "kitchkarrot.BrewingBarrelBlockEntityMixin",
     "minecraft.AbstractFurnaceBlockEntityMixin",
+    "minecraft.ContainerMixin",
     "minecraft.ver.BehaviorControlAccessor",
     "minersdelight.CopperPotBlockEntityMixin",
-    "touhoulittlemaid.EntityMaidMixin",
     "youkaishomecoming.BasePotBlockEntityMixin",
     "youkaishomecoming.KettleBlockAccessor"
   ]

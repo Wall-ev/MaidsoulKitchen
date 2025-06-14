@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;

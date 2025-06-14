@@ -64,7 +64,9 @@ public enum Mods {
         public boolean isInstalled() {
             return true;
         }
-    };
+    },
+    KC("kaleidoscope_cookery")
+    ;
 
     public final String modId;
     public final boolean isLoaded;
@@ -79,7 +81,7 @@ public enum Mods {
         this.isLoaded = this.isInstalled(versionRange);
     }
 
-    protected boolean isInstalled() {
+    public boolean isInstalled() {
         return ModList.get().isLoaded(modId);
     }
 

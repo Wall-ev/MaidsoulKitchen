@@ -33,7 +33,8 @@ public abstract class AbstractMaidContainerGuiMixin<T extends AbstractMaidContai
     private void tlmk$renderHubSlotHighlight(GuiGraphics graphics, int x, int y, CallbackInfo ci) {
         if (this.menu.getCarried().is(MkItems.CULINARY_HUB.get()) && this.menu.slots.size() >= 55) {
             final int hubSlotIndex = 55;
-            final int color = new Color(44, 255, 44, 96).getRGB();
+//            final int color = new Color(44, 255, 44, 96).getRGB();
+            final int color = 1613561644;
             Slot hubSlot = this.getMenu().getSlot(hubSlotIndex);
             renderSlotHighlight(graphics, hubSlot.x, hubSlot.y, 0, color);
         }

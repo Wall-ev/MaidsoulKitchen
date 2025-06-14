@@ -167,14 +167,33 @@ dependencies {
 
 // libs自动依赖
 dependencies {
+
     if (file("libs/${minecraft_version}/implementation").exists()) {
-        implementation fileTree(dir: "libs/${minecraft_version}/implementation", includes: ['*.jar'])
+        for (final def file in fileTree(dir: "libs/${minecraft_version}/implementation", includes: ['*.jar']).getFiles()) {
+            def name = file.getName()
+            def modName = name.split("-")[0]
+            def ver = name.replace("${modName}-", "").replace(".jar", "")
+            println(">> Add Implementation: file: ${name}, name: ${modName}, ver: ${ver}")
+            implementation fg.deobf("implibs:${name.split("-")[0]}:${ver}")
+        }
     }
     if (file("libs/${minecraft_version}/compileOnly").exists()) {
-        compileOnly fileTree(dir: "libs/${minecraft_version}/compileOnly", includes: ['*.jar'])
+        for (final def file in fileTree(dir: "libs/${minecraft_version}/compileOnly", includes: ['*.jar']).getFiles()) {
+            def name = file.getName()
+            def modName = name.split("-")[0]
+            def ver = name.replace("${modName}-", "").replace(".jar", "")
+            println(">> Add compileOnly: file: ${name}, name: ${modName}, ver: ${ver}")
+            compileOnly fg.deobf("comlibs:${name.split("-")[0]}:${ver}")
+        }
     }
     if (file("libs/${minecraft_version}/runtimeOnly").exists()) {
-        runtimeOnly fileTree(dir: "libs/${minecraft_version}/runtimeOnly", includes: ['*.jar'])
+        for (final def file in fileTree(dir: "libs/${minecraft_version}/runtimeOnly", includes: ['*.jar']).getFiles()) {
+            def name = file.getName()
+            def modName = name.split("-")[0]
+            def ver = name.replace("${modName}-", "").replace(".jar", "")
+            println(">> Add runtimeOnly: file: ${name}, name: ${modName}, ver: ${ver}")
+            runtimeOnly fg.deobf("runlibs:${name.split("-")[0]}:${ver}")
+        }
     }
 }
 

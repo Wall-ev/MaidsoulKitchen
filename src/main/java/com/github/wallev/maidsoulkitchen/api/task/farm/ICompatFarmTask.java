@@ -1,26 +1,29 @@
 package com.github.wallev.maidsoulkitchen.api.task.farm;
 
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
-import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
-import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
+import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
+import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
+import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
+import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public interface ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerInfo, D extends FarmData> extends IMaidsoulKitchenTask, IDataTask<D> {
-
+    Set<Block> BLACK_LIST = new HashSet<>();
 
     IFarmHandlerManager<T>[] getManagerHandlerValues();
 

@@ -8,9 +8,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.List;
 
@@ -18,6 +20,12 @@ import java.util.List;
  * 开启 TLM 调试
  */
 public class EnableMaidDebug {
+
+    public static void init() {
+        if (!FMLEnvironment.production) {
+            MinecraftForge.EVENT_BUS.register(new EnableMaidDebug());
+        }
+    }
 
     // 路径开启
     @SubscribeEvent
@@ -29,9 +37,9 @@ public class EnableMaidDebug {
         Entity entity = event.getEntity();
         if (entity instanceof EntityMaid maid) {
             LivingEntity owner = maid.getOwner();
-            if (owner != null && owner.isAlive()) {
-                if (!DebugMaidManager.getDebuggingPlayer(maid).contains((ServerPlayer)owner)) {
-                    DebugMaidManager.triggerDebuggingMaid((ServerPlayer) owner, maid);
+            if (owner instanceof ServerPlayer serverPlayer && owner.isAlive()) {
+                if (!DebugMaidManager.getDebuggingPlayer(maid).contains(serverPlayer)) {
+                    DebugMaidManager.triggerDebuggingMaid(serverPlayer, maid);
                 }
             }
         }

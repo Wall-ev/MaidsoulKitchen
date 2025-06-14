@@ -4,15 +4,19 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
-import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.github.wallev.maidsoulkitchen.task.farm.FarmType;
+import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
+
+import static com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask.BLACK_LIST;
+import static com.github.wallev.verhelper.IModInfo.LOGGER;
 
 public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandlerInfo {
     private static final Set<BerryHandler> berryHandlers = new HashSet<>();
@@ -52,10 +56,11 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
         if (this.processCanHarvest(maid, cropPos, cropState) != ActionState.DENY) {
             ItemStack toolStack = ItemsUtil.getStack(maid.getAvailableInv(true), predicate);
             if (!toolStack.isEmpty()) {
-                ItemStack toolCopy = toolStack.copy();
-                toolStack.setCount(0);
-                IMaidsoulKitchenMaid.interactUseOnBlockWithItem(maid, cropPos, toolCopy);
-
+                InteractionResult result = WrappedMaidFakePlayer.get(maid).useOnByItem(cropPos, toolStack);
+                if (result == InteractionResult.PASS) {
+                    BLACK_LIST.add(cropState.getBlock());
+                    LOGGER.warn(BLACK_LIST.toString());
+                }
                 return true;
             }
         }
@@ -64,7 +69,11 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
 
     protected final boolean harvestWithoutTool(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         if (this.processCanHarvest(maid, cropPos, cropState) != ActionState.DENY) {
-            IMaidsoulKitchenMaid.interactUseOnBlockWithoutItem(maid, cropPos);
+            InteractionResult result = WrappedMaidFakePlayer.get(maid).useOnByHand(cropPos);
+            if (result == InteractionResult.PASS) {
+                BLACK_LIST.add(cropState.getBlock());
+                LOGGER.warn(BLACK_LIST.toString());
+            }
             return true;
         }
         return false;

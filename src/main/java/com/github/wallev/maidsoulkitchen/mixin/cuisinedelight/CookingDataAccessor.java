@@ -4,7 +4,7 @@ import dev.xkmc.cuisinedelight.content.logic.CookingData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(CookingData.class)
+@Mixin(value = CookingData.class, remap = false)
 public interface CookingDataAccessor {
 
     @Accessor("speed")

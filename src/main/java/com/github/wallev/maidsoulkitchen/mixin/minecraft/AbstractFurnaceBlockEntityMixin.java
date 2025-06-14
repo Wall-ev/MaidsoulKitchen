@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.mixin.minecraft;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IAbstractFurnaceAccessor;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -26,12 +27,12 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
-@Mixin(value = AbstractFurnaceBlockEntity.class)
-public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlockEntity implements IAbstractFurnaceAccessor {
+@Mixin(value = AbstractFurnaceBlockEntity.class, remap = true)
+public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlockEntity implements IAbstractFurnaceAccessor, ICookBeAccessor {
     @Shadow
     @Final
     private Object2IntOpenHashMap<ResourceLocation> recipesUsed;
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private RecipeType<? extends AbstractCookingRecipe> recipeType;
 
@@ -76,5 +77,15 @@ public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlock
         }
         int maxStackSize = this.getMaxStackSize();
         return this.canBurn(level.registryAccess(), recipe, this.items, maxStackSize);
+    }
+
+    @Override
+    public boolean kl$canCook() {
+        return this.tlmk$innerCanCook();
+    }
+
+    @Override
+    public boolean kl$matchCookState() {
+        return this.tlmk$isLit();
     }
 }

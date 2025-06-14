@@ -5,7 +5,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.IChatBubbleDat
 import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.implement.TextChatBubbleData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.maidsoulkitchen.entity.chatbubble.MaidChatBubbleData;
 import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
@@ -57,9 +56,6 @@ public class MaidFeedAnimalTaskT extends MaidCheckRateTask implements VBehaviorC
             if (feedEntity.isAlive() && feedEntity.closerThan(maid, 2)) {
                 ItemStack food = ItemsUtil.getStack(maid.getAvailableInv(false), feedEntity::isFood);
                 if (!food.isEmpty()) {
-                    MaidChatBubbleData bubbleData = MaidChatBubbleData.type2(food.copy());
-                    maid.getChatBubbleManager().addChatBubble(bubbleData);
-
                     food.shrink(1);
                     maid.swing(InteractionHand.MAIN_HAND);
                     feedEntity.setInLove(null);

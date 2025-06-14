@@ -54,7 +54,7 @@ public class TaskInfoButton extends NormalTooltipButton {
         List<Component> components = new ArrayList<>();
         components.add(VComponent.translatable("gui.maidsoulkitchen.widget.cook_guide.task.desc", task.getName()));
         if (task instanceof ICookTask<?, ?> maidTask) {
-            RecipeType<?> recipeType = maidTask.getRecipeType();
+            RecipeType<?> recipeType = maidTask.recSerializerManager.getRecipeType();
             String typeString = recipeType.toString();
 
             components.add(CommonComponents.SPACE);

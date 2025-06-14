@@ -2,13 +2,11 @@ package com.github.wallev.maidsoulkitchen.client.gui.item;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagModeButton;
-import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
-import com.github.wallev.maidsoulkitchen.network.message.ClearCookBagBindPosesMessage;
-import com.github.wallev.maidsoulkitchen.network.message.SetCookBagBindModeMessage;
+import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
@@ -26,8 +24,8 @@ import net.minecraft.world.item.Items;
 import org.anti_ad.mc.ipn.api.IPNIgnore;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 import static com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub.BIND_SIZE;
 
@@ -65,13 +63,13 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
 
             CookBagModeButton cookBagModeButton = new CookBagModeButton(x, y += 22, 100, 20, title, b -> {
             }, Tooltip.create(VComponent.empty().append(title.append(VComponent.literal(String.format("[%s/%s]", bindSize, BIND_SIZE)).withStyle(bindSize < BIND_SIZE ? ChatFormatting.GREEN : ChatFormatting.GRAY)))
-                            .append(VComponent.NEW_LINE)
-                            .append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip")))) {
+                    .append(VComponent.NEW_LINE)
+                    .append(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + value.translateKey + ".tooltip")))) {
                 @Override
                 public void onClick(double pMouseX, double pMouseY) {
                     super.onClick(pMouseX, pMouseY);
                     bindMode = value.name;
-                    NetworkHandler.sendToServer(new SetCookBagBindModeMessage(bindMode));
+                    NetworkHandler.C2S.setCookBagBindMode(bindMode);
                 }
 
                 @Override
@@ -91,7 +89,7 @@ public class CookBagConfigContainerGui extends CookBagAbstractContainerGui<CookB
         }
 
         Button clearButton = Button.builder(VComponent.translatable("gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses").withStyle(ChatFormatting.YELLOW), b -> {
-                    NetworkHandler.sendToServer(new ClearCookBagBindPosesMessage());
+                    NetworkHandler.C2S.clearCookBagBindPoses();
                     onClose();
                 })
                 .bounds(x, y += 22, 100, 20)

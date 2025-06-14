@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.task.farm.ai;
 
-import com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
@@ -32,7 +31,6 @@ public class MaidCompatFarmMoveTask<T extends ICompatFarmHandler & ICompatHandle
 
     @Override
     protected boolean shouldMoveTo(ServerLevel serverLevel, EntityMaid entityMaid, BlockPos blockPos) {
-        ((IMaidsoulKitchenMaid)entityMaid).tlmk$initFakePlayer();
         BlockState cropState = serverLevel.getBlockState(blockPos);
         return this.task.canHarvest(entityMaid, blockPos, cropState, this.compatFarmHandler);
     }

@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.compat.patchouli.event;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;

@@ -73,7 +73,7 @@ dependencies {
 // 联动(存储)
 dependencies {
     if (!storagedrawers_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:storagedrawers:${storagedrawers_version}-${mod_loader},${minecraft_version}")
+        compileOnly fg.deobf("maven.modrinth:storagedrawers:${storagedrawers_version}-${mod_loader},${minecraft_version}")
     if (!toms_storage_version.isEmpty())
         implementation fg.deobf("maven.modrinth:toms-storage:${toms_storage_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_core_version.isEmpty())
@@ -163,6 +163,8 @@ dependencies {
 }
 
 dependencies {
+    if (!create_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:create:${create_version}-${mod_loader},${minecraft_version}")
 //    if (!pneumaticcraft_repressurized_version.isEmpty())
 //        implementation fg.deobf("maven.modrinth:pneumaticcraft-repressurized:${pneumaticcraft_repressurized_version}-${mod_loader},${minecraft_version}")
 }

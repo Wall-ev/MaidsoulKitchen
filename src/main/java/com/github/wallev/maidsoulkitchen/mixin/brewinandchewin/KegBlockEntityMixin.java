@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.mixin.brewinandchewin;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.ICbeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(value = KegBlockEntity.class, remap = false)
-public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperinceAward {
+public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperinceAward, ICookBeAccessor {
 
     @Shadow
     @Final
@@ -49,5 +50,12 @@ public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperi
     public void tlmk$awardExperience(Entity entity) {
         this.getUsedRecipesAndPopExperience(entity.level, entity.position());
         this.usedRecipeTracker.clear();
+    }
+
+    @Override
+    public boolean kl$canCook() {
+       return this.getMatchingRecipe(this.recipeWrapper)
+                .map(r -> this.canFerment(r, this.kl$cast()))
+                .orElse(false);
     }
 }

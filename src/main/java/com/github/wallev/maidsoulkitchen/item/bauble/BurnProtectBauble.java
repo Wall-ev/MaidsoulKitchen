@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.item.bauble;
 
-import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenBauble;
+import com.github.wallev.maidsoulkitchen.api.bauble.IMaidsoulKitchenBauble;
 import com.github.wallev.maidsoulkitchen.datagen.ModDamageTypeTags;
 import com.github.wallev.maidsoulkitchen.init.MkEffects;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAttackEvent;

@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBFS;
-import com.github.wallev.maidsoulkitchen.api.entry.TaskBookEntryType;
+import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
@@ -29,8 +29,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
-
-import static com.github.wallev.maidsoulkitchen.entity.passive.IMaidsoulKitchenMaid.BLACK_LIST;
 
 
 public class TaskBerryFarm implements ICompatFarmTask<BerryHandler, BerryData> {

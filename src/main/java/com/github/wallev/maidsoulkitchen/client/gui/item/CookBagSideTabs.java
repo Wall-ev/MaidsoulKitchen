@@ -4,7 +4,6 @@ import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CookBagGuiSide
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
-import com.github.wallev.maidsoulkitchen.network.message.ToggleCookBagGuiSideTabMessage;
 import net.minecraft.client.gui.components.Button;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainer
     public CookBagGuiSideTabButton[] getTabs(CookBagAbstractContainerGui<T> gui) {
         // 任务配置界面按钮
         CookBagGuiSideTabButton taskConfig = genSideTabButton(SideTab.TASK_CONFIG, b -> {
-            NetworkHandler.sendToServer(new ToggleCookBagGuiSideTabMessage(0));
+            NetworkHandler.C2S.toggleCookBagGuiSideTab(0);
         });
         if (gui instanceof CookBagConfigContainerGui) {
             taskConfig.active = false;
@@ -28,7 +27,7 @@ public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainer
 
         // 跳转帕秋莉手册按钮
         CookBagGuiSideTabButton taskBook = genSideTabButton(SideTab.TASK_BOOK, (b) -> {
-            NetworkHandler.sendToServer(new ToggleCookBagGuiSideTabMessage(1));
+            NetworkHandler.C2S.toggleCookBagGuiSideTab(1);
         });
         if (gui instanceof CookBagGui) {
             taskBook.active = false;
