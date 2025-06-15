@@ -42,14 +42,7 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
         super(CrockPotRecipes.CROCK_POT_COOKING_RECIPE_TYPE.get());
     }
 
-    private static void removeNoRequiresItems(List<Pair<RequirementCategoryMax, Set<Item>>> noRequires, Map<ItemDefinition, Long> available) {
-        for (Pair<RequirementCategoryMax, Set<Item>> noRequire : noRequires) {
-            Set<Item> nonItems = noRequire.getSecond();
-            available.keySet().removeAll(nonItems);
-        }
-    }
-
-    private static <IR extends IRequirement> boolean processRequires(int times, List<Pair<IR, Set<Item>>> requirementItems, Map<ItemDefinition, Long> available, int[] leftUnlockSlot, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+    private static <IR extends IRequirement> boolean processRequires(int times, List<Pair<IR, Set<Item>>> requirementItems, Map<ItemDefinition, Long> available, int[] leftUnlockSlot, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         if (requirementItems.isEmpty()) {
             return true;
         }
@@ -65,16 +58,16 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
                     if (quireItems.contains(item)) {
                         hasIngredient = true;
                         leftUnlockSlot[0]--;
-                        invIngredient.add(item);
+                        invIngredient.add(key);
 
                         int amount;
                         if (item.getMaxStackSize() == 1) {
                             single[0] = true;
                             ItemAmount itemAmount = new ItemAmount(1);
-                            itemTimes.put(item, itemAmount);
+                            itemTimes.put(key, itemAmount);
                             amount = itemAmount.needCount();
                         } else {
-                            ItemAmount itemAmount = itemTimes.computeIfAbsent(item, k -> new ItemAmount(1, 0));
+                            ItemAmount itemAmount = itemTimes.computeIfAbsent(key, k -> new ItemAmount(1, 0));
                             itemAmount.addCount();
                             amount = itemAmount.needCount();
                         }
@@ -96,20 +89,20 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
     }
 
     @Override
-    protected MaidRec recProcess(MKRecipe<CrockPotCookingRecipe> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> recProcess(MKRecipe<CrockPotCookingRecipe> r, Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
         MKCrockPotRecipe cookRec = (MKCrockPotRecipe) r;
 
         HashMap<ItemDefinition, Long> retainAvailable = Maps.newHashMap(available);
         // 捕获所有合法的原材料
         retainAvailable.keySet().retainAll(cookRec.validInItemDefinitions());
         if (retainAvailable.isEmpty()) {
-            return MaidRec.EMPTY;
+            return Collections.emptyList();
         }
 
         // 移除不符合配方的原材料
-        removeNoRequiresItems(cookRec.getNoRequires(), retainAvailable);
+        ((MKCrockPotRecipe)r).getNoRequiresItemDefinitions().forEach(retainAvailable.keySet()::remove);
         if (retainAvailable.isEmpty()) {
-            return MaidRec.EMPTY;
+            return Collections.emptyList();
         }
 
         List<List<Pair<IRequirement, Set<Item>>>> needRequires = cookRec.getNeedRequires();
@@ -121,7 +114,7 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
                 // 任意
                 boolean processRequires = processRequires(1, needRequire, retainAvailable, leftUnlockSlot, single, invIngredient, itemTimes);
                 if (!processRequires) {
-                    return MaidRec.EMPTY;
+                    return Collections.emptyList();
                 }
                 if (leftUnlockSlot[0] == 0) {
                     return createCookRec(r, available, single, invIngredient, itemTimes);
@@ -139,7 +132,7 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
                 boolean processRequires = processRequires(needRequire.isEmpty() ? 0 : needRequire.size() >= leftUnlockSlot[0] ? 1 : leftUnlockSlot[0],
                         needRequire, retainAvailable, leftUnlockSlot, single, invIngredient, itemTimes);
                 if (!processRequires) {
-                    return MaidRec.EMPTY;
+                    return Collections.emptyList();
                 }
                 if (leftUnlockSlot[0] == 0) {
                     return createCookRec(r, available, single, invIngredient, itemTimes);
@@ -147,7 +140,7 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
             }
         }
 
-        return MaidRec.EMPTY;
+        return Collections.emptyList();
 
     }
 

@@ -42,55 +42,57 @@ public abstract class FluidRecSerializerManager<R extends Recipe<? extends Conta
     protected abstract void initFluidRecs(Level level);
 
     @Override
-    protected MaidRec recProcess(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
-        ItemStack fluidItemAmount = processRecFluids(available, invIngredient, single, itemTimes, r.inFluids());
+    protected List<MaidRec> recProcess(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
+        ItemDefinition fluidItemAmount = processRecFluids(available, invIngredient, single, itemTimes, r.inFluids());
         if (fluidItemAmount == null) {
-            return MaidRec.EMPTY;
+            return Collections.emptyList();
         }
 
         boolean processRecIngres = super.processRecIngres(r, available, invIngredient, single, itemTimes);
         if (!processRecIngres) {
-            return MaidRec.EMPTY;
+            return Collections.emptyList();
         }
 
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
         int recAmount = getMaxAmount(available, single, itemTimes);
-        Item fluidItem = fluidItemAmount.getItem();
-        for (Item item : invIngredient) {
-            if (fluidItem == item) {
-                continue;
-            }
-            int minAmount = itemTimes.get(item).getAmount();
-            int count = recAmount * minAmount;
-
-            maidItems.add(new MaidItem(item, count));
-            ItemDefinition itemDefinition = ItemDefinition.of(item);
-            available.put(itemDefinition, available.get(itemDefinition) - count);
+        int amount = recAmount;
+        if (single[0] || r.isSingle()) {
+            amount = 1;
         }
 
-        return new MaidRec(r.rec(), result, recAmount, maidItems, new MaidItem(fluidItem, fluidItemAmount.getCount() * recAmount));
+        for (ItemDefinition item : invIngredient) {
+            int minAmount = itemTimes.get(item).getAmount();
+            int count = amount * minAmount;
+
+            maidItems.add(new MaidItem(item, count));
+            available.merge(item, (long) count, (a, b) -> a - b);
+        }
+        MaidItem fluidItem = maidItems.remove(0);
+
+        MaidRec maidRec = new MaidRec(r.rec(), result, amount, maidItems, fluidItem);
+        return this.generateRecs(maidRec, recAmount);
     }
 
-    protected ItemStack processRecFluids(Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes, List<ItemStack> inFluids) {
+    protected ItemDefinition processRecFluids(Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes, List<ItemStack> inFluids) {
         for (ItemStack inFluid : inFluids) {
             for (Map.Entry<ItemDefinition, Long> entry : available.entrySet()) {
                 ItemDefinition key = entry.getKey();
                 Item item = key.item();
 
                 ItemStack stack = key.stack();
-                if (inFluid.is(stack.getItem()) && available.get(item) >= inFluid.getCount()) {
-                    invIngredient.add(item);
+                if (inFluid.is(stack.getItem()) && available.get(key) >= inFluid.getCount()) {
+                    invIngredient.add(key);
 
                     int amount;
                     ItemAmount itemAmount;
                     if (stack.getMaxStackSize() == 1) {
                         single[0] = true;
                         itemAmount = new ItemAmount(inFluid.getCount(), 1);
-                        itemTimes.put(item, itemAmount);
+                        itemTimes.put(key, itemAmount);
                         amount = itemAmount.needCount();
                     } else {
-                        itemAmount = itemTimes.computeIfAbsent(item, k -> {
+                        itemAmount = itemTimes.computeIfAbsent(key, k -> {
                             ItemAmount itemAmount1 = new ItemAmount(inFluid.getCount(), 1);
                             return itemAmount1;
                         });
@@ -100,7 +102,7 @@ public abstract class FluidRecSerializerManager<R extends Recipe<? extends Conta
                     if (entry.getValue() < amount) {
                         return null;
                     } else {
-                        return inFluid;
+                        return key;
                     }
 
                 }
@@ -208,5 +210,10 @@ public abstract class FluidRecSerializerManager<R extends Recipe<? extends Conta
         }
 
         public abstract Fluid getOutputFluid(RecSerializerManager<R> rsm, R rec);
+
+        @Override
+        public boolean isSingle(RecSerializerManager<R> rsm, R rec) {
+            return true;
+        }
     }
 }

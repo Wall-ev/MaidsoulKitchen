@@ -12,9 +12,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.maidsoulkitchen.util.InvUtil;
-import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
-import com.github.wallev.maidsoulkitchen.util.TileUtil;
+import com.github.wallev.maidsoulkitchen.util.*;
 import com.github.wallev.verhelper.server.item.VItemStack;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -46,12 +44,12 @@ public class MaidRecipesManager2<R extends Recipe<? extends Container>> {
     protected List<MKRecipe<R>> rec = new ArrayList<>();
     protected List<MKRecipe<R>> currentRecs = new ArrayList<>();
     protected ICookInventory cookInv;
+    protected ItemInventory itemInventory;
     protected boolean hasCulinaryHub;
     protected Map<BagType, List<BlockPos>> bindingPoses;
     protected int tryTime = 0;
 
     protected LinkedList<MaidRec> maidRecs = new LinkedList<>();
-    protected Map<Item, LinkedList<ItemStack>> invIngredients = new HashMap<>();
 
     public MaidRecipesManager2(RecSerializerManager<R> recSerializerManager, EntityMaid maid, ICookTask<?, R> task, CookBeBase<?> cookBeBase) {
         this.recSerializerManager = recSerializerManager;
@@ -73,20 +71,26 @@ public class MaidRecipesManager2<R extends Recipe<? extends Container>> {
         return this.maidRecs.poll();
     }
 
-    public Map<Item, LinkedList<ItemStack>> getInvIngredients() {
-        return invIngredients;
+    public Map<ItemDefinition, LinkedList<ItemStack>> getInvIngredients() {
+        return itemInventory.getStacksMap();
+    }
+
+    public ItemInventory getItemInventory() {
+        return itemInventory;
     }
 
     public void updateInvIngredients() {
-        for (LinkedList<ItemStack> value : this.invIngredients.values()) {
-            for (ItemStack itemStack : value) {
-                if (itemStack != null) {
-                    break;
-                } else {
-                    value.remove();
-                }
-            }
-        }
+        itemInventory.update();
+
+//        for (LinkedList<ItemStack> value : this.invIngredients.values()) {
+//            for (ItemStack itemStack : value) {
+//                if (itemStack != null) {
+//                    break;
+//                } else {
+//                    value.remove();
+//                }
+//            }
+//        }
     }
 
     private boolean initInvData() {
@@ -95,6 +99,7 @@ public class MaidRecipesManager2<R extends Recipe<? extends Container>> {
             this.bindingPoses = ItemCulinaryHub.getBindPoses(this.findCulinaryHub());
             //@todo
             this.cookInv = this.enableHub() ? this.initCookInv() : new MaidInventory(maid, false);
+            this.itemInventory = cookInv.itemInventory;
 
             return true;
         }
@@ -387,18 +392,18 @@ public class MaidRecipesManager2<R extends Recipe<? extends Container>> {
     }
 
     private void createRecipesIngredients() {
-        this.init();
+        TimeUtil.record(() -> {
+            this.init();
+            // 将CookBag里无用的配方原料放回原料箱子
+            this.itemUnIngre2Chest();
+            // 获取原料箱子配方原料并置入CookBag
+            this.mapChestIngredient();
+            this.cookInv.refreshInv();
 
-
-        // 将CookBag里无用的配方原料放回原料箱子
-        this.itemUnIngre2Chest();
-        // 获取原料箱子配方原料并置入CookBag
-        this.mapChestIngredient();
-        this.cookInv.refreshInv();
-
-        this.currentRecs = this.getRecs();
-        this.createIngres();
-        this.currentRecs = Collections.emptyList();
+            this.currentRecs = this.getRecs();
+            this.createIngres();
+            this.currentRecs = Collections.emptyList();
+        }, "MaidRecipesManager2#CreateRecipesIngredients");
     }
 
     public void itemOutput2Chest() {
@@ -410,24 +415,40 @@ public class MaidRecipesManager2<R extends Recipe<? extends Container>> {
     }
 
     protected void createIngres() {
-        this.invIngredients = this.getCookInv().getInventoryStackQueue();
-
-        Map<ItemDefinition, Long> available = new HashMap<>(this.cookInv.itemInventory.getStacks());
+        Map<ItemDefinition, Long> available = new HashMap<>(itemInventory.getStacks());
         this.maidRecs = recSerializerManager.createMaidRecs(this.currentRecs, available, this::recAdd, this::recIsValid);
+
+        if (maidRecs.isEmpty()) {
+
+        } else {
+            Map<ItemStack, Integer> resultsMap = new HashMap<>();
+            List<ItemStack> results = new ArrayList<>();
+
+            for (MaidRec maidRec : maidRecs) {
+                ItemStack result = maidRec.result();
+                resultsMap.put(result, resultsMap.getOrDefault(result, 0) + 1);
+            }
+
+            for (Map.Entry<ItemStack, Integer> entry : resultsMap.entrySet()) {
+                ItemStack key = entry.getKey();
+                int value = entry.getValue();
+                ItemStack copy = key.copyWithCount(key.getCount() * value);
+                results.add(copy);
+            }
+
+            BubbleUtil.makeResultsBubble(maid, results);
+        }
+
     }
 
     public void clear() {
     }
 
-    protected void recAdd(MKRecipe<R> r, int index) {
+    protected void recAdd(MKRecipe<R> r, MaidConditionRecipesManager2.IndexRange indexRange) {
     }
 
     protected boolean recIsValid(MKRecipe<R> r) {
         return true;
-    }
-
-    protected Map<Item, Integer> getMaidAvailableInv() {
-        return new HashMap<>(getCookInv().getInventoryItem());
     }
 
     protected ICookInventory getCookInv() {

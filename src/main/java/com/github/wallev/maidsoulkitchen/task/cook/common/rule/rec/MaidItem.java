@@ -1,11 +1,10 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
 
-public record MaidItem(Item item, int count) {
+public record MaidItem(ItemDefinition item, int count) {
 
-    public static final MaidItem EMPTY = new MaidItem(ItemStack.EMPTY.getItem(), 0);
+    public static final MaidItem EMPTY = new MaidItem(ItemDefinition.EMPTY, 0);
 
     public boolean isEmpty() {
         return this == EMPTY;

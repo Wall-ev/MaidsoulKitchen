@@ -72,6 +72,12 @@ public interface IInvHandler {
         return (IC0) this;
     }
 
+    boolean kl$canPlaceItem(int slot, ItemStack stack);
+
+    boolean kl$canTakeItem(int slot, ItemStack stack);
+
+    int kl$getSlotLimit(int slot);
+
     default IItemHandler kl$itemHandler() {
         return this.kl$castAny();
     }

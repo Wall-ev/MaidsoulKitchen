@@ -158,7 +158,7 @@ public class FrKettleRecSerializerManager extends FluidRecSerializerManager<Kett
                 }
             }
 
-            mkRecipes.add(new MKRecipe<>(recipe, inFluids, RecIngredient.to(recipe.getIngredients()), output, recipeInfoProvider.getContainer(this, recipe)));
+            mkRecipes.add(new MKRecipe<>(recipe, true, inFluids, RecIngredient.from(recipe.getIngredients()), output, recipeInfoProvider.getContainer(this, recipe)));
         }
         this.recipes = mkRecipes;
     }

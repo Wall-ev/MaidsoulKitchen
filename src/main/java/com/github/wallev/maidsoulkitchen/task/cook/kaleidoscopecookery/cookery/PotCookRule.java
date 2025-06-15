@@ -3,13 +3,13 @@ package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
-import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
+import com.github.wallev.maidsoulkitchen.util.BubbleUtil;
 import com.github.wallev.maidsoulkitchen.util.InvUtil;
-import com.github.wallev.maidsoulkitchen.util.MaidUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.PotRecipe;
@@ -19,9 +19,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
-
-import java.util.LinkedList;
-import java.util.Map;
 
 public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     public static final Item CONTAINER = Items.BOWL;
@@ -47,7 +44,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
         if (potBlockEntity.getStatus() == 2) {
             if (potBlockEntity.isNeedBowl()) {
                 ItemStack container = rm.getItem(BagType.OUTPUT_ADDITION, CONTAINER);
-                cookBeBase.useItem(container);
+                return !container.isEmpty();
             } else {
                 IItemHandlerModifiable inputInv = rm.getInputInv();
                 ItemStack shovel = InvUtil.getStack(inputInv, ModItems.KITCHEN_SHOVEL.get());
@@ -121,42 +118,39 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
             EntityMaid maid = rm.getMaid();
             IItemHandlerModifiable inputInv = rm.getInputInv();
             MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-            Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
+            ItemInventory itemInventory = rm.getItemInventory();
 
             ItemStack oil = maidRec.oil();
-            ItemStack oilItem = this.contItemStack(oil, invIngredients);
+            ItemStack oilItem = this.getItem(oil.getItem(), itemInventory);
             if (oilItem.isEmpty()) {
                 this.stop();
                 return;
             }
             potBe.useItem(oilItem);
 
-//            potBe.insertInputs(maidRec, invIngredients);
+            potBe.insertInputs(maidRec, itemInventory);
 
-            int index = 0;
-            for (MaidItem maidItem : maidRec.maidItems()) {
-                if (!maidItem.isEmpty()) {
-                    Item item = maidItem.item();
-                    int amount = 1;
-                    cookBeBase.insertAndShrink(cookBeBase.getInv(), amount, invIngredients.get(item), index++);
-                    MaidUtil.pickupAction(maid);
-                }
+            ItemStack toolItemStack = maidRec.tool();
+            ItemStack swappedTool = this.swapTool(toolItemStack, itemInventory, maid, InteractionHand.MAIN_HAND, inputInv);
+            if (swappedTool.isEmpty()) {
+                this.stop();
+                return;
             }
-
-            ItemStack tool = this.getItem(maidRec.tool(), invIngredients);
-            ItemStack swapTool = this.swapItem(InteractionHand.MAIN_HAND, tool, maid, inputInv);
-            this.kitchenShovel = swapTool;
+            this.kitchenShovel = swappedTool;
 
             PotRecipe potRecipe = maidRec.recCast();
             if (potRecipe.isNeedBowl()) {
                 this.needBowl = true;
-                this.bowl = this.contItemStack(maidRec.container(), invIngredients);
+                ItemStack container = maidRec.container();
+                this.bowl = this.getItem(container.getItem(), itemInventory);
             }
 
             this.stirFryMinCount = potRecipe.getStirFryCount();
             this.time = potRecipe.getTime();
 
             this.stirFrySpace = (time - 20) / stirFryMinCount;
+
+            BubbleUtil.makeResultsBubble(maid, maidRec.result(), maidRec.time() + 20);
         } else {
             this.stop();
         }
@@ -166,22 +160,34 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     @Override
     public void tickCookMake(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
         IItemHandlerModifiable inputInv = rm.getInputInv();
+        ItemInventory itemInventory = rm.getItemInventory();
         if (tick++ % stirFrySpace == 0) {
             if (maid.getMainHandItem() != kitchenShovel) {
-                this.swapItem(InteractionHand.MAIN_HAND, kitchenShovel, maid, inputInv);
+                ItemStack swappedTool = this.swapTool(kitchenShovel, itemInventory, maid, InteractionHand.MAIN_HAND, inputInv);
+                if (swappedTool.isEmpty()) {
+                    this.stop();
+                    return;
+                }
+//                this.kitchenShovel = swappedTool;
+//
+//                this.swapItem(InteractionHand.MAIN_HAND, kitchenShovel, maid, inputInv);
             }
 
             player.useOnByHand(pos);
             return;
         }
 
-        if (be.getStatus() == 2) {
-            ItemStack handItem = ItemStack.EMPTY;
+        if (be.getStatus() == 2 || tick - 30 > time) {
             if (needBowl) {
-                handItem = this.swapItem(InteractionHand.MAIN_HAND, bowl, maid, inputInv);
-                player.useOnByItem(pos, handItem);
+                InteractionResult result = player.useOnByItem(pos, bowl);
+                if (!result.consumesAction()) {
+                    int a = 1;
+                }
             } else {
-                player.useOnByItem(pos, maid.getMainHandItem(), true);
+                InteractionResult result = player.useOnByItem(pos, maid.getMainHandItem(), true);
+                if (!result.consumesAction()) {
+                    int a = 1;
+                }
             }
             this.stop();
         }
@@ -190,7 +196,12 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
             int nextInt = maid.getRandom().nextInt(1, 10);
             if (tick % nextInt == 0) {
                 if (maid.getMainHandItem() != kitchenShovel) {
-                    this.swapItem(InteractionHand.MAIN_HAND, kitchenShovel, maid, inputInv);
+//                    this.swapItem(InteractionHand.MAIN_HAND, kitchenShovel, maid, inputInv);
+                    ItemStack swappedTool = this.swapTool(kitchenShovel, itemInventory, maid, InteractionHand.MAIN_HAND, inputInv);
+                    if (swappedTool.isEmpty()) {
+                        this.stop();
+                        return;
+                    }
                 }
 
                 player.useOnByHand(pos);
@@ -208,6 +219,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
         super.tickStop(cookBeBase, rm);
         kitchenShovel = ItemStack.EMPTY;
         bowl = ItemStack.EMPTY;
+        needBowl = false;
         stirFrySpace = 0;
         stirFryMinCount = 0;
         time = 0;

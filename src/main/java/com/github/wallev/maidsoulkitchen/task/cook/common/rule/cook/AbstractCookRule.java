@@ -1,10 +1,18 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.implement.TextChatBubbleData;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
+import com.github.wallev.verhelper.client.chat.VComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.util.List;
 
 /**
  * 使用 {@link AbstractCookRule#getOrCreate()} 获取实例

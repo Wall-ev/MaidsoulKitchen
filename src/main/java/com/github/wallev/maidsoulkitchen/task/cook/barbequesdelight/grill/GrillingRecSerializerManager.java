@@ -27,7 +27,7 @@ public class GrillingRecSerializerManager extends RecSerializerManager<GrillingR
     public static class GrillingRecipeInfoProvider extends RecipeInfoProvider<GrillingRecipe<?>> {
         @Override
         public List<RecIngredient> getIngredients(RecSerializerManager<GrillingRecipe<?>> rsm, GrillingRecipe<?> rec) {
-            return RecIngredient.to(List.of(((SimpleGrillingRecipe) rec).ingredient));
+            return RecIngredient.from(List.of(((SimpleGrillingRecipe) rec).ingredient));
         }
     }
 }

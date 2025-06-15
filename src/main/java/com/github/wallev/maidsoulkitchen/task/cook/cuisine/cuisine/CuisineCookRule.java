@@ -5,6 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.mixin.cuisinedelight.CookingDataAccessor;
 import com.github.wallev.maidsoulkitchen.mixin.cuisinedelight.CookingEntryAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
@@ -121,7 +123,7 @@ public class CuisineCookRule extends TickCookRule<CuisineSkilletBlockEntity, Bas
         }
 
         MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-        Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
+        ItemInventory itemInventory = rm.getItemInventory();
         if (maidRec == null) {
             this.tickStop(cookBeBase, rm);
             cuisineSkilletBlockEntity.sync();
@@ -129,7 +131,7 @@ public class CuisineCookRule extends TickCookRule<CuisineSkilletBlockEntity, Bas
         }
 
         for (MaidItem maidItem : maidRec.maidItems()) {
-            ItemStack itemStack = contItemStack(maidItem, invIngredients);
+            ItemStack itemStack = contItemStack(maidItem, itemInventory);
             if (!itemStack.isEmpty()) {
                 IngredientConfig.IngredientEntry entry = IngredientConfig.get().getEntry(itemStack);
                 if (entry != null) {

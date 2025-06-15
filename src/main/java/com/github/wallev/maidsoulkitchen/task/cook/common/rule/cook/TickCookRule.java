@@ -2,6 +2,8 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
@@ -56,6 +58,29 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
         return swapItemCopy;
     }
 
+    public ItemStack swapTool(ItemStack toolItemStack, ItemInventory itemInventory, EntityMaid maid, InteractionHand hand, IItemHandler inv) {
+        ItemStack itemInHand = maid.getItemInHand(hand);
+        if (itemInHand.is(toolItemStack.getItem())) {
+            return itemInHand;
+        }
+
+        LinkedList<ItemStack> toolStacks = itemInventory.getItemStacks(toolItemStack);
+        LinkedList<ItemStack> toolStacks0 = itemInventory.getItemStacks(ItemDefinition.of(toolItemStack));
+        if (toolStacks.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack swapItemCopy = toolStacks.poll().copyAndClear();
+        maid.setItemInHand(hand, swapItemCopy);
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inv, itemInHand, false);
+        if (!leftStack.isEmpty()) {
+            maid.level.addFreshEntity(new ItemEntity(maid.level, maid.getX(), maid.getY(), maid.getZ(), leftStack));
+        }
+        toolStacks.addFirst(swapItemCopy);
+        toolStacks0.set(0, swapItemCopy);
+        return swapItemCopy;
+    }
+
 //    public ItemStack swapItem(InteractionHand hand, ItemStack itemStack, EntityMaid maid, IItemHandler inv) {
 //        ItemStack swapItemCopy = itemStack.copyAndClear();
 //
@@ -68,41 +93,50 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
 //        return swapItemCopy;
 //    }
 
-    public ItemStack getItem(ItemStack itemStack, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        Queue<ItemStack> itemStacks = invIngredients.get(itemStack.getItem());
+    public ItemStack getItem(ItemDefinition definition, ItemInventory itemInventory) {
+        LinkedList<ItemStack> itemStacks = itemInventory.getItemStacks(definition);
         return itemStacks.isEmpty() ? ItemStack.EMPTY : itemStacks.peek();
     }
 
-    public ItemStack contItemStack(ItemStack itemStack, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        return this.contItemStack(itemStack.getItem(), itemStack.getCount(), invIngredients);
+    public ItemStack getItem(Item item, ItemInventory itemInventory) {
+        LinkedList<ItemStack> itemStacks = itemInventory.getItemStacks(item);
+        return itemStacks.isEmpty() ? ItemStack.EMPTY : itemStacks.peek();
     }
 
-    public ItemStack contItemStack(MaidItem maidItem, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        return this.contItemStack(maidItem.item(), maidItem.count(), invIngredients);
+    public ItemStack contItemStack(Item item, int count, ItemInventory itemInventory) {
+        return this.contItemStack(count, itemInventory.getItemStacks(item));
     }
 
-    public ItemStack contItemStack(Item item, int containerAmount, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        LinkedList<ItemStack> itemStacks1 = invIngredients.get(item);
-        if (itemStacks1 == null || itemStacks1.isEmpty()) {
+    public ItemStack contItemStack(MaidItem maidItem, ItemInventory itemInventory) {
+        return this.contItemStack(maidItem.item(), maidItem.count(), itemInventory);
+    }
+
+    public ItemStack contItemStack(ItemDefinition definition, int containerAmount, ItemInventory itemInventory) {
+        LinkedList<ItemStack> stackList = itemInventory.getItemStacks(definition);
+        return contItemStack(containerAmount, stackList);
+    }
+
+    public ItemStack contItemStack(int containerAmount, LinkedList<ItemStack> stackList) {
+        if (stackList == null || stackList.isEmpty()) {
             return ItemStack.EMPTY;
         }
 
-        ItemStack contItemStack = itemStacks1.poll();
+        ItemStack contItemStack = stackList.poll();
         containerAmount -= contItemStack.getCount();
         while (containerAmount > 0) {
-            ItemStack poll = itemStacks1.poll();
-            if (poll == null) {
+            ItemStack peek = stackList.peek();
+            if (peek == null) {
                 return contItemStack;
             }
 
-            int count = poll.getCount();
+            int count = peek.getCount();
             if (count >= containerAmount) {
                 contItemStack.grow(containerAmount);
-                poll.shrink(containerAmount);
+                peek.shrink(containerAmount);
                 break;
             } else {
                 contItemStack.grow(count);
-                poll.shrink(count);
+                stackList.removeFirst();
                 containerAmount -= count;
                 if (containerAmount <= 0) {
                     break;

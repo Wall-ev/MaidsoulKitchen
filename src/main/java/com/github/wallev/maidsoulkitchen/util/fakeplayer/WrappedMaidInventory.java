@@ -341,7 +341,7 @@ public class WrappedMaidInventory extends Inventory {
 
     @Override
     public boolean canPlaceItem(int index, ItemStack stack) {
-        return false;
+        return true;
     }
 
     @Override

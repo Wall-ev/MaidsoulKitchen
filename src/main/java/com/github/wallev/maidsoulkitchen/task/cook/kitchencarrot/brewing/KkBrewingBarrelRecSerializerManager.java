@@ -8,7 +8,6 @@ import io.github.tt432.kitchenkarrot.registries.ModItems;
 import io.github.tt432.kitchenkarrot.registries.RecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class KkBrewingBarrelRecSerializerManager extends RecSerializerManager<Br
     public static class BrewingBarrelRecipeInfoProvider extends RecipeInfoProvider<BrewingBarrelRecipe> {
         @Override
         public List<RecIngredient> getIngredients(RecSerializerManager<BrewingBarrelRecipe> rsm, BrewingBarrelRecipe rec) {
-            return RecIngredient.to(rec.getIngredient());
+            return RecIngredient.from(rec.getIngredient());
         }
     }
 }

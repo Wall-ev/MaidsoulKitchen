@@ -40,7 +40,7 @@ public class AirCompressorRecSerializerManager extends RecSerializerManager<AirC
             if (container != null) {
                 ingredients.add(container);
             }
-            return RecIngredient.to(ingredients);
+            return RecIngredient.from(ingredients);
         }
     }
 }

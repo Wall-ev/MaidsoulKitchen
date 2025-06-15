@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
 import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -15,7 +16,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -33,38 +37,43 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, Integer> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid) {
-        if (!available.containsKey(ItemDefinition.of(KITCHEN_SHOVEL))) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, MaidConditionRecipesManager2.IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid) {
+        if (!available.containsKey(getKitchenShovelDef())) {
             return EMPTY_LIST;
         }
         return super.createMaidRecs(recs, available, successAdd, rIsValid);
     }
 
     @Override
-    protected boolean processRecIngres(MKRecipe<PotRecipe> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+    protected boolean processRecIngres(MKRecipe<PotRecipe> r, Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
         return super.processRecIngres(r, available, invIngredient, single, itemTimes);
     }
 
     @Override
-    protected MaidRec createCookRec(MKRecipe<PotRecipe> r, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> createCookRec(MKRecipe<PotRecipe> r, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
         int recAmount = getMaxAmount(available, single, itemTimes);
-        for (Item item : invIngredient) {
-            int minAmount = itemTimes.get(item).getAmount();
+        int amount = recAmount;
+        if (single[0] || r.isSingle()) {
+            amount = 1;
+        }
 
-            int count = recAmount * minAmount;
-            maidItems.add(new MaidItem(item, count));
-            ItemDefinition itemDefinition = ItemDefinition.of(item);
-            available.put(itemDefinition, available.get(itemDefinition) - count);
+        for (ItemDefinition definition : invIngredient) {
+            int minAmount = itemTimes.get(definition).getAmount();
+
+            int count = amount * minAmount;
+            maidItems.add(new MaidItem(definition, count));
+            available.put(definition, available.get(definition) - (long) count * recAmount);
         }
         maidItems.remove(0);
         if (r.rec().isNeedBowl()) {
             maidItems.remove(maidItems.size() - 1);
         }
 
-        return new MaidRec(r.rec(), result, recAmount, OIL.getDefaultInstance(), KITCHEN_SHOVEL.getDefaultInstance(), CONTAINER.getDefaultInstance(),
+        MaidRec maidRec = new MaidRec(r.rec(), r.rec().getTime(), result, amount, getOil().getDefaultInstance(), getKitchenShovel().getDefaultInstance(), getContainer().getDefaultInstance(),
                 maidItems, MaidItem.EMPTY);
+        return this.generateRecs(maidRec, recAmount);
     }
 
     @Override
@@ -73,16 +82,67 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     }
 
     public static class PotRecipeInfoProvider extends RecipeInfoProvider<PotRecipe> {
-        public static final Item OIL = ModItems.OIL.get();
-        public static final Item CONTAINER = Items.BOWL;
-        public static final Item KITCHEN_SHOVEL = ModItems.KITCHEN_SHOVEL.get();
-        public static final Item FLINT = Items.FLINT_AND_STEEL;
-        public static final Ingredient CONTAINER_INGREDIENT = Ingredient.of(CONTAINER.getDefaultInstance());
+        private static Item OIL;
+        private static Ingredient OIL_IND;
+        private static Item CONTAINER;
+        private static Item KITCHEN_SHOVEL;
+        private static Item FLINT;
+        private static Ingredient CONTAINER_INGREDIENT;
+        private static ItemDefinition KITCHEN_SHOVEL_DEF;
+
+        public static Item getOil() {
+            if (OIL == null) {
+                OIL = ModItems.OIL.get();
+            }
+            return OIL;
+        }
+
+        public static Ingredient getOilIngredient() {
+            if (OIL_IND == null) {
+                OIL_IND = Ingredient.of(getOil());
+            }
+            return OIL_IND;
+        }
+
+        public static Item getContainer() {
+            if (CONTAINER == null) {
+                CONTAINER = Items.BOWL;
+            }
+            return CONTAINER;
+        }
+
+        public static Item getKitchenShovel() {
+            if (KITCHEN_SHOVEL == null) {
+                KITCHEN_SHOVEL = ModItems.KITCHEN_SHOVEL.get();
+            }
+            return KITCHEN_SHOVEL;
+        }
+
+        public static Item getFlint() {
+            if (FLINT == null) {
+                FLINT = Items.FLINT;
+            }
+            return FLINT;
+        }
+
+        public static Ingredient getContainerIngredient() {
+            if (CONTAINER_INGREDIENT == null) {
+                CONTAINER_INGREDIENT = Ingredient.of(getContainer().getDefaultInstance());
+            }
+            return CONTAINER_INGREDIENT;
+        }
+
+        public static ItemDefinition getKitchenShovelDef() {
+            if (KITCHEN_SHOVEL_DEF == null) {
+                KITCHEN_SHOVEL_DEF = ItemDefinition.of(getKitchenShovel().getDefaultInstance());
+            }
+            return KITCHEN_SHOVEL_DEF;
+        }
 
         @Override
         public List<RecIngredient> getIngredients(RecSerializerManager<PotRecipe> rsm, PotRecipe rec) {
             List<Ingredient> list = new ArrayList<>();
-            list.add(Ingredient.of(OIL));
+            list.add(getOilIngredient());
 
             for (Ingredient ingredient : rec.getIngredients()) {
                 if (!ingredient.isEmpty()) {
@@ -91,10 +151,15 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
             }
 
             if (rec.isNeedBowl()) {
-                list.add(Ingredient.of(CONTAINER));
+                list.add(getContainerIngredient());
             }
 
-            return RecIngredient.to(list);
+            return RecIngredient.from(list);
+        }
+
+        @Override
+        public boolean isSingle(RecSerializerManager<PotRecipe> rsm, PotRecipe rec) {
+            return true;
         }
     }
 }

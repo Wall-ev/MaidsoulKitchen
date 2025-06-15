@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.chopping
 
 import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
@@ -28,7 +29,7 @@ public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<ChoppingBoardRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<ChoppingBoardRecipe>, Integer> successAdd, Predicate<MKRecipe<ChoppingBoardRecipe>> rIsValid) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<ChoppingBoardRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<ChoppingBoardRecipe>, MaidConditionRecipesManager2.IndexRange> successAdd, Predicate<MKRecipe<ChoppingBoardRecipe>> rIsValid) {
 //        if (getTool(available) == null) {
 //            return EMPTY_LIST;
 //        }
@@ -37,7 +38,7 @@ public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<
     }
 
     @Override
-    protected MaidRec createCookRec(MKRecipe<ChoppingBoardRecipe> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> createCookRec(MKRecipe<ChoppingBoardRecipe> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         return super.createCookRec(r, tool, available, single, invIngredient, itemTimes);
     }
 //

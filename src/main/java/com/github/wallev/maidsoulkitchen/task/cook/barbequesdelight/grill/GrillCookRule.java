@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
@@ -64,10 +65,10 @@ public class GrillCookRule extends TickCookRule<GrillBlockEntity, GrillingRecipe
     public void cookMake(CookBeBase<GrillBlockEntity> cookBeBase, MaidRecipesManager2<GrillingRecipe<?>> rm) {
         this.init(cookBeBase, rm);
         if (rm.hasMaidRecs(cookBeBase)) {
-            Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
+            ItemInventory itemInventory = rm.getItemInventory();
             MaidRec maidRec = rm.pollMaidRec(cookBeBase);
             MaidItem maidItem = maidRec.maidItems().get(0);
-            this.grillStack = contItemStack(maidItem, invIngredients);
+            this.grillStack = contItemStack(maidItem, itemInventory);
         }
     }
 

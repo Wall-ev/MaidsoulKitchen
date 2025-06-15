@@ -21,6 +21,8 @@ public interface IItemHandlerMixin extends IInvHandler {
     @Shadow
     ItemStack extractItem(int slot, int amount, boolean simulate);
 
+    @Shadow int getSlotLimit(int i);
+
     @Override
     default int kl$getSlots() {
         return this.getSlots();
@@ -39,5 +41,20 @@ public interface IItemHandlerMixin extends IInvHandler {
     @Override
     default ItemStack kl$extractItem(int slot, int amount, boolean simulate) {
         return this.extractItem(slot, amount, simulate);
+    }
+
+    @Override
+    default boolean kl$canTakeItem(int slot, ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    default boolean kl$canPlaceItem(int slot, ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    default int kl$getSlotLimit(int slot) {
+        return this.getSlotLimit(slot);
     }
 }

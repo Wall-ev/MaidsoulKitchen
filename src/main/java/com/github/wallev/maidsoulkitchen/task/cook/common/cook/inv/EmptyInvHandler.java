@@ -24,4 +24,19 @@ public class EmptyInvHandler implements IInvHandler {
         return ItemStack.EMPTY;
     }
 
+    @Override
+    public boolean kl$canPlaceItem(int slot, ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean kl$canTakeItem(int slot, ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public int kl$getSlotLimit(int slot) {
+        return 0;
+    }
+
 }

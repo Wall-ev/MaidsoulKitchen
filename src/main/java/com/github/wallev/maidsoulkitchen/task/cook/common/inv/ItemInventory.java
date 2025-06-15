@@ -10,8 +10,11 @@ import java.util.Map;
 public class ItemInventory {
     private final Map<Item, Long> items = new HashMap<>();
     private final Map<ItemDefinition, Long> stacks = new HashMap<>();
+
     private final Map<Item, LinkedList<ItemStack>> itemsMap = new HashMap<>();
     private final Map<ItemDefinition, LinkedList<ItemStack>> stacksMap = new HashMap<>();
+
+    private boolean dirty = false;
 
 //    private final Object2IntLinkedOpenHashMap<Item> items = new Object2IntLinkedOpenHashMap<>();
 //    private final Object2IntLinkedOpenHashMap<ItemDefinition> stacks = new Object2IntLinkedOpenHashMap<>();
@@ -33,6 +36,36 @@ public class ItemInventory {
         stacksMap.computeIfAbsent(itemDefinition, k -> new LinkedList<>()).add(stack);
     }
 
+    public void update() {
+        if (dirty) {
+            if (true) {
+                return;
+            }
+
+            itemsMap.values().forEach(list -> {
+                for (ItemStack itemStack : list) {
+                    if (itemStack == null || itemStack.isEmpty()) {
+                        list.remove();
+                    } else {
+                        break;
+                    }
+                }
+            });
+
+            stacksMap.values().forEach(list -> {
+                for (ItemStack itemStack : list) {
+                    if (itemStack == null || itemStack.isEmpty()) {
+                        list.remove();
+                    } else {
+                        break;
+                    }
+                }
+            });
+
+            dirty = false;
+        }
+    }
+
     public long getItemCount(Item item) {
         return items.get(item);
     }
@@ -45,8 +78,16 @@ public class ItemInventory {
         return itemsMap.get(item);
     }
 
+    public LinkedList<ItemStack> getItemStacks(ItemDefinition definition) {
+        return stacksMap.get(definition);
+    }
+
     public LinkedList<ItemStack> getItemStacks(ItemStack itemStack) {
-        return stacksMap.get(ItemDefinition.of(itemStack));
+        return getItemStacks(itemStack.getItem());
+    }
+
+    public LinkedList<ItemStack> getItemStacksWithNbt(ItemStack itemStack) {
+        return getItemStacks(ItemDefinition.of(itemStack));
     }
 
     public Map<Item, Long> getItems() {
@@ -65,7 +106,13 @@ public class ItemInventory {
         return stacksMap;
     }
 
+    public void markDirty() {
+        dirty = true;
+    }
+
     public void clear() {
+        dirty = false;
+
         items.clear();
         stacks.clear();
         itemsMap.clear();

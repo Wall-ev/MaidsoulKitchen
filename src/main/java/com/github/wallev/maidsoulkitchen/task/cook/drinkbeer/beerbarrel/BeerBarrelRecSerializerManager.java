@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel;
 
 import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
-import com.github.wallev.maidsoulkitchen.foundation.utility.WrappedIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import lekavar.lma.drinkbeer.recipes.BrewingRecipe;
 import lekavar.lma.drinkbeer.registries.RecipeRegistry;
@@ -32,8 +31,8 @@ public class BeerBarrelRecSerializerManager extends RecSerializerManager<Brewing
         public List<RecIngredient> getIngredients(RecSerializerManager<BrewingRecipe> rsm, BrewingRecipe rec) {
             List<Ingredient> list = new ArrayList<>(rec.getIngredients());
             ItemStack beerCup = rec.getBeerCup();
-            List<RecIngredient> recIngredients = RecIngredient.to(list);
-            recIngredients.add(RecIngredient.of(beerCup));
+            List<RecIngredient> recIngredients = RecIngredient.from(list);
+            recIngredients.add(RecIngredient.ofCount(beerCup));
             return recIngredients;
         }
     }

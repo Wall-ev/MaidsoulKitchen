@@ -22,7 +22,6 @@ public abstract class MaidConditionRecipesManager2<R extends Recipe<? extends Co
     // 额外尝试标志位，因为有些烹饪条件是实时变化的。
     protected int extraTryTime = 0;
     protected Set<C> conditions;
-
     public MaidConditionRecipesManager2(RecSerializerManager<R> recSerializerManager, EntityMaid maid, ICookTask<?, R> task, CookBeBase<?> cookBeBase) {
         super(recSerializerManager, maid, task, cookBeBase);
     }
@@ -46,10 +45,13 @@ public abstract class MaidConditionRecipesManager2<R extends Recipe<? extends Co
     }
 
     @Override
-    protected void recAdd(MKRecipe<R> r, int index) {
+    protected void recAdd(MKRecipe<R> r, IndexRange indexRange) {
         C c = this.getRecipeCondition(r.rec());
-        tempIngredients.computeIfAbsent(c, (k) -> new LinkedList<>())
-                .add(index);
+        LinkedList<Integer> list = tempIngredients.computeIfAbsent(c, (k) -> new LinkedList<>());
+
+        for (int i = indexRange.start(); i < indexRange.end(); i++) {
+            list.add(i);
+        }
     }
 
     @Override
@@ -135,5 +137,31 @@ public abstract class MaidConditionRecipesManager2<R extends Recipe<? extends Co
             return true;
         }
         return false;
+    }
+
+    public static class IndexRange {
+        private int start;
+        private int end;
+
+        public IndexRange() {
+        }
+
+        public void set(int start, int size) {
+            this.start = start;
+            this.end = start + size;
+        }
+
+        public int start() {
+            return start;
+        }
+
+        public int end() {
+            return end;
+        }
+
+        public void reset() {
+            this.start = 0;
+            this.end = 0;
+        }
     }
 }

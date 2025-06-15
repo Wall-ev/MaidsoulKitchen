@@ -39,7 +39,7 @@ public class SkeweringRecSerializerManager extends RecSerializerManager<Skewerin
                 list.add(side);
             }
 
-            return RecIngredient.to(list);
+            return RecIngredient.from(list);
         }
     }
 }

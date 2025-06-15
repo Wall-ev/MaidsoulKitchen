@@ -3,6 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.cook.be;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
@@ -80,11 +82,11 @@ public abstract class CookBeBase<B extends BlockEntity> {
 //    }
 
 
-    public boolean insertFluidItems(MaidItem fluidItem, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        Item item = fluidItem.item();
+    public boolean insertFluidItems(MaidItem fluidItem, ItemInventory itemInventory) {
+        ItemDefinition item = fluidItem.item();
         int amount = fluidItem.count();
 
-        LinkedList<ItemStack> fluidItems = invIngredients.get(item);
+        LinkedList<ItemStack> fluidItems = itemInventory.getItemStacks(item);
         for (ItemStack itemStack : fluidItems) {
             if (itemStack.isEmpty()) continue;
             int count0 = itemStack.getCount();
@@ -115,7 +117,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
 
     public void useItem(ItemStack itemStack, Supplier<Boolean> condition) {
         while (!itemStack.isEmpty()) {
-            if (condition.get()) {
+            if (!condition.get()) {
                 break;
             }
 
@@ -131,16 +133,17 @@ public abstract class CookBeBase<B extends BlockEntity> {
     }
 
 
-    public boolean insertInputs(MaidRec rec, Map<Item, LinkedList<ItemStack>> invIngredients) {
+    public boolean insertInputs(MaidRec rec, ItemInventory itemInventory) {
         IInvHandler ingredientInv = this.getIngredientInv();
 
         int index = 0;
         for (MaidItem maidItem : rec.maidItems()) {
             if (!maidItem.isEmpty()) {
-                Item item = maidItem.item();
+                ItemDefinition item = maidItem.item();
                 int count = maidItem.count();
-                insertAndShrink(ingredientInv, count, invIngredients.get(item), index++);
+                insertAndShrink(ingredientInv, count, itemInventory.getItemStacks(item), index);
             }
+            index++;
         }
         return true;
     }
@@ -166,12 +169,12 @@ public abstract class CookBeBase<B extends BlockEntity> {
     }
 
 
-    public boolean hasEnoughIngredient(MaidRec rec, Map<Item, Queue<ItemStack>> invIngredients) {
+    public boolean hasEnoughIngredient(MaidRec rec, Map<Item, Collection<ItemStack>> invIngredients) {
 
         for (MaidItem maidItem : rec.maidItems()) {
-            Item item = maidItem.item();
+            ItemDefinition item = maidItem.item();
             int actualCount = maidItem.count();
-            for (ItemStack itemStack : invIngredients.getOrDefault(item, new LinkedList<>())) {
+            for (ItemStack itemStack : invIngredients.getOrDefault(item.item(), new LinkedList<>())) {
                 actualCount -= itemStack.getCount();
                 if (actualCount <= 0) {
                     break;

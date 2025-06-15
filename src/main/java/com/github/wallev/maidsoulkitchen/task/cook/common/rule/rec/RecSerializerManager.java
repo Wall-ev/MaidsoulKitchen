@@ -7,6 +7,7 @@ import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import com.github.wallev.maidsoulkitchen.util.MathUtil;
@@ -46,8 +47,9 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         return RecipeInfoProvider.getInstance();
     }
 
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, Integer> successAdd, Predicate<MKRecipe<R>> rIsValid) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, MaidConditionRecipesManager2.IndexRange> successAdd, Predicate<MKRecipe<R>> rIsValid) {
         LinkedList<MaidRec> maidRecs = new LinkedList<>();
+        MaidConditionRecipesManager2.IndexRange indexRange = new MaidConditionRecipesManager2.IndexRange();
 
         int index = 0;
         for (MKRecipe<R> r : recs) {
@@ -55,10 +57,13 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
                 continue;
             }
 
-            MaidRec maidRec = this.createMaidRec(r, available);
-            if (!maidRec.isEmpty()) {
-                maidRecs.add(maidRec);
-                successAdd.accept(r, index++);
+            List<MaidRec> maidRec = this.createMaidRec(r, available);
+            int size = maidRec.size();
+            if (size > 0) {
+                maidRecs.addAll(maidRec);
+                indexRange.set(index, size);
+                successAdd.accept(r, indexRange);
+                index += size;
             }
         }
 
@@ -66,24 +71,24 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
     }
 
     @SuppressWarnings("all")
-    protected MaidRec createMaidRec(MKRecipe<R> r, Map<ItemDefinition, Long> available) {
-        List<Item> invIngredient = new ArrayList<>();
-        Map<Item, ItemAmount> itemTimes = new HashMap<>();
+    protected List<MaidRec> createMaidRec(MKRecipe<R> r, Map<ItemDefinition, Long> available) {
+        List<ItemDefinition> invIngredient = new ArrayList<>();
+        Map<ItemDefinition, ItemAmount> itemTimes = new HashMap<>();
         boolean[] single = {false};
 
         return recProcess(r, available, invIngredient, single, itemTimes);
     }
 
-    protected MaidRec recProcess(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> recProcess(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
         boolean processRecIngres = processRecIngres(r, available, invIngredient, single, itemTimes);
         if (!processRecIngres) {
-            return MaidRec.EMPTY;
+            return Collections.emptyList();
         }
 
         return createCookRec(r, available, single, invIngredient, itemTimes);
     }
 
-    protected boolean processRecIngres(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<Item> invIngredient, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+    protected boolean processRecIngres(MKRecipe<R> r, Map<ItemDefinition, Long> available, List<ItemDefinition> invIngredient, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
         for (RecIngredient ingredient : r.inItems()) {
             boolean hasIngredient = false;
             for (Map.Entry<ItemDefinition, Long> entry : available.entrySet()) {
@@ -94,17 +99,17 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
                 ItemStack stack = key.toStack(value);
                 int test = ingredient.test(stack);
                 if (test > 0) {
-                    invIngredient.add(item);
+                    invIngredient.add(key);
                     hasIngredient = true;
 
                     int amount;
                     if (stack.getMaxStackSize() == 1) {
                         single[0] = true;
                         ItemAmount itemAmount = new ItemAmount(test);
-                        itemTimes.put(item, itemAmount);
+                        itemTimes.put(key, itemAmount);
                         amount = itemAmount.needCount();
                     } else {
-                        ItemAmount itemAmount = itemTimes.computeIfAbsent(item, k -> new ItemAmount(test, 0));
+                        ItemAmount itemAmount = itemTimes.computeIfAbsent(key, k -> new ItemAmount(test, 0));
                         itemAmount.addCount();
                         amount = itemAmount.needCount();
                     }
@@ -125,48 +130,72 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         return true;
     }
 
-    protected MaidRec createCookRec(MKRecipe<R> r, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> createCookRec(MKRecipe<R> r, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
-        int recAmount = getMaxAmount(available, single, itemTimes);
-        for (Item item : invIngredient) {
-            int minAmount = itemTimes.get(item).getAmount();
 
-            int count = recAmount * minAmount;
-            maidItems.add(new MaidItem(item, count));
-            ItemDefinition itemDefinition = ItemDefinition.of(item);
-            available.put(itemDefinition, available.get(itemDefinition) - count);
+        int recAmount = getMaxAmount(available, single, itemTimes);
+        int amount = recAmount;
+        if (single[0] || r.isSingle()) {
+            amount = 1;
         }
 
-        return new MaidRec(r.rec(), result, recAmount, maidItems);
+        for (ItemDefinition definition : invIngredient) {
+            int minAmount = itemTimes.get(definition).getAmount();
+
+            int count = amount * minAmount;
+            maidItems.add(new MaidItem(definition, count));
+            available.put(definition, available.get(definition) - (long) count * recAmount);
+        }
+
+        MaidRec maidRec = new MaidRec(r.rec(), result, amount, maidItems);
+        return this.generateRecs(maidRec, recAmount);
     }
 
-    protected MaidRec createCookRec(MKRecipe<R> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<Item> invIngredient, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> createCookRec(MKRecipe<R> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
-        int recAmount = getMaxAmount(available, single, itemTimes);
-        for (Item item : invIngredient) {
-            int minAmount = itemTimes.get(item).getAmount();
 
-            int count = recAmount * minAmount;
-            maidItems.add(new MaidItem(item, count));
-            ItemDefinition itemDefinition = ItemDefinition.of(item);
-            available.put(itemDefinition, available.get(itemDefinition) - count);
+        int recAmount = getMaxAmount(available, single, itemTimes);
+
+        int amount = recAmount;
+        if (single[0] || r.isSingle()) {
+            amount = 1;
         }
 
-        return new MaidRec(r.rec(), result, recAmount, tool, maidItems);
+        for (ItemDefinition definition : invIngredient) {
+            int minAmount = itemTimes.get(definition).getAmount();
+
+            int count = amount * minAmount;
+            maidItems.add(new MaidItem(definition, count));
+            available.put(definition, available.get(definition) - (long) count * recAmount);
+        }
+        MaidRec maidRec = new MaidRec(r.rec(), result, amount, tool, maidItems);
+
+        return this.generateRecs(maidRec, recAmount);
     }
 
-    protected int getMaxAmount(Map<ItemDefinition, Long> available, boolean[] single, Map<Item, ItemAmount> itemTimes) {
+    protected List<MaidRec> generateRecs(MaidRec maidRec, int count) {
+        List<MaidRec> maidRecList = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            maidRecList.add(maidRec);
+        }
+        return maidRecList;
+    }
+
+    protected int getMaxAmount(Map<ItemDefinition, Long> available, boolean[] single, Map<ItemDefinition, ItemAmount> itemTimes) {
         int maxCount = 64;
-        if (single[0]) {
-            maxCount = 1;
-        } else {
-            for (Item item : itemTimes.keySet()) {
+        for (ItemDefinition itemDefinition : itemTimes.keySet()) {
+            if (itemDefinition.getMaxStackSize() == 1) {
                 // 最大份量为 64 份；
                 // getStack(item).getMaxStackSize()：该种物品的最大堆叠数量，比如 鸡蛋为16个，那么他的最大份量就只能是16份；
                 // available.get(item)：该种物品在背包中的数量；
-                maxCount = MathUtil.min(maxCount, getStack(item).getMaxStackSize(), (int) (available.get(ItemDefinition.of(item)) / itemTimes.get(item).needCount()));
+                maxCount = MathUtil.min(maxCount, (int) (available.get(itemDefinition) / itemTimes.get(itemDefinition).needCount()));
+            } else {
+                // 最大份量为 64 份；
+                // getStack(item).getMaxStackSize()：该种物品的最大堆叠数量，比如 鸡蛋为16个，那么他的最大份量就只能是16份；
+                // available.get(item)：该种物品在背包中的数量；
+                maxCount = MathUtil.min(maxCount, itemDefinition.getMaxStackSize(), (int) (available.get(itemDefinition) / itemTimes.get(itemDefinition).needCount()));
             }
         }
         return maxCount;
@@ -215,14 +244,16 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         List<RecIngredient> ingredients = recipeInfoProvider.getIngredients(this, r);
         ItemStack output = recipeInfoProvider.getOutput(this, r);
         ItemStack container = recipeInfoProvider.getContainer(this, r);
-        return new MKRecipe<>(r, ingredients, output, container);
+        boolean single = recipeInfoProvider.isSingle(this, r);
+        return new MKRecipe<>(r, single, ingredients, output, container);
     }
 
     protected MKRecipe<R> createMKRecipe(R r, List<ItemStack> inFluids) {
         List<RecIngredient> ingredients = recipeInfoProvider.getIngredients(this, r);
         ItemStack output = recipeInfoProvider.getOutput(this, r);
         ItemStack container = recipeInfoProvider.getContainer(this, r);
-        return new MKRecipe<>(r, inFluids, ingredients, output, container);
+        boolean single = recipeInfoProvider.isSingle(this, r);
+        return new MKRecipe<>(r, single, inFluids, ingredients, output, container);
     }
 
     public RecipeType<R> getRecipeType() {
@@ -344,7 +375,7 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         }
 
         public List<RecIngredient> getIngredients(RecSerializerManager<R> rsm, R rec) {
-            return RecIngredient.to(rec.getIngredients());
+            return RecIngredient.from(rec.getIngredients());
         }
 
         public ItemStack getOutput(RecSerializerManager<R> rsm, R rec) {
@@ -354,5 +385,10 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         public ItemStack getContainer(RecSerializerManager<R> rsm, R rec) {
             return ItemStack.EMPTY;
         }
+
+        public boolean isSingle(RecSerializerManager<R> rsm, R rec) {
+            return false;
+        }
+
     }
 }

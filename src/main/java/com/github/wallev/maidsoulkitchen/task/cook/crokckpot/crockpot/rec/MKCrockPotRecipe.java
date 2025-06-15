@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec;
 
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
@@ -22,12 +23,25 @@ public class MKCrockPotRecipe extends MKRecipe<CrockPotCookingRecipe> {
 
     protected List<List<Pair<IRequirement, Set<Item>>>> needRequires = new ArrayList<>();
 
+    protected List<ItemDefinition> noRequiresItemDefinitions = new ArrayList<>();
+
     public MKCrockPotRecipe(CrockPotCookingRecipe rec, Map<IRequirement, List<Item>> REQUIREMENT_INGREDIENTY_MAP) {
-        super(rec, Collections.emptyList(), rec.getResult());
+        super(rec, false, Collections.emptyList(), rec.getResult());
         this.categorizeRequirements(REQUIREMENT_INGREDIENTY_MAP);
         this.validInItems = this.createValidItems();
         this.validInItemDefinitions = createValidItemDefinitionsFromItems(validInItems);
         this.needRequires = this.createNeedRequires();
+        this.noRequiresItemDefinitions = this.createInValidItemDefinitionsFromItems();
+    }
+
+    private List<ItemDefinition> createInValidItemDefinitionsFromItems() {
+        List<ItemDefinition> noRequiresItemDefinitions = new ArrayList<>();
+        for (Pair<RequirementCategoryMax, Set<Item>> noRequire : noRequires) {
+            Set<Item> itemSet = noRequire.getSecond();
+            Set<ItemDefinition> validItemDefinitionsFromItems = createValidItemDefinitionsFromItems(itemSet);
+            noRequiresItemDefinitions.addAll(validItemDefinitionsFromItems);
+        }
+        return noRequiresItemDefinitions;
     }
 
     private List<List<Pair<IRequirement, Set<Item>>>> createNeedRequires() {
@@ -190,5 +204,9 @@ public class MKCrockPotRecipe extends MKRecipe<CrockPotCookingRecipe> {
 
     public List<List<Pair<IRequirement, Set<Item>>>> getNeedRequires() {
         return needRequires;
+    }
+
+    public List<ItemDefinition> getNoRequiresItemDefinitions() {
+        return noRequiresItemDefinitions;
     }
 }

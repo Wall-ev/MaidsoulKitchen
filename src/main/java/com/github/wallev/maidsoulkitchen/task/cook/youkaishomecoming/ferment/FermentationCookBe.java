@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import dev.xkmc.l2library.base.tile.BaseTank;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer;
@@ -72,8 +73,8 @@ public class FermentationCookBe extends CookBeBase<FermentationTankBlockEntity> 
     }
 
     @Override
-    public boolean insertInputs(MaidRec rec, Map<Item, LinkedList<ItemStack>> invIngredients) {
-        boolean inserted = super.insertInputs(rec, invIngredients);
+    public boolean insertInputs(MaidRec rec, ItemInventory itemInventory) {
+        boolean inserted = super.insertInputs(rec, itemInventory);
         if (inserted) {
             serverLevel.setBlockAndUpdate(be.getBlockPos(), be.getBlockState().setValue(OPEN, false));
             return true;

@@ -179,7 +179,9 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
 
     @Override
     public boolean enableEating(EntityMaid maid) {
-        // 工作中禁止吃饭
-        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
+        return false;
+
+//         工作中禁止吃饭
+//        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
     }
 }

@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.basin;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
@@ -53,12 +55,12 @@ public class BasinCookRule extends TickCookRule<BasinBlockEntity, SkeweringRecip
         IItemHandlerModifiable inputInv = rm.getInputInv();
         BasinBlockEntity be = cookBeBase.getBe();
         MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-        Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
+        Map<ItemDefinition, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
 
         List<MaidItem> maidItems = maidRec.maidItems();
 
         MaidItem container = maidItems.get(1);
-        Item containerItem = container.item();
+        ItemDefinition containerItem = container.item();
         int containerAmount = container.count();
         for (ItemStack itemStack : invIngredients.get(containerItem)) {
             if (itemStack.isEmpty()) continue;
@@ -81,19 +83,20 @@ public class BasinCookRule extends TickCookRule<BasinBlockEntity, SkeweringRecip
         }
         this.container = be.items.getItem(0);
 
+        ItemInventory itemInventory = rm.getItemInventory();
         MaidItem tool = maidItems.get(0);
-        ItemStack toolItem = contItemStack(tool, invIngredients);
+        ItemStack toolItem = contItemStack(tool, itemInventory);
         this.swapItem(InteractionHand.MAIN_HAND, toolItem, maid, inputInv);
         this.tool = maid.getItemInHand(InteractionHand.MAIN_HAND);
 
         if (maidItems.size() > 2) {
             MaidItem side = maidItems.get(2);
-            ItemStack sideItem = contItemStack(side, invIngredients);
+            ItemStack sideItem = contItemStack(side, itemInventory);
             this.swapItem(InteractionHand.OFF_HAND, sideItem, maid, inputInv);
             this.side = maid.getItemInHand(InteractionHand.OFF_HAND);
         }
 
-        rm.updateInvIngredients();
+        rm.getItemInventory().markDirty();
     }
 
     @Override

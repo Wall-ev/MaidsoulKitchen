@@ -4,10 +4,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 
-public class WrappedIngredient extends RecIngredient {
+public class CountIngredient extends RecIngredient {
     private final ItemStack stack;
 
-    protected WrappedIngredient(ItemStack stack) {
+    protected CountIngredient(ItemStack stack) {
         super(Ingredient.of(stack));
         this.stack = stack;
     }

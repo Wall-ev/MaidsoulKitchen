@@ -56,7 +56,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
 
     @Override
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-        ErrorUtil.safeRun(maid, () -> {
+        ErrorUtil.errorRun(() -> {
             this.searchForDestination(worldIn, maid);
         });
     }

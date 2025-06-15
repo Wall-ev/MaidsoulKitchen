@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import net.minecraft.world.Container;
@@ -97,10 +98,10 @@ public class WaterCookRule<B extends BlockEntity, R extends Recipe<? extends Con
 
         // 放入烹饪的原材料
         if ((hasEnoughFluid || !fuel.isEmpty()) && !recMatch && rm.hasMaidRecs(cookBeBase)) {
-            Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
-            cookBeBase.insertInputs(rm.pollMaidRec(cookBeBase), invIngredients);
+            ItemInventory itemInventory = rm.getItemInventory();
+            cookBeBase.insertInputs(rm.pollMaidRec(cookBeBase), itemInventory);
             cookBeBase.markChanged();
-            rm.updateInvIngredients();
+            rm.getItemInventory().markDirty();;
             recMatch = true;
         }
 

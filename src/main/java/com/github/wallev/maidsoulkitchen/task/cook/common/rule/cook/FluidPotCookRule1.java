@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -131,12 +132,12 @@ public class FluidPotCookRule1<B extends BlockEntity, R extends Recipe<? extends
 
         // 放入烹饪的原材料
         if (matchCookState && !recMatch && rm.hasMaidRecs(cookBeBase)) {
-            Map<Item, LinkedList<ItemStack>> invIngredients = rm.getInvIngredients();
+            ItemInventory itemInventory = rm.getItemInventory();
             MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-            cookBeBase.insertFluidItems(maidRec.fluidItem(), invIngredients);
-            cookBeBase.insertInputs(maidRec, invIngredients);
+            cookBeBase.insertFluidItems(maidRec.fluidItem(), itemInventory);
+            cookBeBase.insertInputs(maidRec, itemInventory);
             cookBeBase.markChanged();
-            rm.updateInvIngredients();
+            rm.getItemInventory().markDirty();;
             recMatch = true;
         }
 

@@ -14,7 +14,6 @@ import dev.xkmc.youkaishomecoming.content.pot.ferment.SimpleFermentationRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.EmptyFluid;
 import net.minecraft.world.level.material.Fluid;
@@ -166,7 +165,7 @@ public class FermentationRecSerializerManager extends FluidRecSerializerManager<
         @Override
         public List<RecIngredient> getIngredients(RecSerializerManager<FermentationRecipe<?>> rsm, FermentationRecipe<?> rec) {
             SimpleFermentationRecipe sFermentationRecipe = (SimpleFermentationRecipe) rec;
-            return RecIngredient.to(sFermentationRecipe.ingredients);
+            return RecIngredient.from(sFermentationRecipe.ingredients);
         }
 
         @Override

@@ -3,6 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.cook.be;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -67,15 +69,15 @@ public class CookBe<B extends BlockEntity> extends CookBeBase<B>{
 //        return insertInputs(rec, invIngredients);
 //    }
 
-    public boolean insertInputs(MaidRec rec, Map<Item, LinkedList<ItemStack>> invIngredients) {
+    public boolean insertInputs(MaidRec rec, ItemInventory itemInventory) {
         IInvHandler ingredientInv = this.getIngredientInv();
 
         int index = 0;
         for (MaidItem maidItem : rec.maidItems()) {
             if(!maidItem.isEmpty()) {
-                Item item = maidItem.item();
+                ItemDefinition item = maidItem.item();
                 int count = maidItem.count();
-                insertAndShrink(ingredientInv, count, invIngredients.get(item), index++);
+                insertAndShrink(ingredientInv, count, itemInventory.getItemStacks(item), index++);
             }
         }
         return true;

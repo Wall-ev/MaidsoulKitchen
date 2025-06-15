@@ -6,6 +6,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IAbstractFu
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -27,5 +28,10 @@ public class MaidFurnaceRecipesManager extends MaidConditionRecipesManager2<Abst
     @Override
     protected boolean isValid(RecipeType<?> beCondition, RecipeType<?> rCondition) {
         return beCondition.equals(rCondition);
+    }
+
+    @Override
+    protected boolean recIsValid(MKRecipe<AbstractCookingRecipe> r) {
+        return super.recIsValid(r);
     }
 }

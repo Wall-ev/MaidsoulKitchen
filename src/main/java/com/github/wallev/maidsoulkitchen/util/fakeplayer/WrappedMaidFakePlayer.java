@@ -173,6 +173,10 @@ public class WrappedMaidFakePlayer extends FakePlayer {
             return ItemStack.EMPTY;
         }
 
+        if (enableGhostItem) {
+            return ghostItem;
+        }
+
         switch (equipmentSlot) {
             case MAINHAND -> {
                 return maid.getMainHandItem();
