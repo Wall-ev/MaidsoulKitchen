@@ -20,11 +20,14 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     // Mixin Plugin
     id 'org.spongepowered.mixin' version '0.7.+'
+
+    // AspectJ
+    id 'io.freefair.aspectj.post-compile-weaving' version '8.3'
 }
 
 // 加载配置
 // [,1.21)
-def minecraft_version= "1.20.1"
+def minecraft_version = "1.20.1"
 loadProperties(minecraft_version)
 loadGradle(minecraft_version)
 
@@ -51,6 +54,7 @@ minecraft {
 
     runs {
         configureEach {
+            jvmArgs "-XX:+AllowEnhancedClassRedefinition"
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
@@ -103,20 +107,20 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 // 生成 toml 信息，用于打包成生产环境的mod
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: minecraft_version,
+            minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version,
-            forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
+            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
+            loader_version_range   : loader_version_range,
 
-            mod_id: mod_id,
-            mod_name: mod_name,
-            mod_license: mod_license,
-            mod_version: mod_version,
-            mod_credits: mod_credits,
-            mod_authors: mod_authors,
-            mod_description: mod_description,
-            mod_issue_tracker_url: mod_issue_tracker_url
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_credits            : mod_credits,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+            mod_issue_tracker_url  : mod_issue_tracker_url
     ]
     inputs.properties replaceProperties
 
@@ -165,6 +169,20 @@ dependencies {
     }
 }
 
+dependencies {
+    minecraftLibrary('org.aspectj:aspectjrt:1.9.24')
+    minecraftLibrary('org.aspectj:aspectjweaver:1.9.24')
+    implementation('org.springframework.boot:spring-boot-starter-aop:2.6.3')
+    implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
+}
+
+// 配置 Java 代理
+tasks.withType(JavaExec) {
+    jvmArgs += [
+            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
+    ]
+}
+
 // libs自动依赖
 dependencies {
 
@@ -206,8 +224,6 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
 }
-
-
 
 
 // util

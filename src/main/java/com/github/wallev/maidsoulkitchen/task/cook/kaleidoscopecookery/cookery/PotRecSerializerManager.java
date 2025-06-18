@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery.PotRecSerializerManager.PotRecipeInfoProvider.*;
@@ -37,11 +38,11 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, MaidConditionRecipesManager2.IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
         if (!available.containsKey(getKitchenShovelDef())) {
             return EMPTY_LIST;
         }
-        return super.createMaidRecs(recs, available, successAdd, rIsValid);
+        return super.createMaidRecs(recs, available, successAdd, rIsValid, itemUse);
     }
 
     @Override
@@ -60,7 +61,9 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
         }
 
         for (ItemDefinition definition : invIngredient) {
-            int minAmount = itemTimes.get(definition).getAmount();
+            ItemAmount itemAmount = itemTimes.get(definition);
+            itemAmount.setRecAmount(recAmount);
+            int minAmount = itemAmount.getAmount();
 
             int count = amount * minAmount;
             maidItems.add(new MaidItem(definition, count));
@@ -71,6 +74,9 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
             maidItems.remove(maidItems.size() - 1);
         }
 
+        ItemAmount itemAmount = new ItemAmount(1);
+        itemAmount.setTool(true);
+        itemTimes.put(getKitchenShovelDef(), itemAmount);
         MaidRec maidRec = new MaidRec(r.rec(), r.rec().getTime(), result, amount, getOil().getDefaultInstance(), getKitchenShovel().getDefaultInstance(), getContainer().getDefaultInstance(),
                 maidItems, MaidItem.EMPTY);
         return this.generateRecs(maidRec, recAmount);

@@ -2,19 +2,15 @@ package com.github.wallev.maidsoulkitchen.api.task;
 
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @SuppressWarnings("all")
@@ -33,26 +29,6 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
 
     default String getBookEntry() {
         return this.getBookEntryType().name;
-    }
-
-    @Override
-    default boolean isEnable(EntityMaid maid) {
-        return getEventOrElseData(maid, MaidMkTaskEnableEvent::isEnable, IMaidTask.super.isEnable(maid));
-    }
-
-    default <T> T getEventOrElseData(EntityMaid maid, Function<MaidMkTaskEnableEvent, T> eventGet, T def) {
-        MaidMkTaskEnableEvent event = new MaidMkTaskEnableEvent(maid, this);
-        boolean post = MinecraftForge.EVENT_BUS.post(event);
-        if (post) {
-            return eventGet.apply(event);
-        }
-
-        return def;
-    }
-
-    @Override
-    default List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
-        return getEventOrElseData(maid, MaidMkTaskEnableEvent::getEnableConditionDesc, IMaidTask.super.getEnableConditionDesc(maid));
     }
 
     @Override

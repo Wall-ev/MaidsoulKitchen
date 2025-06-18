@@ -7,7 +7,7 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.FuelCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
@@ -35,8 +35,8 @@ public class TaskFurnace extends ICookTask<AbstractFurnaceBlockEntity, AbstractC
     }
 
     @Override
-    protected MaidRecipesManager2<AbstractCookingRecipe> createRecipesManager(EntityMaid maid, CookBeBase<AbstractFurnaceBlockEntity> cookBe) {
-        return new MaidFurnaceRecipesManager(recSerializerManager, maid, this, cookBe);
+    protected MaidCookManager<AbstractCookingRecipe> createRecipesManager(EntityMaid maid, CookBeBase<AbstractFurnaceBlockEntity> cookBe) {
+        return new MaidFurnaceCookManager(recSerializerManager, maid, this, cookBe);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.network;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.network.packet.c2s.*;
+import com.github.wallev.maidsoulkitchen.network.packet.s2c.RenderMaidHubZonePackage;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +33,8 @@ public final class NetworkHandler {
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionCookDataRecPackage.class, ActionCookDataRecPackage::encode, ActionCookDataRecPackage::decode, ActionCookDataRecPackage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, ActionCookDataRecsPackage.class, ActionCookDataRecsPackage::encode, ActionCookDataRecsPackage::decode, ActionCookDataRecsPackage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetPackage.class, SetFruitFarmSearchYOffsetPackage::encode, SetFruitFarmSearchYOffsetPackage::decode, SetFruitFarmSearchYOffsetPackage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, ActionBerryFarmRulePackage.class, ActionBerryFarmRulePackage::encode, ActionBerryFarmRulePackage::decode, ActionBerryFarmRulePackage::handle,
@@ -45,6 +48,8 @@ public final class NetworkHandler {
         // Server && Client
 
         // Client
+        CHANNEL.registerMessage(i++, RenderMaidHubZonePackage.class, RenderMaidHubZonePackage::encode, RenderMaidHubZonePackage::decode, RenderMaidHubZonePackage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
     }
 
@@ -73,6 +78,10 @@ public final class NetworkHandler {
             sendToServer(new ActionCookDataRecPackage(entityId, dataKey, rec, mode));
         }
 
+        public static void actionCookDataRecs(int entityId, ResourceLocation dataKey, List<String> rec, boolean add) {
+            sendToServer(new ActionCookDataRecsPackage(entityId, dataKey, rec, add));
+        }
+
         public static void setFruitFarmSearchYOffset(int entityId, ResourceLocation dataKey, int searchYOffset) {
             sendToServer(new SetFruitFarmSearchYOffsetPackage(entityId, dataKey, searchYOffset));
         }
@@ -95,7 +104,9 @@ public final class NetworkHandler {
     }
 
     public static class S2C {
-
+        public static void renderMaidHubZone(int maidId, Player player) {
+            sendToClientPlayer(new RenderMaidHubZonePackage(maidId), player);
+        }
     }
 
     public static class SAC {

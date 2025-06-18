@@ -10,6 +10,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * {@link }
+ */
+@Deprecated(since = "0.1.4", forRemoval = true)
 @Cancelable
 public class MaidMkTaskEnableEvent extends Event {
     private final EntityMaid maid;

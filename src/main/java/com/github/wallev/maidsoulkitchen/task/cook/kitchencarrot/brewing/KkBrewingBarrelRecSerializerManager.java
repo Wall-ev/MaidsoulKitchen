@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.brewing;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import io.github.tt432.kitchenkarrot.recipes.recipe.BrewingBarrelRecipe;

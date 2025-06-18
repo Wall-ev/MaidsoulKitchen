@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
@@ -14,10 +14,10 @@ import com.github.ysbbbbbb.kaleidoscopecookery.recipe.ChoppingBoardRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,12 +29,12 @@ public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<ChoppingBoardRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<ChoppingBoardRecipe>, MaidConditionRecipesManager2.IndexRange> successAdd, Predicate<MKRecipe<ChoppingBoardRecipe>> rIsValid) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<ChoppingBoardRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<ChoppingBoardRecipe>, IndexRange> successAdd, Predicate<MKRecipe<ChoppingBoardRecipe>> rIsValid, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
 //        if (getTool(available) == null) {
 //            return EMPTY_LIST;
 //        }
 
-        return super.createMaidRecs(recs, available, successAdd, rIsValid);
+        return super.createMaidRecs(recs, available, successAdd, rIsValid, itemUse);
     }
 
     @Override

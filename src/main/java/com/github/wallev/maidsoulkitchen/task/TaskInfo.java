@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.basin.TaskBbqBasin;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill.TaskBbqGrill;
 import com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.keg.TaskBncKeg;

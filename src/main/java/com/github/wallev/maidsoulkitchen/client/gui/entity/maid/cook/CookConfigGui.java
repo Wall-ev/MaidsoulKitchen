@@ -4,11 +4,13 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
+import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
+import com.github.wallev.maidsoulkitchen.client.gui.widget.info.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.maidsoulkitchen.util.ErrorUtil;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
@@ -28,17 +30,19 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 
 @IPNPlayerSideOnly
 @IPNGuiHint(button = IPNButton.SORT, horizontalOffset = -36, bottom = -12)
@@ -46,6 +50,7 @@ import java.util.function.Predicate;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
+@OnlyIn(Dist.CLIENT)
 public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     protected final Zone taskDisplay = new Zone(6, 20, 70, 20);
@@ -56,7 +61,12 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     protected final Zone resultDisplay = new Zone(6, 44, 152, 86);
     protected final Zone scrollDisplay = new Zone(161, 44, 9, 86);
     protected final ResultInfo ref = new ResultInfo(4, 7, 20, 20, 2, 2);
+    private final List<MKRecipe<?>> detailRecs = new ArrayList<>();
     private final List<MKRecipe<?>> recipeList = new ArrayList<>();
+    private final List<RecButton> parentButtons = new ArrayList<>();
+    private final HashMap<ItemDefinition, List<MKRecipe<?>>> flatRecsMap = new HashMap<>();
+    private final List<List<MKRecipe<?>>> flatRecs = new ArrayList<>();
+    private RecsDetailButton detailButton;
     private EditBox searchBox;
     private CookData cookData;
     private ICookTask<?, ?> cookTask;
@@ -68,13 +78,16 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     @Override
-    protected void initAdditionData() {
-        ErrorUtil.errorRun(() -> {
-            super.initAdditionData();
+    protected void init() {
+        super.init();
+    }
 
-            this.initCookData();
-            this.initRecipeList();
-        });
+    @Override
+    protected void initAdditionData() {
+        super.initAdditionData();
+
+        this.initCookData();
+        this.initRecipeList();
     }
 
     private void initCookData() {
@@ -87,6 +100,17 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private void initRecipeList() {
         this.recipeList.clear();
         this.recipeList.addAll(this.collectRecs());
+
+        this.flatRecsMap.clear();
+        this.flatRecsMap.putAll(this.collectFlatRecs());
+        this.flatRecs.clear();
+        this.flatRecs.addAll(flatRecsMap.values());
+    }
+
+    private Map<ItemDefinition, List<MKRecipe<?>>> collectFlatRecs() {
+        return this.recipeList.stream().collect(Collectors.groupingBy(r -> {
+            return ItemDefinition.of(r.output());
+        }));
     }
 
     @SuppressWarnings("all")
@@ -141,25 +165,27 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
 
     @Override
     protected void initAdditionWidgets() {
-        ErrorUtil.errorRun(() -> {
-            super.initAdditionWidgets();
-            this.addTaskInfoButton();
-            this.addSearchTextBox();
-            this.addSearchBox();
-            this.addTypeButton();
-            this.addResultInfo();
-            this.addScrollButton();
+        super.initAdditionWidgets();
+        this.addTaskInfoButton();
+        this.addSearchTextBox();
+        this.addSearchBox();
+        this.addTypeButton();
+        this.addResultInfo();
+        this.addScrollButton();
 
-            this.addInfoButton();
-            this.addJeiButton();
-        });
+        this.addInfoButton();
+        this.addJeiButton();
+
+        if (!detailRecs.isEmpty()) {
+            parentButtons.forEach(b -> {
+                b.active = false;
+            });
+        }
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        ErrorUtil.errorRun( () -> {
-            super.render(graphics, mouseX, mouseY, partialTicks);
-        });
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -184,6 +210,24 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         boolean isCookSettingMainZone = mouseX >= startX && mouseY >= startY && mouseX < startX + searchBoxDisplay.width() && mouseY < startY + searchBoxDisplay.height();
         if (isCookSettingMainZone) {
             graphics.renderComponentTooltip(this.font, this.getDisplayModeTooltips(), mouseX, mouseY);
+        }
+
+        this.setHoverSlot();
+    }
+
+    private void setHoverSlot() {
+        parentButtons.forEach(b -> {
+            if (b.isTooltipHovered()) {
+                this.hoveredSlot = b.virtualSlot;
+            }
+        });
+
+        if (detailButton != null && !detailRecs.isEmpty()) {
+            detailButton.getRecsButtons().forEach(b -> {
+                if (b.isTooltipHovered()) {
+                    this.hoveredSlot = b.virtualSlot;
+                }
+            });
         }
     }
 
@@ -217,9 +261,11 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (detailButton != null && detailButton.needActive()) {
+            return false;
+        }
+
         if (super.mouseScrolled(mouseX, mouseY, delta)) {
-            solIndex = 0;
-            this.init();
             return true;
         }
 
@@ -233,7 +279,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                 return true;
             }
             // 向下滚
-            if (delta < 0 && solIndex < (this.recipeList.size() - 1) / (ref.col() * ref.row())) {
+            if (delta < 0 && solIndex < (this.flatRecs.size() - 1) / (ref.col() * ref.row())) {
                 solIndex++;
                 this.init();
                 return true;
@@ -313,8 +359,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private void addInfoButton() {
-        if (((ICookTask<?, ?>) task).getWarnComponent().isEmpty()) return;
-        TImageButton infoButton = new TImageButton((ICookTask<?, ?>) task, visualZone.startX() + visualZone.width() - 15, visualZone.startY() + 5, 9, 9, 237, 212, 10, TEXTURE, (b) -> {
+        if (cookTask.getWarnComponent().isEmpty()) return;
+        TImageButton infoButton = new TImageButton(cookTask, visualZone.startX() + visualZone.width() - 15, visualZone.startY() + 5, 9, 9, 237, 212, 10, TEXTURE, (b) -> {
         });
         this.addRenderableWidget(infoButton);
     }
@@ -330,7 +376,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private void addTaskInfoButton() {
         int startX = visualZone.startX() + taskDisplay.startX();
         int startY = visualZone.startY() + taskDisplay.startY();
-        TaskInfoButton taskInfoButton = new TaskInfoButton(startX, startY, taskDisplay.width(), taskDisplay.height(), this.task);
+        TaskInfoButton taskInfoButton = new TaskInfoButton(startX, startY, taskDisplay.width(), taskDisplay.height(), this.cookTask);
         this.addRenderableWidget(taskInfoButton);
     }
 
@@ -414,11 +460,15 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
                     // 向上滚
                     if (delta > 0) {
                         setDisplayMode(displayMode.pre());
+                        solIndex = 0;
+                        init();
                         return true;
                     }
                     // 向下滚
                     if (delta < 0) {
                         setDisplayMode(displayMode.next());
+                        solIndex = 0;
+                        init();
                         return true;
                     }
                 }
@@ -456,39 +506,116 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private void addResultInfo() {
+        parentButtons.clear();
+
         int startX = visualZone.startX() + resultDisplay.startX();
         int startY = visualZone.startY() + resultDisplay.startY();
 
-        int index = solIndex * (ref.row() * ref.col());
-        for (int row = 0; row < ref.row(); row++) {
-            for (int col = 0; col < ref.col(); col++) {
-                if (index >= this.recipeList.size()) {
-                    return;
-                }
-                MKRecipe<?> recipe = this.recipeList.get(index++);
-                int x = startX + (ref.rowWidth() + ref.rowSpacing()) * col;
-                int y = startY + (ref.colHeight() + ref.colSpacing()) * row;
-                RecButton recButton = new RecButton(maid, (ICookTask<?, ?>) task, cookData, recipe, x, y) {
-                    @Override
-                    public void onClick(double pMouseX, double pMouseY) {
-                        arAndSyncRec(recipe.id().toString());
-                        this.toggleState();
+        {
+            int w = ref.col() * ref.rowWidth() + ref.rowSpacing() * (ref.col() - 1);
+            int h = ref.row() * ref.colHeight() + ref.colSpacing() * (ref.row() - 1);
+            int x = startX;
+            int y = startY;
+
+            detailButton = new RecsDetailButton(x, y, w, h, maid, cookTask, cookData) {
+                @Override
+                public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+                    if (!(this.active && this.visible)) {
+                        return false;
                     }
 
-                    @Override
-                    public void renderTooltip(GuiGraphics guiGraphics, Minecraft minecraft, int pMouseX, int pMouseY) {
-                        super.renderTooltip(guiGraphics, minecraft, pMouseX, pMouseY);
-                        hoveredSlot = virtualSlot;
+                    if (!this.superClicked(pMouseX, pMouseY)) {
+                        detailRecs.clear();
+                        this.setCanAction(false);
+
+                        parentButtons.forEach(b -> {
+                            b.active = true;
+                        });
+                        return true;
                     }
-                };
-                this.addRenderableWidget(recButton);
+
+                    if (pButton == 1) {
+                        for (RecButton b : recsButtons) {
+                            if (b.superClicked(pMouseX, pMouseY)) {
+                                if (b.debugClicked()) {
+                                    return false;
+                                }
+                            }
+                        }
+                        return false;
+                    }
+
+                    return super.mouseClicked(pMouseX, pMouseY, pButton);
+                }
+            };
+
+            if (!detailRecs.isEmpty()) {
+                detailButton.setRecs(detailRecs);
+                detailButton.setCanAction(true);
+
+                parentButtons.forEach(b -> {
+                    b.active = false;
+                });
             }
         }
+
+        {
+            int index = solIndex * (ref.row() * ref.col());
+            breakLable:
+            for (int row = 0; row < ref.row(); row++) {
+                for (int col = 0; col < ref.col(); col++) {
+                    if (index >= this.flatRecs.size()) {
+                        break breakLable;
+                    }
+
+                    List<MKRecipe<?>> recipes = flatRecs.get(index++);
+                    int x = startX + (ref.rowWidth() + ref.rowSpacing()) * col;
+                    int y = startY + (ref.colHeight() + ref.colSpacing()) * row;
+
+                    RecButton recButton = new RecButton(maid, cookTask, cookData, recipes, x, y) {
+                        @Override
+                        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+                            if (!(this.active && this.visible)) {
+                                return false;
+                            }
+
+                            if (pButton == 1) {
+                                if (this.superClicked(pMouseX, pMouseY) && this.debugClicked()) {
+                                    return false;
+                                }
+
+                                if (this.superClicked(pMouseX, pMouseY)) {
+                                    this.playDownSound(Minecraft.getInstance().getSoundManager());
+
+                                    detailRecs.clear();
+                                    detailRecs.addAll(this.recipes);
+                                    detailButton.setRecs(this.recipes);
+                                    detailButton.setCanAction(true);
+
+                                    parentButtons.forEach(b -> {
+                                        b.active = false;
+                                    });
+                                    return true;
+                                }
+
+                                return false;
+                            }
+
+                            return super.mouseClicked(pMouseX, pMouseY, pButton);
+                        }
+                    };
+                    parentButtons.add(recButton);
+                }
+            }
+            parentButtons.forEach(this::addRenderableWidget);
+        }
+
+        this.addRenderableWidget(detailButton);
     }
 
-    private void arAndSyncRec(String rec) {
-        cookData.addOrRemoveRec(rec, this.cookData.mode());
-        NetworkHandler.C2S.actionCookDataRec(maid.getId(), cookTask.getCookDataKey().getKey(), rec, this.cookData.mode());
+    @Override
+    protected void renderTooltip(GuiGraphics graphics, int x, int y) {
+        super.renderTooltip(graphics, x, y);
     }
 
     // 161, 25 189, 74
@@ -502,7 +629,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             }
         });
         Button downButton = new ImageButton(startX, startY + 8 + 1 + 70, 9, 7, 208, 74, 14, TEXTURE, b -> {
-            if (this.solIndex < (this.recipeList.size() - 1) / (ref.col() * ref.row())) {
+            if (this.solIndex < (this.flatRecs.size() - 1) / (ref.col() * ref.row())) {
                 this.solIndex++;
                 this.init();
             }
@@ -551,7 +678,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private void drawScrollIndicator(GuiGraphics graphics, int startX, int startY) {
-        if ((this.recipeList.size() - 1) / (ref.col() * ref.row()) >= 1) {
+        if ((this.flatRecs.size() - 1) / (ref.col() * ref.row()) >= 1) {
             graphics.blit(TEXTURE, startX, startY + (int) ((70 - 2 - 9) * getCurrentScroll()), 199, 64, 7, 9);
         } else {
             graphics.blit(TEXTURE, startX, startY, 206, 64, 7, 9);
@@ -559,10 +686,10 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private float getCurrentScroll() {
-        return Mth.clamp((float) (solIndex * (1.0 / ((this.recipeList.size() - 1) / (ref.col() * ref.row())))), 0, 1);
+        return Mth.clamp((float) (solIndex * (1.0 / ((this.flatRecs.size() - 1) / (ref.col() * ref.row())))), 0, 1);
     }
 
-    enum DisplayMode {
+    public enum DisplayMode {
         DEFAULT("默认"),
         CAN_COOK("可烹饪"),
         NOT_COOK("不可烹饪"),

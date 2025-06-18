@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import lekavar.lma.drinkbeer.recipes.BrewingRecipe;
 import lekavar.lma.drinkbeer.registries.RecipeRegistry;

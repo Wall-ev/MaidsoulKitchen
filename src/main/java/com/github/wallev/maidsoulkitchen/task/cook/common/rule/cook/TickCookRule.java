@@ -2,9 +2,9 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import net.minecraft.core.BlockPos;
@@ -20,7 +20,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     protected EntityMaid maid;
@@ -32,14 +31,21 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
     protected int tick = 0;
 
     @Override
-    public boolean tickCan(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    public boolean tickCan(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
         return be != null && !this.end;
     }
 
     @Override
-    public void tickStop(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
-        this.clear(cookBeBase, rm);
+    public void tickStop(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        this.clear(cookBeBase, cm);
     }
+
+    @Override
+    public final TickCookRule<B, R> getOrCreate() {
+        return this.create();
+    }
+
+    protected abstract TickCookRule<B, R> create();
 
     public ItemStack swapItem(InteractionHand hand, ItemStack itemStack, EntityMaid maid, IItemHandler inv) {
         ItemStack itemInHand = maid.getItemInHand(hand);
@@ -58,6 +64,17 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
         return swapItemCopy;
     }
 
+    public void swapTool(ItemStack tool, ItemInventory itemInventory, EntityMaid maid, IItemHandler inv) {
+        ItemStack copyAndClear = tool.copyAndClear();
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inv, copyAndClear, false);
+        if (leftStack.isEmpty()) {
+            itemInventory.getStacks().merge(ItemDefinition.of(tool), 1L, (a, b) -> a - b);
+            itemInventory.add(copyAndClear);
+        } else {
+            maid.level.addFreshEntity(new ItemEntity(maid.level, maid.getX(), maid.getY(), maid.getZ(), leftStack));
+        }
+    }
+
     public ItemStack swapTool(ItemStack toolItemStack, ItemInventory itemInventory, EntityMaid maid, InteractionHand hand, IItemHandler inv) {
         ItemStack itemInHand = maid.getItemInHand(hand);
         if (itemInHand.is(toolItemStack.getItem())) {
@@ -70,13 +87,20 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
             return ItemStack.EMPTY;
         }
 
-        ItemStack swapItemCopy = toolStacks.poll().copyAndClear();
+        while (toolStacks0.peek().isEmpty()) {
+            toolStacks0.poll();
+        }
+        while (toolStacks.peek().isEmpty()) {
+            toolStacks.poll();
+        }
+
+        ItemStack swapItemCopy = toolStacks.peek().copyAndClear();
         maid.setItemInHand(hand, swapItemCopy);
         ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inv, itemInHand, false);
         if (!leftStack.isEmpty()) {
             maid.level.addFreshEntity(new ItemEntity(maid.level, maid.getX(), maid.getY(), maid.getZ(), leftStack));
         }
-        toolStacks.addFirst(swapItemCopy);
+        toolStacks.set(0, swapItemCopy);
         toolStacks0.set(0, swapItemCopy);
         return swapItemCopy;
     }
@@ -146,14 +170,14 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
         return contItemStack;
     }
 
-    protected void init(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    protected void init(CookBeBase<B> cookBeBase, MaidCookManager<R> rm) {
         this.maid = cookBeBase.getMaid();
         this.player = WrappedMaidFakePlayer.get(maid);
         this.be = cookBeBase.getBe();
         this.pos = be.getBlockPos();
     }
 
-    protected void clear(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    protected void clear(CookBeBase<B> cookBeBase, MaidCookManager<R> rm) {
         cookBeBase.markChanged();
         this.maid = null;
         this.player = null;

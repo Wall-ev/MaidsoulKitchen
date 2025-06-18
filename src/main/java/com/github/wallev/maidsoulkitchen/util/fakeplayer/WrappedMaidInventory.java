@@ -4,6 +4,8 @@ import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.google.common.collect.ImmutableList;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
@@ -29,10 +31,11 @@ import java.util.function.Predicate;
 @ApiStatus.Experimental
 public class WrappedMaidInventory extends Inventory {
     private final EntityMaid maid;
-    private Function<EntityMaid, IItemHandlerModifiable> invSupplier = maid0 -> defaultTaskInv();
+    private Function<EntityMaid, IItemHandlerModifiable> invSupplier;
     public WrappedMaidInventory(EntityMaid maid, WrappedMaidFakePlayer fakePlayer) {
         super(fakePlayer);
         this.maid = maid;
+        this.resetInv();
     }
 
     public EntityMaid getMaid() {
@@ -54,10 +57,30 @@ public class WrappedMaidInventory extends Inventory {
 
     public void setInvSupplier(Function<EntityMaid, IItemHandlerModifiable> invSupplier) {
         this.invSupplier = invSupplier;
+        this.rebuildItems();
+        this.rebuildCompartments();
+    }
+
+    private void rebuildCompartments() {
+        // 应该不会有人缓存这个吧?
+        // @todo 有待检测
+        this.compartments = ImmutableList.of(this.items, this.armor, this.offhand);
+    }
+
+    private void rebuildItems() {
+        IItemHandlerModifiable inv = this.getInv();
+        int slots = inv.getSlots();
+        NonNullList<ItemStack> list = NonNullList.createWithCapacity(slots);
+        for (int i = 0; i < slots; i++) {
+            list.add(inv.getStackInSlot(i));
+        }
+        // 应该不会有人缓存这个吧?
+        // @todo 有待检测
+        this.items = list;
     }
 
     public void resetInv() {
-        this.invSupplier = (maid0 -> defaultTaskInv());
+        this.setInvSupplier(maid0 -> defaultTaskInv());
     }
 
     public void stacks(Consumer<ItemStack> stack) {

@@ -4,7 +4,10 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class SearchBox extends EditBox {
     protected final Font font;
     public SearchBox(Font pFont, int pX, int pY, int pWidth, int pHeight, Component pMessage) {

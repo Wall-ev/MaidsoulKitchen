@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;

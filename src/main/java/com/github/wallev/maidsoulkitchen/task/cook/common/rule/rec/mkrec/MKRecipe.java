@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -171,5 +171,10 @@ public class MKRecipe<R extends Recipe<? extends Container>> {
 
     public String idStr() {
         return id().toString();
+    }
+
+    @Override
+    public String toString() {
+        return rec.toString();
     }
 }

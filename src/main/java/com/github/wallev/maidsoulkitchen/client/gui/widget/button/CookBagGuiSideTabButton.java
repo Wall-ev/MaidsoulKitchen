@@ -9,9 +9,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
+@OnlyIn(Dist.CLIENT)
 public class CookBagGuiSideTabButton extends Button implements ITooltipButton {
     private static final ResourceLocation SIDE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/culinary_hub_gui_right_side.png");
     private static final int V_OFFSET = 107;

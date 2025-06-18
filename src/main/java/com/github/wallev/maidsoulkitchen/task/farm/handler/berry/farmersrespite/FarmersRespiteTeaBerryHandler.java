@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandler;
 import com.google.common.collect.Lists;

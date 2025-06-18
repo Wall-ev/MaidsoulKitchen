@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.entity.data.inner.task;
 
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -57,6 +58,40 @@ public class CookData {
         }
     }
 
+    public void addRecs(List<String> recs) {
+        switch (mode) {
+            case "whitelist" -> {
+                for (String rec : recs) {
+                    if (!this.whitelistRecs.contains(rec)) {
+                        this.whitelistRecs.add(rec);
+                    }
+                }
+            }
+            case "blacklist" -> {
+                for (String rec : recs) {
+                    if (!this.blacklistRecs.contains(rec)) {
+                        this.blacklistRecs.add(rec);
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeRecs(List<String> recs) {
+        switch (mode) {
+            case "whitelist" -> {
+                for (String rec : recs) {
+                    this.whitelistRecs.remove(rec);
+                }
+            }
+            case "blacklist" -> {
+                for (String rec : recs) {
+                    this.blacklistRecs.remove(rec);
+                }
+            }
+        }
+    }
+
     public void setMode(String mode) {
         this.mode = mode;
     }
@@ -81,6 +116,7 @@ public class CookData {
         }
     }
 
+
     public boolean isWhitelistMode() {
         return Mode.byName(this.mode).isWhitelistMode();
     }
@@ -99,6 +135,10 @@ public class CookData {
 
     public boolean canCook(Recipe<?> r) {
         return this.canCook(r.getId().toString());
+    }
+
+    public boolean canCook(MKRecipe<?> mkr) {
+        return canCook(mkr.idStr());
     }
 
     public enum Mode {

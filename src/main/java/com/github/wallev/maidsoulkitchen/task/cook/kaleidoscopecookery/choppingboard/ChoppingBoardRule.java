@@ -3,10 +3,9 @@ package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.chopping
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
-import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.ChoppingBoardBlockEntity;
@@ -19,10 +18,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-
 public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> {
     private static final ChoppingBoardRule INSTANCE = new ChoppingBoardRule();
 
@@ -34,27 +29,27 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
     }
 
     @Override
-    public boolean canMoveTo(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidRecipesManager2<ChoppingBoardRecipe> rm) {
+    public boolean canMoveTo(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
         ChoppingBoardBlockEntity cuttingBoard = cookBeBase.getBe();
 
-        if (!cuttingBoard.getCurrentCutStack().isEmpty() && this.hasBoardStackTool(rm.getMaid(), cuttingBoard)) {
+        if (!cuttingBoard.getCurrentCutStack().isEmpty() && this.hasBoardStackTool(cm.getMaid(), cuttingBoard)) {
             return true;
         }
 
-        if (cuttingBoard.getCurrentCutStack().isEmpty() && rm.hasMaidRecs(cookBeBase)) {
+        if (cuttingBoard.getCurrentCutStack().isEmpty() && cm.hasMaidRecs(cookBeBase)) {
             return true;
         }
         return false;
     }
 
     @Override
-    public void cookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidRecipesManager2<ChoppingBoardRecipe> rm) {
-        this.init(cookBeBase, rm);
+    public void cookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+        this.init(cookBeBase, cm);
         ItemStack storedItem = be.getCurrentCutStack();
         if (!storedItem.isEmpty()) {
             ItemStack tool = getBoardStackTool(maid, be);
             if (tool.isEmpty()) {
-                this.tickStop(cookBeBase, rm);
+                this.tickStop(cookBeBase, cm);
                 return;
             }
 
@@ -68,10 +63,10 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
             }
         }
 
-        if (rm.hasMaidRecs(cookBeBase)) {
-            MaidRec maidRec = rm.pollMaidRec(cookBeBase);
+        if (cm.hasMaidRecs(cookBeBase)) {
+            MaidRec maidRec = cm.pollMaidRec(cookBeBase);
             ItemStack tool = maidRec.tool();
-            ItemInventory itemInventory = rm.getItemInventory();
+            ItemInventory itemInventory = cm.getItemInventory();
             ItemStack pollTool = itemInventory.getItemStacks(tool.getItem()).poll();
             if (pollTool == null) {
                 return;
@@ -86,19 +81,19 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
             this.swapItem(InteractionHand.OFF_HAND, processItemPoll, maid, maid.getAvailableInv(true));
             this.processItem = processItem.item();
 
-            rm.getItemInventory().markDirty();;
+            cm.getItemInventory().markDirty();;
         }
         be.setChanged();
     }
 
     @Override
-    public boolean tickCan(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidRecipesManager2<ChoppingBoardRecipe> rm) {
-        return super.tickCan(cookBeBase, rm) && !maid.getMainHandItem().isEmpty() && this.processItem != null &&
+    public boolean tickCan(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+        return super.tickCan(cookBeBase, cm) && !maid.getMainHandItem().isEmpty() && this.processItem != null &&
                 (maid.getOffhandItem().is(this.processItem) || isProcessItem());
     }
 
     @Override
-    public void tickCookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidRecipesManager2<ChoppingBoardRecipe> rm) {
+    public void tickCookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
         if (tick++ % 5 != 0) {
             return;
         }
@@ -142,14 +137,14 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
     }
 
     @Override
-    public void tickStop(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidRecipesManager2<ChoppingBoardRecipe> rm) {
-        super.tickStop(cookBeBase, rm);
+    public void tickStop(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+        super.tickStop(cookBeBase, cm);
         this.processItem = null;
         this.maidHand = false;
     }
 
     @Override
-    public AbstractCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> getOrCreate() {
+    protected TickCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> create() {
         return new ChoppingBoardRule();
     }
 }

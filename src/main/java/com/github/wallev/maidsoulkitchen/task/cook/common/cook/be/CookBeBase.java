@@ -3,8 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.cook.be;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
@@ -20,6 +20,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.*;
@@ -82,7 +83,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
 //    }
 
 
-    public boolean insertFluidItems(MaidItem fluidItem, ItemInventory itemInventory) {
+    protected boolean insertFluidItems(MaidItem fluidItem, ItemInventory itemInventory) {
         ItemDefinition item = fluidItem.item();
         int amount = fluidItem.count();
 
@@ -106,7 +107,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
         return true;
     }
 
-    public void useItem(ItemStack itemStack, int times) {
+    protected void useItem(ItemStack itemStack, int times) {
         for (int i = 0; i < times; i++) {
             InteractionResult result = fakePlayer.useOnByItem(be.getBlockPos(), itemStack);
             if (result == InteractionResult.FAIL || result == InteractionResult.PASS) {
@@ -115,7 +116,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
         }
     }
 
-    public void useItem(ItemStack itemStack, Supplier<Boolean> condition) {
+    protected void useItem(ItemStack itemStack, Supplier<Boolean> condition) {
         while (!itemStack.isEmpty()) {
             if (!condition.get()) {
                 break;
@@ -128,10 +129,67 @@ public abstract class CookBeBase<B extends BlockEntity> {
         }
     }
 
-    public void useItem(ItemStack itemStack) {
+    protected void useItem(ItemStack itemStack) {
         fakePlayer.useOnByItem(be.getBlockPos(), itemStack);
     }
 
+
+
+    public boolean insertFluidItems(MaidItem fluidItem, ItemInventory itemInventory, IItemHandlerModifiable toInv) {
+        ItemDefinition item = fluidItem.item();
+        int amount = fluidItem.count();
+
+        LinkedList<ItemStack> fluidItems = itemInventory.getItemStacks(item);
+        for (ItemStack itemStack : fluidItems) {
+            if (itemStack.isEmpty()) continue;
+            int count0 = itemStack.getCount();
+
+            if (count0 >= amount) {
+                this.useItem(itemStack, amount, toInv);
+                break;
+            } else {
+                this.useItem(itemStack, count0, toInv);
+                amount -= count0;
+                if (amount <= 0) {
+                    break;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public InteractionResult useItem(ItemStack itemStack, int times, IItemHandlerModifiable toInv) {
+        for (int i = 0; i < times; i++) {
+            InteractionResult result = fakePlayer.useOnByItem(be.getBlockPos(), itemStack, toInv);
+            if (result == InteractionResult.FAIL || result == InteractionResult.PASS) {
+                return result;
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    public InteractionResult useItem(ItemStack itemStack, Supplier<Boolean> condition, IItemHandlerModifiable toInv) {
+        while (!itemStack.isEmpty()) {
+            if (!condition.get()) {
+                break;
+            }
+
+            InteractionResult result = fakePlayer.useOnByItem(be.getBlockPos(), itemStack, toInv);
+            if (result == InteractionResult.FAIL || result == InteractionResult.PASS) {
+                return result;
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    public InteractionResult useItem(ItemStack itemStack, IItemHandlerModifiable toInv) {
+        return fakePlayer.useOnByItem(be.getBlockPos(), itemStack, toInv);
+    }
+
+    public InteractionResult useItemWithSneak(ItemStack itemStack, IItemHandlerModifiable toInv) {
+        return fakePlayer.useOnByItemWithSneak(be.getBlockPos(), itemStack, toInv);
+    }
 
     public boolean insertInputs(MaidRec rec, ItemInventory itemInventory) {
         IInvHandler ingredientInv = this.getIngredientInv();

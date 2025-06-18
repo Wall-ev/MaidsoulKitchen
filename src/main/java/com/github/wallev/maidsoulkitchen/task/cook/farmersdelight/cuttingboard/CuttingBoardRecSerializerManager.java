@@ -1,9 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cuttingboard;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ToolRecSerializerManager;
-import net.minecraft.world.item.crafting.Ingredient;
 import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 

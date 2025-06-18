@@ -4,7 +4,7 @@ import com.github.wallev.maidsoulkitchen.compat.cloth.ClothCompat;
 import com.github.wallev.maidsoulkitchen.compat.jade.JadeCompat;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.PatchouliCompat;
 import com.github.wallev.maidsoulkitchen.compat.top.TopCompat;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.mod.ClothConfigScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

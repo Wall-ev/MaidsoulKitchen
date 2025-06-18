@@ -15,7 +15,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import com.github.wallev.maidsoulkitchen.chest.FarmDelightCabinet;
 import com.github.wallev.maidsoulkitchen.entity.ai.brain.MaidBrain;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;

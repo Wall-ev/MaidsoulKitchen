@@ -8,9 +8,34 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
+import java.util.*;
 
 public class BubbleUtil {
+    public static void makeResultsBubbleWithEmpty(EntityMaid maid) {
+        MutableComponent append = VComponent.literal("┭┮﹏┭┮仓库怎么什么原材料都没有啊，都不能炒菜了！");
+        TextChatBubbleData textChatBubbleData = TextChatBubbleData.type2(append);
+        maid.getChatBubbleManager().addChatBubble(textChatBubbleData);
+    }
+
+    public static void makeResultsBubble(EntityMaid maid, Collection<MaidRec> recs) {
+        Map<ItemStack, Integer> resultsMap = new HashMap<>();
+        List<ItemStack> results = new ArrayList<>();
+
+        for (MaidRec maidRec : recs) {
+            ItemStack result = maidRec.result();
+            resultsMap.put(result, resultsMap.getOrDefault(result, 0) + 1);
+        }
+
+        for (Map.Entry<ItemStack, Integer> entry : resultsMap.entrySet()) {
+            ItemStack key = entry.getKey();
+            int value = entry.getValue();
+            ItemStack copy = key.copyWithCount(key.getCount() * value);
+            results.add(copy);
+        }
+
+        makeResultsBubble(maid, results);
+    }
+
     public static void makeResultsBubble(EntityMaid maid, List<ItemStack> results) {
         MutableComponent contact = TextContactUtil.contact(results, (result) -> {
             return VComponent.literal(result.getHoverName().getString() + " " + result.getCount() + "份");

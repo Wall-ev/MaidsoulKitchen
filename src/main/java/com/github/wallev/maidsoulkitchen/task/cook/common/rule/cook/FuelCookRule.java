@@ -1,21 +1,16 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
-import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     @SuppressWarnings("rawtypes")
@@ -26,7 +21,7 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         return (FuelCookRule<B, R>) INSTANCE;
     }
 
-    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
         boolean canTakeResult = cookBeBase.canTakeResult();
         boolean hasResult = cookBeBase.hasResult();
         // 有成品
@@ -38,11 +33,11 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         boolean recMatch = cookBeBase.recMatch();
         List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
         // 厨具满足烹饪的外部条件和有符合配方的原材料
-        boolean hasFuel = rm.hasItem(BagType.START_ADDITION, itemStack -> {
+        boolean hasFuel = cm.hasItem(itemStack -> {
             return ItemStackUtil.isItem(activeItemStacks, itemStack);
         });
         if ((matchCookState || hasFuel) && !recMatch) {
-            boolean hasMaidRecs = rm.hasMaidRecs(cookBeBase);
+            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
             if (hasMaidRecs) {
                 return true;
             }
@@ -72,9 +67,9 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         return false;
     }
 
-    public void cookMake(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
-        IItemHandlerModifiable inputInv = rm.getInputInv();
-        IItemHandlerModifiable outputInv = rm.getOutputInv();
+    public void cookMake(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IItemHandlerModifiable inputInv = cm.getInputInv();
+        IItemHandlerModifiable outputInv = cm.getOutputInv();
 
         boolean canTakeResult = cookBeBase.canTakeResult();
         ItemStack result = cookBeBase.getResult();
@@ -97,7 +92,7 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
 
         List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
         // 厨具满足烹饪的外部条件和有符合配方的原材料
-        ItemStack fuel = rm.getItem(BagType.START_ADDITION, itemStack -> {
+        ItemStack fuel = cm.getItem(itemStack -> {
             return ItemStackUtil.isItem(activeItemStacks, itemStack);
         });
         if (recMatch && !matchCookState && !fuel.isEmpty()) {
@@ -106,11 +101,11 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         }
 
         // 放入烹饪的原材料
-        if ((matchCookState || !fuel.isEmpty()) && !recMatch && rm.hasMaidRecs(cookBeBase)) {
-            ItemInventory itemInventory = rm.getItemInventory();
-            cookBeBase.insertInputs(rm.pollMaidRec(cookBeBase), itemInventory);
+        if ((matchCookState || !fuel.isEmpty()) && !recMatch && cm.hasMaidRecs(cookBeBase)) {
+            ItemInventory itemInventory = cm.getItemInventory();
+            cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
             cookBeBase.markChanged();
-            rm.getItemInventory().markDirty();;
+            cm.getItemInventory().markDirty();;
         }
 
         // 厨锅没有物品并且有燃料
@@ -121,8 +116,4 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         }
     }
 
-    @Override
-    public FuelCookRule<B, R> getOrCreate() {
-        return this;
-    }
 }

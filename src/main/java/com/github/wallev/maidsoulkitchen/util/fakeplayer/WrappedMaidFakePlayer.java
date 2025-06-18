@@ -309,21 +309,44 @@ public class WrappedMaidFakePlayer extends FakePlayer {
         }
     }
 
-    public InteractionResult useOnByItem(BlockPos pos, ItemStack itemStack, boolean sneak) {
+    public InteractionResult useOnByItemWithSneak(BlockPos pos, ItemStack itemStack, IItemHandlerModifiable inv) {
         try {
-            if (sneak) {
-                this.setShiftKeyDown(true);
-            }
             BlockHitResult blockHitResult = this.getBlockHitResult(pos);
+
+            this.setShiftKeyDown(true);
             this.setGhostItem(itemStack);
+            this.getInventory().setInvSupplier((maid0 -> inv));
+
             InteractionResult result = this.gameMode.useItemOn(this, maid.level, itemStack, InteractionHand.MAIN_HAND, blockHitResult);
             if (result.shouldSwing()) {
                 this.swing(InteractionHand.MAIN_HAND, true);
             }
+
             this.clearGhostItem();
-            if (sneak) {
-                this.setShiftKeyDown(false);
+            this.setShiftKeyDown(false);
+            this.getInventory().resetInv();
+
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return InteractionResult.FAIL;
+        }
+    }
+
+    public InteractionResult useOnByItemWithSneak(BlockPos pos, ItemStack itemStack) {
+        try {
+            BlockHitResult blockHitResult = this.getBlockHitResult(pos);
+
+            this.setShiftKeyDown(true);
+            this.setGhostItem(itemStack);
+
+            InteractionResult result = this.gameMode.useItemOn(this, maid.level, itemStack, InteractionHand.MAIN_HAND, blockHitResult);
+            if (result.shouldSwing()) {
+                this.swing(InteractionHand.MAIN_HAND, true);
             }
+
+            this.clearGhostItem();
+            this.setShiftKeyDown(false);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

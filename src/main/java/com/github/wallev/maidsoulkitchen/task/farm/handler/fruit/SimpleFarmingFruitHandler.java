@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.fruit;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import dev.enemeez.simplefarming.common.block.FruitLeavesBlock;

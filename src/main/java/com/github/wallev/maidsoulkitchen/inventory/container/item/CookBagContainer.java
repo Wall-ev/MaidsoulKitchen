@@ -13,8 +13,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class CookBagContainer extends CookBagAbstractContainer {
@@ -41,7 +39,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
     }
 
     protected void setContainer(int slotId, Map<BagType, ItemStackHandler> handlers) {
-        for (BagType value : BagType.values()) {
+        for (BagType value : BagType.VALS) {
             if (slotId >= value.startIndex && slotId < value.endIndex) {
                 ItemCulinaryHub.setContainer(cookBag, handlers);
                 break;
@@ -51,33 +49,31 @@ public class CookBagContainer extends CookBagAbstractContainer {
 
     protected void addBagTypeSlots(Map<BagType, ItemStackHandler> handlers) {
 
-        int yOffset = 22 + 1, i = 0;
-        ItemStackHandler container = handlers.getOrDefault(BagType.INGREDIENT, new ItemStackHandler(BagType.INGREDIENT.size * 9));
-        for (int i1 = 0; i1 < BagType.INGREDIENT.size; i1++, yOffset += 18) {
-            for (int col = 0; col < 9; ++col, i++) {
-                this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
-                    @Override
-                    public boolean mayPlace(@NotNull ItemStack stack) {
-                        return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(MkItems.CULINARY_HUB.get());
+        int yOffset = 22 + 1;
+        {
+            for (BagType type : BagType.INPUT_VALS) {
+                ItemStackHandler container = handlers.getOrDefault(type, new ItemStackHandler(type.size * 9));
+                int i = 0;
+                for (int i1 = 0; i1 < type.size; i1++, yOffset += 18) {
+                    for (int col = 0; col < 9; ++col, i++) {
+                        this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
+                            @Override
+                            public boolean mayPlace(@NotNull ItemStack stack) {
+                                return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(MkItems.CULINARY_HUB.get());
+                            }
+                        });
                     }
-                });
+                }
             }
         }
+
         yOffset += 11;
-
-        List<BagType> list = Arrays.stream(BagType.values()).skip(1).toList();
-
-        for (BagType value : list) {
-            int j = 0;
-            ItemStackHandler container1 = handlers.getOrDefault(value, new ItemStackHandler(value.size * 9));
-            for (int row = 0; row < value.size; ++row, yOffset += 18) {
-
-                if (value == BagType.INGREDIENT_ADDITION || value == BagType.START_ADDITION) {
-                    continue;
-                }
-
-                for (int col = 0; col < 9; ++col, j++) {
-                    this.addSlot(new SlotItemHandler(container1, j, 8 + col * 18, yOffset) {
+        {
+            int i = 0;
+            ItemStackHandler container = handlers.getOrDefault(BagType.OUTPUT, new ItemStackHandler(BagType.OUTPUT.size * 9));
+            for (int i1 = 0; i1 < BagType.OUTPUT.size; i1++, yOffset += 18) {
+                for (int col = 0; col < 9; ++col, i++) {
+                    this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
                         @Override
                         public boolean mayPlace(@NotNull ItemStack stack) {
                             return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(MkItems.CULINARY_HUB.get());

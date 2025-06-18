@@ -1,0 +1,11 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-verbose">
+        <!-- 只织入指定包下的类 -->
+        <include within="com.github.wallev.maidsoulkitchen..*"/>
+    </weaver>
+    <aspects>
+        <aspect name="com.github.wallev.maidsoulkitchen.util.debug.annotation.saferun.SafeRunAspect"/>
+        <aspect name="com.github.wallev.maidsoulkitchen.util.debug.annotation.timerecord.TimeRecordAspect"/>
+    </aspects>
+</aspectj>

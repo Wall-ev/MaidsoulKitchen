@@ -6,8 +6,8 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.MaidTaskConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.button.CFRuleButton;
-import com.github.wallev.maidsoulkitchen.client.gui.widget.button.ResultInfo;
-import com.github.wallev.maidsoulkitchen.client.gui.widget.button.Zone;
+import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
+import com.github.wallev.maidsoulkitchen.client.gui.widget.info.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
@@ -24,6 +24,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
@@ -37,6 +39,7 @@ import java.util.List;
 @IPNGuiHint(button = IPNButton.SORT_ROWS, horizontalOffset = -12, bottom = -36)
 @IPNGuiHint(button = IPNButton.SHOW_EDITOR, horizontalOffset = -5)
 @IPNGuiHint(button = IPNButton.SETTINGS, horizontalOffset = -5)
+@OnlyIn(Dist.CLIENT)
 public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContainer> {
     private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/farm_guide.png");
     protected final Zone scrollDisplay = new Zone(161, 20, 9, 110);

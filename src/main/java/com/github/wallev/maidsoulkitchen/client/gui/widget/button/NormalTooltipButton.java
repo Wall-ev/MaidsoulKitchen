@@ -5,10 +5,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+@OnlyIn(Dist.CLIENT)
 public class NormalTooltipButton extends Button implements ITooltipButton {
     private List<Component> tooltips;
 

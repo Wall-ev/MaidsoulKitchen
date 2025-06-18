@@ -1,13 +1,12 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,10 +14,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 
 public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     @SuppressWarnings("rawtypes")
@@ -29,35 +25,35 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
         return (FluidPotCookRule2<B, R>) INSTANCE;
     }
 
-    protected boolean hasFluidContainers(Fluid fluid, MaidRecipesManager2<R> rm) {
+    protected boolean hasFluidContainers(Fluid fluid, MaidCookManager<R> rm) {
         FluidRecSerializerManager<R> frm = rm.getRecSerializerManager().toFluid();
         List<ItemStack> containers = frm.fluidContainer(fluid);
 
-        return rm.hasItemFromOutputAddition(itemStack -> ItemStackUtil.isItem(containers, itemStack));
+        return rm.hasItem(itemStack -> ItemStackUtil.isItem(containers, itemStack));
     }
 
-    protected ItemStack getFluidContainers(Fluid fluid, MaidRecipesManager2<R> rm) {
+    protected ItemStack getFluidContainers(Fluid fluid, MaidCookManager<R> rm) {
         FluidRecSerializerManager<R> frm = rm.getRecSerializerManager().toFluid();
         List<ItemStack> containers = frm.fluidContainer(fluid);
 
-        return rm.getItemFromOutputAddition(itemStack -> ItemStackUtil.isItem(containers, itemStack));
+        return rm.getItem(itemStack -> ItemStackUtil.isItem(containers, itemStack));
     }
 
-    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
         boolean matchCookState = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
 
         boolean hasFluid = cookBeBase.hasFluid();
         // 有待取出成品(有条件取出)和对应的餐具
         if (!recMatch && hasFluid) {
-            if (hasFluidContainers(cookBeBase.getFluid(), rm)) {
+            if (hasFluidContainers(cookBeBase.getFluid(), cm)) {
                 return true;
             }
         }
 
         // 厨具满足烹饪的外部条件和有符合配方的原材料
         if (matchCookState && !recMatch) {
-            boolean hasMaidRecs = rm.hasMaidRecs(cookBeBase);
+            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
             if (hasMaidRecs) {
                 return true;
             }
@@ -72,10 +68,9 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
         return false;
     }
 
-    public void cookMake(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
-        IItemHandlerModifiable inputInv = rm.getInputInv();
-        IItemHandlerModifiable outputInv = rm.getOutputInv();
-        IItemHandlerModifiable outputAdditionInv = rm.getOutputAdditionInv();
+    public void cookMake(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IItemHandlerModifiable inputInv = cm.getInputInv();
+        IItemHandlerModifiable outputInv = cm.getOutputInv();
 
         boolean matchCookState = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
@@ -87,28 +82,24 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
         }
 
         // 放入烹饪的原材料
-        if (matchCookState && !recMatch && rm.hasMaidRecs(cookBeBase)) {
-            ItemInventory itemInventory = rm.getItemInventory();
-            MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-            cookBeBase.insertFluidItems(maidRec.fluidItem(), itemInventory);
+        if (matchCookState && !recMatch && cm.hasMaidRecs(cookBeBase)) {
+            ItemInventory itemInventory = cm.getItemInventory();
+            MaidRec maidRec = cm.pollMaidRec(cookBeBase);
+            cookBeBase.insertFluidItems(maidRec.fluidItem(), itemInventory, inputInv);
             cookBeBase.insertInputs(maidRec, itemInventory);
             cookBeBase.markChanged();
-            rm.getItemInventory().markDirty();;
+            cm.getItemInventory().markDirty();;
             recMatch = true;
         }
 
         FluidStack fluidStack = cookBeBase.getFluidStack();
         if (!recMatch && !fluidStack.isEmpty()) {
             Fluid fluid = fluidStack.getFluid();
-            ItemStack fluidContainer = getFluidContainers(fluid, rm);
+            ItemStack fluidContainer = getFluidContainers(fluid, cm);
             cookBeBase.useItem(fluidContainer, () -> {
                 return !fluidStack.isEmpty();
-            });
+            }, outputInv);
         }
     }
 
-    @Override
-    public FluidPotCookRule2<B, R> getOrCreate() {
-        return this;
-    }
 }

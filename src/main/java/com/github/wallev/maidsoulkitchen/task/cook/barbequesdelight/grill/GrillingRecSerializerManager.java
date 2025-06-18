@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 
-import com.github.wallev.maidsoulkitchen.foundation.utility.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.mao.barbequesdelight.content.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.content.recipe.SimpleGrillingRecipe;

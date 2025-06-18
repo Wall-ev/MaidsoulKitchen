@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import dev.xkmc.l2library.base.tile.BaseTank;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer;
@@ -11,16 +11,11 @@ import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationItemContainer;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationRecipe;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
 
 import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlock.OPEN;
 

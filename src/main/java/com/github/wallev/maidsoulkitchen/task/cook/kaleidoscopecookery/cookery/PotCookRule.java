@@ -1,11 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
-import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.BubbleUtil;
@@ -37,22 +35,22 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     }
 
     @Override
-    public boolean canMoveTo(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
+    public boolean canMoveTo(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
         PotBe potBe = (PotBe) cookBeBase;
         PotBlockEntity potBlockEntity = potBe.getBe();
 
         if (potBlockEntity.getStatus() == 2) {
             if (potBlockEntity.isNeedBowl()) {
-                ItemStack container = rm.getItem(BagType.OUTPUT_ADDITION, CONTAINER);
+                ItemStack container = cm.getItem(CONTAINER);
                 return !container.isEmpty();
             } else {
-                IItemHandlerModifiable inputInv = rm.getInputInv();
+                IItemHandlerModifiable inputInv = cm.getInputInv();
                 ItemStack shovel = InvUtil.getStack(inputInv, ModItems.KITCHEN_SHOVEL.get());
                 return !shovel.isEmpty();
             }
         }
 
-        boolean hasMaidRecs = rm.hasMaidRecs(cookBeBase);
+        boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
         if (hasMaidRecs) {
             boolean stateMatch = cookBeBase.cookStateMatch();
             if (stateMatch) {
@@ -60,7 +58,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
             }
 
             if (potBe.canFlitByItem()) {
-                return rm.hasItem(BagType.START_ADDITION, FLINT);
+                return cm.hasItem(FLINT);
             }
         }
 
@@ -68,34 +66,34 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     }
 
     @Override
-    public void cookMake(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
-        this.init(cookBeBase, rm);
+    public void cookMake(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
+        this.init(cookBeBase, cm);
 
+        IItemHandlerModifiable inputInv = cm.getInputInv();
         PotBe potBe = (PotBe) cookBeBase;
         PotBlockEntity potBlockEntity = potBe.getBe();
         if (potBlockEntity.getStatus() == 2) {
             if (potBlockEntity.isNeedBowl()) {
-                ItemStack container = rm.getItem(BagType.OUTPUT_ADDITION, CONTAINER);
-                cookBeBase.useItem(container);
+                ItemStack container = cm.getItem(CONTAINER);
+                cookBeBase.useItem(container, inputInv);
             } else {
-                IItemHandlerModifiable inputInv = rm.getInputInv();
                 ItemStack shovel = InvUtil.getStack(inputInv, ModItems.KITCHEN_SHOVEL.get());
                 if (shovel.isEmpty()) {
                     this.stop();
                     return;
                 }
                 this.swapItem(InteractionHand.MAIN_HAND, shovel, maid, inputInv);
-                player.useOnByItem(pos, maid.getMainHandItem(), true);
+                cookBeBase.useItemWithSneak(shovel, inputInv);
             }
         }
 
-        boolean hasMaidRecs = rm.hasMaidRecs(cookBeBase);
+        boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
         if (hasMaidRecs) {
             boolean canStart = cookBeBase.cookStateMatch();
 
             if (!canStart) {
                 if (potBe.canFlitByItem()) {
-                    ItemStack flint = rm.getItem(BagType.START_ADDITION, FLINT);
+                    ItemStack flint = cm.getItem(FLINT);
                     if (flint.isEmpty()) {
                         this.stop();
                         return;
@@ -115,10 +113,9 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
             }
 
 
-            EntityMaid maid = rm.getMaid();
-            IItemHandlerModifiable inputInv = rm.getInputInv();
-            MaidRec maidRec = rm.pollMaidRec(cookBeBase);
-            ItemInventory itemInventory = rm.getItemInventory();
+            EntityMaid maid = cm.getMaid();
+            MaidRec maidRec = cm.pollMaidRec(cookBeBase);
+            ItemInventory itemInventory = cm.getItemInventory();
 
             ItemStack oil = maidRec.oil();
             ItemStack oilItem = this.getItem(oil.getItem(), itemInventory);
@@ -126,7 +123,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
                 this.stop();
                 return;
             }
-            potBe.useItem(oilItem);
+            potBe.useItem(oilItem, inputInv);
 
             potBe.insertInputs(maidRec, itemInventory);
 
@@ -158,9 +155,9 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     }
 
     @Override
-    public void tickCookMake(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
-        IItemHandlerModifiable inputInv = rm.getInputInv();
-        ItemInventory itemInventory = rm.getItemInventory();
+    public void tickCookMake(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
+        IItemHandlerModifiable inputInv = cm.getInputInv();
+        ItemInventory itemInventory = cm.getItemInventory();
         if (tick++ % stirFrySpace == 0) {
             if (maid.getMainHandItem() != kitchenShovel) {
                 ItemStack swappedTool = this.swapTool(kitchenShovel, itemInventory, maid, InteractionHand.MAIN_HAND, inputInv);
@@ -168,23 +165,24 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
                     this.stop();
                     return;
                 }
-//                this.kitchenShovel = swappedTool;
+                this.kitchenShovel = swappedTool;
 //
 //                this.swapItem(InteractionHand.MAIN_HAND, kitchenShovel, maid, inputInv);
             }
 
-            player.useOnByHand(pos);
+            cookBeBase.useItem(kitchenShovel, inputInv);
             return;
         }
 
         if (be.getStatus() == 2 || tick - 30 > time) {
+            IItemHandlerModifiable outputInv = cm.getOutputInv();
             if (needBowl) {
-                InteractionResult result = player.useOnByItem(pos, bowl);
+                InteractionResult result = cookBeBase.useItem(bowl, outputInv);
                 if (!result.consumesAction()) {
                     int a = 1;
                 }
             } else {
-                InteractionResult result = player.useOnByItem(pos, maid.getMainHandItem(), true);
+                InteractionResult result = cookBeBase.useItemWithSneak(kitchenShovel, outputInv);
                 if (!result.consumesAction()) {
                     int a = 1;
                 }
@@ -202,21 +200,31 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
                         this.stop();
                         return;
                     }
+                    this.kitchenShovel = swappedTool;
                 }
 
-                player.useOnByHand(pos);
+                cookBeBase.useItem(kitchenShovel, inputInv);
             }
         }
     }
 
-    @Override
-    public boolean tickCan(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
-        return super.tickCan(cookBeBase, rm);
+    private void backpackTool(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
+        if (!kitchenShovel.is(ModItems.KITCHEN_SHOVEL.get())) {
+            return;
+        }
+
+        this.swapTool(kitchenShovel, cm.getItemInventory(), cm.getMaid(), cm.getInputInv());
     }
 
     @Override
-    public void tickStop(CookBeBase<PotBlockEntity> cookBeBase, MaidRecipesManager2<PotRecipe> rm) {
-        super.tickStop(cookBeBase, rm);
+    public boolean tickCan(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
+        return super.tickCan(cookBeBase, cm);
+    }
+
+    @Override
+    public void tickStop(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
+        this.backpackTool(cookBeBase, cm);
+        super.tickStop(cookBeBase, cm);
         kitchenShovel = ItemStack.EMPTY;
         bowl = ItemStack.EMPTY;
         needBowl = false;
@@ -226,7 +234,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     }
 
     @Override
-    public AbstractCookRule<PotBlockEntity, PotRecipe> getOrCreate() {
+    protected TickCookRule<PotBlockEntity, PotRecipe> create() {
         return new PotCookRule();
     }
 }

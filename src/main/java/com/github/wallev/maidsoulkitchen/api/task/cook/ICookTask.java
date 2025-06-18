@@ -4,7 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
-import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
@@ -16,7 +15,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMakeTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMoveTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBe;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
@@ -39,10 +38,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> implements IMaidsoulKitchenTask, IDataTask<CookData> {
@@ -84,17 +80,17 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         CookBeBase<B> cookBe = this.createCookBe(maid);
         AbstractCookRule<B, R> rule = this.cookRule.getOrCreate();
-        MaidRecipesManager2<R> rm = this.createRecipesManager(maid, cookBe);
+        MaidCookManager<R> rm = this.createRecipesManager(maid, cookBe);
         MaidCookMoveTask<B, R> cookMove = this.createMaidCookMoveTask(cookBe, rm, rule);
         MaidCookMakeTask<B, R> cookMake = this.createMaidCookMakeTask(cookBe, rm, rule);
         return Lists.newArrayList(Pair.of(5, cookMove), Pair.of(6, cookMake));
     }
 
-    protected MaidCookMoveTask<B, R> createMaidCookMoveTask(CookBeBase<B> cookBe, MaidRecipesManager2<R> rm, AbstractCookRule<B, R> rule) {
+    protected MaidCookMoveTask<B, R> createMaidCookMoveTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
         return new MaidCookMoveTask<>(this, rm, rule, cookBe);
     }
 
-    protected MaidCookMakeTask<B, R> createMaidCookMakeTask(CookBeBase<B> cookBe, MaidRecipesManager2<R> rm, AbstractCookRule<B, R> rule) {
+    protected MaidCookMakeTask<B, R> createMaidCookMakeTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
         return new MaidCookMakeTask<>(this, rm, rule, cookBe);
     }
 
@@ -108,8 +104,8 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
 
     protected abstract CookBeBase<B> createCookBe(EntityMaid maid);
 
-    protected MaidRecipesManager2<R> createRecipesManager(EntityMaid maid, CookBeBase<B> cookBe) {
-        return new MaidRecipesManager2<>(recSerializerManager, maid, this, cookBe);
+    protected MaidCookManager<R> createRecipesManager(EntityMaid maid, CookBeBase<B> cookBe) {
+        return new MaidCookManager<>(recSerializerManager, maid, this, cookBe);
     }
 
     public List<MKRecipe<R>> getRecipes(Level level) {
@@ -127,13 +123,12 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
     }
 
     public List<Pair<String, Predicate<EntityMaid>>> getEnableConditionDesc(EntityMaid maid) {
-        return getEventOrElseData(maid, MaidMkTaskEnableEvent::getEnableConditionDesc,
-                Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor)));
+        return Lists.newArrayList(Pair.of("has_enough_favor", this::hasEnoughFavor));
     }
 
     @Override
     public boolean isEnable(EntityMaid maid) {
-        return getEventOrElseData(maid, MaidMkTaskEnableEvent::isEnable, this.hasEnoughFavor(maid));
+        return this.hasEnoughFavor(maid);
     }
 
     @Override

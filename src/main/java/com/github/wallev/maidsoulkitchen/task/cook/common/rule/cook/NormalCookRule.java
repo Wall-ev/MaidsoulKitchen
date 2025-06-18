@@ -1,18 +1,13 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandlerModifiable;
-
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
 
 public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     @SuppressWarnings("rawtypes")
@@ -23,7 +18,7 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
         return (NormalCookRule<B, R>) INSTANCE;
     }
 
-    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
+    public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
         boolean canTakeResult = cookBeBase.canTakeResult();
         boolean hasResult = cookBeBase.hasResult();
         // 有成品
@@ -35,7 +30,7 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
         boolean recMatch = cookBeBase.recMatch();
         // 厨具满足烹饪的外部条件和有符合配方的原材料
         if (matchCookState && !recMatch) {
-            boolean hasMaidRecs = rm.hasMaidRecs(cookBeBase);
+            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
             if (hasMaidRecs) {
                 return true;
             }
@@ -50,9 +45,9 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
         return false;
     }
 
-    public void cookMake(CookBeBase<B> cookBeBase, MaidRecipesManager2<R> rm) {
-        IItemHandlerModifiable inputInv = rm.getInputInv();
-        IItemHandlerModifiable outputInv = rm.getOutputInv();
+    public void cookMake(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IItemHandlerModifiable inputInv = cm.getInputInv();
+        IItemHandlerModifiable outputInv = cm.getOutputInv();
 
         boolean canTakeResult = cookBeBase.canTakeResult();
         ItemStack result = cookBeBase.getResult();
@@ -74,16 +69,12 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
         }
 
         // 放入烹饪的原材料
-        if (matchCookState && !recMatch && rm.hasMaidRecs(cookBeBase)) {
-            ItemInventory itemInventory = rm.getItemInventory();
-            cookBeBase.insertInputs(rm.pollMaidRec(cookBeBase), itemInventory);
+        if (matchCookState && !recMatch && cm.hasMaidRecs(cookBeBase)) {
+            ItemInventory itemInventory = cm.getItemInventory();
+            cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
             cookBeBase.markChanged();
-            rm.getItemInventory().markDirty();;
+            cm.getItemInventory().markDirty();;
         }
     }
 
-    @Override
-    public NormalCookRule<B, R> getOrCreate() {
-        return this;
-    }
 }

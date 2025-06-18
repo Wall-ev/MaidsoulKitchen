@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.chest;
 
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
-import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;

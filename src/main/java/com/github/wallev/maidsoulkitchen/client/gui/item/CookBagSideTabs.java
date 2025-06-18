@@ -5,10 +5,13 @@ import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import net.minecraft.client.gui.components.Button;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Locale;
 
+@OnlyIn(Dist.CLIENT)
 public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainerId, int rightPos, int topPos) {
     private static final int SPACING = 25;
 
@@ -21,7 +24,7 @@ public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainer
         CookBagGuiSideTabButton taskConfig = genSideTabButton(SideTab.TASK_CONFIG, b -> {
             NetworkHandler.C2S.toggleCookBagGuiSideTab(0);
         });
-        if (gui instanceof CookBagConfigContainerGui) {
+        if (gui instanceof CookBagConfigGui) {
             taskConfig.active = false;
         }
 
@@ -29,7 +32,7 @@ public record CookBagSideTabs<T extends CookBagAbstractContainer>(int pContainer
         CookBagGuiSideTabButton taskBook = genSideTabButton(SideTab.TASK_BOOK, (b) -> {
             NetworkHandler.C2S.toggleCookBagGuiSideTab(1);
         });
-        if (gui instanceof CookBagGui) {
+        if (gui instanceof CookBagContainerGui) {
             taskBook.active = false;
         }
 

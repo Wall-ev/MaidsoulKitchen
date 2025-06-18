@@ -7,10 +7,11 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidRecipesManager2;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
-import com.github.wallev.maidsoulkitchen.util.ErrorUtil;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
+import com.github.wallev.maidsoulkitchen.util.debug.annotation.saferun.SafeRun;
+import com.github.wallev.maidsoulkitchen.util.debug.annotation.timerecord.TimeRecord;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
@@ -30,17 +31,16 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
     private final float movementSpeed;
     private final int verticalSearchRange;
     private final ICookTask<B, R> task;
-    private final MaidRecipesManager2<R> rm;
+    private final MaidCookManager<R> rm;
     private final AbstractCookRule<B, R> rule;
     private final CookBeBase<B> cookBe;
     protected int verticalSearchStart;
 
-
-    public MaidCookMoveTask(ICookTask<B, R> task, MaidRecipesManager2<R> rm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
+    public MaidCookMoveTask(ICookTask<B, R> task, MaidCookManager<R> rm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
         this(task, rm, rule, cookBe, ICookTask.MOVE_SPEED, ICookTask.VERTICAL_SEARCH_RANGE);
     }
 
-    public MaidCookMoveTask(ICookTask<B, R> task, MaidRecipesManager2<R> rm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe, float movementSpeed, int verticalSearchRange) {
+    public MaidCookMoveTask(ICookTask<B, R> task, MaidCookManager<R> rm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe, float movementSpeed, int verticalSearchRange) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_ABSENT,
                 MkEntities.WORK_POS.get(), MemoryStatus.VALUE_ABSENT));
@@ -54,13 +54,14 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
         this.setMaxCheckRate(MAX_DELAY_TIME);
     }
 
+    @TimeRecord
+    @SafeRun
     @Override
     protected void start(ServerLevel worldIn, EntityMaid maid, long pGameTime) {
-        ErrorUtil.errorRun(() -> {
-            this.searchForDestination(worldIn, maid);
-        });
+        this.searchForDestination(worldIn, maid);
     }
 
+    @TimeRecord
     private boolean processRecipeManager() {
         return this.rm.checkAndCreateRecipesIngredients();
     }
@@ -97,7 +98,7 @@ public class MaidCookMoveTask<B extends BlockEntity, R extends Recipe<? extends 
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos)
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
-                            MemoryUtil.rememberWorkPos(maid, mutableBlockPos.immutable(), this.movementSpeed, 0);
+                            MemoryUtil.rememberWorkPos(maid, mutableBlockPos.immutable(), 0.3f, 0);
 //                            debugInfo(maid, mutableBlockPos);
                             this.setNextCheckTickCount(5);
                             return;

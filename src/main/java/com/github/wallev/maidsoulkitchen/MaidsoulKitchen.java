@@ -5,19 +5,23 @@ import com.github.wallev.maidsoulkitchen.init.MkContainer;
 import com.github.wallev.maidsoulkitchen.init.MkEffects;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.util.debug.AspectDebug;
 import com.github.wallev.verhelper.IModInfo;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 @Mod(MaidsoulKitchen.MOD_ID)
 public final class MaidsoulKitchen implements IModInfo {
+    public static boolean DEBUG = !FMLEnvironment.production;
 
     public MaidsoulKitchen() {
         initRegister();
         initConfigureRegister();
+        AspectDebug.init();
     }
 
     private static void initRegister() {

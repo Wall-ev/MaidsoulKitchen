@@ -4,8 +4,8 @@ import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.cook.CookConfigG
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm.BerryFarmConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm.CompatMelonConfigGui;
 import com.github.wallev.maidsoulkitchen.client.gui.entity.maid.farm.FruitFarmConfigGui;
-import com.github.wallev.maidsoulkitchen.client.gui.item.CookBagConfigContainerGui;
-import com.github.wallev.maidsoulkitchen.client.gui.item.CookBagGui;
+import com.github.wallev.maidsoulkitchen.client.gui.item.CookBagConfigGui;
+import com.github.wallev.maidsoulkitchen.client.gui.item.CookBagContainerGui;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagContainer;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
@@ -26,7 +26,7 @@ public final class InitContainerGui {
         evt.enqueueWork(() -> MenuScreens.register(BerryFarmConfigContainer.TYPE, BerryFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(FruitFarmConfigContainer.TYPE, FruitFarmConfigGui::new));
         evt.enqueueWork(() -> MenuScreens.register(CompatMelonConfigContainer.TYPE, CompatMelonConfigGui::new));
-        evt.enqueueWork(() -> MenuScreens.register(CookBagContainer.TYPE, CookBagGui::new));
-        evt.enqueueWork(() -> MenuScreens.register(CookBagConfigContainer.TYPE, CookBagConfigContainerGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(CookBagContainer.TYPE, CookBagContainerGui::new));
+        evt.enqueueWork(() -> MenuScreens.register(CookBagConfigContainer.TYPE, CookBagConfigGui::new));
     }
 }

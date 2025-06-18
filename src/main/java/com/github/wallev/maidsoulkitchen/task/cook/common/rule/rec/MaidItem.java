@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 
 public record MaidItem(ItemDefinition item, int count) {
 

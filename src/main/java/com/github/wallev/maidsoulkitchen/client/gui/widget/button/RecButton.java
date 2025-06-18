@@ -9,6 +9,7 @@ import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,33 +23,44 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@OnlyIn(Dist.CLIENT)
 public class RecButton extends StateSwitchingButton implements ITooltipButton {
     private static final ResourceLocation TEXTURE = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
     // 构建虚拟 Slot, 用于支持 jei、rei、emi 等配方管理器查询成品相关信息.
-    protected final VirtualSlot virtualSlot;
-    private final EntityMaid maid;
-    private final ICookTask<?, ?> cookTask;
-    private final CookData cookData;
-    private final MKRecipe<?> recipe;
-    private final ItemStack stack;
+    public final VirtualSlot virtualSlot;
+    protected final EntityMaid maid;
+    protected final ICookTask<?, ?> cookTask;
+    protected final CookData cookData;
+    protected final List<MKRecipe<?>> recipes;
+    protected final ItemStack stack;
 
-    @SuppressWarnings("all")
-    public RecButton(EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData, MKRecipe<?> recipe, int pX, int pY) {
-        super(pX, pY, 20, 20, cookData.getRecs().contains(recipe.id().toString()));
+    public RecButton(EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData, List<MKRecipe<?>> recipes, int pX, int pY) {
+        super(pX, pY, 20, 20, containersRecs(cookData, recipes));
         this.initTextureValues(179, 25, 22, 0, TEXTURE);
         this.maid = maid;
         this.cookTask = cookTask;
-        this.recipe = recipe;
+        this.recipes = recipes;
         this.cookData = cookData;
-        this.stack = recipe.output();
+        this.stack = recipes.get(0).output();
         this.virtualSlot = new VirtualSlot(stack);
+    }
+
+    private static boolean containersRecs(CookData cookData, List<MKRecipe<?>> recipes) {
+        for (MKRecipe<?> recipe : recipes) {
+            if (cookData.getRecs().contains(recipe.idStr())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void toggleState() {
@@ -58,15 +70,18 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
 
     @Override
     protected boolean clicked(double pMouseX, double pMouseY) {
-        boolean clicked = super.clicked(pMouseX, pMouseY);
-        if (clicked) {
-            if (Screen.hasControlDown() && !FMLEnvironment.production) {
-                this.debugGiveItem();
-                return false;
-            }
+        return super.clicked(pMouseX, pMouseY);
+    }
+
+    public boolean superClicked(double pMouseX, double pMouseY) {
+        return super.clicked(pMouseX, pMouseY);
+    }
+
+    public boolean debugClicked() {
+        if (MaidsoulKitchen.DEBUG && Screen.hasControlDown()) {
+            this.debugGiveItem();
             return true;
         }
-
         return false;
     }
 
@@ -75,6 +90,8 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
      */
     private void debugGiveItem() {
         ArrayList<ItemStack> stacks = new ArrayList<>();
+        MKRecipe<?> recipe = recipes.get(0);
+
         if (!recipe.inFluids().isEmpty()) {
             stacks.add(recipe.inFluids().get(0));
         }
@@ -90,11 +107,14 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
         NetworkHandler.C2S.giveRecipeIngredient(stacks);
     }
 
-
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        this.isStateTriggered = containersRecs(cookData, recipes);
+
         super.renderWidget(graphics, mouseX, mouseY, partialTick);
+        RenderSystem.enableDepthTest();
         graphics.renderItem(stack, this.getX() + 2, this.getY() + 2);
+        RenderSystem.disableDepthTest();
         this.renderShadow(graphics);
     }
 
@@ -107,13 +127,36 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     @Override
+    public boolean isValidClickButton(int pButton) {
+        return pButton == 0 || pButton == 1;
+    }
+
+    @Override
     public boolean isTooltipHovered() {
-        return this.isHovered();
+        return this.active && this.isHovered();
     }
 
     @Override
     public void renderTooltip(GuiGraphics guiGraphics, Minecraft minecraft, int pMouseX, int pMouseY) {
         this.renderItemStackTooltips(minecraft, guiGraphics, pMouseX, pMouseY);
+    }
+
+    @Override
+    public void onClick(double pMouseX, double pMouseY) {
+        this.arAndSyncRec();
+    }
+
+    protected void arAndSyncRec() {
+        List<String> strRecs = recipes.stream().map(MKRecipe::idStr).toList();
+
+        // isStateTriggered: 配方数据存在
+        if (isStateTriggered) {
+            cookData.removeRecs(strRecs);
+        } else {
+            cookData.addRecs(strRecs);
+        }
+
+        NetworkHandler.C2S.actionCookDataRecs(maid.getId(), cookTask.getCookDataKey().getKey(), strRecs, !isStateTriggered);
     }
 
     @SuppressWarnings("all")
@@ -144,14 +187,47 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
  *             }
  *         }
  */
-        if (mc.options.advancedItemTooltips) {
-            stackTooltip.add(stackTooltip.size() - 1, VComponent.literal(String.format("RecipeId: %s", recipe.id())).withStyle(ChatFormatting.DARK_GRAY));
+
+        if (recipes.size() > 1) {
+            boolean whiteMode = cookData.mode().equals("whitelist");
+            List<String> list = whiteMode ? cookData.whitelistRecs() : cookData.blacklistRecs();
+
+            int has = 0;
+            for (MKRecipe<?> recipe : recipes) {
+                boolean canCook = list.contains(recipe.idStr());
+                if (canCook) {
+                    has++;
+                }
+            }
+
+            boolean canCook = whiteMode ? has > 0 : has == 0;
+
+            Component cookModeMge = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.warn.now_type")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.type.%s", !whiteMode ? "blacklist" : "whitelist")))
+                    .withStyle(ChatFormatting.GOLD);
+            stackTooltip.add(cookModeMge);
+
+            Component canCookMge = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.can_cook")
+                    .append(VComponent.translatable(String.format("gui.maidsoulkitchen.btn.cook_guide.can_cook.%s", canCook ? "true" : "false")))
+                    .withStyle(canCook ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED);
+            stackTooltip.add(canCookMge);
+
+            Component recipeSelectedMage = VComponent.literal(String.format("当前已选择%d/%d中配方", has, recipes.size()))
+                    .withStyle(ChatFormatting.GRAY);
+            stackTooltip.add(recipeSelectedMage);
+
+            pGuiGraphics.renderComponentTooltip(mc.font, stackTooltip, pMouseX, pMouseY, stack);
+        } else {
+            MKRecipe<?> recipe = recipes.get(0);
+            if (mc.options.advancedItemTooltips) {
+                stackTooltip.add(stackTooltip.size() - 1, VComponent.literal(String.format("RecipeId: %s", recipe.id())).withStyle(ChatFormatting.DARK_GRAY));
+            }
+
+            boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
+            Optional<TooltipComponent> recClientAmountTooltip = this.getRecClientAmountTooltip(recipe, modeRandom, false, cookData, maid);
+
+            pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
         }
-
-        boolean modeRandom = !cookData.mode().equals(CookData.Mode.WHITELIST.name);
-        Optional<TooltipComponent> recClientAmountTooltip = this.getRecClientAmountTooltip(recipe, modeRandom, false, cookData, maid);
-
-        pGuiGraphics.renderTooltip(mc.font, stackTooltip, recClientAmountTooltip, stack, pMouseX, pMouseY);
     }
 
     public Optional<TooltipComponent> getRecClientAmountTooltip(MKRecipe<?> recipe, boolean modeIsBlacklist, boolean overSize, CookData cookData, EntityMaid maid) {
