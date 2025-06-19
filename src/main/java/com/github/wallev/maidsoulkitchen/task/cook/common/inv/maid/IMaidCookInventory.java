@@ -12,6 +12,11 @@ import java.util.*;
 public abstract class IMaidCookInventory {
     protected final EntityMaid maid;
     protected final ItemInventory itemInventory = new ItemInventory();
+    protected int inputAvailableSlots = 0;
+    protected int outputAvailableSlots = 0;
+
+    protected boolean hasInputAvailableSlot = false;
+    protected boolean hasOutputAvailableSlot = false;
 
     protected IMaidCookInventory(EntityMaid maid) {
         this.maid = maid;
@@ -52,5 +57,49 @@ public abstract class IMaidCookInventory {
 
     public ItemInventory getItemInventory() {
         return itemInventory;
+    }
+
+    public void calcAvailableSlots() {
+        IItemHandlerModifiable inputInv = this.getInputInv();
+        this.hasInputAvailableSlot = false;
+        for (int i = 0; i < inputInv.getSlots(); i++) {
+            if (inputInv.getStackInSlot(i).isEmpty()) {
+                this.hasInputAvailableSlot = true;
+                break;
+            }
+        }
+
+        IItemHandlerModifiable outputInv = this.getOutputInv();
+        this.hasOutputAvailableSlot = false;
+        for (int i = 0; i < outputInv.getSlots(); i++) {
+            if (outputInv.getStackInSlot(i).isEmpty()) {
+                this.hasOutputAvailableSlot = true;
+                break;
+            }
+        }
+    }
+
+    public int getInputAvailableSlots() {
+        return inputAvailableSlots;
+    }
+//
+//    public boolean hasInputAvailableSlot() {
+//        return this.inputAvailableSlots > 0;
+//    }
+
+    public int getOutputAvailableSlots() {
+        return outputAvailableSlots;
+    }
+//
+//    public boolean hasOutputAvailableSlot() {
+//        return this.outputAvailableSlots > 0;
+//    }
+
+    public boolean hasInputAvailableSlot() {
+        return hasInputAvailableSlot;
+    }
+
+    public boolean hasOutputAvailableSlot() {
+        return hasOutputAvailableSlot;
     }
 }

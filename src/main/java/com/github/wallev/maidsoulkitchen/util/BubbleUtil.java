@@ -23,7 +23,7 @@ public class BubbleUtil {
 
         for (MaidRec maidRec : recs) {
             ItemStack result = maidRec.result();
-            resultsMap.put(result, resultsMap.getOrDefault(result, 0) + 1);
+            resultsMap.put(result, resultsMap.getOrDefault(result, 0) + maidRec.amount());
         }
 
         for (Map.Entry<ItemStack, Integer> entry : resultsMap.entrySet()) {

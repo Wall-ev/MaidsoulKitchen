@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
@@ -40,12 +41,16 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
     }
 
     public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
+
         boolean matchCookState = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
 
         boolean hasFluid = cookBeBase.hasFluid();
         // 有待取出成品(有条件取出)和对应的餐具
-        if (!recMatch && hasFluid) {
+        if (!recMatch && hasFluid && hasOutputAvailableSlot) {
             if (hasFluidContainers(cookBeBase.getFluid(), cm)) {
                 return true;
             }
@@ -61,7 +66,7 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
 
         boolean hasInputs = cookBeBase.hasInputs();
         // 配方不存在以及有残留的物品
-        if (!recMatch && hasInputs) {
+        if (!recMatch && hasInputs && hasInputAvailableSlot) {
             return true;
         }
 

@@ -1,9 +1,12 @@
 package com.github.wallev.maidsoulkitchen.util;
 
+import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -39,6 +42,22 @@ public class MemoryUtil {
     
     public static Optional<PositionTracker> getWorkPos(EntityMaid maid) {
         return maid.getBrain().getMemory(MkEntities.WORK_POS.get());
+    }
+
+    public static void resetCookWorkState(EntityMaid maid) {
+        IMaidTask task = maid.getTask();
+        if (!(task instanceof ICookTask<?,?>)) {
+            return;
+        }
+
+        eraseWorkPos(maid);
+    }
+
+    public static void clearWorkMemories(EntityMaid maid, MemoryModuleType<?>... types) {
+        Brain<EntityMaid> brain = maid.getBrain();
+        for (MemoryModuleType<?> type : types) {
+            brain.eraseMemory(type);
+        }
     }
 
 }

@@ -6,8 +6,8 @@ import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.implement.Text
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
-import com.github.wallev.maidsoulkitchen.util.debug.annotation.saferun.SafeRun;
-import com.github.wallev.maidsoulkitchen.util.debug.annotation.timerecord.TimeRecord;
+import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
+import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;

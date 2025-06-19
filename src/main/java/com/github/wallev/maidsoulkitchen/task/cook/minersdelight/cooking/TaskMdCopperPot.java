@@ -30,7 +30,7 @@ public class TaskMdCopperPot extends ICookTask<CopperPotBlockEntity, CookingPotR
 
     @Override
     protected RecSerializerManager<CookingPotRecipe> createRecSerializerManager() {
-        return new CopperPotRecSerializerManager();
+        return CopperPotRecSerializerManager.getInstance();
     }
 
     @Override

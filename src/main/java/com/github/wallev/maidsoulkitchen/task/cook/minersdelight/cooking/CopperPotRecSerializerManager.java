@@ -11,8 +11,14 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
 public class CopperPotRecSerializerManager extends RecSerializerManager<CookingPotRecipe> {
-    public CopperPotRecSerializerManager() {
+    private static final CopperPotRecSerializerManager INSTANCE = new CopperPotRecSerializerManager();
+
+    protected CopperPotRecSerializerManager() {
         super(ModRecipeTypes.COOKING.get());
+    }
+
+    public static CopperPotRecSerializerManager getInstance() {
+        return INSTANCE;
     }
 
     @Override

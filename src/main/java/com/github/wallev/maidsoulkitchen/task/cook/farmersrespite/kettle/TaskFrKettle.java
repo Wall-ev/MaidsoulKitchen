@@ -30,7 +30,7 @@ public class TaskFrKettle extends ICookTask<KettleBlockEntity, KettleRecipe> {
 
     @Override
     protected RecSerializerManager<KettleRecipe> createRecSerializerManager() {
-        return new FrKettleRecSerializerManager();
+        return FrKettleRecSerializerManager.getInstance();
     }
 
     @Override

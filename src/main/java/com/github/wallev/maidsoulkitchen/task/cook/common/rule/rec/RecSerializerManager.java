@@ -8,6 +8,7 @@ import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown.RecDataUse;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import com.github.wallev.maidsoulkitchen.util.MathUtil;
@@ -47,9 +48,10 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         return RecipeInfoProvider.getInstance();
     }
 
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, IndexRange> successAdd, Predicate<MKRecipe<R>> rIsValid, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, IndexRange> successAdd, Predicate<MKRecipe<R>> rIsValid, Predicate<RecDataUse> recDataUsePredicate) {
         LinkedList<MaidRec> maidRecs = new LinkedList<>();
         IndexRange indexRange = new IndexRange();
+        RecDataUse recDataUse = new RecDataUse();
 
         int index = 0;
         for (MKRecipe<R> r : recs) {
@@ -57,18 +59,21 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
                 continue;
             }
 
-            boolean[] canContinueMake = {true};
-            List<MaidRec> maidRec = this.createMaidRec(r, available, canContinueMake, itemUse);
-            if (!canContinueMake[0]) {
-                break;
-            }
+            List<MaidRec> maidRec = this.createMaidRec(r, available, recDataUse);
 
             int size = maidRec.size();
-            if (size > 0) {
+            if (size == 0) {
+                continue;
+            }
+
+            boolean test = recDataUsePredicate.test(recDataUse);
+            if (test) {
                 maidRecs.addAll(maidRec);
                 indexRange.set(index, size);
                 successAdd.accept(r, indexRange);
                 index += size;
+            } else {
+                break;
             }
         }
 
@@ -76,17 +81,14 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
     }
 
     @SuppressWarnings("all")
-    protected List<MaidRec> createMaidRec(MKRecipe<R> r, Map<ItemDefinition, Long> available, boolean[] canContinueMake, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
+    protected List<MaidRec> createMaidRec(MKRecipe<R> r, Map<ItemDefinition, Long> available, RecDataUse recDataUse) {
         List<ItemDefinition> invIngredient = new ArrayList<>();
         Map<ItemDefinition, ItemAmount> itemTimes = new HashMap<>();
         boolean[] single = {false};
 
         List<MaidRec> maidRecs = recProcess(r, available, invIngredient, single, itemTimes);
         if (!maidRecs.isEmpty()) {
-            boolean needContinueMake = itemUse.test(itemTimes);
-            if (!needContinueMake) {
-                canContinueMake[0] = false;
-            }
+            recDataUse.set(itemTimes, maidRecs.size());
         }
         return maidRecs;
     }
@@ -146,49 +148,54 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
 
-        int recAmount = getMaxAmount(available, single, itemTimes);
-        int amount = recAmount;
-        if (single[0] || r.isSingle()) {
+        int canCookAmount = getMaxAmount(available, single, itemTimes);
+        int amount = canCookAmount;
+        boolean isSingle = single[0] || r.isSingle();
+        int endAmount = 1;
+        if (isSingle) {
             amount = 1;
+            endAmount = canCookAmount;
         }
 
         for (ItemDefinition definition : invIngredient) {
             ItemAmount itemAmount = itemTimes.get(definition);
-            itemAmount.setRecAmount(recAmount);
             int minAmount = itemAmount.getAmount();
+            itemAmount.setRecAmount(amount);
 
             int count = amount * minAmount;
             maidItems.add(new MaidItem(definition, count));
-            available.put(definition, available.get(definition) - (long) count * recAmount);
+            available.put(definition, available.get(definition) - (long) count * endAmount);
         }
 
         MaidRec maidRec = new MaidRec(r.rec(), result, amount, maidItems);
-        return this.generateRecs(maidRec, recAmount);
+        return this.generateRecs(maidRec, endAmount);
     }
 
     protected List<MaidRec> createCookRec(MKRecipe<R> r, ItemStack tool, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
 
-        int recAmount = getMaxAmount(available, single, itemTimes);
-
-        int amount = recAmount;
-        if (single[0] || r.isSingle()) {
+        int canCookAmount = getMaxAmount(available, single, itemTimes);
+        int amount = canCookAmount;
+        boolean isSingle = single[0] || r.isSingle();
+        int endAmount = 1;
+        if (isSingle) {
             amount = 1;
+            endAmount = canCookAmount;
         }
 
         for (ItemDefinition definition : invIngredient) {
             ItemAmount itemAmount = itemTimes.get(definition);
-            itemAmount.setRecAmount(recAmount);
+            itemAmount.setRecAmount(amount);
             int minAmount = itemAmount.getAmount();
 
             int count = amount * minAmount;
             maidItems.add(new MaidItem(definition, count));
-            available.put(definition, available.get(definition) - (long) count * recAmount);
+            available.put(definition, available.get(definition) - (long) count * endAmount);
         }
         MaidRec maidRec = new MaidRec(r.rec(), result, amount, tool, maidItems);
 
-        return this.generateRecs(maidRec, recAmount);
+        return this.generateRecs(maidRec, endAmount);
     }
 
     protected List<MaidRec> generateRecs(MaidRec maidRec, int count) {

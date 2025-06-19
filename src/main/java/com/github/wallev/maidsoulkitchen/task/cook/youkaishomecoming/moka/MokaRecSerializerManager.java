@@ -6,8 +6,14 @@ import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.world.item.ItemStack;
 
 public class MokaRecSerializerManager extends RecSerializerManager<MokaRecipe> {
-    public MokaRecSerializerManager() {
+    private static final MokaRecSerializerManager INSTANCE = new MokaRecSerializerManager();
+
+    protected MokaRecSerializerManager() {
         super(YHBlocks.MOKA_RT.get());
+    }
+
+    public static MokaRecSerializerManager getInstance() {
+        return INSTANCE;
     }
 
     @Override

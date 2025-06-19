@@ -106,4 +106,9 @@ public class MaidInventory extends IMaidCookInventory {
     public IItemHandlerModifiable getOutputInv() {
         return this.inv;
     }
+
+    @Override
+    public void syncInv() {
+        this.calcAvailableSlots();
+    }
 }

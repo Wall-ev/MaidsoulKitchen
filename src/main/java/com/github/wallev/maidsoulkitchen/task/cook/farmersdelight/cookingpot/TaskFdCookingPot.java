@@ -30,7 +30,7 @@ public class TaskFdCookingPot extends ICookTask<CookingPotBlockEntity, CookingPo
 
     @Override
     protected RecSerializerManager<CookingPotRecipe> createRecSerializerManager() {
-        return new CookingPotRecSerializerManager();
+        return CookingPotRecSerializerManager.getInstance();
     }
 
     @Override

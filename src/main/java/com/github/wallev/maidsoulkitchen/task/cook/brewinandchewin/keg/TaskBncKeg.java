@@ -31,7 +31,7 @@ public class TaskBncKeg extends ICookTask<KegBlockEntity, KegFermentingRecipe> {
 
     @Override
     protected RecSerializerManager<KegFermentingRecipe> createRecSerializerManager() {
-        return new KegRecSerializerManager();
+        return KegRecSerializerManager.getInstance();
     }
 
     @Override

@@ -71,6 +71,7 @@ public interface ICookBeAccessor {
         return Map.of();
     }
 
+    @SuppressWarnings("all")
     default <OBE> OBE kl$cast() {
         return (OBE) (Object) this;
     }

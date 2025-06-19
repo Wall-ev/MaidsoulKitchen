@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ public abstract class IItemDown {
         recLimitIndex = 0;
     }
 
-    public abstract boolean read(Map<ItemDefinition, ItemAmount> itemUse);
+    public abstract boolean read(RecDataUse recDataUse);
 
     public Map<ItemDefinition, Integer> getUseItemDef() {
         return useItemDef;

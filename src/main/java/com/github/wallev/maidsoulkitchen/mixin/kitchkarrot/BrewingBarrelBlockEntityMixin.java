@@ -7,10 +7,12 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = BrewingBarrelBlockEntity.class, remap = false)
 public abstract class BrewingBarrelBlockEntityMixin implements ICookBeAccessor {
-    @Shadow protected abstract boolean hasRecipe();
+//    @Shadow protected abstract boolean hasRecipe();
 
     @Override
     public boolean kl$canCook() {
-        return this.hasRecipe();
+        // @todo fix
+        return false;
+//        return this.hasRecipe();
     }
 }

@@ -19,6 +19,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -78,6 +79,8 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
 
     @Override
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
+        MemoryUtil.resetCookWorkState(maid);
+
         CookBeBase<B> cookBe = this.createCookBe(maid);
         AbstractCookRule<B, R> rule = this.cookRule.getOrCreate();
         MaidCookManager<R> rm = this.createRecipesManager(maid, cookBe);

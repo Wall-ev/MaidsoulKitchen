@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.item;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -104,16 +103,6 @@ public class ItemDefinition {
     @Override
     public String toString() {
         return "1 " + item;
-    }
-
-    public static class ItemDefinitionMap {
-        private static final Object2ObjectOpenHashMap<Item, ItemDefinition> itemMap = new Object2ObjectOpenHashMap<>();
-        private static final Object2ObjectOpenHashMap<ItemStack, ItemDefinition> stackMap = new Object2ObjectOpenHashMap<>();
-
-        public ItemDefinition get(Item item) {
-            return itemMap.get(item);
-        }
-
     }
 
 }

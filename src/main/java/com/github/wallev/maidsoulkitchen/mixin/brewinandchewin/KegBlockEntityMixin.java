@@ -1,11 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.brewinandchewin;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.ICbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -18,14 +15,18 @@ import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 import umpaz.brewinandchewin.common.utility.KegRecipeWrapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mixin(value = KegBlockEntity.class, remap = false)
-public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperinceAward, ICookBeAccessor {
+public abstract class KegBlockEntityMixin implements ICookBeAccessor {
 
     @Shadow
     @Final
     private KegRecipeWrapper recipeWrapper;
+    @Shadow
+    @Final
+    private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
 
     @Shadow
     protected abstract Optional<KegFermentingRecipe> getMatchingRecipe(KegRecipeWrapper inventoryWrapper);
@@ -36,26 +37,24 @@ public abstract class KegBlockEntityMixin implements ICbeAccessor, IRecipeExperi
     @Shadow
     protected abstract boolean canFerment(KegFermentingRecipe recipe, KegBlockEntity keg);
 
-    @Shadow public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
-
-    @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
-
-    @Override
-    public boolean tlmk$innerCanCook() {
-        Optional<KegFermentingRecipe> matchingRecipe = this.getMatchingRecipe(recipeWrapper);
-        return matchingRecipe.isPresent() && this.canFerment(matchingRecipe.get(), (KegBlockEntity) (Object) this);
-    }
-
-    @Override
-    public void tlmk$awardExperience(Entity entity) {
-        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
-        this.usedRecipeTracker.clear();
-    }
+    @Shadow
+    public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
 
     @Override
     public boolean kl$canCook() {
-       return this.getMatchingRecipe(this.recipeWrapper)
+        return this.getMatchingRecipe(this.recipeWrapper)
                 .map(r -> this.canFerment(r, this.kl$cast()))
                 .orElse(false);
     }
+
+    @Override
+    public void kl$getUsedRecipesAndPopExperience(Level level, Vec3 pos) {
+        this.getUsedRecipesAndPopExperience(level, pos);
+    }
+
+    @Override
+    public Map<ResourceLocation, Integer> kl$usedRecipeTracker() {
+        return usedRecipeTracker;
+    }
+
 }

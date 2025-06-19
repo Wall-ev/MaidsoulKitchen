@@ -144,6 +144,7 @@ public class MaidCookBagInventory extends IMaidCookInventory {
 
     @Override
     public void syncInv() {
+        this.calcAvailableSlots();
         ItemCulinaryHub.setContainer(stack, containers);
     }
 }

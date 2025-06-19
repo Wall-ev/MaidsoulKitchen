@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown.RecDataUse;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -38,11 +39,11 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid, Predicate<RecDataUse> recDataUsePredicate) {
         if (!available.containsKey(getKitchenShovelDef())) {
             return EMPTY_LIST;
         }
-        return super.createMaidRecs(recs, available, successAdd, rIsValid, itemUse);
+        return super.createMaidRecs(recs, available, successAdd, rIsValid, recDataUsePredicate);
     }
 
     @Override
@@ -54,20 +55,24 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     protected List<MaidRec> createCookRec(MKRecipe<PotRecipe> r, Map<ItemDefinition, Long> available, boolean[] single, List<ItemDefinition> invIngredient, Map<ItemDefinition, ItemAmount> itemTimes) {
         ItemStack result = r.output();
         List<MaidItem> maidItems = new ArrayList<>();
-        int recAmount = getMaxAmount(available, single, itemTimes);
-        int amount = recAmount;
-        if (single[0] || r.isSingle()) {
+
+        int canCookAmount = getMaxAmount(available, single, itemTimes);
+        int amount = canCookAmount;
+        boolean isSingle = single[0] || r.isSingle();
+        int endAmount = 1;
+        if (isSingle) {
             amount = 1;
+            endAmount = canCookAmount;
         }
 
         for (ItemDefinition definition : invIngredient) {
             ItemAmount itemAmount = itemTimes.get(definition);
-            itemAmount.setRecAmount(recAmount);
+            itemAmount.setRecAmount(amount);
             int minAmount = itemAmount.getAmount();
 
             int count = amount * minAmount;
             maidItems.add(new MaidItem(definition, count));
-            available.put(definition, available.get(definition) - (long) count * recAmount);
+            available.put(definition, available.get(definition) - (long) count * endAmount);
         }
         maidItems.remove(0);
         if (r.rec().isNeedBowl()) {
@@ -79,7 +84,7 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
         itemTimes.put(getKitchenShovelDef(), itemAmount);
         MaidRec maidRec = new MaidRec(r.rec(), r.rec().getTime(), result, amount, getOil().getDefaultInstance(), getKitchenShovel().getDefaultInstance(), getContainer().getDefaultInstance(),
                 maidItems, MaidItem.EMPTY);
-        return this.generateRecs(maidRec, recAmount);
+        return this.generateRecs(maidRec, endAmount);
     }
 
     @Override

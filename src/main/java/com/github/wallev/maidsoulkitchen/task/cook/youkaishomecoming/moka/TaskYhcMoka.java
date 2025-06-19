@@ -30,7 +30,7 @@ public class TaskYhcMoka extends ICookTask<MokaMakerBlockEntity, MokaRecipe> {
 
     @Override
     protected RecSerializerManager<MokaRecipe> createRecSerializerManager() {
-        return new MokaRecSerializerManager();
+        return MokaRecSerializerManager.getInstance();
     }
 
     @Override

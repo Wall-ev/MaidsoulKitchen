@@ -1,12 +1,9 @@
 package com.github.wallev.maidsoulkitchen.mixin.farmersrespite;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.ICbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -22,10 +19,15 @@ import umpaz.farmersrespite.common.crafting.KettleRecipe;
 import vectorwing.farmersdelight.common.block.entity.SyncedBlockEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mixin(value = KettleBlockEntity.class, remap = false)
-public abstract class KettleBlockEntityMixin extends SyncedBlockEntity implements ICbeAccessor, IRecipeExperinceAward, ICookBeAccessor {
+public abstract class KettleBlockEntityMixin extends SyncedBlockEntity implements ICookBeAccessor {
+    @Shadow
+    @Final
+    private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
+
     public KettleBlockEntityMixin(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
     }
@@ -39,34 +41,21 @@ public abstract class KettleBlockEntityMixin extends SyncedBlockEntity implement
     @Shadow
     protected abstract boolean canBrew(KettleRecipe recipe, KettleBlockEntity kettle);
 
-    @Shadow public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
+    @Shadow
+    public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
 
-    @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
-
-    @Override
-    public boolean tlmk$innerCanCook() {
-        Optional<KettleRecipe> recipe = this.getMatchingRecipe(new RecipeWrapper(this.getInventory()));
-        return recipe.isPresent() && this.canBrew(recipe.get(), (KettleBlockEntity) (Object) this);
-    }
-
-    @Override
-    public void tlmk$awardExperience(Entity entity) {
-        this.getUsedRecipesAndPopExperience(entity.level, entity.position());
-        this.usedRecipeTracker.clear();
-    }
-
-
-
-    /**
-     * 判断厨具内部的原料是否可以烹饪
-     * <br>即有符合配方的原料
-     * <br>但不会检测额外条件
-     * <br>比如：需要燃料，加水等
-     *
-     * @return 是否可以烹饪
-     */
     @Override
     public boolean kl$canCook() {
         return this.kl$canCook(this.getInventory(), this::getMatchingRecipe, r -> this.canBrew(r, this.kl$cast()));
+    }
+
+    @Override
+    public void kl$getUsedRecipesAndPopExperience(Level level, Vec3 pos) {
+        this.getUsedRecipesAndPopExperience(level, pos);
+    }
+
+    @Override
+    public Map<ResourceLocation, Integer> kl$usedRecipeTracker() {
+        return usedRecipeTracker;
     }
 }

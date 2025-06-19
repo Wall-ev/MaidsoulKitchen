@@ -1,11 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.farmersdelight;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IFdCbeAccessor;
-import com.github.wallev.maidsoulkitchen.task.cook.common.cbaccessor.IRecipeExperinceAward;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -22,33 +19,22 @@ import java.util.Map;
 import java.util.Optional;
 
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
-public abstract class CookingPotBlockEntityMixin implements IFdCbeAccessor<CookingPotRecipe>, IRecipeExperinceAward, ICookBeAccessor {
+public abstract class CookingPotBlockEntityMixin implements ICookBeAccessor {
+    @Shadow
+    @Final
+    private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
+
     @Shadow
     protected abstract Optional<CookingPotRecipe> getMatchingRecipe(RecipeWrapper inventoryWrapper);
 
     @Shadow
     protected abstract boolean canCook(CookingPotRecipe recipe);
 
-    @Shadow public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
+    @Shadow
+    public abstract List<Recipe<?>> getUsedRecipesAndPopExperience(Level level, Vec3 pos);
 
-    @Shadow @Final private Object2IntOpenHashMap<ResourceLocation> usedRecipeTracker;
-
-    @Shadow public abstract ItemStackHandler getInventory();
-
-    @Override
-    public Optional<CookingPotRecipe> tlmk$getMatchingRecipe(RecipeWrapper inventoryWrapper) {
-        return getMatchingRecipe(inventoryWrapper);
-    }
-
-    @Override
-    public boolean tlmk$canCook(CookingPotRecipe recipe) {
-        return canCook(recipe);
-    }
-
-    @Override
-    public void tlmk$awardExperience(Entity entity) {
-        this.kl$awardExperience(entity, this::getUsedRecipesAndPopExperience, this.usedRecipeTracker);
-    }
+    @Shadow
+    public abstract ItemStackHandler getInventory();
 
     @Override
     public boolean kl$canCook() {

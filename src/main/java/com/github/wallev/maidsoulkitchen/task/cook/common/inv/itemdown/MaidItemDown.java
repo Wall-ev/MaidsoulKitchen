@@ -1,10 +1,5 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
-import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
-
-import java.util.Map;
-
 public class MaidItemDown extends IItemDown {
     @Override
     public void clear() {
@@ -12,7 +7,7 @@ public class MaidItemDown extends IItemDown {
     }
 
     @Override
-    public boolean read(Map<ItemDefinition, ItemAmount> itemUse) {
+    public boolean read(RecDataUse recDataUse) {
         return true;
     }
 }

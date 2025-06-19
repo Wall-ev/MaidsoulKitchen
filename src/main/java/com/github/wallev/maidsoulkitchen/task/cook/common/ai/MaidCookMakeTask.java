@@ -1,15 +1,14 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.ai;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
-import com.github.wallev.maidsoulkitchen.util.debug.annotation.saferun.SafeRun;
-import com.github.wallev.maidsoulkitchen.util.debug.annotation.timerecord.TimeRecord;
+import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
+import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
@@ -28,16 +27,14 @@ import java.util.Optional;
 
 public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> implements VBehaviorControl {
     private final ICookTask<B, R> task;
-    private final MaidCookManager<R> rm;
+    private final MaidCookManager<R> cm;
     private final AbstractCookRule<B, R> rule;
     private final CookBeBase<B> cookBe;
 
-    public MaidCookMakeTask(ICookTask<B, R> task, MaidCookManager<R> rm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
-        super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_PRESENT,
-                MkEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT)
-                , 2400);
+    public MaidCookMakeTask(ICookTask<B, R> task, MaidCookManager<R> cm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
+        super(ImmutableMap.of(MkEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT), 2400);
         this.task = task;
-        this.rm = rm;
+        this.cm = cm;
         this.rule = rule;
         this.cookBe = cookBe;
     }
@@ -45,14 +42,19 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     @SafeRun
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid maid) {
+        // fixme: 防止意外的未中断 WorkPosMemory 导致直接绕过数据初始化而导致的游戏崩溃
+        if (!cm.isInitData()) {
+            MemoryUtil.resetCookWorkState(maid);
+            return false;
+        }
+
         Brain<EntityMaid> brain = maid.getBrain();
         return brain.getMemory(MkEntities.WORK_POS.get()).map(targetPos -> {
             Vec3 targetV3d = targetPos.currentPosition();
             if (maid.distanceToSqr(targetV3d) > Math.pow(task.getCloseEnoughDist(), 2)) {
                 Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);
                 if (walkTarget.isEmpty() || !walkTarget.get().getTarget().currentPosition().equals(targetV3d)) {
-                    brain.eraseMemory(InitEntities.TARGET_POS.get());
-                    brain.eraseMemory(MkEntities.WORK_POS.get());
+                    MemoryUtil.eraseWorkPos(maid);
                 }
                 return false;
             }
@@ -68,7 +70,7 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
             BlockPos basePos = posWrapper.currentBlockPosition();
             BlockEntity blockEntity = worldIn.getBlockEntity(basePos);
             if (blockEntity != null && cookBe.isCookBe(blockEntity)) {
-                this.rule.cookMake(cookBe, rm);
+                this.rule.cookMake(cookBe, cm);
                 this.sync();
             }
         });
@@ -77,20 +79,20 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     @SafeRun
     @Override
     protected void tick(ServerLevel worldIn, EntityMaid maid, long gameTime) {
-        rule.tickCookMake(cookBe, rm);
+        rule.tickCookMake(cookBe, cm);
     }
 
     protected void sync() {
-        rm.itemOutput2Chest();
-        rm.syncInv();
-        rm.updateInvIngredients();
+        cm.itemOutput2Chest();
+        cm.syncInv();
+        cm.updateInvIngredients();
     }
 
     @TimeRecord
     @SafeRun
     @Override
     protected void stop(ServerLevel worldIn, EntityMaid maid, long gameTime) {
-        rule.tickStop(cookBe, rm);
+        rule.tickStop(cookBe, cm);
         this.sync();
         cookBe.clear();
         MemoryUtil.eraseWorkPos(maid);
@@ -99,6 +101,6 @@ public class MaidCookMakeTask<B extends BlockEntity, R extends Recipe<? extends 
     @SafeRun
     @Override
     protected boolean canStillUse(ServerLevel worldIn, EntityMaid maid, long gameTime) {
-        return rule.tickCan(cookBe, rm);
+        return rule.tickCan(cookBe, cm);
     }
 }

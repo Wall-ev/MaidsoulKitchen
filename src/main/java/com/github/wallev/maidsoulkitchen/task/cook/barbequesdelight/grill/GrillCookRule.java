@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -27,23 +28,29 @@ public class GrillCookRule extends TickCookRule<GrillBlockEntity, GrillingRecipe
         boolean innerCanCook = false;
         GrillBlockEntity blockEntity = cookBeBase.getBe();
 
-        // 取出烤焦的食物
-        GrillBlockEntity.ItemEntry[] itemEntries = blockEntity.entries;
-        for (GrillBlockEntity.ItemEntry itemEntry : itemEntries) {
-            if (itemEntry.stack.is(BBQDItems.BURNT_FOOD.asItem())) {
-                return true;
-            } else if (!itemEntry.stack.isEmpty()) {
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
 
-                // 要翻转了
-                if (itemEntry.canFlip()) {
+        if (hasOutputAvailableSlot) {
+            // 取出烤焦的食物
+            GrillBlockEntity.ItemEntry[] itemEntries = blockEntity.entries;
+            for (GrillBlockEntity.ItemEntry itemEntry : itemEntries) {
+                if (itemEntry.stack.is(BBQDItems.BURNT_FOOD.asItem())) {
                     return true;
-                }
+                } else if (!itemEntry.stack.isEmpty()) {
 
-                if (itemEntry.flipped && itemEntry.time >= itemEntry.duration) {
-                    return true;
-                }
+                    // 要翻转了
+                    if (itemEntry.canFlip()) {
+                        return true;
+                    }
 
-                innerCanCook = true;
+                    if (itemEntry.flipped && itemEntry.time >= itemEntry.duration) {
+                        return true;
+                    }
+
+                    innerCanCook = true;
+                }
             }
         }
 

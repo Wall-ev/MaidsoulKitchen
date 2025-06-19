@@ -25,8 +25,14 @@ import java.util.*;
 
 
 public class KegRecSerializerManager extends FluidRecSerializerManager<KegFermentingRecipe> {
-    public KegRecSerializerManager() {
+    private static final KegRecSerializerManager INSTANCE = new KegRecSerializerManager();
+
+    protected KegRecSerializerManager() {
         super(BnCRecipeTypes.FERMENTING.get());
+    }
+
+    public static KegRecSerializerManager getInstance() {
+        return INSTANCE;
     }
 
     @Override

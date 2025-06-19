@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.api.event;
 
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidTaskEnableEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.mojang.datafixers.util.Pair;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * {@link }
+ * use {@link MaidTaskEnableEvent}
  */
 @Deprecated(since = "0.1.4", forRemoval = true)
 @Cancelable

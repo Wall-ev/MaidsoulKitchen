@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -22,10 +23,14 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
     }
 
     public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
+
         boolean canTakeResult = cookBeBase.canTakeResult();
         boolean hasResult = cookBeBase.hasResult();
         // 有成品
-        if (canTakeResult && hasResult) {
+        if (canTakeResult && hasResult && hasOutputAvailableSlot) {
             return true;
         }
 
@@ -43,13 +48,13 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
             }
         }
 
-        if (recMatch && !matchCookState && hasFuel) {
+        if (recMatch && !matchCookState && hasFuel && hasInputAvailableSlot) {
             return true;
         }
 
         boolean hasInputs = cookBeBase.hasInputs();
         // 配方不存在以及有残留的物品
-        if (!recMatch && hasInputs) {
+        if (!recMatch && hasInputs && hasInputAvailableSlot) {
             return true;
         }
 

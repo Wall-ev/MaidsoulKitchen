@@ -25,8 +25,14 @@ import java.util.*;
 
 
 public class FrKettleRecSerializerManager extends FluidRecSerializerManager<KettleRecipe> {
-    public FrKettleRecSerializerManager() {
+    private static final FrKettleRecSerializerManager INSTANCE = new FrKettleRecSerializerManager();
+
+    protected FrKettleRecSerializerManager() {
         super(FRRecipeTypes.BREWING.get());
+    }
+
+    public static FrKettleRecSerializerManager getInstance() {
+        return INSTANCE;
     }
 
     @Override

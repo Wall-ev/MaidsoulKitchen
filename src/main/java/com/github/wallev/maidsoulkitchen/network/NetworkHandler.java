@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.network;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.network.packet.c2s.*;
-import com.github.wallev.maidsoulkitchen.network.packet.s2c.RenderMaidHubZonePackage;
+import com.github.wallev.maidsoulkitchen.network.packet.s2c.RenderMaidHubZonePacket;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,30 +25,30 @@ public final class NetworkHandler {
     public static void init() {
         int i = 0;
         // Server
-        CHANNEL.registerMessage(i++, ToggleCookBagGuiSideTabPackage.class, ToggleCookBagGuiSideTabPackage::encode, ToggleCookBagGuiSideTabPackage::decode, ToggleCookBagGuiSideTabPackage::handle,
+        CHANNEL.registerMessage(i++, ToggleCookBagGuiSideTabPacket.class, ToggleCookBagGuiSideTabPacket::encode, ToggleCookBagGuiSideTabPacket::decode, ToggleCookBagGuiSideTabPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SetCookBagBindModePackage.class, SetCookBagBindModePackage::encode, SetCookBagBindModePackage::decode, SetCookBagBindModePackage::handle,
+        CHANNEL.registerMessage(i++, SetCookBagBindModePacket.class, SetCookBagBindModePacket::encode, SetCookBagBindModePacket::decode, SetCookBagBindModePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SetCookDataModePackage.class, SetCookDataModePackage::encode, SetCookDataModePackage::decode, SetCookDataModePackage::handle,
+        CHANNEL.registerMessage(i++, SetCookDataModePacket.class, SetCookDataModePacket::encode, SetCookDataModePacket::decode, SetCookDataModePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ActionCookDataRecPackage.class, ActionCookDataRecPackage::encode, ActionCookDataRecPackage::decode, ActionCookDataRecPackage::handle,
+        CHANNEL.registerMessage(i++, ActionCookDataRecPacket.class, ActionCookDataRecPacket::encode, ActionCookDataRecPacket::decode, ActionCookDataRecPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ActionCookDataRecsPackage.class, ActionCookDataRecsPackage::encode, ActionCookDataRecsPackage::decode, ActionCookDataRecsPackage::handle,
+        CHANNEL.registerMessage(i++, ActionCookDataRecsPacket.class, ActionCookDataRecsPacket::encode, ActionCookDataRecsPacket::decode, ActionCookDataRecsPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetPackage.class, SetFruitFarmSearchYOffsetPackage::encode, SetFruitFarmSearchYOffsetPackage::decode, SetFruitFarmSearchYOffsetPackage::handle,
+        CHANNEL.registerMessage(i++, SetFruitFarmSearchYOffsetPacket.class, SetFruitFarmSearchYOffsetPacket::encode, SetFruitFarmSearchYOffsetPacket::decode, SetFruitFarmSearchYOffsetPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ActionBerryFarmRulePackage.class, ActionBerryFarmRulePackage::encode, ActionBerryFarmRulePackage::decode, ActionBerryFarmRulePackage::handle,
+        CHANNEL.registerMessage(i++, ActionBerryFarmRulePacket.class, ActionBerryFarmRulePacket::encode, ActionBerryFarmRulePacket::decode, ActionBerryFarmRulePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ActionFruitFarmRulePackage.class, ActionFruitFarmRulePackage::encode, ActionFruitFarmRulePackage::decode, ActionFruitFarmRulePackage::handle,
+        CHANNEL.registerMessage(i++, ActionFruitFarmRulePacket.class, ActionFruitFarmRulePacket::encode, ActionFruitFarmRulePacket::decode, ActionFruitFarmRulePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, ClearCookBagBindPosesPackage.class, ClearCookBagBindPosesPackage::encode, ClearCookBagBindPosesPackage::decode, ClearCookBagBindPosesPackage::handle,
+        CHANNEL.registerMessage(i++, ClearCookBagBindPosesPacket.class, ClearCookBagBindPosesPacket::encode, ClearCookBagBindPosesPacket::decode, ClearCookBagBindPosesPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(i++, GiveRecipeIngredientPackage.class, GiveRecipeIngredientPackage::encode, GiveRecipeIngredientPackage::decode, GiveRecipeIngredientPackage::handle,
+        CHANNEL.registerMessage(i++, GiveRecipeIngredientPacket.class, GiveRecipeIngredientPacket::encode, GiveRecipeIngredientPacket::decode, GiveRecipeIngredientPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
 
         // Client
-        CHANNEL.registerMessage(i++, RenderMaidHubZonePackage.class, RenderMaidHubZonePackage::encode, RenderMaidHubZonePackage::decode, RenderMaidHubZonePackage::handle,
+        CHANNEL.registerMessage(i++, RenderMaidHubZonePacket.class, RenderMaidHubZonePacket::encode, RenderMaidHubZonePacket::decode, RenderMaidHubZonePacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
     }
@@ -63,49 +63,49 @@ public final class NetworkHandler {
 
     public static class C2S {
         public static void toggleCookBagGuiSideTab(int tabId) {
-            sendToServer(new ToggleCookBagGuiSideTabPackage(tabId));
+            sendToServer(new ToggleCookBagGuiSideTabPacket(tabId));
         }
 
         public static void setCookBagBindMode(String mode) {
-            sendToServer(new SetCookBagBindModePackage(mode));
+            sendToServer(new SetCookBagBindModePacket(mode));
         }
 
         public static void setCookDataMode(int entityId, ResourceLocation dataKey, String mode) {
-            sendToServer(new SetCookDataModePackage(entityId, dataKey, mode));
+            sendToServer(new SetCookDataModePacket(entityId, dataKey, mode));
         }
 
         public static void actionCookDataRec(int entityId, ResourceLocation dataKey, String rec, String mode) {
-            sendToServer(new ActionCookDataRecPackage(entityId, dataKey, rec, mode));
+            sendToServer(new ActionCookDataRecPacket(entityId, dataKey, rec, mode));
         }
 
         public static void actionCookDataRecs(int entityId, ResourceLocation dataKey, List<String> rec, boolean add) {
-            sendToServer(new ActionCookDataRecsPackage(entityId, dataKey, rec, add));
+            sendToServer(new ActionCookDataRecsPacket(entityId, dataKey, rec, add));
         }
 
         public static void setFruitFarmSearchYOffset(int entityId, ResourceLocation dataKey, int searchYOffset) {
-            sendToServer(new SetFruitFarmSearchYOffsetPackage(entityId, dataKey, searchYOffset));
+            sendToServer(new SetFruitFarmSearchYOffsetPacket(entityId, dataKey, searchYOffset));
         }
 
         public static void actionBerryFarmRule(int entityId, ResourceLocation dataKey, String rec) {
-            sendToServer(new ActionBerryFarmRulePackage(entityId, dataKey, rec));
+            sendToServer(new ActionBerryFarmRulePacket(entityId, dataKey, rec));
         }
 
         public static void actionFruitFarmRule(int entityId, ResourceLocation dataKey, String rec) {
-            sendToServer(new ActionFruitFarmRulePackage(entityId, dataKey, rec));
+            sendToServer(new ActionFruitFarmRulePacket(entityId, dataKey, rec));
         }
 
         public static void clearCookBagBindPoses() {
-            sendToServer(new ClearCookBagBindPosesPackage());
+            sendToServer(new ClearCookBagBindPosesPacket());
         }
 
         public static void giveRecipeIngredient(List<ItemStack> itemStacks) {
-            sendToServer(new GiveRecipeIngredientPackage(itemStacks));
+            sendToServer(new GiveRecipeIngredientPacket(itemStacks));
         }
     }
 
     public static class S2C {
         public static void renderMaidHubZone(int maidId, Player player) {
-            sendToClientPlayer(new RenderMaidHubZonePackage(maidId), player);
+            sendToClientPlayer(new RenderMaidHubZonePacket(maidId), player);
         }
     }
 

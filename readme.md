@@ -14,7 +14,7 @@
 这里是一个[车万女仆](https://github.com/TartaricAcid/TouhouLittleMaid)附属模组，旨在让女仆学会使用其他模组的烹饪和作物的耕种
 
 ## 开发提示
- - 由于目前使用到了AspectJ，所以如果有类使用到了`util.debug.annotation`下的注解，热重载只能使用`idea`自带的重载，使用`Single Hotswap`会失效且崩溃
+ - 由于目前使用到了`AspectJ`，所以如果有类使用到了`debug.annotation`下的注解，热重载只能使用`idea`自带的重载，使用`Single Hotswap`会失效且崩溃
 
 ## 警告
 目前，该项目还存在很多问题：分支管理不善、代码成了堆积如山的垃圾、问题管理等等......<p> 

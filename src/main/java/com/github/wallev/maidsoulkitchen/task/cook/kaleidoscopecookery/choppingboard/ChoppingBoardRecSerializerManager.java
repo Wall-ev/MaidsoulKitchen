@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -16,9 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<ChoppingBoardRecipe> {
@@ -26,15 +22,6 @@ public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<
 
     protected ChoppingBoardRecSerializerManager() {
         super(ModRecipes.CHOPPING_BOARD_RECIPE);
-    }
-
-    @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<ChoppingBoardRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<ChoppingBoardRecipe>, IndexRange> successAdd, Predicate<MKRecipe<ChoppingBoardRecipe>> rIsValid, Predicate<Map<ItemDefinition, ItemAmount>> itemUse) {
-//        if (getTool(available) == null) {
-//            return EMPTY_LIST;
-//        }
-
-        return super.createMaidRecs(recs, available, successAdd, rIsValid, itemUse);
     }
 
     @Override

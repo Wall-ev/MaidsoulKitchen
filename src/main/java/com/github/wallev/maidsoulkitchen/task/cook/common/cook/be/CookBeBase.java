@@ -199,6 +199,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
             if (!maidItem.isEmpty()) {
                 ItemDefinition item = maidItem.item();
                 int count = maidItem.count();
+                // @todo fix: 有时候为空，初步推断可能是配方读取时，槽位使用计算错误导致的: HubItemDown#read
                 insertAndShrink(ingredientInv, count, itemInventory.getItemStacks(item), index);
             }
             index++;
@@ -280,7 +281,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
             ItemStack copy = takeItem.copy();
             ItemStack leftStack = ItemHandlerHelper.insertItemStacked(item2Inv, copy, false);
             takeItem.shrink(copy.getCount() - leftStack.getCount());
-            return true;
+            return leftStack.getCount() == 0;
         }
         return false;
     }
@@ -289,7 +290,7 @@ public abstract class CookBeBase<B extends BlockEntity> {
         ItemStack copy = insertItem.copy();
         ItemStack leftStack = insertInv.kl$insertItem(insertSlot, copy, false);
         insertItem.shrink(copy.getCount() - leftStack.getCount());
-        return true;
+        return leftStack.getCount() == 0;
     }
 
 

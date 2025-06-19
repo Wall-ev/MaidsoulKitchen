@@ -56,7 +56,9 @@ public class BrewingBarrelBe extends CookBeBase<BrewingBarrelBlockEntity> {
 
     @Override
     public boolean cookStateMatch() {
-        return be.hasEnoughWater();
+        // @todo
+        return false;
+//        return be.hasEnoughWater();
     }
 
     @Override
@@ -64,8 +66,11 @@ public class BrewingBarrelBe extends CookBeBase<BrewingBarrelBlockEntity> {
         this.defaultChanged();
     }
 
+
     @Override
     public boolean hasFluid() {
-        return be.hasEnoughWater();
+        // @todo
+        return false;
+//        return be.hasEnoughWater();
     }
 }

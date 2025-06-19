@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class HubItemDown extends IItemDown {
-    private final int availableSlot = BagType.INPUT.endIndex;
-    private final int slotLimitCount = 64;
+    private int availableSlot = BagType.INPUT.endIndex - 5;
+    private int slotLimitCount = 64;
 
     @Override
     public void clear() {
@@ -19,10 +19,14 @@ public class HubItemDown extends IItemDown {
     }
 
     @Override
-    public boolean read(Map<ItemDefinition, ItemAmount> itemUse) {
+    public boolean read(RecDataUse recDataUse) {
         if (useSlot > availableSlot) {
             return false;
         }
+
+        Map<ItemDefinition, ItemAmount> itemUse = recDataUse.getItemUse();
+        int recAmount = recDataUse.getRecipeRepeat();
+//        int recAmount = itemAmount.getRecAmount();
 
         int recUseCount = 0;
         Map<ItemDefinition, Integer> useItemDef = new HashMap<>();
@@ -48,8 +52,7 @@ public class HubItemDown extends IItemDown {
             }
 
             boolean isStackable = itemDefinition.isStackable();
-            int recAmount = itemAmount.getRecAmount();
-            int needCount = recAmount * itemAmount.needCount();
+            int needCount = recAmount * itemAmount.needCount() * itemAmount.getRecAmount();
             if (!isStackable) {
                 useSlot += needCount;
                 if (useSlot > availableSlot) {

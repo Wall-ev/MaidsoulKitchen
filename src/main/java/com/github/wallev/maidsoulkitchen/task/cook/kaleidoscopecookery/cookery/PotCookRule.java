@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.BubbleUtil;
@@ -39,7 +40,11 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
         PotBe potBe = (PotBe) cookBeBase;
         PotBlockEntity potBlockEntity = potBe.getBe();
 
-        if (potBlockEntity.getStatus() == 2) {
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
+
+        if (potBlockEntity.getStatus() == 2 && hasOutputAvailableSlot) {
             if (potBlockEntity.isNeedBowl()) {
                 ItemStack container = cm.getItem(CONTAINER);
                 return !container.isEmpty();

@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.util.MaidUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -20,42 +21,46 @@ public class FdPotCookRule<B extends BlockEntity, R extends Recipe<? extends Con
     }
 
     public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
+
         boolean canTakeResult = cookBeBase.canTakeResult();
         boolean hasResult = cookBeBase.hasResult();
         // 有成品
-        if (canTakeResult && hasResult) {
+        if (canTakeResult && hasResult && hasOutputAvailableSlot) {
             return true;
         }
 
         boolean hasMeal = cookBeBase.hasMeal();
         // 有待取出成品(有条件取出)和对应的餐具
-        if (hasMeal) {
+        if (hasMeal && hasInputAvailableSlot) {
             ItemStack needContainer = cookBeBase.getNeedContainer();
             if (!needContainer.isEmpty() && cm.hasItem(needContainer)) {
                 return true;
             }
         }
 
-        boolean matchCookState = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
-        // 厨具满足烹饪的外部条件和有符合配方的原材料
-        if (matchCookState && !recMatch) {
-            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
-            if (hasMaidRecs) {
-                return true;
-            }
-        }
-
         boolean hasInputs = cookBeBase.hasInputs();
         // 配方不存在以及有残留的物品
-        if (!recMatch && hasInputs) {
+        if (!recMatch && !hasMeal && hasInputs && hasInputAvailableSlot) {
             return true;
         }
 
         boolean hasContainer = cookBeBase.hasContainer();
         // 厨锅没有物品并且有餐具
-        if (!hasInputs && hasContainer) {
+        if (!hasInputs && hasContainer && hasInputAvailableSlot) {
             return true;
+        }
+
+        boolean matchCookState = cookBeBase.cookStateMatch();
+        // 厨具满足烹饪的外部条件和有符合配方的原材料
+        if (matchCookState && !recMatch && !hasInputs) {
+            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
+            if (hasMaidRecs) {
+                return true;
+            }
         }
 
         return false;
@@ -74,26 +79,31 @@ public class FdPotCookRule<B extends BlockEntity, R extends Recipe<? extends Con
             // 取出餐具（不匹配）
             if (!nowContainer.isEmpty()) {
                 cookBeBase.takeItem(nowContainer, inputInv);
+                pickAction = true;
             }
 
             ItemStack needContainer = cookBeBase.getNeedContainer();
             ItemStack outputAdditionItem = cm.getItem(needContainer);
-            // 放入餐具
-            cookBeBase.insertContainer(outputAdditionItem);
-            cookBeBase.markChanged();
+            if (!outputAdditionItem.isEmpty()) {
+                // 放入餐具
+                cookBeBase.insertContainer(outputAdditionItem);
+                cookBeBase.markChanged();
 
-            pickAction = true;
+                pickAction = true;
+            }
         }
 
         boolean canTakeResult = cookBeBase.canTakeResult();
         ItemStack result = cookBeBase.getResult();
         // 取出成品
         if (canTakeResult && !result.isEmpty()) {
-            cookBeBase.takeItem(result, outputInv);
+            boolean taken = cookBeBase.takeItem(result, outputInv);
             cookBeBase.awardExp();
             cookBeBase.markChanged();
 
-            pickAction = true;
+            if (taken) {
+                pickAction = true;
+            }
         }
 
 
@@ -101,7 +111,7 @@ public class FdPotCookRule<B extends BlockEntity, R extends Recipe<? extends Con
         boolean recMatch = cookBeBase.recMatch();
         boolean hasInputs = cookBeBase.hasInputs();
         // 取出残存的原材料
-        if (!matchCookState && !recMatch && hasInputs) {
+        if (!recMatch && hasInputs) {
             cookBeBase.takeInputs(inputInv);
             cookBeBase.markChanged();
 
@@ -109,7 +119,7 @@ public class FdPotCookRule<B extends BlockEntity, R extends Recipe<? extends Con
         }
 
         // 取出餐具
-        if (!matchCookState && !recMatch && !nowContainer.isEmpty()) {
+        if (!recMatch && !nowContainer.isEmpty()) {
             cookBeBase.takeItem(nowContainer, inputInv);
             cookBeBase.markChanged();
 

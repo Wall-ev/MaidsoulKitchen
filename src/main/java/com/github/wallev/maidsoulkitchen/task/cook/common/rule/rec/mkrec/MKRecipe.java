@@ -175,6 +175,6 @@ public class MKRecipe<R extends Recipe<? extends Container>> {
 
     @Override
     public String toString() {
-        return rec.toString();
+        return id().toString();
     }
 }

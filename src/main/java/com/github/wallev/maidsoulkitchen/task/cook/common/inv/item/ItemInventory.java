@@ -1,8 +1,11 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.item;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntLists;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -38,24 +41,46 @@ public class ItemInventory {
 
     public void update() {
         if (dirty) {
-            itemsMap.values().forEach(list -> {
-                for (ItemStack itemStack : list) {
-                    if (itemStack == null || itemStack.isEmpty()) {
-                        list.remove();
-                    } else {
-                        break;
-                    }
-                }
-            });
+            int b = 0;
 
             stacksMap.values().forEach(list -> {
+                IntArrayList removeList = new IntArrayList();
+
+                int i = 0;
                 for (ItemStack itemStack : list) {
                     if (itemStack == null || itemStack.isEmpty()) {
-                        list.remove();
-                    } else {
-                        break;
+                        removeList.add(i);
                     }
+                    i++;
                 }
+
+                int lastRemoveIndex = 0;
+                for (int j : removeList) {
+                    list.remove(j - lastRemoveIndex++);
+                }
+                int a = 1;
+            });
+
+
+            int a  =1;
+
+
+            itemsMap.values().forEach(list -> {
+                IntArrayList removeList = new IntArrayList();
+
+                int i = 0;
+                for (ItemStack itemStack : list) {
+                    if (itemStack == null || itemStack.isEmpty()) {
+                        removeList.add(i);
+                    }
+                    i++;
+                }
+
+                int lastRemoveIndex = 0;
+                for (int j : removeList) {
+                    list.remove(j - lastRemoveIndex++);
+                }
+                int c = 1;
             });
 
             dirty = false;

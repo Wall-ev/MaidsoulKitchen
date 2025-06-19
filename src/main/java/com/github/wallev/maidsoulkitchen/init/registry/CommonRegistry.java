@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.init.registry;
 
-import com.github.wallev.maidsoulkitchen.debug.EnableMaidDebug;
+import com.github.wallev.maidsoulkitchen.debug.tlm.EnableMaidDebug;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

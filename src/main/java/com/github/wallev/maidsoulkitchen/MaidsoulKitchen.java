@@ -21,6 +21,10 @@ public final class MaidsoulKitchen implements IModInfo {
     public MaidsoulKitchen() {
         initRegister();
         initConfigureRegister();
+        initDebug();
+    }
+
+    private static void initDebug() {
         AspectDebug.init();
     }
 

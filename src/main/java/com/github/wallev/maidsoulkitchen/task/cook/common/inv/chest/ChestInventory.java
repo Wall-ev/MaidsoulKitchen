@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.chest;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
-import com.github.wallev.maidsoulkitchen.util.ItemHandlerWrapper;
+import com.github.wallev.maidsoulkitchen.util.WrapperItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,7 +16,7 @@ public class ChestInventory {
     private final List<BlockEntity> chestBes = new ArrayList<>();
     private final List<IItemHandler> chestItemHandlers = new ArrayList<>();
     private final ItemInventory itemInventory = new ItemInventory();
-    private ItemHandlerWrapper allItemHandlers;
+    private WrapperItemHandler allItemHandlers;
     private int slots = 0;
     private int lastSlot = 0;
 
@@ -76,7 +76,7 @@ public class ChestInventory {
         this.chestItemHandlers.addAll(data.chestItemHandlers());
         this.slots = data.invSlots();
 
-        this.allItemHandlers = new ItemHandlerWrapper(chestItemHandlers);
+        this.allItemHandlers = new WrapperItemHandler(chestItemHandlers);
     }
 
     public List<BlockPos> getChestPoses() {
@@ -95,7 +95,7 @@ public class ChestInventory {
         return itemInventory;
     }
 
-    public ItemHandlerWrapper getAllItemHandlers() {
+    public WrapperItemHandler getAllItemHandlers() {
         return allItemHandlers;
     }
 
