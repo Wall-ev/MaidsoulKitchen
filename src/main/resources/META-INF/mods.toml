@@ -30,9 +30,9 @@ license = "${mod_license}"
     versionRange = "[1.1.13,)"
     ordering = "AFTER"
     side = "BOTH"
-[[dependencies.${ mod_id }]]
-    modId = "youkaishomecoming"
-    mandatory = false
-    versionRange = "[2.3.13,)"
-    ordering = "NONE"
-    side = "BOTH"
+#[[dependencies.${ mod_id }]]
+#    modId = "youkaishomecoming"
+#    mandatory = false
+#    versionRange = "[2.3.13,)"
+#    ordering = "NONE"
+#    side = "BOTH"

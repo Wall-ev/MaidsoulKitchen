@@ -5,11 +5,10 @@ import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.ChoppingBoardBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.datagen.tag.TagItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.ChoppingBoardRecipe;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
@@ -126,7 +125,7 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
         Level level = maid.level;
         CombinedInvWrapper maidInv = maid.getAvailableInv(true);
 
-        Ingredient tool = Ingredient.of(TagItem.KITCHEN_KNIFE);
+        Ingredient tool = ChoppingBoardRecSerializerManager.ChoppingRecipeInfoProvider.TOOL;
         return ItemsUtil.getStack(maidInv, (itemStack) -> {
             return tool.test(itemStack);
         });

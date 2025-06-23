@@ -1,9 +1,11 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -20,6 +22,7 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
     }
 
     public boolean canMoveTo(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        EntityMaid maid = cm.getMaid();
         IMaidCookInventory cookInv = cm.getCookInv();
         boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
         boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
@@ -47,6 +50,7 @@ public class NormalCookRule<B extends BlockEntity, R extends Recipe<? extends Co
             return true;
         }
 
+//        MemoryUtil.eraseCurrentWorkPos(maid, cookBeBase.getPos());
         return false;
     }
 

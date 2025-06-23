@@ -64,7 +64,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private final List<MKRecipe<?>> detailRecs = new ArrayList<>();
     private final List<MKRecipe<?>> recipeList = new ArrayList<>();
     private final List<RecButton> parentButtons = new ArrayList<>();
-    private final HashMap<ItemDefinition, List<MKRecipe<?>>> flatRecsMap = new HashMap<>();
+    private final Map<ItemDefinition, List<MKRecipe<?>>> differentResult = new HashMap<>();
+    private final Map<ItemDefinition, List<MKRecipe<?>>> flatRecsMap = new HashMap<>();
     private final List<List<MKRecipe<?>>> flatRecs = new ArrayList<>();
     private RecsDetailButton detailButton;
     private EditBox searchBox;
@@ -101,10 +102,19 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         this.recipeList.clear();
         this.recipeList.addAll(this.collectRecs());
 
+        this.differentResult.clear();
+        this.differentResult.putAll(this.createDifferentResult());
         this.flatRecsMap.clear();
         this.flatRecsMap.putAll(this.collectFlatRecs());
         this.flatRecs.clear();
         this.flatRecs.addAll(flatRecsMap.values());
+    }
+
+    private Map<ItemDefinition, List<MKRecipe<?>>> createDifferentResult() {
+        return cookTask.getRecipes(maid.level).stream()
+                .collect(Collectors.groupingBy((r) -> {
+                    return ItemDefinition.of(r.output());
+                }));
     }
 
     private Map<ItemDefinition, List<MKRecipe<?>>> collectFlatRecs() {
@@ -239,19 +249,32 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
             int size = 0;
             switch (value) {
                 case CAN_COOK -> {
-                    size = this.getRecsByMode((r) -> cookData.canCook(r)).size();
+                    size = this.getRecsByMode2DisplayTooltip((r) -> cookData.canCook(r)).size();
                 }
                 case NOT_COOK -> {
-                    size = this.getRecsByMode((r) -> !cookData.canCook(r)).size();
+                    size = this.getRecsByMode2DisplayTooltip((r) -> !cookData.canCook(r)).size();
                 }
                 case DEFAULT -> {
-                    size = this.getDefaultRecs().size();
+                    size = this.differentResult.size();
                 }
 
             }
             components.add(component.append("(" + size + ")"));
         }
         return components;
+    }
+
+    private List<List<MKRecipe<?>>> getRecsByMode2DisplayTooltip(Predicate<Recipe<?>> recipeTest) {
+        return this.differentResult.values().stream()
+                .filter(recs -> {
+                    for (MKRecipe<?> rec : recs) {
+                        if (recipeTest.test(rec.rec())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .toList();
     }
 
     @Override

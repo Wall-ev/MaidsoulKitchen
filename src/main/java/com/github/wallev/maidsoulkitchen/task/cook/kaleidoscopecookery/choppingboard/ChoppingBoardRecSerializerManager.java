@@ -7,9 +7,9 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ToolRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.ysbbbbbb.kaleidoscopecookery.datagen.tag.TagItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.ChoppingBoardRecipe;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -50,14 +50,14 @@ public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<
 
     public static class ChoppingRecipeInfoProvider extends ToolRecipeInfoProvider<ChoppingBoardRecipe> {
 //        public static final Ingredient TOOL = Ingredient.of(TagItem.KITCHEN_KNIFE);
-        public static final Ingredient TOOL = Ingredient.of(TagItem.KITCHEN_KNIFE);
+        public static final Ingredient TOOL = Ingredient.of(ItemTags.SHOVELS);
         public static final Set<Item> TOOL_ITEMS = Arrays.stream(TOOL.getItems())
                 .map(ItemStack::getItem)
                 .collect(Collectors.toSet());
 
         @Override
         public RecIngredient getTool(RecSerializerManager<ChoppingBoardRecipe> rsm, ChoppingBoardRecipe rec) {
-            return RecIngredient.of(Ingredient.of(TagItem.KITCHEN_KNIFE));
+            return RecIngredient.of(Ingredient.of(ItemTags.SHOVELS));
         }
     }
 }

@@ -12,6 +12,7 @@ import dev.xkmc.youkaishomecoming.content.item.fluid.YHFluid;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationRecipe;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.SimpleFermentationRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -175,8 +176,11 @@ public class FermentationRecSerializerManager extends FluidRecSerializerManager<
             Fluid fluid = outputFluid.getFluid();
             if (fluid instanceof YHFluid sakeFluid) {
                 return sakeFluid.type.asStack(1);
+            } else if (!sFermentationRecipe.defaultContainer.isEmpty() && !sFermentationRecipe.defaultBottle.isEmpty()){
+                return sFermentationRecipe.defaultBottle;
+            } else {
+                return rec.getResultItem(RegistryAccess.EMPTY);
             }
-            return ItemStack.EMPTY;
         }
 
         @Override

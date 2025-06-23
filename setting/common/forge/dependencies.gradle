@@ -15,12 +15,8 @@ dependencies {
     if (!my_nethers_delight_version.isEmpty())
         implementation fg.deobf("maven.modrinth:my-nethers-delight:${my_nethers_delight_version}-${mod_loader},${minecraft_version}")
     // 仅供妖归使用
-    if (!registrate_version.isEmpty()) {
-        compileOnly fg.deobf(jarJar("com.tterrag.registrate:Registrate:${registrate_version}")) {
-            transitive = false
-            jarJar.ranged(it, "[${registrate_version},)")
-        }
-    }
+    if (!registrate_version.isEmpty())
+        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     if (!youkaishomecoming_version.isEmpty())
         implementation fg.deobf("maven.modrinth:youkaishomecoming:${youkaishomecoming_version}-${mod_loader},${minecraft_version}")
     if (!brewin_and_chewin_version.isEmpty())

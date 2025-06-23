@@ -20,15 +20,13 @@ public class HubItemDown extends IItemDown {
 
     @Override
     public boolean read(RecDataUse recDataUse) {
-        if (useSlot > availableSlot) {
+        if (useSlot >= availableSlot) {
             return false;
         }
 
         Map<ItemDefinition, ItemAmount> itemUse = recDataUse.getItemUse();
         int recAmount = recDataUse.getRecipeRepeat();
-//        int recAmount = itemAmount.getRecAmount();
 
-        int recUseCount = 0;
         Map<ItemDefinition, Integer> useItemDef = new HashMap<>();
         List<ItemDefinition> newPuts = new ArrayList<>();
         boolean canPut = true;
@@ -62,24 +60,45 @@ public class HubItemDown extends IItemDown {
                 useItemDef.merge(itemDefinition, needCount, Integer::sum);
             } else {
                 int maxStackSize = itemDefinition.getMaxStackSize();
-                int amountSlot = needCount / maxStackSize;
-                useSlot += amountSlot;
+
+                int thisCount = 0;
+                boolean thisHas = false;
+                if (this.useItemDef.get(itemDefinition) != null) {
+                    thisCount = this.useItemDef.get(itemDefinition);
+                    thisHas = true;
+                }
+                int inLineCount = 0;
+                boolean inLineHas = false;
+                if (useItemDef.get(itemDefinition) != null) {
+                    inLineCount = useItemDef.get(itemDefinition);
+                    inLineHas = true;
+                }
+
+                if (thisHas) {
+                    if (inLineHas) {
+                        int leftUseSlot = (inLineCount + thisCount + needCount) % maxStackSize == 0 ? 1 : 0;;;
+                        int useSlot0 = ((inLineCount + needCount) / maxStackSize) + leftUseSlot;
+                        useSlot += useSlot0;
+                    } else {
+                        int useSlot0 = (needCount / maxStackSize) + (needCount % maxStackSize > 0 ? 1 : 0);
+                        useSlot += useSlot0;
+                    }
+                } else {
+                    if (inLineHas) {
+                        int leftUseSlot = (inLineCount + needCount) % maxStackSize == 0 ? 1 : 0;;;
+                        int useSlot0 = (needCount / maxStackSize) + leftUseSlot;
+                        useSlot += useSlot0;
+                    } else {
+                        int useSlot0 = (needCount / maxStackSize) + (needCount % maxStackSize > 0 ? 1 : 0);
+                        useSlot += useSlot0;
+                    }
+                }
+
                 if (useSlot > availableSlot) {
                     canPut = false;
                     break;
                 }
 
-                int existCount = this.useItemDef.getOrDefault(itemDefinition, 0) + useItemDef.getOrDefault(itemDefinition, 0);
-                int existSlotAmount = existCount % maxStackSize;
-                int leftAmount = needCount % maxStackSize;
-                int allLeftAmount = existSlotAmount + leftAmount;
-                int i = allLeftAmount / maxStackSize;
-                useSlot += i;
-                if (useSlot > availableSlot) {
-                    canPut = false;
-                    break;
-                }
-                recUseCount = recAmount;
                 useItemDef.merge(itemDefinition, needCount, Integer::sum);
 
             }
@@ -93,7 +112,7 @@ public class HubItemDown extends IItemDown {
         }
 
         useItemDef.forEach((itemDefinition, count) -> this.useItemDef.merge(itemDefinition, count, Integer::sum));
-        this.recLimitIndex += recUseCount;
+        this.recLimitIndex += recAmount;
         return true;
     }
 }

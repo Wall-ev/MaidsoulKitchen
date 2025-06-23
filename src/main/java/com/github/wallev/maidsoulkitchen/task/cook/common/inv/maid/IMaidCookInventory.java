@@ -60,23 +60,31 @@ public abstract class IMaidCookInventory {
     }
 
     public void calcAvailableSlots() {
+        int a = 0;
+
         IItemHandlerModifiable inputInv = this.getInputInv();
         this.hasInputAvailableSlot = false;
         for (int i = 0; i < inputInv.getSlots(); i++) {
             if (inputInv.getStackInSlot(i).isEmpty()) {
                 this.hasInputAvailableSlot = true;
-                break;
+                a++;
+//                break;
             }
         }
+        this.inputAvailableSlots = a;
+        a = 0;
 
         IItemHandlerModifiable outputInv = this.getOutputInv();
         this.hasOutputAvailableSlot = false;
         for (int i = 0; i < outputInv.getSlots(); i++) {
             if (outputInv.getStackInSlot(i).isEmpty()) {
                 this.hasOutputAvailableSlot = true;
-                break;
+                a++;
+//                break;
             }
         }
+        this.outputAvailableSlots = a;
+        a = 0;
     }
 
     public int getInputAvailableSlots() {

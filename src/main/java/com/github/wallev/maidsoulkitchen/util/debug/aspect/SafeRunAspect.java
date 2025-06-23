@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.util.debug.aspect;
 
+import com.github.wallev.maidsoulkitchen.debug.annotation.IAspectAnnotation;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.util.ErrorUtil;
-import com.github.wallev.maidsoulkitchen.debug.annotation.IAspectAnnotation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
-public class SafeRunAspect extends IAspect<SafeRun> {
+public class SafeRunAspect {
 
     @Around("@annotation(com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun)")
     public Object handleException(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -26,8 +26,6 @@ public class SafeRunAspect extends IAspect<SafeRun> {
         }
     }
 
-
-    @Override
     protected String getMethodName(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
@@ -43,7 +41,6 @@ public class SafeRunAspect extends IAspect<SafeRun> {
         return methodName;
     }
 
-    @Override
     protected Object getDefaultReturnValue(ProceedingJoinPoint joinPoint) {
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -86,15 +83,5 @@ public class SafeRunAspect extends IAspect<SafeRun> {
 
         // 默认返回 null
         return null;
-    }
-
-    @Override
-    protected Class<SafeRun> getAnnotation() {
-        return SafeRun.class;
-    }
-
-    @Override
-    protected IAspectAnnotation getIAspectAnnotation(SafeRun annotation) {
-        return annotation.base();
     }
 }

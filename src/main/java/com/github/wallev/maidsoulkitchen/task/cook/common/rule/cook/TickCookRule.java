@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import net.minecraft.core.BlockPos;
@@ -19,7 +19,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.LinkedList;
-import java.util.Map;
 
 public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     protected EntityMaid maid;
@@ -178,7 +177,6 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
     }
 
     protected void clear(CookBeBase<B> cookBeBase, MaidCookManager<R> rm) {
-        cookBeBase.markChanged();
         this.maid = null;
         this.player = null;
         this.be = null;

@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown.RecDataUse;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
@@ -39,11 +39,17 @@ public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     }
 
     @Override
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<PotRecipe>, IndexRange> successAdd, Predicate<MKRecipe<PotRecipe>> rIsValid, Predicate<RecDataUse> recDataUsePredicate) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<PotRecipe>> recs,
+                                              Map<ItemDefinition, Long> available,
+                                              BiConsumer<MKRecipe<PotRecipe>, IndexRange> successAdd,
+                                              Predicate<MKRecipe<PotRecipe>> rIsValid,
+                                              Predicate<RecDataUse> recDataUsePredicate,
+                                              Consumer<Boolean> doneConsumer) {
         if (!available.containsKey(getKitchenShovelDef())) {
+            doneConsumer.accept(true);
             return EMPTY_LIST;
         }
-        return super.createMaidRecs(recs, available, successAdd, rIsValid, recDataUsePredicate);
+        return super.createMaidRecs(recs, available, successAdd, rIsValid, recDataUsePredicate, doneConsumer);
     }
 
     @Override

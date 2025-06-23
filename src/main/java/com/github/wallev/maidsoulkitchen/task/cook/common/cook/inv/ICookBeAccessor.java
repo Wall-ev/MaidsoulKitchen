@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv;
 
+import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -15,7 +16,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface ICookBeAccessor {
+public interface ICookBeAccessor extends IMaidsoulKitchenInterface {
 
     /**
      * 判断厨具内部的原料是否可以烹饪
@@ -35,8 +36,16 @@ public interface ICookBeAccessor {
         return canCook(inv, recMatchGet, recCanCook);
     }
 
+    default <R extends Recipe<? extends Container>> boolean kl$canCook(RecipeWrapper inv, Function<RecipeWrapper, Optional<R>> recMatchGet, Predicate<R> recCanCook) {
+        return canCook(inv, recMatchGet, recCanCook);
+    }
+
     static <R extends Recipe<? extends Container>> boolean canCook(IItemHandlerModifiable inv, Function<RecipeWrapper, Optional<R>> recMatchGet, Predicate<R> recCanCook) {
         RecipeWrapper recWrapper = new RecipeWrapper(inv);
+        return canCook(recWrapper, recMatchGet, recCanCook);
+    }
+
+    static <R extends Recipe<? extends Container>> boolean canCook(RecipeWrapper recWrapper, Function<RecipeWrapper, Optional<R>> recMatchGet, Predicate<R> recCanCook) {
         return recMatchGet.apply(recWrapper)
                 .map(recCanCook::test)
                 .orElse(false);

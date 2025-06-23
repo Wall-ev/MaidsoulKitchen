@@ -11,12 +11,13 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
-import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMakeTask;
-import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMoveTask;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.*;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBe;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
@@ -45,10 +46,11 @@ import java.util.function.Predicate;
 public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extends Container>> implements IMaidsoulKitchenTask, IDataTask<CookData> {
     public static final float MOVE_SPEED = 0.5f;
     public static final int VERTICAL_SEARCH_RANGE = 2;
-    private static final Map<ResourceLocation, ICookTask<?, ?>> TASK = new HashMap<>();
+    private static final Map<ResourceLocation, ICookTask<?, ?>> TASK = new LinkedHashMap<>();
     public final CookBe.Builder<B> cookBeBuilder;
     public final AbstractCookRule<B, R> cookRule;
     public final RecSerializerManager<R> recSerializerManager;
+
     public ICookTask() {
         this.cookBeBuilder = this.createCookBeBuilder();
         this.cookRule = this.createCookRule();
@@ -66,6 +68,10 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
         return TASK.get(id);
     }
 
+    public static ICookTask<?, ?> getTask(TaskInfo taskInfo) {
+        return getTask(taskInfo.uid);
+    }
+
     public static BlockPos getSearchPos(EntityMaid maid) {
         return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
     }
@@ -80,21 +86,36 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
     @Override
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         MemoryUtil.resetCookWorkState(maid);
+        List<Pair<Integer, VBehaviorControl>> controlTasks = new ArrayList<>();
 
         CookBeBase<B> cookBe = this.createCookBe(maid);
         AbstractCookRule<B, R> rule = this.cookRule.getOrCreate();
-        MaidCookManager<R> rm = this.createRecipesManager(maid, cookBe);
-        MaidCookMoveTask<B, R> cookMove = this.createMaidCookMoveTask(cookBe, rm, rule);
-        MaidCookMakeTask<B, R> cookMake = this.createMaidCookMakeTask(cookBe, rm, rule);
-        return Lists.newArrayList(Pair.of(5, cookMove), Pair.of(6, cookMake));
+        MaidCookManager<R> cm = this.createRecipesManager(maid, cookBe);
+        CollectChestIngredientsTask<R> collectChestIngredientsTask = new CollectChestIngredientsTask<>(cm);
+        GenerateRecsTask<R> generateRecsTask = new GenerateRecsTask<>(cm);
+        CookMoveTask<B, R> cookMoveTask = this.createMaidCookMoveTask(cookBe, cm, rule);
+        CookMakeTask<B, R> cookMakeTask = this.createMaidCookMakeTask(cookBe, cm, rule);
+        ResetCookMemoryTask<R> resetCookMemoryTask = new ResetCookMemoryTask<>(cm);
+
+        controlTasks.add(Pair.of(0, resetCookMemoryTask));
+        controlTasks.add(Pair.of(5, collectChestIngredientsTask));
+        controlTasks.add(Pair.of(5, generateRecsTask));
+        controlTasks.add(Pair.of(5, cookMoveTask));
+        controlTasks.add(Pair.of(6, cookMakeTask));
+        controlTasks.add(Pair.of(5, collectChestIngredientsTask));
+        if (rule instanceof TickCookRule<B, R>) {
+            CookMakePathingTask<B> cookMakePathingTask = new CookMakePathingTask<>(cookBe);
+            controlTasks.add(Pair.of(7, cookMakePathingTask));
+        }
+        return controlTasks;
     }
 
-    protected MaidCookMoveTask<B, R> createMaidCookMoveTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
-        return new MaidCookMoveTask<>(this, rm, rule, cookBe);
+    protected CookMoveTask<B, R> createMaidCookMoveTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
+        return new CookMoveTask<>(this, rm, rule, cookBe);
     }
 
-    protected MaidCookMakeTask<B, R> createMaidCookMakeTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
-        return new MaidCookMakeTask<>(this, rm, rule, cookBe);
+    protected CookMakeTask<B, R> createMaidCookMakeTask(CookBeBase<B> cookBe, MaidCookManager<R> rm, AbstractCookRule<B, R> rule) {
+        return new CookMakeTask<>(this, rm, rule, cookBe);
     }
 
     protected CookBe.Builder<B> createCookBeBuilder() {

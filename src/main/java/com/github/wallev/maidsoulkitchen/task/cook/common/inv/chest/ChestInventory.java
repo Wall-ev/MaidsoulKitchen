@@ -22,7 +22,6 @@ public class ChestInventory {
 
     public void init(ChestInvsData data) {
         this.initData(data);
-        this.tickScan0();
     }
 
     public boolean tickScan0() {
@@ -37,15 +36,17 @@ public class ChestInventory {
     }
 
     public boolean tickScan() {
-        for (; lastSlot < TICK_SCAN_LIMIT; lastSlot++) {
+        for (int i = 0; i < TICK_SCAN_LIMIT; i++) {
             if (lastSlot >= slots) {
                 return true;
             }
             ItemStack stackInSlot = allItemHandlers.getStackInSlot(lastSlot);
             if (stackInSlot.isEmpty()) {
+                lastSlot++;
                 continue;
             }
             itemInventory.add(stackInSlot);
+            lastSlot++;
         }
         return false;
     }
@@ -63,6 +64,10 @@ public class ChestInventory {
         allItemHandlers = null;
         slots = 0;
         lastSlot = 0;
+    }
+
+    public boolean done() {
+        return lastSlot >= slots;
     }
 
     protected void clearAndInitData(ChestInvsData data) {

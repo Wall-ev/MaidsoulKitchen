@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.mixin.drinkbeer.BeerBarrelBlockAccessor;
+import com.github.wallev.maidsoulkitchen.mixin.compat.drinkbeer.BeerBarrelBlockAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
 import lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity;

@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.util.debug.aspect;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.debug.annotation.IAspectAnnotation;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.maidsoulkitchen.util.ErrorUtil;
-import com.github.wallev.maidsoulkitchen.debug.annotation.IAspectAnnotation;
 import net.minecraft.Util;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,22 +16,11 @@ import java.lang.reflect.Method;
 
 @Aspect
 @Component
-public class TimeRecordAspect extends IAspect<TimeRecord> {
+public class TimeRecordAspect {
 
     @Around("@annotation(com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord)")
     public Object handleException(ProceedingJoinPoint joinPoint) {
         try {
-            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-
-            Method method = signature.getMethod();
-            TimeRecord annotation = method.getAnnotation(TimeRecord.class);
-            IAspectAnnotation iAspectAnnotation = annotation.base();
-            boolean canRun = iAspectAnnotation.run();
-            if (!canRun) {
-                return joinPoint.proceed();
-            }
-
-
             String methodName = getMethodName(joinPoint);
 
             long timeRecord = Util.getNanos();
@@ -48,7 +37,6 @@ public class TimeRecordAspect extends IAspect<TimeRecord> {
         }
     }
 
-    @Override
     protected String getMethodName(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
@@ -64,7 +52,6 @@ public class TimeRecordAspect extends IAspect<TimeRecord> {
         return methodName;
     }
 
-    @Override
     protected Object getDefaultReturnValue(ProceedingJoinPoint joinPoint) {
         try {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -107,15 +94,5 @@ public class TimeRecordAspect extends IAspect<TimeRecord> {
 
         // 默认返回 null
         return null;
-    }
-
-    @Override
-    protected Class<TimeRecord> getAnnotation() {
-        return TimeRecord.class;
-    }
-
-    @Override
-    protected IAspectAnnotation getIAspectAnnotation(TimeRecord annotation) {
-        return annotation.base();
     }
 }

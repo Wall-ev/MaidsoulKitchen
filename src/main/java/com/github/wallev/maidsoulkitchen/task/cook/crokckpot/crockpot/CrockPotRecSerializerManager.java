@@ -61,7 +61,7 @@ public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotC
                         invIngredient.add(key);
 
                         int amount;
-                        if (item.getMaxStackSize() == 1) {
+                        if (key.getMaxStackSize() == 1) {
                             single[0] = true;
                             ItemAmount itemAmount = new ItemAmount(1);
                             itemTimes.put(key, itemAmount);

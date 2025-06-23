@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle;
 
-import com.github.wallev.maidsoulkitchen.mixin.youkaishomecoming.KettleBlockAccessor;
+import com.github.wallev.maidsoulkitchen.mixin.compat.youkaishomecoming.KettleBlockAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;

@@ -5,9 +5,9 @@ import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.IChatBubbleDat
 import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.implement.TextChatBubbleData;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
+import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;
@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
@@ -24,11 +23,12 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MaidFeedAnimalTaskT extends MaidCheckRateTask implements VBehaviorControl {
     // 20秒读一次,反正一次能运行的话会一直运行下去.
@@ -86,11 +86,34 @@ public class MaidFeedAnimalTaskT extends MaidCheckRateTask implements VBehaviorC
                 .filter(e -> maid.isWithinRestriction(e.blockPosition()))
                 .filter(e -> e instanceof Animal animal && e.isAlive())
                 .map(Animal.class::cast)
-                .collect(Collectors.groupingBy(Entity::getType))
+                .collect(() -> {
+                    return new LinkedHashMap<EntityType<?>, List<Animal>>();
+                }, (map, b) -> {
+                    EntityType<?> entityType = b.getType();
+                    List<Animal> animals = map.computeIfAbsent(entityType, (type) -> new ArrayList<>());
+                    animals.add(b);
+                }, (a, b) -> {
+
+                })
+
                 .values()
                 .stream()
+                .filter((o1) -> {
+                    return o1.size() > 2;
+                })
                 .sorted((o1, o2) -> {
                     return o1.size() - o2.size();
+                })
+                .sorted((o1, o2) -> {
+                    Animal animal0 = o1.get(0);
+                    Animal animal1 = o2.get(0);
+
+                    Vec3 position0 = animal0.position;
+                    Vec3 position1 = animal1.position;
+
+                    Vec3 maidPosition = maid.position;
+
+                    return (int) (maidPosition.distanceToSqr(position0) - maidPosition.distanceToSqr(position1));
                 })
                 .toList();
 

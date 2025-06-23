@@ -55,6 +55,7 @@ minecraft {
     runs {
         configureEach {
             jvmArgs "-XX:+AllowEnhancedClassRedefinition"
+            jvmArgs "-Dmixin.debug.export=true"
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
@@ -99,6 +100,7 @@ minecraft {
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
+    config "${mod_id}-compat.mixins.json"
 }
 
 sourceSets {
@@ -108,6 +110,7 @@ sourceSets {
             java {
                 // 排除 util/debug/aspect 目录
                 exclude 'com/github/wallev/maidsoulkitchen/util/debug/aspect/**'
+                exclude 'com/github/wallev/maidsoulkitchen/mixinmanager/**'
             }
             resources {
                 exclude 'META-INF/neoforge.mods.toml'
@@ -238,17 +241,22 @@ dependencies {
             runtimeOnly fg.deobf("runlibs:${name.split("-")[0]}:${ver}")
         }
     }
-}
 
-/**
- * 脚本工具用
- */
-dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
-    implementation 'org.apache.commons:commons-io:1.3.2'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+//    implementation fg.deobf(jarJar("legacylibs:maidsoulkitchen_legacy:1.20.1-beta-v0.1.4")) {
+//        transitive = false
+//        jarJar.ranged(it, "[1.20.1-beta-v0.1.4,)")
+//    }
 }
+//
+///**
+// * 脚本工具用
+// */
+//dependencies {
+//    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+//    implementation 'org.apache.commons:commons-io:1.3.2'
+//    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+//    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+//}
 
 
 // util

@@ -5,7 +5,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import net.minecraft.util.VisibleForDebug;
 import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,6 @@ public class DefaultTargets {
         brain.getMemory(MkEntities.WORK_POS.get()).ifPresent(m -> {
             list.add(new DebugTarget(m.currentBlockPosition(), COLOR, TEXT, LIFE_TIME));
         });
-        brain.getMemory(MemoryModuleType.WALK_TARGET).ifPresent(m -> {
-            list.add(new DebugTarget(m.getTarget().currentBlockPosition(), 0x2CFF2C60, "Walk Pos", LIFE_TIME));
-        });
-
         return list;
     }
 }

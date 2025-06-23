@@ -3,12 +3,12 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.IndexRange;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.itemdown.RecDataUse;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
 import com.github.wallev.maidsoulkitchen.util.MathUtil;
@@ -27,6 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class RecSerializerManager<R extends Recipe<? extends Container>> {
@@ -48,7 +49,12 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
         return RecipeInfoProvider.getInstance();
     }
 
-    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs, Map<ItemDefinition, Long> available, BiConsumer<MKRecipe<R>, IndexRange> successAdd, Predicate<MKRecipe<R>> rIsValid, Predicate<RecDataUse> recDataUsePredicate) {
+    public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<R>> recs,
+                                              Map<ItemDefinition, Long> available,
+                                              BiConsumer<MKRecipe<R>, IndexRange> successAdd,
+                                              Predicate<MKRecipe<R>> rIsValid,
+                                              Predicate<RecDataUse> recDataUsePredicate,
+                                              Consumer<Boolean> doneConsumer) {
         LinkedList<MaidRec> maidRecs = new LinkedList<>();
         IndexRange indexRange = new IndexRange();
         RecDataUse recDataUse = new RecDataUse();
@@ -73,6 +79,7 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
                 successAdd.accept(r, indexRange);
                 index += size;
             } else {
+                doneConsumer.accept(true);
                 break;
             }
         }
@@ -386,7 +393,7 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
     }
 
     /**
-     * 配方信息基础模板，仅供普通型的配方，含有<strong>流体</strong>类型的配方不适用！
+     * 配方信息基础模板
      */
     public static class RecipeInfoProvider<R extends Recipe<? extends Container>> {
         @SuppressWarnings("rawtypes")

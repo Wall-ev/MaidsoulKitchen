@@ -9,12 +9,15 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import com.github.wallev.verhelper.server.item.VItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -444,8 +447,31 @@ public abstract class CookBeBase<B extends BlockEntity> {
         this.be = be;
     }
 
+    @SuppressWarnings("unchecked")
     public void setBlockEntity(BlockEntity be) {
         this.setBe((B) be);
+    }
+
+    public BlockPos getWalkPos() {
+        BlockPos blockPos = be.getBlockPos();
+        Direction facingDirection = be.getBlockState().getOptionalValue(HorizontalDirectionalBlock.FACING).orElse(null);
+        if (facingDirection == null) {
+            return defaultWalkPos(blockPos);
+        } else {
+            return directionPos(blockPos, facingDirection);
+        }
+    }
+
+    protected BlockPos directionPos(BlockPos bePos, Direction facingDirection) {
+        return bePos.offset(facingDirection.getNormal()).below();
+    }
+
+    protected BlockPos defaultWalkPos(BlockPos bePos) {
+        return bePos;
+    }
+
+    public BlockPos getPos() {
+        return be.getBlockPos();
     }
 
     public void clear() {

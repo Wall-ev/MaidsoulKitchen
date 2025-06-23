@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.MaidConditionCookManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidConditionCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;

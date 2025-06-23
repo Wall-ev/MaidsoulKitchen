@@ -3,7 +3,6 @@ package com.github.wallev.maidsoulkitchen.util.modutility;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 
 public enum Mods {
     PATCHOULI("patchouli"),
@@ -22,9 +21,10 @@ public enum Mods {
     MND("mynethersdelight"),
     CD("cuisinedelight"),
     BD("barbequesdelight"),
-    YHCD("youkaishomecoming", "[2.2.3,)"),
-    BNCD("brewinandchewin", "[3.0.0,)"),
+    YHCD_LEGACY("youkaishomecoming", "[2.2.3,2.3.13)"),
+    YHCD("youkaishomecoming", "[2.3.13,)"),
     BNCD_LEGACY("brewinandchewin_legacy", "[,3.0.0)"),
+    BNCD("brewinandchewin", "[3.0.0,)"),
     FRD("farmersrespite"),
 
     /*
@@ -64,22 +64,25 @@ public enum Mods {
 
     public final String modId;
     public final boolean isLoaded;
+    public final boolean versionLoaded;
 
     Mods(String modId) {
         this.modId = modId;
         this.isLoaded = this.isInstalled();
+        this.versionLoaded = this.isInstalled();
     }
 
     Mods(String modId, String versionRange) {
         this.modId = modId;
-        this.isLoaded = this.isInstalled(versionRange);
+        this.isLoaded = this.isInstalled();
+        this.versionLoaded = this.isInstalled(versionRange);
     }
 
-    public static void load() {
+    public static void init() {
     }
 
     public boolean isInstalled() {
-        return ModList.get().isLoaded(modId);
+        return ModUtil.isInstalled(modId);
     }
 
     public ResourceLocation create(String path) {

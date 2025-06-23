@@ -18,12 +18,12 @@ import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import com.github.wallev.maidsoulkitchen.chest.FarmDelightCabinet;
 import com.github.wallev.maidsoulkitchen.debug.target.DefaultTargets;
 import com.github.wallev.maidsoulkitchen.entity.ai.brain.MaidBrain;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,6 +37,7 @@ import java.util.function.Function;
 public final class MaidPlugin implements ILittleMaid {
 
     public MaidPlugin() {
+        Mods.init();
         TaskInfo.init();
     }
 

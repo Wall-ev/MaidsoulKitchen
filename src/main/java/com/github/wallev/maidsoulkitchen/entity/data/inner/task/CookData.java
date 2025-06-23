@@ -151,16 +151,16 @@ public class CookData {
             this.name = name;
         }
 
-        public boolean isWhitelistMode() {
-            return this == WHITELIST;
-        }
-
         public static boolean isWhitelistMode(String name) {
             return byName(name).isWhitelistMode();
         }
 
         public static Mode byName(String name) {
             return Mode.valueOf(name.toUpperCase(Locale.ENGLISH));
+        }
+
+        public boolean isWhitelistMode() {
+            return this == WHITELIST;
         }
     }
 }

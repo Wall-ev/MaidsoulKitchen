@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -60,5 +61,10 @@ public class CopperPotBe extends CookBeBase<CopperPotBlockEntity> {
     @Override
     public void markChanged() {
         this.defaultChanged();
+    }
+
+    @Override
+    public BlockPos getWalkPos() {
+        return getPos().below();
     }
 }

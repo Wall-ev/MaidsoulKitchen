@@ -7,5 +7,6 @@
     <aspects>
         <aspect name="com.github.wallev.maidsoulkitchen.util.debug.aspect.SafeRunAspect"/>
         <aspect name="com.github.wallev.maidsoulkitchen.util.debug.aspect.TimeRecordAspect"/>
+        <aspect name="com.github.wallev.maidsoulkitchen.util.debug.aspect.StackTraceRecordAspect"/>
     </aspects>
 </aspectj>

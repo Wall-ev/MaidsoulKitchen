@@ -19,6 +19,11 @@ repositories {
         name = "tlmlibs"
         dir "libs/${minecraft_version}/touhoulittlemaid"
     }
+    flatDir {
+        name = "legacylibs"
+        dir "libs/${minecraft_version}/legacy"
+    }
+
 
 
     // Modrinth Maven
