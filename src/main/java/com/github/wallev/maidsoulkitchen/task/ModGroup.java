@@ -15,6 +15,7 @@ public enum ModGroup {
             "org.apache",
             "net.minecraft",
             "net.minecraftforge",
+            "net.neoforged",
             "com.mojang"),
 
     XKMC("dev.xkmc"),
