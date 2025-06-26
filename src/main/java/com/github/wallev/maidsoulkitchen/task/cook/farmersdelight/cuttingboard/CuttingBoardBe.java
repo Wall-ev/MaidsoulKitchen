@@ -1,11 +1,14 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cuttingboard;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 
+@TaskClassAnalyzer(TaskInfo.FD_CUTTING_BOARD)
 public class CuttingBoardBe extends CookBeBase<CuttingBoardBlockEntity> {
     public CuttingBoardBe(EntityMaid maid) {
         super(maid);

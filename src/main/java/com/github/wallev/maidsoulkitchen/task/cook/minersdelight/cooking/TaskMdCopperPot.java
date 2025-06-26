@@ -5,17 +5,20 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.FdPotCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
 import com.sammy.minersdelight.setup.MDBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
+@TaskClassAnalyzer(TaskInfo.MD_COOK_POT)
 public class TaskMdCopperPot extends ICookTask<CopperPotBlockEntity, CookingPotRecipe> {
 
     @Override
@@ -40,7 +43,7 @@ public class TaskMdCopperPot extends ICookTask<CopperPotBlockEntity, CookingPotR
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.MD_COOK_POT.uid;
+        return MaidsoulKitchenTask.MD_COOK_POT.uid;
     }
 
     @Override

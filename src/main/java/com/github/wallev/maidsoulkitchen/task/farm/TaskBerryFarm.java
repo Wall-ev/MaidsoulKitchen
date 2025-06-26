@@ -8,7 +8,7 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.BerryData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfigContainer;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
@@ -82,7 +82,7 @@ public class TaskBerryFarm implements ICompatFarmTask<BerryHandler, BerryData> {
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.BERRY_FARM.uid;
+        return MaidsoulKitchenTask.BERRY_FARM.uid;
     }
 
     @Override

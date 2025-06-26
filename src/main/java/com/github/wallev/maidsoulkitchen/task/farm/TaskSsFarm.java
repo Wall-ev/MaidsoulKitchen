@@ -3,7 +3,9 @@ package com.github.wallev.maidsoulkitchen.task.farm;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
@@ -21,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-
+@TaskClassAnalyzer(TaskInfo.SERENESEASONS_FARM)
 public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
@@ -38,7 +40,7 @@ public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.SERENESEASONS_FARM.uid;
+        return MaidsoulKitchenTask.SERENESEASONS_FARM.uid;
     }
 
     @Override

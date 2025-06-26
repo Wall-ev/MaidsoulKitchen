@@ -1,12 +1,15 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cookingpot;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 
+@TaskClassAnalyzer(TaskInfo.FD_COOK_POT)
 public class CookingPotBe extends CookBeBase<CookingPotBlockEntity> {
     public CookingPotBe(EntityMaid maid) {
         super(maid);

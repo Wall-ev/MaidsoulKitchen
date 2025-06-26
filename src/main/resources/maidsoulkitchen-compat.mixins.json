@@ -2,7 +2,7 @@
   "required": false,
   "minVersion": "0.8.5",
   "package": "com.github.wallev.maidsoulkitchen.mixin.compat",
-//  "plugin": "com.github.wallev.maidsoulkitchen.mixinmanager.MixinPlugin",
+  "plugin": "com.github.wallev.maidsoulkitchen.mixinmanager.MixinPlugin",
   "refmap": "maidsoulkitchen.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
@@ -21,6 +21,6 @@
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",
     "youkaishomecoming.BasePotBlockEntityMixin",
-    "youkaishomecoming.KettleBlockAccessor"
+    "youkaishomecoming.KettleBlockAccessor",
   ]
 }

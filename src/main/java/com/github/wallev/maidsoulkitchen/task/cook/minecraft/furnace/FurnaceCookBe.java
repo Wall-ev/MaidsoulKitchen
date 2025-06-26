@@ -1,15 +1,17 @@
 package com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
-import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.FURNACE)
 public class FurnaceCookBe extends CookBeBase<AbstractFurnaceBlockEntity> {
 
     public FurnaceCookBe(EntityMaid maid) {

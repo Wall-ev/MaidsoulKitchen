@@ -11,7 +11,7 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.*;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBe;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
@@ -68,12 +68,19 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
         return TASK.get(id);
     }
 
-    public static ICookTask<?, ?> getTask(TaskInfo taskInfo) {
+    public static ICookTask<?, ?> getTask(MaidsoulKitchenTask taskInfo) {
         return getTask(taskInfo.uid);
     }
 
-    public static BlockPos getSearchPos(EntityMaid maid) {
+    public static BlockPos getSearchPos(EntityMaid maid, @Nullable BlockPos currentWorkPos) {
+        if (currentWorkPos != null && maid.isWithinRestriction(currentWorkPos)) {
+            return currentWorkPos;
+        }
         return maid.hasRestriction() ? maid.getRestrictCenter() : maid.blockPosition().below();
+    }
+
+    public static BlockPos getSearchPos(EntityMaid maid) {
+        return getSearchPos(maid, null);
     }
 
     public static boolean checkOwnerPos(EntityMaid maid, BlockPos mutableBlockPos) {

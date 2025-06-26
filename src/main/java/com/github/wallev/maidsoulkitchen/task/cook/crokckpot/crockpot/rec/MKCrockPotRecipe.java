@@ -1,7 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.*;
 
+@TaskClassAnalyzer(TaskInfo.CP_CROCK_POT)
 public class MKCrockPotRecipe extends MKRecipe<CrockPotCookingRecipe> {
     protected List<Pair<RequirementCategoryMax, Set<Item>>> noRequires = new ArrayList<>();
     protected List<Pair<RequirementCategoryMax, Set<Item>>> maxRequires = new ArrayList<>();

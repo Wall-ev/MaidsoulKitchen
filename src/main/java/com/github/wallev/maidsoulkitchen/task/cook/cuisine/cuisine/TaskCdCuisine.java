@@ -5,16 +5,19 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity;
 import dev.xkmc.cuisinedelight.content.recipe.BaseCuisineRecipe;
 import dev.xkmc.cuisinedelight.init.registrate.CDBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+@TaskClassAnalyzer(TaskInfo.CD_CUISINE_SKILLET)
 public class TaskCdCuisine extends ICookTask<CuisineSkilletBlockEntity, BaseCuisineRecipe<?>> {
     @Override
     protected AbstractCookRule<CuisineSkilletBlockEntity, BaseCuisineRecipe<?>> createCookRule() {
@@ -38,7 +41,7 @@ public class TaskCdCuisine extends ICookTask<CuisineSkilletBlockEntity, BaseCuis
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.CD_CUISINE_SKILLET.uid;
+        return MaidsoulKitchenTask.CD_CUISINE_SKILLET.uid;
     }
 
     @Override

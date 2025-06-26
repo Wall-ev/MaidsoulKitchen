@@ -1,11 +1,14 @@
 package com.github.wallev.maidsoulkitchen.task.cook.cuisine.cuisine;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+@TaskClassAnalyzer(TaskInfo.CD_CUISINE_SKILLET)
 public class CuisineBe extends CookBeBase<CuisineSkilletBlockEntity> {
     public CuisineBe(EntityMaid maid) {
         super(maid);

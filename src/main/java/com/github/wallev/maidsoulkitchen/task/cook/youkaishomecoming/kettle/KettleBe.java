@@ -1,14 +1,17 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.YHC_TEA_KETTLE)
 public class KettleBe extends CookBeBase<KettleBlockEntity> {
     public KettleBe(EntityMaid maid) {
         super(maid);

@@ -6,6 +6,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.ChoppingBoardBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+//@ImportsParse(task = TaskInfo.KC_CHOPPING_BOARD)
 public class ChoppingBoardBe extends CookBeBase<ChoppingBoardBlockEntity> {
     public ChoppingBoardBe(EntityMaid maid) {
         super(maid);

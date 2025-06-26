@@ -1,0 +1,221 @@
+// 调用的 gradle 插件
+plugins {
+    id 'java-library'
+
+    // 用于 eclipse 或者 idea 的插件
+    id 'eclipse'
+    id 'idea'
+
+    // NeoForged 开发插件
+    id 'net.neoforged.moddev' version '2.0.78'
+
+    // shadow 插件
+    id 'com.gradleup.shadow' version '8.3.6'
+}
+
+// 加载配置
+// [1.21,)
+def minecraft_version= "xxx"
+loadProperties(minecraft_version)
+loadGradle(minecraft_version)
+
+// Java版本
+// [21,)
+java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+// 版本类型: beta alpha release
+String version_type = "beta"
+
+// 模组基础信息
+base {
+    archivesName = mod_id
+    version = "${minecraft_version}-${version_type}-v${mod_version}"
+    group = mod_group_id
+}
+
+neoForge {
+    // NeoForge 版本信息
+    version = project.neo_version
+
+    // 反混淆表
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    // 运行部分
+    runs {
+        client {
+            client()
+            gameDirectory = project.file('run/client')
+            programArguments = [
+                    "--username", "albert_cat"
+            ]
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            gameDirectory = project.file('run/server')
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            gameDirectory = project.file('run/gameTestServer')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            gameDirectory = project.file('run/data')
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main {
+    resources {
+        srcDir 'src/generated/resources'
+    }
+}
+
+assemble {
+    dependsOn shadowJar
+}
+
+tasks.compileJava {
+    // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
+    outputs.upToDateWhen { false }
+}
+
+// 用于 neoforge.mods 里替换那一堆 ${xxxx}
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_credits            : mod_credits,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+            mod_issue_tracker_url  : mod_issue_tracker_url
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+// 生成 manifest 内容，用于填充版本信息等内容
+jar {
+    enabled = false // 禁用默认的 jar 任务
+    manifest {
+        attributes([
+                "Implementation-Title"  : project.name,
+                "Implementation-Version": "${version}"
+        ])
+    }
+}
+
+// 必须，编码需要显式指定为 UTF
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// 让 idea 主动下载前置库的源码和 Javadoc
+// 新版本 idea 默认不会下载这两个，这虽然加快了构建速度，但是不方便调试
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+
+
+// libs自动依赖
+dependencies {
+    if (file("libs/${minecraft_version}/implementation").exists()) {
+        implementation fileTree(dir: "libs/${minecraft_version}/implementation", includes: ['*.jar'])
+    }
+    if (file("libs/${minecraft_version}/compileOnly").exists()) {
+        compileOnly fileTree(dir: "libs/${minecraft_version}/compileOnly", includes: ['*.jar'])
+    }
+    if (file("libs/${minecraft_version}/runtimeOnly").exists()) {
+        runtimeOnly fileTree(dir: "libs/${minecraft_version}/runtimeOnly", includes: ['*.jar'])
+    }
+}
+
+/**
+ * 脚本工具用
+ */
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+    implementation 'org.apache.commons:commons-io:1.3.2'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+}
+
+
+
+
+// util
+def loadGradle(String minecraft_version) {
+    apply from: "/setting/common/neoforge/repositories.gradle"
+    apply from: "/setting/common/neoforge/dependencies.gradle"
+    apply from: "/setting/version/${minecraft_version}/dependencies.gradle"
+}
+
+def loadProperties(String minecraft_version) {
+    loadCustomProperties("/gradle.properties")
+    loadCustomProperties("/setting/version/${minecraft_version}/gradle.properties")
+}
+
+def loadCustomProperties(String path) {
+    def customPropertiesFile = file(path)
+    if (customPropertiesFile.exists()) {
+        def customProperties = new Properties()
+        customProperties.load(new FileInputStream(customPropertiesFile))
+        customProperties.each { key, value ->
+            project.ext.set(key, value)
+        }
+    }
+}
+
+def printProjectInfo(Project project) {
+    String[] projectInfo = ['minecraft_version', 'minecraft_version_range', 'forge_version', 'forge_version_range', 'loader_version', 'loader_version_range', 'mapping_channel', 'mapping_version']
+    println "> Minecraft Version"
+    for (final def info in projectInfo) {
+        if (project.hasProperty(info)) {
+            println "${info} = ${project.property(info)}"
+        }
+    }
+}
+
+def printProperties(Project project) {
+    println "> Custom Properties"
+    project.properties.each { key, value ->
+        println ">- ${key} = ${value}"
+    }
+}

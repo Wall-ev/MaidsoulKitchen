@@ -7,7 +7,7 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFruitMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
@@ -74,7 +74,7 @@ public class TaskFruitFarm implements ICompatFarmTask<FruitHandler, FruitData> {
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.FRUIT_FARM.uid;
+        return MaidsoulKitchenTask.FRUIT_FARM.uid;
     }
 
     @Override

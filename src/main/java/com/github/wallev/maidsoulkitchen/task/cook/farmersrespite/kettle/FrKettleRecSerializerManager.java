@@ -1,9 +1,11 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.kettle;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.github.wallev.verhelper.server.item.VItemStack;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -24,6 +26,7 @@ import umpaz.farmersrespite.common.registry.FRRecipeTypes;
 import java.util.*;
 
 
+@TaskClassAnalyzer(TaskInfo.FR_KETTLE)
 public class FrKettleRecSerializerManager extends FluidRecSerializerManager<KettleRecipe> {
     private static final FrKettleRecSerializerManager INSTANCE = new FrKettleRecSerializerManager();
 

@@ -1,0 +1,117 @@
+{
+  "list": {
+    "maidsoulkitchen:fr_kettle": [
+      {
+        "taskUid": "maidsoulkitchen:fr_kettle",
+        "compatMod": "FRD",
+        "mixinList": [
+          "umpaz.farmersrespite.common.block.entity.KettleBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:fd_cooking_pot": [
+      {
+        "taskUid": "maidsoulkitchen:fd_cooking_pot",
+        "compatMod": "FD",
+        "mixinList": [
+          "vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:yhc_tea_kettle": [
+      {
+        "taskUid": "maidsoulkitchen:yhc_tea_kettle",
+        "compatMod": "YHCD",
+        "mixinList": [
+          "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
+        ]
+      },
+      {
+        "taskUid": "maidsoulkitchen:yhc_tea_kettle",
+        "compatMod": "YHCD",
+        "mixinList": [
+          "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlock"
+        ]
+      }
+    ],
+    "maidsoulkitchen:bnc_key": [
+      {
+        "taskUid": "maidsoulkitchen:bnc_key",
+        "compatMod": "BNCD",
+        "mixinList": [
+          "umpaz.brewinandchewin.common.block.entity.KegBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:cd_cuisine_skillet": [
+      {
+        "taskUid": "maidsoulkitchen:cd_cuisine_skillet",
+        "compatMod": "CD",
+        "mixinList": [
+          "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry"
+        ]
+      },
+      {
+        "taskUid": "maidsoulkitchen:cd_cuisine_skillet",
+        "compatMod": "CD",
+        "mixinList": [
+          "dev.xkmc.cuisinedelight.content.logic.CookingData"
+        ]
+      }
+    ],
+    "maidsoulkitchen:kk_air_compressor": [
+      {
+        "taskUid": "maidsoulkitchen:kk_air_compressor",
+        "compatMod": "KK",
+        "mixinList": [
+          "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:drinkbeer_beerbarrel": [
+      {
+        "taskUid": "maidsoulkitchen:drinkbeer_beerbarrel",
+        "compatMod": "DB",
+        "mixinList": [
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:furnace": [
+      {
+        "taskUid": "maidsoulkitchen:furnace",
+        "compatMod": "MC",
+        "mixinList": [
+          "net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:md_copper_pot": [
+      {
+        "taskUid": "maidsoulkitchen:md_copper_pot",
+        "compatMod": "MD",
+        "mixinList": [
+          "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:yhc_moka_pot": [
+      {
+        "taskUid": "maidsoulkitchen:yhc_moka_pot",
+        "compatMod": "YHCD",
+        "mixinList": [
+          "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
+        ]
+      }
+    ],
+    "maidsoulkitchen:kk_brew_barrel": [
+      {
+        "taskUid": "maidsoulkitchen:kk_brew_barrel",
+        "compatMod": "KK",
+        "mixinList": [
+          "io.github.tt432.kitchenkarrot.blockentity.BrewingBarrelBlockEntity"
+        ]
+      }
+    ]
+  }
+}

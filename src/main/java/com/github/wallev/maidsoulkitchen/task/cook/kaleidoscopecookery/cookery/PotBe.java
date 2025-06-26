@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
+//@ImportsParse(task = TaskInfo.KC_POT)
 public class PotBe extends CookBeBase<PotBlockEntity> {
     public PotBe(EntityMaid maid) {
         super(maid);

@@ -2,14 +2,17 @@ package com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.aircompressor;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.mixin.compat.kitchkarrot.AirCompressorBlockEntityAccessor;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.KK_AIR_COMPRESSOR)
 public class AirCompressorBe extends CookBeBase<AirCompressorBlockEntity> {
     public AirCompressorBe(EntityMaid maid) {
         super(maid);

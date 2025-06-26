@@ -1,10 +1,12 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.l2library.base.tile.BaseTank;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer;
 import dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationItemContainer;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlock.OPEN;
 
+@TaskClassAnalyzer(TaskInfo.YHC_FERMENTATION_TANK)
 public class FermentationCookBe extends CookBeBase<FermentationTankBlockEntity> {
     public FermentationCookBe(EntityMaid maid) {
         super(maid);

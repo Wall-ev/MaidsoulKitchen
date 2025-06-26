@@ -1,0 +1,15 @@
+{
+  "required": false,
+  "minVersion": "0.8.5",
+  "package": "com.github.wallev.maidsoulkitchenlegacy.mixin",
+  "plugin": "com.github.wallev.maidsoulkitchenlegacy.mixinmanager.LegacyMixinPlugin",
+  "refmap": "maidsoulkitchen_legacy.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "server": [
+  ],
+  "mixins": [
+    "kitchkarrot.BrewingBarrelBlockEntityMixin"
+  ]
+}

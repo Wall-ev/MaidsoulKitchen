@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+//@ImportsParse(task = TaskInfo.KC_POT)
 public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     public static final Item CONTAINER = Items.BOWL;
     public static final Item FLINT = Items.FLINT_AND_STEEL;
@@ -125,6 +126,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
             ItemStack oil = maidRec.oil();
             ItemStack oilItem = this.getItem(oil.getItem(), itemInventory);
             if (oilItem.isEmpty()) {
+                cm.getItemInventory().markDirty();
                 this.stop();
                 return;
             }
@@ -230,6 +232,8 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     public void tickStop(CookBeBase<PotBlockEntity> cookBeBase, MaidCookManager<PotRecipe> cm) {
         this.backpackTool(cookBeBase, cm);
         super.tickStop(cookBeBase, cm);
+        cm.getItemInventory().markDirty();
+        cm.setNextCheckTickCount(0);
         kitchenShovel = ItemStack.EMPTY;
         bowl = ItemStack.EMPTY;
         needBowl = false;

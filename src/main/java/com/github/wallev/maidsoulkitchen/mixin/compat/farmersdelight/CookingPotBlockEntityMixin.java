@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.farmersdelight;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@TaskMixin(task = TaskInfo.FD_COOK_POT)
 @Mixin(value = CookingPotBlockEntity.class, remap = false)
 public abstract class CookingPotBlockEntityMixin implements ICookBeAccessor {
     @Shadow

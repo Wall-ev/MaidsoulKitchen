@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+//@ImportsParse(task = TaskInfo.KC_CHOPPING_BOARD)
 public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> {
     private static final ChoppingBoardRule INSTANCE = new ChoppingBoardRule();
 

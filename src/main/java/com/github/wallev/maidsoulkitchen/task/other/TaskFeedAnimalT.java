@@ -8,7 +8,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.container.task.Default
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.other.ai.MaidFeedAnimalTaskT;
 import com.github.wallev.verhelper.server.ai.*;
 import com.google.common.base.Predicates;
@@ -46,7 +46,7 @@ public class TaskFeedAnimalT implements IAttackTask, IMaidsoulKitchenTask {
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.FEED_ANIMAL_T.uid;
+        return MaidsoulKitchenTask.FEED_ANIMAL_T.uid;
     }
 
     @Override

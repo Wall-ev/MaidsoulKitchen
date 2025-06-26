@@ -1,14 +1,17 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.brewing;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import io.github.tt432.kitchenkarrot.blockentity.BrewingBarrelBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.KK_BREW_BARREL)
 public class BrewingBarrelBe extends CookBeBase<BrewingBarrelBlockEntity> {
     public BrewingBarrelBe(EntityMaid maid) {
         super(maid);
@@ -57,8 +60,8 @@ public class BrewingBarrelBe extends CookBeBase<BrewingBarrelBlockEntity> {
     @Override
     public boolean cookStateMatch() {
         // @todo
-//        return false;
-        return be.hasEnoughWater();
+        return false;
+//        return be.hasEnoughWater();
     }
 
     @Override
@@ -70,7 +73,7 @@ public class BrewingBarrelBe extends CookBeBase<BrewingBarrelBlockEntity> {
     @Override
     public boolean hasFluid() {
         // @todo
-//        return false;
-        return be.hasEnoughWater();
+        return false;
+//        return be.hasEnoughWater();
     }
 }

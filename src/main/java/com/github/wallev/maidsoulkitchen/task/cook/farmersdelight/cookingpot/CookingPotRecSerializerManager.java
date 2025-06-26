@@ -1,10 +1,13 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cookingpot;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.item.ItemStack;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 
+@TaskClassAnalyzer(TaskInfo.FD_COOK_POT)
 public class CookingPotRecSerializerManager extends RecSerializerManager<CookingPotRecipe> {
     private static final CookingPotRecSerializerManager INSTANCE = new CookingPotRecSerializerManager();
 

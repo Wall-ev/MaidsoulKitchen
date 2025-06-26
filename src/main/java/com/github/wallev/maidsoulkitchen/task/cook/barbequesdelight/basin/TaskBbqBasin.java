@@ -5,16 +5,19 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.mao.barbequesdelight.content.block.BasinBlockEntity;
 import com.mao.barbequesdelight.content.recipe.SkeweringRecipe;
 import com.mao.barbequesdelight.init.registrate.BBQDBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+@TaskClassAnalyzer(TaskInfo.BD_BASIN)
 public class TaskBbqBasin extends ICookTask<BasinBlockEntity, SkeweringRecipe<?>> {
     @Override
     protected AbstractCookRule<BasinBlockEntity, SkeweringRecipe<?>> createCookRule() {
@@ -38,7 +41,7 @@ public class TaskBbqBasin extends ICookTask<BasinBlockEntity, SkeweringRecipe<?>
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.BD_BASIN.uid;
+        return MaidsoulKitchenTask.BD_BASIN.uid;
     }
 
     @Override

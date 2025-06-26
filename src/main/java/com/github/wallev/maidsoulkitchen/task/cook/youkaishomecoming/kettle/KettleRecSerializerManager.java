@@ -1,7 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle;
 
 import com.github.wallev.maidsoulkitchen.mixin.compat.youkaishomecoming.KettleBlockAccessor;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.world.item.ItemStack;
@@ -12,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-
+@TaskClassAnalyzer(TaskInfo.YHC_TEA_KETTLE)
 public class KettleRecSerializerManager extends RecSerializerManager<KettleRecipe> {
     private static final KettleRecSerializerManager INSTANCE = new KettleRecSerializerManager();
 

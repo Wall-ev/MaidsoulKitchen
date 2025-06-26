@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -7,6 +8,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializer
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec.FoodValue;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec.MKCrockPotRecipe;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
@@ -24,6 +26,7 @@ import org.apache.commons.lang3.EnumUtils;
 
 import java.util.*;
 
+@TaskClassAnalyzer(TaskInfo.CP_CROCK_POT)
 public class CrockPotRecSerializerManager extends RecSerializerManager<CrockPotCookingRecipe> {
     public static final String BLACK_REC = "crock_pot_cooking/wet_goop";
     private static final CrockPotRecSerializerManager INSTANCE = new CrockPotRecSerializerManager();

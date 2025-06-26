@@ -5,16 +5,19 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.mao.barbequesdelight.content.block.GrillBlockEntity;
 import com.mao.barbequesdelight.content.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.init.registrate.BBQDBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+@TaskClassAnalyzer(TaskInfo.BD_GRILL)
 public class TaskBbqGrill extends ICookTask<GrillBlockEntity, GrillingRecipe<?>> {
     @Override
     protected AbstractCookRule<GrillBlockEntity, GrillingRecipe<?>> createCookRule() {
@@ -38,7 +41,7 @@ public class TaskBbqGrill extends ICookTask<GrillBlockEntity, GrillingRecipe<?>>
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.BD_GRILL.uid;
+        return MaidsoulKitchenTask.BD_GRILL.uid;
     }
 
     @Override

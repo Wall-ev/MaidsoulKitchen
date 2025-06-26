@@ -7,7 +7,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.wallev.maidsoulkitchen.event.MelonConfigEvent;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.util.BlockUtil;
 import com.github.wallev.verhelper.server.item.VEnchantmentHelper;
 import com.mojang.datafixers.util.Pair;
@@ -48,7 +48,7 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.COMPAT_MELON_FARM.uid;
+        return MaidsoulKitchenTask.COMPAT_MELON_FARM.uid;
     }
 
     @Override

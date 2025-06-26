@@ -1,8 +1,10 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.aircompressor;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe;
 import io.github.tt432.kitchenkarrot.registries.RecipeTypes;
 import net.minecraft.world.item.Items;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.KK_AIR_COMPRESSOR)
 public class AirCompressorRecSerializerManager extends RecSerializerManager<AirCompressorRecipe> {
     private static final AirCompressorRecSerializerManager INSTANCE = new AirCompressorRecSerializerManager();
 

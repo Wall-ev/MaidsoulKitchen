@@ -32,6 +32,7 @@ public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Cont
     private final AbstractCookRule<B, R> rule;
     private final CookBeBase<B> cookBe;
     protected int verticalSearchStart;
+    private BlockPos currentWorkPos = null;
 
     public CookMoveTask(ICookTask<B, R> task, MaidCookManager<R> cm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
         this(task, cm, rule, cookBe, ICookTask.MOVE_SPEED, ICookTask.VERTICAL_SEARCH_RANGE);
@@ -80,7 +81,7 @@ public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Cont
     }
 
     protected final void searchForDestination(ServerLevel worldIn, EntityMaid maid) {
-        BlockPos centrePos = getSearchPos(maid);
+        BlockPos centrePos = getSearchPos(maid, currentWorkPos);
         int searchRange = (int) maid.getRestrictRadius();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         for (int y = this.verticalSearchStart; y <= this.verticalSearchRange; y = y > 0 ? -y : 1 - y) {
@@ -92,7 +93,9 @@ public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Cont
                         if (maid.isWithinRestriction(mutableBlockPos) && shouldMoveTo(worldIn, maid, mutableBlockPos)
 //                                && checkPathReach(maid, mutableBlockPos)
                                 && checkOwnerPos(maid, mutableBlockPos)) {
-                            MemoryUtil.rememberWorkPos(maid, cookBe.getWalkPos(), mutableBlockPos.immutable(), this.movementSpeed, 0);
+                            BlockPos workPos = mutableBlockPos.immutable();
+                            MemoryUtil.rememberWorkPos(maid, cookBe.getWalkPos(), workPos, this.movementSpeed, 0);
+                            currentWorkPos = workPos;
                             this.setNextCheckTickCount(5);
                             return;
                         }

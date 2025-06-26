@@ -1,7 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.basin;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.mao.barbequesdelight.content.recipe.SimpleSkeweringRecipe;
 import com.mao.barbequesdelight.content.recipe.SkeweringRecipe;
 import com.mao.barbequesdelight.init.registrate.BBQDRecipes;
@@ -10,6 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.BD_BASIN)
 public class SkeweringRecSerializerManager extends RecSerializerManager<SkeweringRecipe<?>> {
     private static final SkeweringRecSerializerManager INSTANCE = new SkeweringRecSerializerManager();
 

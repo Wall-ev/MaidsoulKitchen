@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
 import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.TaskFruitFarm;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.tartaricacid.touhoulittlemaid.api.event.AddTopInfoEvent;
@@ -34,7 +34,7 @@ public class AddTaskInfoTopEvent {
         EntityMaid maid = event.getMaid();
 
         if (!(maid.getTask() instanceof ICompatFarmTask<?, ?> farmTask)) return;
-        if (farmTask.getUid().equals(TaskInfo.FRUIT_FARM.uid)) {
+        if (farmTask.getUid().equals(MaidsoulKitchenTask.FRUIT_FARM.uid)) {
             // todo: sync
             FruitData fruitData = maid.getOrCreateData(((TaskFruitFarm) farmTask).getCookDataKey(), new FruitData());
             int fruitFarmSearchYOffset = fruitData.searchYOffset();

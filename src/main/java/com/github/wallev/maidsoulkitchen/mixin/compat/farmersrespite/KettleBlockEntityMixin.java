@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.farmersrespite;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@TaskMixin(task = TaskInfo.FR_KETTLE)
 @Mixin(value = KettleBlockEntity.class, remap = false)
 public abstract class KettleBlockEntityMixin extends SyncedBlockEntity implements ICookBeAccessor {
     @Shadow

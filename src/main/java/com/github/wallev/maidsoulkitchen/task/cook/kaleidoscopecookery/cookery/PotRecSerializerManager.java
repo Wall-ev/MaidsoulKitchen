@@ -27,6 +27,7 @@ import java.util.function.Predicate;
 
 import static com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery.PotRecSerializerManager.PotRecipeInfoProvider.*;
 
+//@ImportsParse(task = TaskInfo.KC_POT)
 public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     private static final PotRecSerializerManager INSTANCE = new PotRecSerializerManager();
 

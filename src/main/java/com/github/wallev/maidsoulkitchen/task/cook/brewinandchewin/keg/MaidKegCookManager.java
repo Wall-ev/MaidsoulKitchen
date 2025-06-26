@@ -2,12 +2,15 @@ package com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.keg;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidConditionCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import umpaz.brewinandchewin.common.block.entity.KegBlockEntity;
 import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 
+@TaskClassAnalyzer(TaskInfo.BNC_KEY)
 public class MaidKegCookManager extends MaidConditionCookManager<KegFermentingRecipe, Integer> {
     public MaidKegCookManager(RecSerializerManager<KegFermentingRecipe> recSerializerManager, EntityMaid maid, ICookTask<?, KegFermentingRecipe> task, CookBeBase<?> cookBeBase) {
         super(recSerializerManager, maid, task, cookBeBase);

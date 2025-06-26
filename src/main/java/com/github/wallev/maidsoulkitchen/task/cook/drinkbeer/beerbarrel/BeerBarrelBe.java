@@ -2,8 +2,10 @@ package com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.mixin.compat.drinkbeer.BeerBarrelBlockAccessor;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity;
 import lekavar.lma.drinkbeer.recipes.BrewingRecipe;
 import lekavar.lma.drinkbeer.registries.RecipeRegistry;
@@ -11,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Optional;
 
+@TaskClassAnalyzer(TaskInfo.DB_BEER)
 public class BeerBarrelBe extends CookBeBase<BeerBarrelBlockEntity> {
     public BeerBarrelBe(EntityMaid maid) {
         super(maid);

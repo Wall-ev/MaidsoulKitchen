@@ -1,0 +1,106 @@
+// 直属依赖项
+dependencies {
+    if (!touhou_little_maid_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:touhou-little-maid:${touhou_little_maid_version}-${mod_loader},${minecraft_version}")
+
+}
+
+// 联动(烹饪)
+dependencies {
+    /** ---------------------------------------农夫乐事--------------------------------------------------------- */
+    if (!farmers_delight_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:farmers-delight:${farmers_delight_version}-${mod_loader},${minecraft_version}")
+    // 仅供妖归使用
+    if (!registrate_version.isEmpty())
+        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    if (!youkaishomecoming_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:youkaishomecoming:${youkaishomecoming_version}-${mod_loader},${minecraft_version}")
+    if (!kitchen_karrot_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:kitchen-karrot:${kitchen_karrot_version}-${mod_loader},${minecraft_version}")
+}
+
+// 联动(其他)
+dependencies {
+    if (!serene_seasons_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:serene-seasons:${serene_seasons_version}-${mod_loader},${minecraft_version}")
+    if (!ecliptic_seasons_file_id.isEmpty())
+        compileOnly fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
+    if (!simple_farming_file_id.isEmpty())
+        implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
+    if (!curios_version.isEmpty())
+        implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    if (!kotlin_for_forge_version.isEmpty())
+        runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
+    if (!libipn_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}-${mod_loader},${minecraft_version}")
+    if (!inventory_profiles_next_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}-${mod_loader},${minecraft_version}")
+
+    if (!kubejs_version.isEmpty())
+        compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+    if (!rhino_version.isEmpty())
+        compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+//    if (!probejs_file_id.isEmpty())
+//    compileOnly fg.deobf("curse.maven:probejs-585406:5227399")
+}
+
+// 开发工具
+dependencies {
+    if (!patchouli_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:patchouli:${patchouli_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    if (!jade_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:jade:${jade_version}-${mod_loader},${minecraft_version}")
+    if (!the_one_probe_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:the-one-probe:${the_one_probe_version}-${mod_loader},${minecraft_version}")
+    if (!cloth_config_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("me.shedaniel.cloth:cloth-config-${mod_loader}:${cloth_config_forge}")
+
+    // rei
+    if (!architectury_api_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_api_version}-${mod_loader},${minecraft_version}")
+    if (!rei_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:rei:${rei_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-${mod_loader}:${rei_version}")
+
+    // emi
+    if (!emi_version.isEmpty()) {
+        compileOnly fg.deobf("maven.modrinth:emi:${emi_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}:api")
+//        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}")
+    }
+
+    if (!jei_version.isEmpty()) {
+        implementation fg.deobf("maven.modrinth:jei:${jei_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+//        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+//        implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    }
+
+}
+
+// api
+dependencies {
+    if (!architectury_version.isEmpty())
+        implementation fg.deobf("dev.architectury:architectury-${mod_loader}:${architectury_version}")
+    if (!kiwi_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:kiwi:${kiwi_version}-${mod_loader},${minecraft_version}")
+}
+
+// 开发工具
+dependencies {
+    if (!appleskin_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:appleskin:${appleskin_version}-${mod_loader},${minecraft_version}")
+    if (!nbtedit_reborn_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:nbtedit-reborn:${nbtedit_reborn_version}-${mod_loader},${minecraft_version}")
+}
+
+dependencies {
+    if (!create_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:create:${create_version}-${mod_loader},${minecraft_version}")
+}
+
+
+

@@ -1,10 +1,13 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.moka;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.xkmc.youkaishomecoming.content.pot.moka.MokaRecipe;
 import dev.xkmc.youkaishomecoming.init.registrate.YHBlocks;
 import net.minecraft.world.item.ItemStack;
 
+@TaskClassAnalyzer(TaskInfo.YHC_MOKA)
 public class MokaRecSerializerManager extends RecSerializerManager<MokaRecipe> {
     private static final MokaRecSerializerManager INSTANCE = new MokaRecSerializerManager();
 

@@ -1,10 +1,13 @@
 package com.github.wallev.maidsoulkitchen.util.modutility;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 
-public enum Mods {
+public enum Mods implements StringRepresentable{
     PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
 
@@ -22,7 +25,8 @@ public enum Mods {
     CD("cuisinedelight"),
     BD("barbequesdelight"),
     YHCD_LEGACY("youkaishomecoming", "[2.2.3,2.3.13)"),
-    YHCD("youkaishomecoming", "[2.3.13,)"),
+    YHCD_NEW("youkaishomecoming", "[2.3.13,)"),
+    YHCD("youkaishomecoming", "[2.2.3,)"),
     BNCD_LEGACY("brewinandchewin_legacy", "[,3.0.0)"),
     BNCD("brewinandchewin", "[3.0.0,)"),
     FRD("farmersrespite"),
@@ -47,6 +51,8 @@ public enum Mods {
     MS("supplementaries"),
     CP("crockpot"),
     DB("drinkbeer"),
+    KK_LEGACY("kitchenkarrot", "[,0.5.4]"),
+    KK_NEW("kitchenkarrot", "[0.6.2,]"),
     KK("kitchenkarrot"),
 
     TWT("thirst"),
@@ -62,6 +68,7 @@ public enum Mods {
     },
     KC("kaleidoscope_cookery");
 
+    public static final Codec<Mods> CODEC = StringRepresentable.fromEnum(Mods::values);
     public final String modId;
     public final boolean isLoaded;
     public final boolean versionLoaded;
@@ -81,6 +88,10 @@ public enum Mods {
     public static void init() {
     }
 
+    public static Mods by(String mod) {
+        return Mods.valueOf(mod);
+    }
+
     public boolean isInstalled() {
         return ModUtil.isInstalled(modId);
     }
@@ -91,5 +102,10 @@ public enum Mods {
 
     protected boolean isInstalled(String versionRange) {
         return ModUtil.isInstalled(modId, versionRange);
+    }
+
+    @Override
+    public String getSerializedName() {
+        return this.name();
     }
 }

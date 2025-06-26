@@ -2,13 +2,16 @@ package com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidConditionCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
+@TaskClassAnalyzer(TaskInfo.FURNACE)
 public class MaidFurnaceCookManager extends MaidConditionCookManager<AbstractCookingRecipe, RecipeType<?>> {
     public MaidFurnaceCookManager(RecSerializerManager<AbstractCookingRecipe> recSerializerManager, EntityMaid maid, ICookTask<?, AbstractCookingRecipe> task, CookBeBase<?> cookBeBase) {
         super(recSerializerManager, maid, task, cookBeBase);

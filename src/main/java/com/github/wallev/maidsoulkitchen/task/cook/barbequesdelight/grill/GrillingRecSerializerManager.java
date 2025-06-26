@@ -1,13 +1,16 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.mao.barbequesdelight.content.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.content.recipe.SimpleGrillingRecipe;
 import com.mao.barbequesdelight.init.registrate.BBQDRecipes;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.BD_GRILL)
 public class GrillingRecSerializerManager extends RecSerializerManager<GrillingRecipe<?>> {
     private static final GrillingRecSerializerManager INSTANCE = new GrillingRecSerializerManager();
 

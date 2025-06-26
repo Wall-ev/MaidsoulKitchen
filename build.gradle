@@ -55,6 +55,7 @@ minecraft {
     runs {
         configureEach {
             jvmArgs "-XX:+AllowEnhancedClassRedefinition"
+            jvmArgs "-XX:+IgnoreUnrecognizedVMOptions"
             jvmArgs "-Dmixin.debug.export=true"
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
@@ -241,23 +242,7 @@ dependencies {
             runtimeOnly fg.deobf("runlibs:${name.split("-")[0]}:${ver}")
         }
     }
-
-//    implementation fg.deobf(jarJar("legacylibs:maidsoulkitchen_legacy:1.20.1-beta-v0.1.4")) {
-//        transitive = false
-//        jarJar.ranged(it, "[1.20.1-beta-v0.1.4,)")
-//    }
 }
-//
-///**
-// * 脚本工具用
-// */
-//dependencies {
-//    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
-//    implementation 'org.apache.commons:commons-io:1.3.2'
-//    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-//    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-//}
-
 
 // util
 def loadGradle(String minecraft_version) {
@@ -296,5 +281,96 @@ def printProperties(Project project) {
     println "> Custom Properties"
     project.properties.each { key, value ->
         println ">- ${key} = ${value}"
+    }
+}
+
+
+String buildGroup = "build"
+tasks.register("build2Legacy") {
+    group = buildGroup
+    description = '构建MaidsoulKitchen给Legacy做兼容使用'
+
+    doLast {
+        exec {
+            // 设置环境变量，将Gradle属性传递给批处理脚本
+            environment "MOD_ID", mod_id
+            environment "VERSION", version
+            environment "MINECRAFT_VERSION", minecraft_version
+
+            commandLine = ['build2Legacy.bat']
+            ignoreExitValue = false // 如果命令失败则中断构建
+        }
+    }
+}
+
+if (gradle.startParameter.taskNames.any { it.contains("buildAll") }) {
+    dependencies {
+        if (file("libs/${minecraft_version}/legacy").exists()) {
+            for (final def file in fileTree(dir: "libs/${minecraft_version}/legacy", includes: ['*-all.jar']).getFiles()) {
+                def name = file.getName()
+                def modName = name.split("-")[0]
+                def ver = name.replace("${modName}-", "").replace(".jar", "")
+                println(">> Add legacy: file: ${name}, name: ${modName}, ver: ${ver}")
+                implementation fg.deobf(jarJar("legacylibs:${name.split("-")[0]}:${ver}")) {
+                    transitive = false
+                    jarJar.ranged(it, "[${ver},)")
+                }
+            }
+        }
+        println "⚠️ Legacy 版本加载完成！"
+    }
+}
+
+tasks.register("buildAll") {
+    group = null
+    description = '构建模组，由buildMod任务启动package.bat触发'
+
+    dependsOn(rootProject.tasks.build)
+}
+
+tasks.register("buildMod") {
+    group = buildGroup
+    description = '打包完整的模组'
+    doLast {
+        exec {
+            // 设置环境变量，将Gradle属性传递给批处理脚本
+            environment "MOD_ID", mod_id
+            environment "VERSION", version
+            environment "MINECRAFT_VERSION", rootProject.ext.minecraft_version
+
+            commandLine = ['package.bat']
+            ignoreExitValue = false // 如果命令失败则中断构建
+        }
+    }
+}
+
+tasks.named('build') {
+    // 隐藏任务，使用 buildMod 任务
+    group = null
+    description = '请使用 buildMod 任务'
+}
+
+tasks.named('init') {
+    // 隐藏任务，使用 buildMod 任务
+    group = "init"
+    description = '项目初始化，如果使用过了 init.bat，就可以不用初始化了'
+    doLast {
+        exec {
+            commandLine = ['init.bat']
+            ignoreExitValue = false // 如果命令失败则中断构建
+        }
+    }
+}
+
+configurations.configureEach {
+    resolutionStrategy {
+        componentSelection {
+            all { ComponentSelection selection ->
+                // 排除 com.example 组下的所有模块
+                if (selection.candidate.group == 'com/github/wallev') {
+                    selection.reject("禁用 com/github/wallev 组的缓存")
+                }
+            }
+        }
     }
 }

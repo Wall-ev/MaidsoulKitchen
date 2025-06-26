@@ -1,13 +1,16 @@
 package com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.kettle;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import umpaz.farmersrespite.common.block.entity.KettleBlockEntity;
 
+@TaskClassAnalyzer(TaskInfo.FR_KETTLE)
 public class KettleCookBe extends CookBeBase<KettleBlockEntity> {
     public KettleCookBe(EntityMaid maid) {
         super(maid);

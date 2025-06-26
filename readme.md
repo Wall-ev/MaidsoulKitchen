@@ -14,6 +14,9 @@
 这里是一个[车万女仆](https://github.com/TartaricAcid/TouhouLittleMaid)附属模组，旨在让女仆学会使用其他模组的烹饪和作物的耕种
 
 ## 开发提示
+ - 在终端运行命令:`./init.bat`，进行项目的初始化
+ - 如果需要旧版兼容，那就在`./Legacy/setting/common/forge/dependencies.gradle`里填入需要兼容的版本，再执行`gradle`任务:`Task/build/build2Legacy`，最后再进行代码编写
+ - 项目打包需要使用`gradle`任务:`Task/build/buildMod`(`build`被"Ban"掉了)
  - 由于目前使用到了`AspectJ`，所以如果有类使用到了`debug.annotation`下的注解，热重载只能使用`idea`自带的重载，使用`Single Hotswap`会失效且崩溃
 
 ## 警告

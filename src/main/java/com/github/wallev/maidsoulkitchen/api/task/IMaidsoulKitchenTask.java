@@ -82,8 +82,12 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
 
     public class TaskMixinMap extends HashMap<ResourceLocation, List<String>> {
         private static final TaskMixinMap MIXIN = new TaskMixinMap();
-        public static void put(ResourceLocation task, String... clz) {
+        public static void putList(ResourceLocation task, String... clz) {
             MIXIN.put(task, Lists.newArrayList(clz));
+        }
+
+        public static void putList(ResourceLocation task, List<String> clz) {
+            MIXIN.put(task, clz);
         }
 
         public static boolean isApplyMixin(ResourceLocation task) {

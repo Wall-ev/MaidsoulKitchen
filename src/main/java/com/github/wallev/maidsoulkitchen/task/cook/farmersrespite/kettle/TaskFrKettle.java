@@ -5,17 +5,20 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.FluidPotCookRule1;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import umpaz.farmersrespite.common.block.entity.KettleBlockEntity;
 import umpaz.farmersrespite.common.crafting.KettleRecipe;
 import umpaz.farmersrespite.common.registry.FRItems;
 
+@TaskClassAnalyzer(TaskInfo.FR_KETTLE)
 public class TaskFrKettle extends ICookTask<KettleBlockEntity, KettleRecipe> {
 
     @Override
@@ -40,7 +43,7 @@ public class TaskFrKettle extends ICookTask<KettleBlockEntity, KettleRecipe> {
 
     @Override
     public ResourceLocation getUid() {
-        return TaskInfo.FR_KETTLE.uid;
+        return MaidsoulKitchenTask.FR_KETTLE.uid;
     }
 
     @Override

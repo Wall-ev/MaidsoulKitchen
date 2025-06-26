@@ -1,9 +1,10 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
-import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
+@TaskClassAnalyzer(TaskInfo.CP_CROCK_POT)
 public class CrockPotBe extends CookBeBase<CrockPotBlockEntity> {
     public CrockPotBe(EntityMaid maid) {
         super(maid);

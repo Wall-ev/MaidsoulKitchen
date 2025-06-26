@@ -17,6 +17,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//@ImportsParse(task = TaskInfo.KC_CHOPPING_BOARD)
 public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<ChoppingBoardRecipe> {
     private static final ChoppingBoardRecSerializerManager INSTANCE = new ChoppingBoardRecSerializerManager();
 

@@ -22,7 +22,9 @@ import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskMixinManager;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
@@ -36,9 +38,10 @@ import java.util.function.Function;
 @LittleMaidExtension
 public final class MaidPlugin implements ILittleMaid {
 
-    public MaidPlugin() {
+    public MaidPlugin() throws Exception {
         Mods.init();
         TaskInfo.init();
+        MaidsoulKitchenTask.init();
     }
 
     @Override
