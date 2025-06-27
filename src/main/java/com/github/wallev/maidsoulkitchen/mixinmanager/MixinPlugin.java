@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class MixinPlugin implements IMixinConfigPlugin {
 
-    public MixinPlugin() {
-
-    }
-
     @Override
     public void onLoad(String mixinPackage) {
         Mods.init();
@@ -34,8 +30,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return TaskMixinManager.canMixin(mixinClassName);
-//        return MixinInfo.canMixin(targetClassName);
+        return TaskMixinManager.canMixin(targetClassName);
     }
 
     @Override

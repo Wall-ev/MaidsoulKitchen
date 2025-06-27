@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskMixinAnalyzer;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -12,15 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public record TaskClazzInfo(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap, List<String> allClazzs) {
+public record TaskClazzInfo(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap, List<String> allClazzs, TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap) {
 
     public static final Codec<TaskClazzInfo> CODEC = RecordCodecBuilder.create(ins -> ins.group(
             Codec.unboundedMap(ResourceLocation.CODEC, ClazzTaskInfo.CODEC).fieldOf("clazzInfoMap").forGetter(TaskClazzInfo::clazzInfoMap),
-            Codec.STRING.listOf().fieldOf("allClazzs").forGetter(TaskClazzInfo::allClazzs)
+            Codec.STRING.listOf().fieldOf("allClazzs").forGetter(TaskClazzInfo::allClazzs),
+            TaskMixinAnalyzer.ModTaskMixinMap.CODEC.fieldOf("mixinInfo").forGetter(TaskClazzInfo::taskMixinMap)
     ).apply(ins, TaskClazzInfo::new));
 
-    public TaskClazzInfo(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap) {
-        this(clazzInfoMap, createAllClazzs(clazzInfoMap));
+    public TaskClazzInfo(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap, TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap) {
+        this(clazzInfoMap, createAllClazzs(clazzInfoMap), taskMixinMap);
     }
 
     private static List<String> createAllClazzs(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap) {

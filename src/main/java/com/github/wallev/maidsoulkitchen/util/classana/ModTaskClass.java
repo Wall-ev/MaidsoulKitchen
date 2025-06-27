@@ -37,7 +37,7 @@ public record ModTaskClass(Map<ResourceLocation, List<String>> list){
                 TaskInfo taskInfo = TaskInfo.by(taskUid);
                 assert taskInfo != null;
                 Mods bindMod = taskInfo.bindMod;
-                TaskLoadError.putError(taskUid, bindMod, TaskLoadError.Type.CLAZZ, "not find clazz: " + clazz);
+                TaskLoadError.putError(taskUid);
                 MaidsoulKitchen.LOGGER.error("ModTaskClass.LoadError: task: {}, class: {}", taskUid, clazz);
                 return false;
             }

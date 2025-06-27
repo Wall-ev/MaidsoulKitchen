@@ -24,7 +24,6 @@ import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle.Task
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.moka.TaskYhcMoka;
 import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskMixinManager;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -75,6 +74,7 @@ public enum MaidsoulKitchenTask {
 
     ;
     public final ResourceLocation uid;
+    public final String modId;
 
     /**
      * @param uid 任务ID标识符
@@ -84,15 +84,17 @@ public enum MaidsoulKitchenTask {
      */
     MaidsoulKitchenTask(String uid, Mods bindMod, ForgeConfigSpec.BooleanValue bindConfig, Supplier<IMaidsoulKitchenTask> bindTask) {
         this.uid = VResourceLocation.create(MaidsoulKitchen.MOD_ID, uid);
+        this.modId = bindMod.modId;
         IMaidsoulKitchenTask.putTask(this.uid, () -> {
-            return bindMod.versionLoaded && bindConfig.get() && TaskMixinManager.isApplyMixin(this.uid) && TaskRegister.clazzLoad(this.uid);
+            return bindMod.versionLoaded && bindConfig.get() && TaskRegister.clazzLoad(this.uid);
         }, bindTask);
     }
 
     MaidsoulKitchenTask(TaskInfo taskInfo, Supplier<IMaidsoulKitchenTask> bindTask) {
         this.uid = taskInfo.uid;
+        this.modId = taskInfo.bindMod.modId;
         IMaidsoulKitchenTask.putTask(this.uid, () -> {
-            return taskInfo.bindMod.versionLoaded && taskInfo.bindConfig.get().get() && TaskMixinManager.isApplyMixin(this.uid) && TaskRegister.clazzLoad(this.uid);
+            return taskInfo.bindMod.versionLoaded && taskInfo.bindConfig.get().get() && TaskRegister.clazzLoad(this.uid);
         }, bindTask);
     }
 

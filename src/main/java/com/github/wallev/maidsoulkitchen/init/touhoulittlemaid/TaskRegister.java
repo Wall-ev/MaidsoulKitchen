@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.ClassAnalyzerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskMixinManager;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.google.common.collect.Lists;
 import net.minecraft.resources.ResourceLocation;
@@ -13,30 +13,20 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public final class TaskRegister {
     private static final List<LegacyTaskInfo> LEGACY_TASK = new ArrayList<>();
-    private static final Map<ResourceLocation, Boolean> modTaskClazzResult;
-
-    static {
-        try {
-            modTaskClazzResult = ClassAnalyzerManager.readModTaskClazz();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private TaskRegister() {
     }
 
     public static boolean clazzLoad(TaskInfo taskInfo) {
-        return clazzLoad(taskInfo.uid);
+        return TaskMixinManager.clazzLoad(taskInfo.uid);
     }
 
     public static boolean clazzLoad(ResourceLocation taskUid) {
-        return modTaskClazzResult.getOrDefault(taskUid, true);
+        return TaskMixinManager.clazzLoad(taskUid);
     }
 
     public static void addLegacyTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<IMaidsoulKitchenTask> task, String... mixinClz) {
@@ -63,8 +53,9 @@ public final class TaskRegister {
         }
     }
 
-    public static void init(TaskManager manager) {
+    public static void init(TaskManager manager) throws IOException {
         registerLegacyCompat();
+        TaskMixinManager.startReadTask();
 
         IMaidsoulKitchenTask.getTasks().forEach((key, value) -> {
             if (value.getContidion().get()) {
@@ -75,6 +66,8 @@ public final class TaskRegister {
                 }
             }
         });
+
+        TaskMixinManager.clear();
     }
 
     public record LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod,

@@ -1,8 +1,10 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskLoadError;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import net.minecraft.resources.ResourceLocation;
 
@@ -18,6 +20,7 @@ public class VerifyExistence {
     public static Map<ResourceLocation, Boolean> verify(TaskClazzInfo taskClazzInfo) throws IOException {
         Map<ResourceLocation, Boolean> taskResult = new HashMap<>();
         MultiClassAnalysisResult multiClassAnalysisResult = new MultiClassAnalysisResult();
+        Map<ResourceLocation, List<String>> mixinList = taskClazzInfo.taskMixinMap().getMixinList();
 
         Map<String, ClazzInfo> allClazzInfo = new HashMap<>();
         for (String clazz : taskClazzInfo.allClazzs()) {
@@ -40,20 +43,35 @@ public class VerifyExistence {
             result.classes.addAll(clazzInfo.classes());
             result.methods.addAll(clazzInfo.methods());
             result.fields.addAll(clazzInfo.fields());
+            result.mixins.addAll(mixinList.getOrDefault(taskUid, List.of()));
             boolean verifyResult = verify(result, allClazzInfo);
             multiClassAnalysisResult.addClassResult(result);
             taskResult.put(taskUid, verifyResult);
+            if (!verifyResult) {
+                TaskLoadError.putError(taskUid);
+            }
         }
 
         // 导出为文本文件
-        Path path = multiClassAnalysisResult.exportToFile();
-        MaidsoulKitchen.LOGGER.info("任务分析报告已导出至: {}", path.toAbsolutePath());
+        Path path = multiClassAnalysisResult.exportToFile(allClazzInfo);
+        MaidsoulKitchen.LOGGER.info("The task analysis report has been exported to: {}", path.toAbsolutePath());
         return taskResult;
     }
 
     // 验证类、方法和字段的存在性
     public static boolean verify(ClassAnalysisResult result, Map<String, ClazzInfo> allClazzInfo) {
         boolean result0 = true;
+        for (String mixin : result.mixins) {
+            boolean applied = IMaidsoulKitchenInterface.applyInterfaceMixin(mixin);
+            if (applied) {
+                result.mixinExistence.put(mixin, true);
+            } else {
+                result0 = false;
+                result.mixinExistence.put(mixin, false);
+                result.addLog(new LogEntry(LogLevel.ERROR, "Mixin failed: " + mixin));
+            }
+        }
+
         for (String className : result.classes) {
             ClazzInfo clazzInfo = allClazzInfo.get(className);
             if (clazzInfo != null) {
@@ -61,7 +79,7 @@ public class VerifyExistence {
             } else {
                 result0 = false;
                 result.classExistence.put(className, false);
-                result.addLog(new LogEntry(LogLevel.WARNING, "类不存在: " + className));
+                result.addLog(new LogEntry(LogLevel.WARNING, "The class does not exist: " + className));
             }
         }
 
@@ -70,7 +88,7 @@ public class VerifyExistence {
             String[] parts = methodSignature.split("#");
             if (parts.length != 2) {
                 result.methodExistence.put(methodSignature, false);
-                result.addLog(new LogEntry(LogLevel.WARNING, "无效的方法签名: " + methodSignature));
+                result.addLog(new LogEntry(LogLevel.WARNING, "Invalid method signature: " + methodSignature));
                 continue;
             }
 
@@ -86,12 +104,12 @@ public class VerifyExistence {
 
                 if (!contains) {
                     result0 = false;
-                    result.addLog(new LogEntry(LogLevel.WARNING, "方法不存在: " + methodSignature));
+                    result.addLog(new LogEntry(LogLevel.WARNING, "The method does not exist: " + methodSignature));
                 }
             } else {
                 result0 = false;
                 result.classExistence.put(className, false);
-                result.addLog(new LogEntry(LogLevel.WARNING, "类不存在: " + className));
+                result.addLog(new LogEntry(LogLevel.WARNING, "The class does not exist: " + className));
             }
         }
 
@@ -100,7 +118,7 @@ public class VerifyExistence {
             String[] parts = fieldSignature.split("#");
             if (parts.length != 2) {
                 result.fieldExistence.put(fieldSignature, false);
-                result.addLog(new LogEntry(LogLevel.WARNING, "无效的字段签名: " + fieldSignature));
+                result.addLog(new LogEntry(LogLevel.WARNING, "Invalid field signature: " + fieldSignature));
                 continue;
             }
 
@@ -115,12 +133,12 @@ public class VerifyExistence {
 
                 if (!contains) {
                     result0 = false;
-                    result.addLog(new LogEntry(LogLevel.WARNING, "字段不存在: " + fieldSignature));
+                    result.addLog(new LogEntry(LogLevel.WARNING, "The field does not exist: " + fieldSignature));
                 }
             } else {
                 result0 = false;
                 result.fieldExistence.put(fieldSignature, false);
-                result.addLog(new LogEntry(LogLevel.WARNING, "类不存在，无法验证字段: " + className));
+                result.addLog(new LogEntry(LogLevel.WARNING, "The class doesn't exist and the field can't be validated:" + className));
             }
         }
         return result0;

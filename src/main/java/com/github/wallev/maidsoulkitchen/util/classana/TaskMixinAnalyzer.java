@@ -3,7 +3,9 @@ package com.github.wallev.maidsoulkitchen.util.classana;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.MapUtil;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +36,9 @@ public final class TaskMixinAnalyzer {
     public static void writeModTaskClazz(Path rootOutputFolder) {
         ModTaskMixinMap modTaskClazz = collectModTaskClazz();
         ModTaskMixinMap.CODEC.encodeStart(JsonOps.INSTANCE, modTaskClazz)
-                .result()
+                .resultOrPartial(error -> {
+                    MaidsoulKitchen.LOGGER.error("生成失败：{}", error);
+                })
                 .ifPresent(data -> {
                     File file = new File(rootOutputFolder.toString().replace("generated", "main") + "\\" + FILE_NAME);
                     Gson gson = new GsonBuilder()
@@ -70,7 +74,7 @@ public final class TaskMixinAnalyzer {
     }
 
     @SuppressWarnings({"SameParameterValue", "unchecked"})
-    private static ModTaskMixinMap collectModTaskClazz() {
+    public static ModTaskMixinMap collectModTaskClazz() {
         Map<String, Mods> targetBindInfo = new HashMap<>();
         Map<ResourceLocation, Set<String>> taskMixinList = new HashMap<>();
 
@@ -192,6 +196,21 @@ public final class TaskMixinAnalyzer {
             return new ModTaskMixinMap(map0);
         }
 
+        public Map<ResourceLocation, List<String>> getMixinList() {
+            Map<ResourceLocation, Set<String>> map = new HashMap<>();
+            this.map.forEach((taskUid, list) -> {
+                List<String> mixinList0 = list.stream()
+                        .flatMap(l -> {
+                            return l.mixinList.stream();
+                        })
+                        .toList();
+                map.computeIfAbsent(VResourceLocation.create(taskUid), (t) -> {
+                    return new HashSet<>();
+                }).addAll(mixinList0);
+            });
+            return MapUtil.set2List(map);
+        }
+
         private Map<String, List<ModTaskMixin>> map() {
             return map;
         }
@@ -214,7 +233,7 @@ public final class TaskMixinAnalyzer {
             for (String targetClass : taskMixinList.getOrDefault(task, List.of())) {
                 if (!IMaidsoulKitchenInterface.applyInterfaceMixin(targetClass)) {
                     Mods compatMod = map.get(task.toString()).get(0).compatMod;
-                    TaskLoadError.putError(task, compatMod, TaskLoadError.Type.MIXIN, "mixin error: " + targetClass);
+                    TaskLoadError.putError(task);
                     MaidsoulKitchen.LOGGER.error("ModTaskMixinMap.MixinError: task: {}, class: {}", task, targetClass);
                     apply = false;
                 }

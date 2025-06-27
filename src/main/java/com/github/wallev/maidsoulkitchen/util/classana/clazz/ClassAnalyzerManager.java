@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.task.ModGroup;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.verhelper.IModInfo;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,15 +44,17 @@ public class ClassAnalyzerManager {
         ClassAnalyzerTool.analyzerAndGenerateFile(rootOutputFolder, clazzMap);
     }
 
-    private static TaskClazzInfo readModTaskClazzFromFile() {
+    public static TaskClazzInfo readModTaskClazzFromFile() {
         try {
-            Path resource = LoadingModList.get().getModFileById(MaidsoulKitchen.MOD_ID)
+            Path resource = LoadingModList.get().getModFileById(IModInfo.MOD_ID)
                     .getFile()
                     .findResource(FILE_NAME);
             String json = Files.readString(resource);
             JsonObject jsonData = JsonParser.parseString(json).getAsJsonObject();
             return TaskClazzInfo.CODEC.parse(JsonOps.INSTANCE, jsonData)
-                    .result()
+                    .resultOrPartial(error -> {
+                        IModInfo.LOGGER.error("读取失败：{}", error);
+                    })
                     .orElseThrow();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -61,6 +63,10 @@ public class ClassAnalyzerManager {
 
     public static Map<ResourceLocation, Boolean> readModTaskClazz() throws IOException {
         TaskClazzInfo taskClazzInfo = readModTaskClazzFromFile();
+        return VerifyExistence.verify(taskClazzInfo);
+    }
+
+    public static Map<ResourceLocation, Boolean> readModTaskClazz(TaskClazzInfo taskClazzInfo) throws IOException {
         return VerifyExistence.verify(taskClazzInfo);
     }
 

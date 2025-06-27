@@ -5,10 +5,15 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
+import net.minecraftforge.forgespi.language.IConfigurable;
+import net.minecraftforge.forgespi.language.IModFileInfo;
+import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
 import org.apache.maven.artifact.versioning.VersionRange;
+
+import java.util.Optional;
 
 public class ModUtil {
     public static boolean isInstalled(String modId) {
@@ -42,6 +47,31 @@ public class ModUtil {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     *     public static String getModIssueUrl(String modId) {
+     *         String issueUrl = "";
+     *
+     *         ModList modList = ModList.get();
+     *         if (modList != null) {
+     *             ModContainer modContainer = modList.getModContainerById(modId).orElse(null);
+     *             if (modContainer == null) {
+     *                 return issueUrl;
+     *             }
+     *             IModFileInfo owningFile = modContainer.getModInfo().getOwningFile();
+     *             IConfigurable config = owningFile.getConfig();
+     *             Optional<String> issueTrackerURL = config.<String>getConfigElement("issueTrackerURL");
+     *             issueUrl = issueTrackerURL.orElse("");
+     *         } else {
+     *             ModFileInfo modFileById = LoadingModList.get().getModFileById(modId);
+     *             if (modFileById != null) {
+     *                 issueUrl = modFileById.getMods().get(0).getConfig().<String>getConfigElement("issueTrackerURL").orElse("");
+     *             }
+     *         }
+     *         return issueUrl;
+     *     }
+     *
+     */
 
     // [x.x.x,)
     public static String getModVersion(String modId) {

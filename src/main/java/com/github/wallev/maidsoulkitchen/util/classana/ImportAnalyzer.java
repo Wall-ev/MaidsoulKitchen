@@ -30,7 +30,9 @@ public final class ImportAnalyzer {
     public static void writeModTaskClazz(Path rootOutputFolder) throws ClassNotFoundException {
         Map<ResourceLocation, Set<String>> modTaskClazz = collectModTaskClazz();
         ModTaskClass.CODEC.encodeStart(JsonOps.COMPRESSED, ModTaskClass.create(modTaskClazz))
-                .result()
+                .resultOrPartial(error -> {
+                    MaidsoulKitchen.LOGGER.error("生成失败：{}", error);
+                })
                 .ifPresent(data -> {
                     File file = new File(rootOutputFolder.toString().replace("generated", "main") + "\\" + FILE_NAME);
                     Gson gson = new GsonBuilder()

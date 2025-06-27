@@ -7,20 +7,18 @@
           "com.tterrag.registrate.util.entry.BlockEntry",
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks",
           "com.tterrag.registrate.util.entry.RegistryEntry",
-          "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity",
-          "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackRecipe"
+          "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity"
         ],
         "methods": [
           "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity#getInventory()Lnet/minecraftforge/items/ItemStackHandler;",
-          "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackRecipe#getCookingTime()I",
           "com.tterrag.registrate.util.entry.RegistryEntry#get()Ljava/lang/Object;",
           "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity#placeFood(Lnet/minecraft/world/item/ItemStack;I)Z",
           "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity#getItems()Lnet/minecraft/core/NonNullList;"
         ],
         "fields": [
-          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK_RT",
-          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK"
+          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK",
+          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK_RT"
         ]
       }
     },
@@ -44,7 +42,6 @@
           "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
           "com.sammy.minersdelight.repack.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
           "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity#getInventory()Lnet/minecraftforge/items/ItemStackHandler;",
-          "vectorwing.farmersdelight.common.crafting.CookingPotRecipe#getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;",
           "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity#getMeal()Lnet/minecraft/world/item/ItemStack;"
         ],
         "fields": [
@@ -59,22 +56,16 @@
       "bindMod": "BD",
       "clazzInfo": {
         "classes": [
-          "com.mao.barbequesdelight.content.block.StorageTileContainer",
           "com.tterrag.registrate.util.entry.BlockEntry",
           "com.mao.barbequesdelight.init.registrate.BBQDRecipes",
           "com.mao.barbequesdelight.content.block.BasinBlockEntity",
           "com.tterrag.registrate.util.entry.RegistryEntry",
-          "com.mao.barbequesdelight.content.recipe.SkeweringRecipe",
           "com.mao.barbequesdelight.content.recipe.SimpleSkeweringRecipe",
           "com.mao.barbequesdelight.init.registrate.BBQDBlocks"
         ],
         "methods": [
-          "com.mao.barbequesdelight.content.block.BasinBlockEntity#getLevel()Lnet/minecraft/world/level/Level;",
-          "com.mao.barbequesdelight.content.recipe.SkeweringRecipe#assemble(Lnet/minecraft/world/Container;Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;",
-          "com.mao.barbequesdelight.content.block.StorageTileContainer#getItem(I)Lnet/minecraft/world/item/ItemStack;",
           "com.mao.barbequesdelight.content.block.BasinBlockEntity#notifyTile()V",
           "com.tterrag.registrate.util.entry.RegistryEntry#get()Ljava/lang/Object;",
-          "com.mao.barbequesdelight.content.block.StorageTileContainer#addItem(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;",
           "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;"
         ],
         "fields": [
@@ -107,7 +98,6 @@
           "umpaz.farmersrespite.common.crafting.KettlePouringRecipe#getContainer()Lnet/minecraft/world/item/ItemStack;",
           "umpaz.farmersrespite.common.crafting.KettlePouringRecipe#getOutput()Lnet/minecraft/world/item/ItemStack;",
           "umpaz.farmersrespite.common.block.entity.KettleBlockEntity#getFluidTank()Lnet/minecraftforge/fluids/capability/templates/FluidTank;",
-          "umpaz.farmersrespite.common.crafting.KettleRecipe#getIngredients()Lnet/minecraft/core/NonNullList;",
           "umpaz.farmersrespite.common.block.entity.KettleBlockEntity#isHeated()Z"
         ],
         "fields": [
@@ -122,30 +112,22 @@
       "clazzInfo": {
         "classes": [
           "com.tterrag.registrate.util.entry.BlockEntry",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationItemContainer",
+          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity",
+          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer",
           "dev.xkmc.l2library.base.tile.BaseTank",
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks",
           "dev.xkmc.youkaishomecoming.content.item.fluid.YHFluid",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer",
           "dev.xkmc.youkaishomecoming.content.pot.ferment.SimpleFermentationRecipe",
           "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlock",
           "com.tterrag.registrate.util.entry.RegistryEntry",
           "dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationRecipe",
           "dev.xkmc.youkaishomecoming.content.item.fluid.SakeBottleItem"
         ],
         "methods": [
           "dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder#amount()I",
           "dev.xkmc.l2library.base.tile.BaseTank#isEmpty()Z",
-          "dev.xkmc.youkaishomecoming.content.item.fluid.YHFluid#getSource()Lnet/minecraft/world/level/material/Fluid;",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationRecipe#getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder#asStack(I)Lnet/minecraft/world/item/ItemStack;",
-          "dev.xkmc.l2library.base.tile.BaseTank#getFluidInTank(I)Lnet/minecraftforge/fluids/FluidStack;",
           "com.tterrag.registrate.util.entry.RegistryEntry#get()Ljava/lang/Object;",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity#getBlockPos()Lnet/minecraft/core/BlockPos;",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity#getBlockState()Lnet/minecraft/world/level/block/state/BlockState;",
-          "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationItemContainer#isEmpty()Z",
           "dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder#getContainer()Lnet/minecraft/world/item/Item;",
           "dev.xkmc.youkaishomecoming.content.item.fluid.SakeBottleItem#getFluid()Ldev/xkmc/youkaishomecoming/content/item/fluid/YHFluid;",
           "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity#notifyTile()V",
@@ -172,16 +154,15 @@
       "clazzInfo": {
         "classes": [
           "vectorwing.farmersdelight.common.registry.ModRecipeTypes",
-          "vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe",
           "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity",
+          "vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe",
           "vectorwing.farmersdelight.common.registry.ModBlocks"
         ],
         "methods": [
-          "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity#setChanged()V",
           "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity#getInventory()Lnet/minecraftforge/items/IItemHandler;",
           "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity#getStoredItem()Lnet/minecraft/world/item/ItemStack;",
-          "vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe#getTool()Lnet/minecraft/world/item/crafting/Ingredient;",
           "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity#processStoredItemUsingTool(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Z",
+          "vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe#getTool()Lnet/minecraft/world/item/crafting/Ingredient;",
           "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity#isEmpty()Z"
         ],
         "fields": [
@@ -202,25 +183,24 @@
           "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredientLessThan",
           "com.sihenzhang.crockpot.block.CrockPotBlocks",
           "com.sihenzhang.crockpot.base.FoodValues",
-          "com.sihenzhang.crockpot.util.MathUtils",
           "com.sihenzhang.crockpot.recipe.CrockPotRecipes",
+          "com.sihenzhang.crockpot.util.MathUtils",
           "com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity",
           "com.sihenzhang.crockpot.recipe.FoodValuesDefinition",
           "com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement"
         ],
         "methods": [
           "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredient#getIngredient()Lnet/minecraft/world/item/crafting/Ingredient;",
-          "com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe#getId()Lnet/minecraft/resources/ResourceLocation;",
           "com.sihenzhang.crockpot.base.FoodCategory#values()[Lcom/sihenzhang/crockpot/base/FoodCategory;",
           "com.sihenzhang.crockpot.recipe.FoodValuesDefinition#getMatchedItems(Lcom/sihenzhang/crockpot/base/FoodCategory;Lnet/minecraft/world/level/Level;)Ljava/util/Set;",
-          "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementCategoryMinExclusive#getMin()F",
           "com.sihenzhang.crockpot.base.FoodValues#get(Lcom/sihenzhang/crockpot/base/FoodCategory;)F",
+          "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementCategoryMinExclusive#getMin()F",
           "com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity#getRecipeWrapper()Lcom/sihenzhang/crockpot/recipe/cooking/CrockPotCookingRecipe$Wrapper;",
           "com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity#isBurning()Z",
           "com.sihenzhang.crockpot.recipe.FoodValuesDefinition#getFoodValues(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;)Lcom/sihenzhang/crockpot/base/FoodValues;",
           "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredientLessThan#getIngredient()Lnet/minecraft/world/item/crafting/Ingredient;",
-          "com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement#toJson()Lcom/google/gson/JsonElement;",
           "com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe#getRecipeFor(Lcom/sihenzhang/crockpot/recipe/cooking/CrockPotCookingRecipe$Wrapper;Lnet/minecraft/world/level/Level;)Ljava/util/Optional;",
+          "com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement#toJson()Lcom/google/gson/JsonElement;",
           "com.sihenzhang.crockpot.util.MathUtils#fuzzyIsZero(F)Z",
           "com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity#getPotLevel()I",
           "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementCategoryMax#getMax()F",
@@ -252,22 +232,6 @@
         "fields": [
           "com.teamtea.eclipticseasons.config.CommonConfig$Crop#enableCrop"
         ]
-      }
-    },
-    "maidsoulkitchen:sereneseasons_farm": {
-      "bindMod": "SS",
-      "clazzInfo": {
-        "classes": [
-          "sereneseasons.api.season.ISeasonState",
-          "sereneseasons.api.season.Season",
-          "sereneseasons.api.season.SeasonHelper"
-        ],
-        "methods": [
-          "sereneseasons.api.season.SeasonHelper#getSeasonState(Lnet/minecraft/world/level/Level;)Lsereneseasons/api/season/ISeasonState;",
-          "sereneseasons.api.season.Season#name()Ljava/lang/String;",
-          "sereneseasons.api.season.ISeasonState#getSeason()Lsereneseasons/api/season/Season;"
-        ],
-        "fields": []
       }
     },
     "maidsoulkitchen:bnc_key": {
@@ -302,6 +266,26 @@
         ]
       }
     },
+    "maidsoulkitchen:drinkbeer_beerbarrel": {
+      "bindMod": "DB",
+      "clazzInfo": {
+        "classes": [
+          "lekavar.lma.drinkbeer.recipes.BrewingRecipe",
+          "lekavar.lma.drinkbeer.registries.BlockRegistry",
+          "lekavar.lma.drinkbeer.registries.RecipeRegistry",
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity"
+        ],
+        "methods": [
+          "lekavar.lma.drinkbeer.recipes.BrewingRecipe#getBeerCup()Lnet/minecraft/world/item/ItemStack;",
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#getBrewingInventory()Llekavar/lma/drinkbeer/blockentities/BeerBarrelBlockEntity$BrewingInventory;",
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#markDirty()V"
+        ],
+        "fields": [
+          "lekavar.lma.drinkbeer.registries.BlockRegistry#BEER_BARREL",
+          "lekavar.lma.drinkbeer.registries.RecipeRegistry#RECIPE_TYPE_BREWING"
+        ]
+      }
+    },
     "maidsoulkitchen:yhc_moka_pot": {
       "bindMod": "YHCD",
       "clazzInfo": {
@@ -327,25 +311,20 @@
         ]
       }
     },
-    "maidsoulkitchen:drinkbeer_beerbarrel": {
-      "bindMod": "DB",
+    "maidsoulkitchen:sereneseasons_farm": {
+      "bindMod": "SS",
       "clazzInfo": {
         "classes": [
-          "lekavar.lma.drinkbeer.recipes.BrewingRecipe",
-          "lekavar.lma.drinkbeer.registries.BlockRegistry",
-          "lekavar.lma.drinkbeer.registries.RecipeRegistry",
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity"
+          "sereneseasons.api.season.ISeasonState",
+          "sereneseasons.api.season.Season",
+          "sereneseasons.api.season.SeasonHelper"
         ],
         "methods": [
-          "lekavar.lma.drinkbeer.recipes.BrewingRecipe#getBeerCup()Lnet/minecraft/world/item/ItemStack;",
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#getBrewingInventory()Llekavar/lma/drinkbeer/blockentities/BeerBarrelBlockEntity$BrewingInventory;",
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#markDirty()V",
-          "lekavar.lma.drinkbeer.recipes.BrewingRecipe#getIngredients()Lnet/minecraft/core/NonNullList;"
+          "sereneseasons.api.season.SeasonHelper#getSeasonState(Lnet/minecraft/world/level/Level;)Lsereneseasons/api/season/ISeasonState;",
+          "sereneseasons.api.season.Season#name()Ljava/lang/String;",
+          "sereneseasons.api.season.ISeasonState#getSeason()Lsereneseasons/api/season/Season;"
         ],
-        "fields": [
-          "lekavar.lma.drinkbeer.registries.BlockRegistry#BEER_BARREL",
-          "lekavar.lma.drinkbeer.registries.RecipeRegistry#RECIPE_TYPE_BREWING"
-        ]
+        "fields": []
       }
     },
     "maidsoulkitchen:bd_grill": {
@@ -353,7 +332,6 @@
       "clazzInfo": {
         "classes": [
           "com.tterrag.registrate.util.entry.BlockEntry",
-          "com.tterrag.registrate.util.entry.ItemEntry",
           "com.mao.barbequesdelight.init.registrate.BBQDRecipes",
           "com.mao.barbequesdelight.init.registrate.BBQDItems",
           "com.mao.barbequesdelight.content.block.GrillBlockEntity",
@@ -369,8 +347,7 @@
           "com.mao.barbequesdelight.content.block.GrillBlockEntity$ItemEntry#flip(Lcom/mao/barbequesdelight/content/block/GrillBlockEntity;)Z",
           "com.tterrag.registrate.util.entry.RegistryEntry#get()Ljava/lang/Object;",
           "com.mao.barbequesdelight.content.block.GrillBlockEntity#isHeated()Z",
-          "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
-          "com.tterrag.registrate.util.entry.ItemEntry#asItem()Lnet/minecraft/world/item/Item;"
+          "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;"
         ],
         "fields": [
           "com.mao.barbequesdelight.content.recipe.SimpleGrillingRecipe#ingredient",
@@ -446,12 +423,12 @@
           "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe#getOutputContainer()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlockEntity#getMeal()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlockEntity#isHeated()Z",
-          "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlockEntity#getWater()I",
-          "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;"
+          "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
+          "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlockEntity#getWater()I"
         ],
         "fields": [
-          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#KETTLE_RT",
-          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#KETTLE"
+          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#KETTLE",
+          "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#KETTLE_RT"
         ]
       }
     },
@@ -466,8 +443,8 @@
         ],
         "methods": [
           "io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe#getContainer()Lnet/minecraft/world/item/crafting/Ingredient;",
-          "io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe#getIngredient()Lnet/minecraft/core/NonNullList;",
           "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity#getInput2()Lnet/minecraftforge/items/ItemStackHandler;",
+          "io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe#getIngredient()Lnet/minecraft/core/NonNullList;",
           "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity#getOutput()Lnet/minecraftforge/items/ItemStackHandler;",
           "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity#getInput1()Lnet/minecraftforge/items/ItemStackHandler;"
         ],
@@ -486,7 +463,6 @@
           "dev.xkmc.cuisinedelight.init.registrate.CDItems",
           "dev.xkmc.cuisinedelight.init.registrate.CDBlocks",
           "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry",
-          "dev.xkmc.cuisinedelight.content.item.SpatulaItem",
           "dev.xkmc.cuisinedelight.init.registrate.CDMisc",
           "vectorwing.farmersdelight.common.registry.ModSounds",
           "dev.xkmc.cuisinedelight.content.logic.CookingData",
@@ -496,17 +472,13 @@
           "dev.xkmc.cuisinedelight.content.recipe.BaseCuisineRecipe",
           "com.tterrag.registrate.util.entry.RegistryEntry",
           "dev.xkmc.cuisinedelight.content.logic.transform.Stage",
-          "dev.xkmc.cuisinedelight.content.item.PlateItem",
           "dev.xkmc.cuisinedelight.content.logic.CookedFoodData"
         ],
         "methods": [
-          "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#getBlockPos()Lnet/minecraft/core/BlockPos;",
-          "dev.xkmc.cuisinedelight.content.item.PlateItem#getDefaultInstance()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#sync()V",
           "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#stir(JI)V",
           "com.tterrag.registrate.util.entry.RegistryEntry#get()Ljava/lang/Object;",
           "dev.xkmc.cuisinedelight.content.logic.CookedFoodData#\u003cinit\u003e(Ldev/xkmc/cuisinedelight/content/logic/CookingData;)V",
-          "dev.xkmc.cuisinedelight.content.item.SpatulaItem#getDefaultInstance()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.cuisinedelight.content.recipe.BaseCuisineRecipe#findBestMatch(Lnet/minecraft/world/level/Level;Ldev/xkmc/cuisinedelight/content/logic/CookedFoodData;)Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry#getItem()Lnet/minecraft/world/item/ItemStack;",
           "dev.xkmc.cuisinedelight.content.logic.IngredientConfig#getEntry(Lnet/minecraft/world/item/ItemStack;)Ldev/xkmc/cuisinedelight/content/logic/IngredientConfig$IngredientEntry;",
@@ -517,9 +489,7 @@
           "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#canCook()Z",
           "dev.xkmc.cuisinedelight.content.logic.CookingData#stir(JI)V",
           "com.tterrag.registrate.util.entry.BlockEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
-          "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#isCooking()Z",
-          "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#getLevel()Lnet/minecraft/world/level/Level;",
-          "com.tterrag.registrate.util.entry.ItemEntry#asItem()Lnet/minecraft/world/item/Item;"
+          "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity#isCooking()Z"
         ],
         "fields": [
           "dev.xkmc.cuisinedelight.content.logic.IngredientConfig$IngredientEntry#stir_time",
@@ -547,7 +517,10 @@
   },
   "allClazzs": [
     "com.tterrag.registrate.util.entry.BlockEntry",
+    "umpaz.farmersrespite.common.block.entity.KettleBlockEntity",
+    "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredient",
     "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks",
+    "dev.xkmc.l2library.base.tile.BaseTank",
     "dev.xkmc.youkaishomecoming.content.item.fluid.YHFluid",
     "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementCategoryMax",
     "sereneseasons.api.season.ISeasonState",
@@ -555,64 +528,35 @@
     "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredientLessThan",
     "io.github.tt432.kitchenkarrot.blockentity.BrewingBarrelBlockEntity",
     "com.mao.barbequesdelight.content.block.BasinBlockEntity",
-    "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe",
-    "com.sihenzhang.crockpot.base.FoodValues",
-    "com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo",
-    "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity",
-    "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationRecipe",
-    "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity",
-    "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry",
-    "com.sammy.minersdelight.logic.CupConversionReloadListener",
-    "dev.xkmc.cuisinedelight.content.logic.CookedFoodData",
-    "com.mao.barbequesdelight.content.block.StorageTileContainer",
-    "com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe",
-    "com.sihenzhang.crockpot.base.FoodCategory",
-    "lekavar.lma.drinkbeer.registries.BlockRegistry",
-    "dev.xkmc.youkaishomecoming.content.pot.ferment.SimpleFermentationRecipe",
-    "umpaz.brewinandchewin.common.block.entity.KegBlockEntity",
-    "dev.xkmc.cuisinedelight.content.item.PlateItem",
-    "com.sammy.minersdelight.setup.MDItems",
-    "io.github.tt432.kitchenkarrot.recipes.recipe.BrewingBarrelRecipe",
-    "com.mao.barbequesdelight.init.registrate.BBQDRecipes",
-    "dev.xkmc.cuisinedelight.init.registrate.CDBlocks",
-    "dev.xkmc.youkaishomecoming.content.pot.moka.MokaMakerBlockEntity",
-    "com.sammy.minersdelight.repack.registrate.util.entry.BlockEntry",
-    "io.github.tt432.kitchenkarrot.registries.RecipeTypes",
-    "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity",
-    "io.github.tt432.kitchenkarrot.registries.ModBlocks",
-    "dev.xkmc.youkaishomecoming.content.item.fluid.SakeBottleItem",
-    "vectorwing.farmersdelight.common.registry.ModBlocks",
-    "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationItemContainer",
-    "com.teamtea.eclipticseasons.common.handler.SolarUtil",
-    "dev.xkmc.cuisinedelight.content.item.SpatulaItem",
-    "com.sihenzhang.crockpot.block.CrockPotBlocks",
-    "io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe",
-    "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackRecipe",
-    "vectorwing.farmersdelight.common.registry.ModSounds",
-    "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer",
-    "com.teamtea.eclipticseasons.config.CommonConfig$Crop",
-    "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity",
-    "com.mao.barbequesdelight.init.registrate.BBQDBlocks",
-    "umpaz.farmersrespite.common.block.entity.KettleBlockEntity",
-    "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementMustContainIngredient",
-    "dev.xkmc.l2library.base.tile.BaseTank",
     "vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe",
     "dev.xkmc.youkaishomecoming.content.pot.moka.MokaRecipe",
     "umpaz.farmersrespite.common.crafting.KettleRecipe",
     "com.teamtea.eclipticseasons.common.core.crop.CropInfoManager",
     "com.sammy.minersdelight.setup.MDBlocks",
+    "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe",
+    "com.sihenzhang.crockpot.base.FoodValues",
     "com.mao.barbequesdelight.content.block.GrillBlockEntity$ItemEntry",
+    "com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo",
     "dev.xkmc.cuisinedelight.content.logic.CookingData",
-    "com.sihenzhang.crockpot.util.MathUtils",
     "com.sihenzhang.crockpot.recipe.CrockPotRecipes",
+    "com.sihenzhang.crockpot.util.MathUtils",
     "umpaz.brewinandchewin.common.crafting.KegFermentingRecipe",
     "dev.xkmc.cuisinedelight.content.logic.IngredientConfig$IngredientEntry",
     "com.sihenzhang.crockpot.recipe.FoodValuesDefinition",
+    "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity",
     "umpaz.brewinandchewin.common.crafting.KegPouringRecipe",
+    "dev.xkmc.youkaishomecoming.content.pot.rack.DryingRackBlockEntity",
+    "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry",
+    "com.sammy.minersdelight.logic.CupConversionReloadListener",
+    "dev.xkmc.cuisinedelight.content.logic.CookedFoodData",
     "umpaz.farmersrespite.common.registry.FRItems",
+    "com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe",
     "dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity",
+    "com.sihenzhang.crockpot.base.FoodCategory",
+    "lekavar.lma.drinkbeer.registries.BlockRegistry",
     "vectorwing.farmersdelight.common.registry.ModRecipeTypes",
     "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry",
+    "dev.xkmc.youkaishomecoming.content.pot.ferment.SimpleFermentationRecipe",
     "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlock",
     "com.sihenzhang.crockpot.block.entity.CrockPotBlockEntity",
     "com.mao.barbequesdelight.init.registrate.BBQDItems",
@@ -622,28 +566,164 @@
     "com.tterrag.registrate.util.entry.RegistryEntry",
     "com.mao.barbequesdelight.content.block.GrillBlockEntity",
     "com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement",
+    "umpaz.brewinandchewin.common.block.entity.KegBlockEntity",
+    "com.sammy.minersdelight.setup.MDItems",
+    "io.github.tt432.kitchenkarrot.recipes.recipe.BrewingBarrelRecipe",
     "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity",
     "vectorwing.farmersdelight.common.crafting.CookingPotRecipe",
+    "com.mao.barbequesdelight.init.registrate.BBQDRecipes",
     "sereneseasons.api.season.Season",
-    "sereneseasons.api.season.SeasonHelper",
+    "dev.xkmc.cuisinedelight.init.registrate.CDBlocks",
     "umpaz.brewinandchewin.common.registry.BnCBlocks",
+    "sereneseasons.api.season.SeasonHelper",
+    "dev.xkmc.youkaishomecoming.content.pot.moka.MokaMakerBlockEntity",
     "dev.xkmc.cuisinedelight.init.registrate.CDMisc",
+    "com.sammy.minersdelight.repack.registrate.util.entry.BlockEntry",
     "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlockEntity",
     "com.tterrag.registrate.util.entry.ItemEntry",
+    "io.github.tt432.kitchenkarrot.registries.RecipeTypes",
+    "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity",
     "dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder",
     "io.github.tt432.kitchenkarrot.registries.ModItems",
     "com.mao.barbequesdelight.content.recipe.SimpleSkeweringRecipe",
+    "io.github.tt432.kitchenkarrot.registries.ModBlocks",
     "vectorwing.farmersdelight.common.registry.ModItems",
     "umpaz.farmersrespite.common.registry.FRRecipeTypes",
     "umpaz.brewinandchewin.common.registry.BnCRecipeTypes",
     "umpaz.farmersrespite.common.crafting.KettlePouringRecipe",
+    "dev.xkmc.youkaishomecoming.content.item.fluid.SakeBottleItem",
+    "vectorwing.farmersdelight.common.registry.ModBlocks",
     "com.sihenzhang.crockpot.recipe.cooking.requirement.RequirementCategoryMinExclusive",
     "umpaz.brewinandchewin.client.utility.BnCFluidItemDisplays",
+    "com.teamtea.eclipticseasons.common.handler.SolarUtil",
+    "com.sihenzhang.crockpot.block.CrockPotBlocks",
+    "io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe",
     "lekavar.lma.drinkbeer.recipes.BrewingRecipe",
+    "vectorwing.farmersdelight.common.registry.ModSounds",
+    "dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationDummyContainer",
+    "com.teamtea.eclipticseasons.config.CommonConfig$Crop",
     "lekavar.lma.drinkbeer.registries.RecipeRegistry",
-    "com.mao.barbequesdelight.content.recipe.SkeweringRecipe",
+    "vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity",
     "vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity",
     "dev.xkmc.cuisinedelight.content.logic.transform.Stage",
-    "com.mao.barbequesdelight.content.recipe.SimpleGrillingRecipe"
-  ]
+    "com.mao.barbequesdelight.content.recipe.SimpleGrillingRecipe",
+    "com.mao.barbequesdelight.init.registrate.BBQDBlocks"
+  ],
+  "mixinInfo": {
+    "list": {
+      "maidsoulkitchen:fr_kettle": [
+        {
+          "taskUid": "maidsoulkitchen:fr_kettle",
+          "compatMod": "FRD",
+          "mixinList": [
+            "umpaz.farmersrespite.common.block.entity.KettleBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:fd_cooking_pot": [
+        {
+          "taskUid": "maidsoulkitchen:fd_cooking_pot",
+          "compatMod": "FD",
+          "mixinList": [
+            "vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:yhc_tea_kettle": [
+        {
+          "taskUid": "maidsoulkitchen:yhc_tea_kettle",
+          "compatMod": "YHCD",
+          "mixinList": [
+            "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlock"
+          ]
+        },
+        {
+          "taskUid": "maidsoulkitchen:yhc_tea_kettle",
+          "compatMod": "YHCD",
+          "mixinList": [
+            "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:bnc_key": [
+        {
+          "taskUid": "maidsoulkitchen:bnc_key",
+          "compatMod": "BNCD",
+          "mixinList": [
+            "umpaz.brewinandchewin.common.block.entity.KegBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:cd_cuisine_skillet": [
+        {
+          "taskUid": "maidsoulkitchen:cd_cuisine_skillet",
+          "compatMod": "CD",
+          "mixinList": [
+            "dev.xkmc.cuisinedelight.content.logic.CookingData"
+          ]
+        },
+        {
+          "taskUid": "maidsoulkitchen:cd_cuisine_skillet",
+          "compatMod": "CD",
+          "mixinList": [
+            "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry"
+          ]
+        }
+      ],
+      "maidsoulkitchen:kk_air_compressor": [
+        {
+          "taskUid": "maidsoulkitchen:kk_air_compressor",
+          "compatMod": "KK",
+          "mixinList": [
+            "io.github.tt432.kitchenkarrot.blockentity.AirCompressorBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:drinkbeer_beerbarrel": [
+        {
+          "taskUid": "maidsoulkitchen:drinkbeer_beerbarrel",
+          "compatMod": "DB",
+          "mixinList": [
+            "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:furnace": [
+        {
+          "taskUid": "maidsoulkitchen:furnace",
+          "compatMod": "MC",
+          "mixinList": [
+            "net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:md_copper_pot": [
+        {
+          "taskUid": "maidsoulkitchen:md_copper_pot",
+          "compatMod": "MD",
+          "mixinList": [
+            "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:yhc_moka_pot": [
+        {
+          "taskUid": "maidsoulkitchen:yhc_moka_pot",
+          "compatMod": "YHCD",
+          "mixinList": [
+            "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
+          ]
+        }
+      ],
+      "maidsoulkitchen:kk_brew_barrel": [
+        {
+          "taskUid": "maidsoulkitchen:kk_brew_barrel",
+          "compatMod": "KK",
+          "mixinList": [
+            "io.github.tt432.kitchenkarrot.blockentity.BrewingBarrelBlockEntity"
+          ]
+        }
+      ]
+    }
+  }
 }

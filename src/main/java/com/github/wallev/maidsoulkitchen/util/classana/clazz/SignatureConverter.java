@@ -22,6 +22,22 @@ public class SignatureConverter {
     }
 
     /**
+     * 将Constructor对象转换为ASM格式的构造器签名
+     */
+    public static String toASMStringWithoutClazz(Constructor<?> constructor) {
+        StringBuilder descriptor = new StringBuilder("(");
+
+        // 添加参数类型描述符
+        for (Class<?> paramType : constructor.getParameterTypes()) {
+            descriptor.append(typeToDescriptor(paramType));
+        }
+
+        descriptor.append(")V"); // 构造器返回类型始终是void
+
+        return "<init>" + descriptor.toString();
+    }
+
+    /**
      * 将Method对象转换为ASM格式的方法签名
      */
     public static String toASMString(Method method) {
@@ -33,6 +49,17 @@ public class SignatureConverter {
 
         // 组合完整签名
         return className + "#" + method.getName() + descriptor;
+    }
+
+    /**
+     * 将Method对象转换为ASM格式的方法签名
+     */
+    public static String toASMStringWithoutClazz(Method method) {
+        // 构建方法描述符
+        String descriptor = descriptorToASM(method);
+
+        // 组合完整签名
+        return method.getName() + descriptor;
     }
 
     /**

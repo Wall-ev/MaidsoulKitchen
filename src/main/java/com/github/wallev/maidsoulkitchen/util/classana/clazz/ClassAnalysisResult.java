@@ -11,9 +11,11 @@ public class ClassAnalysisResult {
     final Set<String> classes = new TreeSet<>();
     final Set<String> methods = new TreeSet<>();
     final Set<String> fields = new TreeSet<>();
+    final Set<String> mixins = new TreeSet<>();
     final Map<String, Boolean> classExistence = new HashMap<>();
     final Map<String, Boolean> methodExistence = new HashMap<>();
     final Map<String, Boolean> fieldExistence = new HashMap<>();
+    final Map<String, Boolean> mixinExistence = new HashMap<>();
     final List<LogEntry> logs = new ArrayList<>();
 
     public ClassAnalysisResult(ResourceLocation uid, String modId, String version) {
