@@ -350,5 +350,15 @@
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.mandatory": "Mandatory",
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.maybe": "Maybe",
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.output": "Result",
-  "gui.maidsoulkitchen.btn.cook_guide.output_to": "Output to: "
+  "gui.maidsoulkitchen.btn.cook_guide.output_to": "Output to: ",
+
+
+  "message.maidsoulkitchen.warning.title": "---------------- Maidsoul Kitchen warning---------------",
+  "message.maidsoulkitchen.warning.compat_failed": "Some mods have failed to be compatible, and they have been automatically blocked for you!",
+  "message.maidsoulkitchen.warning.clicked_to_report": "Please click here to give feedback to the author, otherwise it will never be resolved! ",
+  "message.maidsoulkitchen.warning.clicked_to_open_file": "Click here to open the folder, find %s, attach this file!",
+  "message.maidsoulkitchen.warning.feedbacked": "If you've already given feedback, or if the author already knows, you can ignore this information!",
+  "message.maidsoulkitchen.warning.failed_task": ">- Task: ",
+  "message.maidsoulkitchen.warning.failed_modid": ", modid; ",
+  "message.maidsoulkitchen.warning.end": "-----------------------------------------"
 }

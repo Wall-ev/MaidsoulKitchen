@@ -11,9 +11,7 @@ import com.github.wallev.maidsoulkitchen.inventory.container.maid.BerryFarmConfi
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandler;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandlerManager;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -31,12 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 
-public class TaskBerryFarm implements ICompatFarmTask<BerryHandler, BerryData> {
-    @Override
-    public IFarmHandlerManager<BerryHandler>[] getManagerHandlerValues() {
-        return BerryHandlerManager.values();
-    }
-
+public class TaskBerryFarm extends ICompatFarmTask<BerryHandler, BerryData> {
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
         return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);

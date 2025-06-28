@@ -1,13 +1,11 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
+import com.github.wallev.maidsoulkitchen.task.ModGroup;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import java.util.*;
 
 public class McMethodOrFieldVerify {
-    private static final Set<String> MINECRAFT_GROUP = Sets.newHashSet("net.minecraft", "net.minecraftforge", "net.neoforged");
-
     private static final Map<String, Map<String, List<String>>> METHOD_MAP = new HashMap<>();
     private static final Map<String, Map<String, List<String>>> FIELD_MAP = new HashMap<>();
 
@@ -15,9 +13,12 @@ public class McMethodOrFieldVerify {
         Map<String, List<String>> allMethodsIncludingInherited = getAllMethodsIncludingInherited(targetClazzName);
         for (Map.Entry<String, List<String>> entry : allMethodsIncludingInherited.entrySet()) {
             String clazz = entry.getKey();
+            if (!isMinecraftClazz(clazz)) {
+                continue;
+            }
             List<String> value = entry.getValue();
             for (String s : value) {
-                if (s.equals(methodName) && isMinecraftMethodOrField(clazz)) {
+                if (s.equals(methodName)) {
                     return true;
                 }
             }
@@ -87,9 +88,12 @@ public class McMethodOrFieldVerify {
         Map<String, List<String>> allMethodsIncludingInherited = getAllFieldsIncludingInherited(targetClazzName);
         for (Map.Entry<String, List<String>> entry : allMethodsIncludingInherited.entrySet()) {
             String clazz = entry.getKey();
+            if (!isMinecraftClazz(clazz)) {
+                continue;
+            }
             List<String> value = entry.getValue();
             for (String s : value) {
-                if (s.equals(fieldName) && isMinecraftMethodOrField(clazz)) {
+                if (s.equals(fieldName)) {
                     return true;
                 }
             }
@@ -150,8 +154,8 @@ public class McMethodOrFieldVerify {
         return map;
     }
 
-    private static boolean isMinecraftMethodOrField(String declaredClazz) {
-        for (String s : MINECRAFT_GROUP) {
+    private static boolean isMinecraftClazz(String declaredClazz) {
+        for (String s : ModGroup.MC.groups) {
             if (declaredClazz.startsWith(s)) {
                 return true;
             }

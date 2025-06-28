@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.io.IOException;
 import java.util.Map;
 
-public class TaskMixinManager {
+public class TaskModClazzManager {
     private static TaskClazzInfo TASK_CLAZZ_INFO = ClassAnalyzerManager.readModTaskClazzFromFile();
     private static Map<ResourceLocation, Boolean> modTaskClazzResult;
 
@@ -25,7 +25,7 @@ public class TaskMixinManager {
     }
 
     public static boolean clazzLoad(TaskInfo taskInfo) {
-        return clazzLoad(taskInfo.uid);
+        return clazzLoad(taskInfo.getUid());
     }
 
     public static boolean clazzLoad(ResourceLocation taskUid) {

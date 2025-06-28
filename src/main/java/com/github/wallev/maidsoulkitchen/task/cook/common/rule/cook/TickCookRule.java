@@ -7,6 +7,9 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.PotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.recipe.PotRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -26,8 +29,25 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
     protected B be;
     protected BlockPos pos;
 
+    protected ItemStack kitchenToolInHand = ItemStack.EMPTY;
+    protected final ItemStack kitchenTool;
+    protected final Item kitchenToolItem;
+
     private boolean end = false;
     protected int tick = 0;
+
+    protected TickCookRule(ItemStack kitchenTool) {
+        this.kitchenTool = kitchenTool;
+        this.kitchenToolItem = kitchenTool.getItem();
+    }
+
+    protected TickCookRule(Item kitchenTool) {
+        this(kitchenTool.getDefaultInstance());
+    }
+
+    protected TickCookRule() {
+        this(ItemStack.EMPTY);
+    }
 
     @Override
     public boolean tickCan(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
@@ -74,6 +94,14 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
         }
     }
 
+    public void backpackTool(CookBeBase<B> cookBeBase, MaidCookManager<R> cm) {
+        if (!kitchenToolInHand.is(kitchenTool.getItem())) {
+            return;
+        }
+
+        this.swapTool(kitchenToolInHand, cm.getItemInventory(), cm.getMaid(), cm.getInputInv());
+    }
+
     public ItemStack swapTool(ItemStack toolItemStack, ItemInventory itemInventory, EntityMaid maid, InteractionHand hand, IItemHandler inv) {
         ItemStack itemInHand = maid.getItemInHand(hand);
         if (itemInHand.is(toolItemStack.getItem())) {
@@ -101,6 +129,7 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
         }
         toolStacks.set(0, swapItemCopy);
         toolStacks0.set(0, swapItemCopy);
+        this.kitchenToolInHand = swapItemCopy;
         return swapItemCopy;
     }
 
@@ -144,29 +173,35 @@ public abstract class TickCookRule<B extends BlockEntity, R extends Recipe<? ext
             return ItemStack.EMPTY;
         }
 
-        ItemStack contItemStack = stackList.poll();
-        containerAmount -= contItemStack.getCount();
+        // 先不要移出第一个
+        // 状况可能如下：第一个ItemStack为33个，但只需要1个。
+        ItemStack peek = stackList.peek();
+        ItemStack result = peek;
         while (containerAmount > 0) {
-            ItemStack peek = stackList.peek();
             if (peek == null) {
-                return contItemStack;
+                return result;
             }
 
             int count = peek.getCount();
+
+            // 33 >= 1，那就分离出来一个
             if (count >= containerAmount) {
-                contItemStack.grow(containerAmount);
-                peek.shrink(containerAmount);
+                result = peek.split(containerAmount);
                 break;
             } else {
-                contItemStack.grow(count);
-                stackList.removeFirst();
+                stackList.poll();
+                result.grow(count);
                 containerAmount -= count;
+
+                // 需要33个，刚刚peek的这个刚好也是33个，那也就是全部拿出来后刚好符合33个，那就不用继续再拿了
                 if (containerAmount <= 0) {
                     break;
                 }
+                // 需要34个，但是第一个只有33个，那就把第一个全部拿出来，再peek下一个
+                peek = stackList.peek();
             }
         }
-        return contItemStack;
+        return result;
     }
 
     protected void init(CookBeBase<B> cookBeBase, MaidCookManager<R> rm) {

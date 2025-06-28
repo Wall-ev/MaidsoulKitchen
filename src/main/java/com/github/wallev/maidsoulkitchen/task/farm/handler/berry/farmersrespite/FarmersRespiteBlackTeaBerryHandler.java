@@ -1,8 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandlerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,9 +11,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import umpaz.farmersrespite.common.block.TeaBushBlock;
 import umpaz.farmersrespite.common.registry.FRItems;
 
+@TaskClassAnalyzer(TaskInfo.BERRY_FARMERS_RESPITE_BLACK_TEA)
 public class FarmersRespiteBlackTeaBerryHandler extends FarmersRespiteTeaBerryHandler {
-    public static final ResourceLocation UID = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "berry_farmersrespite_blacktea");
-
     @Override
     protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         if (this.hasTool(maid)) {
@@ -33,6 +33,6 @@ public class FarmersRespiteBlackTeaBerryHandler extends FarmersRespiteTeaBerryHa
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return BerryHandlerManager.FARMERS_RESPITE_BLACK_TEA.getUid();
     }
 }

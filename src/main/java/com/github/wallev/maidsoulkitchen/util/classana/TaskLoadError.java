@@ -24,36 +24,39 @@ public class TaskLoadError {
             return;
         }
 
-        MutableComponent parent = VComponent.literal("----------------女仆厨房警告---------------").withStyle(ChatFormatting.DARK_RED);
+        MutableComponent parent = VComponent.translatable("message.maidsoulkitchen.warning.title").withStyle(ChatFormatting.DARK_RED);
         parent.append(VComponent.NEW_LINE);
-        parent.append(VComponent.literal("当前有部分mod兼容失败，已自动为您拦截！"));
+        parent.append(VComponent.translatable("message.maidsoulkitchen.warning.compat_failed"));
         parent.append(VComponent.NEW_LINE);
-        MutableComponent issueUrlComponent = VComponent.literal("请点击此处，向作者反馈，不然永远不会得到解决！")
+        MutableComponent issueUrlComponent = VComponent.translatable("message.maidsoulkitchen.warning.clicked_to_report")
                 .withStyle(ChatFormatting.GOLD)
                 .withStyle(ChatFormatting.UNDERLINE)
                 .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, MaidsoulKitchen.ISSUE_URL)))
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, VComponent.literal(MaidsoulKitchen.ISSUE_URL))));
         parent.append(issueUrlComponent);
         parent.append(VComponent.NEW_LINE);
-        MutableComponent fileUrlComponent = VComponent.literal("点击打开文件夹，找到" + MultiClassAnalysisResult.FILE_NAME + "，附上此文件即可！")
+        MutableComponent fileUrlComponent = VComponent.translatable("message.maidsoulkitchen.warning.clicked_to_open_file")
                 .withStyle(ChatFormatting.GOLD)
                 .withStyle(ChatFormatting.UNDERLINE)
                 .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, MultiClassAnalysisResult.ROOT_FOLDER.toString())))
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, VComponent.literal(MultiClassAnalysisResult.LOG_FILE_PATH.toString()))));
         parent.append(fileUrlComponent);
         parent.append(VComponent.NEW_LINE);
-        MutableComponent component1 = VComponent.literal("如果您已经反馈了，或者作者已经知晓，可忽略此信息！")
+        MutableComponent component1 = VComponent.translatable("message.maidsoulkitchen.warning.feedbacked")
                 .withStyle(ChatFormatting.GRAY);
         parent.append(component1);
         parent.append(VComponent.NEW_LINE);
         for (ResourceLocation errorTask : ERROR_TASKS) {
             TaskInfo task = TaskInfo.by(errorTask);
             assert task != null;
-            MutableComponent mutableComponent = VComponent.literal(">- 任务：").append(getName(errorTask)).append(", 模组Id: ").append(task.bindMod.modId);
+            MutableComponent mutableComponent = VComponent.translatable("message.maidsoulkitchen.warning.failed_task")
+                    .append(getName(errorTask))
+                    .append(VComponent.translatable("message.maidsoulkitchen.warning.failed_modid"))
+                    .append(task.getBindMod().modId);
             parent.append(mutableComponent);
             parent.append(VComponent.NEW_LINE);
         }
-        parent.append(VComponent.literal("-----------------------------------------"));
+        parent.append(VComponent.translatable("message.maidsoulkitchen.warning.end"));
         consumer.accept(parent);
 
         ERROR_TASKS.clear();

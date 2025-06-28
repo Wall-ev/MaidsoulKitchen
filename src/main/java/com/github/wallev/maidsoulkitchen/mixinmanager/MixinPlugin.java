@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.mixinmanager;
 
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskMixinManager;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -17,7 +17,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         Mods.init();
         TaskInfo.init();
         try {
-            TaskMixinManager.init();
+            TaskModClazzManager.init();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -30,7 +30,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return TaskMixinManager.canMixin(targetClassName);
+        return TaskModClazzManager.canMixin(targetClassName);
     }
 
     @Override

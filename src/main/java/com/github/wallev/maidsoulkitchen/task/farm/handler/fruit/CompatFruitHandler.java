@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.fruit;
 
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -11,17 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+@TaskClassAnalyzer(TaskInfo.FRUIT_COMPAT)
 public class CompatFruitHandler extends FruitHandler implements ICompatHandler {
-    public static final ResourceLocation UID = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "fruit_compat");
     @Override
     public boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("CompatFruitHandler handleCanHarvest ");
         return ICompatHandler.super.process(maid, cropPos, cropState);
-    }
-
-    @Override
-    public boolean canLoad() {
-        return true;
     }
 
     @Override
@@ -36,6 +31,6 @@ public class CompatFruitHandler extends FruitHandler implements ICompatHandler {
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return FruitHandlerManager.COMPAT.getUid();
     }
 }

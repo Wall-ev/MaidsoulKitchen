@@ -84,7 +84,7 @@ public final class ImportAnalyzer {
                     String classPath = getClassPath(targetClazz);
                     Set<String> importClazzList = collectImportClazz(classPath, taskModGroup);
 
-                    taskClazz.computeIfAbsent(task.uid, (uid) -> {
+                    taskClazz.computeIfAbsent(task.getUid(), (uid) -> {
                         return new HashSet<>();
                     }).addAll(importClazzList);
                 }

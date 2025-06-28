@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
+import com.github.wallev.maidsoulkitchen.util.classana.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.maidsoulkitchen.util.classana.TaskLoadError;
@@ -58,7 +58,7 @@ public class VerifyExistence {
         return taskResult;
     }
 
-    // 验证类、方法和字段的存在性
+    // 验证类、方法和字段的存在性以及mixin成功与否
     public static boolean verify(ClassAnalysisResult result, Map<String, ClazzInfo> allClazzInfo) {
         boolean result0 = true;
         for (String mixin : result.mixins) {

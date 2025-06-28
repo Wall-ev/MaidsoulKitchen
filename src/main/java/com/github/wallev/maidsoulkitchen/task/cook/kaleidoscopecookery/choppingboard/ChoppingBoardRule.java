@@ -24,6 +24,10 @@ public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, Ch
     private boolean maidHand = false;
     private Item processItem = null;
 
+    public ChoppingBoardRule() {
+        super();
+    }
+
     public static ChoppingBoardRule getInstance() {
         return INSTANCE;
     }

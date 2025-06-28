@@ -1,9 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.fruit;
 
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.enemeez.simplefarming.common.block.FruitLeavesBlock;
 import dev.enemeez.simplefarming.common.registries.ModItems;
 import net.minecraft.core.BlockPos;
@@ -12,17 +11,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+@TaskClassAnalyzer(TaskInfo.FRUIT_SIMPLE_FARMING)
 public class SimpleFarmingFruitHandler extends FruitHandler {
-    public static final ResourceLocation UID = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "fruit_simple_farming");
     @Override
     protected boolean process(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("SimpleFarmingFruitHandler handleCanHarvest ");
         return cropState.getBlock() instanceof FruitLeavesBlock && cropState.getValue(FruitLeavesBlock.AGE) == FruitLeavesBlock.MAX_AGE;
-    }
-
-    @Override
-    public boolean canLoad() {
-        return Mods.SF.isLoaded;
     }
 
     @Override
@@ -37,6 +31,6 @@ public class SimpleFarmingFruitHandler extends FruitHandler {
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return FruitHandlerManager.SIMPLE_FARMING.getUid();
     }
 }

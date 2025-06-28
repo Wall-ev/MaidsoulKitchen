@@ -32,7 +32,7 @@ public class ClassAnalyzerManager {
                 if (Objects.equals(annotationedType, annotationType)) {
                     Object taskValue = data.annotationData().get("value");
                     if (taskValue == null) {
-                        throw new RuntimeException("请指定任务类别: " + data.memberName());
+                        throw new RuntimeException("Please specify the task category: " + data.memberName());
                     }
                     TaskInfo task = TaskInfo.by(getEnumHolderValue(data, "value"));
                     String memberName = data.memberName();
@@ -53,7 +53,7 @@ public class ClassAnalyzerManager {
             JsonObject jsonData = JsonParser.parseString(json).getAsJsonObject();
             return TaskClazzInfo.CODEC.parse(JsonOps.INSTANCE, jsonData)
                     .resultOrPartial(error -> {
-                        IModInfo.LOGGER.error("读取失败：{}", error);
+                        IModInfo.LOGGER.error("read error：{}", error);
                     })
                     .orElseThrow();
         } catch (IOException e) {

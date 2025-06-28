@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.api.task;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
+import com.github.wallev.maidsoulkitchen.util.classana.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;

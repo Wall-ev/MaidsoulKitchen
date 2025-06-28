@@ -349,5 +349,15 @@
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.mandatory": "必须",
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.maybe": "可能",
   "gui.maidsoulkitchen.btn.cook_guide.ingredient_type.output": "成品",
-  "gui.maidsoulkitchen.btn.cook_guide.output_to": "输出至%d: "
+  "gui.maidsoulkitchen.btn.cook_guide.output_to": "输出至%d: ",
+
+  "message.maidsoulkitchen.warning.title": "----------------女仆厨房警告---------------",
+  "message.maidsoulkitchen.warning.compat_failed": "当前有部分mod兼容失败，已自动为您拦截！",
+  "message.maidsoulkitchen.warning.clicked_to_report": "请点击此处，向作者反馈，不然永远不会得到解决！",
+  "message.maidsoulkitchen.warning.clicked_to_open_file": "点击此处打开文件夹，找到%s，附上此文件即可！",
+  "message.maidsoulkitchen.warning.feedbacked": "如果您已经反馈了，或者作者已经知晓，可忽略此信息！",
+  "message.maidsoulkitchen.warning.failed_task": ">- 任务：",
+  "message.maidsoulkitchen.warning.failed_modid": "，模组ID：",
+  "message.maidsoulkitchen.warning.end": "-----------------------------------------"
+
 }

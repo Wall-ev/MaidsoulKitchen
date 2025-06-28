@@ -48,6 +48,10 @@ public class CuisineCookRule extends TickCookRule<CuisineSkilletBlockEntity, Bas
     private ItemStack plateItem = ItemStack.EMPTY;
     private boolean end = false;
 
+    public CuisineCookRule() {
+        super(CDItems.SPATULA.get());
+    }
+
     public static CuisineCookRule getInstance() {
         return INSTANCE;
     }
@@ -114,15 +118,15 @@ public class CuisineCookRule extends TickCookRule<CuisineSkilletBlockEntity, Bas
 //        }
 
         ItemStack mainHandItem = maid.getMainHandItem();
-        if (!mainHandItem.is(CDItems.SPATULA.get())) {
+        if (!mainHandItem.is(this.kitchenToolItem)) {
             IItemHandlerModifiable inputInv = cm.getInputInv();
-            ItemStack shovel = InvUtil.getStack(inputInv, CDItems.SPATULA.get());
+            ItemStack shovel = InvUtil.getStack(inputInv, this.kitchenToolItem);
             if (shovel.isEmpty()) {
                 this.stop();
                 return;
             }
             this.swapTool(shovel, cm.getItemInventory(), maid, InteractionHand.MAIN_HAND, inputInv);
-//            int stackSlot = ItemsUtil.findStackSlot(maidAvailableInv, itemStack -> itemStack.is(CDItems.SPATULA.get()));
+//            int stackSlot = ItemsUtil.findStackSlot(maidAvailableInv, itemStack -> itemStack.is(this.kitchenToolItem));
 //            if (stackSlot == -1) return;
 //            ItemStack leftStack = ItemHandlerHelper.insertItemStacked(maidAvailableInv, mainHandItem, false);
 //            if (!leftStack.isEmpty()) return;
@@ -226,14 +230,6 @@ public class CuisineCookRule extends TickCookRule<CuisineSkilletBlockEntity, Bas
         this.processTickStacks.clear();
         this.plateItem = ItemStack.EMPTY;
         this.end = false;
-    }
-
-    private void backpackTool(CookBeBase<CuisineSkilletBlockEntity> cookBeBase, MaidCookManager<BaseCuisineRecipe<?>> cm) {
-        if (!maid.getMainHandItem().is(CDItems.SPATULA.get())) {
-            return;
-        }
-
-        this.swapTool(maid.getMainHandItem(), cm.getItemInventory(), cm.getMaid(), cm.getInputInv());
     }
 
     private boolean foodExistAndTake(CookBeBase<CuisineSkilletBlockEntity> cookBeBase, MaidCookManager<BaseCuisineRecipe<?>> rm) {

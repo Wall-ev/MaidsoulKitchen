@@ -68,8 +68,6 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
     protected LinkedList<MaidRec> allMaidRecsFromChest = new LinkedList<>();
     protected LinkedList<MaidRec> maidRecs = new LinkedList<>();
 
-    protected IItemHandlerModifiable inputSili;
-
     public MaidCookManager(RecSerializerManager<R> recSerializerManager, EntityMaid maid, ICookTask<?, R> task, CookBeBase<?> cookBeBase) {
         this.recSerializerManager = recSerializerManager;
         this.maid = maid;
@@ -315,7 +313,6 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
     }
 
     public void startGenerateRecs() {
-//        this.inputSili = new ItemStackHandler(54);
         runState = 2;
 
         this.itemDown = hubItemDown;
@@ -482,30 +479,7 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
     }
 
     private boolean doItemUse(RecDataUse recDataUse) {
-        boolean read = this.itemDown.read(recDataUse);
-//        this.clearSimulateInputs();
-//        this.extractedChestItem2Bag(this.itemDown.getUseItemDef(), chestInputInventory.getItemInventory(), this.inputSili, true);
-//        int avslot = this.avslot();
-        return read;
-    }
-
-    private void clearSimulateInputs() {
-        for (int i = 0; i < this.inputSili.getSlots(); i++) {
-            ItemStack stackInSlot = inputSili.getStackInSlot(i);
-            if (!stackInSlot.isEmpty()) {
-                stackInSlot.copyAndClear();
-            }
-        }
-    }
-
-    private int avslot() {
-        int as = 0;
-        for (int i = 0; i < this.inputSili.getSlots(); i++) {
-            if (inputSili.getStackInSlot(i).isEmpty()) {
-                as++;
-            }
-        }
-        return as;
+        return this.itemDown.read(recDataUse);
     }
 
     public void makeResultsBubble() {

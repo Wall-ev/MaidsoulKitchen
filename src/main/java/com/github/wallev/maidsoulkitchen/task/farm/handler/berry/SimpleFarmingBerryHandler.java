@@ -1,9 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
 
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
 import dev.enemeez.simplefarming.common.block.BerryBushBlock;
 import dev.enemeez.simplefarming.common.registries.ModItems;
 import net.minecraft.core.BlockPos;
@@ -12,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class SimpleFarmingBerryHandler extends BerryHandler{
-    public static final ResourceLocation UID = VResourceLocation.create(MaidsoulKitchen.MOD_ID, "berry_simple_farming");
+@TaskClassAnalyzer(TaskInfo.BERRY_SIMPLE_FARMING)
+public class SimpleFarmingBerryHandler extends BerryHandler {
 
     @Override
     protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
@@ -24,11 +23,6 @@ public class SimpleFarmingBerryHandler extends BerryHandler{
     @Override
     protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         return this.harvestWithoutTool(maid, cropPos, cropState);
-    }
-
-    @Override
-    public boolean canLoad() {
-        return Mods.SF.isLoaded;
     }
 
     @Override
@@ -43,6 +37,6 @@ public class SimpleFarmingBerryHandler extends BerryHandler{
 
     @Override
     public ResourceLocation getUid() {
-        return UID;
+        return BerryHandlerManager.SIMPLE_FARMING.getUid();
     }
 }

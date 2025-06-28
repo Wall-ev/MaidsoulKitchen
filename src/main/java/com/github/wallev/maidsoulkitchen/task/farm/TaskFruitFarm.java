@@ -10,9 +10,7 @@ import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfi
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFruitMoveTask;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandler;
-import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
@@ -34,18 +32,13 @@ import java.util.List;
 import static com.github.wallev.verhelper.IModInfo.LOGGER;
 
 
-public class TaskFruitFarm implements ICompatFarmTask<FruitHandler, FruitData> {
+public class TaskFruitFarm extends ICompatFarmTask<FruitHandler, FruitData> {
     @Override
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return Lists.newArrayList();
         MaidCompatFruitMoveTask<FruitHandler> maidFarmMoveTask = new MaidCompatFruitMoveTask<>(maid, this, 0.6F);
         MaidCompatFarmPlantTask<FruitHandler> maidFarmPlantTask = new MaidCompatFarmPlantTask<>(maid, this, maidFarmMoveTask.getCompatFarmHandler());
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));
-    }
-
-    @Override
-    public IFarmHandlerManager<FruitHandler>[] getManagerHandlerValues() {
-        return FruitHandlerManager.values();
     }
 
     @Override

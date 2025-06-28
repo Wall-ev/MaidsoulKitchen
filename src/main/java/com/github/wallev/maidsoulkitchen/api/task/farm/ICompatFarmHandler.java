@@ -11,16 +11,12 @@ public interface ICompatFarmHandler {
 
     boolean shouldMoveTo(EntityMaid maid, BlockPos cropPos, BlockState cropState);
 
-    boolean canLoad();
-
     boolean isFarmBlock(Block block);
 
     class Builder<T extends ICompatFarmHandler> {
         private T head;
         private T tail;
         public Builder<T> addHandler(T handler) {
-            if (!handler.canLoad()) return this;
-
             if (head == null){
                 head = tail = handler;
                 return this;

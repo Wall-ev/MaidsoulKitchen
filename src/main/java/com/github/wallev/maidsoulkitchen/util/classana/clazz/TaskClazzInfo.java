@@ -48,7 +48,7 @@ public record TaskClazzInfo(Map<ResourceLocation, ClazzTaskInfo> clazzInfoMap, L
         ).apply(ins, ClazzTaskInfo::new));
 
         public static ClazzTaskInfo create(TaskInfo taskInfo, ClazzInfo clazzInfo) {
-            return new ClazzTaskInfo(taskInfo.bindMod.name(), clazzInfo);
+            return new ClazzTaskInfo(taskInfo.getBindMod().name(), clazzInfo);
         }
 
         public boolean modLoaded() {

@@ -22,10 +22,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public interface ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerInfo, D extends FarmData> extends IMaidsoulKitchenTask, IDataTask<D> {
-    Set<Block> BLACK_LIST = new HashSet<>();
+public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerInfo, D extends FarmData> implements IMaidsoulKitchenTask, IDataTask<D> {
+    public static Set<Block> BLACK_LIST = new HashSet<>();
 
-    IFarmHandlerManager<T>[] getManagerHandlerValues();
+    private final List<IFarmHandlerManager<T>> handlerManagers;
+
+    public ICompatFarmTask() {
+        this.handlerManagers = createHandlerManagers();
+    }
+
+    private List<IFarmHandlerManager<T>> createHandlerManagers() {
+        return IFarmHandlerManager.getHandlerManagers(this.getUid());
+    }
+
+    public List<IFarmHandlerManager<T>> getHandlerManagers() {
+        return handlerManagers;
+    }
 
     /**
      * 后面用于自定义女仆过滤规则
@@ -33,10 +45,10 @@ public interface ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerIn
      * @param maid
      * @return
      */
-    default T getCompatHandler(EntityMaid maid) {
+    public T getCompatHandler(EntityMaid maid) {
         List<String> farmTaskRulesList = getTaskData(maid).rules();
         ICompatFarmHandler.Builder<T> iCompatFarmHandlerBuilder = new ICompatFarmHandler.Builder<>();
-        for (IFarmHandlerManager<T> handler : getManagerHandlerValues()) {
+        for (IFarmHandlerManager<T> handler : handlerManagers) {
             T farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();
             if (!farmTaskRulesList.contains(uid.toString())) continue;
@@ -45,25 +57,25 @@ public interface ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerIn
         return iCompatFarmHandlerBuilder.build();
     }
 
-    boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
+    public abstract boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
 
-    void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
+    public abstract void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, T handler);
 
     @Override
-    default List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
+    public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         MaidCompatFarmMoveTask<T> maidFarmMoveTask = new MaidCompatFarmMoveTask<>(maid, this, 0.6F);
         MaidCompatFarmPlantTask<T> maidFarmPlantTask = new MaidCompatFarmPlantTask<>(maid, this, maidFarmMoveTask.getCompatFarmHandler());
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));
     }
 
-    default double getCloseEnoughDist() {
+    public double getCloseEnoughDist() {
         return 1.0;
     }
 
     @Override
-    default SoundEvent getAmbientSound(EntityMaid maid) {
+    public SoundEvent getAmbientSound(EntityMaid maid) {
         return SoundUtil.environmentSound(maid, InitSounds.MAID_FARM.get(), 0.5f);
     }
 
-    D getDefaultData();
+    public abstract D getDefaultData();
 }

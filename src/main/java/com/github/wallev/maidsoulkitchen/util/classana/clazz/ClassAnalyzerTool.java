@@ -7,8 +7,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.serialization.JsonOps;
-import cpw.mods.modlauncher.Launcher;
-import cpw.mods.modlauncher.api.INameMappingService;
 import net.minecraft.resources.ResourceLocation;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -36,14 +34,9 @@ public class ClassAnalyzerTool {
         for (Map.Entry<TaskInfo, Set<Class<?>>> entry : classMap.getMap().entrySet()) {
             Set<Class<?>> classes = entry.getValue();
             TaskClazzInfo.ClazzInfo clazzInfo = analyze(classes);
-
-            for (String aClass : clazzInfo.classes()) {
-
-            }
-
             TaskInfo taskInfo = entry.getKey();
             TaskClazzInfo.ClazzTaskInfo clazzTaskInfo = TaskClazzInfo.ClazzTaskInfo.create(taskInfo, clazzInfo);
-            map.put(taskInfo.uid, clazzTaskInfo);
+            map.put(taskInfo.getUid(), clazzTaskInfo);
         }
         TaskMixinAnalyzer.ModTaskMixinMap modTaskMixinMap = TaskMixinAnalyzer.collectModTaskClazz();
 
@@ -51,7 +44,7 @@ public class ClassAnalyzerTool {
 
         TaskClazzInfo.CODEC.encodeStart(JsonOps.INSTANCE, taskClazzInfo)
                 .resultOrPartial(error -> {
-                    MaidsoulKitchen.LOGGER.error("生成失败：{}", error);
+                    MaidsoulKitchen.LOGGER.error("Build failed：{}", error);
                 })
                 .ifPresent(data -> {
                     File file = new File(rootOutputFolder.toString().replace("generated", "main") + "\\" + FILE_NAME);
@@ -65,7 +58,7 @@ public class ClassAnalyzerTool {
                         FileWriter fileWriter = new FileWriter(file);
                         fileWriter.write(gson.toJson(data));
                         fileWriter.close();
-                        MaidsoulKitchen.LOGGER.info("生成成功：{}", file.getPath());
+                        MaidsoulKitchen.LOGGER.info("Build succeed：{}", file.getPath());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -83,28 +76,32 @@ public class ClassAnalyzerTool {
         return clazzInfoRuntime.toClazzInfo();
     }
 
-    public static String getSrgName(INameMappingService.Domain domain, String name) {
-        return Launcher.INSTANCE.environment()
-                .findNameMapping(target)
-                .map((f) -> {
-                    String apply = f.apply(domain, name);
-                    return apply;
-                }).orElse(name);
-    }
+    /**
+     *     public static String getSrgName(INameMappingService.Domain domain, String name) {
+     *         return Launcher.INSTANCE.environment()
+     *                 .findNameMapping(target)
+     *                 .map((f) -> {
+     *                     String apply = f.apply(domain, name);
+     *                     return apply;
+     *                 }).orElse(name);
+     *     }
+     *
+     *     public static String getClassSrgName(String name) {
+     *         return getSrgName(INameMappingService.Domain.CLASS, name);
+     *     }
+     *
+     *     public static String getMethodSrgName(String name) {
+     *         return getSrgName(INameMappingService.Domain.METHOD, name);
+     *     }
+     *
+     *     public static String getFieldSrgName(String name) {
+     *         return getSrgName(INameMappingService.Domain.FIELD, name);
+     *     }
+     */
 
-    public static String getClassSrgName(String name) {
-        return getSrgName(INameMappingService.Domain.CLASS, name);
-    }
-
-    public static String getMethodSrgName(String name) {
-        return getSrgName(INameMappingService.Domain.METHOD, name);
-    }
-
-    public static String getFieldSrgName(String name) {
-        return getSrgName(INameMappingService.Domain.FIELD, name);
-    }
-
-    // 分析单个类
+    /**
+     * 分析单个类，提取类的字段、方法等信息，并递归分析内部类
+     */
     private static void analyzeSingleClass(Class<?> clazz, ClazzInfoRuntime clazzInfoRuntime) throws IOException, ClassNotFoundException {
         // 分析类的字段
         for (Field field : clazz.getDeclaredFields()) {

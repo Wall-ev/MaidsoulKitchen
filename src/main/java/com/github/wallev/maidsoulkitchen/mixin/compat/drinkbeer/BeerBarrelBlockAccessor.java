@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.drinkbeer;
 
-import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
+import com.github.wallev.maidsoulkitchen.util.classana.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity;

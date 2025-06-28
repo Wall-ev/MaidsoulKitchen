@@ -2,7 +2,6 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandler;
 import com.google.common.collect.Lists;
@@ -26,11 +25,6 @@ public abstract class FarmersRespiteTeaBerryHandler extends BerryHandler {
     @Override
     protected boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         return this.harvestWithTool(maid, cropPos, cropState, itemStack -> itemStack.is(Tags.Items.SHEARS));
-    }
-
-    @Override
-    public boolean canLoad() {
-        return Mods.FRD.isLoaded;
     }
 
     @Override

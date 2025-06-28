@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.api.mixin;
+package com.github.wallev.maidsoulkitchen.util.classana;
 
 public interface IMaidsoulKitchenInterface {
 

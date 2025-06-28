@@ -22,6 +22,10 @@ public class GrillCookRule extends TickCookRule<GrillBlockEntity, GrillingRecipe
     private static final GrillCookRule INSTANCE = new GrillCookRule();
     private ItemStack grillStack = ItemStack.EMPTY;
 
+    public GrillCookRule() {
+        super();
+    }
+
     public static GrillCookRule getInstance() {
         return INSTANCE;
     }

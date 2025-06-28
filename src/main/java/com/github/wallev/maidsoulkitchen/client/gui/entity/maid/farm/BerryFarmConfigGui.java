@@ -46,22 +46,19 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
     protected final Zone ruleDisplay = new Zone(6, 20, 152, 110);
     protected final ResultInfo ref = new ResultInfo(4, 1, 152, 24, 0, 5);
     private final int limitSize = ref.row() * ref.col();
-    private List<ICompatFarmHandler> handlers;
+    private ICompatFarmTask<?, ?> compatFarmTask;
+    private List<? extends IFarmHandlerManager<?>> handlers;
     private BerryData farmTaskInfo;
 
     public BerryFarmConfigGui(BerryFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(VComponent.translatable("gui.maidsoulkitchen.farm_config_screen.title")));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarmTask<?, ?>) task)
-                        .getManagerHandlerValues())
-                .map(IFarmHandlerManager::getFarmHandler)
-                .filter(ICompatFarmHandler::canLoad)
-                .toList();
+        this.compatFarmTask = (ICompatFarmTask<?,?>) task;
+        this.handlers = compatFarmTask.getHandlerManagers();
         this.farmTaskInfo = ((TaskBerryFarm) task).getTaskData(maid);
     }
 
@@ -105,8 +102,7 @@ public class BerryFarmConfigGui extends MaidTaskConfigGui<BerryFarmConfigContain
         int index = solIndex * limitSize;
 
         for (int i = index; i < Math.min(handlers.size(), index + limitSize); i++) {
-            ICompatFarmHandler handler = handlers.get(i);
-            if (!handler.canLoad()) continue;
+            ICompatFarmHandler handler = handlers.get(i).getFarmHandler();
             String handlerUid = ((ICompatHandlerInfo) handler).getUid().toString();
             boolean contains = farmTaskInfo.rules().contains(handlerUid);
             CFRuleButton cfRuleButton = new CFRuleButton((ICompatHandlerInfo) handler, handler, contains, startX, startY, this.getTaskTooltips((ICompatHandlerInfo) handler)) {

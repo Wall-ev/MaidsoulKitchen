@@ -32,6 +32,10 @@ public class CuttingBoardCookRule extends TickCookRule<CuttingBoardBlockEntity, 
     private boolean maidHand = false;
     private Item processItem = null;
 
+    public CuttingBoardCookRule() {
+        super();
+    }
+
     @Override
     public boolean canMoveTo(CookBeBase<CuttingBoardBlockEntity> cookBeBase, MaidCookManager<CuttingBoardRecipe> cm) {
         CuttingBoardBlockEntity cuttingBoard = cookBeBase.getBe();

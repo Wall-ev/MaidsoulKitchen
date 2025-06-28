@@ -17,6 +17,9 @@
  - 在终端运行命令:`./init.bat`，进行项目的初始化
  - 如果需要旧版兼容，那就在`./Legacy/setting/common/forge/dependencies.gradle`里填入需要兼容的版本，再执行`gradle`任务:`Task/build/build2Legacy`，最后再进行代码编写
  - 项目打包需要使用`gradle`任务:`Task/build/buildMod`(`build`被"Ban"掉了)
+ - 添加新的任务需要在类的上方添加`@TaskClassAnalyzer(TaskInfo.xxx)`
+ - 添加新的mixin(如果是给任务服务的、mixin其他模组的)，同样也需要在类的上方添加注解`@TaskMixin(TaskInfo.xxx)`
+ - 这样在项目打包的时候就会自动生成对应的数据，可以达到拦截生产环境下的因为其他模组的更新而炸了的效果(被整麻了qwq...)
  - 由于目前使用到了`AspectJ`，所以如果有类使用到了`debug.annotation`下的注解，热重载只能使用`idea`自带的重载，使用`Single Hotswap`会失效且崩溃
 
 ## 警告

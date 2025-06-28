@@ -1,7 +1,6 @@
 package com.github.wallev.maidsoulkitchen.util.classana;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.MapUtil;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
@@ -94,13 +93,13 @@ public final class TaskMixinAnalyzer {
                     List<ModAnnotation.EnumHolder> taskEnum = getEnumHolderValue(data, "task");
                     for (ModAnnotation.EnumHolder enumHolder : taskEnum) {
                         TaskInfo task = TaskInfo.by(enumHolder.getValue());
-                        targetBindInfo.put(task.uid.toString(), task.bindMod);
+                        targetBindInfo.put(task.getUid().toString(), task.getBindMod());
                         classInfo.computeIfAbsent(data.memberName(), (name) -> {
                             return new HashSet<>();
-                        }).add(task.uid);
+                        }).add(task.getUid());
                         mixinResourceMap.computeIfAbsent(data.memberName(), (name) -> {
                             return new HashSet<>();
-                        }).add(task.uid);
+                        }).add(task.getUid());
                     }
                 }
                 if (Objects.equals(annotationedType, mixinType) && data.memberName().startsWith(MIXIN_PACKAGE)) {

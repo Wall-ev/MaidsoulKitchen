@@ -31,7 +31,6 @@ import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.List;
 
 @IPNPlayerSideOnly
@@ -48,24 +47,20 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
     protected final ResultInfo ref = new ResultInfo(3, 1, 152, 24, 0, 5);
     private final int limitSize = ref.row() * ref.col();
     private TaskFruitFarm fruitFarm;
-    private List<ICompatFarmHandler> handlers;
+    private ICompatFarmTask<?, ?> compatFarmTask;
+    private List<? extends IFarmHandlerManager<?>> handlers;
     private FruitData farmTaskInfo;
 
     public FruitFarmConfigGui(FruitFarmConfigContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, screenContainer.getMaid().getTask().getName().append(VComponent.translatable("gui.maidsoulkitchen.farm_config_screen.title")));
     }
 
-    @SuppressWarnings({"unchecked"})
     @Override
     protected void initAdditionData() {
         super.initAdditionData();
-        this.handlers = (List<ICompatFarmHandler>) Arrays.stream(((ICompatFarmTask<?, ?>) task)
-                        .getManagerHandlerValues())
-                .map(IFarmHandlerManager::getFarmHandler)
-                .filter(ICompatFarmHandler::canLoad)
-                .toList();
-        this.fruitFarm = (TaskFruitFarm) task;
-        this.farmTaskInfo = fruitFarm.getTaskData(maid);
+        this.compatFarmTask = (ICompatFarmTask<?,?>) task;
+        this.handlers = compatFarmTask.getHandlerManagers();
+        this.farmTaskInfo = ((TaskFruitFarm) task).getTaskData(maid);
     }
 
     @Override
@@ -162,8 +157,7 @@ public class FruitFarmConfigGui extends MaidTaskConfigGui<FruitFarmConfigContain
         int index = solIndex * limitSize;
 
         for (int i = index; i < Math.min(handlers.size(), index + limitSize); i++) {
-            ICompatFarmHandler handler = handlers.get(i);
-            if (!handler.canLoad()) continue;
+            ICompatFarmHandler handler = handlers.get(i).getFarmHandler();
             String handlerUid = ((ICompatHandlerInfo) handler).getUid().toString();
             boolean contains = farmTaskInfo.rules().contains(handlerUid);
             CFRuleButton cfRuleButton = new CFRuleButton((ICompatHandlerInfo) handler, handler, contains, startX, startY, this.getTaskTooltips((ICompatHandlerInfo) handler)) {

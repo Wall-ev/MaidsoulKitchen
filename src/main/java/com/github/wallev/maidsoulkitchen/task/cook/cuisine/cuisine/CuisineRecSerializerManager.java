@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.task.cook.cuisine.cuisine;
 
-import com.github.wallev.maidsoulkitchen.task.ModGroup;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
@@ -18,6 +17,7 @@ import dev.xkmc.cuisinedelight.init.registrate.CDItems;
 import dev.xkmc.cuisinedelight.init.registrate.CDMisc;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -43,6 +43,14 @@ public class CuisineRecSerializerManager extends RecSerializerManager<BaseCuisin
         return INSTANCE;
     }
 
+
+    @Override
+    protected void initRecs(Level level) {
+        this.recipes = this.createDefaultRecs(level).stream()
+                .filter(r -> {
+                    return !r.idStr().equals("cuisinedelight:suspicious_mix");
+                }).toList();
+    }
 
     @Override
     public LinkedList<MaidRec> createMaidRecs(List<MKRecipe<BaseCuisineRecipe<?>>> recs,

@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv;
 
-import com.github.wallev.maidsoulkitchen.api.mixin.IMaidsoulKitchenInterface;
+import com.github.wallev.maidsoulkitchen.util.classana.IMaidsoulKitchenInterface;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;

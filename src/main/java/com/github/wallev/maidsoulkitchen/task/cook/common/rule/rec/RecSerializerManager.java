@@ -236,9 +236,9 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
     }
 
     public final List<MKRecipe<R>> getRecipes(Level level) {
-        if (this.recipes == null) {
+//        if (this.recipes == null) {
             this.initRecs(level);
-        }
+//        }
 
         return this.recipes;
     }

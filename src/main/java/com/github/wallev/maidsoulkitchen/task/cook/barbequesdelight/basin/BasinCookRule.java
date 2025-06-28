@@ -27,6 +27,10 @@ import java.util.Map;
 public class BasinCookRule extends TickCookRule<BasinBlockEntity, SkeweringRecipe<?>> {
     private static final BasinCookRule INSTANCE = new BasinCookRule();
 
+    public BasinCookRule() {
+        super();
+    }
+
     public static BasinCookRule getInstance() {
         return INSTANCE;
     }
