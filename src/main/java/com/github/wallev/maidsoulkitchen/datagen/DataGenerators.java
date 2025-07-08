@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.datagen;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.ClassAnalyzerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -24,6 +24,6 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModDamageTypeTags(output, lookupProvider, helper));
 
         Path rootOutputFolder = event.getGenerator().rootOutputFolder;
-        ClassAnalyzerManager.writeModTaskClazz(rootOutputFolder);
+        TaskModClazzManager.writeModTaskClazzFile(rootOutputFolder);
     }
 }

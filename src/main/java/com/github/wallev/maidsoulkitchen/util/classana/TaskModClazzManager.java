@@ -6,22 +6,31 @@ import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClazzInfo;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class TaskModClazzManager {
-    private static TaskClazzInfo TASK_CLAZZ_INFO = ClassAnalyzerManager.readModTaskClazzFromFile();
+    private static TaskClazzInfo taskClazzInfo = readModTaskClazzFile();
     private static Map<ResourceLocation, Boolean> modTaskClazzResult;
 
-    public static void startReadTask() throws IOException {
-        modTaskClazzResult = ClassAnalyzerManager.readModTaskClazz(TASK_CLAZZ_INFO);
+    public static void writeModTaskClazzFile(Path rootOutputFolder) throws Exception {
+        ClassAnalyzerManager.writeModTaskClazz(rootOutputFolder);
+    }
+
+    private static TaskClazzInfo readModTaskClazzFile() {
+        return ClassAnalyzerManager.readModTaskClazzFromFile();
+    }
+
+    public static void startReadTaskClazz() throws IOException {
+        modTaskClazzResult = ClassAnalyzerManager.readModTaskClazz(taskClazzInfo);
     }
 
     public static boolean canMixin(String sourceMixinClazz) {
-        return TASK_CLAZZ_INFO.taskMixinMap().canMixin(sourceMixinClazz);
+        return taskClazzInfo.taskMixinMap().canMixin(sourceMixinClazz);
     }
 
     public static boolean isApplyMixin(ResourceLocation task) {
-        return TASK_CLAZZ_INFO.taskMixinMap().isApplyMixin(task);
+        return taskClazzInfo.taskMixinMap().isApplyMixin(task);
     }
 
     public static boolean clazzLoad(TaskInfo taskInfo) {
@@ -36,6 +45,6 @@ public class TaskModClazzManager {
     }
 
     public static void clear() {
-        TASK_CLAZZ_INFO = null;
+        taskClazzInfo = null;
     }
 }

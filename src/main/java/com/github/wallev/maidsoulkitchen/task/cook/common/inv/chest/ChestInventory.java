@@ -2,6 +2,8 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.inv.chest;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.util.WrapperItemHandler;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,27 +14,38 @@ import java.util.List;
 
 public class ChestInventory {
     public static final int TICK_SCAN_LIMIT = 10;
-    private final List<BlockPos> chestPoses = new ArrayList<>();
-    private final List<BlockEntity> chestBes = new ArrayList<>();
-    private final List<IItemHandler> chestItemHandlers = new ArrayList<>();
-    private final ItemInventory itemInventory = new ItemInventory();
+    public static final Codec<ChestInventory> CODEC = RecordCodecBuilder.create(ins -> ins.group(
+            BlockPos.CODEC.listOf().fieldOf("chestPoses").forGetter(o -> o.chestPoses),
+            ItemInventory.CODEC.fieldOf("itemInventory").forGetter(o -> o.itemInventory)
+    ).apply(ins, ChestInventory::new));
+    private final List<BlockPos> chestPoses;
+    private final List<BlockEntity> chestBes;
+    private final List<IItemHandler> chestItemHandlers;
+    private final ItemInventory itemInventory;
     private WrapperItemHandler allItemHandlers;
     private int slots = 0;
     private int lastSlot = 0;
+
+    private long lastTime = 0;
+
+    private ChestInventory(List<BlockPos> chestPoses, ItemInventory itemInventory) {
+        this.chestPoses = chestPoses;
+        this.chestBes = new ArrayList<>();
+        this.chestItemHandlers = new ArrayList<>();
+        this.itemInventory = itemInventory;
+        this.reset();
+    }
+
+    public ChestInventory() {
+        this(new ArrayList<>(), new ItemInventory());
+    }
 
     public void init(ChestInvsData data) {
         this.initData(data);
     }
 
-    public boolean tickScan0() {
-        for (int i = 0; i < slots; i++) {
-            ItemStack stackInSlot = allItemHandlers.getStackInSlot(i);
-            if (stackInSlot.isEmpty()) {
-                continue;
-            }
-            itemInventory.add(stackInSlot);
-        }
-        return false;
+    public boolean needReUpdate() {
+        return true;
     }
 
     public boolean tickScan() {
@@ -56,14 +69,18 @@ public class ChestInventory {
         itemInventory.update();
     }
 
-    public void clear() {
-        chestPoses.clear();
+    protected void reset() {
         chestBes.clear();
         chestItemHandlers.clear();
-        itemInventory.clear();
         allItemHandlers = null;
         slots = 0;
         lastSlot = 0;
+    }
+
+    public void clear() {
+        this.reset();
+        chestPoses.clear();
+        itemInventory.clear();
     }
 
     public boolean done() {

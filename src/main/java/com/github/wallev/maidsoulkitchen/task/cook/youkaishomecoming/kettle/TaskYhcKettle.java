@@ -1,11 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle;
 
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.CookTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
@@ -36,13 +33,8 @@ public class TaskYhcKettle extends ICookTask<KettleBlockEntity, KettleRecipe> {
     }
 
     @Override
-    public TaskDataKey<CookData> getCookDataKey() {
-        return DataRegister.YHC_TEA_KETTLE;
-    }
-
-    @Override
     public ResourceLocation getUid() {
-        return MaidsoulKitchenTask.YHC_TEA_KETTLE.uid;
+        return CookTask.YHC_TEA_KETTLE.uid;
     }
 
     @Override

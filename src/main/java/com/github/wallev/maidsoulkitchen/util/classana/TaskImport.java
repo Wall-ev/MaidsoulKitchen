@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.util.classana;
 
-import com.github.wallev.maidsoulkitchen.task.ModGroup;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 
 import java.lang.annotation.ElementType;

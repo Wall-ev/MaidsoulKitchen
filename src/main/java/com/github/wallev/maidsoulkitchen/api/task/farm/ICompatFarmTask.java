@@ -5,7 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FarmData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
+import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
@@ -13,8 +14,13 @@ import com.github.wallev.verhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -22,7 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerInfo, D extends FarmData> implements IMaidsoulKitchenTask, IDataTask<D> {
+public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHandlerInfo> implements IMaidsoulKitchenTask, IDataTask<BerryFruitData> {
     public static Set<Block> BLACK_LIST = new HashSet<>();
 
     private final List<IFarmHandlerManager<T>> handlerManagers;
@@ -46,12 +52,13 @@ public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHand
      * @return
      */
     public T getCompatHandler(EntityMaid maid) {
-        List<String> farmTaskRulesList = getTaskData(maid).rules();
+        BerryFruitData taskData = getTaskData(maid);
+
         ICompatFarmHandler.Builder<T> iCompatFarmHandlerBuilder = new ICompatFarmHandler.Builder<>();
         for (IFarmHandlerManager<T> handler : handlerManagers) {
             T farmHandler = handler.getFarmHandler();
             ResourceLocation uid = farmHandler.getUid();
-            if (!farmTaskRulesList.contains(uid.toString())) continue;
+            if (!taskData.containRule(uid.toString())) continue;
             iCompatFarmHandlerBuilder.addHandler(farmHandler);
         }
         return iCompatFarmHandlerBuilder.build();
@@ -68,6 +75,22 @@ public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHand
         return Lists.newArrayList(Pair.of(5, maidFarmMoveTask), Pair.of(6, maidFarmPlantTask));
     }
 
+    @Override
+    public MenuProvider getTaskConfigGuiProvider(EntityMaid maid) {
+        final int entityId = maid.getId();
+        return new MenuProvider() {
+            @Override
+            public Component getDisplayName() {
+                return Component.literal("Maid Fruit Farm Config Container");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int index, Inventory playerInventory, Player player) {
+                return new FruitFarmConfigContainer(index, playerInventory, entityId);
+            }
+        };
+    }
+
     public double getCloseEnoughDist() {
         return 1.0;
     }
@@ -77,5 +100,5 @@ public abstract class ICompatFarmTask<T extends ICompatFarmHandler & ICompatHand
         return SoundUtil.environmentSound(maid, InitSounds.MAID_FARM.get(), 0.5f);
     }
 
-    public abstract D getDefaultData();
+    public abstract BerryFruitData getDefaultData();
 }

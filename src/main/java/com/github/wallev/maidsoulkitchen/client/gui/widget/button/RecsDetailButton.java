@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.CookDataV1;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.verhelper.client.chat.VComponent;
 import net.minecraft.client.Minecraft;
@@ -28,9 +28,9 @@ public class RecsDetailButton extends AbstractButton implements ITooltipButton {
 
     protected final EntityMaid maid;
     protected final ICookTask<?, ?> cookTask;
-    protected final CookData cookData;
+    protected final CookDataV1 cookData;
 
-    public RecsDetailButton(int pX, int pY, int pWidth, int pHeight, EntityMaid maid, ICookTask<?, ?> cookTask, CookData cookData) {
+    public RecsDetailButton(int pX, int pY, int pWidth, int pHeight, EntityMaid maid, ICookTask<?, ?> cookTask, CookDataV1 cookData) {
         super(pX, pY, pWidth, pHeight, VComponent.empty());
         this.startX = pX;
         this.startY = pY;

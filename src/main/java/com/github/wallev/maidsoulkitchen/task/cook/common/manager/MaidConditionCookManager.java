@@ -6,6 +6,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.BubbleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
@@ -85,7 +86,10 @@ public abstract class MaidConditionCookManager<R extends Recipe<? extends Contai
                     this.tempIngredients.remove(key);
                 }
                 assert poll != null;
-                return maidRecs.get(poll);
+                MaidRec maidRec = maidRecs.get(poll);
+                assert maidRec != null;
+                BubbleUtil.makeResultsBubble(maid, maidRec);
+                return maidRec;
             }
         }
 

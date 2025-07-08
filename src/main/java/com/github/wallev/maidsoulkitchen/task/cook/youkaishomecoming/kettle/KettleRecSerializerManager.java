@@ -27,6 +27,11 @@ public class KettleRecSerializerManager extends RecSerializerManager<KettleRecip
     }
 
     @Override
+    public String getRecipeTypeId() {
+        return YHBlocks.KETTLE_RT.getId().toString();
+    }
+
+    @Override
     protected void initFuels() {
         Lazy<Map<Ingredient, Integer>> waters = KettleBlockAccessor.waters();
         Map<Ingredient, Integer> map = waters.get();

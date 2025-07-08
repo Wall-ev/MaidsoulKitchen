@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.init.touhoulittlemaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
 import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
 import com.google.common.collect.Lists;
@@ -28,6 +29,14 @@ public final class TaskRegister {
         LEGACY_TASK.add(new LegacyTaskInfo(uid, bindMod, bindConfig, task, mixinClz));
     }
 
+    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<ICookTask<?, ?>> task, String... mixinClz) {
+        CookTaskManager.addLegacyTask(uid, bindMod, bindConfig, task, mixinClz);
+    }
+
+    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<ICookTask<?, ?>> task, List<String> mixinClz) {
+        CookTaskManager.addLegacyTask(uid, bindMod, bindConfig, task, mixinClz);
+    }
+
     private static void registerLegacyCompat() {
         for (LegacyTaskInfo legacy : LEGACY_TASK) {
             if (!legacy.bindModLoad()) {
@@ -44,24 +53,22 @@ public final class TaskRegister {
         }
     }
 
-    public static void init(TaskManager manager) throws IOException {
+    public static void init(TaskManager taskManager) throws IOException {
         registerLegacyCompat();
-        TaskModClazzManager.startReadTask();
+        TaskModClazzManager.startReadTaskClazz();
 
         IMaidsoulKitchenTask.getTasks().forEach((key, value) -> {
             if (value.getContidion().get()) {
                 IMaidsoulKitchenTask maidsoulKitchenTask = value.getTask().get();
-                manager.add(maidsoulKitchenTask);
-                if (maidsoulKitchenTask instanceof ICookTask<?, ?> cookTask) {
-                    ICookTask.putTask(cookTask.getUid(), cookTask);
-                }
+                taskManager.add(maidsoulKitchenTask);
             }
         });
+        CookTaskManager.init();
 
         TaskModClazzManager.clear();
     }
 
-    private record LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod,
+    public record LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod,
                                  Supplier<ForgeConfigSpec.BooleanValue> bindConfig,
                                  Supplier<IMaidsoulKitchenTask> bindTask, List<String> mixinClz) {
         public LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<IMaidsoulKitchenTask> bindTask, String... mixinClz) {

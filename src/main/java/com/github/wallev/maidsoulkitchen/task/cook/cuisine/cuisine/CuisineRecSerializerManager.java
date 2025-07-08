@@ -43,6 +43,11 @@ public class CuisineRecSerializerManager extends RecSerializerManager<BaseCuisin
         return INSTANCE;
     }
 
+    @Override
+    public String getRecipeTypeId() {
+        return CDMisc.RT_CUISINE.getId().toString();
+    }
+
 
     @Override
     protected void initRecs(Level level) {

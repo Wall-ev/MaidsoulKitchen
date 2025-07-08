@@ -1,6 +1,6 @@
 //package com.github.wallev.maidsoulkitchen.inventory.tooltip;
 //
-//import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+//import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
 //import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.TaskCpCrockPot;
 //import com.sihenzhang.crockpot.recipe.cooking.requirement.IRequirement;
 //import net.minecraft.world.inventory.tooltip.TooltipComponent;

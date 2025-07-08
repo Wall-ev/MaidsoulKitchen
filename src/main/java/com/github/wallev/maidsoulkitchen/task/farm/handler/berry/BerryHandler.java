@@ -48,12 +48,12 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
         return FarmType.BERRY;
     }
 
-    protected abstract ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState);
+    protected abstract Result processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState);
 
     protected abstract boolean processHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState);
 
     protected final boolean harvestWithTool(EntityMaid maid, BlockPos cropPos, BlockState cropState, Predicate<ItemStack> predicate) {
-        if (this.processCanHarvest(maid, cropPos, cropState) != ActionState.DENY) {
+        if (this.processCanHarvest(maid, cropPos, cropState) != Result.DENY) {
             ItemStack toolStack = ItemsUtil.getStack(maid.getAvailableInv(true), predicate);
             if (!toolStack.isEmpty()) {
                 InteractionResult result = WrappedMaidFakePlayer.get(maid).useOnByItem(cropPos, toolStack);
@@ -68,7 +68,7 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
     }
 
     protected final boolean harvestWithoutTool(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        if (this.processCanHarvest(maid, cropPos, cropState) != ActionState.DENY) {
+        if (this.processCanHarvest(maid, cropPos, cropState) != Result.DENY) {
             InteractionResult result = WrappedMaidFakePlayer.get(maid).useOnByHand(cropPos);
             if (result == InteractionResult.PASS) {
                 BLACK_LIST.add(cropState.getBlock());
@@ -80,10 +80,10 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
     }
 
     public final boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        ActionState actionState = processCanHarvest(maid, cropPos, cropState);
-        if (actionState == ActionState.DENY) {
+        Result actionState = processCanHarvest(maid, cropPos, cropState);
+        if (actionState == Result.DENY) {
             return false;
-        } else if (actionState == ActionState.ALLOW) {
+        } else if (actionState == Result.ALLOW) {
             return true;
         } else {
             return nextHandler != null && nextHandler.canHarvest(maid, cropPos, cropState);
@@ -91,9 +91,9 @@ public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandler
     }
 
     public final void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
-        ActionState actionState = processCanHarvest(maid, cropPos, cropState);
-        if (actionState == ActionState.DENY) {
-        } else if (actionState == ActionState.ALLOW) {
+        Result actionState = processCanHarvest(maid, cropPos, cropState);
+        if (actionState == Result.DENY) {
+        } else if (actionState == Result.ALLOW) {
             this.processHarvest(maid, cropPos, cropState);
         } else if (nextHandler != null) {
             nextHandler.harvest(maid, cropPos, cropState);

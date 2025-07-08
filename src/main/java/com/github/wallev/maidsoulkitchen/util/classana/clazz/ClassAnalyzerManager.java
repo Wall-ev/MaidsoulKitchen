@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
-import com.github.wallev.maidsoulkitchen.task.ModGroup;
+import com.github.wallev.maidsoulkitchen.util.classana.ModGroup;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.verhelper.IModInfo;
 import com.google.common.collect.Lists;

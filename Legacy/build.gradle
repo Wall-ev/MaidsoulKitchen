@@ -202,12 +202,12 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
 }
 
-// 配置 Java 代理
-tasks.withType(JavaExec) {
-    jvmArgs += [
-            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
-    ]
-}
+//// 配置 Java 代理
+//tasks.withType(JavaExec) {
+//    jvmArgs += [
+//            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
+//    ]
+//}
 
 // libs自动依赖
 dependencies {
@@ -287,8 +287,8 @@ def loadRootProjectModVersion() {
 
         // 定义项目属性
         def properties = [
-                mod_id: "${customProperties.get("mod_id")}_legacy",
-                mod_name: "${customProperties.get("mod_name")} Legacy",
+                mod_id      : "${customProperties.get("mod_id")}_legacy",
+                mod_name    : "${customProperties.get("mod_name")} Legacy",
                 mod_group_id: "${customProperties.get("mod_group_id")}legacy"
         ]
 
@@ -323,17 +323,56 @@ tasks.named('build') {
     group = null
     description = '请使用 buildMod 任务'
 }
-
-
-configurations.configureEach {
+//
+//
+//configurations.configureEach {
+//    resolutionStrategy {
+//        componentSelection {
+//            all { ComponentSelection selection ->
+//                def candidate = selection.candidate
+//                def group = candidate.group
+//                if (group == 'legacylibs') {
+//                    selection.reject("禁用 com/github/wallev 组的缓存")
+//                    int a = 1;
+//                }
+//            }
+//        }
+//    }
+//}
+configurations.all {
     resolutionStrategy {
-        componentSelection {
-            all { ComponentSelection selection ->
-                // 排除 com.example 组下的所有模块
-                if (selection.candidate.group == 'com/github/wallev') {
-                    selection.reject("禁用 com/github/wallev 组的缓存")
-                }
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'legacylibs') {
+                details.useVersion('latest.integration')
+                details.because('Disable caching for legacylibs dependencies')
+//                details.resolveStrategy {
+//                    cacheChangingModulesFor 0, 'seconds'
+//                }
             }
         }
     }
 }
+
+//buildCache {
+//    local {
+//        enabled = false
+//    }
+//
+//
+//}
+
+//gradle.settingsEvaluated { settings ->
+//    settings.gradle.projectsEvaluated {
+//        // 打印项目信息
+//        printProjectInfo(project)
+//        printProperties(project)
+//    }
+//    settings.buildCache {
+//        int a = 1;
+//        // vvv Your custom configuration goes here
+////        remote(HttpBuildCache) {
+////            url = 'https://example.com:8123/cache/'
+////        }
+//        // ^^^ Your custom configuration goes here
+//    }
+//}

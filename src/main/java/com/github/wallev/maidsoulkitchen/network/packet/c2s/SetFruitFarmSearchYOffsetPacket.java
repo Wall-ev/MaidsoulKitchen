@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.network.packet.c2s;
 
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.FruitData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v0.FruitData;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.data.TaskDataRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;

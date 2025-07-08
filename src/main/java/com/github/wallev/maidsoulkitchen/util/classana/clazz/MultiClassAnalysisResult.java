@@ -2,10 +2,15 @@ package com.github.wallev.maidsoulkitchen.util.classana.clazz;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandler;
+import com.github.wallev.maidsoulkitchen.task.CookTask;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.maidsoulkitchen.util.TimeUtil;
 import com.google.common.collect.Lists;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.LoadingModList;
@@ -90,17 +95,11 @@ public class MultiClassAnalysisResult {
             report.append("BugIssueUrl: ").append(MaidsoulKitchen.ISSUE_URL).append("\n");
         }
         report.append("ActualVersionWithCurrentCompatibleMod：").append("\n");
-        Set<String> mods = new HashSet<>();
-        for (MaidsoulKitchenTask task : MaidsoulKitchenTask.values()) {
-            String modId = task.modId;
-            if (mods.contains(modId)) {
-                continue;
-            }
+        for (String modId : compatModIds()) {
             String modVersion = ModUtil.getModVersion(modId);
             if (!modVersion.isEmpty()) {
                 report.append("- ").append(modId).append(": ").append(modVersion).append("\n");
             }
-            mods.add(modId);
         }
         report.append("\n");
 
@@ -242,5 +241,21 @@ public class MultiClassAnalysisResult {
          */
 
         return report.toString();
+    }
+
+    private static Set<String> compatModIds() {
+        Set<String> modIds = new HashSet<>();
+        modIds.addAll(Arrays.stream(MaidsoulKitchenTask.values()).map(t -> t.modId).toList());
+        modIds.addAll(Arrays.stream(CookTask.values()).map(t -> t.modId).toList());
+        IFarmHandlerManager.HANDLER_MAP.values().forEach(fm -> {
+            fm.forEach(m -> {
+                ResourceLocation uid = m.getFarmHandler().getUid();
+                TaskInfo by = TaskInfo.by(uid);
+                if (by != null) {
+                    modIds.add(by.getBindMod().modId);
+                }
+            });
+        });
+        return modIds;
     }
 }

@@ -362,14 +362,31 @@ tasks.named('init') {
     }
 }
 
-configurations.configureEach {
+//configurations.configureEach {
+//    resolutionStrategy {
+//        componentSelection {
+//            all { ComponentSelection selection ->
+//                // 排除 com.example 组下的所有模块
+////                if (selection.candidate.group == 'com/github/wallev') {
+//
+//
+//                def candidate = selection.candidate
+//                def group = candidate.group
+//                if (group == 'legacylibs') {
+//                    selection.reject("禁用 com/github/wallev 组的缓存")
+//                    int a = 1;
+//                }
+//            }
+//        }
+//    }
+//}
+
+configurations.all {
     resolutionStrategy {
-        componentSelection {
-            all { ComponentSelection selection ->
-                // 排除 com.example 组下的所有模块
-                if (selection.candidate.group == 'com/github/wallev') {
-                    selection.reject("禁用 com/github/wallev 组的缓存")
-                }
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'legacylibs') {
+                details.useVersion('latest.integration')
+                details.because('Disable caching for legacylibs dependencies')
             }
         }
     }

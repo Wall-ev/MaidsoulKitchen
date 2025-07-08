@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.entity.data.inner.task;
+package com.github.wallev.maidsoulkitchen.entity.data.inner.task.inv.v0;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;

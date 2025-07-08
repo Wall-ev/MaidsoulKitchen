@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.state.BlockState;
 public class SimpleFarmingBerryHandler extends BerryHandler {
 
     @Override
-    protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+    protected Result processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
 //        LOGGER.info("SimpleFarmingBerryHandler handleCanHarvest");
-        return cropState.getBlock() instanceof BerryBushBlock && cropState.getValue(BerryBushBlock.AGE) >= BerryBushBlock.MAX_AGE ? ActionState.ALLOW : ActionState.DEFAULT;
+        return cropState.getBlock() instanceof BerryBushBlock && cropState.getValue(BerryBushBlock.AGE) >= BerryBushBlock.MAX_AGE ? Result.ALLOW : Result.DEFAULT;
     }
 
     @Override

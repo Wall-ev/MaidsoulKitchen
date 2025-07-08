@@ -31,7 +31,7 @@ public enum LegacyTaskInfo {
     }
 
     LegacyTaskInfo(TaskInfo taskInfo, Mods bindMod, String... mixinList) {
-        this(taskInfo.uid, bindMod, taskInfo.bindConfig, mixinList);
+        this(taskInfo.getUid(), bindMod, taskInfo.bindConfig, mixinList);
     }
 
     LegacyTaskInfo(String uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, String... mixinList) {

@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.client.tooltip.RecipeDataTooltip;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
@@ -288,6 +288,10 @@ public class RecSerializerManager<R extends Recipe<? extends Container>> {
 
     public RecipeType<R> getRecipeType() {
         return recipeType;
+    }
+
+    public String getRecipeTypeId() {
+        return this.recipeType.toString();
     }
 
     public boolean isItem(List<ItemStack> itemStacks, Item item) {

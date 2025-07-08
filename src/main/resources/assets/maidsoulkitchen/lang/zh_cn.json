@@ -25,6 +25,18 @@
   "chat_bubble.maidsoulkitchen.inner.feed_animal.type.max_number.0": "这%s太多了... 我不再喂养它们了！",
   "chat_bubble.maidsoulkitchen.inner.feed_animal.type.max_number.1": "这%s太多了吧... 不能再喂养它们了啦！",
   "chat_bubble.maidsoulkitchen.inner.feed_animal.type.max_number.2": "这%s也太能吃了把... 不养了不养了,太能吃了！",
+  "chat_bubble.maidsoulkitchen.inner.feed_animal.feed_end": "小%s君，快快长大哦~",
+  "chat_bubble.maidsoulkitchen.inner.feed_animal.no_animals": "这似乎没有可以养殖的动物诶~",
+  "chat_bubble.maidsoulkitchen.cook.collect_ingredients": "让我来看看都可以制作那些食物~",
+  "chat_bubble.maidsoulkitchen.cook.no_ingredient_cook": "┭┮﹏┭┮仓库怎么什么原材料都没有啊，都不能炒菜了！",
+  "chat_bubble.maidsoulkitchen.cook.can_cook_these_food": "哇，可以制作这么多食物诶: ",
+  "chat_bubble.maidsoulkitchen.cook.food_amount": "份",
+  "chat_bubble.maidsoulkitchen.cook.master": "主人",
+  "chat_bubble.maidsoulkitchen.cook.make_food.0": "是时候给主人%s炒%d份%s爱心便当了~",
+  "chat_bubble.maidsoulkitchen.cook.make_food.1": "是时候给炒%d份%s爱心便当了~",
+  "chat_bubble.maidsoulkitchen.cook.make_food.2": "是时候来%d份%s了！",
+  "chat_bubble.maidsoulkitchen.cook.make_food.3": "%s好吃么，来%d份看看~",
+  "chat_bubble.maidsoulkitchen.cook.make_food.4": "%d份%s，启动！",
 
   "config.maidsoulkitchen.title": "车万女仆拓展：农耕与烹饪",
   "config.maidsoulkitchen.title.tip": "[拓展：农耕与烹饪]",
@@ -294,6 +306,7 @@
   "gui.maidsoulkitchen.config.no_config": "这个任务没有配置.",
   "gui.maidsoulkitchen.config.global_config": "全局配置该任务.",
   "gui.maidsoulkitchen.search" : "搜索...",
+  "gui.maidsoulkitchen.to_setting_cook_task" : "点击进入设置界面选择一个烹饪模式把！",
 
   "tooltips.maidsoulkitchen.amount.title": "涉及到的原材料:",
 

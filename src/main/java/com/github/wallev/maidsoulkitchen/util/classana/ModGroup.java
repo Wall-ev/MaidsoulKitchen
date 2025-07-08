@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.task;
+package com.github.wallev.maidsoulkitchen.util.classana;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -23,7 +23,9 @@ public enum ModGroup {
             "java.io",
             "java.net",
             "java.nio",
+            "it.unimi",
             "com.google",
+            "org.spongepowered",
             "org.apache",
             "org.objectweb"),
 

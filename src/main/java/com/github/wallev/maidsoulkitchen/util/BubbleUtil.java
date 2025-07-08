@@ -12,7 +12,7 @@ import java.util.*;
 
 public class BubbleUtil {
     public static void makeResultsBubbleWithEmpty(EntityMaid maid) {
-        MutableComponent append = VComponent.literal("┭┮﹏┭┮仓库怎么什么原材料都没有啊，都不能炒菜了！");
+        MutableComponent append = VComponent.translatable("chat_bubble.maidsoulkitchen.cook.no_ingredient_cook");
         TextChatBubbleData textChatBubbleData = TextChatBubbleData.type2(append);
         maid.getChatBubbleManager().addChatBubble(textChatBubbleData);
     }
@@ -38,21 +38,16 @@ public class BubbleUtil {
 
     public static void makeResultsBubble(EntityMaid maid, List<ItemStack> results) {
         MutableComponent contact = TextContactUtil.contact(results, (result) -> {
-            return VComponent.literal(result.getHoverName().getString() + " " + result.getCount() + "份");
+            return VComponent.literal(result.getHoverName().getString() + " " + result.getCount())
+                    .append(VComponent.translatable("chat_bubble.maidsoulkitchen.cook.food_amount"));
         });
 
-        MutableComponent append = VComponent.literal("哇，可以制作这么多食物诶: ").append(contact);
+        MutableComponent append = VComponent.translatable("chat_bubble.maidsoulkitchen.cook.can_cook_these_food").append(contact);
         TextChatBubbleData textChatBubbleData = TextChatBubbleData.type2(append);
         maid.getChatBubbleManager().addChatBubble(textChatBubbleData);
     }
 
     public static void makeResultsBubble(EntityMaid maid, ItemStack result, int existTick) {
-//        MutableComponent displayName = (MutableComponent) result.getDisplayName();
-//        displayName.append(" " + result.getCount() + "份, 启动！");
-//        TextChatBubbleData textChatBubbleData = TextChatBubbleData.create(existTick, displayName, TYPE_2, DEFAULT_PRIORITY);
-
-//        TextChatBubbleData textChatBubbleData = TextChatBubbleData.type2(((MutableComponent)result.getDisplayName()).append(" " + result.getCount() + "份, 启动！"));
-
         MutableComponent bubbleText = getBubbleText(maid, result);
         TextChatBubbleData textChatBubbleData = TextChatBubbleData.type2(bubbleText);
         maid.getChatBubbleManager().addChatBubble(textChatBubbleData);
@@ -64,17 +59,17 @@ public class BubbleUtil {
 
     public static MutableComponent getBubbleText(EntityMaid maid, ItemStack food) {
         LivingEntity owner = maid.getOwner();
-        String ownerName = owner == null ? "主人" : owner.getDisplayName().getString();
+        String ownerName = owner == null ? VComponent.translatable("chat_bubble.maidsoulkitchen.cook.master").getString() : owner.getDisplayName().getString();
         String name = food.getHoverName().getString();
         int count = food.getCount();
 
         int type = maid.getRandom().nextInt(4);
         return switch (type) {
-            case 0 -> VComponent.literal("是时候给" + ownerName + "炒" + count + "份" + name + "爱心便当了~");
-            case 1 -> VComponent.literal("是时候来" + count + "份").append(name).append("了！");
-            case 2 -> VComponent.literal(name).append("好吃么，来" + count + "份看看~");
-            case 3 -> VComponent.literal(count + "份").append(name).append("，启动！");
-            default -> VComponent.literal("是时候给主人炒" + count + "份" + name + "爱心便当了~");
+            case 0 -> VComponent.translatable("chat_bubble.maidsoulkitchen.cook.make_food.0", ownerName, count, name);
+            case 1 -> VComponent.translatable("chat_bubble.maidsoulkitchen.cook.make_food.1", count, name);
+            case 2 -> VComponent.translatable("chat_bubble.maidsoulkitchen.cook.make_food.2", count, name);
+            case 3 -> VComponent.translatable("chat_bubble.maidsoulkitchen.cook.make_food.3", name, count);
+            default -> VComponent.translatable("chat_bubble.maidsoulkitchen.cook.make_food.4", count, name);
         };
 
     }

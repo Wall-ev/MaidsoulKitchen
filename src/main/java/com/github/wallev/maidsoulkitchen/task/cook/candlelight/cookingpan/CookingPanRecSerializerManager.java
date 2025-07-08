@@ -1,0 +1,42 @@
+package com.github.wallev.maidsoulkitchen.task.cook.candlelight.cookingpan;
+
+import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.satisfy.farm_and_charm.core.recipe.RoasterRecipe;
+import net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@TaskClassAnalyzer(TaskInfo.DCL_COOKING_PAN)
+public class CookingPanRecSerializerManager extends RecSerializerManager<RoasterRecipe> {
+    private static final CookingPanRecSerializerManager INSTANCE = new CookingPanRecSerializerManager();
+
+    protected CookingPanRecSerializerManager() {
+        super(RecipeTypeRegistry.ROASTER_RECIPE_TYPE.get());
+    }
+
+    public static CookingPanRecSerializerManager getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    protected RecipeInfoProvider<RoasterRecipe> createRecipeInfoProvider() {
+        return new RoasterRecipeInfoProvider();
+    }
+
+    public static class RoasterRecipeInfoProvider extends RecipeInfoProvider<RoasterRecipe> {
+        @Override
+        public List<RecIngredient> getIngredients(RecSerializerManager<RoasterRecipe> rsm, RoasterRecipe rec) {
+            List<Ingredient> list = new ArrayList<>(rec.getIngredients());
+            ItemStack beerCup = rec.getContainer();
+            List<RecIngredient> recIngredients = RecIngredient.from(list);
+            recIngredients.add(RecIngredient.ofCount(beerCup));
+            return recIngredients;
+        }
+    }
+}

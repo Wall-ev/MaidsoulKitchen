@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.network;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
 import com.github.wallev.maidsoulkitchen.network.packet.c2s.*;
 import com.github.wallev.maidsoulkitchen.network.packet.s2c.RenderMaidHubZonePacket;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
@@ -44,6 +46,10 @@ public final class NetworkHandler {
         CHANNEL.registerMessage(i++, ClearCookBagBindPosesPacket.class, ClearCookBagBindPosesPacket::encode, ClearCookBagBindPosesPacket::decode, ClearCookBagBindPosesPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(i++, GiveRecipeIngredientPacket.class, GiveRecipeIngredientPacket::encode, GiveRecipeIngredientPacket::decode, GiveRecipeIngredientPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, SyncBerryFruitDataMessage.class, SyncBerryFruitDataMessage::encode, SyncBerryFruitDataMessage::decode, SyncBerryFruitDataMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(i++, SyncKitchenDataC2SMessage.class, SyncKitchenDataC2SMessage::encode, SyncKitchenDataC2SMessage::decode, SyncKitchenDataC2SMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
         // Server && Client
 
@@ -100,6 +106,14 @@ public final class NetworkHandler {
 
         public static void giveRecipeIngredient(List<ItemStack> itemStacks) {
             sendToServer(new GiveRecipeIngredientPacket(itemStacks));
+        }
+
+        public static void syncBerryFruitData(int maidId, ResourceLocation taskId, BerryFruitData data) {
+            NetworkHandler.sendToServer(new SyncBerryFruitDataMessage(maidId, taskId, data));
+        }
+
+        public static void syncKitchenData2(int maidId, KitchenData data) {
+            NetworkHandler.sendToServer(new SyncKitchenDataC2SMessage(maidId, data));
         }
     }
 

@@ -22,16 +22,16 @@ import java.util.Optional;
 
 public class MaidCompatFarmPlantTask<T extends ICompatFarmHandler & ICompatHandlerInfo> extends Behavior<EntityMaid> implements VBehaviorControl {
 
-    private final ICompatFarmTask<T, ?> task;
+    private final ICompatFarmTask<T> task;
     private final T compatFarmHandler;
 
-    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarmTask<T, ?> task) {
+    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarmTask<T> task) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.compatFarmHandler = task.getCompatHandler(maid);
     }
 
-    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarmTask<T, ?> task, T handler) {
+    public MaidCompatFarmPlantTask(EntityMaid maid, ICompatFarmTask<T> task, T handler) {
         super(ImmutableMap.of(InitEntities.TARGET_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.compatFarmHandler = handler;

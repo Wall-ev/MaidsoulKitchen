@@ -18,6 +18,7 @@ import static com.github.wallev.maidsoulkitchen.task.TaskInfo.*;
 public enum BerryHandlerManager implements IFarmHandlerManager<BerryHandler> {
 
     MINECRAFT(BERRY_MINECRAFT, VanillaBerryHandler::new),
+    L2_HARVESTER(BERRY_L2_HARVESTER, L2BerryHandler::new),
     FARMERS_RESPITE_GREEN_TEA(BERRY_FARMERS_RESPITE_GREEN_TEA, FarmersRespiteGreenTeaBerryHandler::new),
     FARMERS_RESPITE_YELLOW_TEA(BERRY_FARMERS_RESPITE_YELLOW_TEA, FarmersRespiteYellowTeaBerryHandler::new),
     FARMERS_RESPITE_BLACK_TEA(BERRY_FARMERS_RESPITE_BLACK_TEA, FarmersRespiteBlackTeaBerryHandler::new),
@@ -31,7 +32,7 @@ public enum BerryHandlerManager implements IFarmHandlerManager<BerryHandler> {
     private final Supplier<BerryHandler> berryHandler;
 
     BerryHandlerManager(TaskInfo taskInfo, Supplier<BerryHandler> berryHandler) {
-        this(taskInfo.uid, taskInfo.bindMod, berryHandler);
+        this(taskInfo.getUid(), taskInfo.getBindMod(), berryHandler);
     }
 
     BerryHandlerManager(ResourceLocation uid, Mods bindMod, Supplier<BerryHandler> berryHandler) {

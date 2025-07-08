@@ -1,5 +1,6 @@
-package com.github.wallev.maidsoulkitchen.entity.data.inner.task;
+package com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0;
 
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -10,6 +11,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
 
+/**
+ * use {@link KitchenData} instead
+ */
+@Deprecated(since = "0.2.0")
 public class CookData {
     public static final Codec<List<String>> LIST_CODEC = Codec.STRING.listOf().xmap(Lists::newArrayList, Function.identity());
     public static final Codec<CookData> CODEC = RecordCodecBuilder.create(instance -> instance.group(

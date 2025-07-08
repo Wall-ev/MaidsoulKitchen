@@ -1,6 +1,5 @@
 package com.github.wallev.maidsoulkitchen.util.modutility;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.verhelper.client.resources.VResourceLocation;
 import com.mojang.serialization.Codec;
@@ -8,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
-public enum Mods implements StringRepresentable{
+public enum Mods implements StringRepresentable {
     PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
 
@@ -31,6 +30,9 @@ public enum Mods implements StringRepresentable{
     BNCD_LEGACY("brewinandchewin_legacy", "[,3.0.0)"),
     BNCD("brewinandchewin", "[3.0.0,)"),
     FRD("farmersrespite"),
+    L2_HARVESTER("l2harvester"),
+    COPPER_POT("copperpot"),
+    DUNGEONS_DELIGHT("dungeonsdelight"),
 
     /*
         Let's DO
@@ -41,7 +43,8 @@ public enum Mods implements StringRepresentable{
     DBP("beachparty"),
     DCL("candlelight", "[2.0.0,]"),
     DBK("bakery", "[2.0.0,]"),
-    DFC("farm_and_charm"),
+    DFC("farm_and_charm", "[2.0.0,]"),
+    DM("meadow"),
 
     SF("simplefarming"),
     FS("fruitstack"),

@@ -17,4 +17,9 @@ public class DryingRackRecSerializerManager extends RecSerializerManager<DryingR
     public static DryingRackRecSerializerManager getInstance() {
         return INSTANCE;
     }
+
+    @Override
+    public String getRecipeTypeId() {
+        return YHBlocks.RACK_RT.getId().toString();
+    }
 }

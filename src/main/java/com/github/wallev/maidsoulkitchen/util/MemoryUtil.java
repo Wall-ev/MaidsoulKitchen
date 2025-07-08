@@ -5,6 +5,8 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
@@ -17,12 +19,70 @@ import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MemoryUtil {
+
+    public static void rememberMaidRecs(EntityMaid maid, LinkedList<MaidRec> maidRecs) {
+        maid.getBrain().setMemory(MkEntities.MAID_RECS.get(), maidRecs);
+    }
+
+    public static void eraseMaidRecs(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.MAID_RECS.get());
+    }
+
+    public static List<MaidRec> getMaidRecs(EntityMaid maid) {
+        return maid.getBrain().getMemory(MkEntities.MAID_RECS.get()).orElseGet(ArrayList::new);
+    }
+
+    public static void rememberHubInputInventory(EntityMaid maid, ItemInventory itemInventory) {
+        maid.getBrain().setMemory(MkEntities.HUB_INPUT_INVENTORY.get(), itemInventory);
+    }
+
+    public static void eraseHubInputInventory(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.HUB_INPUT_INVENTORY.get());
+    }
+
+    public static ItemInventory getHubInputInventory(EntityMaid maid) {
+        return maid.getBrain().getMemory(MkEntities.HUB_INPUT_INVENTORY.get()).orElseGet(ItemInventory::new);
+    }
+
+    public static void rememberHubOutputInventory(EntityMaid maid, ItemInventory itemInventory) {
+        maid.getBrain().setMemory(MkEntities.HUB_OUTPUT_INVENTORY.get(), itemInventory);
+    }
+
+    public static void eraseHubOutputInventory(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.HUB_OUTPUT_INVENTORY.get());
+    }
+
+    public static ItemInventory getHubOutputInventory(EntityMaid maid) {
+        return maid.getBrain().getMemory(MkEntities.HUB_OUTPUT_INVENTORY.get()).orElseGet(ItemInventory::new);
+    }
+
+    public static void rememberChestInputInventory(EntityMaid maid, ItemInventory itemInventory) {
+        maid.getBrain().setMemory(MkEntities.INPUT_CHEST_INVENTORY.get(), itemInventory);
+    }
+
+    public static void eraseChestInputInventory(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.INPUT_CHEST_INVENTORY.get());
+    }
+
+    public static ItemInventory getChestInputInventory(EntityMaid maid) {
+        return maid.getBrain().getMemory(MkEntities.INPUT_CHEST_INVENTORY.get()).orElseGet(ItemInventory::new);
+    }
+
+    public static void rememberChestOutputInventory(EntityMaid maid, ItemInventory itemInventory) {
+        maid.getBrain().setMemory(MkEntities.OUTPUT_CHEST_INVENTORY.get(), itemInventory);
+    }
+
+    public static void eraseChestOutputInventory(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.OUTPUT_CHEST_INVENTORY.get());
+    }
+
+    public static ItemInventory getChestOutputInventory(EntityMaid maid) {
+        return maid.getBrain().getMemory(MkEntities.OUTPUT_CHEST_INVENTORY.get()).orElseGet(ItemInventory::new);
+    }
+
 
     public static void rememberWorkPos(EntityMaid maid, BlockPos walkPos, BlockPos workPos, float pSpeed, int pDistance) {
         Brain<EntityMaid> brain = maid.getBrain();
@@ -54,17 +114,17 @@ public class MemoryUtil {
     }
 
     public static void rememberCurrentWorkPos(EntityMaid maid, BlockPos workPos) {
-        Brain<EntityMaid> brain = maid.getBrain();
-        Vec3 center = workPos.getCenter();
-        Optional<List<Vec3>> currentWorkPos = brain.getMemory(MkEntities.CURRENT_WORK_POSES.get());
-        if (currentWorkPos.isEmpty()) {
-            brain.setMemory(MkEntities.CURRENT_WORK_POSES.get(), Lists.newArrayList(center));
-        } else {
-            List<Vec3> list = currentWorkPos.get();
-            if (!list.contains(center)) {
-                list.add(center);
-            }
-        }
+//        Brain<EntityMaid> brain = maid.getBrain();
+//        Vec3 center = workPos.getCenter();
+//        Optional<List<Vec3>> currentWorkPos = brain.getMemory(MkEntities.CURRENT_WORK_POSES.get());
+//        if (currentWorkPos.isEmpty()) {
+//            brain.setMemory(MkEntities.CURRENT_WORK_POSES.get(), Lists.newArrayList(center));
+//        } else {
+//            List<Vec3> list = currentWorkPos.get();
+//            if (!list.contains(center)) {
+//                list.add(center);
+//            }
+//        }
     }
 
     public static void eraseCurrentWorkPos(EntityMaid maid, BlockPos workPos) {
@@ -81,7 +141,7 @@ public class MemoryUtil {
         brain.eraseMemory(InitEntities.TARGET_POS.get());
         brain.eraseMemory(MkEntities.WORK_POS.get());
 
-        brain.eraseMemory(MkEntities.CURRENT_WORK_POSES.get());
+//        brain.eraseMemory(MkEntities.CURRENT_WORK_POSES.get());
         brain.eraseMemory(MkEntities.CET_CHEST_ITEMHANDLER.get());
         brain.eraseMemory(MkEntities.GENERATE_RECS.get());
     }

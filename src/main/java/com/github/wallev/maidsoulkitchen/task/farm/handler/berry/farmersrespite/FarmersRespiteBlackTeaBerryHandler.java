@@ -14,15 +14,15 @@ import umpaz.farmersrespite.common.registry.FRItems;
 @TaskClassAnalyzer(TaskInfo.BERRY_FARMERS_RESPITE_BLACK_TEA)
 public class FarmersRespiteBlackTeaBerryHandler extends FarmersRespiteTeaBerryHandler {
     @Override
-    protected ActionState processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
+    protected Result processCanHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         if (this.hasTool(maid)) {
             if (cropState.getBlock() instanceof TeaBushBlock && cropState.getValue(TeaBushBlock.AGE) >= 2) {
-                return ActionState.ALLOW;
+                return Result.ALLOW;
             } else {
-                return ActionState.DEFAULT;
+                return Result.DEFAULT;
             }
         } else {
-            return ActionState.DENY;
+            return Result.DENY;
         }
     }
 

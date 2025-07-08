@@ -1,11 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 
-import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
-import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
-import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.CookTask;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
@@ -35,13 +32,8 @@ public class TaskBbqGrill extends ICookTask<GrillBlockEntity, GrillingRecipe<?>>
     }
 
     @Override
-    public TaskDataKey<CookData> getCookDataKey() {
-        return DataRegister.BD_GRILL;
-    }
-
-    @Override
     public ResourceLocation getUid() {
-        return MaidsoulKitchenTask.BD_GRILL.uid;
+        return CookTask.BD_GRILL.uid;
     }
 
     @Override

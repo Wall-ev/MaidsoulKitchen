@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
+import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -38,6 +39,7 @@ public class MaidInventory extends IMaidCookInventory {
             add(stack);
             itemInventory.add(stack);
         }
+//        MemoryUtil.rememberHubInputInventory(maid, this.itemInventory);
     }
 
     @Override

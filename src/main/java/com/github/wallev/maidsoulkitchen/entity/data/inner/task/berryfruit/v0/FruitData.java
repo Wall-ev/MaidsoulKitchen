@@ -1,5 +1,7 @@
-package com.github.wallev.maidsoulkitchen.entity.data.inner.task;
+package com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v0;
 
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.ITaskDataKey;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -8,7 +10,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import java.util.function.Function;
 
-public class FruitData extends FarmData{
+/**
+ * use {@link BerryFruitData}
+ */
+@Deprecated(since = "0.2.0")
+public class FruitData extends FarmData {
     public static final Codec<List<String>> LIST_CODEC = Codec.STRING.listOf().xmap(Lists::newArrayList, Function.identity());
     public static final Codec<FruitData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("SearchYOffset").forGetter(FruitData::searchYOffset),
@@ -39,5 +45,17 @@ public class FruitData extends FarmData{
 
     public void decreaseYOffset() {
         this.searchYOffset--;
+    }
+
+    public static class Serializer implements ITaskDataKey.IVersionSerializer<BerryFruitData, FruitData> {
+        @Override
+        public BerryFruitData toNew(FruitData farmData) {
+            return new BerryFruitData(toMapRules(farmData), farmData.searchYOffset());
+        }
+
+        @Override
+        public Codec<FruitData> getCodec() {
+            return CODEC;
+        }
     }
 }
