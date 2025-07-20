@@ -1,11 +1,11 @@
 package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.youkaishomecoming.content.item.fluid.IYHFluidHolder;
@@ -186,6 +186,11 @@ public class FermentationRecSerializerManager extends FluidRecSerializerManager<
             } else if (!sFermentationRecipe.defaultContainer.isEmpty() && !sFermentationRecipe.defaultBottle.isEmpty()){
                 return sFermentationRecipe.defaultBottle;
             } else {
+                for (ItemStack result : sFermentationRecipe.results) {
+                    if (!result.isEmpty()) {
+                        return result;
+                    }
+                }
                 return rec.getResultItem(RegistryAccess.EMPTY);
             }
         }

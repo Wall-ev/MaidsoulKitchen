@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidMoveToBlockTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;

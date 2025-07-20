@@ -1,0 +1,26 @@
+package com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+public class ReportErrorEvent {
+    private final BaseClazzCheckManager<?, ?> checkManager;
+
+    private ReportErrorEvent(BaseClazzCheckManager<?, ?> checkManager) {
+        this.checkManager = checkManager;
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void reportError(PlayerEvent.PlayerLoggedInEvent event) {
+        TaskLoadError.reportError((component -> {
+            event.getEntity().sendSystemMessage(component);
+        }), checkManager);
+    }
+
+    public static void init(BaseClazzCheckManager<?, ?> checkManager) {
+        new ReportErrorEvent(checkManager);
+    }
+
+}

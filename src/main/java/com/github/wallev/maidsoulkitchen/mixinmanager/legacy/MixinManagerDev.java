@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.mixinmanager.legacy;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.mixinmanager.legacy.config.TaskRegisterConfig;
 import com.github.wallev.maidsoulkitchen.mixinmanager.legacy.manager.TaskMixinRegister;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

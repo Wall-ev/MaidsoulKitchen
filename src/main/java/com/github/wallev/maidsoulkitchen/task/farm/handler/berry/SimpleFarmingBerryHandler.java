@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import dev.enemeez.simplefarming.common.block.BerryBushBlock;
 import dev.enemeez.simplefarming.common.registries.ModItems;
 import net.minecraft.core.BlockPos;

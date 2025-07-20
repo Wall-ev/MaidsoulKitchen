@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = MaidsoulKitchen.MOD_ID)
+//@Mod.EventBusSubscriber(modid = MaidsoulKitchen.MOD_ID)
 public class MaidHubClickEvent {
     @SubscribeEvent
     public static void onInteract(InteractMaidEvent event) {

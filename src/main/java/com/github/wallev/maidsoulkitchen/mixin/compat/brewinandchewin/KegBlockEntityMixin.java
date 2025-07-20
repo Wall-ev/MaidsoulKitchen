@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.brewinandchewin;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskMixin;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@TaskMixin(task = TaskInfo.BNC_KEY)
+@TaskMixin(value = TaskInfo.BNC_KEY)
 @Mixin(value = KegBlockEntity.class, remap = false)
 public abstract class KegBlockEntityMixin implements ICookBeAccessor {
 

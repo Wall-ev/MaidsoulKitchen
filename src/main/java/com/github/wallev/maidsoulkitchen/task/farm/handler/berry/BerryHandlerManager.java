@@ -2,18 +2,18 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
 
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite.FarmersRespiteBlackTeaBerryHandler;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite.FarmersRespiteGreenTeaBerryHandler;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.farmersrespite.FarmersRespiteYellowTeaBerryHandler;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
-import static com.github.wallev.maidsoulkitchen.task.TaskInfo.*;
+import static com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.*;
 
 public enum BerryHandlerManager implements IFarmHandlerManager<BerryHandler> {
 

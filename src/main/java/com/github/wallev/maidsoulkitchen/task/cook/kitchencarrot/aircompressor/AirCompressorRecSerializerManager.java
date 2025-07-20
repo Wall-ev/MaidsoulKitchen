@@ -1,10 +1,10 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.aircompressor;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import io.github.tt432.kitchenkarrot.recipes.recipe.AirCompressorRecipe;
 import io.github.tt432.kitchenkarrot.registries.RecipeTypes;
 import net.minecraft.world.item.Items;

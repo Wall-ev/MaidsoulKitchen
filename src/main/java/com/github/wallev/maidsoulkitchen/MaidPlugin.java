@@ -16,19 +16,24 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.meal.MaidMealManager
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
 import com.github.tartaricacid.touhoulittlemaid.item.bauble.BaubleManager;
 import com.github.wallev.maidsoulkitchen.chest.FarmDelightCabinet;
+import com.github.wallev.maidsoulkitchen.client.renderer.entity.layer.banner.LayerRendererManager;
+import com.github.wallev.maidsoulkitchen.client.renderer.entity.layer.gecko.GeckoLayerMaidBanner;
+import com.github.wallev.maidsoulkitchen.client.renderer.entity.layer.bedrock.LayerMaidBanner;
 import com.github.wallev.maidsoulkitchen.debug.target.DefaultTargets;
 import com.github.wallev.maidsoulkitchen.entity.ai.brain.MaidBrain;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -38,24 +43,26 @@ import java.util.function.Function;
 @LittleMaidExtension
 public final class MaidPlugin implements ILittleMaid {
 
-    public MaidPlugin() {
+    public MaidPlugin() throws IOException {
         Mods.init();
         TaskInfo.init();
-        MaidsoulKitchenTask.init();
-    }
 
-    @Override
-    public void addMaidTask(TaskManager manager) {
-        try {
-            TaskRegister.init(manager);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        TaskModClazzManager.init();
+
+        MaidsoulKitchenTask.init();
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            LayerRendererManager.init();
         }
     }
 
     @Override
+    public void addMaidTask(TaskManager manager) {
+        TaskRegister.init(manager);
+    }
+
+    @Override
     public void bindMaidBauble(BaubleManager manager) {
-        if (Mods.MC.isLoaded) {
+        if (Mods.MC.load()) {
             manager.bind(MkItems.BURN_PROTECT_BAUBLE, new BurnProtectBauble());
         }
     }
@@ -72,7 +79,7 @@ public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void addChestType(ChestManager manager) {
-        if (Mods.FD.isLoaded) {
+        if (Mods.FD.load()) {
             manager.add(new FarmDelightCabinet());
         }
     }
@@ -89,12 +96,12 @@ public final class MaidPlugin implements ILittleMaid {
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionMaidLayer(EntityMaidRenderer renderer, EntityRendererProvider.Context context) {
-
+        renderer.addLayer(new LayerMaidBanner(renderer, context.getModelSet()));
     }
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionGeckoMaidLayer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context context) {
-
+        renderer.addGeoLayerRenderer(new GeckoLayerMaidBanner<>(renderer, context.getModelSet()));
     }
 
     @Override

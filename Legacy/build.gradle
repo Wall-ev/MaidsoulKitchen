@@ -40,6 +40,15 @@ String version_type = "beta"
 
 // 模组基础信息
 base {
+    def customPropertiesFile = file("../gradle.properties")
+    if (customPropertiesFile.exists()) {
+        def customProperties = new Properties()
+        customPropertiesFile.withInputStream { stream ->
+            customProperties.load(stream)
+        }
+        version_type = customProperties.getOrDefault("mod_version_type", "beta")
+    }
+
     archivesName = mod_id
     version = "${minecraft_version}-${version_type}-v${mod_version}"
     group = mod_group_id
@@ -274,7 +283,6 @@ def loadCustomProperties(String path) {
 }
 
 def loadRootProjectModVersion() {
-    println("loadRootProjectModVersion")
     def customPropertiesFile = file("../gradle.properties")
     if (customPropertiesFile.exists()) {
         def customProperties = new Properties()
@@ -296,8 +304,6 @@ def loadRootProjectModVersion() {
             project.ext.set(key, value)
         }
     }
-
-    println("loadRootProjectModVersion end")
 }
 
 def printProjectInfo(Project project) {

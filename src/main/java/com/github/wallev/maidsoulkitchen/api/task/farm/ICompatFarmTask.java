@@ -10,7 +10,7 @@ import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfi
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;

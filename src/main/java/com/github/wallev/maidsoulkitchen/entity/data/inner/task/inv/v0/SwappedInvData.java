@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.entity.data.inner.task.inv.v0;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;

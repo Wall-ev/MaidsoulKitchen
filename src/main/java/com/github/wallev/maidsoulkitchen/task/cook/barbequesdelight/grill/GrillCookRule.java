@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
@@ -8,7 +8,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInve
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.mao.barbequesdelight.content.block.GrillBlockEntity;
 import com.mao.barbequesdelight.content.recipe.GrillingRecipe;
 import com.mao.barbequesdelight.init.registrate.BBQDItems;

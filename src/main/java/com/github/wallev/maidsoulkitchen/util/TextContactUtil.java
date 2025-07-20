@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.util;
 
-import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 

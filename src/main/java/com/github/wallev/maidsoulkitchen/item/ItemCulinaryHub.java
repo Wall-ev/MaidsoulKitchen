@@ -2,12 +2,13 @@ package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.event.BlackHubChestDefineEvent;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagAbstractContainer;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagConfigContainer;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.CookBagContainer;
-import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -30,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,7 +74,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     }
 
     public static boolean hasItem(EntityMaid maid) {
-        return getItem(maid).isEmpty();
+        return !getItem(maid).isEmpty();
     }
 
     public static ItemStack getItem(EntityMaid maid) {
@@ -307,6 +309,11 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     @SuppressWarnings("all")
     @Nullable
     public static IItemHandler getBeInv(BlockEntity blockEntity) {
+        Set<Block> blacks = BlackHubChestDefineEvent.BLACK_HUB_CHEST_LIST;
+        Block block = blockEntity.getBlockState().getBlock();
+        if (blacks.contains(block)) {
+            return null;
+        }
         return blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
     }
 

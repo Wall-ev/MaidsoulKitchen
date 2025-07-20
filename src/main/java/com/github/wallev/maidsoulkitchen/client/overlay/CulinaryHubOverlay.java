@@ -77,7 +77,7 @@ public class CulinaryHubOverlay implements IGuiOverlay {
             Map<BagType, List<BlockPos>> bindPoses = ItemCulinaryHub.getBindPoses(mainHandItem);
 
             List<Component> bindedComponents = new ArrayList<>();
-            bindedComponents.add(Component.literal("当前方块已绑定以下类型：").withStyle(ChatFormatting.GRAY));
+            bindedComponents.add(Component.translatable("gui.maidsoulkitchen.culinary_hub.already_bind_types").withStyle(ChatFormatting.GRAY));
             MutableComponent component = Component.empty().withStyle(ChatFormatting.GRAY);
             int index = bindPoses.size();
             for (Map.Entry<BagType, List<BlockPos>> bagType : bindPoses.entrySet()) {
@@ -108,14 +108,14 @@ public class CulinaryHubOverlay implements IGuiOverlay {
 
             List<Component> tips = Lists.newArrayList();
             if (!binded) {
-                tips.add(Component.literal("当前方块可潜行绑定！").withStyle(ChatFormatting.GRAY));
+                tips.add(Component.translatable("gui.maidsoulkitchen.culinary_hub.can_sneak_bind").withStyle(ChatFormatting.GRAY));
 
                 String bindMode = ItemCulinaryHub.getBindMode(mainHandItem);
                 if (bindMode.isEmpty()) {
-                    tips.add(Component.literal("还没选择绑定类型呢，面对空气右键选择一个吧！").withStyle(ChatFormatting.GRAY));
+                    tips.add(Component.translatable("gui.maidsoulkitchen.culinary_hub.right_click_to_bind").withStyle(ChatFormatting.GRAY));
                 } else {
                     int size = ItemCulinaryHub.getBindModePoses(mainHandItem, bindMode).size();
-                    tips.add(Component.literal("当前绑定类型：")
+                    tips.add(Component.translatable("gui.maidsoulkitchen.culinary_hub.current_binding_type")
                             .append(Component.translatable("gui.maidsoulkitchen.culinary_hub.config.bind_mode." + getTranslateKey(bindMode)))
                             .append(Component.literal(String.format("[%s/%s]", size, ItemCulinaryHub.BIND_SIZE)))
                             .withStyle(ChatFormatting.GRAY));

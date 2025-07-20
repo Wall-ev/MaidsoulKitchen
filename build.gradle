@@ -22,7 +22,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 
     // AspectJ
-    id 'io.freefair.aspectj.post-compile-weaving' version '8.3'
+//    id 'io.freefair.aspectj.post-compile-weaving' version '8.3'
 }
 
 // 加载配置
@@ -36,13 +36,34 @@ loadGradle(minecraft_version)
 java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 
 // 版本类型: beta alpha release
-String version_type = "beta"
+String version_type = mod_version_type
+String version_cache = "1.0.0"
 
 // 模组基础信息
 base {
     archivesName = mod_id
-    version = "${minecraft_version}-${version_type}-v${mod_version}"
+    version = getBuildVersion(version_type)
+    version_cache = version
     group = mod_group_id
+
+    println("archivesName: ${base.archivesName}")
+    println("VERSION: ${version}")
+    println("VERSION_CACHE: ${version_cache}")
+}
+println("archivesName: ${base.archivesName}")
+println("VERSION: ${version_cache}")
+
+
+
+
+def String getBuildVersion(String version_type) {
+//    if (gradle.startParameter.taskNames.any { it.contains("build2Legacy") }) {
+//        def version1 = "${minecraft_version}-${version_type}-v${mod_version}" + "-build." + new Date().format("yyyyMMddHHmmss")
+//        return version1
+//    } else {
+        def version2 = "${minecraft_version}-${version_type}-v${mod_version}"
+        return version2
+//    }
 }
 
 // MC 配置
@@ -100,6 +121,7 @@ minecraft {
 // Mixin 配置
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
+//    add sourceSets.main, "${mod_id}-compat.refmap.json"
     config "${mod_id}.mixins.json"
     config "${mod_id}-compat.mixins.json"
 }
@@ -111,7 +133,6 @@ sourceSets {
             java {
                 // 排除 util/debug/aspect 目录
                 exclude 'com/github/wallev/maidsoulkitchen/util/debug/aspect/**'
-                exclude 'com/github/wallev/maidsoulkitchen/mixinmanager/**'
             }
             resources {
                 exclude 'META-INF/neoforge.mods.toml'
@@ -199,17 +220,28 @@ dependencies {
 }
 
 dependencies {
-    minecraftLibrary('org.aspectj:aspectjrt:1.9.24')
-    minecraftLibrary('org.aspectj:aspectjweaver:1.9.24')
-    implementation('org.springframework.boot:spring-boot-starter-aop:2.6.3')
-    implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
+//    if (isTaskStartWith("run")) {
+//        minecraftLibrary('org.aspectj:aspectjrt:1.9.24')
+//        minecraftLibrary('org.aspectj:aspectjweaver:1.9.24')
+//        implementation('org.springframework.boot:spring-boot-starter-aop:2.6.3')
+//        implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
+//
+//    } else {
+//        compileOnly('org.aspectj:aspectjrt:1.9.24')
+//        compileOnly('org.aspectj:aspectjweaver:1.9.24')
+//        compileOnly('org.springframework.boot:spring-boot-starter-aop:2.6.3')
+//        compileOnly('org.springframework.boot:spring-boot-devtools:3.5.0')
+//    }
 }
 
 // 配置 Java 代理
-tasks.withType(JavaExec) {
-    jvmArgs += [
-            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
-    ]
+tasks.withType(JavaExec).configureEach {
+//    if (!isTaskStartWith("runClient")) {
+//        return
+//    }
+//    jvmArgs += [
+//            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
+//    ]
 }
 
 // libs自动依赖
@@ -284,6 +316,30 @@ def printProperties(Project project) {
     }
 }
 
+def isTask(String... defTasks) {
+    def inRunTasks = gradle.startParameter.taskNames
+
+    for (final def inRunTask in inRunTasks) {
+        for (final def defTask in defTasks) {
+            if (inRunTask.contains(defTask)) {
+                return true
+            }
+        }
+    }
+    return false;
+}
+
+def isTaskStartWith(String start) {
+    def inRunTasks = gradle.startParameter.taskNames
+
+    for (final def inRunTask in inRunTasks) {
+        if (inRunTask.startsWith(start)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 String buildGroup = "build"
 tasks.register("build2Legacy") {
@@ -292,10 +348,15 @@ tasks.register("build2Legacy") {
 
     doLast {
         exec {
+
             // 设置环境变量，将Gradle属性传递给批处理脚本
             environment "MOD_ID", mod_id
-            environment "VERSION", version
+            environment "VERSION", version_cache
             environment "MINECRAFT_VERSION", minecraft_version
+
+            println(MOD_ID: mod_id)
+            println(VERSION: version_cache)
+            println(MINECRAFT_VERSION: minecraft_version)
 
             commandLine = ['build2Legacy.bat']
             ignoreExitValue = false // 如果命令失败则中断构建
@@ -303,7 +364,7 @@ tasks.register("build2Legacy") {
     }
 }
 
-if (gradle.startParameter.taskNames.any { it.contains("buildAll") }) {
+if (isTask("buildAll")) {
     dependencies {
         if (file("libs/${minecraft_version}/legacy").exists()) {
             for (final def file in fileTree(dir: "libs/${minecraft_version}/legacy", includes: ['*-all.jar']).getFiles()) {
@@ -324,6 +385,7 @@ if (gradle.startParameter.taskNames.any { it.contains("buildAll") }) {
 tasks.register("buildAll") {
     group = null
     description = '构建模组，由buildMod任务启动package.bat触发'
+    version = "${minecraft_version}-${version_type}-v${mod_version}"
 
     dependsOn(rootProject.tasks.build)
 }
@@ -346,8 +408,8 @@ tasks.register("buildMod") {
 
 tasks.named('build') {
     // 隐藏任务，使用 buildMod 任务
-    group = null
-    description = '请使用 buildMod 任务'
+//    group = null
+    description =  '请使用 buildMod 任务'
 }
 
 tasks.named('init') {
@@ -362,32 +424,8 @@ tasks.named('init') {
     }
 }
 
-//configurations.configureEach {
-//    resolutionStrategy {
-//        componentSelection {
-//            all { ComponentSelection selection ->
-//                // 排除 com.example 组下的所有模块
-////                if (selection.candidate.group == 'com/github/wallev') {
-//
-//
-//                def candidate = selection.candidate
-//                def group = candidate.group
-//                if (group == 'legacylibs') {
-//                    selection.reject("禁用 com/github/wallev 组的缓存")
-//                    int a = 1;
-//                }
-//            }
-//        }
-//    }
-//}
-
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'legacylibs') {
-                details.useVersion('latest.integration')
-                details.because('Disable caching for legacylibs dependencies')
-            }
-        }
-    }
+tasks.compileJava {
+    // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
+    outputs.upToDateWhen { false }
 }
+

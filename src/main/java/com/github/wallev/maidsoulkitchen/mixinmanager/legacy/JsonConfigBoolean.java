@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.mixinmanager.legacy;
 
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonConfigBoolean implements IJsonConfig<Boolean> {
@@ -51,7 +51,7 @@ public class JsonConfigBoolean implements IJsonConfig<Boolean> {
 
     public boolean canLoaded() {
         if (this.mod != null) {
-            return mod.versionLoaded && value;
+            return mod.versionLoad() && value;
         } else {
             return value;
         }

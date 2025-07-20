@@ -7,12 +7,12 @@ import com.github.wallev.maidsoulkitchen.client.gui.widget.button.*;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.info.Zone;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
+import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.CookDataV1;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
-import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
@@ -22,14 +22,12 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.StateSwitchingButton;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.anti_ad.mc.ipn.api.IPNButton;
@@ -69,7 +67,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     private final List<List<MKRecipe<?>>> flatRecs = new ArrayList<>();
     private RecsDetailButton detailButton;
     private EditBox searchBox;
-    private CookData cookData;
+    private CookDataV1 cookData;
     private ICookTask<?, ?> cookTask;
     private boolean initCookData = true;
     private DisplayMode displayMode = DisplayMode.DEFAULT;
@@ -238,7 +236,8 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private List<Component> getDisplayModeTooltips() {
-        List<Component> components = Lists.newArrayList(VComponent.literal("点击可搜索，再次点击收回!"), VComponent.literal("滚动切换显示模式！"));
+        List<Component> components = Lists.newArrayList(VComponent.translatable("gui.maidsoulkitchen.btn.display.tooltip.1"),
+                VComponent.translatable("gui.maidsoulkitchen.btn.display.tooltip.2"));
         for (DisplayMode value : DisplayMode.values()) {
 
             MutableComponent component = value.getComponent(displayMode);
@@ -501,7 +500,7 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
         int startX = width - leftPos - (-typeDisplay.startX()) - typeDisplay.width() - 1;
         int startY = visualZone.startY() + typeDisplay.startY();
 
-        TypeButton typeButton = new TypeButton(startX, startY, typeDisplay.width(), typeDisplay.height(), cookData.mode().equals(CookData.Mode.WHITELIST.name)) {
+        TypeButton typeButton = new TypeButton(startX, startY, typeDisplay.width(), typeDisplay.height(), cookData.mode().equals(CookDataV1.Mode.WHITELIST.name)) {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 initCookData = false;
@@ -709,19 +708,16 @@ public class CookConfigGui extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     public enum DisplayMode {
-        DEFAULT("默认"),
-        CAN_COOK("可烹饪"),
-        NOT_COOK("不可烹饪"),
+        DEFAULT,
+        CAN_COOK,
+        NOT_COOK,
         ;
 
-        private final String component;
-
-        DisplayMode(String component) {
-            this.component = component;
+        DisplayMode() {
         }
 
         public MutableComponent getComponent() {
-            return VComponent.literal(component);
+            return VComponent.translatable("gui.maidsoulkitchen.btn.display.mode." + this.name().toLowerCase(Locale.ROOT));
         }
 
         public MutableComponent getComponent(DisplayMode mode) {

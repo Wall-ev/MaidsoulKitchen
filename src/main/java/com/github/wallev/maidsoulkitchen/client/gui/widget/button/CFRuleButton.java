@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmHandler;
 import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatHandlerInfo;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

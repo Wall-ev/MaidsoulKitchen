@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.CookDataV1;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import net.minecraft.nbt.CompoundTag;

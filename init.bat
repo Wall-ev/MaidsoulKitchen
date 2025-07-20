@@ -42,7 +42,7 @@ call :clean_files "!PROJECT_DIR!\build\libs" "*.jar" || goto :error
 :: 阶段3: 第一次构建
 call :log "🚩 阶段3: 第一次构建"
 call :run_gradle "!PROJECT_DIR!" || goto :error
-call :run_gradle "!PROJECT_DIR!" "build" || goto :error
+call :run_gradle "!PROJECT_DIR!" "build --stacktrace" || goto :error
 
 :: 阶段4: 复制构建产物到Legacy
 call :log "🚩 阶段4: 复制构建产物到Legacy"

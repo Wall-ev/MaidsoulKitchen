@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook;
 
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.ITaskDataKey;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
 

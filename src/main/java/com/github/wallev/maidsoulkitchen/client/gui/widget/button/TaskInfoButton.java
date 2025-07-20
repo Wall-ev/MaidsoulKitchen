@@ -5,8 +5,8 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -58,7 +58,7 @@ public class TaskInfoButton extends NormalTooltipButton {
         }
 
         if (isIdle) {
-            TipsHelper.renderTips(pGuiGraphics, this, Component.literal("点击选择一个烹饪模式把！"));
+            TipsHelper.renderTips(pGuiGraphics, this, Component.translatable("gui.maidsoulkitchen.widget.cook_guide.task.choose_cook_type"));
         }
     }
 

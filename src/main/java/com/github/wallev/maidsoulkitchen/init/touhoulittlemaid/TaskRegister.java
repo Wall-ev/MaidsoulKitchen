@@ -4,8 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.google.common.collect.Lists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -21,19 +20,19 @@ public final class TaskRegister {
     private TaskRegister() {
     }
 
-    public static void addLegacyTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<IMaidsoulKitchenTask> task, String... mixinClz) {
+    public static void addLegacyTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<Boolean> bindConfig, Supplier<IMaidsoulKitchenTask> task, String... mixinClz) {
         addLegacyTask(uid, bindMod, bindConfig, task, Lists.newArrayList(mixinClz));
     }
 
-    public static void addLegacyTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<IMaidsoulKitchenTask> task, List<String> mixinClz) {
+    public static void addLegacyTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<Boolean> bindConfig, Supplier<IMaidsoulKitchenTask> task, List<String> mixinClz) {
         LEGACY_TASK.add(new LegacyTaskInfo(uid, bindMod, bindConfig, task, mixinClz));
     }
 
-    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<ICookTask<?, ?>> task, String... mixinClz) {
+    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<Boolean> bindConfig, Supplier<ICookTask<?, ?>> task, String... mixinClz) {
         CookTaskManager.addLegacyTask(uid, bindMod, bindConfig, task, mixinClz);
     }
 
-    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<ICookTask<?, ?>> task, List<String> mixinClz) {
+    public static void addLegacyCookTask(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<Boolean> bindConfig, Supplier<ICookTask<?, ?>> task, List<String> mixinClz) {
         CookTaskManager.addLegacyTask(uid, bindMod, bindConfig, task, mixinClz);
     }
 
@@ -53,9 +52,8 @@ public final class TaskRegister {
         }
     }
 
-    public static void init(TaskManager taskManager) throws IOException {
+    public static void init(TaskManager taskManager) {
         registerLegacyCompat();
-        TaskModClazzManager.startReadTaskClazz();
 
         IMaidsoulKitchenTask.getTasks().forEach((key, value) -> {
             if (value.getContidion().get()) {
@@ -64,14 +62,12 @@ public final class TaskRegister {
             }
         });
         CookTaskManager.init();
-
-        TaskModClazzManager.clear();
     }
 
     public record LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod,
-                                 Supplier<ForgeConfigSpec.BooleanValue> bindConfig,
+                                 Supplier<Boolean> bindConfig,
                                  Supplier<IMaidsoulKitchenTask> bindTask, List<String> mixinClz) {
-        public LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, Supplier<IMaidsoulKitchenTask> bindTask, String... mixinClz) {
+        public LegacyTaskInfo(Supplier<ResourceLocation> uid, Supplier<Mods> bindMod, Supplier<Boolean> bindConfig, Supplier<IMaidsoulKitchenTask> bindTask, String... mixinClz) {
             this(uid, bindMod, bindConfig, bindTask, Lists.newArrayList(mixinClz));
         }
 
@@ -80,11 +76,11 @@ public final class TaskRegister {
         }
 
         public boolean bindConfigLoad() {
-            return bindConfig.get().get();
+            return bindConfig.get();
         }
 
         public boolean bindModLoad() {
-            return bindMod.get().versionLoaded;
+            return bindMod.get().versionLoad();
         }
     }
 }

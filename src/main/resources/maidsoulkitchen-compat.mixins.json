@@ -21,6 +21,6 @@
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",
     "youkaishomecoming.BasePotBlockEntityMixin",
-    "youkaishomecoming.KettleBlockAccessor",
+    "youkaishomecoming.KettleBlockAccessor"
   ]
 }

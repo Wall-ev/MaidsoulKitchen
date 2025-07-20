@@ -6,7 +6,7 @@ import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.client.gui.widget.info.ResultInfo;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.CookDataV1;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;

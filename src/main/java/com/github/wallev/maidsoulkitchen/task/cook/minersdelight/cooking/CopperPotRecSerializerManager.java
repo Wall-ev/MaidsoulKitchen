@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.task.cook.minersdelight.cooking;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.sammy.minersdelight.logic.CupConversionReloadListener;
 import com.sammy.minersdelight.setup.MDItems;
 import net.minecraft.core.RegistryAccess;

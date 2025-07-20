@@ -2,7 +2,8 @@ package com.github.wallev.maidsoulkitchen.event;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.config.subconfig.TaskConfig;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.AttachedStemBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,11 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.wallev.maidsoulkitchen.util.BlockUtil.getId;
-
 @Mod.EventBusSubscriber(modid = MaidsoulKitchen.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class MelonConfigEvent {
-    public static final Map<String, String> MELON_STEM_MAP = new HashMap<>();
+    public static final Map<Block, Block> MELON_STEM_MAP = new HashMap<>();
     private static final String CONFIG_NAME = MaidsoulKitchen.MOD_ID + "-common.toml";
 
     @SubscribeEvent
@@ -35,26 +34,30 @@ public final class MelonConfigEvent {
         handleMelonAndStemList(TaskConfig.MELON_AND_STEM_LIST.get(), MELON_STEM_MAP);
     }
 
-    private static void handleMelonStemList(Map<String, String> output) {
+    private static void handleMelonStemList(Map<Block, Block> output) {
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             if (block instanceof AttachedStemBlock attachedStemBlock) {
-                output.put(getId(attachedStemBlock.fruit), getId(attachedStemBlock));
+                output.put(attachedStemBlock.fruit, attachedStemBlock);
             }
         }
     }
 
-    private static void handleMelonAndStemList(List<List<String>> config, Map<String, String> output) {
+    private static void handleMelonAndStemList(List<List<String>> config, Map<Block, Block> output) {
         for (List<String> strings : config) {
             if (strings.size() < 2) continue;
 
             String melonId = strings.get(0);
             String stemId = strings.get(1);
 
-            Block melonBlock = ForgeRegistries.BLOCKS.getValue(VResourceLocation.create(melonId));
-            Block stemBlock = ForgeRegistries.BLOCKS.getValue(VResourceLocation.create(stemId));
+            ResourceLocation melonLoc = VResourceLocation.tryParse(melonId);
+            ResourceLocation stemLoc = VResourceLocation.tryParse(stemId);
+            if (melonLoc == null || stemLoc == null) continue;
+
+            Block melonBlock = ForgeRegistries.BLOCKS.getValue(melonLoc);
+            Block stemBlock = ForgeRegistries.BLOCKS.getValue(stemLoc);
             if (melonBlock == null || stemBlock == null) continue;
 
-            output.put(melonId, stemId);
+            output.put(melonBlock, stemBlock);
         }
     }
 }

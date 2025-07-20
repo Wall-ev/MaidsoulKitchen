@@ -12,8 +12,8 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.Be
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.FruitFarmConfigContainer;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

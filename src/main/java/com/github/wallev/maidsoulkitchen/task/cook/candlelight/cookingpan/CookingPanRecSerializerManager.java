@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.candlelight.cookingpan;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.satisfy.farm_and_charm.core.recipe.RoasterRecipe;

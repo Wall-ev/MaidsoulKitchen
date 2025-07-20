@@ -1,15 +1,14 @@
 package com.github.wallev.maidsoulkitchen.task.farm;
 
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CompatMelonConfigContainer;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.wallev.maidsoulkitchen.event.MelonConfigEvent;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
-import com.github.wallev.maidsoulkitchen.util.BlockUtil;
-import com.github.wallev.verhelper.server.item.VEnchantmentHelper;
+import com.github.wallev.maidsoulkitchen.vhelper.server.item.VEnchantmentHelper;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -54,11 +53,11 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         Block block = cropState.getBlock();
-        if (MelonConfigEvent.MELON_STEM_MAP.containsKey(BlockUtil.getId(block))) {
-            String stemBlockId = MelonConfigEvent.MELON_STEM_MAP.get(BlockUtil.getId(block));
+        Block stemBlock = MelonConfigEvent.MELON_STEM_MAP.get(block);
+        if (stemBlock != null) {
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockState offsetState = maid.level.getBlockState(cropPos.relative(direction));
-                if (BlockUtil.getId(offsetState).equals(stemBlockId)) {
+                if (offsetState.is(stemBlock)) {
                     return true;
                 }
             }
@@ -69,7 +68,8 @@ public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTa
     @Override
     public void harvest(EntityMaid maid, BlockPos cropPos, BlockState cropState) {
         Block block = cropState.getBlock();
-        if (MelonConfigEvent.MELON_STEM_MAP.containsKey(BlockUtil.getId(block))) {
+        Block stemBlock = MelonConfigEvent.MELON_STEM_MAP.get(block);
+        if (stemBlock != null) {
             ItemStack mainHandItem = maid.getMainHandItem();
             if (VEnchantmentHelper.hasSilkTouch(mainHandItem)) {
                 if (this.destroyBlockByHandItem(maid, cropPos)) {

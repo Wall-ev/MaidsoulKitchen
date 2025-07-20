@@ -24,7 +24,7 @@ import java.util.*;
 public class MemoryUtil {
 
     public static void rememberMaidRecs(EntityMaid maid, LinkedList<MaidRec> maidRecs) {
-        maid.getBrain().setMemory(MkEntities.MAID_RECS.get(), maidRecs);
+//        maid.getBrain().setMemory(MkEntities.MAID_RECS.get(), maidRecs);
     }
 
     public static void eraseMaidRecs(EntityMaid maid) {
@@ -60,7 +60,7 @@ public class MemoryUtil {
     }
 
     public static void rememberChestInputInventory(EntityMaid maid, ItemInventory itemInventory) {
-        maid.getBrain().setMemory(MkEntities.INPUT_CHEST_INVENTORY.get(), itemInventory);
+//        maid.getBrain().setMemory(MkEntities.INPUT_CHEST_INVENTORY.get(), itemInventory);
     }
 
     public static void eraseChestInputInventory(EntityMaid maid) {

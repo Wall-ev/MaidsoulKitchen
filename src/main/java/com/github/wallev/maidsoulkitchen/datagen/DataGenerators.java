@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.datagen;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;

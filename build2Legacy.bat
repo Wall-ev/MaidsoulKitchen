@@ -27,7 +27,7 @@ call :clean_old_jars "!PROJECT_DIR!\build\libs\" "%MOD_ID%*.jar" "*.jar" || goto
 
 :: 阶段2: 执行Gradle构建
 call :log "🚩 阶段3: 执行Gradle构建"
-call :run_gradle "!PROJECT_DIR!" "build" || goto :error
+call :run_gradle "!PROJECT_DIR!" "build --stacktrace" || goto :error
 
 :: 阶段3: 复制JAR文件到Legacy项目
 call :log "🚩 阶段4: 复制JAR文件到Legacy项目"

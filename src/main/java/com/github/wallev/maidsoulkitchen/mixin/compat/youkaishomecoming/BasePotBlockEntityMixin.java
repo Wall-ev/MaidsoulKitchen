@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.youkaishomecoming;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskMixin;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity;
 import dev.xkmc.youkaishomecoming.content.pot.base.BasePotRecipe;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@TaskMixin(task = {TaskInfo.YHC_TEA_KETTLE, TaskInfo.YHC_MOKA})
+@TaskMixin(value = {TaskInfo.YHC_TEA_KETTLE, TaskInfo.YHC_MOKA})
 @Mixin(value = BasePotBlockEntity.class, remap = false)
 public abstract class BasePotBlockEntityMixin implements ICookBeAccessor {
 

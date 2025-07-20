@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask.BLACK_LIST;
-import static com.github.wallev.verhelper.IModInfo.LOGGER;
+import static com.github.wallev.maidsoulkitchen.vhelper.IModInfo.LOGGER;
 
 public abstract class BerryHandler implements ICompatFarmHandler, ICompatHandlerInfo {
     private static final Set<BerryHandler> berryHandlers = new HashSet<>();

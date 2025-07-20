@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.sihenzhang.crockpot.base.FoodCategory;
 import net.minecraft.world.item.Item;
 

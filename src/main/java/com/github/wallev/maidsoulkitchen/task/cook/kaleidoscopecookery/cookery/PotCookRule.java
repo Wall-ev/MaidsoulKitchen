@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
@@ -9,6 +10,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.BubbleUtil;
 import com.github.wallev.maidsoulkitchen.util.InvUtil;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.PotRecipe;
@@ -19,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-//@ImportsParse(task = TaskInfo.KC_POT)
+@TaskClassAnalyzer(TaskInfo.KC_POT)
 public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
     public static final Item CONTAINER = Items.BOWL;
     public static final Item FLINT = Items.FLINT_AND_STEEL;

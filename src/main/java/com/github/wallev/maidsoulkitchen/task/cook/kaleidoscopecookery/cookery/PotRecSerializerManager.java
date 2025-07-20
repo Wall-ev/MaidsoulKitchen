@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery;
 
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.IndexRange;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
@@ -9,6 +10,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.PotRecipe;
@@ -27,7 +29,7 @@ import java.util.function.Predicate;
 
 import static com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery.PotRecSerializerManager.PotRecipeInfoProvider.*;
 
-//@ImportsParse(task = TaskInfo.KC_POT)
+@TaskClassAnalyzer(TaskInfo.KC_POT)
 public class PotRecSerializerManager extends RecSerializerManager<PotRecipe> {
     private static final PotRecSerializerManager INSTANCE = new PotRecSerializerManager();
 

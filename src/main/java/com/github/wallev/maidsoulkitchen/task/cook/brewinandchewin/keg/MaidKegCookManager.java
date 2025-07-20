@@ -2,11 +2,11 @@ package com.github.wallev.maidsoulkitchen.task.cook.brewinandchewin.keg;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidConditionCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import umpaz.brewinandchewin.common.block.entity.KegBlockEntity;
 import umpaz.brewinandchewin.common.crafting.KegFermentingRecipe;
 

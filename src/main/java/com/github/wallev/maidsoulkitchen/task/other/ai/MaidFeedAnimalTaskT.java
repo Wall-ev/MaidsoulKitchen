@@ -8,8 +8,8 @@ import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
 import com.github.wallev.maidsoulkitchen.util.TextContactUtil;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -68,7 +68,7 @@ public class MaidFeedAnimalTaskT extends MaidCheckRateTask implements VBehaviorC
                     EntityType<?> feedEntityType = feedEntity.getType();
                     if (lastFeedType != null && lastFeedType != feedEntityType) {
                         maid.getChatBubbleManager().addChatBubble(TextChatBubbleData.type2(VComponent.translatable("chat_bubble.maidsoulkitchen.inner.feed_animal.feed_end")));
-                    } else if (lastFeedType == feedEntityType && (gameTime - lastFeedTime) / 1000 >= IChatBubbleData.DEFAULT_EXIST_TICK) {
+                    } else if (lastFeedType == feedEntityType && (gameTime - lastFeedTime) / 1000 >= IChatBubbleData.DEFAULT_EXIST_TICK + 5) {
                         maid.getChatBubbleManager().addChatBubble(TextChatBubbleData.type2(VComponent.translatable("chat_bubble.maidsoulkitchen.inner.feed_animal.feed_end")));
                     }
 

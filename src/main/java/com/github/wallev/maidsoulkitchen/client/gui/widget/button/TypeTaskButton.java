@@ -10,6 +10,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +19,20 @@ public class TypeTaskButton extends NormalTooltipButton {
     private static final ResourceLocation TEXTURE = new ResourceLocation(MaidsoulKitchen.MOD_ID, "textures/gui/cook_guide.png");
 
     private final ICookTask<?, ?> cookTask;
+    private final ItemStack icon;
+
     public TypeTaskButton(int pX, int pY, int pWidth, int pHeight, ICookTask<?, ?> cookTask, OnPress pOnPress) {
         super(pX, pY, pWidth, pHeight, cookTask.getName(), getDesc(cookTask), pOnPress);
         this.cookTask = cookTask;
+        this.icon = cookTask.getIcon();
     }
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         Minecraft mc = Minecraft.getInstance();
         pGuiGraphics.blit(TEXTURE, this.getX(), this.getY(), 179, 2, this.width, this.height);
-        pGuiGraphics.renderItem(cookTask.getIcon(), this.getX() + 2, this.getY() + 2);
-        List<FormattedCharSequence> splitTexts = mc.font.split(cookTask.getName(), 42);
+        pGuiGraphics.renderItem(icon, this.getX() + 2, this.getY() + 2);
+        List<FormattedCharSequence> splitTexts = mc.font.split(this.getMessage(), 42);
         if (!splitTexts.isEmpty()) {
             pGuiGraphics.drawString(mc.font, splitTexts.get(0), this.getX() + 22, this.getY() + 5, 0xffffff, false);
         }
@@ -40,7 +44,7 @@ public class TypeTaskButton extends NormalTooltipButton {
 
     private static List<Component> getDesc(ICookTask<?, ?> task) {
         List<Component> components = new ArrayList<>();
-        components.add(Component.translatable("gui.maidsoulkitchen.widget.cook_guide.task.desc", task.getName()));
+        components.add(task.getIcon().getHoverName());
         components.addAll(task.getDescription());
 
         String typeString = task.getRecipeTypeId();

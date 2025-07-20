@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.drinkbeer.beerbarrel;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import lekavar.lma.drinkbeer.recipes.BrewingRecipe;
 import lekavar.lma.drinkbeer.registries.RecipeRegistry;
 import net.minecraft.world.item.ItemStack;
