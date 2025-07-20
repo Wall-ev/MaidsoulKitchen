@@ -9,3 +9,4 @@
 ## 注意
 - Starting from this version, mod compatibility (crash issues) has been greatly improved, which means you can update other mods with confidence, and problematic ones will be blocked
 - This version is an alpha version, and some mods have been temporarily removed from support, and will be reintroduced in subsequent releases to allow for quick minor updates
+- This version has changed significantly compared to the previous version, so please take relevant backup measures before use
