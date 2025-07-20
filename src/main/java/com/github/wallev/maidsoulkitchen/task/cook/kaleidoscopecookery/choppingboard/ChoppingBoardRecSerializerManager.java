@@ -1,5 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard;
 
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.ingredient.RecIngredient;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
@@ -7,6 +8,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ToolRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.recipe.ChoppingBoardRecipe;
 import net.minecraft.tags.ItemTags;
@@ -17,7 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@ImportsParse(task = TaskInfo.KC_CHOPPING_BOARD)
+@TaskClassAnalyzer(TaskInfo.KC_CHOPPING_BOARD)
 public class ChoppingBoardRecSerializerManager extends ToolRecSerializerManager<ChoppingBoardRecipe> {
     private static final ChoppingBoardRecSerializerManager INSTANCE = new ChoppingBoardRecSerializerManager();
 

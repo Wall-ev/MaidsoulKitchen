@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.ItemAmount;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -8,7 +8,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializer
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec.FoodValue;
 import com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec.MKCrockPotRecipe;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;

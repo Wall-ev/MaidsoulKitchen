@@ -12,7 +12,7 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenD
 import com.github.wallev.maidsoulkitchen.init.MkItems;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCook;
-import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

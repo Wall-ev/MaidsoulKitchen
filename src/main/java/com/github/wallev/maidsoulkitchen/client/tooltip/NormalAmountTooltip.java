@@ -2,9 +2,9 @@ package com.github.wallev.maidsoulkitchen.client.tooltip;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
-import com.github.wallev.verhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.inventory.tooltip.AmountTooltip;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

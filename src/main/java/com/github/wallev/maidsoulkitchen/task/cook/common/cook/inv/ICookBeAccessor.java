@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv;
 
-import com.github.wallev.maidsoulkitchen.util.classana.IMaidsoulKitchenInterface;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMccMixinInterface;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +16,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface ICookBeAccessor extends IMaidsoulKitchenInterface {
+public interface ICookBeAccessor extends IMccMixinInterface {
 
     /**
      * 判断厨具内部的原料是否可以烹饪

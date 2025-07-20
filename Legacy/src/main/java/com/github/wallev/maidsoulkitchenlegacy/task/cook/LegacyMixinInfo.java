@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchenlegacy.task.cook;
 
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -23,6 +23,6 @@ public class LegacyMixinInfo {
     }
 
     public static boolean canMixin(String target) {
-        return INSTANCE.targetBindInfo.get(target).versionLoaded;
+        return INSTANCE.targetBindInfo.get(target).versionLoad();
     }
 }

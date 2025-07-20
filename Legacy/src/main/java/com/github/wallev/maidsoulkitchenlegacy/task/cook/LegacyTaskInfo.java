@@ -1,8 +1,8 @@
 package com.github.wallev.maidsoulkitchenlegacy.task.cook;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -16,13 +16,13 @@ public enum LegacyTaskInfo {
     ;
     public final ResourceLocation uid;
     public final Mods bindMod;
-    public final Supplier<ForgeConfigSpec.BooleanValue> bindConfig;
+    public final Supplier<Boolean> configEnable;
     public final List<String> mixinList;
 
-    LegacyTaskInfo(ResourceLocation uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, String... mixinList) {
+    LegacyTaskInfo(ResourceLocation uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> configLoad, String... mixinList) {
         this.uid = uid;
         this.bindMod = bindMod;
-        this.bindConfig = bindConfig;
+        this.configEnable = () -> configLoad.get().get();
         this.mixinList = Lists.newArrayList(mixinList);
 
         for (String target : mixinList) {
@@ -31,11 +31,18 @@ public enum LegacyTaskInfo {
     }
 
     LegacyTaskInfo(TaskInfo taskInfo, Mods bindMod, String... mixinList) {
-        this(taskInfo.getUid(), bindMod, taskInfo.bindConfig, mixinList);
+        this.uid = taskInfo.getUid();
+        this.bindMod = bindMod;
+        this.configEnable = () -> taskInfo.configEnabled();
+        this.mixinList = Lists.newArrayList(mixinList);
+
+        for (String target : mixinList) {
+            LegacyMixinInfo.putMixin(target, bindMod, uid);
+        }
     }
 
-    LegacyTaskInfo(String uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, String... mixinList) {
-        this(VResourceLocation.createMod(uid), bindMod, bindConfig, mixinList);
+    LegacyTaskInfo(String uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> configLoad, String... mixinList) {
+        this(VResourceLocation.createMod(uid), bindMod, configLoad, mixinList);
     }
 
     public static void init(){

@@ -11,6 +11,7 @@ import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.*;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBe;
@@ -21,7 +22,8 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.util.ModUtil;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -53,6 +55,7 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
     public final CookBe.Builder<B> cookBeBuilder;
     public final AbstractCookRule<B, R> cookRule;
     public final RecSerializerManager<R> recSerializerManager;
+    private String bindModName = "";
 
     public ICookTask() {
         this.cookBeBuilder = this.createCookBeBuilder();
@@ -277,4 +280,16 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
 
     public abstract ItemStack getIcon();
 
+    @OnlyIn(Dist.CLIENT)
+    public Component getTaskName() {
+        return this.getIcon().getHoverName();
+    }
+
+    public final void setBindModName(String modName) {
+        this.bindModName = modName;
+    }
+
+    public String getBindModName() {
+        return bindModName;
+    }
 }

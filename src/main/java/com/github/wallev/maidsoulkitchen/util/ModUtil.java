@@ -1,19 +1,17 @@
 package com.github.wallev.maidsoulkitchen.util;
 
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
-import net.minecraftforge.forgespi.language.IConfigurable;
-import net.minecraftforge.forgespi.language.IModFileInfo;
 import net.minecraftforge.forgespi.language.IModInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
 import org.apache.maven.artifact.versioning.VersionRange;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public class ModUtil {
     public static boolean isInstalled(String modId) {
@@ -73,27 +71,37 @@ public class ModUtil {
      *
      */
 
-    // [x.x.x,)
-    public static String getModVersion(String modId) {
-        ArtifactVersion version = null;
+    public static String getModName(String modId) {
+        IModInfo modInfo = getModInfo(modId);
+        return modInfo != null ? modInfo.getDisplayName() : StringUtils.EMPTY;
+    }
 
+    @Nullable
+    public static IModInfo getModInfo(String modId) {
         ModList modList = ModList.get();
         if (modList != null) {
             ModContainer modContainer = modList.getModContainerById(modId).orElse(null);
-            if (modContainer == null) {
-                return "";
+            if (modContainer != null) {
+                return modContainer.getModInfo();
             }
-            version = modContainer.getModInfo().getVersion();
         } else {
             ModFileInfo modFileById = LoadingModList.get().getModFileById(modId);
             if (modFileById != null) {
-                version = modFileById.getMods().get(0).getVersion();
+                return modFileById.getMods().get(0);
             }
         }
+        return null;
+    }
 
-        if (version == null) {
+    // [x.x.x,)
+    public static String getModVersion(String modId) {
+
+        IModInfo modInfo = getModInfo(modId);
+        if (modInfo == null) {
             return "";
         }
+
+        ArtifactVersion version = modInfo.getVersion();
 
         if (version.getQualifier() != null) {
             version = new DefaultArtifactVersion(version.getQualifier());

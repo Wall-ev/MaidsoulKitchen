@@ -1,7 +1,5 @@
 package com.github.wallev.maidsoulkitchenlegacy.mixinmanager;
 
-import com.github.wallev.maidsoulkitchenlegacy.task.cook.LegacyMixinInfo;
-import com.github.wallev.maidsoulkitchenlegacy.task.cook.LegacyTaskInfo;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -12,7 +10,6 @@ import java.util.Set;
 public class LegacyMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
-        LegacyTaskInfo.init();
     }
 
     @Override
@@ -23,7 +20,6 @@ public class LegacyMixinPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         return false;
-//        return LegacyMixinInfo.canMixin(targetClassName);
     }
 
     @Override

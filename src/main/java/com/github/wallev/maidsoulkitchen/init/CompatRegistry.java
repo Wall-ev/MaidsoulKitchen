@@ -4,7 +4,7 @@ import com.github.wallev.maidsoulkitchen.compat.cloth.ClothCompat;
 import com.github.wallev.maidsoulkitchen.compat.jade.JadeCompat;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.PatchouliCompat;
 import com.github.wallev.maidsoulkitchen.compat.top.TopCompat;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.mod.ClothConfigScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,7 +28,7 @@ public final class CompatRegistry {
     }
 
     private static void checkModLoad(Mods mod, Runnable runnable) {
-        if (mod.isLoaded) {
+        if (mod.load()) {
             runnable.run();
         }
     }

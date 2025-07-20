@@ -7,8 +7,8 @@ import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -213,7 +213,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
                     .withStyle(canCook ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED);
             stackTooltip.add(canCookMge);
 
-            Component recipeSelectedMage = VComponent.literal(String.format("当前已选择%d/%d中配方", has, recipes.size()))
+            Component recipeSelectedMage = VComponent.translatable("gui.maidsoulkitchen.btn.cook_guide.selected_recs", has, recipes.size())
                     .withStyle(ChatFormatting.GRAY);
             stackTooltip.add(recipeSelectedMage);
 

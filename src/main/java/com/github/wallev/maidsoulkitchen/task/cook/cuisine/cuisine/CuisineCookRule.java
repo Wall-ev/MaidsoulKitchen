@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.cuisine.cuisine;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.mixin.compat.cuisinedelight.CookingDataAccessor;
 import com.github.wallev.maidsoulkitchen.mixin.compat.cuisinedelight.CookingEntryAccessor;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
@@ -12,7 +12,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.InvUtil;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.cuisinedelight.content.block.CuisineSkilletBlockEntity;

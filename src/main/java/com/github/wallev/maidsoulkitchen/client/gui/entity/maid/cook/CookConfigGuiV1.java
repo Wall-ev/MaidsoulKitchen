@@ -14,9 +14,8 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinitio
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCook;
-import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCookIdle;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
@@ -38,6 +37,7 @@ import org.anti_ad.mc.ipn.api.IPNButton;
 import org.anti_ad.mc.ipn.api.IPNGuiHint;
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.C;
 
 import java.awt.*;
 import java.util.*;
@@ -231,6 +231,20 @@ public class CookConfigGuiV1 extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private void initResultButton() {
+        // @fixme： 烹饪任务的uid还没想好命名方式，先这样修正把
+        boolean isValidTask = false;
+        for (ResourceLocation recl : CookTaskManager.getTaskMap().keySet()) {
+            if (recl.equals(this.kitchenName)) {
+                isValidTask = true;
+                break;
+            }
+        }
+
+        if (!isValidTask || CookTaskManager.getIdleTask().getUid().equals(this.kitchenName)) {
+            this.resultType = ResultType.TASK;
+        }
+
+
         switch (resultType) {
             case TASK -> addTypeInfoButton();
             case COOK_DATA -> addResultInfo();
@@ -286,7 +300,8 @@ public class CookConfigGuiV1 extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     private List<Component> getDisplayModeTooltips() {
-        List<Component> components = Lists.newArrayList(VComponent.literal("点击可搜索，再次点击收回!"), VComponent.literal("滚动切换显示模式！"));
+        List<Component> components = Lists.newArrayList(VComponent.translatable("gui.maidsoulkitchen.btn.display.tooltip.1"),
+                VComponent.translatable("gui.maidsoulkitchen.btn.display.tooltip.2"));
         for (DisplayMode value : DisplayMode.values()) {
 
             MutableComponent component = value.getComponent(displayMode);
@@ -820,19 +835,16 @@ public class CookConfigGuiV1 extends MaidTaskConfigGui<CookConfigContainer> {
     }
 
     public enum DisplayMode {
-        DEFAULT("默认"),
-        CAN_COOK("可烹饪"),
-        NOT_COOK("不可烹饪"),
+        DEFAULT,
+        CAN_COOK,
+        NOT_COOK,
         ;
 
-        private final String component;
-
-        DisplayMode(String component) {
-            this.component = component;
+        DisplayMode() {
         }
 
         public MutableComponent getComponent() {
-            return VComponent.literal(component);
+            return VComponent.translatable("gui.maidsoulkitchen.btn.display.mode." + this.name().toLowerCase(Locale.ROOT));
         }
 
         public MutableComponent getComponent(DisplayMode mode) {

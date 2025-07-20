@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.ITaskDataKey;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v0.FruitData;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
 

@@ -1,8 +1,6 @@
 package com.github.wallev.maidsoulkitchen.item;
 
 import com.github.tartaricacid.touhoulittlemaid.item.ItemDamageableBauble;
-import com.github.wallev.verhelper.client.chat.VComponent;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;

@@ -36,10 +36,10 @@ dependencies {
     if (!inventory_profiles_next_version.isEmpty())
         compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}-${mod_loader},${minecraft_version}")
 
-    if (!kubejs_version.isEmpty())
-        compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
-    if (!rhino_version.isEmpty())
-        compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+//    if (!kubejs_version.isEmpty())
+//        compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+//    if (!rhino_version.isEmpty())
+//        compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
 //    if (!probejs_file_id.isEmpty())
 //    compileOnly fg.deobf("curse.maven:probejs-585406:5227399")
 }

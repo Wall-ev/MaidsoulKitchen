@@ -8,7 +8,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidItem;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
-import com.github.wallev.verhelper.server.item.VItemStack;
+import com.github.wallev.maidsoulkitchen.vhelper.server.item.VItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -211,6 +211,9 @@ public abstract class CookBeBase<B extends BlockEntity> {
     }
 
     public void insertAndShrink(IInvHandler beInv, Integer amount, Collection<ItemStack> ingredient, int slotIndex) {
+        if (ingredient == null) {
+            return;
+        }
         for (ItemStack itemStack : ingredient) {
             if (itemStack.isEmpty()) continue;
             int count = itemStack.getCount();

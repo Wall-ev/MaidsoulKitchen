@@ -11,7 +11,7 @@ import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFruitMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandler;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
-import com.github.wallev.verhelper.server.ai.VBehaviorControl;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-import static com.github.wallev.verhelper.IModInfo.LOGGER;
+import static com.github.wallev.maidsoulkitchen.vhelper.IModInfo.LOGGER;
 
 
 public class TaskFruitFarm extends ICompatFarmTask<FruitHandler> {

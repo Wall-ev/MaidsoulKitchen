@@ -10,7 +10,7 @@ import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.other.ai.MaidFeedAnimalTaskT;
-import com.github.wallev.verhelper.server.ai.*;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.*;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;

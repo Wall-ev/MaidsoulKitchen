@@ -5,7 +5,7 @@ import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.Be
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
 import com.github.wallev.maidsoulkitchen.network.packet.c2s.*;
 import com.github.wallev.maidsoulkitchen.network.packet.s2c.RenderMaidHubZonePacket;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

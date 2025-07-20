@@ -2,15 +2,16 @@ package com.github.wallev.maidsoulkitchen.task;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCook;
 import com.github.wallev.maidsoulkitchen.task.farm.*;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.other.TaskFeedAnimalT;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
-import com.github.wallev.maidsoulkitchen.util.modutility.Mods;
-import com.github.wallev.verhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -25,11 +26,11 @@ public enum MaidsoulKitchenTask {
         @Override
         protected void putTask(TaskInfo taskInfo, Supplier<IMaidsoulKitchenTask> bindTask) {
             IMaidsoulKitchenTask.putTask(this.uid, () -> {
-                boolean taskCanLoad = taskInfo.modVersionLoaded() && taskInfo.configEnabled() && TaskModClazzManager.clazzLoad(this.uid);
+                boolean taskCanLoad = taskInfo.canLoad();
                 if (taskCanLoad) {
                     List<IFarmHandlerManager<?>> handlers = new ArrayList<>();
                     for (BerryHandlerManager value : BerryHandlerManager.VALUES) {
-                        if (value.getBindMod().versionLoaded && TaskModClazzManager.clazzLoad(value.getUid())) {
+                        if (value.getBindMod().versionLoad() && TaskModClazzManager.clazzLoad(value.getUid().toString())) {
                             handlers.add(value);
                         }
                     }
@@ -43,11 +44,11 @@ public enum MaidsoulKitchenTask {
         @Override
         protected void putTask(TaskInfo taskInfo, Supplier<IMaidsoulKitchenTask> bindTask) {
             IMaidsoulKitchenTask.putTask(this.uid, () -> {
-                boolean taskCanLoad = taskInfo.modVersionLoaded() && taskInfo.configEnabled() && TaskModClazzManager.clazzLoad(this.uid);
+                boolean taskCanLoad = taskInfo.canLoad();
                 if (taskCanLoad) {
                     List<IFarmHandlerManager<?>> handlers = new ArrayList<>();
                     for (FruitHandlerManager value : FruitHandlerManager.VALUES) {
-                        if (value.getBindMod().versionLoaded && TaskModClazzManager.clazzLoad(value.getUid())) {
+                        if (value.getBindMod().versionLoad() && TaskModClazzManager.clazzLoad(value.getUid().toString())) {
                             handlers.add(value);
                         }
                     }
@@ -78,13 +79,13 @@ public enum MaidsoulKitchenTask {
      */
     MaidsoulKitchenTask(String uid, Mods bindMod, ForgeConfigSpec.BooleanValue bindConfig, Supplier<IMaidsoulKitchenTask> bindTask) {
         this.uid = VResourceLocation.create(MaidsoulKitchen.MOD_ID, uid);
-        this.modId = bindMod.modId;
+        this.modId = bindMod.modId();
         this.putTask(uid, bindMod, bindConfig, bindTask);
     }
 
     MaidsoulKitchenTask(TaskInfo taskInfo, Supplier<IMaidsoulKitchenTask> bindTask) {
         this.uid = taskInfo.getUid();
-        this.modId = taskInfo.getBindMod().modId;
+        this.modId = taskInfo.getBindMod().modId();
         this.putTask(taskInfo, bindTask);
     }
 
@@ -93,13 +94,13 @@ public enum MaidsoulKitchenTask {
 
     protected void putTask(String uid, Mods bindMod, ForgeConfigSpec.BooleanValue bindConfig, Supplier<IMaidsoulKitchenTask> bindTask) {
         IMaidsoulKitchenTask.putTask(this.uid, () -> {
-            return bindMod.versionLoaded && bindConfig.get() && TaskModClazzManager.clazzLoad(this.uid);
+            return bindMod.versionLoad() && bindConfig.get() && TaskModClazzManager.clazzLoad(this.uid.toString());
         }, bindTask);
     }
 
     protected void putTask(TaskInfo taskInfo, Supplier<IMaidsoulKitchenTask> bindTask) {
         IMaidsoulKitchenTask.putTask(this.uid, () -> {
-            return taskInfo.modVersionLoaded() && taskInfo.configEnabled() && TaskModClazzManager.clazzLoad(this.uid);
+            return taskInfo.canLoad();
         }, bindTask);
     }
 }

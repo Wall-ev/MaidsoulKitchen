@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.mixin.compat.minecraft;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskMixin;
 import com.github.wallev.maidsoulkitchen.task.cook.minecraft.furnace.IAbstractFurnaceAccessor;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.ICookBeAccessor;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.List;
 import java.util.Map;
 
-@TaskMixin(task = TaskInfo.FURNACE)
+@TaskMixin(value = TaskInfo.FURNACE)
 @Mixin(value = AbstractFurnaceBlockEntity.class)
 public abstract class AbstractFurnaceBlockEntityMixin extends BaseContainerBlockEntity implements IAbstractFurnaceAccessor, ICookBeAccessor {
     @Shadow

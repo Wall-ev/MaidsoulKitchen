@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.util.InvUtil;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import dev.xkmc.l2harvester.api.HarvestResult;
 import dev.xkmc.l2harvester.api.HarvestableBlock;
 import net.minecraft.core.BlockPos;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static com.github.wallev.maidsoulkitchen.task.TaskInfo.BERRY_L2_HARVESTER;
+import static com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.BERRY_L2_HARVESTER;
 
 @TaskClassAnalyzer(BERRY_L2_HARVESTER)
 public class L2BerryHandler extends BerryHandler {

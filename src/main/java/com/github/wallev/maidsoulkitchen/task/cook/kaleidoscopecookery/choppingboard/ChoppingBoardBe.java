@@ -1,12 +1,14 @@
 package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv.IInvHandler;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.ChoppingBoardBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-//@ImportsParse(task = TaskInfo.KC_CHOPPING_BOARD)
+@TaskClassAnalyzer(TaskInfo.KC_CHOPPING_BOARD)
 public class ChoppingBoardBe extends CookBeBase<ChoppingBoardBlockEntity> {
     public ChoppingBoardBe(EntityMaid maid) {
         super(maid);

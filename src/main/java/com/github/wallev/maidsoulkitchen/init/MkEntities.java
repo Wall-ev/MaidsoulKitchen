@@ -24,5 +24,5 @@ public final class MkEntities {
     public static RegistryObject<MemoryModuleType<ItemInventory>> HUB_OUTPUT_INVENTORY = MEMORY_MODULE_TYPES.register("hub_output_inventory", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<ItemInventory>> INPUT_CHEST_INVENTORY = MEMORY_MODULE_TYPES.register("input_chest_inventory", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<ItemInventory>> OUTPUT_CHEST_INVENTORY = MEMORY_MODULE_TYPES.register("output_chest_inventory", () -> new MemoryModuleType<>(Optional.empty()));
-    public static RegistryObject<MemoryModuleType<List<MaidRec>>> MAID_RECS = MEMORY_MODULE_TYPES.register("maid_recs", () -> new MemoryModuleType<>(Optional.of(MaidRec.CODEC.listOf())));
+    public static RegistryObject<MemoryModuleType<List<MaidRec>>> MAID_RECS = MEMORY_MODULE_TYPES.register("maid_recs", () -> new MemoryModuleType<>(Optional.empty()));
 }

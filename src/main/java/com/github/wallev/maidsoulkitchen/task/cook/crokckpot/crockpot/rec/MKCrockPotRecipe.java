@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.cook.crokckpot.crockpot.rec;
 
-import com.github.wallev.maidsoulkitchen.task.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
-import com.github.wallev.maidsoulkitchen.util.classana.clazz.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.sihenzhang.crockpot.recipe.cooking.CrockPotCookingRecipe;

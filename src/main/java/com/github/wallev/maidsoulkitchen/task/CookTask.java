@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task;
 
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.baker.cookingpot.TaskDbSmallCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.basin.TaskBbqBasin;
 import com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight.grill.TaskBbqGrill;
@@ -31,7 +32,6 @@ import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.dryingrack.
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.ferment.TaskYhcFermentationTank;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.kettle.TaskYhcKettle;
 import com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming.moka.TaskYhcMoka;
-import com.github.wallev.maidsoulkitchen.util.classana.TaskModClazzManager;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
@@ -95,10 +95,8 @@ public enum CookTask {
 
     CookTask(TaskInfo taskInfo, Supplier<ICookTask<?, ?>> bindTask) {
         this.uid = taskInfo.getUid();
-        this.modId = taskInfo.getBindMod().modId;
-        this.canLoad = () -> {
-            return taskInfo.modVersionLoaded() && taskInfo.configEnabled() && TaskModClazzManager.clazzLoad(this.uid);
-        };
+        this.modId = taskInfo.getBindMod().modId();
+        this.canLoad = taskInfo::canLoad;
         this.bindTask = bindTask;
     }
 

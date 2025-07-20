@@ -13,6 +13,11 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.List;
 
+// 代码检测完成
+// 待测试
+/**
+ * 胡萝卜厨房的发酵桶
+ */
 public class WaterCookRule<B extends BlockEntity, R extends Recipe<? extends Container>> extends AbstractCookRule<B, R> {
     @SuppressWarnings("rawtypes")
     private static final WaterCookRule INSTANCE = new WaterCookRule<>();
@@ -29,38 +34,56 @@ public class WaterCookRule<B extends BlockEntity, R extends Recipe<? extends Con
 
         boolean canTakeResult = cookBeBase.canTakeResult();
         boolean hasResult = cookBeBase.hasResult();
-        // 有成品
+        // 取出成品: 厨具可以取出成品 && 有成品 && 烹饪中枢有空的输出槽位
         if (canTakeResult && hasResult && hasOutputAvailableSlot) {
             return true;
         }
 
-        boolean hasEnoughFluid = cookBeBase.hasFluid();
+        boolean cookStateMatch = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
-        List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-        // 厨具满足烹饪的外部条件和有符合配方的原材料
-        boolean hasFuel = cm.hasItem(itemStack -> {
-            return ItemStackUtil.isItem(activeItemStacks, itemStack);
-        });
-        if ((hasEnoughFluid || hasFuel) && !recMatch) {
-            boolean hasMaidRecs = cm.hasMaidRecs(cookBeBase);
-            if (hasMaidRecs) {
+        boolean hasEnoughFluid = cookBeBase.hasFluid();
+        boolean hasInputs = cookBeBase.hasInputs();
+        boolean findFuel = false;
+
+        // 置入烹饪的原材料: (厨具满足烹饪的外部条件 || 烹饪中枢或者绑定的输入容器内存在对应的燃料) && 厨具内没有物品 && 有符合配方的原材料
+        if (!recMatch && !hasInputs && cm.hasMaidRecs(cookBeBase) && cookStateMatch) {
+            if (!hasEnoughFluid) {
+                List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
+                findFuel = cm.hasItem(itemStack -> {
+                    return ItemStackUtil.isItem(activeItemStacks, itemStack);
+                });
+
+                if (findFuel) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+
+            return true;
+        }
+
+        // 补充燃料: 厨具内有符合配方的原料 && 厨具满足外部烹饪条件 && 烹饪中枢或者绑定的输入容器内存在对应的燃料
+        if (recMatch && !cookStateMatch && !hasEnoughFluid) {
+            if (!findFuel) {
+                List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
+                findFuel = cm.hasItem(itemStack -> {
+                    return ItemStackUtil.isItem(activeItemStacks, itemStack);
+                });
+            }
+
+            if (findFuel) {
                 return true;
             }
         }
 
-        if (recMatch && !hasEnoughFluid && hasFuel && hasInputAvailableSlot) {
+        // 取出残余的物品: 厨具有物品 && 烹饪中枢有空的输入槽位 && 厨具内的物品不符合任一配方的材料
+        if (hasInputs && hasInputAvailableSlot && !recMatch) {
             return true;
         }
 
-        boolean hasInputs = cookBeBase.hasInputs();
-        // 配方不存在以及有残留的物品
-        if (!recMatch && hasInputs && hasInputAvailableSlot) {
-            return true;
-        }
-
-        boolean hasContainer = cookBeBase.hasContainer();
-        // 厨锅没有物品并且有餐具
-        if (!hasInputs && hasContainer && hasInputAvailableSlot) {
+        // 取出燃料：存在燃料 && 厨具内的物品不符合任一配方的材料 && 烹饪中枢有空的输入槽位
+        if (hasEnoughFluid && cookStateMatch && !recMatch && hasInputAvailableSlot) {
             return true;
         }
 
@@ -71,47 +94,76 @@ public class WaterCookRule<B extends BlockEntity, R extends Recipe<? extends Con
         IItemHandlerModifiable inputInv = cm.getInputInv();
         IItemHandlerModifiable outputInv = cm.getOutputInv();
 
+        IMaidCookInventory cookInv = cm.getCookInv();
+        boolean hasInputAvailableSlot = cookInv.hasInputAvailableSlot();
+        boolean hasOutputAvailableSlot = cookInv.hasOutputAvailableSlot();
+
         boolean canTakeResult = cookBeBase.canTakeResult();
         ItemStack result = cookBeBase.getResult();
-        // 取出成品
-        if (canTakeResult && !result.isEmpty()) {
+        // 取出成品: 厨具可以取出成品 && 有成品 && 烹饪中枢有空的输出槽位
+        if (canTakeResult && !result.isEmpty() && hasOutputAvailableSlot) {
             cookBeBase.takeItem(result, outputInv);
             cookBeBase.awardExp();
             cookBeBase.markChanged();
         }
 
-
-        boolean hasEnoughFluid = cookBeBase.hasFluid();
+        boolean cookStateMatch = cookBeBase.cookStateMatch();
         boolean recMatch = cookBeBase.recMatch();
+        boolean hasEnoughFluid = cookBeBase.hasFluid();
         boolean hasInputs = cookBeBase.hasInputs();
-        // 取出残存的原材料
-        if (!recMatch && hasInputs) {
+        ItemStack findFluid = ItemStack.EMPTY;
+
+        // 置入烹饪的原材料: (厨具满足烹饪的外部条件 || 烹饪中枢或者绑定的输入容器内存在对应的燃料) && 厨具内没有物品 && 有符合配方的原材料
+        if (!recMatch && !hasInputs && cm.hasMaidRecs(cookBeBase)) {
+            if (!cookStateMatch) {
+                List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
+                findFluid = cm.getItem(itemStack -> {
+                    return ItemStackUtil.isItem(activeItemStacks, itemStack);
+                });
+                if (!findFluid.isEmpty()) {
+                    ItemInventory itemInventory = cm.getItemInventory();
+                    cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
+                    cookBeBase.markChanged();
+
+                    recMatch = true;
+                }
+            } else {
+                ItemInventory itemInventory = cm.getItemInventory();
+                cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
+                cookBeBase.markChanged();
+
+                recMatch = true;
+            }
+        }
+
+        // 补充流体: 厨具内有符合配方的原料 && 厨具满足外部烹饪条件 && 烹饪中枢或者绑定的输入容器内存在对应的燃料
+        if (recMatch && !cookStateMatch && !hasEnoughFluid) {
+            if (!findFluid.isEmpty()) {
+                List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
+                findFluid = cm.getItem(itemStack -> {
+                    return ItemStackUtil.isItem(activeItemStacks, itemStack);
+                });
+            }
+
+            if (!findFluid.isEmpty()) {
+                cookBeBase.useItem(findFluid, () -> {
+                    return cookBeBase.hasFluid();
+                }, inputInv);
+                cookBeBase.markChanged();
+            }
+        }
+
+        // 取出残余的物品: 厨具有物品 && 烹饪中枢有空的输入槽位 && 厨具内的物品不符合任一配方的材料
+        if (hasInputs && hasInputAvailableSlot && !recMatch) {
             cookBeBase.takeInputs(inputInv);
             cookBeBase.markChanged();
         }
 
-        List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-        // 厨具满足烹饪的外部条件和有符合配方的原材料
-        ItemStack fuel = cm.getItem(itemStack -> {
-            return ItemStackUtil.isItem(activeItemStacks, itemStack);
-        });
-
-        // 放入烹饪的原材料
-        if ((hasEnoughFluid || !fuel.isEmpty()) && !recMatch && cm.hasMaidRecs(cookBeBase)) {
-            ItemInventory itemInventory = cm.getItemInventory();
-            cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
-            cookBeBase.markChanged();
-            cm.getItemInventory().markDirty();;
-            recMatch = true;
-        }
-
-        // 补充水分
-        if (recMatch && !hasEnoughFluid && !fuel.isEmpty()) {
-            cookBeBase.useItem(fuel, () -> {
-                return cookBeBase.hasFluid();
-            }, inputInv);
-            cookBeBase.markChanged();
-        }
+//        // 取出流体：存在燃料 && 厨具内的物品不符合任一配方的材料 && 烹饪中枢有空的输入槽位
+//        if (hasEnoughFluid && !recMatch && hasInputAvailableSlot) {
+//            cookBeBase.takeItem(activeItemStack, inputInv);
+//            cookBeBase.markChanged();
+//        }
     }
 
 }
