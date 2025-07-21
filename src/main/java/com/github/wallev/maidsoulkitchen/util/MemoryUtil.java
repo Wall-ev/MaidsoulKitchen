@@ -8,7 +8,6 @@ import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
@@ -19,6 +18,7 @@ import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
+import javax.swing.plaf.PanelUI;
 import java.util.*;
 
 public class MemoryUtil {
@@ -193,5 +193,18 @@ public class MemoryUtil {
         }
         return ImmutableMap.copyOf(map);
     }
+
+    public static void makePlacePicnicFoodState(EntityMaid maid) {
+        maid.getBrain().setMemory(MkEntities.MAID_PLACE_PICNIC_FOOD.get(), true);
+    }
+
+    public static void erasePlacePicnicFoodState(EntityMaid maid) {
+        maid.getBrain().eraseMemory(MkEntities.MAID_PLACE_PICNIC_FOOD.get());
+    }
+
+    public static boolean isPlacePicnicFoodState(EntityMaid maid) {
+        return maid.getBrain().hasMemoryValue(MkEntities.MAID_PLACE_PICNIC_FOOD.get());
+    }
+
 
 }

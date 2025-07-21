@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.EnumCodecUtil;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import org.objectweb.asm.Type;
@@ -10,6 +11,8 @@ import org.objectweb.asm.Type;
 import java.util.Set;
 
 public class MKClazzCheck2MixinManager<T extends ITaskInfo<Mods>> extends BaseClazzCheckManager<T, Mods> {
+    public static final Codec<Mods> CODEC = EnumCodecUtil.fromEnum(Mods::values);
+
     public static final String MOD_PACKAGE = "com.github.wallev.maidsoulkitchen";
     public static final String MIXIN_PACKAGE = MOD_PACKAGE + ".mixin.compat";
 
@@ -24,7 +27,7 @@ public class MKClazzCheck2MixinManager<T extends ITaskInfo<Mods>> extends BaseCl
 
     @Override
     protected Codec<Mods> createModsCodec() {
-        return Mods.CODEC;
+        return CODEC;
     }
 
     @Override

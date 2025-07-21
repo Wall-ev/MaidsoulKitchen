@@ -2,11 +2,9 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMods;
 import com.github.wallev.maidsoulkitchen.util.ModUtil;
-import com.mojang.serialization.Codec;
-import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
-public enum Mods implements IMods, StringRepresentable {
+public enum Mods implements IMods {
     TLM("touhou_little_maid"),
 
     PATCHOULI("patchouli"),
@@ -75,7 +73,6 @@ public enum Mods implements IMods, StringRepresentable {
     },
     KC("kaleidoscope_cookery");
 
-    public static final Codec<Mods> CODEC = StringRepresentable.fromEnum(Mods::values);
     private final String modId;
     private final String modName;
     private final String versionRange;

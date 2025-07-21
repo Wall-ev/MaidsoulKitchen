@@ -162,6 +162,8 @@ dependencies {
 
     if (!spark_version.isEmpty())
         implementation fg.deobf("maven.modrinth:spark:${spark_version}-${mod_loader},${minecraft_version}")
+    if (!modernfix_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:modernfix:${modernfix_version}-${mod_loader},${minecraft_version}")
 }
 
 // api

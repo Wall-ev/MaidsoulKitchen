@@ -20,6 +20,7 @@
     "kitchkarrot.BrewingBarrelBlockEntityMixin",
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",
+    "touhoulittlemaid.EntityMaidMixin",
     "youkaishomecoming.BasePotBlockEntityMixin",
     "youkaishomecoming.KettleBlockAccessor"
   ]

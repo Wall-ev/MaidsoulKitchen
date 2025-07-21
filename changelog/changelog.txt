@@ -1,0 +1,7 @@
+0.2.2
+## fix
+- resupport some mod cooker
+ - minecraft-furnace
+ - kitchkarrot-aircompressor
+ - crockpot-crockpot
+

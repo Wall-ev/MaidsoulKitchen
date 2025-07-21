@@ -1,3 +1,5 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -16,6 +18,9 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.darkhax.curseforgegradle' version '[1.1.24,)'
+    id "at.stnwtr.gradle-secrets-plugin" version "1.0.1"
+    id "com.modrinth.minotaur" version "2.+"
     // This should be below the net.minecraftforge.gradle plugin
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     // Mixin Plugin
@@ -427,5 +432,33 @@ tasks.named('init') {
 tasks.compileJava {
     // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
     outputs.upToDateWhen { false }
+}
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    apiToken = secrets.get("curseforge_token")
+    def mainFile = upload(project.curseforge_project, new File("./changelog/${mod_id}-${version}-all.jar"))
+    mainFile.changelog = new File('./changelog/changelog.txt').text.split("\n\n\n")[0]
+    mainFile.addEnvironment("Client", "Server")
+    mainFile.addGameVersion("1.20.1")
+    mainFile.addModLoader("Forge")
+    mainFile.addRequirement("touhou-little-maid")
+//    mainFile.addOptional()
+    mainFile.releaseType = project.mod_version_type
+    disableVersionDetection()
+}
+
+modrinth {
+    token = secrets.get("modrinth_token")
+    projectId = project.modrinth_project
+    versionName = "${mod_name} ${project.mod_version}"
+    versionNumber = project.mod_version
+    versionType = project.mod_version_type
+    uploadFile = new File("./changelog/${mod_id}-${version}-all.jar")
+    gameVersions = ["1.20.1"]
+    loaders = ["forge"]
+    changelog = new File('./changelog/changelog.txt').text.split("\n\n")[0]
+    dependencies {
+        required.project "touhou-little-maid"
+    }
 }
 

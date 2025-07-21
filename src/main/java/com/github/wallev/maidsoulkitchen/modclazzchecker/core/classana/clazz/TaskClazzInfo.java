@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMods;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.TaskMixinAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ModTaskMixinMap;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,35 +10,37 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import java.util.function.Function;
 
+import static com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.TaskMixinAnalyzer.MOD_TASK_MIXIN_MAP_CODEC;
+
 public class TaskClazzInfo {
     public static final Function<Codec<IMods>, Codec<TaskClazzInfo>> CODEC = (mc) -> {
         return RecordCodecBuilder.create(ins -> ins.group(
                 Codec.unboundedMap(Codec.STRING, ClazzTaskInfo.CODEC).fieldOf("clazzInfoMap").forGetter(TaskClazzInfo::clazzInfoMap),
                 Codec.STRING.listOf().fieldOf("allClazzs").forGetter(TaskClazzInfo::allClazzs),
-                TaskMixinAnalyzer.ModTaskMixinMap.CODEC.apply(mc).optionalFieldOf("mixinInfo").forGetter(TaskClazzInfo::optionalTaskMixinMap)
+                MOD_TASK_MIXIN_MAP_CODEC.apply(mc).optionalFieldOf("mixinInfo").forGetter(TaskClazzInfo::optionalTaskMixinMap)
         ).apply(ins, TaskClazzInfo::new));
     };
 
     private final Map<String, ClazzTaskInfo> clazzInfoMap;
     private final List<String> allClazzs;
-    private TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap;
+    private ModTaskMixinMap taskMixinMap;
 
     public TaskClazzInfo(Map<String, ClazzTaskInfo> clazzInfoMap, List<String> allClazzs) {
         this.clazzInfoMap = clazzInfoMap;
         this.allClazzs = allClazzs.stream().sorted().toList();
     }
 
-    public TaskClazzInfo(Map<String, ClazzTaskInfo> clazzInfoMap, TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap) {
+    public TaskClazzInfo(Map<String, ClazzTaskInfo> clazzInfoMap, ModTaskMixinMap taskMixinMap) {
         this(clazzInfoMap, createAllClazzs(clazzInfoMap), taskMixinMap);
     }
 
-    public TaskClazzInfo(Map<String, ClazzTaskInfo> clazzInfoMap, List<String> allClazzs, TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap) {
+    public TaskClazzInfo(Map<String, ClazzTaskInfo> clazzInfoMap, List<String> allClazzs, ModTaskMixinMap taskMixinMap) {
         this.clazzInfoMap = clazzInfoMap;
         this.allClazzs = allClazzs.stream().sorted().toList();
         this.taskMixinMap = taskMixinMap;
     }
 
-    public TaskClazzInfo(Map<String, ClazzTaskInfo> stringClazzTaskInfoMap, List<String> list, Optional<TaskMixinAnalyzer.ModTaskMixinMap> modTaskMixinMap) {
+    public TaskClazzInfo(Map<String, ClazzTaskInfo> stringClazzTaskInfoMap, List<String> list, Optional<ModTaskMixinMap> modTaskMixinMap) {
         this.clazzInfoMap = stringClazzTaskInfoMap;
         this.allClazzs = list.stream().sorted().toList();
         this.taskMixinMap = modTaskMixinMap.orElse(null);
@@ -48,7 +50,7 @@ public class TaskClazzInfo {
         return clazzInfoMap;
     }
 
-    private Optional<TaskMixinAnalyzer.ModTaskMixinMap> optionalTaskMixinMap() {
+    private Optional<ModTaskMixinMap> optionalTaskMixinMap() {
         return Optional.ofNullable(taskMixinMap);
     }
 
@@ -56,11 +58,11 @@ public class TaskClazzInfo {
         return allClazzs;
     }
 
-    public void setTaskMixinMap(TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap) {
+    public void setTaskMixinMap(ModTaskMixinMap taskMixinMap) {
         this.taskMixinMap = taskMixinMap;
     }
 
-    public TaskMixinAnalyzer.ModTaskMixinMap taskMixinMap() {
+    public ModTaskMixinMap taskMixinMap() {
         return taskMixinMap;
     }
 

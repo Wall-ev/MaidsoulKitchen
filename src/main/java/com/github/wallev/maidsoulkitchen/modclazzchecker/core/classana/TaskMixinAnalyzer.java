@@ -2,8 +2,6 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.MapUtil;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -30,9 +28,27 @@ public final class TaskMixinAnalyzer {
 
     private static final String FILE_NAME = "mod_task_mixin_clazz.json";
 
+    public static final Function<Codec<IMods>, Codec<ModTaskMixin>> MOD_TASK_MIXIN_CODEC = (mc) -> {
+        return RecordCodecBuilder.create(ins -> ins.group(
+                Codec.STRING.fieldOf("taskUid").forGetter(o -> {
+                    return o.taskUid();
+                }),
+                mc.fieldOf("compatMod").forGetter(o -> {
+                    return o.compatMod();
+                }),
+                Codec.STRING.listOf().fieldOf("mixinList").forGetter(ModTaskMixin::mixinList)
+        ).apply(ins, ModTaskMixin::new));
+    };
+
+    public static final Function<Codec<IMods>, Codec<ModTaskMixinMap>> MOD_TASK_MIXIN_MAP_CODEC = (mc) -> {
+        return RecordCodecBuilder.create(ins -> ins.group(
+                Codec.unboundedMap(Codec.STRING, MOD_TASK_MIXIN_CODEC.apply(mc).listOf()).fieldOf("list").forGetter(ModTaskMixinMap::map)
+        ).apply(ins, ModTaskMixinMap::new));
+    };
+
     public static void writeModTaskClazz(Path rootOutputFolder, BaseClazzCheckManager<?, ?> checkManager) {
         ModTaskMixinMap modTaskClazz = collectModTaskClazz(checkManager);
-        ModTaskMixinMap.CODEC.apply(checkManager.getModsCodecO()).encodeStart(JsonOps.INSTANCE, modTaskClazz)
+        MOD_TASK_MIXIN_MAP_CODEC.apply(checkManager.getModsCodecO()).encodeStart(JsonOps.INSTANCE, modTaskClazz)
                 .resultOrPartial(error -> {
                     ModClazzChecker.LOGGER.error("生成失败：{}", error);
                 })
@@ -62,7 +78,7 @@ public final class TaskMixinAnalyzer {
                     .findResource(FILE_NAME);
             String json = Files.readString(resource);
             JsonObject jsonData = JsonParser.parseString(json).getAsJsonObject();
-            return ModTaskMixinMap.CODEC.apply(checkManager.getModsCodecO()).parse(JsonOps.INSTANCE, jsonData)
+            return MOD_TASK_MIXIN_MAP_CODEC.apply(checkManager.getModsCodecO()).parse(JsonOps.INSTANCE, jsonData)
                     .result()
                     .orElseThrow();
         } catch (IOException e) {
@@ -151,87 +167,4 @@ public final class TaskMixinAnalyzer {
         return ((List<ModAnnotation.EnumHolder>) data.annotationData().get(name));
     }
 
-    public record ModTaskMixin(String taskUid, IMods compatMod, List<String> mixinList) {
-        public static final Function<Codec<IMods>, Codec<ModTaskMixin>> CODEC = (mc) -> {
-             return RecordCodecBuilder.create(ins -> ins.group(
-                    Codec.STRING.fieldOf("taskUid").forGetter(o -> {
-                        return o.taskUid;
-                    }),
-                    mc.fieldOf("compatMod").forGetter(o -> {
-                        return o.compatMod;
-                    }),
-                    Codec.STRING.listOf().fieldOf("mixinList").forGetter(ModTaskMixin::mixinList)
-            ).apply(ins, ModTaskMixin::new));
-        };
-
-        public static ModTaskMixin create(String taskUid, IMods compatMod, Set<String> mixinList) {
-            return new ModTaskMixin(taskUid, compatMod, Lists.newArrayList(mixinList));
-        }
-    }
-
-    public static class ModTaskMixinMap {
-        public static final Function<Codec<IMods>, Codec<ModTaskMixinMap>> CODEC = (mc) -> {
-            return RecordCodecBuilder.create(ins -> ins.group(
-                    Codec.unboundedMap(Codec.STRING, ModTaskMixin.CODEC.apply(mc).listOf()).fieldOf("list").forGetter(ModTaskMixinMap::map)
-            ).apply(ins, ModTaskMixinMap::new));
-        };
-        private final Map<String, List<ModTaskMixin>> map;
-        private final Map<String, List<IMods>> sourceMixinMap;
-
-        public ModTaskMixinMap(Map<String, List<ModTaskMixin>> map) {
-            this.map = map;
-
-            Map<String, List<IMods>> sourceMixinMap = new HashMap<>();
-            map.values().stream().flatMap((v) -> {
-                return v.stream();
-            }).forEach(modTaskMixin -> {
-                modTaskMixin.mixinList().forEach((mixin) -> {
-                    sourceMixinMap.computeIfAbsent(mixin, (uid) -> {
-                        return new ArrayList<>();
-                    }).add(modTaskMixin.compatMod());
-                });
-            });
-            this.sourceMixinMap = sourceMixinMap;
-        }
-
-        public static ModTaskMixinMap create(Map<String, Set<ModTaskMixin>> map) {
-            Map<String, List<ModTaskMixin>> map0 = new HashMap<>();
-            map.forEach((key, val) -> {
-                map0.put(key, Lists.newArrayList(val));
-            });
-            return new ModTaskMixinMap(map0);
-        }
-
-        public Map<String, List<String>> getMixinList() {
-            Map<String, Set<String>> map = new HashMap<>();
-            this.map.forEach((taskUid, list) -> {
-                List<String> mixinList0 = list.stream()
-                        .flatMap(l -> {
-                            return l.mixinList.stream();
-                        })
-                        .toList();
-                map.computeIfAbsent(taskUid, (t) -> {
-                    return new HashSet<>();
-                }).addAll(mixinList0);
-            });
-            return MapUtil.set2List(map);
-        }
-
-        private Map<String, List<ModTaskMixin>> map() {
-            return map;
-        }
-
-        public boolean canMixin(String sourceMixinClazz) {
-            return Optional.ofNullable(sourceMixinMap.get(sourceMixinClazz))
-                    .map(info -> {
-                        for (IMods mod : info) {
-                            if (!mod.versionLoad()) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    })
-                    .orElse(true);
-        }
-    }
 }

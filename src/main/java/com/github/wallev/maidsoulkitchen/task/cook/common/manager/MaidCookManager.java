@@ -451,7 +451,7 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
         this.cookInv.refreshInv();
 //        this.makeResultsBubble();
         this.cookInv.calcAvailableSlots();
-        LogUtil.debug("availableSlots: {}", cookInv.getInputAvailableSlots());
+//        LogUtil.debug("availableSlots: {}", cookInv.getInputAvailableSlots());
         return;
     }
 

@@ -192,6 +192,21 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
         return Map.of();
     }
 
+    public static List<BlockPos> getValidOutputPoses(EntityMaid maid) {
+        ItemStack hubItem = getItem(maid);
+        if (hubItem.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return getValidOutputPoses(hubItem, maid);
+    }
+
+    public static List<BlockPos> getValidOutputPoses(ItemStack hubItem, EntityMaid maid) {
+        return getBindPoses(hubItem).get(BagType.OUTPUT).stream()
+                .filter(pos -> !isExtraZone(maid, pos))
+                .toList();
+    }
+
     public static boolean isExtraZone(EntityMaid maid, BlockPos pos) {
         float maxDistance = maid.getRestrictRadius() * WORK_RANGE;
         BlockPos centerPos = ICookTask.getSearchPos(maid);
