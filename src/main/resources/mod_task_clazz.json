@@ -167,6 +167,20 @@
         "fields": []
       }
     },
+    "maidsoulkitchen:fruit_simple_farming": {
+      "bindMod": "SF",
+      "clazzInfo": {
+        "classes": [
+          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock",
+          "dev.enemeez.simplefarming.common.registries.ModItems"
+        ],
+        "methods": [],
+        "fields": [
+          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock#AGE",
+          "dev.enemeez.simplefarming.common.registries.ModItems#CHERRIES"
+        ]
+      }
+    },
     "maidsoulkitchen:youkaishomecoming_drying_rack_drying_rack": {
       "bindMod": "YHCD",
       "clazzInfo": {
@@ -187,20 +201,6 @@
         "fields": [
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK",
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK_RT"
-        ]
-      }
-    },
-    "maidsoulkitchen:fruit_simple_farming": {
-      "bindMod": "SF",
-      "clazzInfo": {
-        "classes": [
-          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock",
-          "dev.enemeez.simplefarming.common.registries.ModItems"
-        ],
-        "methods": [],
-        "fields": [
-          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock#AGE",
-          "dev.enemeez.simplefarming.common.registries.ModItems#CHERRIES"
         ]
       }
     },
@@ -374,6 +374,33 @@
         ]
       }
     },
+    "maidsoulkitchen:layer_bakery": {
+      "bindMod": "DBK",
+      "clazzInfo": {
+        "classes": [
+          "net.satisfy.bakery.core.block.CompletionistBannerBlock"
+        ],
+        "methods": [
+          "net.satisfy.bakery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
+        ],
+        "fields": []
+      }
+    },
+    "maidsoulkitchen:berry_l2_harvester": {
+      "bindMod": "L2_HARVESTER",
+      "clazzInfo": {
+        "classes": [
+          "dev.xkmc.l2harvester.api.HarvestResult",
+          "dev.xkmc.l2harvester.api.HarvestableBlock"
+        ],
+        "methods": [
+          "dev.xkmc.l2harvester.api.HarvestResult#drops()Ljava/util/List;",
+          "dev.xkmc.l2harvester.api.HarvestResult#updateState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
+          "dev.xkmc.l2harvester.api.HarvestableBlock#getHarvestResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ldev/xkmc/l2harvester/api/HarvestResult;"
+        ],
+        "fields": []
+      }
+    },
     "maidsoulkitchen:cuisinedelight_cuisine_skillet_cuisine": {
       "bindMod": "CD",
       "clazzInfo": {
@@ -427,18 +454,6 @@
         ]
       }
     },
-    "maidsoulkitchen:layer_bakery": {
-      "bindMod": "DBK",
-      "clazzInfo": {
-        "classes": [
-          "net.satisfy.bakery.core.block.CompletionistBannerBlock"
-        ],
-        "methods": [
-          "net.satisfy.bakery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
-        ],
-        "fields": []
-      }
-    },
     "maidsoulkitchen:meadow_cheese_form": {
       "bindMod": "DM",
       "clazzInfo": {
@@ -461,21 +476,6 @@
       "clazzInfo": {
         "classes": [],
         "methods": [],
-        "fields": []
-      }
-    },
-    "maidsoulkitchen:berry_l2_harvester": {
-      "bindMod": "L2_HARVESTER",
-      "clazzInfo": {
-        "classes": [
-          "dev.xkmc.l2harvester.api.HarvestResult",
-          "dev.xkmc.l2harvester.api.HarvestableBlock"
-        ],
-        "methods": [
-          "dev.xkmc.l2harvester.api.HarvestResult#drops()Ljava/util/List;",
-          "dev.xkmc.l2harvester.api.HarvestResult#updateState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
-          "dev.xkmc.l2harvester.api.HarvestableBlock#getHarvestResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ldev/xkmc/l2harvester/api/HarvestResult;"
-        ],
         "fields": []
       }
     },
@@ -874,6 +874,23 @@
         ]
       }
     },
+    "maidsoulkitchen:farm_and_charm_stove": {
+      "bindMod": "DFC",
+      "clazzInfo": {
+        "classes": [
+          "dev.architectury.registry.registries.RegistrySupplier",
+          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry",
+          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry"
+        ],
+        "methods": [
+          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;"
+        ],
+        "fields": [
+          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry#STOVE",
+          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry#STOVE_RECIPE_TYPE"
+        ]
+      }
+    },
     "maidsoulkitchen:fruit_compat": {
       "bindMod": "MC",
       "clazzInfo": {
@@ -918,23 +935,6 @@
           "umpaz.brewinandchewin.common.registry.BnCBlocks#KEG",
           "umpaz.brewinandchewin.common.registry.BnCRecipeTypes#FERMENTING",
           "umpaz.brewinandchewin.common.registry.BnCRecipeTypes#KEG_POURING"
-        ]
-      }
-    },
-    "maidsoulkitchen:farm_and_charm_stove": {
-      "bindMod": "DFC",
-      "clazzInfo": {
-        "classes": [
-          "dev.architectury.registry.registries.RegistrySupplier",
-          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry",
-          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry"
-        ],
-        "methods": [
-          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;"
-        ],
-        "fields": [
-          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry#STOVE",
-          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry#STOVE_RECIPE_TYPE"
         ]
       }
     },

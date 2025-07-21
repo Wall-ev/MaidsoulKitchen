@@ -3,17 +3,17 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.EnumCodecUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.StringRepresentable;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public enum TaskInfo implements ITaskInfo<Mods>, StringRepresentable {
+public enum TaskInfo implements ITaskInfo<Mods> {
     /**
      * 没人有何实质作用，只是给{@link TaskClassAnalyzer}做默认值使用（骗过编译器x）
      */
@@ -300,7 +300,7 @@ public enum TaskInfo implements ITaskInfo<Mods>, StringRepresentable {
     ;
 
     public static final TaskInfo[] VALUES = values();
-    public static final Codec<TaskInfo> CODEC = StringRepresentable.fromEnum(() -> VALUES);
+    public static final Codec<TaskInfo> CODEC = EnumCodecUtil.fromEnum(() -> VALUES);
 
     private String oldName = "";
     private final ResourceLocation uid;

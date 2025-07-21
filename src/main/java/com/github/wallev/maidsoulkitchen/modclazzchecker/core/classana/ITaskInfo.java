@@ -1,7 +1,8 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana;
 
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.IEnum;
 
-public interface ITaskInfo<M extends IMods> {
+public interface ITaskInfo<M extends IMods> extends IEnum {
 
     String getUidStr();
 

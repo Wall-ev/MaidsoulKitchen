@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ModTaskMixinMap;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.TaskMixinAnalyzer;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.google.gson.Gson;
@@ -51,7 +52,7 @@ public class ClassAnalyzerTool {
             map.put(k.getUidStr(), TaskClazzInfo.ClazzTaskInfo.create(k, v.toClazzInfo()));
         });
 
-        TaskMixinAnalyzer.ModTaskMixinMap modTaskMixinMap = TaskMixinAnalyzer.collectModTaskClazz(checkManager);
+        ModTaskMixinMap modTaskMixinMap = TaskMixinAnalyzer.collectModTaskClazz(checkManager);
 
         TaskClazzInfo taskClazzInfo = new TaskClazzInfo(map, modTaskMixinMap);
 

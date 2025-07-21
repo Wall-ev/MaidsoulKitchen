@@ -1,16 +1,10 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ModTaskMixinMap;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.ClassAnalyzerManager;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 
 import java.io.IOException;
-import java.util.Map;
 
-public class TaskModClazz2MixinManager {
-    protected static MKClazzCheck2MixinManager<?> checkManager = new MKClazzCheck2MixinManager<>();
-
-    protected static Map<String, Boolean> modTaskClazzResult;
+public class TaskModClazzMixinManager {
     protected static ModTaskMixinMap mixinData;
 
     private static void startReadMixinClazz() {
@@ -19,7 +13,7 @@ public class TaskModClazz2MixinManager {
 
     protected static void initMixinData() {
         if (mixinData == null) {
-            mixinData = ClassAnalyzerManager.readModTaskMixinClazzFromFile(checkManager);
+            mixinData = TaskMixinManager.readModTaskMixinClazzFromFile();
         }
     }
 
@@ -29,9 +23,5 @@ public class TaskModClazz2MixinManager {
 
     public static void init() throws IOException {
         startReadMixinClazz();
-    }
-
-    public static BaseClazzCheckManager<?, ?> getCheckManager() {
-        return checkManager;
     }
 }

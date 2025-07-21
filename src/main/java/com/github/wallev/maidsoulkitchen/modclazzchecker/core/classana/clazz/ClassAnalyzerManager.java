@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.TaskMixinAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ModTaskMixinMap;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+
+import static com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.TaskMixinAnalyzer.MOD_TASK_MIXIN_MAP_CODEC;
 
 public class ClassAnalyzerManager {
 
@@ -72,14 +74,14 @@ public class ClassAnalyzerManager {
         }
     }
 
-    public static TaskMixinAnalyzer.ModTaskMixinMap readModTaskMixinClazzFromFile(BaseClazzCheckManager<?, ?> checkManager) {
+    public static ModTaskMixinMap readModTaskMixinClazzFromFile(BaseClazzCheckManager<?, ?> checkManager) {
         try {
             Path resource = LoadingModList.get().getModFileById(checkManager.getModId())
                     .getFile()
                     .findResource(checkManager.getFileName());
             String json = Files.readString(resource);
             JsonObject jsonData = JsonParser.parseString(json).getAsJsonObject().getAsJsonObject("mixinInfo");
-            return TaskMixinAnalyzer.ModTaskMixinMap.CODEC.apply(checkManager.getModsCodecO()).parse(JsonOps.INSTANCE, jsonData)
+            return MOD_TASK_MIXIN_MAP_CODEC.apply(checkManager.getModsCodecO()).parse(JsonOps.INSTANCE, jsonData)
                     .resultOrPartial(error -> {
                         ModClazzChecker.LOGGER.error("read modmixinclazz error：{}, from file: {}", error, resource);
                     })

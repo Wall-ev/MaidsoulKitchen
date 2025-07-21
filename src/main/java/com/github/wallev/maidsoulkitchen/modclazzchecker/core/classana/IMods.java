@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana;
 
-public interface IMods {
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.IEnum;
+
+public interface IMods extends IEnum {
     String modId();
     String versionRange();
     boolean versionLoad();

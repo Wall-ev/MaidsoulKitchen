@@ -1,6 +1,11 @@
 package com.github.wallev.maidsoulkitchen.entity.ai.brain;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.ai.IExtraMaidBrain;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.task.cook.common.ai.CookerForPicnicTask;
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -17,4 +22,9 @@ public class MaidBrain implements IExtraMaidBrain {
                 .map(RegistryObject::get)
                 .toList();
     }
+
+//    @Override
+//    public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> getIdleBehaviors() {
+//        return Lists.newArrayList(Pair.of(9, new CookerForPicnicTask()));
+//    }
 }
