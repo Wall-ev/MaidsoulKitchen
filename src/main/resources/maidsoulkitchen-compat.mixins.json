@@ -19,6 +19,7 @@
     "farmersrespite.KettleBlockEntityMixin",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "kitchkarrot.BrewingBarrelBlockEntityMixin",
+    "kitchkarrot.EntityMaidInsertItemMixin",
     "maidstoragemanager.CraftLayerAccessor",
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",

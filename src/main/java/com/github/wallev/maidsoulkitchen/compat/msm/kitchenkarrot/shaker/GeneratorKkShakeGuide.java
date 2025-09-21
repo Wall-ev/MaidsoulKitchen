@@ -18,6 +18,7 @@ import io.github.tt432.kitchenkarrot.registries.ModItems;
 import io.github.tt432.kitchenkarrot.registries.RecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -33,6 +34,7 @@ import studio.fantasyit.maid_storage_manager.craft.action.CraftAction;
 import studio.fantasyit.maid_storage_manager.craft.action.PathTargetLocator;
 import studio.fantasyit.maid_storage_manager.craft.context.common.CommonUseAction;
 import studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData;
+import studio.fantasyit.maid_storage_manager.craft.generator.config.ConfigTypes;
 
 import java.util.List;
 
@@ -40,6 +42,14 @@ import java.util.List;
 public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<CocktailRecipe> {
     @NbtItemTagGen(TaskInfo.MSM_KK_SHAKER)
     public static final Item NBT_ITEM = ModItems.COCKTAIL.get();
+
+    @TypeLang(en_us = "Enable mixin to allow shakers to fit in maid's backpack", zh_cn = "启用mixin，允许摇酒壶放入女仆背包")
+    protected ConfigTypes.ConfigType<Boolean> MIXIN_CAN_INSERT_ITEM = new ConfigTypes.ConfigType<>(
+            "mixin",
+            false,
+            Component.translatable("config.maid_storage_manager.crafting.generating.maid_storage_manager." + this.toTypeStr() + ".mixin"),
+            ConfigTypes.ConfigTypeEnum.Boolean
+    );
 
     public GeneratorKkShakeGuide(CollectCraftEvent event) {
         new ShakeMenuWrap();
@@ -159,5 +169,10 @@ public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<Cockt
     @Override
     public boolean isBlockValid(Level level, BlockPos pos) {
         return false;
+    }
+
+    @Override
+    public List<ConfigTypes.ConfigType<?>> getConfigurations() {
+        return List.of(MIXIN_CAN_INSERT_ITEM);
     }
 }
