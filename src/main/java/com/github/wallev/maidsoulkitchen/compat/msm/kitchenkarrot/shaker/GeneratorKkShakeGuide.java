@@ -19,6 +19,7 @@ import io.github.tt432.kitchenkarrot.registries.RecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 import studio.fantasyit.maid_storage_manager.craft.CollectCraftEvent;
 import studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet;
 import studio.fantasyit.maid_storage_manager.craft.action.CraftAction;
@@ -42,6 +44,8 @@ import java.util.List;
 public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<CocktailRecipe> {
     @NbtItemTagGen(TaskInfo.MSM_KK_SHAKER)
     public static final Item NBT_ITEM = ModItems.COCKTAIL.get();
+
+    public static ResourceLocation TYPE;
 
     @TypeLang(en_us = "Enable mixin to allow shakers to fit in maid's backpack", zh_cn = "启用mixin，允许摇酒壶放入女仆背包")
     protected ConfigTypes.ConfigType<Boolean> MIXIN_CAN_INSERT_ITEM = new ConfigTypes.ConfigType<>(
@@ -159,6 +163,13 @@ public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<Cockt
     @Override
     public RecipeType<CocktailRecipe> getRecipeType() {
         return RecipeTypes.COCKTAIL.get();
+    }
+
+    @Override
+    public @NotNull ResourceLocation getType() {
+        ResourceLocation resourceLocation = ICookingRecipeGuideGenerator.super.getType();
+        TYPE = resourceLocation;
+        return resourceLocation;
     }
 
     @Override
