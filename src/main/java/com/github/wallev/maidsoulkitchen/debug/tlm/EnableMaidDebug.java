@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.debug.target.DebugMaidManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.backpack.BackpackManager;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +15,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class EnableMaidDebug {
 
     public static void init() {
-        if (!FMLEnvironment.production) {
+        if (DevUtil.isDevEnv()) {
             MinecraftForge.EVENT_BUS.register(new EnableMaidDebug());
         }
     }

@@ -29,6 +29,7 @@ import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzMan
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.api.distmarker.Dist;
@@ -50,7 +51,7 @@ public final class MaidPlugin implements ILittleMaid {
         TaskModClazzManager.init();
 
         MaidsoulKitchenTask.init();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.dist == Dist.CLIENT && DevUtil.isDev()) {
             LayerRendererManager.init();
         }
     }
@@ -96,11 +97,17 @@ public final class MaidPlugin implements ILittleMaid {
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionMaidLayer(EntityMaidRenderer renderer, EntityRendererProvider.Context context) {
+        if (!DevUtil.isDev()) {
+            return;
+        }
         renderer.addLayer(new LayerMaidBanner(renderer, context.getModelSet()));
     }
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionGeckoMaidLayer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context context) {
+        if (!DevUtil.isDev()) {
+            return;
+        }
         renderer.addGeoLayerRenderer(new GeckoLayerMaidBanner<>(renderer, context.getModelSet()));
     }
 

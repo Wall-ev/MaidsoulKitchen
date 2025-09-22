@@ -346,12 +346,6 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
             IItemHandlerModifiable inputInv = this.cookInv.getInputInv();
             this.extractedChestItem2Bag(useItemDef, chestInputInventory.getItemInventory(), inputInv, false);
 
-            int recLimitIndex = this.itemDown.getRecLimitIndex();
-            if (recLimitIndex > maidRecs.size()) {
-                this.allMaidRecsFromChest = new LinkedList<>(maidRecs);
-                this.maidRecs = new LinkedList<>(maidRecs.subList(0, recLimitIndex));
-            }
-
             this.syncInv();
             // 更新所有箱子的状态
             for (BlockEntity be : validChests) {

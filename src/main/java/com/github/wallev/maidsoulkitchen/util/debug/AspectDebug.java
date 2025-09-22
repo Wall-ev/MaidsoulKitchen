@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.util.debug;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.language.IModFileInfo;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
@@ -14,7 +15,7 @@ public class AspectDebug {
 
     public static void init() {
         try {
-            if (MaidsoulKitchen.DEBUG && isMaidsoulKitchenDev()) {
+            if (DevUtil.isDevEnv() && isMaidsoulKitchenDev()) {
                 AspectDebugInner.init();
             }
         } catch (InvalidVersionSpecificationException e) {

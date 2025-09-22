@@ -1,3 +1,8 @@
+0.2.5
+## fix
+- Fixed an issue where the recipe analysis index was out of bounds
+- Problems that do not continue to work in some cases
+
 0.2.4
 ## fix
 - wrong message with old version compat

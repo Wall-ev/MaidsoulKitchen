@@ -4,7 +4,7 @@ import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import org.apache.logging.log4j.Logger;
 
 public class LogUtil {
-    private static final boolean DEBUG = MaidsoulKitchen.DEBUG;
+    private static final boolean DEBUG = DevUtil.isDev();
     private static final Logger LOGGER = MaidsoulKitchen.LOGGER;
 
     private static void log(Runnable runnable) {

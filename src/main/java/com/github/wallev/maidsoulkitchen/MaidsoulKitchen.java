@@ -12,11 +12,9 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 @Mod(MaidsoulKitchen.MOD_ID)
 public final class MaidsoulKitchen implements IModInfo {
-    public static final boolean DEBUG = !FMLEnvironment.production;
     public static final String ISSUE_URL = "https://github.com/Wall-ev/MaidsoulKitchen/issues";
 
     public MaidsoulKitchen() {

@@ -7,6 +7,7 @@ import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v0.CookData;
 import com.github.wallev.maidsoulkitchen.network.NetworkHandler;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -78,7 +79,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     public boolean debugClicked() {
-        if (MaidsoulKitchen.DEBUG && Screen.hasControlDown()) {
+        if (DevUtil.isDev() && Screen.hasControlDown()) {
             this.debugGiveItem();
             return true;
         }

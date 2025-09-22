@@ -4,7 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.implement.Text
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
@@ -14,14 +13,13 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.crafting.Recipe;
 
 public class GenerateRecsTask<R extends Recipe<? extends Container>> extends Behavior<EntityMaid> implements VBehaviorControl {
     private final MaidCookManager<R> cm;
 
     public GenerateRecsTask(MaidCookManager<R> cm) {
-        super(ImmutableMap.of(MkEntities.GENERATE_RECS.get(), MemoryStatus.VALUE_PRESENT));
+        super(ImmutableMap.of());
         this.cm = cm;
     }
 

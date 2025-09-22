@@ -147,19 +147,19 @@ public class MemoryUtil {
     }
 
     public static void makeCollectChestItemHandler(EntityMaid maid) {
-        maid.getBrain().setMemory(MkEntities.CET_CHEST_ITEMHANDLER.get(), true);
+//        maid.getBrain().setMemory(MkEntities.CET_CHEST_ITEMHANDLER.get(), true);
     }
 
     public static void eraseCollectChestItemHandler(EntityMaid maid) {
-        maid.getBrain().eraseMemory(MkEntities.CET_CHEST_ITEMHANDLER.get());
+//        maid.getBrain().eraseMemory(MkEntities.CET_CHEST_ITEMHANDLER.get());
     }
 
     public static void makeGenerateRecs(EntityMaid maid) {
-        maid.getBrain().setMemory(MkEntities.GENERATE_RECS.get(), true);
+//        maid.getBrain().setMemory(MkEntities.GENERATE_RECS.get(), true);
     }
 
     public static void eraseGenerateRecs(EntityMaid maid) {
-        maid.getBrain().eraseMemory(MkEntities.GENERATE_RECS.get());
+//        maid.getBrain().eraseMemory(MkEntities.GENERATE_RECS.get());
     }
 
     public static List<Vec3> getCurrentWorkPos(EntityMaid maid) {

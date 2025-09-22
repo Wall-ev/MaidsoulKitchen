@@ -2,8 +2,8 @@ package com.github.wallev.maidsoulkitchen.entity.ai.brain;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.ai.IExtraMaidBrain;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.PlaceFoodForPicnicWithRideIdleTask;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
@@ -31,6 +31,6 @@ public class MaidBrain implements IExtraMaidBrain {
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> getRideIdleBehaviors() {
-        return MaidsoulKitchen.DEBUG ? Lists.newArrayList(Pair.of(5, new PlaceFoodForPicnicWithRideIdleTask())) : List.of();
+        return DevUtil.isDev() ? Lists.newArrayList(Pair.of(5, new PlaceFoodForPicnicWithRideIdleTask())) : List.of();
     }
 }

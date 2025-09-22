@@ -24,7 +24,7 @@ import static com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask.checkOwn
 import static com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask.getSearchPos;
 
 public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Container>> extends Behavior<EntityMaid> implements VBehaviorControl {
-    private static final int MAX_DELAY_TIME = 120;
+    private static final int MAX_DELAY_TIME = 20 * 10;
     private final float movementSpeed;
     private final int verticalSearchRange;
     private final ICookTask<B, R> task;

@@ -1,9 +1,9 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 
-import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.config.subconfig.RegisterConfig;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.EnumCodecUtil;
+import com.github.wallev.maidsoulkitchen.util.DevUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("Convert2MethodRef")
 public enum TaskInfo implements ITaskInfo<Mods> {
     /**
      * 没人有何实质作用，只是给{@link TaskClassAnalyzer}做默认值使用（骗过编译器x）
@@ -63,13 +64,13 @@ public enum TaskInfo implements ITaskInfo<Mods> {
             "pot",
             Mods.KC,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     KC_CHOPPING_BOARD("kc_chopping_board",
             "chopping_board",
             "chopping_board",
             Mods.KC,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     FD_COOK_POT("fd_cooking_pot",
             "cooking_pot",
@@ -82,14 +83,14 @@ public enum TaskInfo implements ITaskInfo<Mods> {
             "cutting",
             Mods.FD,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     CD_CUISINE_SKILLET("cd_cuisine_skillet",
             "cuisine_skillet",
             "cuisine",
             Mods.CD,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     MD_COOK_POT("md_copper_pot",
             "copper_pot",
@@ -103,14 +104,14 @@ public enum TaskInfo implements ITaskInfo<Mods> {
             "cooking",
             Mods.COPPER_POT,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     MONSTER_POT("monster_pot",
             "monster_pot",
             "monster_cooking",
             Mods.DUNGEONS_DELIGHT,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     BNC_KEY("bnc_key",
             "keg",
@@ -131,13 +132,13 @@ public enum TaskInfo implements ITaskInfo<Mods> {
             "skewering",
             Mods.BD,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     BD_GRILL("bd_grill",
             "grill",
             "grilling",
             Mods.BD,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     YHC_MOKA("yhc_moka_pot",
             "moka_pot",
@@ -194,43 +195,43 @@ public enum TaskInfo implements ITaskInfo<Mods> {
     DFC_STOVE("stove",
             Mods.DFC,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     DFC_ROASTER("roaster",
             Mods.DFC,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     DFC_COOKING_POT("cooking_pot",
             Mods.DFC,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     DBK_COOKING_POT("cooking_pot",
             Mods.DBK,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     DCL_COOKING_POT("cooking_pot",
             Mods.DCL,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     DCL_COOKING_PAN("cooking_pan",
             Mods.DCL,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     DBP_MINI_FRIDGE("mine_fridge",
             Mods.DBP,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     DBP_PALM_BAR("palm_bar",
             Mods.DBP,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     DM_CHEESE_FORM("cheese_form",
             Mods.DM,
             true,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
 
     /**
@@ -274,28 +275,28 @@ public enum TaskInfo implements ITaskInfo<Mods> {
      */
     LAYER_BAKERY("layer_bakery",
             Mods.DBK,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_BEACHPARTY("layer_beachparty",
             Mods.DBP,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_BLOOMINGNATURE("layer_bloomingnature",
             Mods.DBN,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_BREWERY("layer_brewery",
             Mods.DBR,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_CANDLELIGHT("layer_candlelight",
             Mods.DCL,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_HERBALBREWS("layer_herbalbrews",
             Mods.DHB,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_MEADOW("layer_meadow",
             Mods.DM,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
     LAYER_VINERY("layer_vinery",
             Mods.DBR,
-            () -> MaidsoulKitchen.DEBUG),
+            () -> DevUtil.isDev()),
 
     ;
 
