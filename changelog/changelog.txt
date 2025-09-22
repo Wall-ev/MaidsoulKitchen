@@ -1,6 +1,6 @@
 0.3.0.1
 ## Fix
-Wrong mixin, kitchen karrot shaker use judgment
+Wrong mixin
 
 0.3.0
 ## Feature

@@ -466,7 +466,7 @@ tasks.compileJava {
 }
 
 // 发布配置
-tasks.register('publishCurseForge', TaskPublishCurseForge) {
+tasks.register('publishCurseForge0', TaskPublishCurseForge) {
     group = "publishing"
     apiToken = secrets.get("curseforge_token")
     def mainFile = upload(project.curseforge_project_id, new File("./changelog/file/${mod_id}-${version_cache}-all.jar"))
@@ -544,23 +544,25 @@ publishMods {
     // 合并两个日志，用空行分隔
     changelog = mainChangelog + "\r\n\r\n" + taskCompatLog
 
-    type = ALPHA
 //    type = project.mod_version_type
     modLoaders.add("forge")
+    type = ALPHA
 
     curseforge {
-        projectId  = project.curseforge_project_id
+//        projectId  = 1162577
+        projectId  = "${project.curseforge_project_id}"
         projectSlug = project.curseforge_project_slug // Required for discord webhook
         accessToken = secrets.get("curseforge_token")
         minecraftVersions.add("1.20.1")
         requires("touhou-little-maid")
     }
-    modrinth {
-        projectId  = project.modrinth_project_id
-        accessToken = secrets.get("modrinth_token")
-        minecraftVersions.add("1.20.1")
-        requires("touhou-little-maid")
-    }
+//    modrinth {
+//        projectId  = project.modrinth_project_id
+//        accessToken = secrets.get("modrinth_token")
+//        minecraftVersions.add("1.20.1")
+//        type = ALPHA
+//        requires("touhou-little-maid")
+//    }
 }
 
 List<String> getCompatModIds() {

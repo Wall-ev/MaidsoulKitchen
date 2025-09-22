@@ -61,7 +61,7 @@ public class ClassAnalyzerTool {
                     ModClazzChecker.LOGGER.error("Build failed：{}", error);
                 })
                 .ifPresent(data -> {
-                    File file = new File(rootOutputFolder.toString().replace("generated", "main") + "\\" + checkManager.getFileName());
+                    File file = new File(rootOutputFolder.toString().replace("generated", "main") + File.separator + checkManager.getFileName());
                     Gson gson = new GsonBuilder()
                             .setPrettyPrinting()  // 保留缩进
                             .create();
