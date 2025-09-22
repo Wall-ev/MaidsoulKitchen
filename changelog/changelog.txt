@@ -1,3 +1,7 @@
+0.3.0.3
+## Fix
+Incorrect recipe loading(This time it should be fine....)
+
 0.3.0.2
 ## Fix
 Temporarily removed Shaker support for Kitchen Karrot(remove shaker mixin)
