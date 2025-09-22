@@ -52,8 +52,7 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
 
         if (potBlockEntity.getStatus() == 2 && hasOutputAvailableSlot) {
             if (potBlockEntity.isNeedBowl()) {
-                ItemStack container = cm.getItem(CONTAINER);
-                return !container.isEmpty();
+                return cm.hasItem(CONTAINER);
             } else {
                 IItemHandlerModifiable inputInv = cm.getInputInv();
                 ItemStack shovel = InvUtil.getStack(inputInv, ModItems.KITCHEN_SHOVEL.get());
@@ -85,8 +84,8 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
         PotBlockEntity potBlockEntity = potBe.getBe();
         if (potBlockEntity.getStatus() == 2) {
             if (potBlockEntity.isNeedBowl()) {
-                ItemStack container = cm.getItem(CONTAINER);
-                cookBeBase.useItem(container, inputInv);
+//                ItemStack container = cm.getItem(CONTAINER);
+//                cookBeBase.useItem(container, inputInv);
             } else {
                 ItemStack shovel = InvUtil.getStack(inputInv, this.kitchenTool);
                 if (shovel.isEmpty()) {
@@ -104,17 +103,17 @@ public class PotCookRule extends TickCookRule<PotBlockEntity, PotRecipe> {
 
             if (!canStart) {
                 if (potBe.canFlitByItem()) {
-                    ItemStack flint = cm.getItem(FLINT);
-                    if (flint.isEmpty()) {
-                        this.stop();
-                        return;
-                    }
-                    InteractionResult result = player.useOnByItem(pos.below(), flint);
-                    if (!result.consumesAction()) {
-                        this.stop();
-                        return;
-                    }
-                    canStart = true;
+//                    ItemStack flint = cm.getItem(FLINT);
+//                    if (true) {
+//                        this.stop();
+//                        return;
+//                    }
+//                    InteractionResult result = player.useOnByItem(pos.below(), flint);
+//                    if (!result.consumesAction()) {
+//                        this.stop();
+//                        return;
+//                    }
+//                    canStart = true;
                 }
             }
 

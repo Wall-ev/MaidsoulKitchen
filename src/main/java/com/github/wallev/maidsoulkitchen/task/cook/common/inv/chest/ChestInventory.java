@@ -1,44 +1,20 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.inv.chest;
 
-import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
-import com.github.wallev.maidsoulkitchen.util.WrapperItemHandler;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
+import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChestInventory {
     public static final int TICK_SCAN_LIMIT = 10;
-    public static final Codec<ChestInventory> CODEC = RecordCodecBuilder.create(ins -> ins.group(
-            BlockPos.CODEC.listOf().fieldOf("chestPoses").forGetter(o -> o.chestPoses),
-            ItemInventory.CODEC.fieldOf("itemInventory").forGetter(o -> o.itemInventory)
-    ).apply(ins, ChestInventory::new));
-    private final List<BlockPos> chestPoses;
-    private final List<BlockEntity> chestBes;
-    private final List<IItemHandler> chestItemHandlers;
-    private final ItemInventory itemInventory;
-    private WrapperItemHandler allItemHandlers;
-    private int slots = 0;
-    private int lastSlot = 0;
 
-    private long lastTime = 0;
+    private final List<IItemHandler> chestItemHandlers = new ArrayList<>();
 
-    private ChestInventory(List<BlockPos> chestPoses, ItemInventory itemInventory) {
-        this.chestPoses = chestPoses;
-        this.chestBes = new ArrayList<>();
-        this.chestItemHandlers = new ArrayList<>();
-        this.itemInventory = itemInventory;
-        this.reset();
-    }
-
-    public ChestInventory() {
-        this(new ArrayList<>(), new ItemInventory());
-    }
+    private final Map<ItemDefinition, ChestItemDef> itemDefinitions = new HashMap<>();
+    private int lastItemHandlerSlotIndex = 0;
+    private int lastItemHandlerIndex = 0;
 
     public void init(ChestInvsData data) {
         this.initData(data);
@@ -49,42 +25,54 @@ public class ChestInventory {
     }
 
     public boolean tickScan() {
-        for (int i = 0; i < TICK_SCAN_LIMIT; i++) {
-            if (lastSlot >= slots) {
-                return true;
-            }
-            ItemStack stackInSlot = allItemHandlers.getStackInSlot(lastSlot);
+        if (lastItemHandlerIndex >= chestItemHandlers.size()) {
+            return true;
+        }
+        IItemHandler scanItemHandler = chestItemHandlers.get(lastItemHandlerIndex);
+        int scanItemHandlerSlotMax = lastItemHandlerSlotIndex + TICK_SCAN_LIMIT;
+        boolean thisHandlerEnd = scanItemHandlerSlotMax >= scanItemHandler.getSlots();
+        if (thisHandlerEnd) {
+            scanItemHandlerSlotMax = scanItemHandler.getSlots();
+        }
+
+        for (int i = lastItemHandlerSlotIndex; i < scanItemHandlerSlotMax; i++) {
+            lastItemHandlerSlotIndex++;
+
+            ItemStack stackInSlot = scanItemHandler.getStackInSlot(i);
             if (stackInSlot.isEmpty()) {
-                lastSlot++;
                 continue;
             }
-            itemInventory.add(stackInSlot);
-            lastSlot++;
+
+            ItemDefinition itemDef = ItemDefinition.of(stackInSlot);
+            ChestItemDef handlerMap = itemDefinitions.computeIfAbsent(itemDef, k -> new ChestItemDef());
+            handlerMap.add(i, scanItemHandler);
+        }
+
+        if (thisHandlerEnd) {
+            lastItemHandlerIndex++;
+            lastItemHandlerSlotIndex = 0;
         }
         return false;
     }
 
     public void update() {
-        itemInventory.markDirty();
-        itemInventory.update();
+
     }
 
     protected void reset() {
-        chestBes.clear();
         chestItemHandlers.clear();
-        allItemHandlers = null;
-        slots = 0;
-        lastSlot = 0;
+        itemDefinitions.clear();
+
+        this.lastItemHandlerIndex = 0;
+        this.lastItemHandlerSlotIndex = 0;
     }
 
     public void clear() {
         this.reset();
-        chestPoses.clear();
-        itemInventory.clear();
     }
 
     public boolean done() {
-        return lastSlot >= slots;
+        return lastItemHandlerIndex >= chestItemHandlers.size();
     }
 
     protected void clearAndInitData(ChestInvsData data) {
@@ -93,35 +81,36 @@ public class ChestInventory {
     }
 
     protected void initData(ChestInvsData data) {
-        this.chestPoses.addAll(data.chestPoses());
-        this.chestBes.addAll(data.chestBes());
         this.chestItemHandlers.addAll(data.chestItemHandlers());
-        this.slots = data.invSlots();
-
-        this.allItemHandlers = new WrapperItemHandler(chestItemHandlers);
     }
 
-    public List<BlockPos> getChestPoses() {
-        return chestPoses;
+    public Map<ItemDefinition, ChestItemDef> getItemDefinitions() {
+        return itemDefinitions;
     }
 
-    public List<BlockEntity> getChestBes() {
-        return chestBes;
+    public Map<ItemDefinition, Long> getAvailable() {
+        return itemDefinitions.entrySet().stream().collect(Collectors.toMap(
+            Map.Entry::getKey,
+            entry -> (long) entry.getValue().getCount()
+        ));
     }
 
-    public List<IItemHandler> getChestItemHandlers() {
-        return chestItemHandlers;
-    }
+    public static class ChestItemDef {
+        private int count;
+        private final Map<IItemHandler, List<Integer>> valueMap = new HashMap<>();
 
-    public ItemInventory getItemInventory() {
-        return itemInventory;
-    }
+        public int getCount() {
+            return count;
+        }
 
-    public WrapperItemHandler getAllItemHandlers() {
-        return allItemHandlers;
-    }
+        public Map<IItemHandler, List<Integer>> getValueMap() {
+            return valueMap;
+        }
 
-    public int getSlots() {
-        return slots;
+        public void add(int slot, IItemHandler itemHandler) {
+            ItemStack stackInSlot = itemHandler.getStackInSlot(slot);
+            count += stackInSlot.getCount();
+            valueMap.computeIfAbsent(itemHandler, k -> new ArrayList<>()).add(slot);
+        }
     }
 }

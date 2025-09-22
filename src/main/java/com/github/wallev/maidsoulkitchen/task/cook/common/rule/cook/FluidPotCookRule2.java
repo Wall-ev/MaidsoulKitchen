@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
@@ -93,10 +94,14 @@ public class FluidPotCookRule2<B extends BlockEntity, R extends Recipe<? extends
         // 取出(有条件取出)成品: 厨具可以取出成品 && 有成品 && 烹饪中枢或者绑定的输入容器内存在对应的餐具 && 烹饪中枢有空的输出槽位
         if (!recMatch && !fluidStack.isEmpty() && hasOutputAvailableSlot) {
             Fluid fluid = fluidStack.getFluid();
-            ItemStack fluidContainer = getFluidContainers(fluid, cm);
-            cookBeBase.useItem(fluidContainer, () -> {
-                return !fluidStack.isEmpty();
-            }, outputInv);
+            GatherResult fluidContainerResult = getFluidContainers(fluid, cm);
+            if (!fluidContainerResult.isFail()) {
+                ItemStack itemStack = fluidContainerResult.queryItemStack();
+                cookBeBase.useItem(itemStack, () -> {
+                    return !fluidStack.isEmpty();
+                }, outputInv);
+                fluidContainerResult.backItemStack(itemStack);
+            }
         }
     }
 

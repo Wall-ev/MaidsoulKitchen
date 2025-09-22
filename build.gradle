@@ -435,8 +435,10 @@ tasks.compileJava {
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "publishing"
     apiToken = secrets.get("curseforge_token")
     def mainFile = upload(project.curseforge_project, new File("./changelog/${mod_id}-${version}-all.jar"))
+//    mainFile.withAdditionalFile(new File("./changelog/${mod_id}-${version}-sources.jar"))
     mainFile.changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.20.1")
@@ -445,8 +447,6 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 //    mainFile.addOptional()
     mainFile.releaseType = project.mod_version_type
     disableVersionDetection()
-
-    debugMode = true
 }
 
 modrinth {
@@ -456,12 +456,11 @@ modrinth {
     versionNumber = project.mod_version
     versionType = project.mod_version_type
     uploadFile = new File("./changelog/${mod_id}-${version}-all.jar")
+//    additionalFiles = [new File("./changelog/${mod_id}-${version}-sources.jar")]
     gameVersions = ["1.20.1"]
     loaders = ["forge"]
     changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
     dependencies {
         required.project "touhou-little-maid"
     }
-
-    debugMode = true
 }

@@ -28,6 +28,16 @@ public class InvUtil {
         return ItemStack.EMPTY;
     }
 
+    public static int findStackSlot(IItemHandler inv, Predicate<ItemStack> predicate) {
+        for (int i = 0; i < inv.getSlots(); i++) {
+            ItemStack stack = inv.getStackInSlot(i);
+            if (predicate.test(stack)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static ItemStack getStack(IItemHandler inv, ItemStack itemStack) {
         return getStack(inv, itemStack.getItem());
     }
@@ -68,5 +78,17 @@ public class InvUtil {
         if (!left.isEmpty()) {
             maid.level.addFreshEntity(new ItemEntity(maid.level, maid.getX(), maid.getY(), maid.getZ(), left));
         }
+    }
+
+    public static void extractItem(ItemStack original, IItemHandler toInv, IItemHandler fromInv, int fromSlot) {
+        ItemStack copy = original.copy();
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(toInv, copy, false);
+        fromInv.extractItem(fromSlot, copy.getCount() - leftStack.getCount(), false);
+    }
+
+    public static void extractItem(ItemStack original, int count, IItemHandler toInv, IItemHandler fromInv, int fromSlot) {
+        ItemStack copy = original.copyWithCount(count);
+        ItemStack leftStack = ItemHandlerHelper.insertItemStacked(toInv, copy, false);
+        fromInv.extractItem(fromSlot, copy.getCount() - leftStack.getCount(), false);
     }
 }

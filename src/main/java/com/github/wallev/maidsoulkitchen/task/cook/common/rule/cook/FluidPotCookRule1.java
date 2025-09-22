@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -101,10 +102,15 @@ public class FluidPotCookRule1<B extends BlockEntity, R extends Recipe<? extends
             }
 
             ItemStack needContainer = cookBeBase.getNeedContainer();
-            ItemStack outputAdditionItem = cm.getItem(needContainer);
+            GatherResult outputAdditionItemResult = cm.getItem(needContainer);
             // 放入餐具
-            cookBeBase.insertContainer(outputAdditionItem);
-            cookBeBase.markChanged();
+            if (!outputAdditionItemResult.isFail()) {
+                ItemStack container = outputAdditionItemResult.queryItemStack();
+                cookBeBase.insertContainer(container);
+                cookBeBase.markChanged();
+                outputAdditionItemResult.backItemStack(container);
+            }
+
         }
 
         boolean canTakeResult = cookBeBase.canTakeResult();
@@ -148,10 +154,12 @@ public class FluidPotCookRule1<B extends BlockEntity, R extends Recipe<? extends
         // 取出有条件残存的物品2——流体: 有符合配方的流体 && 烹饪中枢有空的输出槽位
         if (!recMatch && hasFluid && hasOutputAvailableSlot) {
             Fluid fluid = fluidStack.getFluid();
-            ItemStack fluidContainer = getFluidContainers(fluid, cm);
-            cookBeBase.useItem(fluidContainer, () -> {
+            GatherResult fluidContainerResult = getFluidContainers(fluid, cm);
+            ItemStack itemStack = fluidContainerResult.queryItemStack();
+            cookBeBase.useItem(itemStack, () -> {
                 return !fluidStack.isEmpty();
             }, outputInv);
+            fluidContainerResult.backItemStack(itemStack);
         }
     }
 

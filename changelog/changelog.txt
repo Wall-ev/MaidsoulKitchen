@@ -1,3 +1,8 @@
+0.2.5.1
+## fix
+- Fixed not correctly delete items in sophisticated chests
+- In some cases, the bug will not continue to work(cook) properly
+
 0.2.5
 ## fix
 - Fixed an issue where the recipe analysis index was out of bounds

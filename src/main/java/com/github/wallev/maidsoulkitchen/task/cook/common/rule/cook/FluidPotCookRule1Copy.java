@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -85,10 +86,14 @@ public class FluidPotCookRule1Copy<B extends BlockEntity, R extends Recipe<? ext
             }
 
             ItemStack needContainer = cookBeBase.getNeedContainer();
-            ItemStack outputAdditionItem = cm.getItem(needContainer);
+            GatherResult outputAdditionItemResult = cm.getItem(needContainer);
             // 放入餐具
-            cookBeBase.insertContainer(outputAdditionItem);
-            cookBeBase.markChanged();
+            if (!outputAdditionItemResult.isFail()) {
+                ItemStack container = outputAdditionItemResult.queryItemStack();
+                cookBeBase.insertContainer(container);
+                cookBeBase.markChanged();
+                outputAdditionItemResult.backItemStack(container);
+            }
         }
 
         boolean canTakeResult = cookBeBase.canTakeResult();
@@ -130,10 +135,12 @@ public class FluidPotCookRule1Copy<B extends BlockEntity, R extends Recipe<? ext
         FluidStack fluidStack = cookBeBase.getFluidStack();
         if (!recMatch && !fluidStack.isEmpty()) {
             Fluid fluid = fluidStack.getFluid();
-            ItemStack fluidContainer = getFluidContainers(fluid, cm);
-            cookBeBase.useItem(fluidContainer, () -> {
+            GatherResult fluidContainerResult = getFluidContainers(fluid, cm);
+            ItemStack itemStack = fluidContainerResult.queryItemStack();
+            cookBeBase.useItem(itemStack, () -> {
                 return !fluidStack.isEmpty();
             }, outputInv);
+            fluidContainerResult.backItemStack(itemStack);
         }
     }
 

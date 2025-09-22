@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import org.anti_ad.a.b.a.a.a.G;
 
 import java.util.List;
 
@@ -86,10 +88,16 @@ public class FluidPotCookRule2Copy<B extends BlockEntity, R extends Recipe<? ext
         FluidStack fluidStack = cookBeBase.getFluidStack();
         if (!recMatch && !fluidStack.isEmpty()) {
             Fluid fluid = fluidStack.getFluid();
-            ItemStack fluidContainer = getFluidContainers(fluid, cm);
-            cookBeBase.useItem(fluidContainer, () -> {
-                return !fluidStack.isEmpty();
-            }, outputInv);
+            GatherResult fluidContainerResult = getFluidContainers(fluid, cm);
+            if (!fluidContainerResult.isFail()) {
+                ItemStack itemStack = fluidContainerResult.queryItemStack();
+                cookBeBase.useItem(itemStack, () -> {
+                    return !fluidStack.isEmpty();
+                }, outputInv);
+                fluidContainerResult.backItemStack(itemStack);
+            }
+
+
         }
     }
 

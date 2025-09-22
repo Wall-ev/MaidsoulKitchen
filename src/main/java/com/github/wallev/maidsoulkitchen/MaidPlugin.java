@@ -51,7 +51,7 @@ public final class MaidPlugin implements ILittleMaid {
         TaskModClazzManager.init();
 
         MaidsoulKitchenTask.init();
-        if (FMLEnvironment.dist == Dist.CLIENT && DevUtil.isDev()) {
+        if (FMLEnvironment.dist == Dist.CLIENT && DevUtil.isDevEnv()) {
             LayerRendererManager.init();
         }
     }
@@ -97,7 +97,7 @@ public final class MaidPlugin implements ILittleMaid {
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionMaidLayer(EntityMaidRenderer renderer, EntityRendererProvider.Context context) {
-        if (!DevUtil.isDev()) {
+        if (!DevUtil.isDevEnv()) {
             return;
         }
         renderer.addLayer(new LayerMaidBanner(renderer, context.getModelSet()));
@@ -105,7 +105,7 @@ public final class MaidPlugin implements ILittleMaid {
 
     @OnlyIn(Dist.CLIENT)
     public void addAdditionGeckoMaidLayer(GeckoEntityMaidRenderer<? extends Mob> renderer, EntityRendererProvider.Context context) {
-        if (!DevUtil.isDev()) {
+        if (!DevUtil.isDevEnv()) {
             return;
         }
         renderer.addGeoLayerRenderer(new GeckoLayerMaidBanner<>(renderer, context.getModelSet()));

@@ -31,6 +31,6 @@ public class MaidBrain implements IExtraMaidBrain {
 
     @Override
     public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> getRideIdleBehaviors() {
-        return DevUtil.isDev() ? Lists.newArrayList(Pair.of(5, new PlaceFoodForPicnicWithRideIdleTask())) : List.of();
+        return DevUtil.isDevEnv() ? Lists.newArrayList(Pair.of(5, new PlaceFoodForPicnicWithRideIdleTask())) : List.of();
     }
 }

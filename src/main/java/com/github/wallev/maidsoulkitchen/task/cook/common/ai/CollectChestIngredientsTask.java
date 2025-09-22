@@ -52,7 +52,6 @@ public class CollectChestIngredientsTask<R extends Recipe<? extends Container>> 
     protected void stop(ServerLevel pLevel, EntityMaid pEntity, long pGameTime) {
         MemoryUtil.eraseCollectChestItemHandler(pEntity);
         rm.startGenerateRecs();
-        MemoryUtil.rememberChestInputInventory(pEntity, rm.getChestInputInventory().getItemInventory());
     }
 
     @Override

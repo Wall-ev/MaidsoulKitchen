@@ -23,6 +23,7 @@ public class ItemDefinition {
     }));
 
     private final Item item;
+    private final boolean testTag;
     @Nullable
     private final CompoundTag tag;
     private final ItemStack stack;
@@ -37,8 +38,13 @@ public class ItemDefinition {
 
     protected ItemDefinition(Item item, @Nullable CompoundTag tag) {
         this.item = item;
-        this.tag = tag;
         this.stack = makeStack();
+        this.tag = tag;
+        if (this.stack.isDamageableItem()) {
+            this.testTag = false;
+        } else {
+            this.testTag = tag != null;
+        }
     }
 
     public static ItemDefinition of(Item item, @Nullable CompoundTag tag) {
@@ -54,7 +60,11 @@ public class ItemDefinition {
     }
 
     private ItemStack makeStack() {
-        return new ItemStack(this.item, 1, this.tag);
+        ItemStack copy = new ItemStack(this.item, 1);
+        if (this.tag != null) {
+            copy.setTag(this.tag);
+        }
+        return copy;
     }
 
     /**
@@ -73,6 +83,26 @@ public class ItemDefinition {
         int c = (int) Math.min(count, stack.getMaxStackSize());
         stack.setCount(c);
         return stack;
+    }
+
+    public boolean is(ItemDefinition itemDef) {
+        if (itemDef.testTag) {
+            return this.item.equals(itemDef.item) && Objects.equals(this.tag, itemDef.tag);
+        } else {
+            return this.item.equals(itemDef.item);
+        }
+    }
+
+    public boolean is(ItemStack itemStack) {
+        if (this.testTag) {
+            return item.equals(itemStack.getItem()) && Objects.equals(tag, itemStack.getTag());
+        } else {
+            return item.equals(itemStack.getItem());
+        }
+    }
+
+    public boolean is(Item item) {
+        return this.item.equals(item);
     }
 
     /**
@@ -104,9 +134,11 @@ public class ItemDefinition {
     public boolean equals(Object o) {
         if (o != null) {
             if (o instanceof ItemDefinition that) {
-                return Objects.equals(item, that.item) && Objects.equals(tag, that.tag);
+                return is(that);
             } else if (o instanceof ItemStack that) {
-                return Objects.equals(item, that.getItem()) && Objects.equals(tag, that.getTag());
+                return is(that);
+            } else if (o instanceof Item that) {
+                return is(that);
             }
         }
         return false;
@@ -114,7 +146,7 @@ public class ItemDefinition {
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, tag);
+        return this.testTag ? Objects.hash(item, tag) : item.hashCode();
     }
 
     @Override

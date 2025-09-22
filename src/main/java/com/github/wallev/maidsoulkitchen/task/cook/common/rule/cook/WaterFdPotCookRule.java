@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
@@ -136,11 +137,17 @@ public class WaterFdPotCookRule<B extends BlockEntity, R extends Recipe<? extend
             }
 
             ItemStack needContainer = cookBeBase.getNeedContainer();
-            ItemStack outputAdditionItem = cm.getItem(needContainer);
-            if (!outputAdditionItem.isEmpty()) {
-                // 放入餐具
-                cookBeBase.insertContainer(outputAdditionItem);
+            GatherResult outputAdditionItemResult = cm.getItem(needContainer);
+            // 放入餐具
+            // todo check
+            if (!outputAdditionItemResult.isFail()) {
+                ItemStack itemStack = outputAdditionItemResult.queryItemStack();
+
+                cookBeBase.insertContainer(itemStack);
                 cookBeBase.markChanged();
+
+                outputAdditionItemResult.backItemStack(itemStack);
+
             }
         }
 
@@ -157,16 +164,16 @@ public class WaterFdPotCookRule<B extends BlockEntity, R extends Recipe<? extend
         boolean recMatch = cookBeBase.recMatch();
         boolean hasEnoughFluid = cookBeBase.hasFluid();
         boolean hasInputs = cookBeBase.hasInputs();
-        ItemStack findFluid = ItemStack.EMPTY;
+        GatherResult findFluidResult = GatherResult.FAIL;
 
         // 置入烹饪的原材料: (厨具满足烹饪的外部条件 || 烹饪中枢或者绑定的输入容器内存在对应的燃料) && 厨具内没有物品 && 有符合配方的原材料
         if (!recMatch && !hasInputs && meal.isEmpty() && cm.hasMaidRecs(cookBeBase)) {
             if (!cookStateMatch) {
                 List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-                findFluid = cm.getItem(itemStack -> {
+                findFluidResult = cm.getItem(itemStack -> {
                     return ItemStackUtil.isItem(activeItemStacks, itemStack);
                 });
-                if (!findFluid.isEmpty()) {
+                if (!findFluidResult.isFail()) {
                     ItemInventory itemInventory = cm.getItemInventory();
                     cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
                     cookBeBase.markChanged();
@@ -184,18 +191,23 @@ public class WaterFdPotCookRule<B extends BlockEntity, R extends Recipe<? extend
 
         // 补充流体: 厨具内有符合配方的原料 && 厨具满足外部烹饪条件 && 烹饪中枢或者绑定的输入容器内存在对应的燃料
         if (recMatch && cookStateMatch && !hasEnoughFluid) {
-            if (findFluid.isEmpty()) {
+            if (findFluidResult.isFail()) {
                 List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-                findFluid = cm.getItem(itemStack -> {
+                findFluidResult = cm.getItem(itemStack -> {
                     return ItemStackUtil.isItem(activeItemStacks, itemStack);
                 });
             }
 
-            if (!findFluid.isEmpty()) {
-                cookBeBase.useItem(findFluid, () -> {
+            // todo check
+            if (!findFluidResult.isFail()) {
+                ItemStack itemStack = findFluidResult.queryItemStack();
+
+                cookBeBase.useItem(itemStack, () -> {
                     return !cookBeBase.hasFluid();
                 }, inputInv);
                 cookBeBase.markChanged();
+
+                findFluidResult.backItemStack(itemStack);
             }
         }
 

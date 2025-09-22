@@ -79,7 +79,7 @@ public class RecButton extends StateSwitchingButton implements ITooltipButton {
     }
 
     public boolean debugClicked() {
-        if (DevUtil.isDev() && Screen.hasControlDown()) {
+        if (DevUtil.isDevEnv() && Screen.hasControlDown()) {
             this.debugGiveItem();
             return true;
         }

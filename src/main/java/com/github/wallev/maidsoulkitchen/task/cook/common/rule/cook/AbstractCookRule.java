@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.FluidRecSerializerManager;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
@@ -29,7 +30,7 @@ public abstract class AbstractCookRule<B extends BlockEntity, R extends Recipe<?
         return rm.hasItem(itemStack -> ItemStackUtil.isItem(containers, itemStack));
     }
 
-    protected ItemStack getFluidContainers(Fluid fluid, MaidCookManager<R> rm) {
+    protected GatherResult getFluidContainers(Fluid fluid, MaidCookManager<R> rm) {
         FluidRecSerializerManager<R> frm = rm.getRecSerializerManager().toFluid();
         List<ItemStack> containers = frm.fluidContainer(fluid);
 

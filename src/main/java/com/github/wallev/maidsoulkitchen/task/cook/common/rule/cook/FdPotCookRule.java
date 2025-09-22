@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.util.MaidUtil;
 import net.minecraft.world.Container;
@@ -104,11 +105,14 @@ public class FdPotCookRule<B extends BlockEntity, R extends Recipe<? extends Con
             }
 
             ItemStack needContainer = cookBeBase.getNeedContainer();
-            ItemStack outputAdditionItem = cm.getItem(needContainer);
-            if (!outputAdditionItem.isEmpty()) {
+            GatherResult gatherResult = cm.getItem(needContainer);
+            if (!gatherResult.isFail()) {
                 // 放入餐具
-                cookBeBase.insertContainer(outputAdditionItem);
+                ItemStack queryItemStack = gatherResult.queryItemStack(64);
+                cookBeBase.insertContainer(queryItemStack);
                 cookBeBase.markChanged();
+
+                gatherResult.backItemStack(queryItemStack);
 
                 pickAction = true;
             }

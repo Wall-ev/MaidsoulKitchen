@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -325,11 +326,14 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
         this.itemDown.clear();
         this.recsGenerate.setCurrentRecs(this.getRecs());
         this.initConditions();
-        ItemInventory chestItemInventory = chestInputInventory.getItemInventory();
-        Map<ItemDefinition, Long> available = new HashMap<>(chestItemInventory.getStacks());
-        recsGenerate.setAvailable(available);
+        Map<ItemDefinition, Long> chestAvailable = chestInputInventory.getAvailable();
+        if (chestAvailable.isEmpty()) {
+            this.recsGenDoneAndUpdate();
+            return;
+        }
 
-        MemoryUtil.makeGenerateRecs(maid);
+        Map<ItemDefinition, Long> available = new HashMap<>(chestAvailable);
+        recsGenerate.setAvailable(available);
     }
 
     public boolean recsGenDoneAndUpdate() {
@@ -344,7 +348,7 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
 
             Map<ItemDefinition, Integer> useItemDef = this.itemDown.getUseItemDef();
             IItemHandlerModifiable inputInv = this.cookInv.getInputInv();
-            this.extractedChestItem2Bag(useItemDef, chestInputInventory.getItemInventory(), inputInv, false);
+            this.extractedChestItem2Bag(useItemDef, chestInputInventory.getItemDefinitions(), inputInv);
 
             this.syncInv();
             // 更新所有箱子的状态
@@ -362,36 +366,38 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
         return true;
     }
 
-    private void extractedChestItem2Bag(Map<ItemDefinition, Integer> useItemDef, ItemInventory itemInventory1, IItemHandlerModifiable inputInv, boolean simulate) {
+    private void extractedChestItem2Bag(Map<ItemDefinition, Integer> useItemDef, Map<ItemDefinition, ChestInventory.ChestItemDef> itemDefinitions, IItemHandlerModifiable inputInv) {
         for (Map.Entry<ItemDefinition, Integer> entry : useItemDef.entrySet()) {
             ItemDefinition itemDefinition = entry.getKey();
             Integer amount = entry.getValue();
-            LinkedList<ItemStack> itemStacks = itemInventory1.getItemStacks(itemDefinition);
 
-            for (ItemStack itemStack : itemStacks) {
-                if (itemStack == null || itemStack.isEmpty()) {
+            ChestInventory.ChestItemDef chestItemDef = itemDefinitions.get(itemDefinition);
+            if (chestItemDef == null) {
+                continue;
+            }
+            removeItemStacks(inputInv, chestItemDef, amount);
+        }
+    }
+
+    private static void removeItemStacks(IItemHandlerModifiable inputInv, ChestInventory.ChestItemDef chestItemDef, Integer amount) {
+        for (Map.Entry<IItemHandler, List<Integer>> entry : chestItemDef.getValueMap().entrySet()) {
+            IItemHandler itemHandler = entry.getKey();
+            List<Integer> slots = entry.getValue();
+            for (Integer slot : slots) {
+                ItemStack itemStack = itemHandler.getStackInSlot(slot);
+                if (itemStack.isEmpty()) {
                     continue;
                 }
 
                 int stackCount = itemStack.getCount();
                 if (stackCount >= amount) {
-                    ItemStack copy = itemStack.copyWithCount(amount);
-                    ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inputInv, copy, false);
-                    if (!simulate) {
-                        itemStack.shrink(copy.getCount() - leftStack.getCount());
-                    }
-
-                    break;
+                    InvUtil.extractItem(itemStack, amount, inputInv, itemHandler, slot);
+                    return;
                 } else {
-                    ItemStack copy = itemStack.copy();
-                    ItemStack leftStack = ItemHandlerHelper.insertItemStacked(inputInv, copy, false);
-                    if (!simulate) {
-                        itemStack.shrink(copy.getCount() - leftStack.getCount());
-                    }
+                    InvUtil.extractItem(itemStack, inputInv, itemHandler, slot);
                     amount -= stackCount;
-
                     if (amount <= 0) {
-                        break;
+                        return;
                     }
                 }
             }
@@ -434,6 +440,8 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
             this.createIngres();
 //            this.makeResultsBubble();
         }
+        // 重新计算可用槽位
+        this.cookInv.calcAvailableSlots();
     }
 
     public void chestIngredientDone() {
@@ -523,41 +531,46 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
         return recipes;
     }
 
-    public ItemStack getItem(Predicate<ItemStack> predicate) {
+    public GatherResult getItem(Predicate<ItemStack> predicate) {
         if (this.canHub()) {
             IItemHandlerModifiable inputInv = this.getInputInv();
-            ItemStack itemStack = InvUtil.getStack(inputInv, predicate);
-            if (!itemStack.isEmpty()) {
-                return itemStack;
+            int findSlot = InvUtil.findStackSlot(inputInv, predicate);
+            if (findSlot > 0) {
+                return new GatherResult(inputInv, findSlot);
             } else {
                 return this.getStackFromChest(predicate);
             }
         } else {
-            return InvUtil.getStack(maid.getAvailableInv(true), predicate);
+            CombinedInvWrapper inv = maid.getAvailableInv(true);
+            int findSlot = InvUtil.findStackSlot(inv, predicate);
+            if (findSlot > 0) {
+                return new GatherResult(inv, findSlot);
+            }
+            return GatherResult.FAIL;
         }
     }
 
-    public ItemStack getItem(ItemStack stack) {
+    public GatherResult getItem(ItemStack stack) {
         return this.getItem(stack.getItem());
     }
 
-    public ItemStack getItem(Item item) {
+    public GatherResult getItem(Item item) {
         return this.getItem(itemStack -> itemStack.is(item));
     }
 
     public boolean hasItem(Predicate<ItemStack> predicate) {
-        return !this.getItem(predicate).isEmpty();
+        return !this.getItem(predicate).isFail();
     }
 
     public boolean hasItem(ItemStack stack) {
-        return !this.getItem(stack).isEmpty();
+        return !this.getItem(stack).isFail();
     }
 
     public boolean hasItem(Item item) {
-        return !this.getItem(item).isEmpty();
+        return !this.getItem(item).isFail();
     }
 
-    protected ItemStack getStackFromChest(Predicate<ItemStack> predicate) {
+    protected GatherResult getStackFromChest(Predicate<ItemStack> predicate) {
         List<BlockPos> bindModePoses = getBindingTypePoses(BagType.INGREDIENT);
         for (BlockPos bindModePose : bindModePoses) {
             if (isExtraZone(bindModePose)) {
@@ -574,12 +587,12 @@ public class MaidCookManager<R extends Recipe<? extends Container>> {
                 continue;
             }
 
-            ItemStack itemStack1 = InvUtil.getStack(beInv, predicate);
-            if (!itemStack1.isEmpty()) {
-                return itemStack1;
+            int findSlot = InvUtil.findStackSlot(beInv, predicate);
+            if (findSlot > 0) {
+                return new GatherResult(beInv, findSlot);
             }
         }
-        return ItemStack.EMPTY;
+        return GatherResult.FAIL;
     }
 
     public IItemHandlerModifiable getOutputInv() {

@@ -2,6 +2,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook;
 
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+import com.github.wallev.maidsoulkitchen.task.cook.common.manager.GatherResult;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.maid.IMaidCookInventory;
 import com.github.wallev.maidsoulkitchen.util.ItemStackUtil;
@@ -118,16 +119,16 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
         boolean recMatch = cookBeBase.recMatch();
         ItemStack activeItemStack = cookBeBase.activeItemStack();
         boolean hasInputs = cookBeBase.hasInputs();
-        ItemStack findFuel = ItemStack.EMPTY;
+        GatherResult findFuelResult = GatherResult.FAIL;
 
         // 置入烹饪的原材料: (厨具满足烹饪的外部条件 || 烹饪中枢或者绑定的输入容器内存在对应的燃料) && 厨具内没有物品 && 有符合配方的原材料
         if (!recMatch && !hasInputs && cm.hasMaidRecs(cookBeBase)) {
             if (!cookStateMatch) {
                 List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-                findFuel = cm.getItem(itemStack -> {
+                findFuelResult = cm.getItem(itemStack -> {
                     return ItemStackUtil.isItem(activeItemStacks, itemStack);
                 });
-                if (!findFuel.isEmpty()) {
+                if (!findFuelResult.isFail()) {
                     ItemInventory itemInventory = cm.getItemInventory();
                     cookBeBase.insertInputs(cm.pollMaidRec(cookBeBase), itemInventory);
                     cookBeBase.markChanged();
@@ -145,16 +146,19 @@ public class FuelCookRule<B extends BlockEntity, R extends Recipe<? extends Cont
 
         // 补充燃料: 厨具内有符合配方的原料 && 厨具满足外部烹饪条件 && 烹饪中枢或者绑定的输入容器内存在对应的燃料
         if (recMatch && !cookStateMatch && activeItemStack.isEmpty()) {
-            if (findFuel.isEmpty()) {
+            if (findFuelResult.isFail()) {
                 List<ItemStack> activeItemStacks = cookBeBase.getActiveItems();
-                findFuel = cm.getItem(itemStack -> {
+                findFuelResult = cm.getItem(itemStack -> {
                     return ItemStackUtil.isItem(activeItemStacks, itemStack);
                 });
             }
 
-            if (!findFuel.isEmpty()) {
-                cookBeBase.insertItem(findFuel, cookBeBase.activeItemInv(), cookBeBase.activeItemSlot());
+            // todo check
+            if (!findFuelResult.isFail()) {
+                ItemStack fuel = findFuelResult.queryItemStack(64);
+                cookBeBase.insertItem(fuel, cookBeBase.activeItemInv(), cookBeBase.activeItemSlot());
                 cookBeBase.markChanged();
+                findFuelResult.backItemStack(fuel);
             }
         }
 

@@ -374,21 +374,6 @@
         ]
       }
     },
-    "maidsoulkitchen:berry_l2_harvester": {
-      "bindMod": "L2_HARVESTER",
-      "clazzInfo": {
-        "classes": [
-          "dev.xkmc.l2harvester.api.HarvestResult",
-          "dev.xkmc.l2harvester.api.HarvestableBlock"
-        ],
-        "methods": [
-          "dev.xkmc.l2harvester.api.HarvestResult#drops()Ljava/util/List;",
-          "dev.xkmc.l2harvester.api.HarvestResult#updateState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
-          "dev.xkmc.l2harvester.api.HarvestableBlock#getHarvestResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ldev/xkmc/l2harvester/api/HarvestResult;"
-        ],
-        "fields": []
-      }
-    },
     "maidsoulkitchen:layer_bakery": {
       "bindMod": "DBK",
       "clazzInfo": {
@@ -418,11 +403,18 @@
         ]
       }
     },
-    "maidsoulkitchen:berry_compat": {
-      "bindMod": "MC",
+    "maidsoulkitchen:berry_l2_harvester": {
+      "bindMod": "L2_HARVESTER",
       "clazzInfo": {
-        "classes": [],
-        "methods": [],
+        "classes": [
+          "dev.xkmc.l2harvester.api.HarvestResult",
+          "dev.xkmc.l2harvester.api.HarvestableBlock"
+        ],
+        "methods": [
+          "dev.xkmc.l2harvester.api.HarvestResult#drops()Ljava/util/List;",
+          "dev.xkmc.l2harvester.api.HarvestResult#updateState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
+          "dev.xkmc.l2harvester.api.HarvestableBlock#getHarvestResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ldev/xkmc/l2harvester/api/HarvestResult;"
+        ],
         "fields": []
       }
     },
@@ -477,6 +469,14 @@
           "dev.xkmc.cuisinedelight.init.registrate.CDMisc#RT_CUISINE",
           "vectorwing.farmersdelight.common.registry.ModSounds#BLOCK_SKILLET_SIZZLE"
         ]
+      }
+    },
+    "maidsoulkitchen:berry_compat": {
+      "bindMod": "MC",
+      "clazzInfo": {
+        "classes": [],
+        "methods": [],
+        "fields": []
       }
     },
     "maidsoulkitchen:bakery_cooking_pot": {
@@ -636,6 +636,18 @@
         ]
       }
     },
+    "maidsoulkitchen:layer_vinery": {
+      "bindMod": "DBR",
+      "clazzInfo": {
+        "classes": [
+          "net.satisfy.vinery.core.block.CompletionistBannerBlock"
+        ],
+        "methods": [
+          "net.satisfy.vinery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
+        ],
+        "fields": []
+      }
+    },
     "maidsoulkitchen:eclipticseasons_farm": {
       "bindMod": "ES",
       "clazzInfo": {
@@ -654,18 +666,6 @@
         "fields": [
           "com.teamtea.eclipticseasons.config.CommonConfig$Crop#enableCrop"
         ]
-      }
-    },
-    "maidsoulkitchen:layer_vinery": {
-      "bindMod": "DBR",
-      "clazzInfo": {
-        "classes": [
-          "net.satisfy.vinery.core.block.CompletionistBannerBlock"
-        ],
-        "methods": [
-          "net.satisfy.vinery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
-        ],
-        "fields": []
       }
     },
     "maidsoulkitchen:berry_simple_farming": {
@@ -874,31 +874,6 @@
         ]
       }
     },
-    "maidsoulkitchen:farm_and_charm_stove": {
-      "bindMod": "DFC",
-      "clazzInfo": {
-        "classes": [
-          "dev.architectury.registry.registries.RegistrySupplier",
-          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry",
-          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry"
-        ],
-        "methods": [
-          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;"
-        ],
-        "fields": [
-          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry#STOVE",
-          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry#STOVE_RECIPE_TYPE"
-        ]
-      }
-    },
-    "maidsoulkitchen:fruit_compat": {
-      "bindMod": "MC",
-      "clazzInfo": {
-        "classes": [],
-        "methods": [],
-        "fields": []
-      }
-    },
     "maidsoulkitchen:brewinandchewin_keg_fermenting": {
       "bindMod": "BNCD",
       "clazzInfo": {
@@ -936,6 +911,31 @@
           "umpaz.brewinandchewin.common.registry.BnCRecipeTypes#FERMENTING",
           "umpaz.brewinandchewin.common.registry.BnCRecipeTypes#KEG_POURING"
         ]
+      }
+    },
+    "maidsoulkitchen:farm_and_charm_stove": {
+      "bindMod": "DFC",
+      "clazzInfo": {
+        "classes": [
+          "dev.architectury.registry.registries.RegistrySupplier",
+          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry",
+          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry"
+        ],
+        "methods": [
+          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;"
+        ],
+        "fields": [
+          "net.satisfy.farm_and_charm.core.registry.ObjectRegistry#STOVE",
+          "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry#STOVE_RECIPE_TYPE"
+        ]
+      }
+    },
+    "maidsoulkitchen:fruit_compat": {
+      "bindMod": "MC",
+      "clazzInfo": {
+        "classes": [],
+        "methods": [],
+        "fields": []
       }
     },
     "maidsoulkitchen:sereneseasons_farm": {
