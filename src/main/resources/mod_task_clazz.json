@@ -100,6 +100,27 @@
         ]
       }
     },
+    "maidsoulkitchen:drinkbeer_beer_barrel_brewing": {
+      "bindMod": "DB",
+      "clazzInfo": {
+        "classes": [
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity",
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity$BrewingInventory",
+          "lekavar.lma.drinkbeer.recipes.BrewingRecipe",
+          "lekavar.lma.drinkbeer.registries.BlockRegistry",
+          "lekavar.lma.drinkbeer.registries.RecipeRegistry"
+        ],
+        "methods": [
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#getBrewingInventory()Llekavar/lma/drinkbeer/blockentities/BeerBarrelBlockEntity$BrewingInventory;",
+          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#markDirty()V",
+          "lekavar.lma.drinkbeer.recipes.BrewingRecipe#getBeerCup()Lnet/minecraft/world/item/ItemStack;"
+        ],
+        "fields": [
+          "lekavar.lma.drinkbeer.registries.BlockRegistry#BEER_BARREL",
+          "lekavar.lma.drinkbeer.registries.RecipeRegistry#RECIPE_TYPE_BREWING"
+        ]
+      }
+    },
     "maidsoulkitchen:maid_storage_manager_msm_core": {
       "bindMod": "MAID_STORAGE_MANAGER",
       "clazzInfo": {
@@ -262,27 +283,6 @@
           "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE",
           "studio.fantasyit.maid_storage_manager.storage.Target#pos",
           "studio.fantasyit.maid_storage_manager.storage.Target#side"
-        ]
-      }
-    },
-    "maidsoulkitchen:drinkbeer_beer_barrel_brewing": {
-      "bindMod": "DB",
-      "clazzInfo": {
-        "classes": [
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity",
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity$BrewingInventory",
-          "lekavar.lma.drinkbeer.recipes.BrewingRecipe",
-          "lekavar.lma.drinkbeer.registries.BlockRegistry",
-          "lekavar.lma.drinkbeer.registries.RecipeRegistry"
-        ],
-        "methods": [
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#getBrewingInventory()Llekavar/lma/drinkbeer/blockentities/BeerBarrelBlockEntity$BrewingInventory;",
-          "lekavar.lma.drinkbeer.blockentities.BeerBarrelBlockEntity#markDirty()V",
-          "lekavar.lma.drinkbeer.recipes.BrewingRecipe#getBeerCup()Lnet/minecraft/world/item/ItemStack;"
-        ],
-        "fields": [
-          "lekavar.lma.drinkbeer.registries.BlockRegistry#BEER_BARREL",
-          "lekavar.lma.drinkbeer.registries.RecipeRegistry#RECIPE_TYPE_BREWING"
         ]
       }
     },
@@ -890,20 +890,6 @@
         ]
       }
     },
-    "maidsoulkitchen:fruit_simple_farming": {
-      "bindMod": "SF",
-      "clazzInfo": {
-        "classes": [
-          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock",
-          "dev.enemeez.simplefarming.common.registries.ModItems"
-        ],
-        "methods": [],
-        "fields": [
-          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock#AGE",
-          "dev.enemeez.simplefarming.common.registries.ModItems#CHERRIES"
-        ]
-      }
-    },
     "maidsoulkitchen:youkaishomecoming_drying_rack_drying_rack": {
       "bindMod": "YHCD",
       "clazzInfo": {
@@ -924,6 +910,59 @@
         "fields": [
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK",
           "dev.xkmc.youkaishomecoming.init.registrate.YHBlocks#RACK_RT"
+        ]
+      }
+    },
+    "maidsoulkitchen:fruit_simple_farming": {
+      "bindMod": "SF",
+      "clazzInfo": {
+        "classes": [
+          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock",
+          "dev.enemeez.simplefarming.common.registries.ModItems"
+        ],
+        "methods": [],
+        "fields": [
+          "dev.enemeez.simplefarming.common.block.FruitLeavesBlock#AGE",
+          "dev.enemeez.simplefarming.common.registries.ModItems#CHERRIES"
+        ]
+      }
+    },
+    "maidsoulkitchen:maid_storage_manager_msm_single_getter_water": {
+      "bindMod": "MAID_STORAGE_MANAGER",
+      "clazzInfo": {
+        "classes": [
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
+          "studio.fantasyit.maid_storage_manager.storage.Target",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
+        ],
+        "methods": [
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
+          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
+        ],
+        "fields": [
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
         ]
       }
     },
@@ -972,45 +1011,6 @@
         ]
       }
     },
-    "maidsoulkitchen:maid_storage_manager_msm_single_getter_water": {
-      "bindMod": "MAID_STORAGE_MANAGER",
-      "clazzInfo": {
-        "classes": [
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
-          "studio.fantasyit.maid_storage_manager.storage.Target",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
-        ],
-        "methods": [
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
-          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
-        ],
-        "fields": [
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
-        ]
-      }
-    },
     "maidsoulkitchen:maid_storage_manager_msm_item_use": {
       "bindMod": "MAID_STORAGE_MANAGER",
       "clazzInfo": {
@@ -1045,105 +1045,6 @@
           "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
         ],
         "fields": [
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
-        ]
-      }
-    },
-    "maidsoulkitchen:kitchenkarrot_msm_kc_plate_cutting": {
-      "bindMod": "KK",
-      "clazzInfo": {
-        "classes": [
-          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe",
-          "io.github.tt432.kitchenkarrot.registries.ModBlocks",
-          "io.github.tt432.kitchenkarrot.registries.RecipeTypes",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
-          "studio.fantasyit.maid_storage_manager.storage.Target",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
-        ],
-        "methods": [
-          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getInput()Lnet/minecraft/world/item/Item;",
-          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getResultCount()I",
-          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getTool()Lnet/minecraft/world/item/crafting/Ingredient;",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;)V",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
-          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
-        ],
-        "fields": [
-          "io.github.tt432.kitchenkarrot.registries.ModBlocks#PLATE",
-          "io.github.tt432.kitchenkarrot.registries.RecipeTypes#PLATE",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
-        ]
-      }
-    },
-    "maidsoulkitchen:vinery_msm_vinery_grape_pot": {
-      "bindMod": "DV",
-      "clazzInfo": {
-        "classes": [
-          "dev.architectury.registry.registries.RegistrySupplier",
-          "net.satisfy.vinery.core.registry.GrapeTypeRegistry",
-          "net.satisfy.vinery.core.registry.ObjectRegistry",
-          "net.satisfy.vinery.core.util.GrapeType",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
-          "studio.fantasyit.maid_storage_manager.storage.Target",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
-        ],
-        "methods": [
-          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;",
-          "net.satisfy.vinery.core.util.GrapeType#getBottle()Lnet/minecraft/world/item/Item;",
-          "net.satisfy.vinery.core.util.GrapeType#getFruit()Lnet/minecraft/world/item/Item;",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;Ljava/lang/String;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;)V",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
-          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
-        ],
-        "fields": [
-          "net.satisfy.vinery.core.registry.GrapeTypeRegistry#GRAPE_TYPE_TYPES",
-          "net.satisfy.vinery.core.registry.ObjectRegistry#GRAPEVINE_POT",
-          "net.satisfy.vinery.core.registry.ObjectRegistry#WINE_BOTTLE",
           "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
           "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
           "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
@@ -1202,6 +1103,105 @@
           "vectorwing.farmersdelight.common.registry.ModBlockEntityTypes#COOKING_POT",
           "vectorwing.farmersdelight.common.registry.ModItems#COOKING_POT",
           "vectorwing.farmersdelight.common.registry.ModRecipeTypes#COOKING"
+        ]
+      }
+    },
+    "maidsoulkitchen:vinery_msm_vinery_grape_pot": {
+      "bindMod": "DV",
+      "clazzInfo": {
+        "classes": [
+          "dev.architectury.registry.registries.RegistrySupplier",
+          "net.satisfy.vinery.core.registry.GrapeTypeRegistry",
+          "net.satisfy.vinery.core.registry.ObjectRegistry",
+          "net.satisfy.vinery.core.util.GrapeType",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
+          "studio.fantasyit.maid_storage_manager.storage.Target",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
+        ],
+        "methods": [
+          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;",
+          "net.satisfy.vinery.core.util.GrapeType#getBottle()Lnet/minecraft/world/item/Item;",
+          "net.satisfy.vinery.core.util.GrapeType#getFruit()Lnet/minecraft/world/item/Item;",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;Ljava/lang/String;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;)V",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
+          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
+        ],
+        "fields": [
+          "net.satisfy.vinery.core.registry.GrapeTypeRegistry#GRAPE_TYPE_TYPES",
+          "net.satisfy.vinery.core.registry.ObjectRegistry#GRAPEVINE_POT",
+          "net.satisfy.vinery.core.registry.ObjectRegistry#WINE_BOTTLE",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
+        ]
+      }
+    },
+    "maidsoulkitchen:kitchenkarrot_msm_kc_plate_cutting": {
+      "bindMod": "KK",
+      "clazzInfo": {
+        "classes": [
+          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe",
+          "io.github.tt432.kitchenkarrot.registries.ModBlocks",
+          "io.github.tt432.kitchenkarrot.registries.RecipeTypes",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
+          "studio.fantasyit.maid_storage_manager.storage.Target",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
+        ],
+        "methods": [
+          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getInput()Lnet/minecraft/world/item/Item;",
+          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getResultCount()I",
+          "io.github.tt432.kitchenkarrot.recipes.recipe.PlateRecipe#getTool()Lnet/minecraft/world/item/crafting/Ingredient;",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;)V",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
+          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
+        ],
+        "fields": [
+          "io.github.tt432.kitchenkarrot.registries.ModBlocks#PLATE",
+          "io.github.tt432.kitchenkarrot.registries.RecipeTypes#PLATE",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
         ]
       }
     },
@@ -1688,26 +1688,6 @@
         ]
       }
     },
-    "maidsoulkitchen:layer_bakery": {
-      "bindMod": "DBK",
-      "clazzInfo": {
-        "classes": [
-          "net.satisfy.bakery.core.block.CompletionistBannerBlock"
-        ],
-        "methods": [
-          "net.satisfy.bakery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
-        ],
-        "fields": []
-      }
-    },
-    "maidsoulkitchen:berry_compat": {
-      "bindMod": "MC",
-      "clazzInfo": {
-        "classes": [],
-        "methods": [],
-        "fields": []
-      }
-    },
     "maidsoulkitchen:cuisinedelight_cuisine_skillet_cuisine": {
       "bindMod": "CD",
       "clazzInfo": {
@@ -1772,6 +1752,26 @@
           "dev.xkmc.l2harvester.api.HarvestResult#drops()Ljava/util/List;",
           "dev.xkmc.l2harvester.api.HarvestResult#updateState(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
           "dev.xkmc.l2harvester.api.HarvestableBlock#getHarvestResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)Ldev/xkmc/l2harvester/api/HarvestResult;"
+        ],
+        "fields": []
+      }
+    },
+    "maidsoulkitchen:berry_compat": {
+      "bindMod": "MC",
+      "clazzInfo": {
+        "classes": [],
+        "methods": [],
+        "fields": []
+      }
+    },
+    "maidsoulkitchen:layer_bakery": {
+      "bindMod": "DBK",
+      "clazzInfo": {
+        "classes": [
+          "net.satisfy.bakery.core.block.CompletionistBannerBlock"
+        ],
+        "methods": [
+          "net.satisfy.bakery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
         ],
         "fields": []
       }
@@ -2087,6 +2087,18 @@
         ]
       }
     },
+    "maidsoulkitchen:layer_vinery": {
+      "bindMod": "DBR",
+      "clazzInfo": {
+        "classes": [
+          "net.satisfy.vinery.core.block.CompletionistBannerBlock"
+        ],
+        "methods": [
+          "net.satisfy.vinery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
+        ],
+        "fields": []
+      }
+    },
     "maidsoulkitchen:eclipticseasons_farm": {
       "bindMod": "ES",
       "clazzInfo": {
@@ -2107,32 +2119,6 @@
         ],
         "fields": [
           "com.teamtea.eclipticseasons.config.CommonConfig$Crop#enableCrop"
-        ]
-      }
-    },
-    "maidsoulkitchen:layer_vinery": {
-      "bindMod": "DBR",
-      "clazzInfo": {
-        "classes": [
-          "net.satisfy.vinery.core.block.CompletionistBannerBlock"
-        ],
-        "methods": [
-          "net.satisfy.vinery.core.block.CompletionistBannerBlock#getRenderTexture()Lnet/minecraft/resources/ResourceLocation;"
-        ],
-        "fields": []
-      }
-    },
-    "maidsoulkitchen:berry_simple_farming": {
-      "bindMod": "SF",
-      "clazzInfo": {
-        "classes": [
-          "dev.enemeez.simplefarming.common.block.BerryBushBlock",
-          "dev.enemeez.simplefarming.common.registries.ModItems"
-        ],
-        "methods": [],
-        "fields": [
-          "dev.enemeez.simplefarming.common.block.BerryBushBlock#AGE",
-          "dev.enemeez.simplefarming.common.registries.ModItems#BLUEBERRY_BUSH"
         ]
       }
     },
@@ -2196,6 +2182,20 @@
           "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
           "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
           "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
+        ]
+      }
+    },
+    "maidsoulkitchen:berry_simple_farming": {
+      "bindMod": "SF",
+      "clazzInfo": {
+        "classes": [
+          "dev.enemeez.simplefarming.common.block.BerryBushBlock",
+          "dev.enemeez.simplefarming.common.registries.ModItems"
+        ],
+        "methods": [],
+        "fields": [
+          "dev.enemeez.simplefarming.common.block.BerryBushBlock#AGE",
+          "dev.enemeez.simplefarming.common.registries.ModItems#BLUEBERRY_BUSH"
         ]
       }
     },
@@ -2371,6 +2371,55 @@
         ]
       }
     },
+    "maidsoulkitchen:meadow_msm_meadow_cheese_form": {
+      "bindMod": "DM",
+      "clazzInfo": {
+        "classes": [
+          "dev.architectury.registry.registries.RegistrySupplier",
+          "net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity",
+          "net.satisfy.meadow.core.recipes.CheeseFormRecipe",
+          "net.satisfy.meadow.core.registry.EntityTypeRegistry",
+          "net.satisfy.meadow.core.registry.ObjectRegistry",
+          "net.satisfy.meadow.core.registry.RecipeRegistry",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
+          "studio.fantasyit.maid_storage_manager.storage.Target",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
+        ],
+        "methods": [
+          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
+          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
+        ],
+        "fields": [
+          "net.satisfy.meadow.core.registry.EntityTypeRegistry#CHEESE_FORM_BLOCK_ENTITY",
+          "net.satisfy.meadow.core.registry.ObjectRegistry#CHEESE_FORM",
+          "net.satisfy.meadow.core.registry.RecipeRegistry#CHEESE",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
+        ]
+      }
+    },
     "maidsoulkitchen:youkaishomecoming_msm_yhc_moka_pot": {
       "bindMod": "YHCD",
       "clazzInfo": {
@@ -2421,52 +2470,17 @@
         ]
       }
     },
-    "maidsoulkitchen:meadow_msm_meadow_cheese_form": {
-      "bindMod": "DM",
+    "maidsoulkitchen:berry_farmersrespite_yellowtea": {
+      "bindMod": "FRD",
       "clazzInfo": {
         "classes": [
-          "dev.architectury.registry.registries.RegistrySupplier",
-          "net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity",
-          "net.satisfy.meadow.core.recipes.CheeseFormRecipe",
-          "net.satisfy.meadow.core.registry.EntityTypeRegistry",
-          "net.satisfy.meadow.core.registry.ObjectRegistry",
-          "net.satisfy.meadow.core.registry.RecipeRegistry",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
-          "studio.fantasyit.maid_storage_manager.storage.Target",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter"
+          "umpaz.farmersrespite.common.block.TeaBushBlock",
+          "umpaz.farmersrespite.common.registry.FRItems"
         ],
-        "methods": [
-          "dev.architectury.registry.registries.RegistrySupplier#get()Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
-          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z"
-        ],
+        "methods": [],
         "fields": [
-          "net.satisfy.meadow.core.registry.EntityTypeRegistry#CHEESE_FORM_BLOCK_ENTITY",
-          "net.satisfy.meadow.core.registry.ObjectRegistry#CHEESE_FORM",
-          "net.satisfy.meadow.core.registry.RecipeRegistry#CHEESE",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
+          "umpaz.farmersrespite.common.block.TeaBushBlock#AGE",
+          "umpaz.farmersrespite.common.registry.FRItems#YELLOW_TEA_LEAVES"
         ]
       }
     },
@@ -2530,20 +2544,6 @@
           "studio.fantasyit.maid_storage_manager.craft.generator.config.ConfigTypes$ConfigTypeEnum#Integer",
           "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
           "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
-        ]
-      }
-    },
-    "maidsoulkitchen:berry_farmersrespite_yellowtea": {
-      "bindMod": "FRD",
-      "clazzInfo": {
-        "classes": [
-          "umpaz.farmersrespite.common.block.TeaBushBlock",
-          "umpaz.farmersrespite.common.registry.FRItems"
-        ],
-        "methods": [],
-        "fields": [
-          "umpaz.farmersrespite.common.block.TeaBushBlock#AGE",
-          "umpaz.farmersrespite.common.registry.FRItems#YELLOW_TEA_LEAVES"
         ]
       }
     },
@@ -3075,6 +3075,14 @@
         ]
       }
     },
+    "maidsoulkitchen:fruit_compat": {
+      "bindMod": "MC",
+      "clazzInfo": {
+        "classes": [],
+        "methods": [],
+        "fields": []
+      }
+    },
     "maidsoulkitchen:brewinandchewin_keg_fermenting": {
       "bindMod": "BNCD",
       "clazzInfo": {
@@ -3129,14 +3137,6 @@
           "net.satisfy.farm_and_charm.core.registry.ObjectRegistry#STOVE",
           "net.satisfy.farm_and_charm.core.registry.RecipeTypeRegistry#STOVE_RECIPE_TYPE"
         ]
-      }
-    },
-    "maidsoulkitchen:fruit_compat": {
-      "bindMod": "MC",
-      "clazzInfo": {
-        "classes": [],
-        "methods": [],
-        "fields": []
       }
     },
     "maidsoulkitchen:farmersdelight_msm_fd_stove": {
@@ -3338,6 +3338,59 @@
         ]
       }
     },
+    "maidsoulkitchen:miners_delight_msm_md_cooking_pot": {
+      "bindMod": "MD",
+      "clazzInfo": {
+        "classes": [
+          "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity",
+          "com.sammy.minersdelight.logic.CupConversionReloadListener",
+          "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry",
+          "com.sammy.minersdelight.setup.MDBlocks",
+          "com.sammy.minersdelight.setup.MDItems",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
+          "studio.fantasyit.maid_storage_manager.storage.Target",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter",
+          "vectorwing.farmersdelight.common.crafting.CookingPotRecipe",
+          "vectorwing.farmersdelight.common.registry.ModRecipeTypes"
+        ],
+        "methods": [
+          "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity#isHeated()Z",
+          "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
+          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
+          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
+          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
+          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
+          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z",
+          "vectorwing.farmersdelight.common.crafting.CookingPotRecipe#getOutputContainer()Lnet/minecraft/world/item/ItemStack;"
+        ],
+        "fields": [
+          "com.sammy.minersdelight.logic.CupConversionReloadListener#BOWL_TO_CUP",
+          "com.sammy.minersdelight.setup.MDBlocks#COPPER_POT",
+          "com.sammy.minersdelight.setup.MDItems#COPPER_CUP",
+          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
+          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
+          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE",
+          "vectorwing.farmersdelight.common.registry.ModRecipeTypes#COOKING"
+        ]
+      }
+    },
     "maidsoulkitchen:tea_aroma_msm_ta_bamboo_tray": {
       "bindMod": "TA",
       "clazzInfo": {
@@ -3391,59 +3444,6 @@
           "studio.fantasyit.maid_storage_manager.craft.generator.config.ConfigTypes$ConfigTypeEnum#Integer",
           "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
           "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE"
-        ]
-      }
-    },
-    "maidsoulkitchen:miners_delight_msm_md_cooking_pot": {
-      "bindMod": "MD",
-      "clazzInfo": {
-        "classes": [
-          "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity",
-          "com.sammy.minersdelight.logic.CupConversionReloadListener",
-          "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry",
-          "com.sammy.minersdelight.setup.MDBlocks",
-          "com.sammy.minersdelight.setup.MDItems",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideData",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage",
-          "studio.fantasyit.maid_storage_manager.storage.Target",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter",
-          "vectorwing.farmersdelight.common.crafting.CookingPotRecipe",
-          "vectorwing.farmersdelight.common.registry.ModRecipeTypes"
-        ],
-        "methods": [
-          "com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity#isHeated()Z",
-          "com.sammy.minersdelight.repack.registrate.util.entry.ItemEntry#asStack()Lnet/minecraft/world/item/ItemStack;",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOptionSet#with(Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOption;Ljava/lang/Object;)Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;",
-          "studio.fantasyit.maid_storage_manager.craft.data.CraftGuideStepData#\u003cinit\u003e(Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;Ljava/util/List;Lnet/minecraft/resources/ResourceLocation;Lstudio/fantasyit/maid_storage_manager/craft/action/ActionOptionSet;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.algo.ICachableGeneratorGraph#addRecipe(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Function;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.cache.RecipeIngredientCache#addRecipeCache(Lnet/minecraft/resources/ResourceLocation;Ljava/util/List;)V",
-          "studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraftGuideGenerator#positionalAvailable(Lnet/minecraft/server/level/ServerLevel;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/EntityMaid;Lnet/minecraft/core/BlockPos;Lcom/github/tartaricacid/touhoulittlemaid/entity/passive/MaidPathFindingBFS;)Z",
-          "studio.fantasyit.maid_storage_manager.craft.generator.util.GenerateCondition#getFilterOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lstudio/fantasyit/maid_storage_manager/util/StorageAccessUtil$Filter;",
-          "studio.fantasyit.maid_storage_manager.storage.Target#virtual(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Lstudio/fantasyit/maid_storage_manager/storage/Target;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findAround(Lnet/minecraft/core/BlockPos;Ljava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.PosUtil#findInUpperSquare(Lnet/minecraft/core/BlockPos;IIILjava/util/function/Function;)Ljava/lang/Object;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil#getMarksForPosSet(Lnet/minecraft/world/level/Level;Lstudio/fantasyit/maid_storage_manager/storage/Target;Ljava/util/List;)Ljava/util/List;",
-          "studio.fantasyit.maid_storage_manager.util.StorageAccessUtil$Filter#isAvailable(Lnet/minecraft/world/item/ItemStack;)Z",
-          "vectorwing.farmersdelight.common.crafting.CookingPotRecipe#getOutputContainer()Lnet/minecraft/world/item/ItemStack;"
-        ],
-        "fields": [
-          "com.sammy.minersdelight.logic.CupConversionReloadListener#BOWL_TO_CUP",
-          "com.sammy.minersdelight.setup.MDBlocks#COPPER_POT",
-          "com.sammy.minersdelight.setup.MDItems#COPPER_CUP",
-          "studio.fantasyit.maid_storage_manager.craft.action.ActionOption#OPTIONAL",
-          "studio.fantasyit.maid_storage_manager.registry.ItemRegistry#ALLOW_ACCESS",
-          "studio.fantasyit.maid_storage_manager.storage.ItemHandler.ItemHandlerStorage#TYPE",
-          "vectorwing.farmersdelight.common.registry.ModRecipeTypes#COOKING"
         ]
       }
     },
@@ -4013,14 +4013,14 @@
           "taskUid": "maidsoulkitchen:cuisinedelight_cuisine_skillet_cuisine",
           "compatMod": "CD",
           "mixinList": [
-            "dev.xkmc.cuisinedelight.content.logic.CookingData"
+            "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry"
           ]
         },
         {
           "taskUid": "maidsoulkitchen:cuisinedelight_cuisine_skillet_cuisine",
           "compatMod": "CD",
           "mixinList": [
-            "dev.xkmc.cuisinedelight.content.logic.CookingData$CookingEntry"
+            "dev.xkmc.cuisinedelight.content.logic.CookingData"
           ]
         }
       ],
@@ -4038,14 +4038,14 @@
           "taskUid": "maidsoulkitchen:youkaishomecoming_kettle_kettle",
           "compatMod": "YHCD",
           "mixinList": [
-            "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlock"
+            "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
           ]
         },
         {
           "taskUid": "maidsoulkitchen:youkaishomecoming_kettle_kettle",
           "compatMod": "YHCD",
           "mixinList": [
-            "dev.xkmc.youkaishomecoming.content.pot.base.BasePotBlockEntity"
+            "dev.xkmc.youkaishomecoming.content.pot.kettle.KettleBlock"
           ]
         }
       ],

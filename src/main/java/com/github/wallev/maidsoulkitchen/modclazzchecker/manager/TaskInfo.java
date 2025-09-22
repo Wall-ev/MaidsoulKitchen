@@ -570,9 +570,10 @@ public enum TaskInfo implements ITaskInfo<Mods> {
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kaleidoscope Cookery Chopping Board(Maid Storage Manger)", zh_cn = "森罗厨房 彩板(女仆仓管)")
     MSM_KC_CHOPPING_BOARD("msm_kc_cutting_board", Mods.KC, true),
+    @IgnoreSolver
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kitchen Karrot Shaker(Maid Storage Manger)", zh_cn = "胡萝卜厨房 摇酒壶(女仆仓管)")
-    MSM_KK_SHAKER("msm_kk_shaker", Mods.KK, true),
+    MSM_KK_SHAKER("msm_kk_shaker", Mods.KK, true, () -> false),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Meadow Cheese Form(Maid Storage Manger)", zh_cn = "Meadow 奶酪模具(女仆仓管)")
     MSM_MEADOW_CHEESE_FORM("msm_meadow_cheese_form", Mods.DM, true),

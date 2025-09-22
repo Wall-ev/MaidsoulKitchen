@@ -538,7 +538,7 @@ publishMods {
             .replace(project.mod_version + "\r\n", "")
 
     // 再读取任务兼容性日志
-    def taskCompatLog = new File('./changelog/task_compat.txt').text.split("\r\n\r\n\r\n")[0]
+    def taskCompatLog = new File('./changelog/task_compat.txt').text.split("\n\n\n")[0]
             .replace(project.mod_version + "\r\n", "")
 
     // 合并两个日志，用空行分隔
@@ -548,21 +548,21 @@ publishMods {
     modLoaders.add("forge")
     type = ALPHA
 
-    curseforge {
-//        projectId  = 1162577
-        projectId  = "${project.curseforge_project_id}"
-        projectSlug = project.curseforge_project_slug // Required for discord webhook
-        accessToken = secrets.get("curseforge_token")
-        minecraftVersions.add("1.20.1")
-        requires("touhou-little-maid")
-    }
-//    modrinth {
-//        projectId  = project.modrinth_project_id
-//        accessToken = secrets.get("modrinth_token")
+//    curseforge {
+////        projectId  = 1162577
+//        projectId  = "${project.curseforge_project_id}"
+//        projectSlug = project.curseforge_project_slug // Required for discord webhook
+//        accessToken = secrets.get("curseforge_token")
 //        minecraftVersions.add("1.20.1")
-//        type = ALPHA
 //        requires("touhou-little-maid")
 //    }
+    modrinth {
+        projectId  = project.modrinth_project_id
+        accessToken = secrets.get("modrinth_token")
+        minecraftVersions.add("1.20.1")
+        type = ALPHA
+        requires("touhou-little-maid")
+    }
 }
 
 List<String> getCompatModIds() {

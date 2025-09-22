@@ -9,10 +9,6 @@
       "required": false
     },
     {
-      "id": "kitchenkarrot:cocktail",
-      "required": false
-    },
-    {
       "id": "tea_aroma:kettle",
       "required": false
     }
