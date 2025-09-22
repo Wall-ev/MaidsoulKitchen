@@ -90,7 +90,7 @@ dependencies {
     if (!storagedrawers_version.isEmpty())
         compileOnly fg.deobf("maven.modrinth:storagedrawers:${storagedrawers_version}-${mod_loader},${minecraft_version}")
     if (!toms_storage_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:toms-storage:${toms_storage_version}-${mod_loader},${minecraft_version}")
+        compileOnly fg.deobf("maven.modrinth:toms-storage:${toms_storage_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_core_version.isEmpty())
         implementation fg.deobf("maven.modrinth:sophisticated-core:${sophisticated_core_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_storage_version.isEmpty())

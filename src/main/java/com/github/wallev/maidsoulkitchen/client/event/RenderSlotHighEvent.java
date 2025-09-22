@@ -15,12 +15,13 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCook;
 import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.inventory.Slot;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static net.minecraft.client.gui.screens.inventory.AbstractContainerScreen.renderSlotHighlight;
 
-@Mod.EventBusSubscriber(modid = MaidsoulKitchen.MOD_ID)
+@Mod.EventBusSubscriber(modid = MaidsoulKitchen.MOD_ID, value = Dist.CLIENT)
 public class RenderSlotHighEvent {
 
     @SubscribeEvent
