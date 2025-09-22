@@ -1,3 +1,7 @@
+0.3.0.1
+## Fix
+Wrong mixin, kitchen karrot shaker use judgment
+
 0.3.0
 ## Feature
 - Added compatibility with maid storage manager, now the maid in storage manager task can cook (the compat mods can be viewed in Compat Modules below)
