@@ -8,10 +8,10 @@ import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.mojang.datafixers.util.Pair;
+import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
 import com.teamtea.eclipticseasons.api.constant.crop.CropSeasonInfo;
 import com.teamtea.eclipticseasons.api.constant.solar.Season;
 import com.teamtea.eclipticseasons.common.core.crop.CropInfoManager;
-import com.teamtea.eclipticseasons.common.handler.SolarUtil;
 import com.teamtea.eclipticseasons.config.CommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +30,8 @@ public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
         boolean plantB = super.canPlant(maid, basePos, baseState, seed);
         if (plantB && CommonConfig.Crop.enableCrop.get() && seed.getItem() instanceof BlockItem blockItem) {
             CropSeasonInfo seasonInfo = CropInfoManager.getSeasonInfo(blockItem.getBlock());
-            Season season = SolarUtil.getSeason(maid.level);
+            Season season = EclipticSeasonsApi.getInstance().getSolarTerm(maid.level).getSeason();
+//            Season season = SolarUtil.getSeason(maid.level);
             return seasonInfo != null && seasonInfo.isSuitable(season);
         }
 

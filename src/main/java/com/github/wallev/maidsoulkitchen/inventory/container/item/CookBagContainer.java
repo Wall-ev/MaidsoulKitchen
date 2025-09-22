@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.inventory.container.item;
 
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -59,7 +59,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                         this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
                             @Override
                             public boolean mayPlace(@NotNull ItemStack stack) {
-                                return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(MkItems.CULINARY_HUB.get());
+                                return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(ModItems.CULINARY_HUB.get());
                             }
                         });
                     }
@@ -76,7 +76,7 @@ public class CookBagContainer extends CookBagAbstractContainer {
                     this.addSlot(new SlotItemHandler(container, i, 8 + col * 18, yOffset) {
                         @Override
                         public boolean mayPlace(@NotNull ItemStack stack) {
-                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(MkItems.CULINARY_HUB.get());
+                            return super.mayPlace(stack) && stack.getItem().canFitInsideContainerItems() && !stack.is(ModItems.CULINARY_HUB.get());
                         }
                     });
                 }

@@ -1,10 +1,7 @@
 package com.github.wallev.maidsoulkitchen;
 
 import com.github.wallev.maidsoulkitchen.config.GeneralConfig;
-import com.github.wallev.maidsoulkitchen.init.MkContainer;
-import com.github.wallev.maidsoulkitchen.init.MkEffects;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.*;
 import com.github.wallev.maidsoulkitchen.util.debug.AspectDebug;
 import com.github.wallev.maidsoulkitchen.vhelper.IModInfo;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,11 +10,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import java.io.IOException;
+
 @Mod(MaidsoulKitchen.MOD_ID)
 public final class MaidsoulKitchen implements IModInfo {
-    public static final String ISSUE_URL = "https://github.com/Wall-ev/MaidsoulKitchen/issues";
 
-    public MaidsoulKitchen() {
+    public MaidsoulKitchen() throws IOException {
         initRegister();
         initConfigureRegister();
         initDebug();
@@ -29,10 +27,11 @@ public final class MaidsoulKitchen implements IModInfo {
 
     private static void initRegister() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        MkItems.ITEMS.register(modEventBus);
-        MkEffects.EFFECTS.register(modEventBus);
-        MkContainer.CONTAINER_TYPE.register(modEventBus);
-        MkEntities.MEMORY_MODULE_TYPES.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModEffects.EFFECTS.register(modEventBus);
+        ModContainers.CONTAINER_TYPE.register(modEventBus);
+        ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
+        ModEntities.MEMORY_MODULE_TYPES.register(modEventBus);
     }
 
     private static void initConfigureRegister() {

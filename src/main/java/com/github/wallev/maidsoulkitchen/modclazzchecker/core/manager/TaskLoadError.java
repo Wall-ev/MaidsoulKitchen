@@ -3,10 +3,13 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.MultiClassAnalysisResult;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.LanguageManager;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class TaskLoadError {
@@ -60,7 +63,7 @@ public class TaskLoadError {
                 continue;
             }
             MutableComponent mutableComponent = Component.translatable(String.format("message.%s.warning.failed_task", modId))
-                    .append(getName(errorTask))
+                    .append(getName(errorTask, checkManager))
                     .append(Component.translatable(String.format("message.%s.warning.failed_modid", modId)))
                     .append(task.getBindMod().modId());
             parent.append(mutableComponent);
@@ -72,16 +75,32 @@ public class TaskLoadError {
         checkManager.markReported();
     }
     
-    private static MutableComponent getName(String taskUid) {
+    private static MutableComponent getName(String taskUid, BaseClazzCheckManager<?, ?> checkManager) {
         ResourceLocation resourceLocation = ResourceLocation.tryParse(taskUid);
         if (resourceLocation == null) {
             return Component.empty();
         }
-        return getName(resourceLocation);
+        return getName(resourceLocation, checkManager);
     }
 
-    private static MutableComponent getName(ResourceLocation taskUid) {
-        String key = String.format("task.%s.%s", taskUid.getNamespace(), taskUid.getPath());
-        return Component.translatable(key);
+    private static MutableComponent getName(ResourceLocation taskUid, BaseClazzCheckManager<?, ?> checkManager) {
+        LanguageManager languageManager = Minecraft.getInstance().getLanguageManager();
+        Locale javaLocale = languageManager.getJavaLocale();
+        ITaskInfo<?> taskInfo = checkManager.defaultTaskInf();
+        ITaskInfo<?> taskInfoByUid = checkManager.taskInfoByUid(taskUid.toString());
+        if (taskInfoByUid != null) {
+            taskInfo = taskInfoByUid;
+        } else {
+            int a=  1;
+        }
+
+        String errorLang;
+        if (javaLocale.equals(Locale.CHINA)) {
+            errorLang = checkManager.getErrorTaskLang(taskInfo).zh_cn();
+        }  else {
+            errorLang = checkManager.getErrorTaskLang(taskInfo).en_us();
+        }
+
+        return Component.literal(errorLang);
     }
 }

@@ -21,8 +21,6 @@ import com.github.wallev.maidsoulkitchen.task.cook.farm_and_charm.stove.TaskDfcS
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cookingpot.TaskFdCookingPot;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersdelight.cuttingboard.TaskFdCuttingBoard;
 import com.github.wallev.maidsoulkitchen.task.cook.farmersrespite.kettle.TaskFrKettle;
-import com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard.TaskKcChoppingBoard;
-import com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.cookery.TaskKcPot;
 import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.aircompressor.TaskKkAirCompressor;
 import com.github.wallev.maidsoulkitchen.task.cook.kitchencarrot.brewing.TaskKkBrewingBarrel;
 import com.github.wallev.maidsoulkitchen.task.cook.meadow.cheeseform.TaskDmCheeseForm;
@@ -40,8 +38,8 @@ public enum CookTask {
 
     FURNACE(TaskInfo.FURNACE, TaskFurnace::new),
 
-    KC_POT(TaskInfo.KC_POT, TaskKcPot::new),
-    KC_CHOPPING_BOARD(TaskInfo.KC_CHOPPING_BOARD, TaskKcChoppingBoard::new),
+//    KC_POT(TaskInfo.KC_POT, TaskKcPot::new),
+//    KC_CHOPPING_BOARD(TaskInfo.KC_CHOPPING_BOARD, TaskKcChoppingBoard::new),
 
     FD_COOK_POT(TaskInfo.FD_COOK_POT, TaskFdCookingPot::new),
     FD_CUTTING_BOARD(TaskInfo.FD_CUTTING_BOARD, TaskFdCuttingBoard::new),

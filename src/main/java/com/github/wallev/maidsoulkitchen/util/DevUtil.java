@@ -1,20 +1,50 @@
 package com.github.wallev.maidsoulkitchen.util;
 
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.forgespi.language.IModFileInfo;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 
 import java.util.List;
 import java.util.UUID;
 
 public class DevUtil {
+    private static final String MOD_ID = MaidsoulKitchen.MOD_ID;
+    // 此版本号[,0.0]为开发环境版本号,由 build.gradle#tasks#processResources 控制
+    private static final String VERSION = "[,0.0]";
+
     private static final boolean DEBUG = !FMLEnvironment.production;
 
-    public static boolean isDev() {
+    private static final boolean MAIDSOUL_KITCHEN_DEV;
+
+    static {
+        try {
+            MAIDSOUL_KITCHEN_DEV = isMaidsoulKitchenDev();
+        } catch (InvalidVersionSpecificationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 判断环境是否为 Maidsoul Kitchen 的开发环境
+     */
+    private static boolean isMaidsoulKitchenDev() throws InvalidVersionSpecificationException {
+        VersionRange versionRange = VersionRange.createFromVersionSpec(VERSION);
+        IModFileInfo modFileById = ModList.get().getModFileById(MOD_ID);
+        ArtifactVersion version = modFileById.getMods().get(0).getVersion();
+        return versionRange.containsVersion(version);
+    }
+
+    private static boolean isDev() {
         return isDevEnv() || User.IS_DEV_USER;
     }
 
     public static boolean isDevEnv() {
-        return DEBUG;
+        return DEBUG && MAIDSOUL_KITCHEN_DEV;
     }
 
     private static class User {

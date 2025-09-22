@@ -1,12 +1,31 @@
 package com.github.wallev.maidsoulkitchen.task.cook.common.cook.inv;
 
+import com.github.wallev.maidsoulkitchen.compat.msm.common.util.SlotLimitInvWrapper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 
+import java.util.stream.IntStream;
+
 public interface IInvHandler {
     IInvHandler EMPTY = new EmptyInvHandler();
+
+    static IInvHandler cast(IItemHandler itemHandler) {
+        return (IInvHandler) itemHandler;
+    }
+
+    static IInvHandler cast(Container container) {
+        return (IInvHandler) container;
+    }
+
+    static IInvHandler createSlotLimitInvWrapper(Container container, int... limitSlots) {
+        return (IInvHandler) new SlotLimitInvWrapper(container, limitSlots);
+    }
+
+    static IInvHandler createSlotLimitInvWrapper(Container container, int from, int to) {
+        return (IInvHandler) new SlotLimitInvWrapper(container, IntStream.range(from, to + 1).toArray());
+    }
 
     /**
      * 返回可用槽数

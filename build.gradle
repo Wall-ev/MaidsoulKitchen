@@ -1,8 +1,9 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import org.gradle.internal.os.OperatingSystem  // 导入系统判断类
 
 buildscript {
     repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
+        // 插件仓库配置
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
@@ -21,34 +22,32 @@ plugins {
     id 'net.darkhax.curseforgegradle' version '[1.1.24,)'
     id "at.stnwtr.gradle-secrets-plugin" version "1.0.1"
     id "com.modrinth.minotaur" version "2.+"
-    // This should be below the net.minecraftforge.gradle plugin
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    // Mixin Plugin
     id 'org.spongepowered.mixin' version '0.7.+'
+
+    id "me.modmuss50.mod-publish-plugin" version "1.0.0"
 
     // AspectJ
 //    id 'io.freefair.aspectj.post-compile-weaving' version '8.3'
 }
 
 // 加载配置
-// [,1.21)
 def minecraft_version = "1.20.1"
 loadProperties(minecraft_version)
 loadGradle(minecraft_version)
 
-// Java版本
-// [,17]
+// Java版本配置
 java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 
-// 版本类型: beta alpha release
+// 版本类型配置
 String version_type = mod_version_type
-String version_cache = "1.0.0"
+String version_cache = ""  // 初始化空值，稍后会设置
 
-// 模组基础信息
+// 模组基础信息 - 关键修复：确保版本号正确缓存
 base {
     archivesName = mod_id
     version = getBuildVersion(version_type)
-    version_cache = version
+    version_cache = version  // 缓存生成的版本号
     group = mod_group_id
 
     println("archivesName: ${base.archivesName}")
@@ -58,17 +57,21 @@ base {
 println("archivesName: ${base.archivesName}")
 println("VERSION: ${version_cache}")
 
-
-
-
+// 关键修复：统一版本号生成逻辑，确保所有场景使用相同计算方式
 def String getBuildVersion(String version_type) {
-//    if (gradle.startParameter.taskNames.any { it.contains("build2Legacy") }) {
-//        def version1 = "${minecraft_version}-${version_type}-v${mod_version}" + "-build." + new Date().format("yyyyMMddHHmmss")
-//        return version1
-//    } else {
-        def version2 = "${minecraft_version}-${version_type}-v${mod_version}"
-        return version2
+    // 检查是否是Legacy构建任务
+    def isLegacyBuild = gradle.startParameter.taskNames.any {
+        it.contains("build2Legacy") || it.contains("buildMod")
+    }
+
+    // 统一版本号格式：MC版本-类型-版本号-构建信息（如需要）
+    def baseVersion = "${minecraft_version}-${version_type}-v${mod_version}"
+
+//    // 仅在Legacy构建时添加时间戳，确保版本唯一性
+//    if (isLegacyBuild) {
+//        return "${baseVersion}-build.${new Date().format("yyyyMMddHHmmss")}"
 //    }
+    return baseVersion
 }
 
 // MC 配置
@@ -80,15 +83,18 @@ minecraft {
 
     runs {
         configureEach {
+            // 添加内存分配参数 - 4096MB
+            jvmArgs "-Xmx4G"
+
             jvmArgs "-XX:+AllowEnhancedClassRedefinition"
             jvmArgs "-XX:+IgnoreUnrecognizedVMOptions"
             jvmArgs "-Dmixin.debug.export=true"
+
+            jvmArgs "-Dautual_version=$version_cache"
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            // 彩色日志
             property 'terminal.jline', 'true'
-
 
             mods {
                 "${mod_id}" {
@@ -99,7 +105,6 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
-
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
@@ -107,7 +112,6 @@ minecraft {
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
-
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
@@ -126,7 +130,6 @@ minecraft {
 // Mixin 配置
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
-//    add sourceSets.main, "${mod_id}-compat.refmap.json"
     config "${mod_id}.mixins.json"
     config "${mod_id}-compat.mixins.json"
 }
@@ -136,25 +139,26 @@ sourceSets {
     main {
         if (isBuildTask) {
             java {
-                // 排除 util/debug/aspect 目录
                 exclude 'com/github/wallev/maidsoulkitchen/util/debug/aspect/**'
             }
             resources {
+                exclude ".cache/**"
                 exclude 'META-INF/neoforge.mods.toml'
                 exclude 'aop.xml'
             }
         }
         resources {
-            // 导入自动生成的资源(resources)
             srcDir 'src/generated/resources'
         }
     }
 }
 
-// 生成 toml 信息，用于打包成生产环境的mod
+// 生成 toml 信息
 tasks.named('processResources', ProcessResources).configure {
     def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build") }
     def actualModVersion = isBuildTask ? mod_version : "0.0"
+
+    def isRunDataTask = gradle.startParameter.taskNames.any { it.contains("runData") }
 
     var replaceProperties = [
             minecraft_version      : minecraft_version,
@@ -164,7 +168,7 @@ tasks.named('processResources', ProcessResources).configure {
             loader_version_range   : loader_version_range,
 
             mod_id                 : mod_id,
-            mod_name               : mod_name,
+            mod_name               : isRunDataTask ? mod_name + "(${mod_version})" : mod_name,
             mod_license            : mod_license,
             mod_version            : actualModVersion,
             mod_credits            : mod_credits,
@@ -179,13 +183,13 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
-// 生成 manifest 内容，用于打包时填充版本信息等内容
+// 生成 manifest 内容
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
                 'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Specification-Version'   : '1',
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor'   : mod_authors,
@@ -196,7 +200,7 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
-// 指定编码显式为 UTF
+// 指定编码为UTF-8
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
@@ -206,17 +210,14 @@ java {
     withSourcesJar()
 }
 
-// ALL 为下载 gradle 源码，方便查看调试
+// Gradle wrapper配置
 tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.ALL
 }
 
-// 基础配置
+// 基础依赖配置
 dependencies {
-    // 本体
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    // Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
@@ -224,34 +225,8 @@ dependencies {
     }
 }
 
-dependencies {
-//    if (isTaskStartWith("run")) {
-//        minecraftLibrary('org.aspectj:aspectjrt:1.9.24')
-//        minecraftLibrary('org.aspectj:aspectjweaver:1.9.24')
-//        implementation('org.springframework.boot:spring-boot-starter-aop:2.6.3')
-//        implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
-//
-//    } else {
-//        compileOnly('org.aspectj:aspectjrt:1.9.24')
-//        compileOnly('org.aspectj:aspectjweaver:1.9.24')
-//        compileOnly('org.springframework.boot:spring-boot-starter-aop:2.6.3')
-//        compileOnly('org.springframework.boot:spring-boot-devtools:3.5.0')
-//    }
-}
-
-// 配置 Java 代理
-tasks.withType(JavaExec).configureEach {
-//    if (!isTaskStartWith("runClient")) {
-//        return
-//    }
-//    jvmArgs += [
-//            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
-//    ]
-}
-
 // libs自动依赖
 dependencies {
-
     if (file("libs/${minecraft_version}/implementation").exists()) {
         for (final def file in fileTree(dir: "libs/${minecraft_version}/implementation", includes: ['*.jar']).getFiles()) {
             def name = file.getName()
@@ -281,7 +256,7 @@ dependencies {
     }
 }
 
-// util
+// 工具方法
 def loadGradle(String minecraft_version) {
     apply from: "setting/common/forge/repositories.gradle"
     apply from: "setting/common/forge/dependencies.gradle"
@@ -323,7 +298,6 @@ def printProperties(Project project) {
 
 def isTask(String... defTasks) {
     def inRunTasks = gradle.startParameter.taskNames
-
     for (final def inRunTask in inRunTasks) {
         for (final def defTask in defTasks) {
             if (inRunTask.contains(defTask)) {
@@ -336,7 +310,6 @@ def isTask(String... defTasks) {
 
 def isTaskStartWith(String start) {
     def inRunTasks = gradle.startParameter.taskNames
-
     for (final def inRunTask in inRunTasks) {
         if (inRunTask.startsWith(start)) {
             return true;
@@ -345,30 +318,53 @@ def isTaskStartWith(String start) {
     return false;
 }
 
-
+// 构建任务配置 - 关键修复：确保传递正确的版本号
 String buildGroup = "build"
 tasks.register("build2Legacy") {
     group = buildGroup
-    description = '构建MaidsoulKitchen给Legacy做兼容使用'
+    description = '构建MaidsoulKitchen给Legacy做兼容使用（自动适配Windows/Linux/macOS）'
 
     doLast {
-        exec {
+        def os = OperatingSystem.current()
+        def scriptPath = ""
+        def command = []
 
-            // 设置环境变量，将Gradle属性传递给批处理脚本
+        if (os.isWindows()) {
+            scriptPath = "build2Legacy.bat"
+            command = [scriptPath]
+        } else if (os.isLinux() || os.isMacOsX()) {
+            scriptPath = "build2Legacy.sh"
+            exec {
+                commandLine = ["chmod", "+x", scriptPath]
+                ignoreExitValue = true
+            }
+            command = ["bash", scriptPath]
+        } else {
+            throw new GradleException("不支持当前操作系统：${os.name}，请手动执行对应脚本！")
+        }
+
+        def scriptFile = file(scriptPath)
+        if (!scriptFile.exists()) {
+            throw new GradleException("当前系统所需脚本不存在：${scriptFile.absolutePath}")
+        }
+
+        // 关键修复：使用缓存的版本号，确保与Gradle内部版本一致
+        exec {
             environment "MOD_ID", mod_id
-            environment "VERSION", version_cache
+            environment "VERSION", version_cache  // 使用缓存的版本号
             environment "MINECRAFT_VERSION", minecraft_version
 
-            println(MOD_ID: mod_id)
-            println(VERSION: version_cache)
-            println(MINECRAFT_VERSION: minecraft_version)
+            println("当前环境：${os.name}")
+            println("执行脚本：${scriptFile.absolutePath}")
+            println("传递参数：MOD_ID=${mod_id}, VERSION=${version_cache}, MINECRAFT_VERSION=${minecraft_version}")
 
-            commandLine = ['build2Legacy.bat']
-            ignoreExitValue = false // 如果命令失败则中断构建
+            commandLine = command
+            ignoreExitValue = false
         }
     }
 }
 
+// 其他任务配置...
 if (isTask("buildAll")) {
     dependencies {
         if (file("libs/${minecraft_version}/legacy").exists()) {
@@ -387,29 +383,76 @@ if (isTask("buildAll")) {
     }
 }
 
-tasks.register("buildAll") {
-    group = null
-    description = '构建模组，由buildMod任务启动package.bat触发'
-    version = "${minecraft_version}-${version_type}-v${mod_version}"
+tasks.named('init') {
+    group = "init"
+    description = '项目初始化，如果使用过了对应系统的初始化脚本，就可以不用初始化了'
+    doLast {
+        def os = OperatingSystem.current()
+        def scriptPath = os.isWindows() ? "init.bat" : "init.sh"
+        def scriptFile = file(scriptPath)
 
-    dependsOn(rootProject.tasks.build)
+        if (!scriptFile.exists()) {
+            throw new GradleException("初始化脚本不存在：${scriptFile.absolutePath}")
+        }
+
+        exec {
+            commandLine = os.isWindows() ? [scriptPath] : ["bash", scriptPath]
+
+            if (!os.isWindows()) {
+                exec {
+                    commandLine = ["chmod", "+x", scriptPath]
+                    ignoreExitValue = true
+                }
+            }
+
+            println("当前环境：${os.name}，执行初始化脚本：${scriptFile.absolutePath}")
+            ignoreExitValue = false
+        }
+    }
 }
 
 tasks.register("buildMod") {
     group = buildGroup
     description = '打包完整的模组'
     doLast {
-        exec {
-            // 设置环境变量，将Gradle属性传递给批处理脚本
-            environment "MOD_ID", mod_id
-            environment "VERSION", version
-            environment "MINECRAFT_VERSION", rootProject.ext.minecraft_version
+        def os = OperatingSystem.current()
+        def scriptPath = os.isWindows() ? "package.bat" : "package.sh"
+        def scriptFile = file(scriptPath)
 
-            commandLine = ['package.bat']
-            ignoreExitValue = false // 如果命令失败则中断构建
+        if (!scriptFile.exists()) {
+            throw new GradleException("打包脚本不存在：${scriptFile.absolutePath}")
+        }
+
+        // 关键修复：使用缓存的版本号
+        exec {
+            environment "MOD_ID", mod_id
+            environment "VERSION", version_cache  // 使用缓存的版本号
+            environment "MINECRAFT_VERSION", minecraft_version
+
+            commandLine = os.isWindows() ? [scriptPath] : ["bash", scriptPath]
+
+            if (!os.isWindows()) {
+                exec {
+                    commandLine = ["chmod", "+x", scriptPath]
+                    ignoreExitValue = true
+                }
+            }
+
+            println("当前环境：${os.name}，执行打包脚本：${scriptFile.absolutePath}")
+            println("传递参数：MOD_ID=${mod_id}, VERSION=${version_cache}, MINECRAFT_VERSION=${minecraft_version}")
+            ignoreExitValue = false
         }
     }
 }
+
+tasks.register("buildAll") {
+    group = null
+    description = '构建模组，由buildMod任务启动package.bat触发'
+    version = version_cache  // 使用缓存的版本号
+
+    dependsOn(rootProject.tasks.build)
+}
+
 
 tasks.named('build') {
     // 隐藏任务，使用 buildMod 任务
@@ -417,50 +460,216 @@ tasks.named('build') {
     description =  '请使用 buildMod 任务'
 }
 
-tasks.named('init') {
-    // 隐藏任务，使用 buildMod 任务
-    group = "init"
-    description = '项目初始化，如果使用过了 init.bat，就可以不用初始化了'
-    doLast {
-        exec {
-            commandLine = ['init.bat']
-            ignoreExitValue = false // 如果命令失败则中断构建
-        }
-    }
-}
-
 tasks.compileJava {
     // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
     outputs.upToDateWhen { false }
 }
 
+// 发布配置
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     group = "publishing"
     apiToken = secrets.get("curseforge_token")
-    def mainFile = upload(project.curseforge_project, new File("./changelog/${mod_id}-${version}-all.jar"))
-//    mainFile.withAdditionalFile(new File("./changelog/${mod_id}-${version}-sources.jar"))
-    mainFile.changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
+    def mainFile = upload(project.curseforge_project_id, new File("./changelog/file/${mod_id}-${version_cache}-all.jar"))
+//    mainFile.withAdditionalFile(new File("./changelog/file/${mod_id}-${version_cache}-sources.jar"))
+
+    // 先读取主更新日志
+    def mainChangelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 再读取任务兼容性日志
+    def taskCompatLog = new File('./changelog/task_compat.txt').text.split("\n\n\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 合并两个日志，用空行分隔
+    mainFile.changelog = mainChangelog + "\r\n\r\n" + taskCompatLog
+
+//    mainFile.changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
+//
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.20.1")
     mainFile.addModLoader("Forge")
     mainFile.addRequirement("touhou-little-maid")
-//    mainFile.addOptional()
+
+//    getCompatModIds().forEach {
+//        mainFile.addOptional(it.replace("_", "-"))
+//    }
+
     mainFile.releaseType = project.mod_version_type
     disableVersionDetection()
 }
 
 modrinth {
     token = secrets.get("modrinth_token")
-    projectId = project.modrinth_project
+    projectId = project.modrinth_project_slug
     versionName = "${mod_name} ${project.mod_version}"
-    versionNumber = project.mod_version
+    versionNumber = version_cache  // 使用缓存的版本号
     versionType = project.mod_version_type
-    uploadFile = new File("./changelog/${mod_id}-${version}-all.jar")
-//    additionalFiles = [new File("./changelog/${mod_id}-${version}-sources.jar")]
+    uploadFile = new File("./changelog/file/${mod_id}-${version_cache}-all.jar")
+//    additionalFiles = [new File("./changelog/file/${mod_id}-${version_cache}-sources.jar")]
     gameVersions = ["1.20.1"]
     loaders = ["forge"]
-    changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
+
+    // 先读取主更新日志
+    def mainChangelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 再读取任务兼容性日志
+    def taskCompatLog = new File('./changelog/task_compat.txt').text.split("\n\n\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 合并两个日志，用空行分隔
+    changelog = mainChangelog + "\r\n\r\n" + taskCompatLog
+
     dependencies {
         required.project "touhou-little-maid"
+
+//        getCompatModIds().forEach {
+//            optional.project it.replace("_", "-")
+//        }
+    }
+}
+
+
+publishMods {
+    file = new File("./changelog/file/${mod_id}-${version_cache}-all.jar")
+
+    // 先读取主更新日志
+    def mainChangelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 再读取任务兼容性日志
+    def taskCompatLog = new File('./changelog/task_compat.txt').text.split("\r\n\r\n\r\n")[0]
+            .replace(project.mod_version + "\r\n", "")
+
+    // 合并两个日志，用空行分隔
+    changelog = mainChangelog + "\r\n\r\n" + taskCompatLog
+
+    type = ALPHA
+//    type = project.mod_version_type
+    modLoaders.add("forge")
+
+    curseforge {
+        projectId  = project.curseforge_project_id
+        projectSlug = project.curseforge_project_slug // Required for discord webhook
+        accessToken = secrets.get("curseforge_token")
+        minecraftVersions.add("1.20.1")
+        requires("touhou-little-maid")
+    }
+    modrinth {
+        projectId  = project.modrinth_project_id
+        accessToken = secrets.get("modrinth_token")
+        minecraftVersions.add("1.20.1")
+        requires("touhou-little-maid")
+    }
+}
+
+List<String> getCompatModIds() {
+    // 存储所有以 "- " 开头的值
+    def hyphenValues = []
+
+    // 文件路径，根据实际情况修改
+    def filePath = file('changelog/task_compat.txt')
+
+    if (!filePath.exists()) {
+        println "文件不存在: ${filePath.absolutePath}"
+        return hyphenValues
+    }
+
+    // 跟踪是否找到第一个版本号
+    boolean foundFirstVersion = false
+    // 跟踪是否遇到第二个版本号（用于停止读取）
+    boolean foundSecondVersion = false
+    // 存储第一个版本号
+    String firstVersion = ""
+
+    // 读取文件并处理每一行
+    filePath.eachLine { line ->
+        // 如果已经找到第二个版本号，停止处理
+        if (foundSecondVersion) {
+            return hyphenValues;
+        }
+
+        // 检查是否是版本号行（假设版本号格式为数字.数字.数字）
+        def versionMatcher = (line =~ /^\d+\.\d+\.\d+$/)
+        if (versionMatcher.matches()) {
+            if (!foundFirstVersion) {
+                // 记录第一个版本号
+                firstVersion = line.trim()
+                foundFirstVersion = true
+                println "找到第一个版本号: ${firstVersion}"
+            } else {
+                // 找到第二个版本号，停止处理后续内容
+                foundSecondVersion = true
+                println "找到第二个版本号，停止读取"
+                return hyphenValues;
+            }
+        }
+
+        // 只处理第一个版本号下的内容
+        if (foundFirstVersion && !foundSecondVersion) {
+            // 检查是否以 "- " 开头
+            if (line.startsWith('- ')) {
+                // 提取 "- " 后面的内容并去除首尾空格
+                def value = line.replace("- ", "").trim()
+                hyphenValues.add(value)
+            }
+        }
+    }
+
+    return hyphenValues;
+}
+
+tasks.register('readFirstVersionHyphenValues') {
+    doLast {
+        // 文件路径，根据实际情况修改
+        def filePath = file('changelog/task_compat.txt')
+
+        if (!filePath.exists()) {
+            println "文件不存在: ${filePath.absolutePath}"
+            return
+        }
+
+        // 存储所有以 "- " 开头的值
+        def hyphenValues = []
+        // 跟踪是否找到第一个版本号
+        boolean foundFirstVersion = false
+        // 跟踪是否遇到第二个版本号（用于停止读取）
+        boolean foundSecondVersion = false
+        // 存储第一个版本号
+        String firstVersion = ""
+
+        // 读取文件并处理每一行
+        filePath.eachLine { line ->
+            // 如果已经找到第二个版本号，停止处理
+            if (foundSecondVersion) {
+                return // 修正：使用简单的return代替return@eachLine
+            }
+
+            // 检查是否是版本号行（假设版本号格式为数字.数字.数字）
+            def versionMatcher = (line =~ /^\d+\.\d+\.\d+$/)
+            if (versionMatcher.matches()) {
+                if (!foundFirstVersion) {
+                    // 记录第一个版本号
+                    firstVersion = line.trim()
+                    foundFirstVersion = true
+                    println "找到第一个版本号: ${firstVersion}"
+                } else {
+                    // 找到第二个版本号，停止处理后续内容
+                    foundSecondVersion = true
+                    println "找到第二个版本号，停止读取"
+                    return // 修正：使用简单的return代替return@eachLine
+                }
+            }
+
+            // 只处理第一个版本号下的内容
+            if (foundFirstVersion && !foundSecondVersion) {
+                // 检查是否以 "- " 开头
+                if (line.startsWith('- ')) {
+                    // 提取 "- " 后面的内容并去除首尾空格
+                    def value = line.replace("- ", "").trim()
+                    hyphenValues.add(value)
+                }
+            }
+        }
     }
 }

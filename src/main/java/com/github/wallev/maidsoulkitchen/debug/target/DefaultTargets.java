@@ -2,7 +2,7 @@ package com.github.wallev.maidsoulkitchen.debug.target;
 
 import com.github.tartaricacid.touhoulittlemaid.debug.target.DebugTarget;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import net.minecraft.util.VisibleForDebug;
 import net.minecraft.world.entity.ai.Brain;
 
@@ -24,7 +24,7 @@ public class DefaultTargets {
         List<DebugTarget> list = new ArrayList<>();
 
         Brain<EntityMaid> brain = maid.getBrain();
-        brain.getMemory(MkEntities.WORK_POS.get()).ifPresent(m -> {
+        brain.getMemory(ModEntities.WORK_POS.get()).ifPresent(m -> {
             list.add(new DebugTarget(m.currentBlockPosition(), COLOR, TEXT, LIFE_TIME));
         });
         return list;

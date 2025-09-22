@@ -6,8 +6,8 @@ import com.github.wallev.maidsoulkitchen.api.task.IDataTask;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
@@ -44,7 +44,7 @@ public class TaskCook implements IMaidsoulKitchenTask, IDataTask<KitchenData> {
 
     @Override
     public ItemStack getIcon() {
-        return MkItems.CULINARY_HUB.get().getDefaultInstance();
+        return ModItems.CULINARY_HUB.get().getDefaultInstance();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class TaskCook implements IMaidsoulKitchenTask, IDataTask<KitchenData> {
     @Override
     public boolean enableLookAndRandomWalk(EntityMaid maid) {
         // 工作中禁止游走
-        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
+        return !maid.getBrain().hasMemoryValue(ModEntities.WORK_POS.get());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class TaskCook implements IMaidsoulKitchenTask, IDataTask<KitchenData> {
 //        return false;
 
         // 工作中禁止吃饭
-        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
+        return !maid.getBrain().hasMemoryValue(ModEntities.WORK_POS.get());
     }
 
     public ICookTask<?, ?> getOrIdleTask(EntityMaid maid) {

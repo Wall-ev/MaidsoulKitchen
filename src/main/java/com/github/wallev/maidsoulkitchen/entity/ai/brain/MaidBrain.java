@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
-import static com.github.wallev.maidsoulkitchen.init.MkEntities.MEMORY_MODULE_TYPES;
+import static com.github.wallev.maidsoulkitchen.init.ModEntities.MEMORY_MODULE_TYPES;
 
 public class MaidBrain implements IExtraMaidBrain {
 

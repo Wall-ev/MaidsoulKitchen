@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMccMixinInterface;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMskMixinInterface;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -93,7 +93,7 @@ public interface IMaidsoulKitchenTask extends IMaidTask {
         public static boolean isApplyMixin(ResourceLocation task) {
             boolean apply = true;
             for (String targetClass : MIXIN.getOrDefault(task, List.of())) {
-                if (!IMccMixinInterface.applyInterfaceMixin(targetClass)) {
+                if (!IMskMixinInterface.applyInterfaceMixin(targetClass)) {
                     MaidsoulKitchen.LOGGER.error("MixinError: task: {}, class: {}", task, targetClass);
                     apply = false;
                 }

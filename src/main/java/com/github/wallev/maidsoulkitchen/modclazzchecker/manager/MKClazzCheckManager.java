@@ -33,6 +33,11 @@ public class MKClazzCheckManager extends MKClazzCheck2MixinManager<TaskInfo> {
     }
 
     @Override
+    public TaskInfo defaultTaskInf() {
+        return TaskInfo.NONE;
+    }
+
+    @Override
     public Set<String> getExtractMod() {
         return Sets.newHashSet(TouhouLittleMaid.MOD_ID);
     }

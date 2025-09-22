@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
@@ -40,7 +40,7 @@ public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Cont
 
     public CookMoveTask(ICookTask<B, R> task, MaidCookManager<R> cm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe, float movementSpeed, int verticalSearchRange) {
         super(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
-                MkEntities.WORK_POS.get(), MemoryStatus.VALUE_ABSENT));
+                ModEntities.WORK_POS.get(), MemoryStatus.VALUE_ABSENT));
         this.task = task;
         this.cm = cm;
         this.rule = rule;
@@ -116,5 +116,6 @@ public class CookMoveTask<B extends BlockEntity, R extends Recipe<? extends Cont
     private void setNextCheckTickCount(int nextCheckTickCount) {
         cm.setNextCheckTickCount(nextCheckTickCount);
     }
+
 
 }

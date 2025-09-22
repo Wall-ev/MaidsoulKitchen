@@ -6,4 +6,5 @@ import org.apache.logging.log4j.Logger;
 public interface IModInfo {
     String MOD_ID = "maidsoulkitchen";
     Logger LOGGER = LogManager.getLogger(MOD_ID);
+    String ISSUE_URL = "https://github.com/Wall-ev/MaidsoulKitchen/issues";
 }

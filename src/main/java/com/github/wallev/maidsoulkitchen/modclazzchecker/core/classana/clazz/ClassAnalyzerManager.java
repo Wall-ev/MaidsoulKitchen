@@ -24,7 +24,7 @@ import static com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.Ta
 public class ClassAnalyzerManager {
 
     public static void writeModTaskClazz(Path rootOutputFolder, BaseClazzCheckManager<?, ?> checkManager) throws Exception {
-        Type taskClazzAnnotationType = checkManager.getTaskClazzAnnotationType();
+        List<Type> taskClazzAnnotationTypes = checkManager.getTaskClazzAnnotationType();
         Type taskMixinClazzAnnotationType = checkManager.getTaskClazzMixinAnnotationType();
         List<ModFileScanData> allScanData = ModList.get().getAllScanData();
         ClassMap clazzMap = new ClassMap();
@@ -32,7 +32,7 @@ public class ClassAnalyzerManager {
             for (ModFileScanData.AnnotationData data : scanData.getAnnotations()) {
                 Type annotationedType = data.annotationType();
                 String memberName = data.memberName();
-                if (Objects.equals(annotationedType, taskClazzAnnotationType)) {
+                if (taskClazzAnnotationTypes.contains(annotationedType)) {
                     Object taskValue = data.annotationData().get("value");
                     if (taskValue == null) {
                         throw new RuntimeException("Please specify the task category: " + data.memberName());
@@ -40,6 +40,15 @@ public class ClassAnalyzerManager {
                     ITaskInfo<?> task = checkManager.taskInfoByKey(getEnumHolderValue(data, "value"));
                     clazzMap.addClazz(task, Class.forName(memberName));
                 }
+
+//                if (Objects.equals(annotationedType, taskClazzAnnotationType)) {
+//                    Object taskValue = data.annotationData().get("value");
+//                    if (taskValue == null) {
+//                        throw new RuntimeException("Please specify the task category: " + data.memberName());
+//                    }
+//                    ITaskInfo<?> task = checkManager.taskInfoByKey(getEnumHolderValue(data, "value"));
+//                    clazzMap.addClazz(task, Class.forName(memberName));
+//                }
                 if (Objects.equals(annotationedType, taskMixinClazzAnnotationType) && data.memberName().startsWith(checkManager.getMixinPackage())) {
                     Object taskValue = data.annotationData().get("value");
                     if (taskValue == null) {

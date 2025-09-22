@@ -1,0 +1,10 @@
+{
+  "type": "maidsoulkitchen:consume_water",
+  "condition": "multiple",
+  "input": {
+    "item": "meadow:wooden_bucket"
+  },
+  "result": {
+    "item": "meadow:wooden_water_bucket"
+  }
+}

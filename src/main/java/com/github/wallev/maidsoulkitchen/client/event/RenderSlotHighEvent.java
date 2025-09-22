@@ -9,7 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaid
 import com.github.tartaricacid.touhoulittlemaid.util.TipsHelper;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.CookTaskManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.task.TaskCook;
 import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
@@ -33,7 +33,7 @@ public class RenderSlotHighEvent {
         int guiLeft = gui.getGuiLeft();
         int guiTop = gui.getGuiTop();
         GuiGraphics graphics = event.getGraphics();
-        if (menu.getCarried().is(MkItems.CULINARY_HUB.get()) && menu.slots.size() >= 55) {
+        if (menu.getCarried().is(ModItems.CULINARY_HUB.get()) && menu.slots.size() >= 55) {
             final int hubSlotIndex = 55;
 //            final int color = new Color(44, 255, 44, 96).getRGB();
             final int color = 1613561644;

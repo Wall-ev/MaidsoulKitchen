@@ -1,6 +1,8 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.inv.InvHandlerRegister;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.AutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.EnumCodecUtil;
@@ -8,6 +10,7 @@ import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import org.objectweb.asm.Type;
 
+import java.util.List;
 import java.util.Set;
 
 public class MKClazzCheck2MixinManager<T extends ITaskInfo<Mods>> extends BaseClazzCheckManager<T, Mods> {
@@ -41,18 +44,28 @@ public class MKClazzCheck2MixinManager<T extends ITaskInfo<Mods>> extends BaseCl
     }
 
     @Override
+    public T defaultTaskInf() {
+        return null;
+    }
+
+    @Override
     public Mods modsByKey(String mod) {
         return Mods.by(mod);
     }
 
     @Override
-    public Type getTaskClazzAnnotationType() {
-        return Type.getType(TaskClassAnalyzer.class);
+    public List<Type> getTaskClazzAnnotationType() {
+        return List.of(Type.getType(TaskClassAnalyzer.class), Type.getType(AutoCraftGuideGeneratorRegister.class), Type.getType(InvHandlerRegister.class));
     }
 
     @Override
     public Type getTaskClazzMixinAnnotationType() {
         return Type.getType(TaskMixin.class);
+    }
+
+    @Override
+    public Type getErrorTaskLangAnnotationType() {
+        return Type.getType(TaskErrorLang.class);
     }
 
     @Override

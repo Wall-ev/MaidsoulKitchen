@@ -1,6 +1,6 @@
 package com.github.wallev.maidsoulkitchen.client.overlay;
 
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.inventory.container.item.BagType;
 import com.github.wallev.maidsoulkitchen.item.ItemCulinaryHub;
 import com.google.common.collect.Lists;
@@ -66,7 +66,7 @@ public class CulinaryHubOverlay implements IGuiOverlay {
             return;
         }
         ItemStack mainHandItem = player.getMainHandItem();
-        if (!mainHandItem.is(MkItems.CULINARY_HUB.get())) {
+        if (!mainHandItem.is(ModItems.CULINARY_HUB.get())) {
             return;
         }
         BlockPos hitResultBlockPos = blockHitResult.getBlockPos();

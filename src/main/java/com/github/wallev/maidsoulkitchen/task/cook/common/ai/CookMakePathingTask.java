@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
@@ -24,7 +24,7 @@ public class CookMakePathingTask<B extends BlockEntity> extends Behavior<EntityM
     private Vec3 walkPosVec3;
 
     public CookMakePathingTask(CookBeBase<B> cookBe) {
-        super(ImmutableMap.of(MkEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT, MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT));
+        super(ImmutableMap.of(ModEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT, MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT));
         this.cookBe = cookBe;
         this.movementSpeed = ICookTask.MOVE_SPEED;
     }

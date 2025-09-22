@@ -13,6 +13,9 @@ import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ModUtil {
     public static boolean isInstalled(String modId) {
         ModList modList = ModList.get();
@@ -108,6 +111,27 @@ public class ModUtil {
         }
         return version.toString();
 
+    }
+
+    // [x.x.x,)
+    public static String getAutualMaidsoulKitchenVersion() {
+        // 正则表达式匹配括号中的内容
+        Pattern pattern = Pattern.compile("\\((.*?)\\)");
+
+        IModInfo modInfo = getModInfo(Mods.MSK.getModId());
+        if (modInfo == null) {
+            return "";
+        }
+
+        String displayName = modInfo.getDisplayName();
+
+        Matcher matcher = pattern.matcher(displayName);
+        // 如果找到匹配项，提取括号中的内容
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return "";
     }
 
     public static boolean allLoaded(String... modIds) {

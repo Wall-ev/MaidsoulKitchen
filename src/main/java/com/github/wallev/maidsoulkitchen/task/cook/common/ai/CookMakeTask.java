@@ -4,7 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.debug.annotation.SafeRun;
 import com.github.wallev.maidsoulkitchen.debug.annotation.TimeRecord;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
@@ -32,7 +32,7 @@ public class CookMakeTask<B extends BlockEntity, R extends Recipe<? extends Cont
     private final CookBeBase<B> cookBe;
 
     public CookMakeTask(ICookTask<B, R> task, MaidCookManager<R> cm, AbstractCookRule<B, R> rule, CookBeBase<B> cookBe) {
-        super(ImmutableMap.of(MkEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT));
+        super(ImmutableMap.of(ModEntities.WORK_POS.get(), MemoryStatus.VALUE_PRESENT));
         this.task = task;
         this.cm = cm;
         this.rule = rule;
@@ -50,7 +50,7 @@ public class CookMakeTask<B extends BlockEntity, R extends Recipe<? extends Cont
         }
 
         Brain<EntityMaid> brain = maid.getBrain();
-        return brain.getMemory(MkEntities.WORK_POS.get()).map(targetPos -> {
+        return brain.getMemory(ModEntities.WORK_POS.get()).map(targetPos -> {
             Vec3 targetV3d = targetPos.currentPosition();
             if (maid.distanceToSqr(targetV3d) > Math.pow(task.getCloseEnoughDist(), 2)) {
                 Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);

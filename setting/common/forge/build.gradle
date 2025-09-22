@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.common.util.MavenArtifactDownloader
+
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -49,6 +51,10 @@ minecraft {
     copyIdeResources = true
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
+//    def cleanArtifactJar = Objects.requireNonNull(MavenArtifactDownloader.generate(project, "net.minecraft:joined:${project.MCP_VERSION}:srg", true), "Cannot find clean minecraft artifact000")
+
+//    println("cleanArtifactJar: ${project.MCP_VERSION}")
+
     runs {
         configureEach {
             workingDirectory project.file('run')
@@ -56,6 +62,14 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             // 彩色日志
             property 'terminal.jline', 'true'
+
+//            // 直接在这里设置属性
+//            def cleanArtifactJar = Objects.requireNonNull(
+//                    MavenArtifactDownloader.generate(project,
+//                            "net.minecraft:joined:${project.MCP_VERSION}:srg", true),
+//                    "Cannot find clean minecraft artifact"
+//            )
+//            property("connector.clean.path", cleanArtifactJar)
 
 
             mods {
@@ -152,6 +166,15 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.ALL
 }
 
+//project.afterEvaluate {
+//    println " Hellp11111"
+//    println "MCP_VERSION: ${project.MCP_VERSION}"
+////    MCP_VERSION: 1.20.1-20230612.114412
+//
+////    20230612.114412
+//
+//}
+
 // 基础配置
 dependencies {
     // 本体
@@ -178,15 +201,15 @@ dependencies {
     }
 }
 
-/**
- * 脚本工具用
- */
-dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
-    implementation 'org.apache.commons:commons-io:1.3.2'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-}
+///**
+// * 脚本工具用
+// */
+//dependencies {
+//    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+//    implementation 'org.apache.commons:commons-io:1.3.2'
+//    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+//    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+//}
 
 
 
@@ -230,3 +253,69 @@ def printProperties(Project project) {
         println ">- ${key} = ${value}"
     }
 }
+
+//// Attach clean minecraft artifact path to runs, necessary for Connector to work
+//afterEvaluate {
+//    println "MCP_VERSION: ${project.MCP_VERSION}"
+//
+//    def cleanArtifactJar = Objects.requireNonNull(net.minecraftforge.gradle.common.util.MavenArtifactDownloader.generate(project, "net.minecraft:joined:${project.MCP_VERSION}:srg", true), "Cannot find clean minecraft artifact")
+//    minecraft.runs.configureEach {
+//        property("connector.clean.path", cleanArtifactJar)
+//    }
+//}
+
+//project.afterEvaluate { p ->
+//    println "MCP_VERSION: ${p.MCP_VERSION}"
+//    def cleanArtifactJar = Objects.requireNonNull(
+//            net.minecraftforge.gradle.common.util.MavenArtifactDownloader.generate(p,
+//                    "net.minecraft:joined:${p.MCP_VERSION}:srg", true),
+//            "Cannot find clean minecraft artifact"
+//    )
+//    p.minecraft.runs.configureEach {
+//        property("connector.clean.path", cleanArtifactJar)
+//    }
+//}
+
+task resolveCleanArtifact {
+    println "MCP_VERSION: ${p.MCP_VERSION}"
+
+    doLast {
+        def cleanArtifactJar = Objects.requireNonNull(
+                net.minecraftforge.gradle.common.util.MavenArtifactDownloader.generate(project,
+                        "net.minecraft:joined:${project.MCP_VERSION}:srg", true),
+                "Cannot find clean minecraft artifact"
+        )
+        project.ext.cleanArtifactJar = cleanArtifactJar
+    }
+}
+
+//// 让所有运行任务依赖这个解析任务
+//tasks.withType(net.minecraftforge.gradle.common.tasks.RunGameTask).configureEach {
+//    dependsOn resolveCleanArtifact
+//    doFirst {
+//        property("connector.clean.path", project.ext.cleanArtifactJar)
+//    }
+//}
+
+//// Attach clean minecraft artifact path to runs, necessary for Connector to work
+//afterEvaluate {
+//    def mcp_version = project.mapping_version
+////    def mcp_version = project.MCP_VERSION
+//    println("project.MCP_VERSION = ${ mcp_version}")
+//    if (mcp_version != null) {
+//        def cleanArtifactJar = Objects.requireNonNull(MavenArtifactDownloader.generate(project, "net.minecraft:joined:${mcp_version}:srg", true), "Cannot find clean minecraft artifact000")
+//        minecraft.runs.configureEach {
+//            property("connector.clean.path", cleanArtifactJar)
+//        }
+//    } else {
+//        throw new NullPointerException("Cannot find clean minecraft artifact111");
+//    }
+//
+////    def cleanArtifactJar = Objects.requireNonNull(MavenArtifactDownloader.generate(project, "net.minecraft:joined:${mcp_version}:srg", true), "Cannot find clean minecraft artifact")
+////    println("cleanArtifactJar = ${cleanArtifactJar}")
+//////    def cleanArtifactJar = Objects.requireNonNull(MavenArtifactDownloader.generate(project, "net.minecraft:joined:${project.mapping_version}:srg", true), "Cannot find clean minecraft artifact")
+////    minecraft.runs.configureEach {
+////        property("connector.clean.path", cleanArtifactJar)
+////    }
+//}
+//

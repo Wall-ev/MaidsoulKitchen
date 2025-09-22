@@ -24,8 +24,11 @@ repositories {
         dir "libs/${minecraft_version}/legacy"
     }
 
-
-
+    // Registrate
+    maven {
+        name = "Registrate"
+        url "https://maven.tterrag.com/"
+    }
     // Modrinth Maven
     maven {
         name = "Modrinth Maven"
@@ -74,5 +77,10 @@ repositories {
     // Curios
     maven {
         url = "https://maven.theillusivec4.top/"
+    }
+
+    maven {
+        name = "Sinytra"
+        url = "https://maven.su5ed.dev/releases"
     }
 }

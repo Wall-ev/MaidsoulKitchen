@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMccMixinInterface;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMskMixinInterface;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMods;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
@@ -60,7 +60,7 @@ public class VerifyExistence {
     public static boolean verify(ClassAnalysisResult result, Map<String, ClazzInfo> allClazzInfo) {
         boolean result0 = true;
         for (String mixin : result.mixins) {
-            boolean applied = IMccMixinInterface.applyInterfaceMixin(mixin);
+            boolean applied = IMskMixinInterface.applyInterfaceMixin(mixin);
             if (applied) {
                 result.mixinExistence.put(mixin, true);
             } else {

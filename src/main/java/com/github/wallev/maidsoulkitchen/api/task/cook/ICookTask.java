@@ -7,11 +7,10 @@ import com.github.tartaricacid.touhoulittlemaid.util.SoundUtil;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.CookDataV1;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.cook.v1.KitchenData;
-import com.github.wallev.maidsoulkitchen.init.MkEntities;
+import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.inventory.container.maid.CookConfigContainer;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.*;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBe;
@@ -22,7 +21,6 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.mkrec.MKRecipe;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
-import com.github.wallev.maidsoulkitchen.util.ModUtil;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -236,14 +234,14 @@ public abstract class ICookTask<B extends BlockEntity, R extends Recipe<? extend
 
     public boolean enableLookAndRandomWalk(EntityMaid maid) {
         // 工作中禁止游走
-        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
+        return !maid.getBrain().hasMemoryValue(ModEntities.WORK_POS.get());
     }
 
     public boolean enableEating(EntityMaid maid) {
 //        return false;
 
         // 工作中禁止吃饭
-        return !maid.getBrain().hasMemoryValue(MkEntities.WORK_POS.get());
+        return !maid.getBrain().hasMemoryValue(ModEntities.WORK_POS.get());
     }
 
     public List<Component> getDescription() {

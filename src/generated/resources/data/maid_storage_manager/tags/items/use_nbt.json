@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "bakeries:cake_roll",
+      "required": false
+    },
+    {
+      "id": "drinkbeer:mixed_beer",
+      "required": false
+    },
+    {
+      "id": "kitchenkarrot:cocktail",
+      "required": false
+    },
+    {
+      "id": "tea_aroma:kettle",
+      "required": false
+    }
+  ]
+}

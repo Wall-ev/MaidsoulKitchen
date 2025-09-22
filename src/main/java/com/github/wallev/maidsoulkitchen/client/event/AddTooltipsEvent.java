@@ -1,7 +1,7 @@
 package com.github.wallev.maidsoulkitchen.client.event;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -21,7 +21,7 @@ public class AddTooltipsEvent {
         ItemStack itemStack = event.getItemStack();
         List<Component> components = event.getToolTip();
 
-        if (itemStack.is(MkItems.BURN_PROTECT_BAUBLE.get())) {
+        if (itemStack.is(ModItems.BURN_PROTECT_BAUBLE.get())) {
             components.add(VComponent.empty());
             components.add(VComponent.translatable("tooltips.maidsoulkitchen.burn_protect_bauble.desc.function").withStyle(ChatFormatting.GREEN));
             components.add(VComponent.translatable("tooltips.maidsoulkitchen.burn_protect_bauble.desc.function.1").withStyle(ChatFormatting.GRAY));

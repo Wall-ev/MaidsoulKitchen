@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.common.task;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
-import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
@@ -60,7 +60,7 @@ public class TaskCookIdle extends ICookTask {
 
     @Override
     public ItemStack getIcon() {
-        return MkItems.CULINARY_HUB.get().getDefaultInstance();
+        return ModItems.CULINARY_HUB.get().getDefaultInstance();
     }
 
     @OnlyIn(Dist.CLIENT)

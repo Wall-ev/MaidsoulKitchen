@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Mods implements IMods {
     TLM("touhou_little_maid"),
+    MSK("maidsoulkitchen"),
 
     PATCHOULI("patchouli"),
     CLOTH_CONFIG("cloth_config"),
@@ -14,6 +15,8 @@ public enum Mods implements IMods {
     TOP("theoneprobe"),
 
     SOPHISTICATED_STORAGE("sophisticatedstorage"),
+
+    MAID_STORAGE_MANAGER("maid_storage_manager", "[1.13.7,)"),
 
     /*
         Farmer's Delight && Addons
@@ -44,7 +47,7 @@ public enum Mods implements IMods {
     DBP("beachparty"),
     DCL("candlelight", "[2.0.0,]"),
     DBK("bakery", "[2.0.0,]"),
-    DFC("farm_and_charm", "[2.0.0,]"),
+    DFC("farm_and_charm", "[1.0.0,]"),
     DM("meadow"),
 
     SF("simplefarming"),
@@ -71,7 +74,9 @@ public enum Mods implements IMods {
             return true;
         }
     },
-    KC("kaleidoscope_cookery");
+    KC("kaleidoscope_cookery"),
+    TA("tea_aroma"),
+    VTD("vintagedelight"), BAKERIES("bakeries"), IMD("immortalers_delight");
 
     private final String modId;
     private final String modName;

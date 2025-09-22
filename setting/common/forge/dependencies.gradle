@@ -1,9 +1,11 @@
+
 // 直属依赖项
 dependencies {
-    if (!simplebedrockmodel_version.isEmpty())
-        compileOnly fg.deobf("maven.modrinth:simplebedrockmodel:${simplebedrockmodel_version}-${mod_loader},${minecraft_version}")
+//    if (!simplebedrockmodel_version.isEmpty())
+//        compileOnly fg.deobf("maven.modrinth:simplebedrockmodel:${simplebedrockmodel_version}-${mod_loader},${minecraft_version}")
     if (!touhou_little_maid_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:touhou-little-maid:${touhou_little_maid_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("maven.modrinth:touhou-little-maid:${touhou_little_maid_version}-${mod_loader},${minecraft_version}")
+        implementation fg.deobf("maven.modrinth:touhou-little-maid:${touhou_little_maid_version}")
 
 }
 
@@ -14,8 +16,8 @@ dependencies {
         implementation fg.deobf("maven.modrinth:farmers-delight:${farmers_delight_version}-${mod_loader},${minecraft_version}")
     if (!miners_delight_version.isEmpty())
         implementation fg.deobf("maven.modrinth:miners-delight:${miners_delight_version}-${mod_loader},${minecraft_version}")
-    if (!my_nethers_delight_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:my-nethers-delight:${my_nethers_delight_version}-${mod_loader},${minecraft_version}")
+//    if (!my_nethers_delight_version.isEmpty())
+//        implementation fg.deobf("maven.modrinth:my-nethers-delight:${my_nethers_delight_version}-${mod_loader},${minecraft_version}")
     if (!blueprint_version.isEmpty())
         implementation fg.deobf("maven.modrinth:blueprint:${blueprint_version}-${mod_loader},${minecraft_version}")
     if (!copper_pot_version.isEmpty())
@@ -25,8 +27,8 @@ dependencies {
     if (!dungeons_delight_version.isEmpty())
         implementation fg.deobf("maven.modrinth:dungeons_delight:${dungeons_delight_version}-${mod_loader},${minecraft_version}")
     // 仅供妖归使用
-    if (!registrate_version.isEmpty())
-        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+//    if (!registrate_version.isEmpty())
+//        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     if (!youkaishomecoming_version.isEmpty())
         implementation fg.deobf("maven.modrinth:youkaishomecoming:${youkaishomecoming_version}-${mod_loader},${minecraft_version}")
     if (!brewin_and_chewin_version.isEmpty())
@@ -45,8 +47,8 @@ dependencies {
         implementation fg.deobf("maven.modrinth:tea-aroma:${tea_aroma_version}-${mod_loader},${minecraft_version}")
     if (!barbeques_delight_forge_version.isEmpty())
         implementation fg.deobf("maven.modrinth:barbeques-delight-forge:${barbeques_delight_forge_version}-${mod_loader},${minecraft_version}")
-    if (!kitchen_karrot_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:kitchen-karrot:${kitchen_karrot_version}-${mod_loader},${minecraft_version}")
+//    if (!kitchen_karrot_version.isEmpty())
+//        implementation fg.deobf("maven.modrinth:kitchen-karrot:${kitchen_karrot_version}-${mod_loader},${minecraft_version}")
     if (!drink_beer_refill_version.isEmpty())
         implementation fg.deobf("maven.modrinth:drink-beer-refill:${drink_beer_refill_version}-${mod_loader},${minecraft_version}")
     if (!crock_pot_file_id.isEmpty())
@@ -83,6 +85,16 @@ dependencies {
 //    if (!do_api_version.isEmpty())
 //        implementation fg.deobf("maven.modrinth:do-api:${do_api_version}-${mod_loader},${minecraft_version}")
         implementation fg.deobf("maven.modrinth:do-api:1.2.13-forge,1.20.1")
+//        implementation fg.deobf("maven.modrinth:do-api:${do_api_version}-${mod_loader},${minecraft_version}")
+        implementation fg.deobf("maven.modrinth:gelato-galore-2:1.0-1.20.1-forge,1.20.1")
+        implementation fg.deobf("maven.modrinth:hotkettles:forge-1.20.1-1.2.0-forge,1.20.1")
+        implementation fg.deobf("maven.modrinth:alcocraft:2.0.2+1.20-forge,1.20.1")
+
+
+
+//    implementation fg.deobf("curse.maven:tea-the-story-recount-1088855:6636169")
+    implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:6971188")
+//    implementation fg.deobf("curse.maven:tea-the-story-recount-1088855:6842108")
 }
 
 // 联动(存储)
@@ -92,9 +104,9 @@ dependencies {
     if (!toms_storage_version.isEmpty())
         compileOnly fg.deobf("maven.modrinth:toms-storage:${toms_storage_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_core_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:sophisticated-core:${sophisticated_core_version}-${mod_loader},${minecraft_version}")
+        compileOnly fg.deobf("maven.modrinth:sophisticated-core:${sophisticated_core_version}-${mod_loader},${minecraft_version}")
     if (!sophisticated_storage_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:sophisticated-storage:${sophisticated_storage_version}-${mod_loader},${minecraft_version}")
+        compileOnly fg.deobf("maven.modrinth:sophisticated-storage:${sophisticated_storage_version}-${mod_loader},${minecraft_version}")
     if (!ae2_version.isEmpty())
         compileOnly fg.deobf("maven.modrinth:ae2:${ae2_version}-${mod_loader},${minecraft_version}")
 }
@@ -103,16 +115,16 @@ dependencies {
 dependencies {
     if (!serene_seasons_version.isEmpty())
         implementation fg.deobf("maven.modrinth:serene-seasons:${serene_seasons_version}-${mod_loader},${minecraft_version}")
-    if (!ecliptic_seasons_file_id.isEmpty())
-        implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
+//    if (!ecliptic_seasons_file_id.isEmpty())
+//        implementation fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
     if (!simple_farming_file_id.isEmpty())
         implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
     if (!curios_version.isEmpty())
         implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     if (!kotlin_for_forge_version.isEmpty())
         runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
-    if (!libipn_version.isEmpty())
-        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}-${mod_loader},${minecraft_version}")
+//    if (!libipn_version.isEmpty())
+//        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}-${mod_loader},${minecraft_version}")
     if (!inventory_profiles_next_version.isEmpty())
         compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}-${mod_loader},${minecraft_version}")
 
@@ -149,6 +161,8 @@ dependencies {
     // emi
     if (!emi_version.isEmpty()) {
         compileOnly fg.deobf("maven.modrinth:emi:${emi_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("curse.maven:tmrv-1194921:6615762")
+//        implementation fg.deobf("curse.maven:tmrv-1194921:6856065")
 //        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}:api")
 //        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}")
     }
@@ -158,12 +172,24 @@ dependencies {
 //        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 //        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
 //        implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+        // Add Connector to the launch classpath
+//        minecraftLibrary fg.deobf("org.sinytra:Connector:1.0.0-beta.46+1.20.1")
+        // Add FFAPI dependency (if required)
+//        runtimeOnly fg.deobf("org.sinytra.fabric-api:fabric-api:0.92.6+1.11.14+1.20.1")
+        // Install desired Fabric mods
+//        implementation files("libs/1.20.1/bountiful-fares-1.2.1-fabric-1.20.1.jar")
+//
+////        Sinytra Connector + Forgified Fabric API (for ortho camera)
+//        minecraftLibrary fg.deobf("org.sinytra:Connector:1.0.0-beta.46+1.20.1")
+//        compileOnly "dev.su5ed.sinytra.fabric-api:fabric-api:0.92.2+1.11.8+1.20.1"
+//        runtimeOnly fg.deobf("dev.su5ed.sinytra.fabric-api:fabric-api:0.92.2+1.11.8+1.20.1")
     }
 
-    if (!spark_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:spark:${spark_version}-${mod_loader},${minecraft_version}")
-    if (!modernfix_version.isEmpty())
-        implementation fg.deobf("maven.modrinth:modernfix:${modernfix_version}-${mod_loader},${minecraft_version}")
+//    if (!spark_version.isEmpty())
+//        implementation fg.deobf("maven.modrinth:spark:${spark_version}-${mod_loader},${minecraft_version}")
+//    if (!modernfix_version.isEmpty())
+//        implementation fg.deobf("maven.modrinth:modernfix:${modernfix_version}-${mod_loader},${minecraft_version}")
 }
 
 // api
@@ -185,8 +211,36 @@ dependencies {
 dependencies {
     if (!create_version.isEmpty())
         implementation fg.deobf("maven.modrinth:create:${create_version}-${mod_loader},${minecraft_version}")
-//    if (!pneumaticcraft_repressurized_version.isEmpty())
+//    if (!pneumaticcraft_repres/surized_version.isEmpty())
 //        implementation fg.deobf("maven.modrinth:pneumaticcraft-repressurized:${pneumaticcraft_repressurized_version}-${mod_loader},${minecraft_version}")
+
+
+//    implementation fg.deobf("curse.maven:bakeries-1191781:6958180")
+    implementation fg.deobf("maven.modrinth:caupona:1.20.1-0.4.13-${mod_loader},${minecraft_version}")
+    implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.0.1-forge+mc1.20.1-${mod_loader},${minecraft_version}")
+
+//    implementation fg.deobf("curse.maven:maid-s-bakeries-1340216:6964877")
+    implementation fg.deobf("curse.maven:simply-tea-268373:5807384")
+}
+
+repositories {
+// libs:
+    flatDir {
+        name = "rootlibs"
+        dir "libs/${minecraft_version}/"
+    }
+}
+
+dependencies {
+//    minecraftLibrary fg.deobf("dev.su5ed.sinytra:Connector:1.0.0-beta.43+1.20.1")
+//    runtimeOnly fg.deobf("curse.maven:forgified-fabric-api-889079:5387432")
+
+//    compileOnly fg.deobf("rootlibs:bountiful-fares:1.2.1-fabric-1.20.1")
+//    runtimeOnly "maven.modrinth:bountiful-fares:1.2.1-fabric-1.20.1"
+
+//    runtimeOnly "maven.modrinth:bountiful-fares:1.2.1-fabric,1.20.1"
+
+//    implementation files("libs/1.20.1/bountiful-fares-1.2.1-fabric-1.20.1.jar")
 }
 
 

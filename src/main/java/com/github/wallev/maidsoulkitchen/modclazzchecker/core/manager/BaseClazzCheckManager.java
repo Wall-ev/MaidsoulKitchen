@@ -5,17 +5,20 @@ import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ModGroup;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.ClassAnalyzerManager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.TaskClazzInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.lang.TaskErrorLang;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.lang.TaskErrorLangRead;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import org.objectweb.asm.Type;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class BaseClazzCheckManager<T extends ITaskInfo<M>, M extends IMods> {
+    private final Map<String, TaskErrorLang> errorTaskLangMap = new HashMap<>();
+
     private final String modId;
     private final String issueUrl;
     private final String modPackage;
@@ -58,6 +61,10 @@ public abstract class BaseClazzCheckManager<T extends ITaskInfo<M>, M extends IM
         return ClassAnalyzerManager.readModTaskClazz(this);
     }
 
+    public void readErrorTaskLang() {
+        TaskErrorLangRead.init(this);
+    }
+
     public String getFileName() {
         return fileName;
     }
@@ -94,15 +101,21 @@ public abstract class BaseClazzCheckManager<T extends ITaskInfo<M>, M extends IM
         return mixinPackage;
     }
 
+    @Nullable
     public abstract T taskInfoByKey(String key);
 
+    @Nullable
     public abstract T taskInfoByUid(String uid);
+
+    public abstract T defaultTaskInf();
 
     public abstract M modsByKey(String mod);
 
-    public abstract Type getTaskClazzAnnotationType();
+    public abstract List<Type> getTaskClazzAnnotationType();
 
     public abstract Type getTaskClazzMixinAnnotationType();
+
+    public abstract Type getErrorTaskLangAnnotationType();
 
     public String getModPackage() {
         return modPackage;
@@ -150,5 +163,13 @@ public abstract class BaseClazzCheckManager<T extends ITaskInfo<M>, M extends IM
 
     public Set<String> getCompatMods() {
         return new HashSet<>();
+    }
+
+    public void addErrorTaskLang(String uid, TaskErrorLang errorTaskLang) {
+        errorTaskLangMap.put(uid, errorTaskLang);
+    }
+
+    public TaskErrorLang getErrorTaskLang(ITaskInfo<?> taskInfo) {
+        return errorTaskLangMap.get(taskInfo.getUidStr());
     }
 }

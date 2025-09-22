@@ -19,6 +19,7 @@ public class TaskModClazzManager extends TaskModClazz2MixinManager {
 
         TaskClazzInfo taskClazzInfo = checkManager.readModTaskClazzFromFile();
         taskClazzInfo.setTaskMixinMap(mixinData);
+        checkManager.readErrorTaskLang();
         modTaskClazzResult = checkManager.readModTaskClazz(taskClazzInfo);
     }
 

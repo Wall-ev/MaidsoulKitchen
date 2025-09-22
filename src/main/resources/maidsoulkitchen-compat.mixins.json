@@ -14,13 +14,18 @@
     "cuisinedelight.CookingDataAccessor",
     "cuisinedelight.CookingEntryAccessor",
     "drinkbeer.BeerBarrelBlockAccessor",
+    "farm_and_charm.StoveBlockEntityAccessor",
     "farmersdelight.CookingPotBlockEntityMixin",
     "farmersrespite.KettleBlockEntityMixin",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "kitchkarrot.BrewingBarrelBlockEntityMixin",
+    "maidstoragemanager.CraftLayerAccessor",
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",
+    "tea_aroma.KettleItemAccessor",
     "touhoulittlemaid.EntityMaidMixin",
+    "vinery.GrapevinePotBlockAccessor",
+    "vintagedelight.FermentingRecipeAccessor",
     "youkaishomecoming.BasePotBlockEntityMixin",
     "youkaishomecoming.KettleBlockAccessor"
   ]
