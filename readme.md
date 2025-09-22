@@ -21,6 +21,13 @@
  - 这样在项目打包的时候就会自动生成对应的数据，可以达到拦截生产环境下的因为其他模组的更新而炸了的效果
  - 目前还不接受主动兼容我的mod，目前项目还处于不稳定状态，项目结构很有可能会发生大变化...（欢迎和我交流你的想法）
 
+## 项目打包
+ - 目前项目依赖过多，在`windows`环境下打包项目会触发`短路径问题`，可能需要再`linux`环境下打包
+ - 目前楼主使用的是`wsl+idea/github action`的方案打包
+ - `wsl+idea`: 楼主参照[Win10 系统安装 Linux 子系统教程(WSL2 + Ubuntu 20.04 + xlaunch桌面 ）](https://www.cnblogs.com/Ada-CN/p/18627211)、[WSL](https://intellijidea.com.cn/help/idea/how-to-use-wsl-development-environment-in-product.html)，这两篇文章配置的wsl环境，（应该是这样，实际上看了很多，忘记了都参照了那些了...）
+ - 后面便是正常使用`idea`打开项目，依次点击输入命令等待即可
+ - ![img.png](img.png)
+
 ## 警告
  - 目前，该项目还存在很多问题：分支管理不善、代码成了堆积如山的垃圾、问题管理等等...... 
  - 还请理解，项目会在半年后重构一正常情况下([`2.0-dev`](https://github.com/Wall-ev/MaidsoulKitchen/tree/1.20.1-2.0-dev))...
