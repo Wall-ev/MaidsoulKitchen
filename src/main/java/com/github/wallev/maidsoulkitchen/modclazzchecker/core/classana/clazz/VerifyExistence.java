@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMccMixinInterface;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMods;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.ModUtil;
 
@@ -30,11 +31,11 @@ public class VerifyExistence {
         for (Map.Entry<String, TaskClazzInfo.ClazzTaskInfo> entry : taskClazzInfo.clazzInfoMap().entrySet()) {
             String taskUid = entry.getKey();
             TaskClazzInfo.ClazzTaskInfo value = entry.getValue();
-            IMods bindMod = checkManager.modsByKey(value.bindMod());
-            boolean modLoaded = bindMod.versionLoad();
-            if (!modLoaded) {
+            ITaskInfo<?> task = checkManager.taskInfoByUid(taskUid);
+            if (!task.canLoadWithoutCheckClazz()) {
                 continue;
             }
+            IMods bindMod = task.getBindMod();
             TaskClazzInfo.ClazzInfo clazzInfo = value.clazzInfo();
             ClassAnalysisResult result = new ClassAnalysisResult(taskUid, bindMod.modId(), ModUtil.getModVersion(bindMod.modId()));
             result.classes.addAll(clazzInfo.classes());

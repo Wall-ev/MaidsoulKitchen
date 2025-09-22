@@ -1,3 +1,7 @@
+0.2.4
+## fix
+- wrong message with old version compat
+
 0.2.3
 ## fix
 - crash with server
