@@ -12,6 +12,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("Convert2MethodRef")
@@ -102,7 +103,7 @@ public enum TaskInfo implements ITaskInfo<Mods> {
 
     @IgnoreSolver
     @KitchenModule
-    @TaskErrorLang(en_us = "Kc Chopping Board", zh_cn = "森罗厨房 彩板(烹饪)")
+    @TaskErrorLang(en_us = "Fd Cooking Pot", zh_cn = "农夫乐事 厨锅(烹饪)")
     FD_COOK_POT("fd_cooking_pot",
             "cooking_pot",
             "cooking",
@@ -427,162 +428,162 @@ public enum TaskInfo implements ITaskInfo<Mods> {
             () -> DevUtil.isDevEnv()),
 
     @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Farmers Delight Hand Skillet(Maid Storage Manger)", zh_cn = "农夫乐事 手持煎锅(女仆仓管)")
-    MSM_FD_HAND_SKILLET("msm_fd_hand_skillet", Mods.FD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Farmers Delight Skillet(Maid Storage Manger)", zh_cn = "农夫乐事 煎锅(女仆仓管)")
-    MSM_FD_SKILLET("msm_fd_skillet", Mods.FD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Farmers Delight Stove(Maid Storage Manger)", zh_cn = "农夫乐事 炉灶(女仆仓管)")
-    MSM_FD_STOVE("msm_fd_stove", Mods.FD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Farmers Delight Cooking Pot(Maid Storage Manger)", zh_cn = "农夫乐事 厨锅(女仆仓管)")
-    MSM_FD_COOKING_POT("msm_fd_cooking_pot", Mods.FD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Farmers Delight Cutting Board(Maid Storage Manger)", zh_cn = "农夫乐事 砧板(女仆仓管)")
-    MSM_FD_CUTTING_BOARD("msm_fd_cutting_board", Mods.FD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Minders Delight Copper Pot(Maid Storage Manger)", zh_cn = "旷工乐事 厨锅(女仆仓管)")
-    MSM_MD_COOKING_POT("msm_md_cooking_pot", Mods.MD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Dungeons Delight Cooking Pot(Maid Storage Manger)", zh_cn = "地牢乐事 怪物锅(女仆仓管)")
-    MSM_DD_MONSTER_POT("msm_dd_monster_pot", Mods.DUNGEONS_DELIGHT, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Copperpot Copper Pot(Maid Storage Manger)", zh_cn = "Copperpot Copper Pot(女仆仓管)")
-    MSM_CPD_COPPER_POT("msm_cp_copper_pot", Mods.COPPER_POT, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Drink Beer Mixed Beer(Maid Storage Manger)", zh_cn = "和啤酒啦 调酒(女仆仓管)")
-    MSM_DB_MIXED_BEER("msm_db_mixed_beer", Mods.DB, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Drink Beer Beer Barrel(Maid Storage Manger)", zh_cn = "和啤酒啦 啤酒桶(女仆仓管)")
-    MSM_DB_DRINKBEER_BEERBARREL("msm_db_drinkbeer_beerbarrel", Mods.DB, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Cuinse(Maid Storage Manger)", zh_cn = "妖怪归家 料理台(女仆仓管)")
-    MSM_YHC_CUISINE("msm_yhc_cuinse", Mods.YHCD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Basin(Maid Storage Manger)", zh_cn = "妖怪归家 木盆(女仆仓管)")
-    MSM_YHC_BASIN("msm_yhc_basin", Mods.YHCD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Ferment(Maid Storage Manger)", zh_cn = "妖怪归家 发酵桶(女仆仓管)")
-    MSM_YHC_FERMENT("msm_yhc_ferment", Mods.YHCD_NEW, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Dring Rack(Maid Storage Manger)", zh_cn = "妖怪归家 晒干架(女仆仓管)")
-    MSM_YHC_DRYING_RACK("msm_yhc_drying_rack", Mods.YHCD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Moka Pot(Maid Storage Manger)", zh_cn = "妖怪归家 摩卡锅(女仆仓管)")
-    MSM_YHC_MOKA_POT("msm_yhc_moka_pot", Mods.YHCD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "YoukaisHomeComing Kettle(Maid Storage Manger)", zh_cn = "妖怪归家 水壶(女仆仓管)")
-    MSM_YHC_KETTLE("msm_yhc_kettle", Mods.YHCD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Tea Aroma Bamboo Tray(Maid Storage Manger)", zh_cn = "茶香 竹托盘(女仆仓管)")
-    MSM_TA_BAMBOO_TRAY("msm_ta_bamboo_tray", Mods.TA, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Tea Aroma Brewing(Maid Storage Manger)", zh_cn = "茶香 沏茶(女仆仓管)")
-    MSM_TA_BREWING("msm_ta_brewing", Mods.TA, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Tea Aroma Foam(Maid Storage Manger)", zh_cn = "茶香 加奶泡(女仆仓管)")
-    MSM_TA_FOAM("msm_ta_foam", Mods.TA, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Tea Aroma Boiling(Maid Storage Manger)", zh_cn = "茶香 烧水/热牛奶(女仆仓管)")
-    MSM_TA_BOILING("msm_ta_boiling", Mods.TA, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Tea Aroma Kettle Water(Maid Storage Manger)", zh_cn = "茶香 接水(女仆仓管)")
-    MSM_TA_KETTLE_WATER("msm_ta_kettle_water", Mods.TA, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Maid Storage Manager Single Water(Maid Storage Manger)", zh_cn = "单格水源接水(女仆仓管)")
-    MSM_SINGLE_GETTER_WATER("msm_single_getter_water", Mods.MAID_STORAGE_MANAGER, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Maid Storage Manager Multi Water(Maid Storage Manger)", zh_cn = "无限水源接水(女仆仓管)")
-    MSM_MULTI_GETTER_WATER("msm_erea_getter_water", Mods.MAID_STORAGE_MANAGER, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "KitchenKarrot Plate Cutting(Maid Storage Manger)", zh_cn = "胡萝卜厨房 窃夺(女仆仓管)")
-    MSM_KK_PLATEC_CUTTING("msm_kc_plate_cutting", Mods.KK, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "KitchenKarrot Brewing(Maid Storage Manger)", zh_cn = "胡萝卜厨房 发酵桶(女仆仓管)")
-    MSM_KK_BREWING("msm_kk_brewing", Mods.KK, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "KitchenKarrot AirCompressor(Maid Storage Manger)", zh_cn = "胡萝卜厨房 空气压缩机(女仆仓管)")
-    MSM_KK_AIR_COMPRESSOR("msm_kk_air_compressor", Mods.KK, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Immortalers Enchantal Cooler(Maid Storage Manger)", zh_cn = "千古乐事 冷凝器(女仆仓管)")
-    MSM_IMD_ENCHANTAL_COOLER("msm_imd_enchantal_cooler", Mods.IMD, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Item Use(Maid Storage Manger)", zh_cn = "物品使用(女仆仓管)")
-    MSM_ITEM_USE("msm_item_use", Mods.MAID_STORAGE_MANAGER, true),
-    @MaidStorageManagerCompatModule
-    @TaskErrorLang(en_us = "Vintage Delight Fermenting Jar(Maid Storage Manger)", zh_cn = "腌制乐事 发酵罐(女仆仓管)")
-    MSM_VTD_FERMENTING_JAR("msm_vtd_fermenting_jar", Mods.VTD, true),
-    @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Maid Storage Manager Core Compat(Maid Storage Manger)", zh_cn = "仓管兼容核心(女仆仓管)")
     MSM_CORE("msm_core", Mods.MAID_STORAGE_MANAGER, true),
     @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Maid Storage Manager Single Water(Maid Storage Manger)", zh_cn = "单格水源接水(女仆仓管)")
+    MSM_SINGLE_GETTER_WATER("msm_single_getter_water", Mods.MAID_STORAGE_MANAGER, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Maid Storage Manager Multi Water(Maid Storage Manger)", zh_cn = "无限水源接水(女仆仓管)")
+    MSM_MULTI_GETTER_WATER("msm_erea_getter_water", Mods.MAID_STORAGE_MANAGER, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Item Use(Maid Storage Manger)", zh_cn = "物品使用(女仆仓管)")
+    MSM_ITEM_USE("msm_item_use", Mods.MAID_STORAGE_MANAGER, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Farmers Delight Hand Skillet(Maid Storage Manger)", zh_cn = "农夫乐事 手持煎锅(女仆仓管)")
+    MSM_FD_HAND_SKILLET("msm_fd_hand_skillet", Mods.FD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Farmers Delight Skillet(Maid Storage Manger)", zh_cn = "农夫乐事 煎锅(女仆仓管)")
+    MSM_FD_SKILLET("msm_fd_skillet", Mods.FD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Farmers Delight Stove(Maid Storage Manger)", zh_cn = "农夫乐事 炉灶(女仆仓管)")
+    MSM_FD_STOVE("msm_fd_stove", Mods.FD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Farmers Delight Cooking Pot(Maid Storage Manger)", zh_cn = "农夫乐事 厨锅(女仆仓管)")
+    MSM_FD_COOKING_POT("msm_fd_cooking_pot", Mods.FD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Farmers Delight Cutting Board(Maid Storage Manger)", zh_cn = "农夫乐事 砧板(女仆仓管)")
+    MSM_FD_CUTTING_BOARD("msm_fd_cutting_board", Mods.FD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Minders Delight Copper Pot(Maid Storage Manger)", zh_cn = "旷工乐事 厨锅(女仆仓管)")
+    MSM_MD_COOKING_POT("msm_md_cooking_pot", Mods.MD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Dungeons Delight Cooking Pot(Maid Storage Manger)", zh_cn = "地牢乐事 怪物锅(女仆仓管)")
+    MSM_DD_MONSTER_POT("msm_dd_monster_pot", Mods.DUNGEONS_DELIGHT, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Copperpot Copper Pot(Maid Storage Manger)", zh_cn = "Copperpot Copper Pot(女仆仓管)")
+    MSM_CPD_COPPER_POT("msm_cp_copper_pot", Mods.COPPER_POT, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Drink Beer Mixed Beer(Maid Storage Manger)", zh_cn = "和啤酒啦 调酒(女仆仓管)")
+    MSM_DB_MIXED_BEER("msm_db_mixed_beer", Mods.DB, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Drink Beer Beer Barrel(Maid Storage Manger)", zh_cn = "和啤酒啦 啤酒桶(女仆仓管)")
+    MSM_DB_DRINKBEER_BEERBARREL("msm_db_drinkbeer_beerbarrel", Mods.DB, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Cuinse(Maid Storage Manger)", zh_cn = "妖怪归家 料理台(女仆仓管)")
+    MSM_YHC_CUISINE("msm_yhc_cuinse", Mods.YHCD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Basin(Maid Storage Manger)", zh_cn = "妖怪归家 木盆(女仆仓管)")
+    MSM_YHC_BASIN("msm_yhc_basin", Mods.YHCD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Ferment(Maid Storage Manger)", zh_cn = "妖怪归家 发酵桶(女仆仓管)")
+    MSM_YHC_FERMENT("msm_yhc_ferment", Mods.YHCD_NEW, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Dring Rack(Maid Storage Manger)", zh_cn = "妖怪归家 晒干架(女仆仓管)")
+    MSM_YHC_DRYING_RACK("msm_yhc_drying_rack", Mods.YHCD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Moka Pot(Maid Storage Manger)", zh_cn = "妖怪归家 摩卡锅(女仆仓管)")
+    MSM_YHC_MOKA_POT("msm_yhc_moka_pot", Mods.YHCD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "YoukaisHomeComing Kettle(Maid Storage Manger)", zh_cn = "妖怪归家 水壶(女仆仓管)")
+    MSM_YHC_KETTLE("msm_yhc_kettle", Mods.YHCD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Tea Aroma Bamboo Tray(Maid Storage Manger)", zh_cn = "茶香 竹托盘(女仆仓管)")
+    MSM_TA_BAMBOO_TRAY("msm_ta_bamboo_tray", Mods.TA, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Tea Aroma Brewing(Maid Storage Manger)", zh_cn = "茶香 沏茶(女仆仓管)")
+    MSM_TA_BREWING("msm_ta_brewing", Mods.TA, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Tea Aroma Foam(Maid Storage Manger)", zh_cn = "茶香 加奶泡(女仆仓管)")
+    MSM_TA_FOAM("msm_ta_foam", Mods.TA, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Tea Aroma Boiling(Maid Storage Manger)", zh_cn = "茶香 烧水/热牛奶(女仆仓管)")
+    MSM_TA_BOILING("msm_ta_boiling", Mods.TA, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Tea Aroma Kettle Water(Maid Storage Manger)", zh_cn = "茶香 接水(女仆仓管)")
+    MSM_TA_KETTLE_WATER("msm_ta_kettle_water", Mods.TA, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "KitchenKarrot Plate Cutting(Maid Storage Manger)", zh_cn = "胡萝卜厨房 窃夺(女仆仓管)")
+    MSM_KK_PLATEC_CUTTING("msm_kc_plate_cutting", Mods.KK, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "KitchenKarrot Brewing(Maid Storage Manger)", zh_cn = "胡萝卜厨房 发酵桶(女仆仓管)")
+    MSM_KK_BREWING("msm_kk_brewing", Mods.KK, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "KitchenKarrot AirCompressor(Maid Storage Manger)", zh_cn = "胡萝卜厨房 空气压缩机(女仆仓管)")
+    MSM_KK_AIR_COMPRESSOR("msm_kk_air_compressor", Mods.KK, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Immortalers Enchantal Cooler(Maid Storage Manger)", zh_cn = "千古乐事 冷凝器(女仆仓管)")
+    MSM_IMD_ENCHANTAL_COOLER("msm_imd_enchantal_cooler", Mods.IMD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
+    @TaskErrorLang(en_us = "Vintage Delight Fermenting Jar(Maid Storage Manger)", zh_cn = "腌制乐事 发酵罐(女仆仓管)")
+    MSM_VTD_FERMENTING_JAR("msm_vtd_fermenting_jar", Mods.VTD, true, MSM_CORE),
+    @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeries Drink Cup(Maid Storage Manger)", zh_cn = "烘焙坊 饮料杯(女仆仓管)")
-    MSM_BAKERY_DRINK_CUP("msm_bakery_drink_cup", Mods.BAKERIES, true),
+    MSM_BAKERY_DRINK_CUP("msm_bakery_drink_cup", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeries Cake Roll(Maid Storage Manger)", zh_cn = "烘焙坊 蛋糕卷(女仆仓管)")
-    MSM_BAKERIES_CAKE_ROLL("msm_bakeries_cake_roll", Mods.BAKERIES, true),
+    MSM_BAKERIES_CAKE_ROLL("msm_bakeries_cake_roll", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Bakery Small Cooking Pot(Maid Storage Manger)", zh_cn = "馥郁烘焙 小烹饪锅(女仆仓管)")
-    MSM_DO_BEKERY_SMALL_COOKING_POT("msm_do_bakery_small_cooking_pot", Mods.DBK, true),
+    MSM_DO_BEKERY_SMALL_COOKING_POT("msm_do_bakery_small_cooking_pot", Mods.DBK, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeris Blender(Maid Storage Manger)", zh_cn = "烘焙坊 搅拌机(女仆仓管)")
-    MSM_BAKERIES_BLENDER("msm_bakeris_blender", Mods.BAKERIES, true),
+    MSM_BAKERIES_BLENDER("msm_bakeris_blender", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeris Oven(Maid Storage Manger)", zh_cn = "烘焙坊 烤炉(女仆仓管)")
-    MSM_BAKERIES_OVEN("msm_bakeries_oven", Mods.BAKERIES, true),
+    MSM_BAKERIES_OVEN("msm_bakeries_oven", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeris Dough(Maid Storage Manger)", zh_cn = "烘焙坊 面胚制作台(女仆仓管)")
-    MSM_BAKERIES_DOUGH("msm_bakeries_dough", Mods.BAKERIES, true),
+    MSM_BAKERIES_DOUGH("msm_bakeries_dough", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Bakeris Fermentation Tank(Maid Storage Manger)", zh_cn = "烘焙坊 发酵罐(女仆仓管)")
-    MSM_BAKERIES_FERMENTATION_TANK("msm_bakeries_fermentation_tank", Mods.BAKERIES, true),
+    MSM_BAKERIES_FERMENTATION_TANK("msm_bakeries_fermentation_tank", Mods.BAKERIES, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Beach Part Mine Fridge(Maid Storage Manger)", zh_cn = "沙滩派对 小冰箱(女仆仓管)")
-    MSM_DO_BEACH_PARTY_MINI_FRIDGE("msm_do_beach_party_mini_frige", Mods.DBP, true),
+    MSM_DO_BEACH_PARTY_MINI_FRIDGE("msm_do_beach_party_mini_frige", Mods.DBP, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Beach Part Plam Bar(Maid Storage Manger)", zh_cn = "沙滩派对 提基吧台(女仆仓管)")
-    MSM_BEARCH_PARTY_PALM_BAR("msm_do_beach_party_plam_bar", Mods.DBP, true),
+    MSM_BEARCH_PARTY_PALM_BAR("msm_do_beach_party_plam_bar", Mods.DBP, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Candle Light Cooking Pot(Maid Storage Manger)", zh_cn = "烛火晚宴 汤锅(女仆仓管)")
-    MSM_CANDLE_LINGHT_COOKING_POT("msm_candle_light_cooking_pot", Mods.DCL, true),
+    MSM_CANDLE_LINGHT_COOKING_POT("msm_candle_light_cooking_pot", Mods.DCL, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Candle Light Roase(Maid Storage Manger)", zh_cn = "烛火晚宴 平底锅(女仆仓管)")
-    MSM_CANDLE_LINGHT_ROAST("msm_candle_light_roast", Mods.DCL, true),
+    MSM_CANDLE_LINGHT_ROAST("msm_candle_light_roast", Mods.DCL, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Farm And Charm Cooking Pot(Maid Storage Manger)", zh_cn = "沉浸农艺 烹饪锅(女仆仓管)")
-    MSM_FARM_AND_CHARM_COOKING_POT("msm_farm_and_charm_cooking_pot", Mods.DFC, true),
+    MSM_FARM_AND_CHARM_COOKING_POT("msm_farm_and_charm_cooking_pot", Mods.DFC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Farm And Charm Crafting Bowl(Maid Storage Manger)", zh_cn = "沉浸农艺 混合碗(女仆仓管)")
-    MSM_FARM_AND_CHARM_CRAFTING_BOWL("msm_farm_and_charm_crafting_bowl", Mods.DFC, true),
+    MSM_FARM_AND_CHARM_CRAFTING_BOWL("msm_farm_and_charm_crafting_bowl", Mods.DFC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Farm And Charm Roster(Maid Storage Manger)", zh_cn = "沉浸农艺 烘焙机(女仆仓管)")
-    MSM_FARM_AND_CHARM_ROASTER("msm_farm_and_charm_roster", Mods.DFC, true),
+    MSM_FARM_AND_CHARM_ROASTER("msm_farm_and_charm_roster", Mods.DFC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Farm And Charm Stove(Maid Storage Manger)", zh_cn = "沉浸农艺 火炉(女仆仓管)")
-    MSM_FARM_AND_CHARM_STOVE("msm_farm_and_charm_stove", Mods.DFC, true),
+    MSM_FARM_AND_CHARM_STOVE("msm_farm_and_charm_stove", Mods.DFC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kaleidoscope Cookery Cooker(Maid Storage Manger)", zh_cn = "森罗厨房 炒锅(女仆仓管)")
-    MSM_KC_COOKER("msm_kc_cooker", Mods.KC, true),
+    MSM_KC_COOKER("msm_kc_cooker", Mods.KC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kaleidoscope Cookery Stock Pot(Maid Storage Manger)", zh_cn = "森罗厨房 汤锅(女仆仓管)")
-    MSM_KC_STOCK_POT("msm_kc_stock_pot", Mods.KC, true),
+    MSM_KC_STOCK_POT("msm_kc_stock_pot", Mods.KC, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kaleidoscope Cookery Chopping Board(Maid Storage Manger)", zh_cn = "森罗厨房 彩板(女仆仓管)")
-    MSM_KC_CHOPPING_BOARD("msm_kc_cutting_board", Mods.KC, true),
+    MSM_KC_CHOPPING_BOARD("msm_kc_cutting_board", Mods.KC, true, MSM_CORE),
     @IgnoreSolver
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Kitchen Karrot Shaker(Maid Storage Manger)", zh_cn = "胡萝卜厨房 摇酒壶(女仆仓管)")
-    MSM_KK_SHAKER("msm_kk_shaker", Mods.KK, true, () -> false),
+    MSM_KK_SHAKER("msm_kk_shaker", Mods.KK, true, () -> false, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Meadow Cheese Form(Maid Storage Manger)", zh_cn = "Meadow 奶酪模具(女仆仓管)")
-    MSM_MEADOW_CHEESE_FORM("msm_meadow_cheese_form", Mods.DM, true),
+    MSM_MEADOW_CHEESE_FORM("msm_meadow_cheese_form", Mods.DM, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Simple Farming Fermenter(Maid Storage Manger)", zh_cn = "简单农业 Fermenter(女仆仓管)")
-    MSM_SIMPLE_FARMING_FERMENTER("msm_simple_farming_ferment", Mods.SF, true),
+    MSM_SIMPLE_FARMING_FERMENTER("msm_simple_farming_ferment", Mods.SF, true, MSM_CORE),
     @MaidStorageManagerCompatModule
     @TaskErrorLang(en_us = "Do Vinery Basin(Maid Storage Manger)", zh_cn = "葡园酒香 葡萄藤盆女仆仓管)")
-    MSM_VINERY_GRAPE_POT("msm_vinery_grape_pot", Mods.DV, true),
+    MSM_VINERY_GRAPE_POT("msm_vinery_grape_pot", Mods.DV, true, MSM_CORE),
 
     @IgnoreSolver
     PACK_LITMIT("pack_limit", Mods.TLM, () -> {
@@ -596,68 +597,86 @@ public enum TaskInfo implements ITaskInfo<Mods> {
     private final ResourceLocation uid;
     private final Mods bindMod;
     private final Supplier<Boolean> bindConfig;
+    private final List<TaskInfo> dependTasks;
+    private final List<Mods> dependMods;
 
-    TaskInfo(ResourceLocation uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig) {
+    // -----------------------------------------------------------TaskInfo----------------------------------------------------------------//
+    TaskInfo(ResourceLocation uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, TaskInfo... dependTasks) {
         this.uid = uid;
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.get().get();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String oldName, String uid, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig) {
+    TaskInfo(String oldName, String uid, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, TaskInfo... dependTasks) {
         this.oldName = VResourceLocation.createMod(oldName).toString();
         this.uid = convertUid(oldName, uid, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.get().get();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String oldName, String uid, Mods bindMod, boolean concatModId, Config bindConfig) {
+    TaskInfo(String oldName, String uid, Mods bindMod, boolean concatModId, Config bindConfig, TaskInfo... dependTasks) {
         this.oldName = VResourceLocation.createMod(oldName).toString();
         this.uid = convertUid(oldName, uid, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.canLoad();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String oldName, String blockId, String recipeId, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig) {
+    TaskInfo(String oldName, String blockId, String recipeId, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, TaskInfo... dependTasks) {
         this.oldName = VResourceLocation.createMod(oldName).toString();
         this.uid = convertUid(oldName, blockId + "_" + recipeId, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.get().get();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String oldName, String blockId, String recipeId, Mods bindMod, boolean concatModId, Config bindConfig) {
+    TaskInfo(String oldName, String blockId, String recipeId, Mods bindMod, boolean concatModId, Config bindConfig, TaskInfo... dependTasks) {
         this.oldName = VResourceLocation.createMod(oldName).toString();
         this.uid = convertUid(oldName, blockId + "_" + recipeId, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.canLoad();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String uid, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig) {
-        this("", uid, bindMod, concatModId, bindConfig);
+    TaskInfo(String uid, Mods bindMod, boolean concatModId, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, TaskInfo... dependTasks) {
+        this("", uid, bindMod, concatModId, bindConfig, dependTasks);
     }
 
-    TaskInfo(String uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig) {
-        this(uid, bindMod, false, bindConfig);
+    TaskInfo(String uid, Mods bindMod, Supplier<ForgeConfigSpec.BooleanValue> bindConfig, TaskInfo... dependTasks) {
+        this(uid, bindMod, false, bindConfig, dependTasks);
     }
 
-    TaskInfo(String uid, Mods bindMod, boolean concatModId, Config bindConfig) {
+    TaskInfo(String uid, Mods bindMod, boolean concatModId, Config bindConfig, TaskInfo... dependTasks) {
         this.uid = convertUid(oldName, uid, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> bindConfig.canLoad();
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String uid, Mods bindMod, boolean concatModId) {
+    TaskInfo(String uid, Mods bindMod, boolean concatModId, TaskInfo... dependTasks) {
         this.uid = convertUid(oldName, uid, bindMod, concatModId);
         this.bindMod = bindMod;
         this.bindConfig = () -> true;
+        this.dependTasks = List.of(dependTasks);
+        this.dependMods = List.of();
     }
 
-    TaskInfo(String uid, Mods bindMod, Config bindConfig) {
-        this(uid, bindMod, false, bindConfig);
+    TaskInfo(String uid, Mods bindMod, Config bindConfig, TaskInfo... dependTasks) {
+        this(uid, bindMod, false, bindConfig, dependTasks);
     }
 
-    TaskInfo(String uid, Mods bindMod) {
-        this(uid, bindMod, false);
+    TaskInfo(String uid, Mods bindMod, TaskInfo... dependTasks) {
+        this(uid, bindMod, false, dependTasks);
     }
+    // -----------------------------------------------------------TaskInfo----------------------------------------------------------------//
 
     public static void init() {
     }
@@ -711,7 +730,11 @@ public enum TaskInfo implements ITaskInfo<Mods> {
 
     @Override
     public boolean canLoadWithoutCheckClazz() {
-        return modVersionLoaded() && configEnabled();
+        return modVersionLoaded() && configEnabled() && this.dependCanLoad();
+    }
+
+    public boolean dependCanLoad() {
+        return this.dependTasks.stream().allMatch(TaskInfo::canLoad) && this.dependMods.stream().allMatch(Mods::versionLoad);
     }
 
     /**

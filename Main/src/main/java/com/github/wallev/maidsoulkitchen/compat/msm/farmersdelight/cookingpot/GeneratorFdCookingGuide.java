@@ -19,7 +19,7 @@ import vectorwing.farmersdelight.common.registry.ModRecipeTypes;
 import java.util.List;
 
 //@GuideTest
-@AutoCraftGuideGeneratorRegister(TaskInfo.FD_COOK_POT)
+@AutoCraftGuideGeneratorRegister(TaskInfo.MSM_FD_COOKING_POT)
 public class GeneratorFdCookingGuide implements IFdCookingPotGuideGenerator<CookingPotRecipe, CookingPotBlockEntity> {
 //public class GeneratorFdCookingGuide implements IFdCookingPotGuideGenerator<CookingPotRecipe, RecipeWrapper, CookingPotBlockEntity> {
     @Override

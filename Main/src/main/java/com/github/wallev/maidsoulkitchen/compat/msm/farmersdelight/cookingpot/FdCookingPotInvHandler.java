@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.registry.ModBlockEntityTypes;
 
-@InvHandlerRegister(TaskInfo.FD_COOK_POT)
+@InvHandlerRegister(TaskInfo.MSM_FD_COOKING_POT)
 public class FdCookingPotInvHandler extends IInvHandlerFactory<CookingPotBlockEntity> {
     public FdCookingPotInvHandler() {
         super(ModBlockEntityTypes.COOKING_POT.get());

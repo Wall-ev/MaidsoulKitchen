@@ -2,7 +2,6 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.MultiClassAnalysisResult;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.LanguageManager;
@@ -61,9 +60,6 @@ public class TaskLoadError {
         for (String errorTask : errorList) {
             ITaskInfo<?> task = checkManager.taskInfoByUid(errorTask);
             if (task == null || !task.canLoadWithoutCheckClazz()) {
-                continue;
-            }
-            if (task.getUidStr().contains("msm") && !Mods.MAID_STORAGE_MANAGER.versionLoad()) {
                 continue;
             }
             MutableComponent mutableComponent = Component.translatable(String.format("message.%s.warning.failed_task", modId))

@@ -53,10 +53,10 @@ def impDependencies() {
     curseForgeImp("ecliptic-seasons-1118306", "6971188")
 
     // 联动(存储)
-    modrinthImp("storagedrawers", storagedrawers_version)
-    modrinthImp("toms-storage", toms_storage_version)
-    modrinthImp("sophisticated-core", sophisticated_core_version)
-    modrinthImp("sophisticated-storage", sophisticated_storage_version)
+    modrinthCompile("storagedrawers", storagedrawers_version)
+    modrinthCompile("toms-storage", toms_storage_version)
+    modrinthCompile("sophisticated-core", sophisticated_core_version)
+    modrinthCompile("sophisticated-storage", sophisticated_storage_version)
     modrinthCompile("ae2", ae2_version)
 
     // 联动(其他)
