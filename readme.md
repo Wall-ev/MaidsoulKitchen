@@ -13,9 +13,10 @@
  - 当然，建议还是可以提的，只是要做好最坏的打算，不然可能会被我绊上一大脚
 
 ## 开发提示
- - 在终端运行命令:`./init.bat`，进行项目的初始化（或者项目环境出问题了，执行一遍即可）
- - 如果需要旧版兼容，那就在`./Legacy/setting/common/forge/dependencies.gradle`里填入需要兼容的版本，再执行`gradle`任务:`Task/build/build2Legacy`，最后再在`./Legacy/src/`下进行相应撰写即可
- - 项目打包需要使用`gradle`任务:`Task/build/buildMod`(`build`被"Ban"掉了)
+ - 项目打包需要使用`Main`模块下的`gradle`任务:`Task/build/buildMod`(`build`被"Ban"掉了)
+ - 命令行打包的方式为在根目录下执行命令:`./gradlew :Main:buildMod`
+ - Legacy模块下的`runClient`任务需要在末尾添加额外参数："-PloadedByLegacy=true"，也就是说命令行为:`./gradlew :Legacy:runClient -PloadedByLegacy=true`
+ - 或者你可以这样编辑配置：![img_1.png](img_1.png)![img_2.png](img_2.png)
  - 添加新的任务需要在相关类的上方添加`@TaskClassAnalyzer(TaskInfo.xxx)`
  - 添加新的mixin(如果是给任务服务的、mixin其他模组的)，同样也需要在相关类的上方添加注解`@TaskMixin(TaskInfo.xxx)`
  - 这样在项目打包的时候就会自动生成对应的数据，可以达到拦截生产环境下的因为其他模组的更新而炸了的效果
@@ -26,7 +27,7 @@
  - 目前楼主使用的是`wsl+idea/github action`的方案打包
  - `wsl+idea`: 楼主参照[Win10 系统安装 Linux 子系统教程(WSL2 + Ubuntu 20.04 + xlaunch桌面 ）](https://www.cnblogs.com/Ada-CN/p/18627211)、[WSL](https://intellijidea.com.cn/help/idea/how-to-use-wsl-development-environment-in-product.html)，这两篇文章配置的wsl环境，（应该是这样，实际上看了很多，忘记了都参照了那些了...）
  - 后面便是正常使用`idea`打开项目，依次点击输入命令等待即可
- - ![img.png](img.png)
+ - ![img_3.png](img_3.png)
 
 ## 警告
  - 目前，该项目还存在很多问题：分支管理不善、代码成了堆积如山的垃圾、问题管理等等...... 
