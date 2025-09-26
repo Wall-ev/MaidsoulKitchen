@@ -1,384 +1,120 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
+
+//// 依赖配置（依赖主模块core）
+dependencies {
+    // 依赖主模块core（编译时需要）
+    compileOnly project(':Main')
 }
 
-// 插件配置
-plugins {
-    id 'eclipse'
-    id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    // This should be below the net.minecraftforge.gradle plugin
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    // Mixin Plugin
-    id 'org.spongepowered.mixin' version '0.7.+'
-
-    // AspectJ
-//    id 'io.freefair.aspectj.post-compile-weaving' version '8.3'
-}
-
-// 加载配置
-// [,1.21)
-def minecraft_version = "1.20.1"
-loadProperties(minecraft_version)
-loadGradle(minecraft_version)
-
-// Java版本
-// [,17]
-java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
-
-// 版本类型: beta alpha release
-String version_type = "beta"
-
-// 模组基础信息
-base {
-    def customPropertiesFile = file("../gradle.properties")
-    if (customPropertiesFile.exists()) {
-        def customProperties = new Properties()
-        customPropertiesFile.withInputStream { stream ->
-            customProperties.load(stream)
-        }
-        version_type = customProperties.getOrDefault("mod_version_type", "beta")
-    }
-
-    archivesName = mod_id
-    version = "${minecraft_version}-${version_type}-v${mod_version}"
-    group = mod_group_id
-}
-
-// MC 配置
+// 子模块运行配置（如需单独测试）
 minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-
-    copyIdeResources = true
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
     runs {
-        configureEach {
-            jvmArgs "-XX:+AllowEnhancedClassRedefinition"
-            jvmArgs "-Dmixin.debug.export=true"
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            // 彩色日志
-            property 'terminal.jline', 'true'
-
-
+        client {
             mods {
-                "${mod_id}" {
-                    source sourceSets.main
+                "${project(':Main').mod_id}" {
+                    source project(':Main').sourceSets.main
                 }
             }
         }
-
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-        }
-
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-        }
-
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
-
-        data {
-            workingDirectory project.file('run-data')
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-        }
     }
 }
 
-// Mixin 配置
-mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
-    config "${mod_id}.mixins.json"
-}
 
-sourceSets {
-    def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build") }
-    main {
-        if (isBuildTask) {
-            java {
-                // 排除 util/debug/aspect 目录
-                exclude 'com/github/wallev/maidsoulkitchenlegacy/util/debug/aspect/**'
-            }
-            resources {
-                exclude 'META-INF/neoforge.mods.toml'
-                exclude 'aop.xml'
-            }
-        }
-        resources {
-            // 导入自动生成的资源(resources)
-            srcDir 'src/generated/resources'
-        }
-    }
-}
 
-// 生成 toml 信息，用于打包成生产环境的mod
-tasks.named('processResources', ProcessResources).configure {
-    def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build") }
-    def actualModVersion = isBuildTask ? mod_version : "0.0"
-
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            forge_version          : forge_version,
-            forge_version_range    : forge_version_range,
-            loader_version_range   : loader_version_range,
-
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : actualModVersion,
-            mod_credits            : mod_credits,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description,
-            mod_issue_tracker_url  : mod_issue_tracker_url
-    ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-        expand replaceProperties + [project: project]
-    }
-}
-
-// 生成 manifest 内容，用于打包时填充版本信息等内容
-tasks.named('jar', Jar).configure {
-    manifest {
-        attributes([
-                'Specification-Title'     : mod_id,
-                'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_authors,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-
-    finalizedBy 'reobfJar'
-}
-
-// 指定编码显式为 UTF
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-java {
-    // 编译源码文件
-    withSourcesJar()
-}
-//
-//// ALL 为下载 gradle 源码，方便查看调试
-//tasks.named('wrapper', Wrapper).configure {
-//    distributionType = Wrapper.DistributionType.ALL
-//}
-
-// 基础配置
+// 联动(烹饪)
 dependencies {
-    // 本体
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    /** ---------------------------------------农夫乐事--------------------------------------------------------- */
+    if (!farmers_delight_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:farmers-delight:${farmers_delight_version}-${mod_loader},${minecraft_version}")
+    // 仅供妖归使用
+    if (!registrate_version.isEmpty())
+        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    if (!youkaishomecoming_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:youkaishomecoming:${youkaishomecoming_version}-${mod_loader},${minecraft_version}")
+    if (!kitchen_karrot_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:kitchen-karrot:${kitchen_karrot_version}-${mod_loader},${minecraft_version}")
+}
 
-    // Apply Mixin AP
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
-        jarJar.ranged(it, "[0.4.0,)")
+// 联动(其他)
+dependencies {
+    if (!serene_seasons_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:serene-seasons:${serene_seasons_version}-${mod_loader},${minecraft_version}")
+    if (!ecliptic_seasons_file_id.isEmpty())
+        compileOnly fg.deobf("curse.maven:ecliptic-seasons-1118306:${ecliptic_seasons_file_id}")
+    if (!simple_farming_file_id.isEmpty())
+        implementation fg.deobf("curse.maven:simple-farming-327554:${simple_farming_file_id}")
+    if (!curios_version.isEmpty())
+        implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    if (!kotlin_for_forge_version.isEmpty())
+        runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
+    if (!libipn_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:libipn:${libipn_version}-${mod_loader},${minecraft_version}")
+    if (!inventory_profiles_next_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:inventory-profiles-next:${inventory_profiles_next_version}-${mod_loader},${minecraft_version}")
+
+//    if (!kubejs_version.isEmpty())
+//        compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+//    if (!rhino_version.isEmpty())
+//        compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+//    if (!probejs_file_id.isEmpty())
+//    compileOnly fg.deobf("curse.maven:probejs-585406:5227399")
+}
+
+// 开发工具
+dependencies {
+    if (!patchouli_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:patchouli:${patchouli_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    if (!jade_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:jade:${jade_version}-${mod_loader},${minecraft_version}")
+    if (!the_one_probe_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:the-one-probe:${the_one_probe_version}-${mod_loader},${minecraft_version}")
+    if (!cloth_config_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}-${mod_loader},${minecraft_version}")
+//        implementation fg.deobf("me.shedaniel.cloth:cloth-config-${mod_loader}:${cloth_config_forge}")
+
+    // rei
+    if (!architectury_api_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_api_version}-${mod_loader},${minecraft_version}")
+    if (!rei_version.isEmpty())
+        compileOnly fg.deobf("maven.modrinth:rei:${rei_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-${mod_loader}:${rei_version}")
+
+    // emi
+    if (!emi_version.isEmpty()) {
+        compileOnly fg.deobf("maven.modrinth:emi:${emi_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}:api")
+//        compileOnly fg.deobf("dev.emi:emi-${mod_loader}:${emi_version}")
     }
+
+    if (!jei_version.isEmpty()) {
+        implementation fg.deobf("maven.modrinth:jei:${jei_version}-${mod_loader},${minecraft_version}")
+//        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+//        compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+//        implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    }
+
+}
+
+// api
+dependencies {
+    if (!architectury_version.isEmpty())
+        implementation fg.deobf("dev.architectury:architectury-${mod_loader}:${architectury_version}")
+    if (!kiwi_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:kiwi:${kiwi_version}-${mod_loader},${minecraft_version}")
+}
+
+// 开发工具
+dependencies {
+    if (!appleskin_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:appleskin:${appleskin_version}-${mod_loader},${minecraft_version}")
+    if (!nbtedit_reborn_version.isEmpty())
+        runtimeOnly fg.deobf("maven.modrinth:nbtedit-reborn:${nbtedit_reborn_version}-${mod_loader},${minecraft_version}")
 }
 
 dependencies {
-    minecraftLibrary('org.aspectj:aspectjrt:1.9.24')
-    minecraftLibrary('org.aspectj:aspectjweaver:1.9.24')
-    implementation('org.springframework.boot:spring-boot-starter-aop:2.6.3')
-    implementation('org.springframework.boot:spring-boot-devtools:3.5.0')
-}
-
-//// 配置 Java 代理
-//tasks.withType(JavaExec) {
-//    jvmArgs += [
-//            "-javaagent:${configurations.runtimeClasspath.find { it.name.contains('aspectjweaver') }}"
-//    ]
-//}
-
-// libs自动依赖
-dependencies {
-    if (file("libs/${minecraft_version}/legacy").exists()) {
-        for (final def file in fileTree(dir: "libs/${minecraft_version}/legacy", includes: ['*.jar']).getFiles()) {
-            def name = file.getName()
-            def modName = name.split("-")[0]
-            def ver = name.replace("${modName}-", "").replace(".jar", "")
-            println(">> Add Legacy: file: ${name}, name: ${modName}, ver: ${ver}")
-            implementation fg.deobf("legacylibs:${name.split("-")[0]}:${ver}")
-        }
-    }
-    if (file("libs/${minecraft_version}/implementation").exists()) {
-        for (final def file in fileTree(dir: "libs/${minecraft_version}/implementation", includes: ['*.jar']).getFiles()) {
-            def name = file.getName()
-            def modName = name.split("-")[0]
-            def ver = name.replace("${modName}-", "").replace(".jar", "")
-            println(">> Add Implementation: file: ${name}, name: ${modName}, ver: ${ver}")
-            implementation fg.deobf("implibs:${name.split("-")[0]}:${ver}")
-        }
-    }
-    if (file("libs/${minecraft_version}/compileOnly").exists()) {
-        for (final def file in fileTree(dir: "libs/${minecraft_version}/compileOnly", includes: ['*.jar']).getFiles()) {
-            def name = file.getName()
-            def modName = name.split("-")[0]
-            def ver = name.replace("${modName}-", "").replace(".jar", "")
-            println(">> Add compileOnly: file: ${name}, name: ${modName}, ver: ${ver}")
-            compileOnly fg.deobf("comlibs:${name.split("-")[0]}:${ver}")
-        }
-    }
-    if (file("libs/${minecraft_version}/runtimeOnly").exists()) {
-        for (final def file in fileTree(dir: "libs/${minecraft_version}/runtimeOnly", includes: ['*.jar']).getFiles()) {
-            def name = file.getName()
-            def modName = name.split("-")[0]
-            def ver = name.replace("${modName}-", "").replace(".jar", "")
-            println(">> Add runtimeOnly: file: ${name}, name: ${modName}, ver: ${ver}")
-            runtimeOnly fg.deobf("runlibs:${name.split("-")[0]}:${ver}")
-        }
-    }
-}
-
-// util
-def loadGradle(String minecraft_version) {
-    apply from: "setting/common/forge/repositories.gradle"
-    apply from: "setting/common/forge/dependencies.gradle"
-    apply from: "setting/version/${minecraft_version}/dependencies.gradle"
-}
-
-def loadProperties(String minecraft_version) {
-    loadCustomProperties("gradle.properties")
-    loadCustomProperties("setting/version/${minecraft_version}/gradle.properties")
-    loadRootProjectModVersion()
-}
-
-def loadCustomProperties(String path) {
-    def customPropertiesFile = file(path)
-    if (customPropertiesFile.exists()) {
-        def customProperties = new Properties()
-        customProperties.load(new FileInputStream(customPropertiesFile))
-        customProperties.each { key, value ->
-            project.ext.set(key, value)
-        }
-    }
-}
-
-def loadRootProjectModVersion() {
-    def customPropertiesFile = file("../gradle.properties")
-    if (customPropertiesFile.exists()) {
-        def customProperties = new Properties()
-        customPropertiesFile.withInputStream { stream ->
-            customProperties.load(stream)
-        }
-        customProperties.each { key, value ->
-            project.ext.set(key, value)
-        }
-
-        // 定义项目属性
-        def properties = [
-                mod_id      : "${customProperties.get("mod_id")}_legacy",
-                mod_name    : "${customProperties.get("mod_name")} Legacy",
-                mod_group_id: "${customProperties.get("mod_group_id")}legacy"
-        ]
-
-        properties.each { key, value ->
-            project.ext.set(key, value)
-        }
-    }
-}
-
-def printProjectInfo(Project project) {
-    String[] projectInfo = ['minecraft_version', 'minecraft_version_range', 'forge_version', 'forge_version_range', 'loader_version', 'loader_version_range', 'mapping_channel', 'mapping_version']
-    println "> Minecraft Version"
-    for (final def info in projectInfo) {
-        if (project.hasProperty(info)) {
-            println "${info} = ${project.property(info)}"
-        }
-    }
-}
-
-def printProperties(Project project) {
-    println "> Custom Properties"
-    project.properties.each { key, value ->
-        println ">- ${key} = ${value}"
-    }
+    if (!create_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:create:${create_version}-${mod_loader},${minecraft_version}")
 }
 
 
-tasks.named('build') {
-    // 隐藏任务，使用 buildMod 任务
-    group = null
-    description = '请使用 buildMod 任务'
-}
-//
-//
-//configurations.configureEach {
-//    resolutionStrategy {
-//        componentSelection {
-//            all { ComponentSelection selection ->
-//                def candidate = selection.candidate
-//                def group = candidate.group
-//                if (group == 'legacylibs') {
-//                    selection.reject("禁用 com/github/wallev 组的缓存")
-//                    int a = 1;
-//                }
-//            }
-//        }
-//    }
-//}
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'legacylibs') {
-                details.useVersion('latest.integration')
-                details.because('Disable caching for legacylibs dependencies')
-//                details.resolveStrategy {
-//                    cacheChangingModulesFor 0, 'seconds'
-//                }
-            }
-        }
-    }
-}
-
-//buildCache {
-//    local {
-//        enabled = false
-//    }
-//
-//
-//}
-
-//gradle.settingsEvaluated { settings ->
-//    settings.gradle.projectsEvaluated {
-//        // 打印项目信息
-//        printProjectInfo(project)
-//        printProperties(project)
-//    }
-//    settings.buildCache {
-//        int a = 1;
-//        // vvv Your custom configuration goes here
-////        remote(HttpBuildCache) {
-////            url = 'https://example.com:8123/cache/'
-////        }
-//        // ^^^ Your custom configuration goes here
-//    }
-//}
