@@ -384,17 +384,20 @@ def resolverDirs(String dir, BiConsumer<String, String> consumer) {
 publishMods {
     def upload_mod_id = rootProject.mod_id
     def upload_mod_name = rootProject.mod_name
-    def upload_mod_version = project.version
+    def upload_mod_version = rootProject.mod_version
     def upload_mod_version_type = rootProject.mod_version_type
     def upload_game_version = rootProject.minecraft_version
     def upload_mod_loader = rootProject.mod_loader
+    def upload_mod_file_version = "${upload_game_version}-${upload_mod_version_type}-v${upload_mod_version}"
     def upload_modrinth_project_id = rootProject.modrinth_project_id
     def upload_modrinth_project_slug = rootProject.modrinth_project_slug
     def upload_curseforge_project_id = rootProject.curseforge_project_id
     def upload_curseforge_project_slug = rootProject.curseforge_project_slug
 
-    file = new File("${rootProject.projectDir}/changelog/file/${upload_mod_id}-${upload_mod_version}-all.jar")
-    additionalFiles.from(new File("${rootProject.projectDir}/changelog/file/${upload_mod_id}-${upload_mod_version}-sources.jar"))
+    file = new File("${rootProject.projectDir}/changelog/file/${upload_mod_id}-${upload_mod_file_version}-all.jar")
+    additionalFiles.from(new File("${rootProject.projectDir}/changelog/file/${upload_mod_id}-${upload_mod_file_version}-sources.jar"))
+    version = upload_mod_file_version
+    displayName = "${upload_mod_name} ${upload_mod_version}"
     changelog = getChangelog(upload_mod_version)
 
     modLoaders.add(upload_mod_loader)
@@ -408,7 +411,7 @@ publishMods {
         requires("touhou-little-maid")
     }
     modrinth {
-        projectId = upload_modrinth_project_id
+        projectId = modrinth_project_id
 //        projectSlug = upload_modrinth_project_slug
         accessToken = secrets.get("modrinth_token")
         minecraftVersions.add(upload_game_version)

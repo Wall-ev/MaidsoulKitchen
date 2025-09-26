@@ -4,7 +4,6 @@
 - Incorrect incompatible information for the kaleidoscope_cooker chopping board task([#61](https://github.com/Wall-ev/MaidsoulKitchen/issues/61))
 - modclazzchecker incorrect class detection([Crashed on DEDICATED SERVER](https://github.com/Wall-ev/MaidsoulKitchen/issues/67))
 
-
 0.3.0.3
 ## Fix
 Incorrect recipe loading(This time it should be fine....)

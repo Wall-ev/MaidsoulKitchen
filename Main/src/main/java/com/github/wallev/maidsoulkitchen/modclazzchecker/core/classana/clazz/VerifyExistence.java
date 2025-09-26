@@ -1,18 +1,23 @@
 package com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz;
 
+import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.ModClazzChecker;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMskMixinInterface;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.IMods;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.util.ModUtil;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+import org.objectweb.asm.*;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.*;
 
 public class VerifyExistence {
+    private static final Marker MARKER = MarkerManager.getMarker("VerifyExistence");
 
     // 验证类、方法和字段的存在性
     public static Map<String, Boolean> verify(TaskClazzInfo taskClazzInfo, BaseClazzCheckManager<?, ?> checkManager) throws IOException {
@@ -32,7 +37,7 @@ public class VerifyExistence {
             String taskUid = entry.getKey();
             TaskClazzInfo.ClazzTaskInfo value = entry.getValue();
             ITaskInfo<?> task = checkManager.taskInfoByUid(taskUid);
-            if (!task.canLoadWithoutCheckClazz()) {
+            if (task == null || !task.canLoadWithoutCheckClazz()) {
                 continue;
             }
             IMods bindMod = task.getBindMod();
@@ -159,15 +164,50 @@ public class VerifyExistence {
             }
             processedClasses.add(currentClass);
 
-            // 添加构造器
-            Arrays.stream(currentClass.getDeclaredConstructors())
-                    .map(c -> SignatureConverter.toASMString(c))
-                    .forEach(members::add);
+//            // 添加构造器
+//            Arrays.stream(currentClass.getDeclaredConstructors())
+//                    .map(c -> SignatureConverter.toASMString(c))
+//                    .forEach(members::add);
+//
+//            // 添加方法
+//            Arrays.stream(currentClass.getDeclaredMethods())
+//                    .map(m -> SignatureConverter.toASMString(m))
+//                    .forEach(members::add);
 
-            // 添加方法
-            Arrays.stream(currentClass.getDeclaredMethods())
-                    .map(m -> SignatureConverter.toASMString(m))
-                    .forEach(members::add);
+            boolean read = true;
+            String className = currentClass.getName().replace('.', '/');
+            try (InputStream is = targetClass.getClassLoader().getResourceAsStream(className + ".class")) {
+                if (is != null) {
+                    ClassReader classReader = new ClassReader(is);
+                    classReader.accept(new ClassVisitor(Opcodes.ASM9) {
+                        @Override
+                        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                            members.add(className + "#" + name + descriptor);
+                            return super.visitMethod(access, name, descriptor, signature, exceptions);
+                        }
+                    }, ClassReader.SKIP_DEBUG); // 跳过调试信息，提高效率
+                } else {
+                    read = false;
+                }
+            } catch (IOException e) {
+                read = false;
+            }
+
+            if (!read) {
+                try {
+                    ClassReader classReader = new ClassReader(className);
+                    classReader.accept(new ClassVisitor(Opcodes.ASM9) {
+                        @Override
+                        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                            members.add(className + "#" + name + descriptor);
+                            return super.visitMethod(access, name, descriptor, signature, exceptions);
+                        }
+                    }, ClassReader.SKIP_DEBUG); // 跳过调试信息，提高效率
+                } catch (IOException e) {
+                    MaidsoulKitchen.LOGGER.error(MARKER, "{} class not found", className);
+                    e.printStackTrace();
+                }
+            }
 
             // 添加父类
             if (currentClass.getSuperclass() != null) {
@@ -188,9 +228,45 @@ public class VerifyExistence {
         Set<String> fields = new LinkedHashSet<>(); // 使用LinkedHashSet保持顺序且去重
         Class<?> currentClass = targetClass;
         while (currentClass != null) {
-            Arrays.stream(currentClass.getDeclaredFields())
-                    .map(Field::getName)
-                    .forEach(fields::add);
+//            Arrays.stream(currentClass.getDeclaredFields())
+//                    .map(Field::getName)
+//                    .forEach(fields::add);
+
+            boolean read = true;
+            String className = currentClass.getName().replace('.', '/');
+            try (InputStream is = targetClass.getClassLoader().getResourceAsStream(className + ".class")) {
+                if (is != null) {
+                    ClassReader classReader = new ClassReader(is);
+                    classReader.accept(new ClassVisitor(Opcodes.ASM9) {
+                        @Override
+                        public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+                            fields.add(name);
+                            return super.visitField(access, name, descriptor, signature, value);
+                        }
+                    }, ClassReader.SKIP_DEBUG); // 跳过调试信息，提高效率
+                } else {
+                    read = false;
+                }
+            } catch (IOException e) {
+                read = false;
+            }
+
+            if (!read) {
+                try {
+                    ClassReader classReader = new ClassReader(className);
+                    classReader.accept(new ClassVisitor(Opcodes.ASM9) {
+                        @Override
+                        public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+                            fields.add(name);
+                            return super.visitField(access, name, descriptor, signature, value);
+                        }
+                    }, ClassReader.SKIP_DEBUG); // 跳过调试信息，提高效率
+                } catch (IOException e) {
+                    MaidsoulKitchen.LOGGER.error(MARKER, "{} class not found", className);
+                    e.printStackTrace();
+                }
+            }
+
             currentClass = currentClass.getSuperclass();
         }
         return new ArrayList<>(fields);

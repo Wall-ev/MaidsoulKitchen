@@ -734,7 +734,7 @@ public enum TaskInfo implements ITaskInfo<Mods> {
     }
 
     public boolean dependCanLoad() {
-        return this.dependTasks.stream().allMatch(TaskInfo::canLoad) && this.dependMods.stream().allMatch(Mods::versionLoad);
+        return this.dependTasks.stream().allMatch(TaskInfo::canLoadWithoutCheckClazz) && this.dependMods.stream().allMatch(Mods::versionLoad);
     }
 
     /**
