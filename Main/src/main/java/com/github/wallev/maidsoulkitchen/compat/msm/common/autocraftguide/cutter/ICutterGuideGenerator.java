@@ -27,5 +27,10 @@ public interface ICutterGuideGenerator<R extends Recipe<? extends Container>> ex
         ));
     }
 
+    @Override
+    default int getRecipeTime(R recipe) {
+        return 0;
+    }
+
     ResourceLocation cutterRecipeLoc();
 }

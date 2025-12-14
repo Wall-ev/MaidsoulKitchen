@@ -2,6 +2,8 @@ package com.github.wallev.maidsoulkitchen.modclazzchecker.manager;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.clazz.TaskClazzInfo;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.ReportErrorEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,7 +31,7 @@ public class TaskModClazzManager extends TaskModClazz2MixinManager {
 
     public static void init() throws IOException {
         startReadTaskClazz();
-        if (checkManager != null) {
+        if (checkManager != null && FMLEnvironment.dist == Dist.CLIENT) {
             ReportErrorEvent.init(checkManager);
         }
     }

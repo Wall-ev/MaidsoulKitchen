@@ -106,9 +106,9 @@ public class ModUtil {
 
         ArtifactVersion version = modInfo.getVersion();
 
-        if (version.getQualifier() != null) {
-            version = new DefaultArtifactVersion(version.getQualifier());
-        }
+//        if (version.getQualifier() != null) {
+//            version = new DefaultArtifactVersion(version.getQualifier());
+//        }
         return version.toString();
 
     }

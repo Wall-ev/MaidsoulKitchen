@@ -46,6 +46,11 @@ public class GeneratorBakerySmallCookingGuide implements ILdCookingPotGuideGener
     }
 
     @Override
+    public int getRecipeTime(CookingPotRecipe recipe) {
+        return 300;
+    }
+
+    @Override
     public <T extends Container> T convert2InputsInv(List<ItemStack> allInputs) {
         return (T) recipeWrapperContainer(allInputs);
     }

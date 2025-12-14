@@ -42,4 +42,9 @@ public interface IFdCookingPotGuideGenerator<R extends Recipe<? extends Containe
     default void remainStep(BlockPos pos, CraftGuideOperator2 craftGuide, List<ItemStack> remains) {
         this.remainPickupStep(pos, craftGuide, remains);
     }
+
+    @Override
+    default boolean matchResultCount() {
+        return true;
+    }
 }

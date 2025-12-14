@@ -26,7 +26,7 @@ public class KettlePotInvFactory extends IInvHandlerFactory<KettleBlockEntity> {
         return switch (side) {
             case UP -> (IInvHandler) new RangedWrapper(blockEntity.getInventory(), 0, 4);
             case DOWN -> (IInvHandler) new RangedWrapper(blockEntity.getInventory(), 6, 7);
-            default -> (IInvHandler) new RangedWrapper(blockEntity.getInventory(), 4, 5);
+            default -> (IInvHandler) new RangedWrapper(blockEntity.getInventory(), 5, 6);
         };
     }
 }

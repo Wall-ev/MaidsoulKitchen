@@ -80,6 +80,11 @@ public class GeneratorItdEnchantalCoolerGuide implements ICookingRecipeGuideGene
     }
 
     @Override
+    public int getRecipeTime(EnchantalCoolerRecipe recipe) {
+        return 100;
+    }
+
+    @Override
     public List<Ingredient> getInputs(EnchantalCoolerRecipe recipe) {
         ArrayList<Ingredient> allInputs = Lists.newArrayList(Ingredient.of(Items.LAPIS_LAZULI));
         allInputs.addAll(recipe.getIngredients());

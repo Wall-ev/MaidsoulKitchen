@@ -64,6 +64,11 @@ public class GeneratorTaBambooTrayGuide extends IPlateGuideGenerator<BambooTrayR
     }
 
     @Override
+    public int getRecipeTime(BambooTrayRecipe recipe) {
+        return CommonConfigs.BAMBOO_TRAY_MAX_PROGRESS.get();
+    }
+
+    @Override
     public Item getBlockItemForTranslate() {
         return ModBlocks.BAMBOO_TRAY.get().asItem();
     }

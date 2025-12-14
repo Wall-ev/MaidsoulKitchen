@@ -134,6 +134,11 @@ public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<Cockt
     }
 
     @Override
+    public int getRecipeTime(CocktailRecipe recipe) {
+        return 0;
+    }
+
+    @Override
     public boolean isValidBlockInWorld(ServerLevel level, EntityMaid maid, BlockPos pos, MaidPathFindingBFS pathFinding) {
         return true;
     }

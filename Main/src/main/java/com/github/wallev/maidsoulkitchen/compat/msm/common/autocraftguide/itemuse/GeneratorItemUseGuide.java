@@ -52,6 +52,11 @@ public class GeneratorItemUseGuide implements ICookingRecipeGuideGenerator<ItemU
         ));
     }
 
+    @Override
+    public int getRecipeTime(ItemUseRecipe recipe) {
+        return 0;
+    }
+
     @TypeLang(
             en_us = "Item Use",
             zh_cn = "物品右键使用"

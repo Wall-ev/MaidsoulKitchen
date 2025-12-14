@@ -51,7 +51,7 @@ public class ItemCulinaryHub extends Item implements MenuProvider {
     public static final int BIND_SIZE = 3;
     public static final BagType[] INPUT_BAG_TYPES = BagType.INPUT_VALS;
     public static final int INPUT_INV_SLOT_SIZE = inputSlotSize();
-    private static final int INV_SLOT = 4;
+    public static final int INV_SLOT = 4;
     private static final int COOK_BAG_SIZE = getCookBagSize();
     private static final String CONTAINER_TAG = "CulinaryHubContainer";
     private static final String BIND_MODE_TAG = "CulinaryHubBindMode";

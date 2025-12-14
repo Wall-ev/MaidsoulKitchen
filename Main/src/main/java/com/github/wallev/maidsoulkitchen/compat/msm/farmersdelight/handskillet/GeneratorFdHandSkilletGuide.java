@@ -79,6 +79,11 @@ public class GeneratorFdHandSkilletGuide implements ICookingRecipeGuideGenerator
     }
 
     @Override
+    public int getRecipeTime(CampfireCookingRecipe recipe) {
+        return 0;
+    }
+
+    @Override
     public List<Ingredient> getInputs(CampfireCookingRecipe recipe) {
         List<Ingredient> inputs = Lists.newArrayList(Ingredient.of(ModItems.SKILLET.get()));
         inputs.addAll(recipe.getIngredients());

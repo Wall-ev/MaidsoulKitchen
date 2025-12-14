@@ -108,6 +108,11 @@ public class GeneratorKcStockPotGuide implements ILdCookingPotGuideGenerator<Sto
     }
 
     @Override
+    public int getRecipeTime(StockpotRecipe recipe) {
+        return recipe.time();
+    }
+
+    @Override
     public RecipeType<StockpotRecipe> getRecipeType() {
         return ModRecipes.STOCKPOT_RECIPE;
     }

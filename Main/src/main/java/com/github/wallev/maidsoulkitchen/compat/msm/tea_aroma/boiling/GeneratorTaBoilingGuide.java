@@ -112,6 +112,11 @@ public class GeneratorTaBoilingGuide implements ICookingGuideGenerator<Generator
     }
 
     @Override
+    public int getRecipeTime(KettleIngredient recipe) {
+        return 200;
+    }
+
+    @Override
     public void consumeRecipes(RecipeManager manager, Consumer<KettleIngredient> recipeConsumer) {
         Ingredient waterKettleInput = TeaBrewingFoamHelper.createNeedBoilingWaterKettle();
         recipeConsumer.accept(new KettleIngredient(waterKettleInput, KettleType.WATER));

@@ -83,6 +83,11 @@ public class GeneratorYhcCuisineGuide implements IOnlyUseGuideGenerator<CuisineR
     }
 
     @Override
+    public int getRecipeTime(CuisineRecipe<?> recipe) {
+        return 0;
+    }
+
+    @Override
     public List<Ingredient> getInputs(CuisineRecipe<?> recipe) {
         return collectIngredients(recipe)
                 .stream()

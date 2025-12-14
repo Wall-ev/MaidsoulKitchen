@@ -85,6 +85,7 @@ public class GeneratorYhcBasinGuide implements IGrapeJumpRecipeGuideGenerator<Ba
 
         Fluid fluid = oRecipe.output.getFluid();
         if (fluid instanceof YHFluid sake) {
+//            return List.of(sake.type.asStack(1));
             return List.of(sake.type.asStack(sake.type.count()));
         } else {
             return List.of();

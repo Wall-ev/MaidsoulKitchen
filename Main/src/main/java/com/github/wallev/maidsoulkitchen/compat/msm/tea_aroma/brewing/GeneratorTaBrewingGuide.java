@@ -7,10 +7,12 @@ import cn.foggyhillside.tea_aroma.registry.ModRecipeTypes;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.AutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.nbtcustom.NbtItemTagGen;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.tea.ITeaGuideGenerator;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.util.CraftGuideOperator2;
 import com.github.wallev.maidsoulkitchen.compat.msm.tea_aroma.util.TeaBrewingFoamHelper;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.google.common.collect.Lists;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -57,6 +60,11 @@ public class GeneratorTaBrewingGuide implements ITeaGuideGenerator<BrewingRecipe
         ItemStack boilingWaterKettle = KettleItem.getBoilingWaterKettle();
         Ingredient kettleIngredient = Ingredient.of(boilingWaterKettle);
         return List.of(kettleIngredient);
+    }
+
+    @Override
+    public void generateSteps(BlockPos pos, Level level, BrewingRecipe recipe, CraftGuideOperator2 craftGuide, List<ItemStack> realItems, boolean needContainer, List<ItemStack> containers, List<ItemStack> outputs, List<ItemStack> remains) {
+        ITeaGuideGenerator.super.generateSteps(pos, level, recipe, craftGuide, realItems, needContainer, containers, outputs, remains);
     }
 
     @Override

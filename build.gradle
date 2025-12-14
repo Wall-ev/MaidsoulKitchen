@@ -18,11 +18,13 @@ buildscript {
 plugins {
     id "at.stnwtr.gradle-secrets-plugin" version "1.0.1"
     id "me.modmuss50.mod-publish-plugin" version "1.0.0"
+    id 'net.darkhax.curseforgegradle' version '[1.1.24,)'
 }
 
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'maven-publish'
 }
 
 subprojects {
@@ -101,6 +103,10 @@ subprojects {
             }
             client {
                 property 'forge.enabledGameTestNamespaces', mod_id
+                // 传递 JVM 参数
+                jvmArgs "-DmyMod.debug1=${project.hasProperty('myModDebug') ? project.myModDebug : 'true'}"
+                jvmArgs "-DmyMod.configPath1=${project.hasProperty('myModConfigPath') ? project.myModConfigPath : './configs1'}"
+
                 workingDirectory project.file('run/client_a')
             }
             client2 {
@@ -248,7 +254,7 @@ subprojects {
     }
 
     dependencies {
-        implementation fg.deobf("maven.modrinth:touhou-little-maid:1.3.8-forge+mc1.20.1")
+        implementation fg.deobf("maven.modrinth:touhou-little-maid:1.4.4-forge+mc1.20.1")
     }
 
     dependencies {
@@ -381,6 +387,60 @@ def resolverDirs(String dir, BiConsumer<String, String> consumer) {
 }
 
 
+task publishCurseForgeWithDarkhax(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+//tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "publishing"
+    apiToken = secrets.get("curseforge_token")
+    def upload_mod_id = rootProject.mod_id
+    def upload_mod_name = rootProject.mod_name
+    def upload_mod_version = rootProject.mod_version
+    def upload_mod_version_type = rootProject.mod_version_type
+    def upload_game_version = rootProject.minecraft_version
+    def upload_mod_loader = rootProject.mod_loader
+    def upload_mod_file_version = "${upload_game_version}-${upload_mod_version_type}-v${upload_mod_version}"
+    def upload_modrinth_project_id = rootProject.modrinth_project_id
+    def upload_modrinth_project_slug = rootProject.modrinth_project_slug
+    def upload_curseforge_project_id = rootProject.curseforge_project_id
+    def upload_curseforge_project_slug = rootProject.curseforge_project_slug
+
+
+    def mainFile = upload(upload_curseforge_project_id, new File("./changelog/file/${upload_mod_id}-${upload_mod_file_version}-all.jar"))
+//    mainFile.withAdditionalFile(new File("./changelog/${mod_id}-${version}-sources.jar"))
+//    mainFile.changelog = new File('./changelog/changelog.txt').text.split("\r\n\r\n")[0].replace(project.mod_version + "\r\n", "")
+    mainFile.changelog = getChangelog(project.mod_version)
+    mainFile.addEnvironment("Client", "Server")
+    mainFile.addGameVersion(upload_game_version)
+    mainFile.addModLoader(upload_mod_loader)
+    mainFile.addRequirement("touhou-little-maid")
+//    mainFile.addOptional()
+    mainFile.releaseType = upload_mod_version_type
+    disableVersionDetection()
+}
+
+//// 等待CurseForge插件加载完成
+//plugins.withId("net.darkhax.curseforgegradle") {
+//    // 再等待secrets插件加载完成
+//    plugins.withId("at.stnwtr.gradle-secrets-plugin") {
+//        task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+////        tasks.register('publishCurseForge', TaskPublishCurseForge) {
+//            group = "publishing"
+//            apiToken = secrets.get("curseforge_token")
+//
+//            def mainFile = upload(project.curseforge_project,
+//                    new File("./changelog/${mod_id}-${version}-all.jar"))
+//
+//            mainFile.changelog = getChangelog(mod_version)
+//            mainFile.addEnvironment("Client", "Server")
+//            mainFile.addGameVersion("1.20.1")
+//            mainFile.addModLoader("Forge")
+//            mainFile.addRequirement("touhou-little-maid")
+//            mainFile.releaseType = mod_version_type
+//            disableVersionDetection()
+//        }
+//    }
+//}
+
+
 publishMods {
     def upload_mod_id = rootProject.mod_id
     def upload_mod_name = rootProject.mod_name
@@ -401,7 +461,8 @@ publishMods {
     changelog = getChangelog(upload_mod_version)
 
     modLoaders.add(upload_mod_loader)
-    type = convertUploadType(upload_mod_version_type)
+    type = ALPHA
+//    type = convertUploadType(upload_mod_version_type)
 
     curseforge {
         projectId  = upload_curseforge_project_id
@@ -409,6 +470,12 @@ publishMods {
         accessToken = secrets.get("curseforge_token")
         minecraftVersions.add(upload_game_version)
         requires("touhou-little-maid")
+
+        println("curseforge projectId: ${projectId.toString()}")
+        println("curseforge projectSlug: ${projectSlug.toString()}")
+        println("curseforge accessToken: ${accessToken.toString()}")
+        println("curseforge accessToken: ${secrets.get("curseforge_token")}")
+        println("minecraftVersions: ${minecraftVersions.getOrNull()}")
     }
     modrinth {
         projectId = modrinth_project_id
@@ -440,11 +507,14 @@ def getChangelog(String upload_mod_version) {
             .replace(upload_mod_version + "\r\n", "")
 
     // 再读取任务兼容性日志
-    def taskCompatLog = new File("${rootProject.projectDir}/changelog/task_compat.txt").text.split("\n\n\n")[0]
+    def taskCompatLog = new File("${rootProject.projectDir}/changelog/task_compat.txt").text.split("\r\n\r\n\r\n")[0]
             .replace(upload_mod_version + "\r\n", "")
 
     // 合并两个日志，用空行分隔
-    return mainChangelog + "\r\n\r\n" + taskCompatLog
+    def allLog = mainChangelog + "\r\n\r\n" + taskCompatLog
+    println "合并后的更新日志: ${allLog}"
+
+    return allLog
 }
 
 List<String> getCompatModIds() {
@@ -507,5 +577,13 @@ tasks.register('readFirstVersionHyphenValues') {
     doLast {
         def firstVersionHyphenValues = getCompatModIds()
         println "第一个版本号下的所有以 '- ' 开头的值: ${firstVersionHyphenValues}"
+    }
+}
+
+
+
+tasks.register('readChangelog') {
+    doLast {
+        def changelog = getChangelog(rootProject.mod_version)
     }
 }

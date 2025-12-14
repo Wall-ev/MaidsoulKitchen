@@ -1,3 +1,29 @@
+0.3.0.9
+## fix
+- Fixed an issue where the rendering culinary_hub effect slot crashed
+- For the recipe of the compat mod, it will only be read while it exists
+
+
+0.3.0.8
+## fix
+- Fixed an issue where some mods could not be used properly (maidstoragemanager compat)
+
+
+0.3.0.7
+## fix
+- Fixed server crash[[Bug][Crash] 0.3.0.6兼容性问题 ](https://github.com/Wall-ev/MaidsoulKitchen/issues/72)
+
+
+0.3.0.6
+## fix
+- Fixed server crash[[Bug] Unable to join server](https://github.com/Wall-ev/MaidsoulKitchen/issues/71)
+
+
+0.3.0.5
+## fix
+- Fixed a bug where waiting cooking tasks with maid storage manager compat didn't work properly
+
+
 0.3.0.4
 ## fix
 - Incorrect task compatibility message(modclazzchecker false positive)([#61](https://github.com/Wall-ev/MaidsoulKitchen/issues/61))

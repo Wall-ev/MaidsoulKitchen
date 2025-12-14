@@ -50,6 +50,11 @@ public class GeneratorYhcDryingRackGuide extends IPlateGuideGenerator<DryingRack
     }
 
     @Override
+    public int getRecipeTime(DryingRackRecipe recipe) {
+        return recipe.getCookingTime();
+    }
+
+    @Override
     public Item getBlockItemForTranslate() {
         return YHBlocks.RACK.asItem();
     }

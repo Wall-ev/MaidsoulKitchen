@@ -101,6 +101,11 @@ public class GeneratorKcCookerGuide implements ILdCookingPotGuideGenerator<PotRe
     }
 
     @Override
+    public int getRecipeTime(PotRecipe recipe) {
+        return recipe.time();
+    }
+
+    @Override
     public List<ItemStack> getRemains(PotRecipe recipe, List<ItemStack> inputs) {
         return List.of();
     }

@@ -75,7 +75,7 @@ public class EnchantCommonUseAction extends CommonUseAction implements IFailGuid
     public Result start() {
 //        Result result = super.start();
         Result result = thisStart();
-//        this.makeSneak(result);
+        this.makeSneak(result);
         if (result == Result.FAIL && toFailSteps(craftGuideStepData, craftGuideData, craftLayer)) {
             return Result.SUCCESS;
         }
@@ -281,10 +281,10 @@ public class EnchantCommonUseAction extends CommonUseAction implements IFailGuid
     }
 
     private void useItemSingle(BlockPos target, BlockHitResult result, ServerLevel level) {
-        InteractionResult cancelResult = net.minecraftforge.common.ForgeHooks.onItemRightClick(fakePlayer, InteractionHand.MAIN_HAND);
-        if (cancelResult != null && cancelResult.consumesAction()) {
-            return;
-        }
+//        InteractionResult cancelResult = net.minecraftforge.common.ForgeHooks.onItemRightClick(fakePlayer, InteractionHand.MAIN_HAND);
+//        if (cancelResult != null && cancelResult.consumesAction()) {
+//            return;
+//        }
 
         PlayerInteractEvent.RightClickBlock event = ForgeHooks.onRightClickBlock(fakePlayer,
                 InteractionHand.MAIN_HAND,

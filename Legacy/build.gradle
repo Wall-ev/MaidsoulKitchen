@@ -2,13 +2,18 @@
 //// 依赖配置（依赖主模块core）
 dependencies {
     // 依赖主模块core（编译时需要）
+//    implementation project(':Main') {
+////    implementation fg.deobf(project(':Main')) {
+////        transitive = false // 不传递子模块依赖
+//    }
+
     compileOnly project(':Main')
 }
 
 // 子模块运行配置（如需单独测试）
 minecraft {
     runs {
-        client {
+        configureEach {
             mods {
                 "${project(':Main').mod_id}" {
                     source project(':Main').sourceSets.main
@@ -16,6 +21,12 @@ minecraft {
             }
         }
     }
+}
+
+// Mixin 配置
+mixin {
+    config "${project(':Main').mod_id}.mixins.json"
+    config "${project(':Main').mod_id}-compat.mixins.json"
 }
 
 

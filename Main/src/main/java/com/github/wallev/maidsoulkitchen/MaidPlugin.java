@@ -21,10 +21,9 @@ import com.github.wallev.maidsoulkitchen.client.renderer.entity.layer.bedrock.La
 import com.github.wallev.maidsoulkitchen.client.renderer.entity.layer.gecko.GeckoLayerMaidBanner;
 import com.github.wallev.maidsoulkitchen.debug.target.DefaultTargets;
 import com.github.wallev.maidsoulkitchen.entity.ai.brain.MaidBrain;
-import com.github.wallev.maidsoulkitchen.init.ModItems;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
-import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
+import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBaubleHandler;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.Mods;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.util.DevUtil;
@@ -55,9 +54,7 @@ public final class MaidPlugin implements ILittleMaid {
 
     @Override
     public void bindMaidBauble(BaubleManager manager) {
-        if (Mods.MC.load()) {
-            manager.bind(ModItems.BURN_PROTECT_BAUBLE, new BurnProtectBauble());
-        }
+        BurnProtectBaubleHandler.register(manager);
     }
 
     @Override

@@ -41,6 +41,11 @@ public class GeneratorBakeriesFermentationBarrelGuide implements ICookingRecipeG
     }
 
     @Override
+    public int getRecipeTime(FermentationRecipe recipe) {
+        return 3600;
+    }
+
+    @Override
     public <T extends Container> T convert2InputsInv(List<ItemStack> allInputs) {
         return (T) simpleContainer(allInputs);
     }

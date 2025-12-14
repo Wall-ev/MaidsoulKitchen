@@ -213,11 +213,16 @@ public interface ICookingGuideGenerator<R> extends IAutoCraftGuideGenerator {
 
         List<ItemStack> oContainers = new ArrayList<>();
         if (needContainer) {
+            int count = outputs.get(0).getCount();
             ItemStack remove = realItems.remove(items.size() - 1);
-            oContainers.add(remove);
+            oContainers.add(matchResultCount() ? remove.copyWithCount(count) : remove);
         }
 
         generateSteps(pos, level, recipe, craftGuide, realItems, needContainer, oContainers, outputs, remains);
+    }
+
+    default boolean matchResultCount() {
+        return false;
     }
 
     /**
@@ -373,9 +378,7 @@ public interface ICookingGuideGenerator<R> extends IAutoCraftGuideGenerator {
      * @param recipe 配方
      * @return 时间
      */
-    default int getRecipeTime(R recipe) {
-        return 0;
-    }
+    int getRecipeTime(R recipe);
 
     /**
      * 获取input后的remainItem。

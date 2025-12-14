@@ -111,4 +111,9 @@ public class GeneratorBakeryDrinkCupGuide implements ICookingRecipeGuideGenerato
         // 获取成品，冰添加失败步骤
         craftGuide.addEmptyUseIfFail(glassBottlePos, outputs, failStep0, failStep1);
     }
+
+    @Override
+    public int getRecipeTime(CoffeeRecipe recipe) {
+        return 0;
+    }
 }

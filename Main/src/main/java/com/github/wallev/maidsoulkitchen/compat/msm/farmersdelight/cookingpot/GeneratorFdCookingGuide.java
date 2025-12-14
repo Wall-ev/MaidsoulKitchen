@@ -38,6 +38,11 @@ public class GeneratorFdCookingGuide implements IFdCookingPotGuideGenerator<Cook
     }
 
     @Override
+    public int getRecipeTime(CookingPotRecipe recipe) {
+        return recipe.getCookTime();
+    }
+
+    @Override
     public List<Ingredient> getContainers(CookingPotRecipe recipe) {
         ItemStack output = recipe.getResultItem(RegistryAccess.EMPTY);
 

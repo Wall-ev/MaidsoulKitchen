@@ -48,6 +48,10 @@ public interface IGrapeJumpCustomGuideGenerator<R> extends ICookingGuideGenerato
         }
     }
 
+    default int getRecipeTime(R recipe) {
+        return 0;
+    }
+
     /**
      * 跳跃次数
      * @return 跳跃次数

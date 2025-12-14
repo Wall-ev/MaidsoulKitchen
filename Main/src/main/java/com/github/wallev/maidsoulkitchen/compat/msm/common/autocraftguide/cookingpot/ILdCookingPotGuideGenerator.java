@@ -37,4 +37,8 @@ public interface ILdCookingPotGuideGenerator<R extends Recipe<? extends Containe
         return (T) recipeWrapperContainer(allInputs);
     }
 
+    @Override
+    default boolean matchResultCount() {
+        return true;
+    }
 }

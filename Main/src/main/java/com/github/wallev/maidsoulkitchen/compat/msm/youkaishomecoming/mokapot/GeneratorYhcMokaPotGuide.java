@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBFS;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.AutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.ICookingRecipeGuideGenerator;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.storage.ContainerStorage;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import dev.xkmc.youkaishomecoming.content.pot.moka.MokaRecipe;
@@ -65,7 +66,22 @@ public class GeneratorYhcMokaPotGuide implements ICookingRecipeGuideGenerator<Mo
     }
 
     @Override
+    public ResourceLocation getOutputContainerStorageType() {
+        return ContainerStorage.TYPE;
+    }
+
+    @Override
+    public ResourceLocation getOutputStorageType() {
+        return ContainerStorage.TYPE;
+    }
+
+    @Override
     public boolean isBlockValid(Level level, BlockPos pos) {
         return level.getBlockState(pos).is(YHBlocks.MOKA.get());
+    }
+
+    @Override
+    public boolean matchResultCount() {
+        return true;
     }
 }

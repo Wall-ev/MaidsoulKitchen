@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBFS;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.AutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.click.ICutterGuideGenerator;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.util.CraftGuideOperator2;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
@@ -56,5 +57,10 @@ public class GeneratorKcChoppingBoardGuide implements ICutterGuideGenerator<Chop
     @Override
     public <T extends Container> T convert2InputsInv(List<ItemStack> allInputs) {
         return (T) simpleContainer(allInputs);
+    }
+
+    @Override
+    public void generateSteps(BlockPos pos, Level level, ChoppingBoardRecipe recipe, CraftGuideOperator2 craftGuide, List<ItemStack> realItems, boolean needContainer, List<ItemStack> containers, List<ItemStack> outputs, List<ItemStack> remains) {
+        ICutterGuideGenerator.super.generateSteps(pos, level, recipe, craftGuide, realItems, needContainer, containers, outputs, remains);
     }
 }

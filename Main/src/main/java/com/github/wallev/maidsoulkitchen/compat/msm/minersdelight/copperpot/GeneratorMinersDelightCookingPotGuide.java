@@ -45,6 +45,11 @@ public class GeneratorMinersDelightCookingPotGuide implements IFdCookingPotGuide
     }
 
     @Override
+    public int getRecipeTime(CookingPotRecipe recipe) {
+        return recipe.getCookTime();
+    }
+
+    @Override
     public boolean isValidRecipe(CookingPotRecipe recipe) {
         return recipe.getIngredients().size() <= 4;
     }

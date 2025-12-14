@@ -58,6 +58,11 @@ public abstract class INbtCookingGuideGenerator implements ICookingGuideGenerato
 
     public abstract Ingredient getAllIngredient();
 
+    @Override
+    public int getRecipeTime(ItemStack recipe) {
+        return 0;
+    }
+
     public Ingredient createAllIngredient(Predicate<Item> predicate) {
         Stream<ItemStack> itemStream = ForgeRegistries.ITEMS
                 .getValues()

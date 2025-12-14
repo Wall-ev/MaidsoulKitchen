@@ -23,6 +23,14 @@ public class TaskCompatExtractor {
     }
 
     public static void solver(Path rootOutputFolder) throws NoSuchFieldException {
+        File file = new File(rootOutputFolder.toString().replace("generated", "main") + File.pathSeparator + "task_compat.txt");
+        VersionData previousData = file.exists() ? readExistingFile(file) : null;
+        // 版本一致，无需处理
+        String kitchenVersion = ModUtil.getAutualMaidsoulKitchenVersion();
+        if (previousData != null && previousData.version.equals(kitchenVersion)) {
+            return;
+        }
+
         Map<String, Map<String, List<String>>> currentMap = new HashMap<>();
 
         Class<TaskInfo> enumClass = TaskInfo.class;
@@ -53,23 +61,12 @@ public class TaskCompatExtractor {
         }
         removeDuplicates(currentMap);
 
-        String kitchenVersion = ModUtil.getAutualMaidsoulKitchenVersion();
-        File file = new File(rootOutputFolder.toString().replace("generated", "main") + "\\" + "task_compat.txt");
-
-        // 检查文件是否存在
-        if (file.exists()) {
-            // 读取并解析现有文件
-            VersionData previousData = readExistingFile(file);
-            if (previousData != null) {
-                // 比较差异并生成变动说明
-                String changes = generateChanges(previousData, currentMap);
-
-                // 新内容写在前面，旧内容追加在后面
-                writeNewContentBeforeOld(file, kitchenVersion, currentMap, changes, previousData.originalContent);
-            } else {
-                // 解析失败，创建新文件
-                genTxt(file, kitchenVersion, currentMap, null);
-            }
+        // 检查文件是否存在 && 存在内容
+        if (file.exists() && previousData != null) {
+            // 比较差异并生成变动说明
+            String changes = generateChanges(previousData, currentMap);
+            // 新内容写在前面，旧内容追加在后面
+            writeNewContentBeforeOld(file, kitchenVersion, currentMap, changes, previousData.originalContent);
         } else {
             // 文件不存在，创建新文件
             genTxt(file, kitchenVersion, currentMap, null);
@@ -147,6 +144,7 @@ public class TaskCompatExtractor {
     private static String generateChanges(VersionData previous, Map<String, Map<String, List<String>>> current) {
         StringBuilder changes = new StringBuilder();
         changes.append("\n## Changes (").append(previous.version).append(" -> ").append(ModUtil.getAutualMaidsoulKitchenVersion()).append(")\n");
+        boolean hasChange = false;
         for (Map.Entry<String, Map<String, List<String>>> entry : current.entrySet()) {
             String module = entry.getKey();
 
@@ -155,7 +153,6 @@ public class TaskCompatExtractor {
                 continue;
             }
 
-            boolean hasChange = false;
             Map<String, List<String>> preContent = previous.content.getOrDefault(module, new HashMap<>());
             for (Map.Entry<String, List<String>> modEntry : currentModMap.entrySet()) {
                 String modId = modEntry.getKey();
@@ -198,14 +195,17 @@ public class TaskCompatExtractor {
                     changes.append("- ").append(modId).append("\n");
 
                     for (String add : added) {
-                        changes.append("  + ").append(add).append("\n");
+                        changes.append("  +").append(add).append("\n");
                     }
 
                     for (String rem : removed) {
-                        changes.append("  - ").append(rem).append("\n");
+                        changes.append("  -").append(rem).append("\n");
                     }
                 }
             }
+        }
+        if (!hasChange) {
+            changes.append(" No change\n");
         }
 
         return changes.toString();

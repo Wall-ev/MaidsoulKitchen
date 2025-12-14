@@ -28,6 +28,11 @@ public abstract class BaseGetterWaterGuideGenerator implements ICookingRecipeGui
     }
 
     @Override
+    public int getRecipeTime(ConsumeWaterRecipe recipe) {
+        return 0;
+    }
+
+    @Override
     public RecipeType<ConsumeWaterRecipe> getRecipeType() {
         return ModRecipes.CONSUME_WATER_RECIPE;
     }

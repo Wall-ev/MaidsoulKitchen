@@ -105,6 +105,11 @@ public class GeneratorYhcFermentGuide implements ICookingRecipeGuideGenerator<Fe
     }
 
     @Override
+    public int getRecipeTime(FermentationRecipe<?> recipe) {
+        return recipe.getFermentationTime();
+    }
+
+    @Override
     public void onCache(RecipeManager manager) {
         this.clear();
         this.buildFluidItems(manager);
@@ -320,5 +325,10 @@ public class GeneratorYhcFermentGuide implements ICookingRecipeGuideGenerator<Fe
     @Override
     public Item getBlockItemForTranslate() {
         return YHBlocks.FERMENT.asItem();
+    }
+
+    @Override
+    public boolean matchResultCount() {
+        return true;
     }
 }

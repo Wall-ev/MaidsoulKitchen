@@ -71,6 +71,11 @@ public class GeneratorFarmAndCharmCraftingBowlGuide implements IOnlyUseGuideGene
     }
 
     @Override
+    public int getRecipeTime(CraftingBowlRecipe recipe) {
+        return 0;
+    }
+
+    @Override
     public Item getBlockItemForTranslate() {
         return ObjectRegistry.CRAFTING_BOWL.get().asItem();
     }

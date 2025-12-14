@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Mods implements IMods {
     TLM("touhou_little_maid"),
+    TLM_SLOT_MODERN("touhou_little_maid", "[1.4.2,)"),
+    TLM_SLOT_LEGACY("touhou_little_maid", "[,1.4.2)"),
+
     MSK("maidsoulkitchen"),
 
     PATCHOULI("patchouli"),
@@ -113,6 +116,10 @@ public enum Mods implements IMods {
 
     protected boolean isInstalled(String versionRange) {
         return ModUtil.isInstalled(modId, versionRange);
+    }
+
+    public String getModActualVersion() {
+        return ModUtil.getModVersion(modId);
     }
 
 

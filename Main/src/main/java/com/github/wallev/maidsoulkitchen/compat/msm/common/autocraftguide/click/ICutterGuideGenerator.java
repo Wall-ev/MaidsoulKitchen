@@ -27,6 +27,11 @@ public interface ICutterGuideGenerator<R extends Recipe<? extends Container>> ex
     }
 
     @Override
+    default int getRecipeTime(R recipe) {
+        return 0;
+    }
+
+    @Override
     default List<Ingredient> getContainers(R recipe) {
         return this.getTools(recipe);
     }

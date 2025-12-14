@@ -122,7 +122,7 @@ public class ModLanguageProvider extends LanguageProvider {
     }
 
     protected void addConfigLang() {
-        addLang("config.maidsoulkitchen.title", "Touhou Little Maid Addon: Farm And Cook", "车万女仆拓展：农耕与烹饪");
+        addLang("config.maidsoulkitchen.title", "Maid Kitchen: Farm And Cook", "女仆厨房：农耕与烹饪");
         addLang("config.maidsoulkitchen.title.tip", "[Addon: Farm And Cook]", "[拓展：农耕与烹饪]");
         addLang("config.maidsoulkitchen.task", "Task", "任务");
         addLang("config.maidsoulkitchen.task.melon_stem_list", "Melon Stem List", "瓜苗配置");

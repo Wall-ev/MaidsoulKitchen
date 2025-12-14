@@ -119,6 +119,11 @@ public interface ITeaGuideGenerator<R extends Recipe<? extends Container>> exten
     List<ItemStack> getTea(R recipe, RegistryAccess registryAccess);
 
     @Override
+    default int getRecipeTime(R recipe) {
+        return 0;
+    }
+
+    @Override
     default boolean isValidBlockInWorld(ServerLevel level, EntityMaid maid, BlockPos pos, MaidPathFindingBFS pathFinding) {
         return true;
     }
