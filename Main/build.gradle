@@ -1,0 +1,355 @@
+this.impDependencies();
+
+def impDependencies() {
+/** ---------------------------------------农夫乐事--------------------------------------------------------- */
+    modrinthImp("farmers-delight", farmers_delight_version)
+    modrinthImp("miners-delight", miners_delight_version)
+    modrinthImp("blueprint", blueprint_version)
+    modrinthImp("copper-pot", copper_pot_version)
+    modrinthImp("runiclib", runiclib_version)
+    modrinthImp("dungeons_delight", dungeons_delight_version)
+    modrinthImp("youkaishomecoming", youkaishomecoming_version)
+    modrinthImp("brewin-and-chewin", brewin_and_chewin_version)
+    curseForgeImp("farmers-respite-551453", farmers_respite_file_id)
+    modrinthImp("vintage-delight", vintage_delight_version)
+    modrinthImp("cuisine-delight", cuisine_delight_version)
+    modrinthImp("tea-aroma", tea_aroma_version)
+    modrinthImp("barbeques-delight-forge", barbeques_delight_forge_version)
+    modrinthImp("drink-beer-refill", drink_beer_refill_version)
+    curseForgeImp("crock-pot-404523", crock_pot_file_id)
+
+
+/** ---------------------------------------Let's do--------------------------------------------------------- */
+    modrinthImp("lets-do-meadow", "1.3.25")
+    modrinthImp("lets-do-herbalbrews", "1.0.12")
+    modrinthImp("lets-do-bloomingnature", "1.0.12")
+    modrinthImp("lets-do-beachparty", "2.0.2")
+    modrinthImp("lets-do-vinery", "1.4.39")
+    modrinthImp("lets-do-farm-charm", "1.0.9")
+    modrinthImp("lets-do-candlelight-farmcharm-compat", "2.0.4")
+    modrinthImp("lets-do-bakery-farmcharm-compat", "2.0.5")
+    modrinthImp("lets-do-brewery-farmcharm-compat", "2.0.5")
+    modrinthImp("do-api", "1.2.13")
+    modrinthImp("gelato-galore-2", "1.0-1.20.1")
+    modrinthImp("hotkettles", "forge-1.20.1-1.2.0")
+    modrinthImp("alcocraft", "2.0.2+1.20")
+
+    curseForgeImp("ecliptic-seasons-1118306", "6971188")
+
+    // 联动(存储)
+    modrinthCompile("storagedrawers", storagedrawers_version)
+    modrinthCompile("toms-storage", toms_storage_version)
+    modrinthCompile("sophisticated-core", sophisticated_core_version)
+    modrinthCompile("sophisticated-storage", sophisticated_storage_version)
+    modrinthCompile("ae2", ae2_version)
+
+    // 联动(其他)
+    modrinthImp("serene-seasons", serene_seasons_version)
+    curseForgeImp("simple-farming-327554", simple_farming_file_id)
+    modrinthImp("curios", curios_version)
+    dependencies {
+        runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
+    }
+    //    modrinthRuntime("kotlin-for-forge", kotlin_for_forge_version)
+    modrinthCompile("inventory-profiles-next", inventory_profiles_next_version)
+
+    // 开发工具
+    modrinthImp("patchouli", patchouli_version)
+    modrinthImp("jade", jade_version)
+    modrinthCompile("the-one-probe", the_one_probe_version)
+    modrinthImp("cloth-config", cloth_config_version)
+
+    // rei
+    modrinthCompile("architectury-api", architectury_api_version)
+    modrinthCompile("rei", rei_version)
+    modrinthCompile("emi", emi_version)
+    modrinthImp("jei", jei_version)
+
+    // api
+    customImp("dev.architectury", "architectury-${mod_loader}", architectury_version, true)
+    modrinthRuntime("kiwi", kiwi_version)
+
+    // 开发工具
+    modrinthRuntime("appleskin", appleskin_version)
+    modrinthRuntime("nbtedit-reborn", nbtedit_reborn_version)
+
+    modrinthImp("create", create_version)
+    modrinthImp("caupona", "1.20.1-0.4.13")
+    modrinthImp("kaleidoscope-cookery", "1.0.1-forge+mc1.20.1")
+
+    curseForgeRuntime("maid-s-bakeries-1340216", "6964877")
+    curseForgeRuntime("simply-tea-268373", "5807384")
+}
+
+void curseForgeImp(String mod_slug, String mod_version) {
+    this.curseForgeImp(mod_slug, mod_version, true)
+}
+
+void curseForgeImpNo(String mod_slug, String mod_version) {
+    this.curseForgeImp(mod_slug, mod_version, false)
+}
+
+void curseForgeImp(String mod_slug, String mod_version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        dependencies.with {
+            compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+        return
+    }
+
+    if (defaultImp || isRunDataTask()) {
+        // 使用 with() 方法将上下文切换到 dependencies 闭包
+        dependencies.with {
+            implementation fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+    } else {
+        // 使用 with() 方法将上下文切换到 dependencies 闭包
+        dependencies.with {
+            compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+    }
+}
+
+void curseForgeRuntime(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+    }
+}
+
+void curseForgeCompile(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+    }
+}
+
+
+void modrinthImp(String mod_slug, String mod_version) {
+    this.modrinthImp(mod_slug, mod_version, true)
+}
+
+void modrinthImpNo(String mod_slug, String mod_version) {
+    this.modrinthImp(mod_slug, mod_version, false)
+}
+
+void modrinthImp(String mod_slug, String mod_version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        dependencies.with {
+            compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+        return
+    }
+
+    if (defaultImp || isRunDataTask()) {
+        dependencies.with {
+            implementation fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+    } else {
+        dependencies.with {
+            compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+    }
+}
+
+void modrinthRuntime(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+    }
+}
+
+void modrinthCompile(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+    }
+}
+
+void customImp(String group, String name, String version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        if (isLegacyRunTask()) {
+            compileOnly fg.deobf("${group}:${name}:${version}")
+            return
+        }
+
+        if (defaultImp || isRunDataTask()) {
+            implementation fg.deobf("${group}:${name}:${version}")
+        } else {
+            compileOnly fg.deobf("${group}:${name}:${version}")
+        }
+    }
+}
+
+void customCompile(String group, String name, String version) {
+    dependencies.with {
+        compileOnly fg.deobf("${group}:${name}:${version}")
+    }
+}
+
+void customRuntime(String group, String name, String version) {
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("${group}:${name}:${version}")
+    }
+}
+
+
+boolean isRunDataTask() {
+    return gradle.startParameter.taskNames.any { it.contains("runData") }
+}
+
+boolean isBuildTask() {
+    return gradle.startParameter.taskNames.any { it.contains("build") }
+}
+
+boolean isLegacyRunTask() {
+    return project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean()
+}
+
+
+//    tasks.register("buildMod") {
+//        description = "先执行runData，再执行原生build任务"
+//        group = "Build"
+//
+//        // 关键1：让buildMod依赖于build任务，触发build执行
+//        dependsOn("build")
+//
+//        // 关键2：让build任务依赖于runData，确保runData先执行
+//        build.dependsOn("runData")
+//
+//        // 关键3：确保执行顺序（虽然dependsOn已经隐含了顺序，但显式声明更清晰）
+//        build.mustRunAfter("runData")
+//    }
+tasks.register("buildMod") {
+    description = "在上一级目录以命令行方式执行runData后，再执行原生build任务"
+    group = "Build"
+
+    doLast {
+        // 获取上一级目录的绝对路径
+        def parentDir = projectDir.parentFile.absolutePath
+        println "上一级目录绝对路径: ${parentDir}"
+
+        // 判断操作系统并设置正确的脚本和命令格式
+        def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+        def gradlewScript = isWindows ? "gradlew.bat" : "gradlew"
+
+        // 构建完整的脚本路径（使用绝对路径避免相对路径问题）
+        def gradlewPath = new File(parentDir, gradlewScript).absolutePath
+        println "Gradle脚本路径: ${gradlewPath}"
+
+        // 验证文件是否存在
+        def gradlewFile = new File(gradlewPath)
+        if (!gradlewFile.exists()) {
+            throw new GradleException("找不到Gradle脚本: ${gradlewPath}，请检查路径是否正确")
+        }
+
+        // 1. 执行runData
+        println "开始执行runData..."
+        exec {
+            workingDir parentDir
+            // 分离命令和参数，避免解析问题
+            commandLine = isWindows ? [gradlewPath, ":Main:runData", "--console=plain"] :
+                    ["/bin/bash", gradlewPath, ":Main:runData", "--console=plain"]
+            standardOutput = System.out
+            errorOutput = System.err
+        }
+
+        // 2. 执行build
+        println "runData执行完成，开始执行build..."
+        exec {
+            workingDir parentDir
+            commandLine = isWindows ? [gradlewPath, ":Main:build", "--console=plain"] :
+                    ["/bin/bash", gradlewPath, ":Main:build", "--console=plain"]
+            standardOutput = System.out
+            errorOutput = System.err
+        }
+    }
+}
+
+
+
+
+
+tasks.register("buildModWithWSL") {
+    description = "在 WSL 中构建模组（兼容IDEA的WSL环境）"
+    group = "Build"
+
+    doLast {
+        def projectDirFile = rootProject.projectDir as File
+        def windowsProjectPath = projectDirFile.absolutePath
+        println "本地项目路径: ${windowsProjectPath}"
+
+        // 动态转换为WSL路径格式
+        def wslProjectPath = windowsProjectPath
+                .replace('\\', '/')
+                .replaceAll(/([A-Z]):/, { matcher ->
+                    def driveLetter = matcher[1].toLowerCase()
+                    return "/mnt/${driveLetter}"
+                })
+
+        println "WSL项目路径: ${wslProjectPath}"
+
+        // 关键：指定发行版并加载用户环境（--login确保让bash加载.profile文件）
+        def wslDistro = "Ubuntu-22.04"  // 替换为你的WSL发行版名称
+        def javaCheckCommand = "java -version && javac -version && echo \$JAVA_HOME"
+        def javaCheckOutput = new ByteArrayOutputStream()
+
+        exec {
+            // 使用--login参数确保加载.bashrc/.profile中的环境变量
+            commandLine "wsl", "--distribution", wslDistro, "bash", "--login", "-c", javaCheckCommand
+            standardOutput = javaCheckOutput
+            errorOutput = new ByteArrayOutputStream()
+        }
+        println "WSL Java环境检查:\n${javaCheckOutput.toString()}"
+
+        // 构建命令（同样使用--login参数）
+        def buildCommand = """
+            cd '${wslProjectPath}' && \
+            chmod +x gradlew && \
+            ./gradlew runData && \
+            ./gradlew build
+            """.trim().replace("\n", " ")
+
+        def buildOutput = new ByteArrayOutputStream()
+        def buildError = new ByteArrayOutputStream()
+        exec {
+            commandLine "wsl", "--distribution", wslDistro, "bash", "--login", "-c", buildCommand
+            standardOutput = buildOutput
+            errorOutput = buildError
+        }
+
+        println "WSL 构建输出:\n${buildOutput.toString()}"
+        if (buildError.toString()) {
+            println "WSL 构建错误:\n${buildError.toString()}"
+        }
+    }
+}

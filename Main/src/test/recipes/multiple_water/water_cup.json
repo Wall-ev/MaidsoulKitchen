@@ -1,0 +1,16 @@
+{
+  "type": "maidsoulkitchen:consume_water",
+  "condition": "multiple",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "miners_delight"
+    }
+  ],
+  "input": {
+    "item": "miners_delight:copper_cup"
+  },
+  "result": {
+    "item": "miners_delight:water_cup"
+  }
+}

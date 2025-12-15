@@ -1,0 +1,13 @@
+
+
+// 联动(烹饪)
+dependencies {
+    /** ---------------------------------------农夫乐事--------------------------------------------------------- */
+    if (!farmers_delight_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:farmers-delight:${farmers_delight_version}-${mod_loader},${minecraft_version}")
+    // 仅供妖归使用
+    if (!registrate_version.isEmpty())
+        compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    if (!youkaishomecoming_version.isEmpty())
+        implementation fg.deobf("maven.modrinth:gensokyo-delight-youkais-feasts:${gensokyo_delight_youkais_feasts_version}-${mod_loader},${minecraft_version}")
+}

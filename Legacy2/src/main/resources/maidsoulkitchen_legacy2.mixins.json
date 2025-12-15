@@ -1,0 +1,15 @@
+{
+  "required": false,
+  "minVersion": "0.8.5",
+  "package": "com.github.wallev.maidsoulkitchenlegacy2.mixin",
+  "plugin": "com.github.wallev.maidsoulkitchen.legacy.mixin.LegacyMixinPlugin",
+  "refmap": "maidsoulkitchen_legacy2.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "server": [
+  ],
+  "mixins": [
+    "youkaishomecoming.KettleBlockAccessor"
+  ]
+}

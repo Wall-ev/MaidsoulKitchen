@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        // 本地仓库
+        mavenLocal()
+        // 中央仓库
+        gradlePluginPortal()
+        // Forge
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        // ParchmentMC
+        maven {
+            name = "ParchmentMC"
+            url = 'https://maven.parchmentmc.org'
+        }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+}
+
+rootProject.name = 'MaidsoulKitchen'
+def legacies = ['Legacy', 'Legacy2', 'Legacy3']
+System.setProperty('project.legacies', legacies.join(','))
+
+include 'Main'
+for (def legacy in legacies) {
+    include legacy
+}

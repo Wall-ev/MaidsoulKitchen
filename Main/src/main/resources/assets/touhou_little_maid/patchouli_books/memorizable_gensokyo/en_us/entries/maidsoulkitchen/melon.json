@@ -1,0 +1,12 @@
+{
+  "sortnum": 2,
+  "name": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.melon",
+  "icon": "minecraft:melon",
+  "category": "touhou_little_maid:maidsoulkitchen",
+  "pages": [
+    {
+      "type": "text",
+      "text": "patchouli.touhou_little_maid.book.entries.maidsoulkitchen.melon.pages.0.1.text"
+    }
+  ]
+}

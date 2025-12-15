@@ -1,0 +1,185 @@
+name: Build Alpha Version
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "1.20.1-maidstorage-compat"
+    paths:
+      - 'src/main/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "1.20.1-maidstorage-compat"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'microsoft'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      # 改进的Gradle缓存检查步骤，增加错误处理
+      - name: Check and print Gradle cache contents
+        run: |
+          echo "===== 系统信息 ====="
+          whoami
+          echo "当前用户ID: $(id -u)"
+          echo "Gradle缓存目录: ~/.gradle"
+          echo "目录是否存在: $(if [ -d ~/.gradle ]; then echo "是"; else echo "否"; fi)"
+          
+          if [ -d ~/.gradle ]; then
+            echo -e "\n===== .gradle目录权限 ====="
+            ls -ld ~/.gradle
+          
+            echo -e "\n===== .gradle目录内容 ====="
+            ls -la ~/.gradle
+          fi
+          
+          echo -e "\n===== 尝试创建Gradle缓存目录（如果不存在） ====="
+          mkdir -p ~/.gradle/caches ~/.gradle/wrapper
+          chmod -R 755 ~/.gradle
+          echo "操作后权限: $(ls -ld ~/.gradle)"
+          
+          echo -e "\n===== .gradle/caches directory structure ====="
+          if [ -d ~/.gradle/caches ]; then
+            tree ~/.gradle/caches -L 2 || echo "无法列出caches目录内容"
+          else
+            echo "caches目录不存在"
+          fi
+          
+          echo -e "\n===== .gradle/wrapper directory structure ====="
+          if [ -d ~/.gradle/wrapper ]; then
+            tree ~/.gradle/wrapper -L 2 || echo "无法列出wrapper目录内容"
+          else
+            echo "wrapper目录不存在"
+          fi
+          
+          echo -e "\n===== .gradle/caches file count ====="
+          if [ -d ~/.gradle/caches ]; then
+            find ~/.gradle/caches -type f | wc -l || echo "无法统计文件数量"
+          else
+            echo "caches目录不存在，无法统计文件数量"
+          fi
+          
+          echo -e "\n===== .gradle/caches size ====="
+          if [ -d ~/.gradle/caches ]; then
+            du -sh ~/.gradle/caches || echo "无法计算目录大小"
+          else
+            echo "caches目录不存在，无法计算大小"
+          fi
+        shell: bash
+        continue-on-error: true  # 即使此步骤失败也继续执行工作流
+
+      # 初始化脚本步骤
+      - name: Make init.sh executable
+        run: chmod +x ./init.sh
+        shell: bash
+
+      - name: Execute init.sh
+        run: ./init.sh
+        shell: bash
+        continue-on-error: false  # 初始化失败应中断构建
+
+      # 构建步骤
+      - name: Build with Gradle (buildMod)
+        run: |
+          chmod +x ./gradlew
+          ./gradlew buildMod
+        shell: bash
+
+      # 构建后缓存状态检查
+      - name: Check Gradle cache after build
+        run: |
+          echo -e "\n===== 构建后 .gradle/caches 目录结构 ====="
+          if [ -d ~/.gradle/caches ]; then
+            tree ~/.gradle/caches -L 2 || echo "无法列出caches目录内容"
+          else
+            echo "caches目录不存在"
+          fi
+          
+          echo -e "\n===== 构建后 .gradle/caches 大小 ====="
+          if [ -d ~/.gradle/caches ]; then
+            du -sh ~/.gradle/caches || echo "无法计算目录大小"
+          else
+            echo "caches目录不存在，无法计算大小"
+          fi
+        shell: bash
+        continue-on-error: true
+
+      # 构建产物检查
+      - name: Verify build artifacts
+        run: |
+          echo "===== 构建产物检查 ====="
+          echo "build/libs 目录内容:"
+          ls -la build/libs || echo "build/libs 目录不存在"
+          
+          echo -e "\n是否生成了JAR文件:"
+          if ls build/libs/*.jar 1> /dev/null 2>&1; then
+            echo "✅ 检测到JAR文件"
+            ls -la build/libs/*.jar
+          else
+            echo "❌ 未检测到JAR文件"
+            exit 1
+          fi
+        shell: bash
+
+      # 生成时间戳
+      - name: Create timestamp
+        id: create_timestamp
+        run: echo "timestamp=$(date '+%Y-%m-%d-%H-%M-%S')" >> $GITHUB_OUTPUT
+        shell: bash
+
+      # 发布到Release
+      - name: Send file to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: 1.20-snapshot-${{ steps.create_timestamp.outputs.timestamp }}
+          body: |
+            ${{ github.event.head_commit.message }}
+            
+            构建信息:
+            - 提交: ${{ github.sha }}
+            - 时间: ${{ steps.create_timestamp.outputs.timestamp }}
+            - 分支: ${{ github.ref_name }}
+          draft: false
+          prerelease: true
+          files: ./build/libs/*.jar
+
+      # 清理Gradle缓存
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+          
+          echo -e "\n===== 清理后 .gradle/caches 状态 ====="
+          if [ -d ~/.gradle/caches ]; then
+            du -sh ~/.gradle/caches || echo "无法计算目录大小"
+          fi
+        shell: bash
+
+      # 最终状态报告
+      - name: Build summary
+        run: |
+          echo "===== 构建总结 ====="
+          echo "构建状态: 成功完成"
+          echo "构建时间: ${{ steps.create_timestamp.outputs.timestamp }}"
+          echo "发布标签: 1.20-snapshot-${{ steps.create_timestamp.outputs.timestamp }}"
+          echo "JAR文件数量: $(ls build/libs/*.jar 2>/dev/null | wc -l)"
+        shell: bash

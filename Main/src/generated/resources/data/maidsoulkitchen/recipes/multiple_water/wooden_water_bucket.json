@@ -1,0 +1,16 @@
+{
+  "type": "maidsoulkitchen:consume_water",
+  "condition": "multiple",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "meadow"
+    }
+  ],
+  "input": {
+    "item": "meadow:wooden_bucket"
+  },
+  "result": {
+    "item": "meadow:wooden_water_bucket"
+  }
+}

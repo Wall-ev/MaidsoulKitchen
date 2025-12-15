@@ -1,0 +1,47 @@
+0.3.0.4
+## fix
+- Incorrect task compatibility message(modclazzchecker false positive)([#61](https://github.com/Wall-ev/MaidsoulKitchen/issues/61))
+- Incorrect incompatible information for the kaleidoscope_cooker chopping board task([#61](https://github.com/Wall-ev/MaidsoulKitchen/issues/61))
+- modclazzchecker incorrect class detection([Crashed on DEDICATED SERVER](https://github.com/Wall-ev/MaidsoulKitchen/issues/67))
+
+0.3.0.3
+## Fix
+Incorrect recipe loading(This time it should be fine....)
+
+0.3.0.2
+## Fix
+Temporarily removed Shaker support for Kitchen Karrot(remove shaker mixin)
+
+0.3.0.1
+## Fix
+Wrong mixin
+
+0.3.0
+## Feature
+- Added compatibility with maid storage manager, now the maid in storage manager task can cook (the compat mods can be viewed in Compat Modules below)
+
+0.2.5.1
+## fix
+- Fixed not correctly delete items in sophisticated chests
+- In some cases, the bug will not continue to work(cook) properly
+
+0.2.5
+## fix
+- Fixed an issue where the recipe analysis index was out of bounds
+- Problems that do not continue to work in some cases
+
+0.2.4
+## fix
+- wrong message with old version compat
+
+0.2.3
+## fix
+- crash with server
+
+0.2.2
+## fix
+- resupport some mod cooker
+ - minecraft-furnace
+ - kitchkarrot-aircompressor
+ - crockpot-crockpot
+

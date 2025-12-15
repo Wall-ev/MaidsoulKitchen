@@ -1,0 +1,18 @@
+{
+  "type": "maidsoulkitchen:consume_water",
+  "condition": "single",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tea_aroma"
+    }
+  ],
+  "input": {
+    "item": "tea_aroma:kettle",
+    "nbt": "{BlockEntityTag:{boil_progress:0},BlockStateTag:{amount:0,liquid:\"none\"}}"
+  },
+  "result": {
+    "item": "tea_aroma:kettle",
+    "nbt": "{BlockEntityTag:{boil_progress:0},BlockStateTag:{amount:3,liquid:\"water\"}}"
+  }
+}

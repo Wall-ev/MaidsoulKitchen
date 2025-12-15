@@ -1,0 +1,16 @@
+{
+  "type": "maidsoulkitchen:consume_water",
+  "condition": "single",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "caupona"
+    }
+  ],
+  "input": {
+    "item": "minecraft:bowl"
+  },
+  "result": {
+    "item": "caupona:water"
+  }
+}

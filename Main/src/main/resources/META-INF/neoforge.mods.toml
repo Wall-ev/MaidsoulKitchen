@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+    modId = "${mod_id}"
+    version = "${mod_version}"
+    displayName = "${mod_name}"
+    credits = "${mod_credits}"
+    authors = "${mod_authors}"
+    description = '''${mod_description}'''
+    issueTrackerURL = "${mod_issue_tracker_url}"
+
+[[mixins]]
+    config = "${mod_id}.mixins.json"
+
+[[accessTransformers]]
+    file = "META-INF/accesstransformer.cfg"
+
+[[dependencies.${mod_id}]]
+    modId = "neoforge"
+    type = "required"
+    versionRange = "${neo_version_range}"
+    ordering = "NONE"
+    side = "BOTH"
+[[dependencies.${mod_id}]]
+    modId = "minecraft"
+    type = "required"
+    versionRange = "${minecraft_version_range}"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="touhou_little_maid"
+    mandatory=true
+    versionRange="[1.1.13,)"
+    ordering="AFTER"
+    side="BOTH"

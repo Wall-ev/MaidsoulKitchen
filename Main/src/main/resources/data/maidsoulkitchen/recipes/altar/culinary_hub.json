@@ -1,0 +1,24 @@
+{
+  "type": "touhou_little_maid:altar_crafting",
+  "output": {
+    "type": "minecraft:item",
+    "nbt": {
+      "Item": {
+        "id": "maidsoulkitchen:culinary_hub",
+        "Count": 1
+      }
+    }
+  },
+  "power": 0.2,
+  "ingredients": [
+    {
+      "tag": "forge:chests"
+    },
+    {
+      "tag": "forge:chests"
+    },
+    {
+      "item": "touhou_little_maid:wireless_io"
+    }
+  ]
+}

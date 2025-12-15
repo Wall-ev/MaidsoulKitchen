@@ -1,0 +1,156 @@
+//package com.github.wallev.maidsoulkitchen.task.cook.kaleidoscopecookery.choppingboard;
+//
+//import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+//import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
+//import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemDefinition;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.manager.MaidCookManager;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.TickCookRule;
+//import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
+//import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
+//import com.github.ysbbbbbb.kaleidoscopecookery.block.entity.ChoppingBoardBlockEntity;
+//import com.github.ysbbbbbb.kaleidoscopecookery.recipe.ChoppingBoardRecipe;
+//import net.minecraft.world.InteractionHand;
+//import net.minecraft.world.item.Item;
+//import net.minecraft.world.item.ItemStack;
+//import net.minecraft.world.item.crafting.Ingredient;
+//import net.minecraft.world.level.Level;
+//import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+//
+//@TaskClassAnalyzer(TaskInfo.KC_CHOPPING_BOARD)
+//public class ChoppingBoardRule extends TickCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> {
+//    private static final ChoppingBoardRule INSTANCE = new ChoppingBoardRule();
+//
+//    private boolean maidHand = false;
+//    private Item processItem = null;
+//
+//    public ChoppingBoardRule() {
+//        super();
+//    }
+//
+//    public static ChoppingBoardRule getInstance() {
+//        return INSTANCE;
+//    }
+//
+//    @Override
+//    public boolean canMoveTo(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+//        ChoppingBoardBlockEntity cuttingBoard = cookBeBase.getBe();
+//
+//        if (!cuttingBoard.getCurrentCutStack().isEmpty() && this.hasBoardStackTool(cm.getMaid(), cuttingBoard)) {
+//            return true;
+//        }
+//
+//        if (cuttingBoard.getCurrentCutStack().isEmpty() && cm.hasMaidRecs(cookBeBase)) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void cookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+//        this.init(cookBeBase, cm);
+//        ItemStack storedItem = be.getCurrentCutStack();
+//        if (!storedItem.isEmpty()) {
+//            ItemStack tool = getBoardStackTool(maid, be);
+//            if (tool.isEmpty()) {
+//                this.tickStop(cookBeBase, cm);
+//                return;
+//            }
+//
+//            this.swapItem(InteractionHand.MAIN_HAND, tool, maid, maid.getAvailableInv(true));
+//            player.useByHand(InteractionHand.MAIN_HAND, pos);
+//
+//            if (!storedItem.isEmpty()) {
+//                this.processItem = storedItem.getItem();
+//                be.setChanged();
+//                return;
+//            }
+//        }
+//
+//        if (cm.hasMaidRecs(cookBeBase)) {
+//            MaidRec maidRec = cm.pollMaidRec(cookBeBase);
+//            ItemStack tool = maidRec.tool();
+//            ItemInventory itemInventory = cm.getItemInventory();
+//            ItemStack pollTool = itemInventory.getItemStacks(tool.getItem()).poll();
+//            if (pollTool == null) {
+//                return;
+//            }
+//            this.swapItem(InteractionHand.MAIN_HAND, pollTool, maid, maid.getAvailableInv(true));
+//
+//            ItemDefinition processItem = maidRec.maidItems().get(0).item();
+//            ItemStack processItemPoll = itemInventory.getItemStacks(processItem).poll();
+//            if (processItemPoll == null) {
+//                return;
+//            }
+//            this.swapItem(InteractionHand.OFF_HAND, processItemPoll, maid, maid.getAvailableInv(true));
+//            this.processItem = processItem.item();
+//
+//            cm.getItemInventory().markDirty();;
+//        }
+//        be.setChanged();
+//    }
+//
+//    @Override
+//    public boolean tickCan(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+//        return super.tickCan(cookBeBase, cm) && !maid.getMainHandItem().isEmpty() && this.processItem != null &&
+//                (maid.getOffhandItem().is(this.processItem) || isProcessItem());
+//    }
+//
+//    @Override
+//    public void tickCookMake(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+//        if (tick++ % 5 != 0) {
+//            return;
+//        }
+//
+//        if (!be.getCurrentCutStack().isEmpty() || be.getCurrentCutCount() < be.getMaxCutCount()) {
+//            player.useByHand(InteractionHand.MAIN_HAND, pos);
+//        } else {
+//            ItemStack offhandItem = maid.getOffhandItem();
+//            if (offhandItem.is(this.processItem)) {
+//                player.useByHand(InteractionHand.OFF_HAND, pos);
+//            }
+//        }
+//
+////        if (maidHand) {
+////            player.useByHand(InteractionHand.MAIN_HAND, pos);
+////        } else {
+////            ItemStack offhandItem = maid.getOffhandItem();
+////            if (offhandItem.is(this.processItem)) {
+////                player.useByHand(InteractionHand.OFF_HAND, pos);
+////            }
+////        }
+////        maidHand = !maidHand;
+//    }
+//
+//    private boolean hasBoardStackTool(EntityMaid maid, ChoppingBoardBlockEntity blockEntity) {
+//        return !this.getBoardStackTool(maid, blockEntity).isEmpty();
+//    }
+//
+//    private ItemStack getBoardStackTool(EntityMaid maid, ChoppingBoardBlockEntity blockEntity) {
+//        Level level = maid.level;
+//        CombinedInvWrapper maidInv = maid.getAvailableInv(true);
+//
+//        Ingredient tool = ChoppingBoardRecSerializerManager.ChoppingRecipeInfoProvider.TOOL;
+//        return ItemsUtil.getStack(maidInv, (itemStack) -> {
+//            return tool.test(itemStack);
+//        });
+//    }
+//
+//    private boolean isProcessItem() {
+//        return be.getCurrentCutStack().is(this.processItem);
+//    }
+//
+//    @Override
+//    public void tickStop(CookBeBase<ChoppingBoardBlockEntity> cookBeBase, MaidCookManager<ChoppingBoardRecipe> cm) {
+//        super.tickStop(cookBeBase, cm);
+//        this.processItem = null;
+//        this.maidHand = false;
+//    }
+//
+//    @Override
+//    protected TickCookRule<ChoppingBoardBlockEntity, ChoppingBoardRecipe> create() {
+//        return new ChoppingBoardRule();
+//    }
+//}

@@ -1,0 +1,45 @@
+package com.github.wallev.maidsoulkitchen.api.task.farm;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.vhelper.client.chat.VComponent;
+import com.github.wallev.maidsoulkitchen.task.farm.FarmType;
+import com.google.common.collect.Lists;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+public interface ICompatHandlerInfo {
+    FarmType getFarmType();
+
+    ItemStack getIcon();
+
+    ResourceLocation getUid();
+
+    default Optional<TooltipComponent> getCustomTooltip() {
+        return Optional.empty();
+    }
+
+    //todo
+    //默认读取模组tab的翻译名,其次为本模组的翻译名
+    default MutableComponent getName() {
+        return VComponent.translatable(String.format("rule.%s.%s.%s", getFarmType().name().toLowerCase(Locale.ENGLISH), getUid().getNamespace(), getUid().getPath()));
+    }
+
+    default List<Component> getDescription(EntityMaid maid) {
+        String key = String.format("rule.%s.%s.%s.desc", getFarmType().name().toLowerCase(Locale.ENGLISH), getUid().getNamespace(), getUid().getPath());
+        return Lists.newArrayList(VComponent.translatable(key).withStyle(ChatFormatting.GRAY));
+    }
+
+    default List<Component> getConditionDescription(EntityMaid maid) {
+        return Collections.emptyList();
+    }
+
+}

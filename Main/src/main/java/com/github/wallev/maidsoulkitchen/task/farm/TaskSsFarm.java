@@ -1,0 +1,60 @@
+package com.github.wallev.maidsoulkitchen.task.farm;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
+import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
+import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import sereneseasons.api.season.SeasonHelper;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+@TaskClassAnalyzer(TaskInfo.SERENESEASONS_FARM)
+public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask {
+    @Override
+    public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
+        boolean plantB = super.canPlant(maid, basePos, baseState, seed);
+        if (plantB) {
+            String lowerCase = SeasonHelper.getSeasonState(maid.level).getSeason().name().toLowerCase(Locale.ENGLISH);
+            TagKey<Item> itemTagKey = ItemTags.create(VResourceLocation.of("sereneseasons:" + lowerCase + "_crops"));
+            return seed.getTags().anyMatch(itemTagKey::equals) ||
+                    seed.getTags().noneMatch(tagKey -> tagKey.location().toString().matches("sereneseasons:.*_crops"));
+        }
+
+        return false;
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return MaidsoulKitchenTask.SERENESEASONS_FARM.uid;
+    }
+
+    @Override
+    public List<Pair<Integer, BehaviorControl<? super EntityMaid>>> createBrainTasks(EntityMaid maid) {
+        return super.createBrainTasks(maid);
+    }
+
+    @Override
+    public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getBookEntry() {
+        return "sereneseasons_farm";
+    }
+}

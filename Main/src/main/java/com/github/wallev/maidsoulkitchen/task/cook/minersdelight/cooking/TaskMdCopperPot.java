@@ -1,0 +1,51 @@
+package com.github.wallev.maidsoulkitchen.task.cook.minersdelight.cooking;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.api.task.cook.ICookTask;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
+import com.github.wallev.maidsoulkitchen.task.cook.common.cook.be.CookBeBase;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.AbstractCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.cook.FdPotCookRule;
+import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.RecSerializerManager;
+import com.github.wallev.maidsoulkitchen.task.cook.common.task.AutoCookTaskRegister;
+import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
+import com.sammy.minersdelight.setup.MDBlocks;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
+
+@AutoCookTaskRegister(TaskInfo.MD_COOK_POT)
+@TaskClassAnalyzer(TaskInfo.MD_COOK_POT)
+public class TaskMdCopperPot extends ICookTask<CopperPotBlockEntity, CookingPotRecipe> {
+
+    @Override
+    protected CookBeBase<CopperPotBlockEntity> createCookBe(EntityMaid maid) {
+        return new CopperPotBe(maid);
+    }
+
+    @Override
+    protected AbstractCookRule<CopperPotBlockEntity, CookingPotRecipe> createCookRule() {
+        return FdPotCookRule.getInstance();
+    }
+
+    @Override
+    protected RecSerializerManager<CookingPotRecipe> createRecSerializerManager() {
+        return CopperPotRecSerializerManager.getInstance();
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return TaskInfo.MD_COOK_POT.getUid();
+    }
+
+    @Override
+    public ItemStack getIcon() {
+        return MDBlocks.COPPER_POT.asStack();
+    }
+
+    @Override
+    protected Index indexEnum() {
+        return Index.MD_COOK_POT;
+    }
+}
