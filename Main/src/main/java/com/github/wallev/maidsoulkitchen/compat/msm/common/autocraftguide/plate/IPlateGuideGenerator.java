@@ -31,7 +31,7 @@ public abstract class IPlateGuideGenerator<R extends Recipe<?>> implements ICook
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(this.getRecipeType().toString());
+        return VResourceLocation.ofTypeMod(this.getRecipeType().toString());
     }
 
     /**

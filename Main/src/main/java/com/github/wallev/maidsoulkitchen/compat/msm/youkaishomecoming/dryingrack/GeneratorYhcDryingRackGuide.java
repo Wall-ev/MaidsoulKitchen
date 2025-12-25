@@ -46,7 +46,7 @@ public class GeneratorYhcDryingRackGuide extends IPlateGuideGenerator<DryingRack
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.RACK_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.RACK_RT.getId());
     }
 
     @Override

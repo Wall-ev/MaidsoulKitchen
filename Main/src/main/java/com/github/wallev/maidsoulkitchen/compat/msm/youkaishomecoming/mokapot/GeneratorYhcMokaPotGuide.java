@@ -57,7 +57,7 @@ public class GeneratorYhcMokaPotGuide implements ICookingRecipeGuideGenerator<Mo
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.MOKA_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.MOKA_RT.getId());
     }
 
     @Override

@@ -59,7 +59,7 @@ public class GeneratorYhcFermentGuide implements ICookingRecipeGuideGenerator<Fe
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.FERMENT_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.FERMENT_RT.getId());
     }
 
     @Override

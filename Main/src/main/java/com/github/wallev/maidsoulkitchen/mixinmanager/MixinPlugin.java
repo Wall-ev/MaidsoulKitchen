@@ -1,6 +1,7 @@
 package com.github.wallev.maidsoulkitchen.mixinmanager;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzMixinManager;
+import com.llamalad7.mixinextras.utils.MixinInternals;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -10,6 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 public class MixinPlugin implements IMixinConfigPlugin {
+
+    public MixinPlugin() {
+        MixinInternals.registerExtension(new MixinExtension());
+    }
 
     @Override
     public void onLoad(String mixinPackage) {

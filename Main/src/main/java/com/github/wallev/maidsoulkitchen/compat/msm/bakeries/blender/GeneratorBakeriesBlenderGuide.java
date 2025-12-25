@@ -43,7 +43,7 @@ public class GeneratorBakeriesBlenderGuide implements ILdCookingPotGuideGenerato
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(BlenderRecipe.Serializer.ID);
+        return VResourceLocation.ofTypeMod(BlenderRecipe.Serializer.ID);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class GeneratorYhcCuisineGuide implements IOnlyUseGuideGenerator<CuisineR
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.CUISINE_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.CUISINE_RT.getId());
     }
 
     @Override

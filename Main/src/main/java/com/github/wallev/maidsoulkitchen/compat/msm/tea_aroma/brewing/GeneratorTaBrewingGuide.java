@@ -76,7 +76,7 @@ public class GeneratorTaBrewingGuide implements ITeaGuideGenerator<BrewingRecipe
     @NotNull
     public ResourceLocation getType() {
         assert ModRecipeTypes.BREWING_RECIPE.getId() != null;
-        return VResourceLocation.createTypeMod(ModRecipeTypes.BREWING_RECIPE.getId());
+        return VResourceLocation.ofTypeMod(ModRecipeTypes.BREWING_RECIPE.getId());
     }
 
     @Override

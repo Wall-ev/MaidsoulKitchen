@@ -41,7 +41,7 @@ public class GeneratorMinersDelightCookingPotGuide implements IFdCookingPotGuide
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod("miners_delight:cooking");
+        return VResourceLocation.ofTypeMod("miners_delight:cooking");
     }
 
     @Override

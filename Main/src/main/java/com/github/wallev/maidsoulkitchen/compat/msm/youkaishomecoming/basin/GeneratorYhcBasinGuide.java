@@ -53,7 +53,7 @@ public class GeneratorYhcBasinGuide implements IGrapeJumpRecipeGuideGenerator<Ba
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.BASIN_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.BASIN_RT.getId());
     }
 
     @Override

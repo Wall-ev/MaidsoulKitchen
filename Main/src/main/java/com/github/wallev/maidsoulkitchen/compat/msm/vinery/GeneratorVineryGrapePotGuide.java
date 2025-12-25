@@ -58,7 +58,7 @@ public class GeneratorVineryGrapePotGuide implements IGrapeJumpCustomGuideGenera
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(Vinery.MOD_ID + ":grape");
+        return VResourceLocation.ofTypeMod(Vinery.MOD_ID + ":grape");
     }
 
     @Override

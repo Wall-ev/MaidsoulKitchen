@@ -43,7 +43,7 @@ public class GeneratorCopperPotCookingGuide implements IFdCookingPotGuideGenerat
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod("copperpot:cooking");
+        return VResourceLocation.ofTypeMod("copperpot:cooking");
     }
 
     @Override

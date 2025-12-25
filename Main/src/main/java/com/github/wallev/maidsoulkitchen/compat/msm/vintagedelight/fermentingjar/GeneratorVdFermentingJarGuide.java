@@ -41,7 +41,7 @@ public class GeneratorVdFermentingJarGuide implements IFdCookingPotGuideGenerato
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(FermentingRecipe.Serializer.ID);
+        return VResourceLocation.ofTypeMod(FermentingRecipe.Serializer.ID);
     }
 
     @Override

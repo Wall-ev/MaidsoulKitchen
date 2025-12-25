@@ -27,7 +27,7 @@ public class GeneratorSingleWaterGuide extends BaseGetterWaterGuideGenerator {
     )
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(ModRecipes.CONSUME_WATER_RECIPE.toString() + "_from_single");
+        return VResourceLocation.ofTypeMod(ModRecipes.CONSUME_WATER_RECIPE.toString() + "_from_single");
     }
 
     @Override

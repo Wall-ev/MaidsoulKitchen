@@ -100,7 +100,7 @@ public class GeneratorTaFoamGuide implements ITeaGuideGenerator<FoamRecipe> {
     @NotNull
     public ResourceLocation getType() {
         assert ModRecipeTypes.FOAM_RECIPE.getId() != null;
-        return VResourceLocation.createTypeMod(ModRecipeTypes.FOAM_RECIPE.getId());
+        return VResourceLocation.ofTypeMod(ModRecipeTypes.FOAM_RECIPE.getId());
     }
 
     @Override

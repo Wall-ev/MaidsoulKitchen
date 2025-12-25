@@ -114,7 +114,7 @@ public class GeneratorItdEnchantalCoolerGuide implements ICookingRecipeGuideGene
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(EnchantalCoolerRecipe.Serializer.ID);
+        return VResourceLocation.ofTypeMod(EnchantalCoolerRecipe.Serializer.ID);
     }
 
     @Override

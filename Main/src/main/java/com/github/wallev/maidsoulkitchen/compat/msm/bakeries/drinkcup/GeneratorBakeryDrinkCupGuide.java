@@ -45,7 +45,7 @@ public class GeneratorBakeryDrinkCupGuide implements ICookingRecipeGuideGenerato
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(CoffeeRecipe.Serializer.ID);
+        return VResourceLocation.ofTypeMod(CoffeeRecipe.Serializer.ID);
     }
 
     @Override

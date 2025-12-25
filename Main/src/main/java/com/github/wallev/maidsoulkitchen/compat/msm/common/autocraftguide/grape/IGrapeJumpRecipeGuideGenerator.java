@@ -24,7 +24,7 @@ public interface IGrapeJumpRecipeGuideGenerator<R extends Recipe<? extends Conta
     @Override
     @NotNull
     default ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(getRecipeType().toString());
+        return VResourceLocation.ofTypeMod(getRecipeType().toString());
     }
 
     @Override

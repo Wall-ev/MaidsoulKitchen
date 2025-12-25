@@ -117,7 +117,7 @@ public class GeneratorTaBambooTrayGuide extends IPlateGuideGenerator<BambooTrayR
     @NotNull
     public ResourceLocation getType() {
         assert ModRecipeTypes.BAMBOO_TRAY_RECIPE.getId() != null;
-        return VResourceLocation.createTypeMod(ModRecipeTypes.BAMBOO_TRAY_RECIPE.getId());
+        return VResourceLocation.ofTypeMod(ModRecipeTypes.BAMBOO_TRAY_RECIPE.getId());
     }
 
     @Override

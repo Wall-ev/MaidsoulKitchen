@@ -28,7 +28,7 @@ public interface ICookingRecipeGuideGenerator<R extends Recipe<? extends Contain
     @Override
     @NotNull
     default ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(VResourceLocation.of(getRecipeType().toString()));
+        return VResourceLocation.ofTypeMod(VResourceLocation.of(getRecipeType().toString()));
     }
 
     @Override

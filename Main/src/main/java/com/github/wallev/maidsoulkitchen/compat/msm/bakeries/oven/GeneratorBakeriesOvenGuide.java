@@ -110,7 +110,7 @@ public class GeneratorBakeriesOvenGuide implements IFdCookingPotGuideGenerator<O
 
     @Override
     public @NotNull ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(OvenRecipe.Serializer.ID);
+        return VResourceLocation.ofTypeMod(OvenRecipe.Serializer.ID);
     }
 
     @Override
