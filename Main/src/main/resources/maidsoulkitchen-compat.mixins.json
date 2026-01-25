@@ -19,6 +19,7 @@
     "farmersrespite.KettleBlockEntityMixin",
     "kitchkarrot.AirCompressorBlockEntityAccessor",
     "kitchkarrot.BrewingBarrelBlockEntityMixin",
+    "kitchkarrot.EntityMaidInsertItemMixin",
     "maidstoragemanager.CraftLayerAccessor",
     "minecraft.AbstractFurnaceBlockEntityMixin",
     "minersdelight.CopperPotBlockEntityMixin",
@@ -26,6 +27,6 @@
     "touhoulittlemaid.EntityMaidMixin",
     "vinery.GrapevinePotBlockAccessor",
     "vintagedelight.FermentingRecipeAccessor",
-    "youkaishomecoming.BasePotBlockEntityMixin",
+    "youkaishomecoming.BasePotBlockEntityMixin"
   ]
 }

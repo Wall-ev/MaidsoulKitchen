@@ -136,7 +136,7 @@
   "config.maidsoulkitchen.task.melon_and_stem_list.tooltip": "这些条目配置了要采集的瓜\n规则: §e瓜的物品id(精准采集)§c,§e瓜苗的方块id\n例如: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
   "config.maidsoulkitchen.task.melon_stem_list": "瓜苗配置",
   "config.maidsoulkitchen.task.melon_stem_list.tooltip": "这些条目配置了要采集的瓜的瓜苗\n规则: §e瓜苗的方块id\n例如: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
-  "config.maidsoulkitchen.title": "车万女仆拓展：农耕与烹饪",
+  "config.maidsoulkitchen.title": "女仆厨房：农耕与烹饪",
   "config.maidsoulkitchen.title.tip": "[拓展：农耕与烹饪]",
   "effect.maidsoulkitchen.burn_protect": "抗燃",
   "gui.maidsoulkitchen.berry_farm_configure_screen.title": "浆果农场指南",

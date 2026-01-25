@@ -6,12 +6,16 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFruitMoveTask;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandler;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.fruit.FruitHandlerManager;
 import com.github.wallev.maidsoulkitchen.util.fakeplayer.WrappedMaidFakePlayer;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -21,12 +25,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.wallev.maidsoulkitchen.vhelper.IModInfo.LOGGER;
 
 
 public class TaskFruitFarm extends ICompatFarmTask<FruitHandler> {
+    public TaskFruitFarm() {
+        List<IFarmHandlerManager<?>> handlers = new ArrayList<>();
+        for (FruitHandlerManager value : FruitHandlerManager.VALUES) {
+            if (value.getBindMod().versionLoad() && TaskModClazzManager.clazzLoad(value.getUid().toString())) {
+                handlers.add(value);
+            }
+        }
+        IFarmHandlerManager.registerHandler(this.getUid(), ImmutableList.copyOf(handlers));
+    }
+
     @Override
     public List<Pair<Integer, VBehaviorControl>> vCreateBrainTasks(EntityMaid maid) {
         if (maid.level.isClientSide) return Lists.newArrayList();

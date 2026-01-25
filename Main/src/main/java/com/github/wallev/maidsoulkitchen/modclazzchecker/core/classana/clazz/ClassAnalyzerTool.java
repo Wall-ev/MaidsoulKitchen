@@ -22,19 +22,32 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 public class ClassAnalyzerTool {
 
     public static void analyzerAndGenerateFile(Path rootOutputFolder, ClassAnalyzerManager.ClassMap classMap, BaseClazzCheckManager<?, ?> checkManager) throws Exception {
+
+
         Map<ITaskInfo<?>, ClazzInfoRuntime> runtimeMap = new HashMap<>();
+        Map<ITaskInfo<?>, ASMClassAnalyzer.ClazzInfoRuntime> runtimeMap0 = new HashMap<>();
 
         for (Map.Entry<ITaskInfo<?>, Set<Class<?>>> entry : classMap.getMap().entrySet()) {
+            ITaskInfo<?> taskInfo = entry.getKey();
+
             Set<Class<?>> classes = entry.getValue();
             ClazzInfoRuntime infoRuntime = analyze(classes, checkManager);
-            ITaskInfo<?> taskInfo = entry.getKey();
+
+            Set<String> clazzNames = classes.stream().map(Class::getName).collect(Collectors.toSet());
+            ASMClassAnalyzer.ClazzInfoRuntime analyze0 = ASMClassAnalyzer.analyze(clazzNames, checkManager);
+
 //            TaskClazzInfo.ClazzTaskInfo clazzTaskInfo = TaskClazzInfo.ClazzTaskInfo.create(taskInfo, clazzInfo);
 //            map.put(taskInfo.getUidStr(), clazzTaskInfo);
             runtimeMap.put(taskInfo, infoRuntime);
+            runtimeMap0.put(taskInfo, analyze0);
+
+            infoRuntime.compare(analyze0, taskInfo);
+            int a = 1;
         }
         for (Map.Entry<ITaskInfo<?>, Set<String>> entry : classMap.getMixinMap().entrySet()) {
             ITaskInfo<?> key = entry.getKey();
@@ -195,7 +208,7 @@ public class ClassAnalyzerTool {
     }
 
     // 分析多个类
-    private static ClazzInfoRuntime analyze(Set<Class<?>> targetClasses, BaseClazzCheckManager<?, ?> checkManager) throws Exception {
+    public static ClazzInfoRuntime analyze(Set<Class<?>> targetClasses, BaseClazzCheckManager<?, ?> checkManager) throws Exception {
         ClazzInfoRuntime clazzInfoRuntime = new ClazzInfoRuntime();
 
         for (Class<?> clazz : targetClasses) {
@@ -396,7 +409,7 @@ public class ClassAnalyzerTool {
         }
     }
 
-    private record ClazzInfoRuntime(Set<String> classes, Set<String> methods, Set<String> fields) {
+    public record ClazzInfoRuntime(Set<String> classes, Set<String> methods, Set<String> fields) {
         public ClazzInfoRuntime() {
             this(new HashSet<>(), new HashSet<>(), new HashSet<>());
         }
@@ -419,6 +432,24 @@ public class ClassAnalyzerTool {
             List<String> fieldsSort = fields.stream().sorted().toList();
 
             return new TaskClazzInfo.ClazzInfo(clazzsSort, methodsSort, fieldsSort);
+        }
+
+        public void compare(ASMClassAnalyzer.ClazzInfoRuntime other, ITaskInfo<?> taskInfo) {
+            List<String> diffClazzs = this.classes.stream()
+                    .filter(clazz -> !other.clazzes.contains(clazz)).toList();
+            List<String> diffMethods = this.methods.stream()
+                    .filter(method -> !other.methods.contains(method)).toList();
+            List<String> diffFields = this.fields.stream()
+                    .filter(field -> !other.fields.contains(field)).toList();
+
+            if (!diffClazzs.isEmpty() || !diffMethods.isEmpty() || !diffFields.isEmpty()) {
+                System.out.println("=================================================");
+                System.out.println("Task: " + taskInfo.getUidStr());
+                System.out.println("diffClazzs: " + diffClazzs);
+                System.out.println("diffMethods: " + diffMethods);
+                System.out.println("diffFields: " + diffFields);
+                System.out.println("-------------------------------------------------");
+            }
         }
     }
 }

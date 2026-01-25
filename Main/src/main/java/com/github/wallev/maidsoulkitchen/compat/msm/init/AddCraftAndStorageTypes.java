@@ -9,15 +9,12 @@ import com.github.wallev.maidsoulkitchen.compat.msm.common.craft.custom.menu.Men
 import com.github.wallev.maidsoulkitchen.compat.msm.common.craft.special.StoneCutterRecipeAction;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.inv.InvHandlersHelper;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.storage.ContainerStorage;
-import com.github.wallev.maidsoulkitchen.legacy.annotation.LegacyAutoCraftGuideGeneratorRegister;
-import com.github.wallev.maidsoulkitchen.modclazzchecker.core.classana.ITaskInfo;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.LegacyAutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.core.manager.BaseClazzCheckManager;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.util.AnnotationHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.moddiscovery.ModAnnotation;
-import net.minecraftforge.forgespi.language.ModFileScanData;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import studio.fantasyit.maid_storage_manager.craft.CollectCraftEvent;
@@ -32,8 +29,6 @@ import studio.fantasyit.maid_storage_manager.craft.generator.type.base.IAutoCraf
 import studio.fantasyit.maid_storage_manager.storage.CollectStorageEvent;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class AddCraftAndStorageTypes {
@@ -240,60 +235,9 @@ public class AddCraftAndStorageTypes {
     }
 
     private static <T extends Annotation> void autoRegister(CollectCraftEvent event, BaseClazzCheckManager<?, ?> checkManager, Class<T> annotationType) {
-        AnnotationHelper.read(annotationType, data -> {
-            try {
-                ITaskInfo<?> task = checkManager.taskInfoByKey(getEnumHolderValue(data, "value"));
-                if (task == null) {
-                    MaidsoulKitchen.LOGGER.error(MARKER, "Failed to load task: {}", task);
-                    return;
-                }
-
-                if (task.canLoad()) {
-                    String clazzName = data.memberName();
-
-                    Class<?> asmClazz = Class.forName(clazzName);
-
-                    boolean eventConstructor = tryInstantiateWithEventConstructor(asmClazz, event);
-                    if (!eventConstructor) {
-                        tryInstantiateEmptyConstructor(asmClazz, event);
-                    }
-                } else {
-                    MaidsoulKitchen.LOGGER.error(MARKER, "task can not load: {}", task);
-                }
-            } catch (ClassNotFoundException | LinkageError e) {
-                MaidsoulKitchen.LOGGER.error(MARKER, "Failed to load class: {}", data, e);
-            }
-        });
-    }
-
-    private static boolean tryInstantiateWithEventConstructor(Class<?> clazz, CollectCraftEvent event) {
-        try {
-            Constructor<?> constructor = clazz.getConstructor(CollectCraftEvent.class);
-            constructor.newInstance(event);
-            MaidsoulKitchen.LOGGER.info(MARKER, "Successfully added auto_craft_guides: {}", clazz);
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            MaidsoulKitchen.LOGGER.error(MARKER, "Failed to add auto_craft_guides instance: {}", clazz, e);
-            return false;
-        }
-    }
-
-    private static void tryInstantiateEmptyConstructor(Class<?> clazz, CollectCraftEvent event) {
-        try {
-            IAutoCraftGuideGenerator instance = (IAutoCraftGuideGenerator) clazz.getDeclaredConstructor().newInstance();
-            event.addAutoCraftGuideGenerator(instance);
-
-            MaidsoulKitchen.LOGGER.info(MARKER, "Successfully added auto_craft_guides: {}", clazz);
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            MaidsoulKitchen.LOGGER.error(MARKER, "Failed to add auto_craft_guides instance: {}", clazz, e);
-        }
-    }
-
-    private static String getEnumHolderValue(ModFileScanData.AnnotationData data, String name) {
-        Object o = data.annotationData().get(name);
-        return ((ModAnnotation.EnumHolder) o).getValue();
+        AnnotationHelper.readWithObjAndTaskLoad(annotationType, o -> {
+            event.addAutoCraftGuideGenerator((IAutoCraftGuideGenerator) o);
+        }, event);
     }
 
 }

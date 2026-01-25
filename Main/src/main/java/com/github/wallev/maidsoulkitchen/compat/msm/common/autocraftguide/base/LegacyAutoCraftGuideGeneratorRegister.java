@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.legacy.annotation;
+package com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base;
 
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 

@@ -7,11 +7,15 @@ import com.github.wallev.maidsoulkitchen.api.task.farm.ICompatFarmTask;
 import com.github.wallev.maidsoulkitchen.compat.patchouli.entry.TaskBookEntryType;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.berryfruit.v1.BerryFruitData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskModClazzManager;
 import com.github.wallev.maidsoulkitchen.task.MaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmMoveTask;
 import com.github.wallev.maidsoulkitchen.task.farm.ai.MaidCompatFarmPlantTask;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.IFarmHandlerManager;
 import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandler;
+import com.github.wallev.maidsoulkitchen.task.farm.handler.berry.BerryHandlerManager;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -21,10 +25,21 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class TaskBerryFarm extends ICompatFarmTask<BerryHandler> {
+    public TaskBerryFarm() {
+        List<IFarmHandlerManager<?>> handlers = new ArrayList<>();
+        for (BerryHandlerManager value : BerryHandlerManager.VALUES) {
+            if (value.getBindMod().versionLoad() && TaskModClazzManager.clazzLoad(value.getUid().toString())) {
+                handlers.add(value);
+            }
+        }
+        IFarmHandlerManager.registerHandler(this.getUid(), ImmutableList.copyOf(handlers));
+    }
+
     @Override
     public boolean canHarvest(EntityMaid maid, BlockPos cropPos, BlockState cropState, BerryHandler handler) {
         return handler != null && !BLACK_LIST.contains(cropState.getBlock()) && handler.canHarvest(maid, cropPos, cropState);

@@ -4,7 +4,6 @@ import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.A
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.cookingpot.ILdCookingPotGuideGenerator;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.util.CraftGuideOperator2;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.GuideTest;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
@@ -49,6 +48,11 @@ public class GeneratorKcStockPotGuide implements ILdCookingPotGuideGenerator<Sto
     @Override
     public boolean isHeated(StockpotBlockEntity be) {
         return hasLitItem(be) && isHit(be);
+    }
+
+    @Override
+    public boolean isBlockValid(Level level, BlockPos pos) {
+        return ILdCookingPotGuideGenerator.super.isBlockValid(level, pos);
     }
 
     @Override

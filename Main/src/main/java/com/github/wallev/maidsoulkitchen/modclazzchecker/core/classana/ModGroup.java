@@ -13,6 +13,7 @@ public enum ModGroup {
             "net.minecraft",
             "cpw.mods",
             "net.minecraftforge",
+            "net.fabricmc",
             "net.neoforged"),
 
     BLACK(MC,

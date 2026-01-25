@@ -58,7 +58,6 @@ public class GeneratorKkShakeGuide implements ICookingRecipeGuideGenerator<Cockt
     public GeneratorKkShakeGuide(CollectCraftEvent event) {
         new ShakeMenuWrap();
 
-        event.addAutoCraftGuideGenerator(this);
         event.addAction(
                 PlayShakeSoundAction.TYPE,
                 PlayShakeSoundAction::new,

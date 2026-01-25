@@ -106,7 +106,8 @@ subprojects {
 
     base {
         archivesName = mod_id
-        version = "${minecraft_version}-${mod_version_type}-v${mod_version}"
+        version = "${mod_version}-forge+mc${minecraft_version}-${mod_version_type}"
+//        version = "${minecraft_version}-${mod_version_type}-v${mod_version}"
         group = mod_group_id
 
         println("archivesName: ${base.archivesName}")
@@ -297,7 +298,7 @@ subprojects {
     }
 
     dependencies {
-        implementation fg.deobf("maven.modrinth:touhou-little-maid:1.4.4-forge+mc1.20.1")
+        implementation fg.deobf("maven.modrinth:touhou-little-maid:1.5.0-forge+mc1.20.1")
     }
 
     // 开发工具
@@ -349,8 +350,6 @@ subprojects {
 
 
     dependencies {
-        implementation "maven.modrinth:preloading-tricks:3.2.2"
-//    implementation "maven.modrinth:preloading-tricks:3.2.2-forge,1.20.1"
 
         boolean isMainTaskByCallLegacy = project.name.equals("Main") && project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean();
 

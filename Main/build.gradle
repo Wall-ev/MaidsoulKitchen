@@ -34,7 +34,7 @@ def impDependencies() {
     modrinthImp("hotkettles", "forge-1.20.1-1.2.0")
     modrinthImp("alcocraft", "2.0.2+1.20")
 
-    curseForgeImp("ecliptic-seasons-1118306", "6971188")
+    curseForgeCompile("ecliptic-seasons-1118306", "6971188")
 
     // 联动(存储)
     modrinthCompile("storagedrawers", storagedrawers_version)
@@ -78,7 +78,7 @@ def impDependencies() {
     modrinthImp("kaleidoscope-cookery", "1.0.1-forge+mc1.20.1")
 
     curseForgeRuntime("maid-s-bakeries-1340216", "6964877")
-    curseForgeRuntime("simply-tea-268373", "5807384")
+    curseForgeImp("simply-tea-268373", "5807384")
 }
 
 void curseForgeImp(String mod_slug, String mod_version) {

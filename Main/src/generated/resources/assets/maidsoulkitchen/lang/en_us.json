@@ -137,7 +137,7 @@
   "config.maidsoulkitchen.task.melon_and_stem_list.tooltip": "These entries configure the melon stem and melon_block list\nrule: §emelon_item_id(silk touch)§c,§eattached_melon_stem_block_id\nEg: §eminecraft:melon§c,§eminecraft:attached_melon_stem",
   "config.maidsoulkitchen.task.melon_stem_list": "Melon Stem List",
   "config.maidsoulkitchen.task.melon_stem_list.tooltip": "These entries configure the melon stem list\nrule: §eattached_melon_stem_block_id\nEg: §eminecraft:attached_pumpkin_stem §eminecraft:attached_pumpkin_stem ...",
-  "config.maidsoulkitchen.title": "Touhou Little Maid Addon: Farm And Cook",
+  "config.maidsoulkitchen.title": "Maid Kitchen: Farm And Cook",
   "config.maidsoulkitchen.title.tip": "[Addon: Farm And Cook]",
   "effect.maidsoulkitchen.burn_protect": "Burn Protect",
   "gui.maidsoulkitchen.berry_farm_configure_screen.title": "Berry Farm Guide",

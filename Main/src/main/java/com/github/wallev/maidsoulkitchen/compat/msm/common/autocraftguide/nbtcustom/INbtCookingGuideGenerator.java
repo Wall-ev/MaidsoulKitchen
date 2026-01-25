@@ -38,7 +38,6 @@ public abstract class INbtCookingGuideGenerator implements ICookingGuideGenerato
     private UUID FROM_INGREDIENT_UUID = UUID.randomUUID();
 
     public INbtCookingGuideGenerator(CollectCraftEvent event) {
-        event.addAutoCraftGuideGenerator(this);
         Item nbtItemStackItem = this.getNbtItemStackItem();
         event.addItemStackPredicate(nbtItemStackItem, (stack, target) -> {
             if (!stack.is(nbtItemStackItem)) {

@@ -6,7 +6,6 @@ import com.github.wallev.maidsoulkitchen.compat.msm.common.util.CraftGuideOperat
 import com.github.wallev.maidsoulkitchen.compat.msm.common.util.action.TargetUtil;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.util.lang.TypeLang;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
-import com.github.wallev.maidsoulkitchen.util.GuideTest;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import com.renyigesai.bakeries.block.oven.OvenBlockEntity;
 import com.renyigesai.bakeries.init.BakeriesItems;
@@ -47,7 +46,6 @@ public class GeneratorBakeriesOvenGuide implements IFdCookingPotGuideGenerator<O
     );
 
     public GeneratorBakeriesOvenGuide(CollectCraftEvent event) {
-        event.addAutoCraftGuideGenerator(this);
         event.addAction(
                 SetTimeAction.TYPE,
                 SetTimeAction::new,

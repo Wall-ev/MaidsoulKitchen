@@ -40,7 +40,6 @@ public class GeneratorItdEnchantalCoolerGuide implements ICookingRecipeGuideGene
 //public class GeneratorItdEnchantalCoolerGuide implements ICookingRecipeGuideGenerator<EnchantalCoolerRecipe, SimpleContainer> {
 
     public GeneratorItdEnchantalCoolerGuide(CollectCraftEvent event) {
-        event.addAutoCraftGuideGenerator(this);
         event.addAction(
                 EnchantalCoolerSideSpitItemAction.TYPE,
                 EnchantalCoolerSideSpitItemAction::new,

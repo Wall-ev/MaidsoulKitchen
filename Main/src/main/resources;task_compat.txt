@@ -1,3 +1,146 @@
+0.3.0.10.1
+## Changes (0.3.0.8 -> 0.3.0.10.1)
+Task
+- minecraft
+  +Furnace
+- simplefarming
+  +Fruit
+  +Berry
+- miners_delight
+  +Miners Delight CopperPot
+- kitchenkarrot
+  +Brewing
+  +AirCompressor
+- youkaishomecoming
+  +homecoming Moka Pot
+  +HomeComing Dring Rack
+  +homecoming Kettle
+  +HomeComing Ferment
+- brewinandchewin
+  +Bnc Keg
+- crockpot
+  +CrockPot CrockPot
+- farmersrespite
+  +
+  +Berry Farmers Respite Yellow Tea
+  +Berry Farmers Respite Black Tea
+  +Berry Farmers Respite Green Tea
+- l2harvester
+  +Berry L2
+- drinkbeer
+  +Drink Beer Beer Barrel
+
+## Compat Modules
+Task
+- minecraft
+  - Furnace
+- simplefarming
+  - Berry
+  - Fruit
+- miners_delight
+  - Miners Delight CopperPot
+- kitchenkarrot
+  - Brewing
+  - AirCompressor
+- youkaishomecoming
+  - homecoming Moka Pot
+  - homecoming Kettle
+  - HomeComing Dring Rack
+  - HomeComing Ferment
+- brewinandchewin
+  - Bnc Keg
+- crockpot
+  - CrockPot CrockPot
+- farmersrespite
+  - 
+  - Berry Farmers Respite Green Tea
+  - Berry Farmers Respite Yellow Tea
+  - Berry Farmers Respite Black Tea
+- l2harvester
+  - Berry L2
+- drinkbeer
+  - Drink Beer Beer Barrel
+
+MaidStorageManagerCompat
+- farmersdelight
+  - Hand Skillet
+  - Skillet
+  - Stove
+  - Cooking Pot
+  - Cutting Board
+- vintagedelight
+  - Vintage Delight Fermenting Jar(Maid Storage Manger)
+- miners_delight
+  - Minders Delight Copper Pot(Maid Storage Manger)
+- kitchenkarrot
+  - Plate Cutting
+  - Brewing
+  - AirCompressor
+- bakery
+  - Do Bakery Small Cooking Pot(Maid Storage Manger)
+- youkaishomecoming
+  - Cuinse
+  - Basin
+  - Ferment
+  - Dring Rack
+  - Moka Pot
+  - Kettle
+- vinery
+  - Do Vinery Basin(Maid Storage Manger)
+- maid_storage_manager
+  - Maid Storage Manager Core Compat
+  - Maid Storage Manager Single Water
+  - Maid Storage Manager Multi Water
+  - Item Use
+- copperpot
+  - Copperpot Copper Pot(Maid Storage Manger)
+- beachparty
+  - Mine Fridge
+  - Plam Bar
+- immortalers_delight
+  - Immortalers Enchantal Cooler(Maid Storage Manger)
+- simplefarming
+  - Simple Farming Fermenter(Maid Storage Manger)
+- bakeries
+  - es Drink Cup
+  - es Cake Roll
+  - s Blender
+  - s Oven
+  - s Dough
+  - s Fermentation Tank
+- candlelight
+  - Cooking Pot
+  - Roase
+- kaleidoscope_cookery
+  - Cooker
+  - Stock Pot
+  - Chopping Board
+- farm_and_charm
+  - Cooking Pot
+  - Crafting Bowl
+  - Roster
+  - Stove
+- dungeonsdelight
+  - Dungeons Delight Cooking Pot(Maid Storage Manger)
+- tea_aroma
+  - Bamboo Tray
+  - Brewing
+  - Foam
+  - Boiling
+  - Kettle Water
+- drinkbeer
+  - Mixed Beer
+  - Beer Barrel
+- meadow
+  - Do Meadow Cheese Form(Maid Storage Manger)
+
+Farm
+- sereneseasons
+  - Serene Seasons Farm
+- eclipticseasons
+  - Ecliptic Seasons Farm
+
+
 0.3.0.8
 ## Changes (0.3.0.7 -> 0.3.0.8)
  No change

@@ -2,10 +2,9 @@ package com.github.wallev.maidsoulkitchenlegacy2.compat.msm.youkaishomecoming.ke
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBFS;
-import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.AutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.fluidinsert.IFluidInsertRecipeGuideGenerator;
 import com.github.wallev.maidsoulkitchen.compat.msm.common.storage.ContainerStorage;
-import com.github.wallev.maidsoulkitchen.legacy.annotation.LegacyAutoCraftGuideGeneratorRegister;
+import com.github.wallev.maidsoulkitchen.compat.msm.common.autocraftguide.base.LegacyAutoCraftGuideGeneratorRegister;
 import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import dev.xkmc.youkaishomecoming.content.pot.kettle.KettleRecipe;
@@ -55,7 +54,7 @@ public class GeneratorYhcKettleGuide implements IFluidInsertRecipeGuideGenerator
     @Override
     @NotNull
     public ResourceLocation getType() {
-        return VResourceLocation.createTypeMod(YHBlocks.KETTLE_RT.getId());
+        return VResourceLocation.ofTypeMod(YHBlocks.KETTLE_RT.getId());
     }
 
     @Override

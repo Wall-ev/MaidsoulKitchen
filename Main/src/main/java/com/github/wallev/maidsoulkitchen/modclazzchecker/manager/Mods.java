@@ -15,6 +15,7 @@ public enum Mods implements IMods {
 
     JADE("jade"),
     TOP("theoneprobe"),
+    JEI("jei"),
 
     SOPHISTICATED_STORAGE("sophisticatedstorage"),
 

@@ -39,7 +39,6 @@ import java.util.*;
 @AutoCraftGuideGeneratorRegister(TaskInfo.MSM_KC_COOKER)
 public class GeneratorKcCookerGuide implements ILdCookingPotGuideGenerator<PotRecipe, PotBlockEntity> {
     public GeneratorKcCookerGuide(CollectCraftEvent event) {
-        event.addAutoCraftGuideGenerator(this);
         event.addAction(
                 CookerAction.TYPE,
                 CookerAction::new,

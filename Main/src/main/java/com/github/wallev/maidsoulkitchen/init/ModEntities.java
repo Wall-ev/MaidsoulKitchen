@@ -3,6 +3,9 @@ package com.github.wallev.maidsoulkitchen.init;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
+import com.github.wallev.maidsoulkitchen.task.farm.advancefarm.ai.CropResult;
+import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core.MaidWorldBlockManager;
+import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.handler.ICropHarvest;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.phys.Vec3;
@@ -15,6 +18,12 @@ import java.util.Optional;
 
 public final class ModEntities {
     public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(ForgeRegistries.MEMORY_MODULE_TYPES, MaidsoulKitchen.MOD_ID);
+
+    public static RegistryObject<MemoryModuleType<MaidWorldBlockManager>> WORLD_BLOCK_MANAGER = MEMORY_MODULE_TYPES.register("world_block_manager", () -> new MemoryModuleType<>(Optional.empty()));
+
+    public static RegistryObject<MemoryModuleType<CropResult>> CROP_RESULT = MEMORY_MODULE_TYPES.register("crop_result", () -> new MemoryModuleType<>(Optional.empty()));
+    public static RegistryObject<MemoryModuleType<ICropHarvest.HarvestData>> HARVEST_DATA = MEMORY_MODULE_TYPES.register("harvest_data", () -> new MemoryModuleType<>(Optional.empty()));
+
     public static RegistryObject<MemoryModuleType<PositionTracker>> WORK_POS = MEMORY_MODULE_TYPES.register("work_pos", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<List<Vec3>>> CURRENT_WORK_POSES = MEMORY_MODULE_TYPES.register("current_poses", () -> new MemoryModuleType<>(Optional.of(Vec3.CODEC.listOf())));
     public static RegistryObject<MemoryModuleType<Boolean>> CET_CHEST_ITEMHANDLER = MEMORY_MODULE_TYPES.register("cet_chest_itemhandler", () -> new MemoryModuleType<>(Optional.empty()));

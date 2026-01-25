@@ -9,6 +9,7 @@ import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
@@ -82,6 +83,13 @@ public class MemoryUtil {
         return maid.getBrain().getMemory(ModEntities.OUTPUT_CHEST_INVENTORY.get()).orElseGet(ItemInventory::new);
     }
 
+
+    public static void setWalkAndLookTargetMemories(LivingEntity pEntity, BlockPos walkPos, BlockPos lookPos, float pSpeedModifier, int pCloseEnoughDist) {
+        WalkTarget walktarget = new WalkTarget(walkPos, pSpeedModifier, pCloseEnoughDist);
+        PositionTracker lookTarget = new BlockPosTracker(lookPos);
+        pEntity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, lookTarget);
+        pEntity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);
+    }
 
     public static void rememberWorkPos(EntityMaid maid, BlockPos walkPos, BlockPos workPos, float pSpeed, int pDistance) {
         Brain<EntityMaid> brain = maid.getBrain();
