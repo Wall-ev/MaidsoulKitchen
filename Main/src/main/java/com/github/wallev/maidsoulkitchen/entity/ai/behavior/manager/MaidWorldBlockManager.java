@@ -1,4 +1,4 @@
-package com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core;
+package com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.init.ModEntities;

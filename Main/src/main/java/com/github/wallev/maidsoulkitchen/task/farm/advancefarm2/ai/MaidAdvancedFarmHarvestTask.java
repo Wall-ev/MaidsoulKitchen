@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBF
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorManager;
 import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.handler.ICropHarvest;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
@@ -39,7 +40,7 @@ public class MaidAdvancedFarmHarvestTask extends Behavior<EntityMaid> implements
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid owner) {
         Brain<EntityMaid> brain = owner.getBrain();
-        return brain.getMemory(ModEntities.HARVEST_DATA.get()).map(cropResult -> {
+        return MaidBehaviorManager.get(owner).isIdle() &&  brain.getMemory(ModEntities.HARVEST_DATA.get()).map(cropResult -> {
             Vec3 targetV3d = cropResult.getWalkPos().getCenter();
             if (owner.distanceToSqr(targetV3d) > Math.pow(cropResult.getCloseEnoughDist(), 2)) {
                 Optional<WalkTarget> walkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET);

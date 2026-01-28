@@ -5,6 +5,9 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.crop.SpecialCropManager;
 import com.github.tartaricacid.touhoulittlemaid.mixin.accessor.CropBlockAccessor;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidWorldBlockManager;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.work.MaidDestroyBehavior;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.work.MaidPlaceItemBehavior;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,8 +67,10 @@ public class NormalCropHarvest implements ICropHarvest {
 
         // 其他情况
         if (isDestroyMode) {
-            maid.destroyBlock(cropPos);
-            return Result.SUCCESS;
+            MaidWorldBlockManager.walkAndDestroyBlock(maid, cropPos, maid.getMainHandItem());
+            MaidDestroyBehavior.set(maid);
+//            maid.destroyBlock(cropPos);
+            return Result.NOT_DONE;
         } else if (cropBlock instanceof CropBlockAccessor crop) {
             BlockEntity blockEntity = cropState.hasBlockEntity() ? maid.level.getBlockEntity(cropPos) : null;
             maid.dropResourcesToMaidInv(cropState, maid.level, cropPos, blockEntity, maid, maid.getMainHandItem());
@@ -139,7 +144,9 @@ public class NormalCropHarvest implements ICropHarvest {
         if (item instanceof ItemNameBlockItem blockNamedItem) {
             Block block = blockNamedItem.getBlock();
             if (block instanceof IPlantable) {
-                maid.placeItemBlock(basePos, seed);
+                MaidPlaceItemBehavior.PlaceData.set(maid, new MaidPlaceItemBehavior.PlaceData(basePos, seed));
+                MaidPlaceItemBehavior.set(maid);
+//                maid.placeItemBlock(basePos, seed);
             }
         }
         return seed;

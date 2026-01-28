@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidCheckRa
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.MaidPathFindingBFS;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorManager;
 import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.handler.ICropHarvest;
 import com.github.wallev.maidsoulkitchen.util.MemoryUtil;
@@ -61,6 +62,10 @@ public class MaidAdvancedFarmMoveTask extends MaidCheckRateTask implements VBeha
         this.setMaxCheckRate(MAX_DELAY_TIME);
     }
 
+    @Override
+    protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid owner) {
+        return MaidBehaviorManager.get(owner).isIdle() && super.checkExtraStartConditions(worldIn, owner);
+    }
 
     @Override
     protected void start(ServerLevel worldIn, EntityMaid entityIn, long gameTimeIn) {

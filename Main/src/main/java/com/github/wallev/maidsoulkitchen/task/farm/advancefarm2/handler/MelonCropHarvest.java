@@ -1,8 +1,9 @@
 package com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.handler;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.work.MaidDestroyBehavior;
 import com.github.wallev.maidsoulkitchen.event.MelonConfigEvent;
-import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core.MaidWorldBlockManager;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidWorldBlockManager;
 import com.github.wallev.maidsoulkitchen.vhelper.client.resources.VResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -56,6 +57,7 @@ public class MelonCropHarvest extends ICropWithSurroundingHarvest {
         Block stemBlock = MelonConfigEvent.MELON_STEM_MAP.get(block);
         if (stemBlock != null) {
             MaidWorldBlockManager.walkAndDestroyBlock(maid, cropPos, maid.getMainHandItem());
+            MaidDestroyBehavior.set(maid);
             return Result.NOT_DONE;
 //            ItemStack mainHandItem = maid.getMainHandItem();
 //            if (VEnchantmentHelper.hasSilkTouch(mainHandItem)) {

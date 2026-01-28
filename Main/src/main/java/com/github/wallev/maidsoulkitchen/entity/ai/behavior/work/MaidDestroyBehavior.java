@@ -1,36 +1,38 @@
-package com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core;
+package com.github.wallev.maidsoulkitchen.entity.ai.behavior.work;
 
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
-import com.github.wallev.maidsoulkitchen.init.ModEntities;
-import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
-import com.google.common.collect.ImmutableMap;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.BehaviorType;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorManager;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidWorldBlockManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MaidDestroyTask extends Behavior<EntityMaid> implements VBehaviorControl {
-    public MaidDestroyTask() {
-        super(ImmutableMap.of(ModEntities.WORLD_BLOCK_MANAGER.get(), MemoryStatus.VALUE_PRESENT));
+@MaidBehaviorManager.BehaviorAutoRegister
+public class MaidDestroyBehavior implements IMaidBehavior{
+
+    @Override
+    public ResourceLocation getUid() {
+        return BehaviorType.DESTROY_BLOCK.getUid();
     }
 
     @Override
-    protected boolean canStillUse(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
+    public boolean canStillUse(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
         return this.checkExtraStartConditions(serverLevel, maid);
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel serverLevel, EntityMaid maid) {
+    public boolean checkExtraStartConditions(ServerLevel serverLevel, EntityMaid maid) {
        return MaidWorldBlockManager.get(maid).map(maidWorldBlockManager -> {
             BlockPos breakBlockPos = maidWorldBlockManager.getBreakBlockPos();
             if (breakBlockPos != null && this.canReachBlockByJump(maid, breakBlockPos) && !serverLevel.getBlockState(breakBlockPos).isAir()) {
@@ -41,13 +43,13 @@ public class MaidDestroyTask extends Behavior<EntityMaid> implements VBehaviorCo
     }
 
     @Override
-    protected void start(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
+    public void start(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
         MaidWorldBlockManager.get(maid).ifPresent(MaidWorldBlockManager::initial);
     }
 
     @SuppressWarnings("all")
     @Override
-    protected void tick(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
+    public void tick(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
         MaidWorldBlockManager.get(maid).ifPresent(worldBlockManager -> {
             BlockState blockState = worldBlockManager.getBlockState();
             BlockPos breakBlockPos = worldBlockManager.getBreakBlockPos();
@@ -74,7 +76,7 @@ public class MaidDestroyTask extends Behavior<EntityMaid> implements VBehaviorCo
     }
 
     @Override
-    protected void stop(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
+    public void stop(ServerLevel serverLevel, EntityMaid maid, long gameTime) {
         MaidWorldBlockManager.get(maid).ifPresent(worldBlockManager -> {
             BlockPos breakBlockPos = worldBlockManager.getBreakBlockPos();
             if (breakBlockPos != null) {
@@ -100,5 +102,9 @@ public class MaidDestroyTask extends Behavior<EntityMaid> implements VBehaviorCo
     private void eraseMemory(EntityMaid maid) {
         maid.getBrain().eraseMemory(InitEntities.TARGET_POS.get());
         maid.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+    }
+
+    public static void set(EntityMaid maid) {
+        MaidBehaviorManager.set(maid, BehaviorType.DESTROY_BLOCK);
     }
 }

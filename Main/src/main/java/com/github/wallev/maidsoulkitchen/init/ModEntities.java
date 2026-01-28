@@ -1,10 +1,13 @@
 package com.github.wallev.maidsoulkitchen.init;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.BehaviorType;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorManager;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidWorldBlockManager;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.work.MaidPlaceItemBehavior;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inv.item.ItemInventory;
 import com.github.wallev.maidsoulkitchen.task.cook.common.rule.rec.MaidRec;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm.ai.CropResult;
-import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core.MaidWorldBlockManager;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.handler.ICropHarvest;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -20,6 +23,9 @@ public final class ModEntities {
     public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(ForgeRegistries.MEMORY_MODULE_TYPES, MaidsoulKitchen.MOD_ID);
 
     public static RegistryObject<MemoryModuleType<MaidWorldBlockManager>> WORLD_BLOCK_MANAGER = MEMORY_MODULE_TYPES.register("world_block_manager", () -> new MemoryModuleType<>(Optional.empty()));
+    public static RegistryObject<MemoryModuleType<MaidBehaviorManager>> BEHAVIOR_MANAGER = MEMORY_MODULE_TYPES.register("behavior_manager", () -> new MemoryModuleType<>(Optional.empty()));
+    public static RegistryObject<MemoryModuleType<BehaviorType>> CURRENT_BEHAVIOR = MEMORY_MODULE_TYPES.register("current_behavior", () -> new MemoryModuleType<>(Optional.empty()));
+    public static RegistryObject<MemoryModuleType<MaidPlaceItemBehavior.PlaceData>> PLACE_DATA = MEMORY_MODULE_TYPES.register("place_data", () -> new MemoryModuleType<>(Optional.empty()));
 
     public static RegistryObject<MemoryModuleType<CropResult>> CROP_RESULT = MEMORY_MODULE_TYPES.register("crop_result", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<ICropHarvest.HarvestData>> HARVEST_DATA = MEMORY_MODULE_TYPES.register("harvest_data", () -> new MemoryModuleType<>(Optional.empty()));

@@ -2,10 +2,10 @@ package com.github.wallev.maidsoulkitchen.task.farm.advancefarm2;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.wallev.maidsoulkitchen.api.task.IMaidsoulKitchenTask;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorTask;
 import com.github.wallev.maidsoulkitchen.init.ModEntities;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.MaidAdvancedFarmHarvestTask;
 import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.MaidAdvancedFarmMoveTask;
-import com.github.wallev.maidsoulkitchen.task.farm.advancefarm2.ai.core.MaidDestroyTask;
 import com.github.wallev.maidsoulkitchen.vhelper.server.ai.VBehaviorControl;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
@@ -32,9 +32,9 @@ public class TaskAdvanceFarm2 implements IMaidsoulKitchenTask {
 //        }
 
         return Lists.newArrayList(
+                new Pair<>(3, new MaidBehaviorTask()),
                 new Pair<>(5, maidAdvancedFarmMoveTask),
-                new Pair<>(5, maidAdvancedFarmHarvestTask),
-                new Pair<>(5, new MaidDestroyTask())
+                new Pair<>(5, maidAdvancedFarmHarvestTask)
         );
     }
 

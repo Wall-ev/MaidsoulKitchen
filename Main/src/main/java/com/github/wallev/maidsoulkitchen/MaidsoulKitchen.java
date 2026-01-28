@@ -1,7 +1,9 @@
 package com.github.wallev.maidsoulkitchen;
 
 import com.github.wallev.maidsoulkitchen.config.GeneralConfig;
+import com.github.wallev.maidsoulkitchen.entity.ai.behavior.manager.MaidBehaviorManager;
 import com.github.wallev.maidsoulkitchen.init.*;
+import com.github.wallev.maidsoulkitchen.lib.auto.event.AutoInit;
 import com.github.wallev.maidsoulkitchen.lib.auto.event.EventAutoRegisterHelper;
 import com.github.wallev.maidsoulkitchen.util.debug.AspectDebug;
 import com.github.wallev.maidsoulkitchen.vhelper.IModInfo;
@@ -18,6 +20,8 @@ public final class MaidsoulKitchen implements IModInfo {
         initRegister();
         initDebug();
         EventAutoRegisterHelper.autoSubscribeEventBus();
+        AutoInit.Helper.init();
+        new MaidBehaviorManager();
         GeneralConfig.init();
     }
 
