@@ -5,6 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.IMaidsoulKitchenTask;
 import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import com.teamtea.eclipticseasons.api.EclipticSeasonsApi;
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.List;
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.ECLIPTICSSEASONS_FARM)
 public class TaskEsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, IAddonFarmTask {
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {

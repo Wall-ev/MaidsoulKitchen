@@ -3,6 +3,8 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.fruit;
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.wallev.maidsoulkitchen.api.task.v1.farm.ICompatHandler;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+@TaskClassAnalyzer(TaskInfo.FRUIT_COMPAT)
 public class CompatFruitHandler extends FruitHandler implements ICompatHandler {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MaidsoulKitchen.MOD_ID, "fruit_compat");
     @Override
@@ -20,7 +23,7 @@ public class CompatFruitHandler extends FruitHandler implements ICompatHandler {
 
     @Override
     public boolean canLoad() {
-        return true;
+        return TaskInfo.FRUIT_COMPAT.canLoad();
     }
 
     @Override

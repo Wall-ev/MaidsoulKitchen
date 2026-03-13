@@ -9,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskMelon;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import com.github.wallev.maidsoulkitchen.event.MelonConfigEvent;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.util.BlockUtil;
 import net.minecraft.core.BlockPos;
@@ -34,6 +35,8 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import static com.github.wallev.maidsoulkitchen.util.BlockUtil.getId;
 
+
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.COMPAT_MELON_FARM)
 public class TaskCompatMelonFarm extends TaskMelon implements IMaidsoulKitchenTask, IAddonFarmTask {
     @Override
     public boolean isEnable(EntityMaid maid) {

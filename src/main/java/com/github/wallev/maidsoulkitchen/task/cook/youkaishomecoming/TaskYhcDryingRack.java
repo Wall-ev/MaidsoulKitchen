@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.action.IMaidAction;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.List;
 import java.util.Optional;
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.YHC_DRYING_RACK)
 public class TaskYhcDryingRack implements ICookTask<DryingRackBlockEntity, DryingRackRecipe>, IMaidAction {
     @Override
     public TaskDataKey<CookData> getCookDataKey() {

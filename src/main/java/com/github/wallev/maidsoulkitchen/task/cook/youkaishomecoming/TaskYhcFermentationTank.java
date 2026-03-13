@@ -4,6 +4,7 @@ import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.data.TaskDataKey;
@@ -50,6 +51,7 @@ import static dev.xkmc.youkaishomecoming.content.pot.ferment.FermentationTankBlo
  * 写的什么屎山，还请见谅，应该是半年时间吧，如果不出意外的话。
  * 后面会一起重构的，现在将就着用着先把。
  */
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.YHC_FERMENTATION_TANK)
 public class TaskYhcFermentationTank implements ICookTask<FermentationTankBlockEntity, FermentationRecipe<?>> {
     // 配方所需的流体对应的itemStacks和原材料
     protected static final Map<SimpleFermentationRecipe, MaidFermentationRecipe> FERMENTATION_RECIPE_INGREDIENTS = new HashMap<>();

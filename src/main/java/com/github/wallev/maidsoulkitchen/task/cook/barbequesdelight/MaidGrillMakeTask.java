@@ -3,6 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.barbequesdelight;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.github.wallev.maidsoulkitchen.init.MkMemories;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.google.common.collect.ImmutableMap;
 import com.mao.barbequesdelight.content.block.GrillBlockEntity;
@@ -24,6 +25,7 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.BD_GRILL)
 public class MaidGrillMakeTask extends Behavior<EntityMaid> {
     private final TaskBdGrill task;
     private final MaidRecipesManager<GrillingRecipe<?>> maidRecipesManager;

@@ -51,6 +51,7 @@ import static com.github.tartaricacid.touhoulittlemaid.init.InitDataComponent.ST
 import static net.minecraft.core.registries.Registries.DATA_COMPONENT_TYPE;
 
 public class ItemCulinaryHub extends Item implements MenuProvider {
+    public static final int INV_SLOT = 4;
     private static final int COOK_BAG_SIZE = getCookBagSize();
     private static final String CONTAINER_TAG = "container";
     private static final String BIND_MODE_TAG = "binding_mode";

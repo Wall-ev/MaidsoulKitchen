@@ -341,5 +341,16 @@
   "gui.maidsoulkitchen.culinary_hub.config.bind_mode.output.tooltip": "Here is the button to bind the box for storing cooked food\n\nsuch as the cooked mushroom pot, rice, and cider",
   "gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip": "Clear the coordinates of bound boxes with one click",
 
-  "gui.maidsoulkitchen.development": "(Development)"
+  "gui.maidsoulkitchen.development": "(Development)",
+
+  "message.maidsoulkitchen.book.max_yoffset": "The value of YOffset must be within the range of -5 to 5",
+  "message.maidsoulkitchen.culinary_hub.bine_type_max": "The maximum number of chests of the type currently bound is 3",
+  "message.maidsoulkitchen.warning.clicked_to_export": "Click here to open the folder, find %s, attach this file!",
+  "message.maidsoulkitchen.warning.clicked_to_report": "Please click here to give feedback to the author, otherwise it will never be resolved! ",
+  "message.maidsoulkitchen.warning.compat_failed": "Some mods have failed to be compatible, and they have been automatically blocked for you!",
+  "message.maidsoulkitchen.warning.end": "-----------------------------------------",
+  "message.maidsoulkitchen.warning.failed_modid": ", modid; ",
+  "message.maidsoulkitchen.warning.failed_task": ">- Task: ",
+  "message.maidsoulkitchen.warning.feedbacked": "If you've already given feedback, or if the author already knows, you can ignore this information!",
+  "message.maidsoulkitchen.warning.title": "---------------- Maidsoul Kitchen warning---------------"
 }

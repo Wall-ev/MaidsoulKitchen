@@ -1,25 +1,15 @@
 {
   "required": true,
   "minVersion": "0.8.5",
-  "package": "com.github.wallev.maidsoulkitchen.mixin",
-  "plugin": "com.github.wallev.maidsoulkitchen.mixin.MixinPlugin",
+  "package": "com.github.wallev.maidsoulkitchen.mixin.core",
   "refmap": "maidsoulkitchen.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "minecraft.AbstractContainerScreenMixin",
-    "touhoulittlemaid.AbstractMaidContainerGuiMixin"
   ],
   "server": [
   ],
   "mixins": [
-    "brewinandchewin.KegBlockEntityMixin",
-    "drinkbeer.BeerBarrelBlockAccessor",
-    "farmersdelight.CookingPotBlockEntityMixin",
     "forge.FluidTankAccessor",
-    "minecraft.AbstractFurnaceMixin",
-    "touhoulittlemaid.EntityMaidMixin",
-    "touhoulittlemaid.MaidRunOneMixin",
-    "youkaishomecoming.BasePotBlockEntityMixin",
-    "youkaishomecoming.KettleBlockAccessor"
+    "forge.ItemStackHandlerAccessor"
   ]
 }

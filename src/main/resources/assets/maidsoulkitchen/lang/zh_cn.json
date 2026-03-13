@@ -340,5 +340,17 @@
   "gui.maidsoulkitchen.culinary_hub.config.bind_mode.output.tooltip": "这里是用来绑定存放烹饪好的食物的箱子的按钮\n\n比如烹饪好的蘑菇煲、米饭、苹果酒",
   "gui.maidsoulkitchen.culinary_hub.config.clear_bind_poses.tooltip": "一键清除已绑定过的箱子的坐标",
 
-  "gui.maidsoulkitchen.development": "(开发中)"
+  "gui.maidsoulkitchen.development": "(开发中)",
+
+
+  "message.maidsoulkitchen.book.max_yoffset": "检索起始高度的取值范围为-5到5",
+  "message.maidsoulkitchen.culinary_hub.bine_type_max": "当前绑定的类型的箱子最多为3个",
+  "message.maidsoulkitchen.warning.clicked_to_export": "点击此处打开文件夹，找到%s，附上此文件即可！",
+  "message.maidsoulkitchen.warning.clicked_to_report": "请点击此处，向作者反馈，不然永远不会得到解决！",
+  "message.maidsoulkitchen.warning.compat_failed": "当前有部分mod兼容失败，已自动为您拦截！",
+  "message.maidsoulkitchen.warning.end": "-----------------------------------------",
+  "message.maidsoulkitchen.warning.failed_modid": "，模组ID：",
+  "message.maidsoulkitchen.warning.failed_task": ">- 任务：",
+  "message.maidsoulkitchen.warning.feedbacked": "如果您已经反馈了，或者作者已经知晓，可忽略此信息！",
+  "message.maidsoulkitchen.warning.title": "----------------女仆厨房警告---------------"
 }

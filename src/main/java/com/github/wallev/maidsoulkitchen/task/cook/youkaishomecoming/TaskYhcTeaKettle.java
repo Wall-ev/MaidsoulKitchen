@@ -3,7 +3,7 @@ package com.github.wallev.maidsoulkitchen.task.cook.youkaishomecoming;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.entity.passive.IAddonMaid;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
-import com.github.wallev.maidsoulkitchen.mixin.youkaishomecoming.KettleBlockAccessor;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
 import com.github.wallev.maidsoulkitchen.task.cook.common.TaskFdPot;
@@ -39,6 +39,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.YHC_TEA_KETTLE)
 public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe> {
     @Override
     public ItemStackHandler getItemStackHandler(KettleBlockEntity be) {
@@ -213,7 +214,7 @@ public class TaskYhcTeaKettle extends TaskFdPot<KettleBlockEntity, KettleRecipe>
     public List<ItemStack> getWaterSourceList(KettleBlockEntity kettleBlockEntity) {
         Block block = kettleBlockEntity.getBlockState().getBlock();
 
-        Lazy<Map<Ingredient, Integer>> waterMAP = ((KettleBlockAccessor) block).getMAP();
+        Lazy<Map<Ingredient, Integer>> waterMAP = ((KettleBlockAccessor) block).tlmk$getMap();
         Set<Ingredient> ingredients = waterMAP.get().keySet();
         List<ItemStack> list = ingredients.stream().map(Ingredient::getItems).flatMap(Stream::of).toList();
 //        LOGGER.info("getWaterSourceList: " + list);

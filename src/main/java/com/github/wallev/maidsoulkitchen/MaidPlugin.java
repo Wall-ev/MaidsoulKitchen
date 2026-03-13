@@ -5,6 +5,7 @@ import com.github.wallev.maidsoulkitchen.chest.FarmDelightCabinet;
 import com.github.wallev.maidsoulkitchen.entity.ai.brain.MaidBrain;
 import com.github.wallev.maidsoulkitchen.foundation.utility.Mods;
 import com.github.wallev.maidsoulkitchen.init.MkItems;
+import com.github.wallev.maidsoulkitchen.init.registry.CommonRegistry;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.TaskRegister;
 import com.github.wallev.maidsoulkitchen.item.bauble.BurnProtectBauble;
@@ -27,6 +28,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 @LittleMaidExtension
 public final class MaidPlugin implements ILittleMaid {
+
+    public MaidPlugin() {
+        CommonRegistry.mccInit();
+    }
 
     @Override
     public void addMaidTask(TaskManager manager) {

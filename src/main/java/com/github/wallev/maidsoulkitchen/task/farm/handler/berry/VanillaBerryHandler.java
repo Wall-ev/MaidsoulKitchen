@@ -2,6 +2,8 @@ package com.github.wallev.maidsoulkitchen.task.farm.handler.berry;
 
 import com.github.wallev.maidsoulkitchen.MaidsoulKitchen;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+@TaskClassAnalyzer(TaskInfo.BERRY_MINECRAFT)
 public class VanillaBerryHandler extends BerryHandler{
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(MaidsoulKitchen.MOD_ID, "berry_minecraft");
 
@@ -26,7 +29,7 @@ public class VanillaBerryHandler extends BerryHandler{
 
     @Override
     public boolean canLoad() {
-        return true;
+        return TaskInfo.BERRY_MINECRAFT.canLoad();
     }
 
     @Override

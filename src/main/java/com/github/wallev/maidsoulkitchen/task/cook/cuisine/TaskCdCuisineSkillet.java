@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.wallev.maidsoulkitchen.api.task.v1.cook.ICookTask;
 import com.github.wallev.maidsoulkitchen.entity.data.inner.task.CookData;
 import com.github.wallev.maidsoulkitchen.init.touhoulittlemaid.DataRegister;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.github.wallev.maidsoulkitchen.task.cook.common.ai.MaidCookMoveTask;
 import com.github.wallev.maidsoulkitchen.task.cook.common.inventory.MaidRecipesManager;
@@ -31,6 +32,7 @@ import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import java.util.Collections;
 import java.util.List;
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.CD_CUISINE_SKILLET)
 public class TaskCdCuisineSkillet implements ICookTask<CuisineSkilletBlockEntity, BaseCuisineRecipe<?>> {
     @Override
     public boolean isCookBE(BlockEntity blockEntity) {

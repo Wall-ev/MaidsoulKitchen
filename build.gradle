@@ -42,6 +42,26 @@ neoForge {
 
     // 运行部分
     runs {
+        configureEach {
+            // +AllowEnhancedClassRedefinition 为 JetBrains Runtime 所需的参数
+            // JetBrains Runtime 是一个修改过的 JDK，支持热重载
+            // +IgnoreUnrecognizedVMOptions 用于忽略未知指令
+            // 否则没有安装 JetBrains Runtime 的用户运行时会报错
+            jvmArguments = [
+                    '-XX:+IgnoreUnrecognizedVMOptions',
+                    '-XX:+AllowEnhancedClassRedefinition'
+            ]
+            systemProperty 'neoforge.logging.markers', 'REGISTRIES'
+            systemProperty 'neoforge.logging.markers', 'REGISTRIES'
+            systemProperty 'neoforge.logging.console.level', 'debug'
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.debug.export', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            // 参考：https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+//            logLevel = org.slf4j.event.Level.DEBUG
+            // 控制台彩色打印
+            systemProperty 'terminal.jline', 'true'
+        }
         client {
             client()
             gameDirectory = project.file('run/client')
@@ -97,6 +117,10 @@ tasks.compileJava {
 
 // 用于 neoforge.mods 里替换那一堆 ${xxxx}
 tasks.withType(ProcessResources).configureEach {
+    def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build")}
+    def actualModVersion = isBuildTask ? mod_version : "0.0"
+    def isRunDataTask = gradle.startParameter.taskNames.any { it.contains("runData")}
+
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -105,9 +129,9 @@ tasks.withType(ProcessResources).configureEach {
             loader_version_range   : loader_version_range,
 
             mod_id                 : mod_id,
-            mod_name               : mod_name,
+            mod_name               : isRunDataTask ? mod_name + "(${mod_version})" : mod_name,
             mod_license            : mod_license,
-            mod_version            : mod_version,
+            mod_version            : actualModVersion,
             mod_credits            : mod_credits,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
@@ -137,6 +161,16 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+tasks.compileJava {
+    // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
+    outputs.upToDateWhen { false }
+}
+
+java {
+    // 编译源码文件，方便发布 maven
+    withSourcesJar()
 }
 
 

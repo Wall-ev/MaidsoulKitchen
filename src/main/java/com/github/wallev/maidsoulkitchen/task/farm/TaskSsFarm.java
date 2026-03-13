@@ -5,6 +5,7 @@ import com.github.wallev.maidsoulkitchen.api.task.IAddonFarmTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskNormalFarm;
 import com.github.wallev.maidsoulkitchen.api.event.MaidMkTaskEnableEvent;
+import com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskClassAnalyzer;
 import com.github.wallev.maidsoulkitchen.task.TaskInfo;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 
+@TaskClassAnalyzer(com.github.wallev.maidsoulkitchen.modclazzchecker.manager.TaskInfo.SERENESEASONS_FARM)
 public class TaskSsFarm extends TaskNormalFarm implements IMaidsoulKitchenTask, IAddonFarmTask {
     @Override
     public boolean canPlant(EntityMaid maid, BlockPos basePos, BlockState baseState, ItemStack seed) {
