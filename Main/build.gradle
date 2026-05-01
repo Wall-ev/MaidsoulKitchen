@@ -1,14 +1,3 @@
-
-// 依赖配置
-dependencies {
-    // 依赖legacy子模块（打包时包含）
-    jarJar fg.deobf(project(':Legacy')) {
-        jarJar.ranged(it, "[${rootProject.ext.mod_version},)")
-        transitive = false // 不传递子模块依赖
-    }
-}
-
-
 // Mixin 配置
 mixin {
     config "${mod_id}-compat.mixins.json"

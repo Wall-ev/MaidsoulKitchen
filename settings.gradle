@@ -25,4 +25,3 @@ rootProject.name = 'MaidsoulKitchen'
 
 // 声明子模块（core为主模块，legacy为子模块）
 include 'Main'
-include 'Legacy'
