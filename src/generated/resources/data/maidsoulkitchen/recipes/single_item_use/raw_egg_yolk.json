@@ -1,0 +1,31 @@
+{
+  "type": "maidsoulkitchen:item_use",
+  "condition": "single",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "bakeries"
+    }
+  ],
+  "inputs": [
+    {
+      "item": "bakeries:whole_egg"
+    },
+    {
+      "item": "bakeries:bread_knife",
+      "nbt": "{Damage:0}"
+    }
+  ],
+  "results": [
+    {
+      "item": "bakeries:raw_egg_yolk"
+    },
+    {
+      "item": "bakeries:raw_protein"
+    },
+    {
+      "item": "bakeries:bread_knife",
+      "nbt": "{Damage:0}"
+    }
+  ]
+}

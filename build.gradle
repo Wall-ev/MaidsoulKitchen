@@ -21,357 +21,346 @@ plugins {
     id 'net.darkhax.curseforgegradle' version '1.1.24'
 }
 
-allprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'maven-publish'
-}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
 
-subprojects {
-    apply plugin: 'net.minecraftforge.gradle'
-    apply plugin: 'org.spongepowered.mixin'
-    apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 
-    String rootDir = rootProject.projectDir
-    String projectDir = projectDir
-    String title = rootProject.name;
+String rootDir = rootProject.projectDir
+String projectDir = projectDir
+String title = rootProject.name;
 
-    String mapping_channel = rootProject.ext.mapping_channel;
-    String mapping_version = rootProject.ext.mapping_version;
-    String minecraft_version = rootProject.ext.minecraft_version;
-    String minecraft_version_range = rootProject.ext.minecraft_version_range;
-    String forge_version = rootProject.ext.forge_version;
-    String forge_version_range = rootProject.ext.forge_version_range;
-    String loader_version_range = rootProject.ext.loader_version_range;
+String mapping_channel = rootProject.ext.mapping_channel;
+String mapping_version = rootProject.ext.mapping_version;
+String minecraft_version = rootProject.ext.minecraft_version;
+String minecraft_version_range = rootProject.ext.minecraft_version_range;
+String forge_version = rootProject.ext.forge_version;
+String forge_version_range = rootProject.ext.forge_version_range;
+String loader_version_range = rootProject.ext.loader_version_range;
 
-    String mod_id = project.mod_id;
-    String mod_name = project.mod_name;
-    String mod_version = rootProject.ext.mod_version;
-    String mod_authors = rootProject.ext.mod_authors;
-    String mod_license = rootProject.ext.mod_license;
-    String mod_description = rootProject.ext.mod_description;
-    String mod_version_type = rootProject.ext.mod_version_type;
-    String mod_credits = rootProject.ext.mod_credits;
-    String mod_issue_tracker_url = rootProject.ext.mod_issue_tracker_url;
+String mod_id = project.mod_id;
+String mod_name = project.mod_name;
+String mod_version = rootProject.ext.mod_version;
+String mod_authors = rootProject.ext.mod_authors;
+String mod_license = rootProject.ext.mod_license;
+String mod_description = rootProject.ext.mod_description;
+String mod_version_type = rootProject.ext.mod_version_type;
+String mod_credits = rootProject.ext.mod_credits;
+String mod_issue_tracker_url = rootProject.ext.mod_issue_tracker_url;
 
-    if (!project.name.equals("Main")) {
+if (!project.name.equals("Main")) {
 //        mod_id = "${rootProject.mod_id}_legacy_${mod_id}";
 //        mod_name = "${rootProject.mod_name} Legacy (${mod_name})";
-        title = project.name;
-    }
+    title = project.name;
+}
 
-    base {
-        archivesName = mod_id
-        version = "${minecraft_version}-${mod_version_type}-v${mod_version}"
-        group = mod_group_id
+base {
+    archivesName = mod_id
+    version = "${minecraft_version}-${mod_version_type}-v${mod_version}"
+    group = mod_group_id
 
-        println("archivesName: ${base.archivesName}")
-        println("VERSION: ${version}")
-    }
+    println("archivesName: ${base.archivesName}")
+    println("VERSION: ${version}")
+}
 
-    java {
-        toolchain.languageVersion = JavaLanguageVersion.of(17)
-    }
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
 
-    tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8'
-    }
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
 
-    minecraft {
-        mappings channel: mapping_channel, version: mapping_version
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        copyIdeResources = true
-        runs {
-            configureEach {
-                jvmArgs = [
-                        "-XX:+IgnoreUnrecognizedVMOptions",
-                        "-XX:+AllowEnhancedClassRedefinition"
-                ]
-                workingDirectory project.file('run')
-                property 'forge.logging.markers', 'REGISTRIES'
-                property 'forge.logging.console.level', 'debug'
-                property 'mixin.env.remapRefMap', 'true'
-                property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-                // 控制台彩色打印
-                property 'terminal.jline', 'true'
-                mods {
-                    "${mod_id}" {
-                        source sourceSets.main
-                    }
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    copyIdeResources = true
+    runs {
+        configureEach {
+            jvmArgs = [
+                    "-XX:+IgnoreUnrecognizedVMOptions",
+                    "-XX:+AllowEnhancedClassRedefinition"
+            ]
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            // 控制台彩色打印
+            property 'terminal.jline', 'true'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
                 }
             }
-            client {
-                property 'forge.enabledGameTestNamespaces', mod_id
-                // 传递 JVM 参数
-                jvmArgs "-DmyMod.debug1=${project.hasProperty('myModDebug') ? project.myModDebug : 'true'}"
-                jvmArgs "-DmyMod.configPath1=${project.hasProperty('myModConfigPath') ? project.myModConfigPath : './configs1'}"
+        }
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            // 传递 JVM 参数
+            jvmArgs "-DmyMod.debug1=${project.hasProperty('myModDebug') ? project.myModDebug : 'true'}"
+            jvmArgs "-DmyMod.configPath1=${project.hasProperty('myModConfigPath') ? project.myModConfigPath : './configs1'}"
 
-                workingDirectory project.file('run/client_a')
-            }
-            client2 {
-                parent minecraft.runs.client
-                workingDirectory project.file('run/client_b')
-                args '--username', 'SoulerTaul'
-            }
-            server {
-                property 'forge.enabledGameTestNamespaces', mod_id
-                workingDirectory project.file('run/server')
-                args '--nogui'
-            }
-            gameTestServer {
-                property 'forge.enabledGameTestNamespaces', mod_id
-            }
-            data {
-                workingDirectory project.file('run/run_data')
-                args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            }
+            workingDirectory project.file('run/client_a')
+        }
+        client2 {
+            parent minecraft.runs.client
+            workingDirectory project.file('run/client_b')
+            args '--username', 'SoulerTaul'
+        }
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            workingDirectory project.file('run/server')
+            args '--nogui'
+        }
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+        data {
+            workingDirectory project.file('run/run_data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
+}
 
-    sourceSets {
-        def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build") }
-        main {
-            if (isBuildTask) {
-                java {
-                    exclude 'com/github/wallev/maidsoulkitchen/util/debug/aspect/**'
-                }
+sourceSets {
+    def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build") }
+    main {
+        if (isBuildTask) {
+            java {
+                exclude 'com/github/wallev/maidsoulkitchen/util/debug/aspect/**'
             }
-            resources {
-                srcDir 'src/generated/resources'
-                exclude ".cache/**"
-                exclude 'META-INF/neoforge.mods.toml'
-                exclude 'aop.xml'
-            }
+        }
+        resources {
+            srcDir 'src/generated/resources'
+            exclude ".cache/**"
+            exclude 'META-INF/neoforge.mods.toml'
+            exclude 'aop.xml'
         }
     }
+}
 
-    mixin {
-        add sourceSets.main, "${mod_id}.refmap.json"
-        config "${mod_id}.mixins.json"
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
 
-        debug.verbose = true
-        debug.export = true
-        hotSwap = true
+    debug.verbose = true
+    debug.export = true
+    hotSwap = true
+}
+
+repositories {
+    flatDir {
+        name = "rootComlibs"
+        dir "${rootDir}/libs/compileOnly"
+    }
+    flatDir {
+        name = "rootImplibs"
+        dir "${rootDir}/libs/implementation"
+    }
+    flatDir {
+        name = "rootRunlibs"
+        dir "${rootDir}/libs/runtimeOnly"
     }
 
-    repositories {
-        flatDir {
-            name = "rootComlibs"
-            dir "${rootDir}/libs/compileOnly"
-        }
-        flatDir {
-            name = "rootImplibs"
-            dir "${rootDir}/libs/implementation"
-        }
-        flatDir {
-            name = "rootRunlibs"
-            dir "${rootDir}/libs/runtimeOnly"
-        }
-
-        flatDir {
-            name = "projectComlibs"
-            dir "${projectDir}/libs/compileOnly"
-        }
-        flatDir {
-            name = "projectImplibs"
-            dir "${projectDir}/libs/implementation"
-        }
-        flatDir {
-            name = "projectRunlibs"
-            dir "${projectDir}/libs/runtimeOnly"
-        }
-
-
-        // Registrate
-        maven {
-            name = "Registrate"
-            url "https://maven.tterrag.com/"
-        }
-        maven {
-            name = "Jared's maven"
-            url = "https://maven.blamejared.com/"
-            content {
-                includeGroup "mezz.jei"
-            }
-        }
-        maven {
-            name = "ModMaven"
-            url = "https://modmaven.dev"
-            content {
-                includeGroup "mezz.jei"
-            }
-        }
-        maven {
-            name = "Modrinth"
-            url = "https://api.modrinth.com/maven"
-            content {
-                includeGroup "maven.modrinth"
-            }
-        }
-        maven {
-            url "https://cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
-        }
-        maven {
-            url "https://maven.latvian.dev/releases"
-            content {
-                includeGroup "dev.latvian.mods"
-                includeGroup "dev.latvian.apps"
-            }
-        }
-        maven {
-            url = "https://maven.architectury.dev"
-            content {
-                includeGroup "dev.architectury"
-            }
-        }
-        maven {
-            url = "https://maven.shedaniel.me"
-        }
-        maven {
-            name = "TerraformersMC"
-            url = "https://maven.terraformersmc.com/"
-        }
-        // Curios
-        maven {
-            url = "https://maven.theillusivec4.top/"
-        }
-
-        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+    flatDir {
+        name = "projectComlibs"
+        dir "${projectDir}/libs/compileOnly"
+    }
+    flatDir {
+        name = "projectImplibs"
+        dir "${projectDir}/libs/implementation"
+    }
+    flatDir {
+        name = "projectRunlibs"
+        dir "${projectDir}/libs/runtimeOnly"
     }
 
-    dependencies {
-        minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-        compileOnly 'org.spongepowered:mixin:0.8.5'
-        compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0")
-        implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
-            jarJar.ranged(it, "[0.4.0,)")
+
+    // Registrate
+    maven {
+        name = "Registrate"
+        url "https://maven.tterrag.com/"
+    }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+        content {
+            includeGroup "mezz.jei"
         }
     }
-
-    dependencies {
-        implementation fg.deobf("maven.modrinth:touhou-little-maid:1.4.4-forge+mc1.20.1")
-    }
-
-    dependencies {
-        boolean isMainTaskByCallLegacy = project.name.equals("Main") && project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean();
-
-        resolverDirs("${rootDir}/libs/compileOnly") { name, ver ->
-            compileOnly fg.deobf("rootComlibs:${name}:${ver}")
-            println(">> Add rootComlibs: ${name}:${ver}")
-        }
-
-        resolverDirs("${rootDir}/libs/implementation") { name, ver ->
-            if (isMainTaskByCallLegacy) {
-                compileOnly fg.deobf("projectComlibs:${name}:${ver}")
-                println(">> checker is isMainTaskByCallLegacy to convert: rootImplibs -> rootComlibs: ${name}:${ver}")
-                return
-            }
-
-            implementation fg.deobf("rootImplibs:${name}:${ver}")
-            println(">> Add rootImplibs: ${name}:${ver}")
-        }
-
-        resolverDirs("${rootDir}/libs/runtimeOnly") { name, ver ->
-            if (isMainTaskByCallLegacy) {
-                println(">> checker is isMainTaskByCallLegacy to convert: rootRunlibs -> return")
-                return
-            }
-
-            runtimeOnly fg.deobf("rootRunlibs:${name}:${ver}")
-            println(">> Add rootRunlibs: ${name}:${ver}")
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+        content {
+            includeGroup "mezz.jei"
         }
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+    maven {
+        url = "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        url = "https://maven.shedaniel.me"
+    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    // Curios
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 
-    dependencies {
-        boolean isMainTaskByCallLegacy = project.name.equals("Main") && project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean();
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+}
 
-        resolverDirs("${projectDir}/libs/compileOnly") { name, ver ->
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.0")
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.0")) {
+        jarJar.ranged(it, "[0.4.0,)")
+    }
+}
+
+dependencies {
+    implementation fg.deobf("maven.modrinth:touhou-little-maid:1.4.4-forge+mc1.20.1")
+}
+
+dependencies {
+    boolean isMainTaskByCallLegacy = project.name.equals("Main") && project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean();
+
+    resolverDirs("${rootDir}/libs/compileOnly") { name, ver ->
+        compileOnly fg.deobf("rootComlibs:${name}:${ver}")
+        println(">> Add rootComlibs: ${name}:${ver}")
+    }
+
+    resolverDirs("${rootDir}/libs/implementation") { name, ver ->
+        if (isMainTaskByCallLegacy) {
             compileOnly fg.deobf("projectComlibs:${name}:${ver}")
-            println(">> Add projectComlibs: ${name}:${ver}")
+            println(">> checker is isMainTaskByCallLegacy to convert: rootImplibs -> rootComlibs: ${name}:${ver}")
+            return
         }
 
-        resolverDirs("${projectDir}/libs/implementation") { name, ver ->
-            if (isMainTaskByCallLegacy) {
-                compileOnly fg.deobf("projectComlibs:${name}:${ver}")
-                println(">> checker is isMainTaskByCallLegacy to convert: projectImplibs -> projectComlibs: ${name}:${ver}")
-                return
-            }
+        implementation fg.deobf("rootImplibs:${name}:${ver}")
+        println(">> Add rootImplibs: ${name}:${ver}")
+    }
 
-            implementation fg.deobf("projectImplibs:${name}:${ver}")
-            println(">> Add projectImplibs: ${name}:${ver}")
+    resolverDirs("${rootDir}/libs/runtimeOnly") { name, ver ->
+        if (isMainTaskByCallLegacy) {
+            println(">> checker is isMainTaskByCallLegacy to convert: rootRunlibs -> return")
+            return
         }
 
-        resolverDirs("${projectDir}/libs/runtimeOnly") { name, ver ->
-            if (isMainTaskByCallLegacy) {
-                println(">> checker is isMainTaskByCallLegacy to convert: projectRunlibs -> return")
-                return
-            }
+        runtimeOnly fg.deobf("rootRunlibs:${name}:${ver}")
+        println(">> Add rootRunlibs: ${name}:${ver}")
+    }
+}
 
-            runtimeOnly fg.deobf("projectRunlibs:${name}:${ver}")
-            println(">> Add projectRunlibs: ${name}:${ver}")
+dependencies {
+    boolean isMainTaskByCallLegacy = project.name.equals("Main") && project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean();
+
+    resolverDirs("${projectDir}/libs/compileOnly") { name, ver ->
+        compileOnly fg.deobf("projectComlibs:${name}:${ver}")
+        println(">> Add projectComlibs: ${name}:${ver}")
+    }
+
+    resolverDirs("${projectDir}/libs/implementation") { name, ver ->
+        if (isMainTaskByCallLegacy) {
+            compileOnly fg.deobf("projectComlibs:${name}:${ver}")
+            println(">> checker is isMainTaskByCallLegacy to convert: projectImplibs -> projectComlibs: ${name}:${ver}")
+            return
         }
+
+        implementation fg.deobf("projectImplibs:${name}:${ver}")
+        println(">> Add projectImplibs: ${name}:${ver}")
     }
 
-    tasks.named('processResources', ProcessResources).configure {
-        def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build")}
-        def actualModVersion = isBuildTask ? mod_version : "0.0"
-
-        def isRunDataTask = gradle.startParameter.taskNames.any { it.contains("runData")}
-
-        def replaceProperties = [
-                minecraft_version        : minecraft_version,
-                minecraft_version_range  : minecraft_version_range,
-                forge_version            : forge_version,
-                forge_version_range      : forge_version_range,
-                loader_version_range     : loader_version_range,
-
-                mod_id                 : mod_id,
-                mod_name               : isRunDataTask ? mod_name + "(${mod_version})" : mod_name,
-                mod_license            : mod_license,
-                mod_version            : actualModVersion,
-                mod_credits            : mod_credits,
-                mod_authors            : mod_authors,
-                mod_description        : mod_description,
-                mod_issue_tracker_url  : mod_issue_tracker_url
-        ]
-
-        inputs.properties replaceProperties
-        filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
-            expand replaceProperties + [project: project]
+    resolverDirs("${projectDir}/libs/runtimeOnly") { name, ver ->
+        if (isMainTaskByCallLegacy) {
+            println(">> checker is isMainTaskByCallLegacy to convert: projectRunlibs -> return")
+            return
         }
-    }
 
-    tasks.named('jar', Jar).configure {
-        manifest {
-            attributes([
-                    "Implementation-Title"  : title,
-                    "Implementation-Version": "${version}"
-            ])
-        }
-        finalizedBy 'reobfJar'
+        runtimeOnly fg.deobf("projectRunlibs:${name}:${ver}")
+        println(">> Add projectRunlibs: ${name}:${ver}")
     }
+}
 
-    tasks.compileJava {
-        // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
-        outputs.upToDateWhen { false }
+tasks.named('processResources', ProcessResources).configure {
+    def isBuildTask = gradle.startParameter.taskNames.any { it.contains("build")}
+    def actualModVersion = isBuildTask ? mod_version : "0.0"
+
+    def isRunDataTask = gradle.startParameter.taskNames.any { it.contains("runData")}
+
+    def replaceProperties = [
+            minecraft_version        : minecraft_version,
+            minecraft_version_range  : minecraft_version_range,
+            forge_version            : forge_version,
+            forge_version_range      : forge_version_range,
+            loader_version_range     : loader_version_range,
+
+            mod_id                 : mod_id,
+            mod_name               : isRunDataTask ? mod_name + "(${mod_version})" : mod_name,
+            mod_license            : mod_license,
+            mod_version            : actualModVersion,
+            mod_credits            : mod_credits,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+            mod_issue_tracker_url  : mod_issue_tracker_url
+    ]
+
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
     }
+}
 
-    java {
-        // 编译源码文件，方便发布 maven
-        withSourcesJar()
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                "Implementation-Title"  : title,
+                "Implementation-Version": "${version}"
+        ])
     }
+    finalizedBy 'reobfJar'
+}
 
-//    idea {
-//        module {
-//            downloadSources = true
-//            downloadJavadoc = true
-//        }
-//    }
+tasks.compileJava {
+    // dsx137: 强制重新编译和生成 refmap.json 文件，避免偶发情况下该文件丢失问题
+    outputs.upToDateWhen { false }
+}
+
+java {
+    // 编译源码文件，方便发布 maven
+    withSourcesJar()
 }
 
 def resolverDirs(String dir, BiConsumer<String, String> consumer) {
@@ -416,30 +405,6 @@ task publishCurseForgeWithDarkhax(type: net.darkhax.curseforgegradle.TaskPublish
     mainFile.releaseType = upload_mod_version_type
     disableVersionDetection()
 }
-
-//// 等待CurseForge插件加载完成
-//plugins.withId("net.darkhax.curseforgegradle") {
-//    // 再等待secrets插件加载完成
-//    plugins.withId("at.stnwtr.gradle-secrets-plugin") {
-//        task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-////        tasks.register('publishCurseForge', TaskPublishCurseForge) {
-//            group = "publishing"
-//            apiToken = secrets.get("curseforge_token")
-//
-//            def mainFile = upload(project.curseforge_project,
-//                    new File("./changelog/${mod_id}-${version}-all.jar"))
-//
-//            mainFile.changelog = getChangelog(mod_version)
-//            mainFile.addEnvironment("Client", "Server")
-//            mainFile.addGameVersion("1.20.1")
-//            mainFile.addModLoader("Forge")
-//            mainFile.addRequirement("touhou-little-maid")
-//            mainFile.releaseType = mod_version_type
-//            disableVersionDetection()
-//        }
-//    }
-//}
-
 
 publishMods {
     def upload_mod_id = rootProject.mod_id
@@ -585,5 +550,294 @@ tasks.register('readFirstVersionHyphenValues') {
 tasks.register('readChangelog') {
     doLast {
         def changelog = getChangelog(rootProject.mod_version)
+    }
+}
+
+
+// Mixin 配置
+mixin {
+    config "${mod_id}-compat.mixins.json"
+}
+
+this.impDependencies();
+
+def impDependencies() {
+/** ---------------------------------------农夫乐事--------------------------------------------------------- */
+    modrinthImp("farmers-delight", farmers_delight_version)
+    modrinthImp("miners-delight", miners_delight_version)
+    modrinthImp("blueprint", blueprint_version)
+    modrinthImp("copper-pot", copper_pot_version)
+    modrinthImp("runiclib", runiclib_version)
+    modrinthImp("dungeons_delight", dungeons_delight_version)
+    modrinthImp("youkaishomecoming", youkaishomecoming_version)
+    modrinthImp("brewin-and-chewin", brewin_and_chewin_version)
+    curseForgeImp("farmers-respite-551453", farmers_respite_file_id)
+    modrinthImp("vintage-delight", vintage_delight_version)
+    modrinthImp("cuisine-delight", cuisine_delight_version)
+    modrinthImp("tea-aroma", tea_aroma_version)
+    modrinthImp("barbeques-delight-forge", barbeques_delight_forge_version)
+    modrinthImp("drink-beer-refill", drink_beer_refill_version)
+    curseForgeImp("crock-pot-404523", crock_pot_file_id)
+
+
+/** ---------------------------------------Let's do--------------------------------------------------------- */
+    modrinthImp("lets-do-meadow", "1.3.25")
+    modrinthImp("lets-do-herbalbrews", "1.0.12")
+    modrinthImp("lets-do-bloomingnature", "1.0.12")
+    modrinthImp("lets-do-beachparty", "2.0.2")
+    modrinthImp("lets-do-vinery", "1.4.39")
+    modrinthImp("lets-do-farm-charm", "1.0.9")
+    modrinthImp("lets-do-candlelight-farmcharm-compat", "2.0.4")
+    modrinthImp("lets-do-bakery-farmcharm-compat", "2.0.5")
+    modrinthImp("lets-do-brewery-farmcharm-compat", "2.0.5")
+    modrinthImp("do-api", "1.2.13")
+    modrinthImp("gelato-galore-2", "1.0-1.20.1")
+    modrinthImp("hotkettles", "forge-1.20.1-1.2.0")
+    modrinthImp("alcocraft", "2.0.2+1.20")
+
+    curseForgeImp("ecliptic-seasons-1118306", "6971188")
+
+    // 联动(存储)
+    modrinthCompile("storagedrawers", storagedrawers_version)
+    modrinthCompile("toms-storage", toms_storage_version)
+    modrinthCompile("sophisticated-core", sophisticated_core_version)
+    modrinthCompile("sophisticated-storage", sophisticated_storage_version)
+    modrinthCompile("ae2", ae2_version)
+
+    // 联动(其他)
+    modrinthImp("serene-seasons", serene_seasons_version)
+    curseForgeImp("simple-farming-327554", simple_farming_file_id)
+    modrinthImp("curios", curios_version)
+    dependencies {
+        runtimeOnly "maven.modrinth:kotlin-for-forge:${kotlin_for_forge_version}-${mod_loader},${minecraft_version}"
+    }
+    //    modrinthRuntime("kotlin-for-forge", kotlin_for_forge_version)
+    modrinthCompile("inventory-profiles-next", inventory_profiles_next_version)
+
+    // 开发工具
+    modrinthImp("patchouli", patchouli_version)
+    modrinthImp("jade", jade_version)
+    modrinthCompile("the-one-probe", the_one_probe_version)
+    modrinthImp("cloth-config", cloth_config_version)
+
+    // rei
+    modrinthCompile("architectury-api", architectury_api_version)
+    modrinthCompile("rei", rei_version)
+    modrinthCompile("emi", emi_version)
+    modrinthImp("jei", jei_version)
+
+    // api
+    customImp("dev.architectury", "architectury-${mod_loader}", architectury_version, true)
+    modrinthRuntime("kiwi", kiwi_version)
+
+    // 开发工具
+    modrinthRuntime("appleskin", appleskin_version)
+    modrinthRuntime("nbtedit-reborn", nbtedit_reborn_version)
+
+    modrinthImp("create", create_version)
+    modrinthImp("caupona", "1.20.1-0.4.13")
+    modrinthImp("kaleidoscope-cookery", "1.0.1-forge+mc1.20.1")
+
+    curseForgeRuntime("maid-s-bakeries-1340216", "6964877")
+    curseForgeRuntime("simply-tea-268373", "5807384")
+}
+
+void curseForgeImp(String mod_slug, String mod_version) {
+    this.curseForgeImp(mod_slug, mod_version, true)
+}
+
+void curseForgeImpNo(String mod_slug, String mod_version) {
+    this.curseForgeImp(mod_slug, mod_version, false)
+}
+
+void curseForgeImp(String mod_slug, String mod_version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        dependencies.with {
+            compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+        return
+    }
+
+    if (defaultImp || isRunDataTask()) {
+        // 使用 with() 方法将上下文切换到 dependencies 闭包
+        dependencies.with {
+            implementation fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+    } else {
+        // 使用 with() 方法将上下文切换到 dependencies 闭包
+        dependencies.with {
+            compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+        }
+    }
+}
+
+void curseForgeRuntime(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+    }
+}
+
+void curseForgeCompile(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        compileOnly fg.deobf("curse.maven:${mod_slug}:${mod_version}")
+    }
+}
+
+
+void modrinthImp(String mod_slug, String mod_version) {
+    this.modrinthImp(mod_slug, mod_version, true)
+}
+
+void modrinthImpNo(String mod_slug, String mod_version) {
+    this.modrinthImp(mod_slug, mod_version, false)
+}
+
+void modrinthImp(String mod_slug, String mod_version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        dependencies.with {
+            compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+        return
+    }
+
+    if (defaultImp || isRunDataTask()) {
+        dependencies.with {
+            implementation fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+    } else {
+        dependencies.with {
+            compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+        }
+    }
+}
+
+void modrinthRuntime(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+    }
+}
+
+void modrinthCompile(String mod_slug, String mod_version) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        compileOnly fg.deobf("maven.modrinth:${mod_slug}:${mod_version}-${mod_loader},${minecraft_version}")
+    }
+}
+
+void customImp(String group, String name, String version, boolean defaultImp) {
+    if (mod_version == null || mod_version.isEmpty())
+        return
+
+    dependencies.with {
+        if (isLegacyRunTask()) {
+            compileOnly fg.deobf("${group}:${name}:${version}")
+            return
+        }
+
+        if (defaultImp || isRunDataTask()) {
+            implementation fg.deobf("${group}:${name}:${version}")
+        } else {
+            compileOnly fg.deobf("${group}:${name}:${version}")
+        }
+    }
+}
+
+void customCompile(String group, String name, String version) {
+    dependencies.with {
+        compileOnly fg.deobf("${group}:${name}:${version}")
+    }
+}
+
+void customRuntime(String group, String name, String version) {
+    if (isLegacyRunTask()) {
+        return
+    }
+
+    dependencies.with {
+        runtimeOnly fg.deobf("${group}:${name}:${version}")
+    }
+}
+
+
+boolean isRunDataTask() {
+    return gradle.startParameter.taskNames.any { it.contains("runData") }
+}
+
+boolean isBuildTask() {
+    return gradle.startParameter.taskNames.any { it.contains("build") }
+}
+
+boolean isLegacyRunTask() {
+    return project.hasProperty('loadedByLegacy') && project.property('loadedByLegacy').toBoolean()
+}
+
+tasks.register("buildMod") {
+    description = "在上一级目录以命令行方式执行runData后，再执行原生build任务"
+    group = "Build"
+
+    doLast {
+        // 获取上一级目录的绝对路径
+        def parentDir = rootDir
+        println "上一级目录绝对路径: ${parentDir}"
+
+        // 判断操作系统并设置正确的脚本和命令格式
+        def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+        def gradlewScript = isWindows ? "gradlew.bat" : "gradlew"
+
+        // 构建完整的脚本路径（使用绝对路径避免相对路径问题）
+        def gradlewPath = new File(parentDir, gradlewScript).absolutePath
+        println "Gradle脚本路径: ${gradlewPath}"
+
+        // 验证文件是否存在
+        def gradlewFile = new File(gradlewPath)
+        if (!gradlewFile.exists()) {
+            throw new GradleException("找不到Gradle脚本: ${gradlewPath}，请检查路径是否正确")
+        }
+
+        // 1. 执行runData
+        println "开始执行runData..."
+        exec {
+            workingDir parentDir
+            // 分离命令和参数，避免解析问题
+            commandLine = isWindows ? [gradlewPath, "runData", "--console=plain"] :
+                    ["/bin/bash", gradlewPath, "runData", "--console=plain"]
+            standardOutput = System.out
+            errorOutput = System.err
+        }
+
+        // 2. 执行build
+        println "runData执行完成，开始执行build..."
+        exec {
+            workingDir parentDir
+            commandLine = isWindows ? [gradlewPath, "build", "--console=plain"] :
+                    ["/bin/bash", gradlewPath, "build", "--console=plain"]
+            standardOutput = System.out
+            errorOutput = System.err
+        }
     }
 }
